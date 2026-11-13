@@ -1,0 +1,1890 @@
+{
+  "id": "html-css",
+  "title": "HTML and CSS",
+  "area": "frontend",
+  "order": 10,
+  "icon": "CSS",
+  "color": "#f97316",
+  "description": "Semantic, accessible HTML and the CSS that lays it out: the box model, the cascade, flexbox, grid, positioning, responsive design and modern features like container queries, :has() and custom properties.",
+  "chapters": [
+    {
+      "id": "html-css-01-semantic-html",
+      "title": "Semantic HTML and Document Structure",
+      "level": "beginner",
+      "summary": "Build pages from elements that describe meaning, so browsers, assistive tech and search engines understand them.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "The document skeleton",
+          "body": "Every HTML page starts with `<!DOCTYPE html>`. It is not a tag; it tells the browser to render in **standards mode**. Without it the browser falls back to **quirks mode**, which emulates old browser bugs (for example, a different box model for some elements and odd table sizing).\n\nThe `<html>` element should carry a `lang` attribute. Screen readers use it to pick pronunciation, and browsers use it for hyphenation and translation prompts.\n\nInside `<head>`:\n- `<meta charset=\"utf-8\">` must appear within the first 1024 bytes so the parser decodes the page correctly.\n- `<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">` stops mobile browsers from rendering at a fake 980px desktop width and zooming out.\n- `<title>` is shown in the tab, bookmarks and search results. It is required for a valid document.\n- `<link rel=\"stylesheet\">` blocks rendering until the CSS is loaded; `<script>` without `defer` or `async` blocks parsing.",
+          "code": {
+            "lang": "html",
+            "source": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Order history - Acme Store</title>\n  <link rel=\"stylesheet\" href=\"/styles.css\">\n  <script src=\"/app.js\" defer></script>\n</head>\n<body>\n  ...\n</body>\n</html>"
+          }
+        },
+        {
+          "heading": "Landmarks and sectioning elements",
+          "body": "Semantic elements describe what content **is**, not how it looks. `<div>` and `<span>` carry no meaning; they are generic containers for styling and scripting.\n\n- `<header>`: introductory content for the page or for a section/article.\n- `<nav>`: a block of major navigation links. Not every group of links needs it.\n- `<main>`: the dominant content of the page. Only one visible `<main>` per page.\n- `<article>`: self-contained content that makes sense on its own (a blog post, a product card, a comment).\n- `<section>`: a thematic group of content, normally with its own heading.\n- `<aside>`: content tangential to the main content (sidebars, callouts).\n- `<footer>`: footer for the page or its nearest sectioning ancestor.\n\nAssistive tech exposes many of these as **landmarks** (banner, navigation, main, complementary, contentinfo), so screen-reader users can jump straight to them. A page-level `<header>` maps to banner and `<footer>` to contentinfo only when they are not nested inside `<article>`, `<aside>`, `<main>`, `<nav>` or `<section>`.",
+          "code": {
+            "lang": "html",
+            "source": "<body>\n  <header>\n    <a href=\"/\">Acme</a>\n    <nav aria-label=\"Primary\">\n      <ul><li><a href=\"/shop\">Shop</a></li><li><a href=\"/help\">Help</a></li></ul>\n    </nav>\n  </header>\n  <main>\n    <h1>Running shoes</h1>\n    <article class=\"product\">\n      <h2>Trail Runner 3</h2>\n      <p>Lightweight shoe for rocky trails.</p>\n    </article>\n  </main>\n  <aside>Free returns within 30 days.</aside>\n  <footer>&copy; 2026 Acme</footer>\n</body>"
+          }
+        },
+        {
+          "heading": "Headings build the outline",
+          "body": "Headings `<h1>` to `<h6>` form the real document outline that screen readers navigate. Many screen-reader users skim a page by jumping from heading to heading, so the hierarchy must make sense.\n\n- Use one `<h1>` describing the page, then nest `<h2>`, `<h3>` in order without skipping levels.\n- Never pick a heading level for its font size. Style with CSS instead.\n- The old \"HTML5 outline algorithm\" (where every `<section>` restarted at `<h1>`) was never implemented by browsers or screen readers and was removed from the HTML spec in 2022. Heading levels are what count."
+        },
+        {
+          "heading": "Text-level semantics",
+          "body": "Several pairs of elements look identical by default but mean different things:\n- `<strong>` marks importance; `<b>` is stylistic offset with no extra importance (keywords, product names).\n- `<em>` marks stress emphasis that changes meaning; `<i>` is for alternate voice (technical terms, foreign phrases).\n- `<button>` performs an action (submit, open a menu, delete). `<a href>` navigates to a URL. Using a link with `href=\"#\"` for actions, or a `<div onclick>` as a button, breaks keyboard and screen-reader behaviour.\n\nOther useful semantics: `<time datetime=\"2026-11-12\">` for machine-readable dates, `<abbr title>`, `<code>`, `<kbd>`, `<blockquote cite>`, `<figure>` with `<figcaption>`, `<ul>`/`<ol>`/`<dl>` for lists, and `<table>` with `<th scope>` and `<caption>` for tabular data (never for layout)."
+        },
+        {
+          "heading": "Images and media done right",
+          "body": "- `alt` is required on `<img>`. Describe the purpose of the image. If it is purely decorative, use `alt=\"\"` so screen readers skip it. Leaving `alt` out entirely makes many screen readers read the file name.\n- Set `width` and `height` attributes. Browsers use them to compute an aspect ratio before the image loads, which prevents **Cumulative Layout Shift (CLS)**.\n- `loading=\"lazy\"` defers off-screen images. Do not lazy-load the hero/LCP image; give it `fetchpriority=\"high\"` instead.\n- `srcset`/`sizes` and `<picture>` serve the right resolution and format (covered in the responsive chapter).\n- `<video>` and `<audio>` should offer `controls` and captions via `<track kind=\"captions\">`.",
+          "code": {
+            "lang": "html",
+            "source": "<figure>\n  <img src=\"/img/team.jpg\" alt=\"Five engineers around a whiteboard sketching an API\"\n       width=\"1200\" height=\"800\" loading=\"lazy\">\n  <figcaption>Design review, October 2026</figcaption>\n</figure>\n<img src=\"/img/divider.svg\" alt=\"\">"
+          }
+        },
+        {
+          "heading": "Attributes and element categories",
+          "body": "Global attributes work on any element: `id` (unique per page), `class`, `hidden`, `tabindex`, `title`, `lang`, `dir`, `inert` and `data-*` for custom data read via `element.dataset`.\n\n**Void elements** have no content and no closing tag: `<img>`, `<input>`, `<br>`, `<hr>`, `<meta>`, `<link>`, `<source>`. The trailing slash (`<br />`) is allowed but ignored in HTML.\n\nElements also have content models. For example, `<p>` cannot contain block-level elements like `<div>`: the parser auto-closes the `<p>`, which surprises people who then see an extra empty paragraph. Interactive content (a `<button>`) must not be nested inside another interactive element (an `<a>`)."
+        }
+      ],
+      "keyPoints": [
+        "<!DOCTYPE html> switches the browser to standards mode; without it you get quirks mode.",
+        "Set lang on <html>, charset early in <head>, and the viewport meta for mobile.",
+        "Landmark elements (header, nav, main, aside, footer) let assistive tech jump around the page; use one visible <main>.",
+        "Heading levels form the outline that screen readers use; never choose a level for its size.",
+        "Use <button> for actions and <a href> for navigation.",
+        "Every <img> needs alt; decorative images get alt=\"\". Width and height attributes prevent layout shift.",
+        "div and span carry no meaning; reach for them only when no semantic element fits."
+      ],
+      "questions": [
+        {
+          "id": "html-css-01-q01",
+          "type": "mcq",
+          "prompt": "What is the main effect of putting <!DOCTYPE html> at the top of a page?",
+          "options": [
+            "It loads the HTML5 parser library",
+            "It makes the browser render in standards mode instead of quirks mode",
+            "It is required for JavaScript to run",
+            "It sets the character encoding to UTF-8"
+          ],
+          "answer": 1,
+          "explanation": "The doctype is a mode switch. Its presence triggers standards mode; its absence triggers quirks mode, which emulates legacy rendering bugs. It has nothing to do with encoding or scripts."
+        },
+        {
+          "id": "html-css-01-q02",
+          "type": "mcq",
+          "prompt": "Which element should wrap the dominant, unique content of a page and appear only once (visibly)?",
+          "options": [
+            "<section>",
+            "<article>",
+            "<main>",
+            "<body>"
+          ],
+          "answer": 2,
+          "explanation": "<main> represents the primary content and maps to the main landmark. The spec allows only one visible <main> per document."
+        },
+        {
+          "id": "html-css-01-q03",
+          "type": "mcq",
+          "prompt": "A list item has a control that deletes the item without changing the URL. Which element fits best?",
+          "options": [
+            "<a href=\"#\">Delete</a>",
+            "<div onclick=\"del()\">Delete</div>",
+            "<button type=\"button\">Delete</button>",
+            "<span role=\"link\">Delete</span>"
+          ],
+          "answer": 2,
+          "explanation": "Actions belong to <button>: it is focusable, fires on Enter and Space, and is announced as a button. Links are for navigation, and a div needs role, tabindex and key handlers to approach what button gives for free."
+        },
+        {
+          "id": "html-css-01-q04",
+          "type": "mcq",
+          "prompt": "What is the correct alt text for a purely decorative flourish image?",
+          "options": [
+            "Omit the alt attribute",
+            "alt=\"decorative image\"",
+            "alt=\"\"",
+            "alt=\"flourish.png\""
+          ],
+          "answer": 2,
+          "explanation": "An empty alt tells assistive tech to ignore the image. Omitting alt often makes screen readers announce the file name, and describing decoration adds noise."
+        },
+        {
+          "id": "html-css-01-q05",
+          "type": "mcq",
+          "prompt": "Given this markup, how many paragraph elements end up in the DOM?",
+          "code": "<p>Intro <div>Box</div></p>",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "0"
+          ],
+          "answer": 1,
+          "explanation": "A <p> cannot contain a <div>. The parser closes the first <p> when it sees <div>, and the stray </p> after the div creates a new empty <p>. You get two <p> elements and the div as their sibling."
+        },
+        {
+          "id": "html-css-01-q06",
+          "type": "mcq",
+          "prompt": "Which statement about <strong> and <b> is correct?",
+          "options": [
+            "They are identical; <b> is deprecated",
+            "<strong> conveys importance; <b> draws attention without implying importance",
+            "<b> is for headings, <strong> for body text",
+            "<strong> is announced louder by every screen reader"
+          ],
+          "answer": 1,
+          "explanation": "Both render bold by default, but the semantics differ: <strong> means strong importance, while <b> is a stylistic offset such as a keyword. <b> is not deprecated. Most screen readers do not change voice for either by default, so the meaning matters mostly for authors and tooling."
+        },
+        {
+          "id": "html-css-01-q07",
+          "type": "truefalse",
+          "prompt": "Browsers and screen readers use the HTML5 outline algorithm, so every <section> can safely start with an <h1>.",
+          "answer": false,
+          "explanation": "The outline algorithm was never implemented by any browser or screen reader and was removed from the spec. Assistive tech uses the actual heading levels, so nested <h1>s flatten the outline."
+        },
+        {
+          "id": "html-css-01-q08",
+          "type": "truefalse",
+          "prompt": "Adding width and height attributes to an <img> helps prevent layout shift even when CSS sets width: 100% and height: auto.",
+          "answer": true,
+          "explanation": "Browsers map the width and height attributes to a default aspect-ratio, so space is reserved before the image downloads. CSS can still make the image fluid."
+        },
+        {
+          "id": "html-css-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which elements are exposed as landmarks when used at the top level of the body?",
+          "options": [
+            "<nav>",
+            "<main>",
+            "<aside>",
+            "<span>",
+            "<strong>"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "nav maps to navigation, main to main and aside to complementary. span and strong are text-level elements with no landmark role."
+        },
+        {
+          "id": "html-css-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: <meta name=\"___\" content=\"width=device-width, initial-scale=1\"> makes mobile browsers use the device width as the layout width.",
+          "accept": [
+            "viewport"
+          ],
+          "explanation": "The viewport meta tag stops mobile browsers from laying out at a default desktop width (about 980px) and shrinking the page."
+        },
+        {
+          "id": "html-css-01-q11",
+          "type": "interview",
+          "prompt": "Why does semantic HTML matter? Give concrete benefits.",
+          "answer": "- Accessibility: semantic elements come with roles, states and keyboard behaviour. Screen-reader users navigate by landmarks and headings; a <button> is focusable and works with Enter/Space without extra code.\n- SEO: search engines weigh headings, links and structured content; meaningful markup makes content easier to index and to show in rich results.\n- Maintainability: <nav>, <article> and <aside> are self-documenting compared with nested divs, and CSS/JS hooks become clearer.\n- Free browser features: reader mode, form autofill, native validation, and better defaults on mobile all depend on correct elements.\n- Robustness: semantic markup degrades well when CSS or JS fails to load.",
+          "level": "beginner"
+        },
+        {
+          "id": "html-css-01-q12",
+          "type": "interview",
+          "prompt": "When would you use <article>, <section> and <div>?",
+          "answer": "- <article> is for self-contained content that could be syndicated or reused on its own: a blog post, a comment, a product card, a forum post.\n- <section> groups thematically related content inside a page or article and should normally have a heading. If you cannot think of a heading for it, it probably is not a section.\n- <div> is a generic container with no meaning, used purely for styling or scripting hooks, such as a flex wrapper.\nA quick test: if the content makes sense when pulled out of the page, use article; if it is a chapter of something larger with a heading, use section; otherwise use div.",
+          "level": "beginner"
+        },
+        {
+          "id": "html-css-01-q13",
+          "type": "interview",
+          "prompt": "How do you make images both accessible and performant?",
+          "answer": "- Write alt text that conveys purpose (\"Download invoice PDF\", not \"icon\"). Use alt=\"\" for decorative images and put meaningful images in <figure>/<figcaption> when a caption helps.\n- Always set width and height (or CSS aspect-ratio) to reserve space and avoid CLS.\n- Serve responsive sizes with srcset and sizes, and modern formats (AVIF, WebP) via <picture> with a JPEG fallback.\n- Lazy-load below-the-fold images with loading=\"lazy\", but never the LCP image; give that one fetchpriority=\"high\" and consider a preload.\n- Compress images and use a CDN that can resize on the fly.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: HTML elements reference",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element"
+        },
+        {
+          "title": "web.dev Learn HTML: Semantic HTML",
+          "url": "https://web.dev/learn/html/semantic-html"
+        },
+        {
+          "title": "web.dev Learn HTML: Headings and sections",
+          "url": "https://web.dev/learn/html/headings-and-sections"
+        }
+      ]
+    },
+    {
+      "id": "html-css-02-forms-accessibility",
+      "title": "Forms and Accessible HTML",
+      "level": "beginner",
+      "summary": "Build forms that submit correctly, validate natively and work with keyboards and screen readers.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "How forms submit",
+          "body": "A `<form>` collects named controls and sends them to `action` using `method` (`GET` by default, which puts data in the query string; `POST` sends it in the request body).\n\n- Only controls with a `name` attribute are submitted. An input without `name` is silently left out.\n- `disabled` controls are not submitted and are not focusable. `readonly` controls are submitted and focusable but not editable.\n- A `<button>` inside a form defaults to `type=\"submit\"`. A \"Cancel\" or \"Show password\" button without `type=\"button\"` will submit the form, a very common bug.\n- Pressing Enter in a text field triggers implicit submission when the form has a submit button.\n- In JavaScript, listen for the form's `submit` event (not the button click) and read values with `new FormData(form)`.",
+          "code": {
+            "lang": "html",
+            "source": "<form action=\"/signup\" method=\"post\">\n  <label for=\"email\">Email</label>\n  <input id=\"email\" name=\"email\" type=\"email\" autocomplete=\"email\" required>\n\n  <label for=\"pw\">Password</label>\n  <input id=\"pw\" name=\"password\" type=\"password\" minlength=\"12\"\n         autocomplete=\"new-password\" required aria-describedby=\"pw-hint\">\n  <p id=\"pw-hint\">At least 12 characters.</p>\n\n  <button type=\"button\" id=\"toggle\">Show password</button>\n  <button>Create account</button>\n</form>"
+          }
+        },
+        {
+          "heading": "Labels, fieldsets and grouping",
+          "body": "Every control needs an accessible name. The best source is a visible `<label>`:\n- Explicit: `<label for=\"email\">` pointing at the input's `id`.\n- Implicit: wrap the input inside the `<label>`.\n\nClicking a label focuses or toggles its control, which also enlarges the hit area for checkboxes.\n\n`placeholder` is not a label: it disappears when the user types, often has poor contrast, and is not reliably announced. Use it only for an example format.\n\nGroup related radios or checkboxes with `<fieldset>` and give the group a name with `<legend>` (\"Shipping speed\"). Radios that share the same `name` form one group where only one can be checked and arrow keys move between them."
+        },
+        {
+          "heading": "Input types and built-in validation",
+          "body": "Input types give better keyboards on mobile and free validation:\n- `email`, `url` validate format. `number`, `range`, `date`, `time`, `color`, `file`, `search` have specialised UI.\n- `tel` only changes the keyboard; it does **not** validate, because phone formats vary worldwide.\n\nConstraint attributes: `required`, `minlength`/`maxlength`, `min`/`max`/`step`, `pattern` (a regex that must match the whole value).\n\nCSS hooks: `:invalid` matches immediately (even before the user typed), while `:user-invalid` only matches after the user has interacted, which makes for friendlier error styling. `novalidate` on the form turns off the browser UI so you can render your own, and `input.setCustomValidity(\"msg\")` adds custom errors to the same system.\n\nUse `autocomplete` tokens (`email`, `current-password`, `one-time-code`, `postal-code`) to help password managers and autofill, and `inputmode` (`numeric`, `decimal`) to choose the mobile keyboard without changing validation.\n\nClient-side validation is a UX feature only. The server must validate everything again."
+        },
+        {
+          "heading": "Accessibility fundamentals: names, roles, states, focus",
+          "body": "Assistive tech reads the **accessibility tree**, built from your HTML. Each node has a role (button, link, textbox), a name (from label, content, `aria-label` or `aria-labelledby`) and states (checked, expanded, disabled).\n\nThe first rule of ARIA: if a native element provides the semantics and behaviour you need, use it instead of adding ARIA. ARIA changes only what is announced; it adds no keyboard behaviour. A `<div role=\"button\">` still needs `tabindex=\"0\"` plus Enter and Space handlers, which a `<button>` gives for free.\n\nKeyboard focus rules:\n- Interactive elements are focusable by default in DOM order.\n- `tabindex=\"0\"` adds an element to the tab order; `tabindex=\"-1\"` makes it focusable only by script (useful for moving focus to a dialog or an error summary).\n- Avoid positive tabindex values; they create a confusing tab order that differs from the visual one.\n- Never remove focus outlines without a replacement. Use `:focus-visible` to show rings for keyboard users only."
+        },
+        {
+          "heading": "Communicating errors and dynamic changes",
+          "body": "- Link help or error text to its input with `aria-describedby` so it is read when the field gets focus.\n- Mark invalid fields with `aria-invalid=\"true\"` (native validation exposes this automatically for invalid controls).\n- On submit failure, move focus to an error summary or the first invalid field.\n- For updates that appear without a page load (toast messages, \"3 results found\"), use a live region: an element with `aria-live=\"polite\"` or `role=\"status\"` that exists in the DOM before the text changes. Use `role=\"alert\"` (assertive) sparingly for urgent messages.\n- Do not rely on colour alone to signal errors; add text or an icon.",
+          "code": {
+            "lang": "html",
+            "source": "<label for=\"zip\">ZIP code</label>\n<input id=\"zip\" name=\"zip\" inputmode=\"numeric\" autocomplete=\"postal-code\"\n       aria-invalid=\"true\" aria-describedby=\"zip-err\">\n<p id=\"zip-err\" class=\"error\">Enter a 5-digit ZIP code.</p>\n\n<div role=\"status\" aria-live=\"polite\" id=\"results-count\"></div>"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Only controls with a name are submitted; disabled controls are skipped, readonly ones are sent.",
+        "A <button> inside a form defaults to type=\"submit\"; set type=\"button\" for non-submit buttons.",
+        "Every control needs an accessible name, ideally a visible <label>. placeholder is not a label.",
+        "Group radios and checkboxes with <fieldset> and <legend>; radios share a name.",
+        "Native input types and constraint attributes give free validation, but the server must validate again.",
+        "First rule of ARIA: prefer native elements. ARIA changes semantics, not behaviour.",
+        "Use tabindex 0 or -1 only; never positive values. Keep visible focus with :focus-visible.",
+        "Connect errors with aria-describedby and announce dynamic updates through live regions."
+      ],
+      "questions": [
+        {
+          "id": "html-css-02-q01",
+          "type": "mcq",
+          "prompt": "Clicking the \"Cancel\" button submits the form. What is the most likely cause?",
+          "code": "<form action=\"/save\">\n  <input name=\"title\">\n  <button onclick=\"closeDialog()\">Cancel</button>\n  <button>Save</button>\n</form>",
+          "options": [
+            "The form is missing method=\"post\"",
+            "The button has no type attribute, so it defaults to submit",
+            "Buttons always submit forms",
+            "The form needs novalidate"
+          ],
+          "answer": 1,
+          "explanation": "Inside a form, <button> defaults to type=\"submit\". Adding type=\"button\" makes it a plain button that only runs your handler."
+        },
+        {
+          "id": "html-css-02-q02",
+          "type": "mcq",
+          "prompt": "Which field value is NOT included when this form submits?",
+          "code": "<form>\n  <input name=\"title\" value=\"Hello\">\n  <input name=\"id\" value=\"42\" readonly>\n  <input value=\"draft\">\n</form>",
+          "options": [
+            "title",
+            "the readonly id field",
+            "the input without a name",
+            "both title and id"
+          ],
+          "answer": 2,
+          "explanation": "Only successful controls with a name are serialized. readonly fields are submitted; the unnamed input is skipped. A disabled field would also be skipped."
+        },
+        {
+          "id": "html-css-02-q03",
+          "type": "mcq",
+          "prompt": "What does tabindex=\"-1\" do?",
+          "options": [
+            "Removes the element from the accessibility tree",
+            "Makes the element focusable via script but not reachable with Tab",
+            "Puts the element first in the tab order",
+            "Disables the element"
+          ],
+          "answer": 1,
+          "explanation": "A negative tabindex makes an element programmatically focusable (element.focus()) while keeping it out of sequential Tab navigation. It is useful for headings, dialogs and error summaries that receive focus from code."
+        },
+        {
+          "id": "html-css-02-q04",
+          "type": "mcq",
+          "prompt": "What is the \"first rule of ARIA\"?",
+          "options": [
+            "Always add role attributes to divs",
+            "Use aria-label on every element",
+            "If a native HTML element provides the semantics and behaviour you need, use it instead of ARIA",
+            "ARIA attributes must be validated by the server"
+          ],
+          "answer": 2,
+          "explanation": "ARIA only changes what assistive tech announces; it adds no keyboard support or behaviour. Native elements already have both, so they are more robust."
+        },
+        {
+          "id": "html-css-02-q05",
+          "type": "mcq",
+          "prompt": "You need a group of three radio buttons for shipping speed. What is the correct approach?",
+          "options": [
+            "Give each radio a unique name and wrap them in a <div>",
+            "Give all radios the same name and wrap them in <fieldset> with a <legend>",
+            "Use three checkboxes with role=\"radio\"",
+            "Put the question in each radio's placeholder"
+          ],
+          "answer": 1,
+          "explanation": "Sharing a name makes them one mutually exclusive group with arrow-key navigation. fieldset/legend gives the group an accessible name that is announced with each option."
+        },
+        {
+          "id": "html-css-02-q06",
+          "type": "mcq",
+          "prompt": "Which CSS pseudo-class styles a field as invalid only after the user has interacted with it?",
+          "options": [
+            ":invalid",
+            ":user-invalid",
+            ":out-of-range",
+            ":placeholder-shown"
+          ],
+          "answer": 1,
+          "explanation": ":invalid matches as soon as the page loads, so empty required fields look broken before the user typed anything. :user-invalid waits for user interaction and is supported in all major browsers."
+        },
+        {
+          "id": "html-css-02-q07",
+          "type": "truefalse",
+          "prompt": "A placeholder attribute is an acceptable replacement for a visible <label>.",
+          "answer": false,
+          "explanation": "Placeholders vanish when typing, often fail contrast requirements and are not consistently used as the accessible name. Use a real label and keep placeholder for example values."
+        },
+        {
+          "id": "html-css-02-q08",
+          "type": "truefalse",
+          "prompt": "<input type=\"tel\"> validates that the value is a correctly formatted phone number.",
+          "answer": false,
+          "explanation": "type=\"tel\" only shows a phone keypad on mobile. Phone formats vary too much to validate natively; use pattern or your own validation if needed."
+        },
+        {
+          "id": "html-css-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: to make <div class=\"btn\"> behave like a real button for keyboard and screen-reader users, you would need:",
+          "options": [
+            "role=\"button\"",
+            "tabindex=\"0\"",
+            "keydown handlers for Enter and Space",
+            "aria-hidden=\"true\""
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "A div needs the role for announcement, tabindex to be focusable, and key handlers to activate. aria-hidden would hide it from assistive tech entirely. The simpler fix is to use <button>."
+        },
+        {
+          "id": "html-css-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: aria-___=\"hint-id\" links an input to the help or error text that should be read after its label.",
+          "accept": [
+            "describedby",
+            "aria-describedby"
+          ],
+          "explanation": "aria-describedby adds a description to the accessible node. aria-labelledby would replace the name instead."
+        },
+        {
+          "id": "html-css-02-q11",
+          "type": "interview",
+          "prompt": "How do you build an accessible form?",
+          "answer": "- Use native controls with visible <label> elements tied by for/id; group related options with fieldset/legend.\n- Pick correct input types plus autocomplete and inputmode so mobile keyboards and autofill work.\n- Mark required fields in text, not only with colour or an asterisk.\n- Validate on blur or submit, not on every keystroke. Show errors next to the field, link them with aria-describedby, set aria-invalid, and on submit move focus to an error summary or the first invalid field.\n- Ensure full keyboard operation and visible focus, and announce async results (saving, saved) with a polite live region.\n- Test with a keyboard only and with a screen reader (VoiceOver, NVDA), plus an automated tool such as axe.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-02-q12",
+          "type": "interview",
+          "prompt": "When should a form use GET and when POST?",
+          "answer": "- GET puts fields in the URL query string. Use it for safe, idempotent requests such as search and filters: results are bookmarkable, shareable and cacheable, and back/refresh is harmless.\n- POST sends data in the request body. Use it for anything that changes server state (sign-up, payment, comments) or that contains sensitive or large data, since URLs end up in history, logs and Referer headers.\n- After a successful POST, respond with a redirect (Post/Redirect/Get) so refreshing does not resubmit.\n- File uploads need POST with enctype=\"multipart/form-data\".",
+          "level": "beginner"
+        },
+        {
+          "id": "html-css-02-q13",
+          "type": "interview",
+          "prompt": "Is client-side validation enough? How do you split validation between client and server?",
+          "answer": "No. Client-side validation is a UX feature: it gives instant feedback and saves a round trip, but anyone can bypass it with DevTools, curl or a modified client.\n- The server is the source of truth: validate types, ranges, formats, authorization and business rules there, and return structured, field-level errors.\n- The client mirrors the simple rules (required, length, format) using native constraints or a shared schema (for example, the same Zod schema used on both sides) to avoid drift.\n- Some checks can only happen on the server, such as \"email already registered\", so the UI must be able to display server errors next to the right field.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "web.dev Learn HTML: Forms",
+          "url": "https://web.dev/learn/html/forms"
+        },
+        {
+          "title": "MDN: The input element",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input"
+        },
+        {
+          "title": "W3C WAI: ARIA Authoring Practices Guide",
+          "url": "https://www.w3.org/WAI/ARIA/apg/"
+        }
+      ]
+    },
+    {
+      "id": "html-css-03-box-model-units",
+      "title": "Box Model, Display and Units",
+      "level": "beginner",
+      "summary": "Understand how every element is sized and spaced, how display types behave, and which CSS units to use.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "The box model and box-sizing",
+          "body": "Every element generates a box made of four layers: **content**, **padding**, **border** and **margin**.\n\nBy default `box-sizing: content-box` applies: `width` and `height` set only the content area, and padding and border are added on top. A `width: 200px` box with `padding: 20px` and `border: 5px` takes 250px of horizontal space (plus margins).\n\nWith `box-sizing: border-box`, `width` includes padding and border, so the box stays 200px and the content shrinks to 150px. Almost every codebase applies border-box globally because it makes sizes predictable.\n\nMargins are outside the border and are always transparent. Padding is inside and shows the background.",
+          "code": {
+            "lang": "css",
+            "source": "*, *::before, *::after {\n  box-sizing: border-box;\n}\n\n.card {\n  width: 200px;\n  padding: 20px;\n  border: 5px solid #ddd;\n  margin: 16px;\n  /* content-box: 250px wide. border-box: 200px wide */\n}"
+          }
+        },
+        {
+          "heading": "Margin collapsing",
+          "body": "In normal block flow, **vertical** margins of adjacent blocks collapse: the gap becomes the larger of the two, not the sum. A paragraph with `margin-bottom: 30px` followed by one with `margin-top: 20px` is 30px apart.\n\nCollapsing also happens between a parent and its first or last child when nothing separates them: a child's top margin \"leaks\" out of the parent. Fixes: add padding or a border to the parent, or make the parent a new block formatting context.\n\nMargins do **not** collapse:\n- horizontally,\n- between flex items or grid items,\n- for floated or absolutely positioned elements,\n- across a block formatting context boundary (`display: flow-root`, `overflow` other than visible, inline-block).\n\nA clean modern way to create a BFC with no side effects is `display: flow-root`; it also contains floats."
+        },
+        {
+          "heading": "Display types",
+          "body": "`display` controls the outer behaviour (how the box takes part in its parent's layout) and the inner behaviour (how its children are laid out).\n\n- `block`: starts on a new line, fills the available width, respects width/height and all margins.\n- `inline`: flows with text. `width` and `height` are ignored. Horizontal padding and margin push neighbours, but vertical padding and margin do not change the line height (vertical padding still paints and can overlap other lines).\n- `inline-block`: flows inline but is sized like a block.\n- `flex` / `grid`: block outside, flex or grid formatting inside (`inline-flex` and `inline-grid` are the inline versions).\n- `none`: removes the element from layout and the accessibility tree.\n- `contents`: the element's own box disappears and its children act as children of its parent (useful for grid layouts; historically buggy for accessibility with some elements, so test it).\n\nHiding comparison: `display: none` takes no space and is not focusable; `visibility: hidden` keeps its space but is invisible and not clickable; `opacity: 0` keeps space and still receives clicks and focus."
+        },
+        {
+          "heading": "CSS units",
+          "body": "- `px`: a reference pixel, scaled by device pixel ratio. Good for borders and fine details.\n- `em`: relative to the element's font-size. When used in `font-size` itself, it is relative to the parent's font-size, so nested `em` font sizes compound.\n- `rem`: relative to the root (`html`) font-size, so it does not compound and scales with the user's browser font setting. Preferred for font sizes and most spacing.\n- `%`: relative to the containing block. Gotcha: **percentage padding and margin, even vertical ones, are relative to the containing block's width**.\n- `vw`/`vh`: 1% of the viewport. On mobile `100vh` is the largest viewport (browser UI hidden), so content can be cut off. Use `dvh` (dynamic), `svh` (small) or `lvh` (large) instead.\n- `ch`: width of the \"0\" glyph, handy for readable line lengths (`max-width: 65ch`).\n- Container units `cqi`/`cqb` are relative to a query container (covered later).",
+          "code": {
+            "lang": "css",
+            "source": "html { font-size: 100%; }          /* respects the user's setting, usually 16px */\n.parent { font-size: 1.5em; }       /* 24px */\n.parent .child { font-size: 1.5em; } /* 36px: em compounds */\n.child-rem { font-size: 1.5rem; }   /* 24px no matter the nesting */\n.hero { min-height: 100dvh; }\n.prose { max-width: 65ch; }"
+          }
+        },
+        {
+          "heading": "Intrinsic sizing and logical properties",
+          "body": "- `width: auto` on a block means \"fill the available space minus margins\". On absolutely positioned or floated elements, `auto` means shrink-to-fit.\n- `min-content` is the narrowest the content can get (longest word); `max-content` is the width with no wrapping; `fit-content` is max-content capped by the available space.\n- `min-width`, `max-width` and `min()`/`max()`/`clamp()` build flexible but bounded sizes, for example `width: min(100%, 60rem)`.\n- `aspect-ratio: 16 / 9` reserves a proportional box (videos, cards, image placeholders).\n- `overflow` controls content that does not fit: `visible` (default), `hidden`, `clip` (no scroll container created), `scroll`, `auto`.\n\n**Logical properties** map to writing direction instead of physical sides: `margin-inline-start` instead of `margin-left`, `padding-block` for top/bottom, `inline-size` for width. They flip automatically for right-to-left languages and vertical writing modes."
+        }
+      ],
+      "keyPoints": [
+        "The box is content + padding + border + margin; content-box sizes only the content.",
+        "box-sizing: border-box makes width include padding and border; set it globally.",
+        "Vertical margins of adjacent blocks collapse to the larger value, but never in flex or grid layouts.",
+        "display: flow-root creates a new block formatting context to stop margin leaks and contain floats.",
+        "Inline elements ignore width/height, and their vertical padding/margin does not affect line layout.",
+        "em compounds with nesting, rem is relative to the root; prefer rem for type so user settings work.",
+        "Percentage padding is relative to the containing block's width; use dvh/svh instead of 100vh on mobile."
+      ],
+      "questions": [
+        {
+          "id": "html-css-03-q01",
+          "type": "mcq",
+          "prompt": "How wide is the rendered border box of .box?",
+          "code": ".box {\n  width: 200px;\n  padding: 20px;\n  border: 5px solid black;\n  margin: 10px;\n}",
+          "options": [
+            "200px",
+            "240px",
+            "250px",
+            "260px"
+          ],
+          "answer": 2,
+          "explanation": "With the default content-box, width covers only the content. Add padding 20px x 2 and border 5px x 2: 200 + 40 + 10 = 250px. Margin is outside the border box."
+        },
+        {
+          "id": "html-css-03-q02",
+          "type": "mcq",
+          "prompt": "Two sibling paragraphs: the first has margin-bottom: 30px, the second margin-top: 20px. Both are normal block elements. How far apart are they?",
+          "options": [
+            "50px",
+            "30px",
+            "20px",
+            "10px"
+          ],
+          "answer": 1,
+          "explanation": "Adjacent vertical margins in block flow collapse to the larger value, 30px."
+        },
+        {
+          "id": "html-css-03-q03",
+          "type": "mcq",
+          "prompt": "What is the computed font-size of .c?",
+          "code": "html { font-size: 16px; }\n.b { font-size: 1.5em; }\n.c { font-size: 1.5em; }\n/* <div class=\"b\"><div class=\"c\">Text</div></div> */",
+          "options": [
+            "24px",
+            "36px",
+            "16px",
+            "30px"
+          ],
+          "answer": 1,
+          "explanation": "em in font-size is relative to the parent's font-size and compounds: .b is 16 x 1.5 = 24px, .c is 24 x 1.5 = 36px. With rem it would stay 24px."
+        },
+        {
+          "id": "html-css-03-q04",
+          "type": "mcq",
+          "prompt": "A div has padding-top: 10%. What is the percentage resolved against?",
+          "options": [
+            "The element's own height",
+            "The containing block's height",
+            "The containing block's width",
+            "The viewport height"
+          ],
+          "answer": 2,
+          "explanation": "All percentage padding and margin values, including top and bottom, resolve against the containing block's inline size (width in horizontal writing). This was the basis of the old padding-top aspect-ratio hack."
+        },
+        {
+          "id": "html-css-03-q05",
+          "type": "mcq",
+          "prompt": "Which hidden element still takes up space AND still receives clicks?",
+          "options": [
+            "display: none",
+            "visibility: hidden",
+            "opacity: 0",
+            "hidden attribute"
+          ],
+          "answer": 2,
+          "explanation": "opacity: 0 only makes it transparent; it stays in layout, focusable and clickable. visibility: hidden keeps the space but ignores pointer events; display: none and the hidden attribute remove it from layout."
+        },
+        {
+          "id": "html-css-03-q06",
+          "type": "mcq",
+          "prompt": "A full-screen mobile hero uses height: 100vh and its bottom button is hidden behind the browser toolbar. What is the best fix?",
+          "options": [
+            "height: 100%",
+            "height: 100dvh (or 100svh)",
+            "height: 100vw",
+            "position: fixed"
+          ],
+          "answer": 1,
+          "explanation": "On mobile, vh equals the large viewport (toolbars hidden). dvh tracks the current visible viewport, and svh is the smallest one, so content fits when toolbars are shown."
+        },
+        {
+          "id": "html-css-03-q07",
+          "type": "truefalse",
+          "prompt": "Vertical margins between flex items collapse just like in normal block flow.",
+          "answer": false,
+          "explanation": "Margin collapsing only happens in block formatting contexts. Flex and grid items keep both margins, so 30px + 20px gives 50px."
+        },
+        {
+          "id": "html-css-03-q08",
+          "type": "truefalse",
+          "prompt": "Setting width: 300px on a <span> with default display has no effect.",
+          "answer": true,
+          "explanation": "A span is display: inline by default, and inline non-replaced elements ignore width and height. Use inline-block, block or flex if you need sizing."
+        },
+        {
+          "id": "html-css-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which of these establish a new block formatting context (and stop a child's margin from collapsing through)?",
+          "options": [
+            "display: flow-root",
+            "overflow: hidden",
+            "float: left",
+            "position: absolute",
+            "display: inline"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "flow-root, overflow other than visible/clip, floats and absolute positioning all create a BFC. A plain inline element does not."
+        },
+        {
+          "id": "html-css-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: box-sizing: ___ makes width and height include padding and border.",
+          "accept": [
+            "border-box"
+          ],
+          "explanation": "border-box keeps the declared size fixed and shrinks the content area to fit padding and border."
+        },
+        {
+          "id": "html-css-03-q11",
+          "type": "interview",
+          "prompt": "Explain the CSS box model and why teams set box-sizing: border-box globally.",
+          "answer": "- Every box has content, padding, border and margin. Width and height apply to the content box by default (content-box).\n- That makes layout arithmetic awkward: adding padding to a 50% wide column makes it wider than 50% and can break a row.\n- border-box makes the declared size include padding and border, so a 50% column stays 50% no matter what padding you add. It matches how designers think about sizes.\n- Teams apply it to *, *::before and *::after (or use inheritance from html) so every element behaves the same way. Margins still sit outside the box in both modes.",
+          "level": "beginner"
+        },
+        {
+          "id": "html-css-03-q12",
+          "type": "interview",
+          "prompt": "What is margin collapsing and how do you avoid surprises from it?",
+          "answer": "- In block flow, adjacent vertical margins combine into one margin equal to the largest (or the sum of the most positive and most negative if signs differ).\n- It happens between siblings, between a parent and its first/last child when no padding, border or content separates them, and for empty blocks.\n- The parent-child case is the common bug: a child's margin-top pushes the whole parent down instead of creating space inside it.\n- Avoid it by using padding on the parent, display: flow-root, or by laying out with flex/grid and gap, where margins never collapse. Many teams adopt a single-direction margin convention (only margin-bottom, or gap) to keep spacing predictable.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-03-q13",
+          "type": "interview",
+          "prompt": "When do you use px, em, rem, % and viewport units?",
+          "answer": "- rem for font sizes and most spacing: it scales with the user's browser font setting and does not compound.\n- em for things that should scale with the element's own font size, like padding on a button or icon size next to text.\n- px for hairline borders, shadows and other details that should not scale.\n- % for sizes relative to the parent, such as fluid columns or max-width: 100% on images.\n- Viewport units (and dvh/svh/lvh on mobile) for full-screen sections, and combined with rem inside clamp() for fluid typography. Avoid pure vw font sizes because they ignore zoom and user font settings.\n- ch for readable text widths, and container units (cqi) for components that should scale with their container.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "web.dev Learn CSS: Box Model",
+          "url": "https://web.dev/learn/css/box-model"
+        },
+        {
+          "title": "MDN: Introduction to the CSS box model",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_box_model/Introduction_to_the_CSS_box_model"
+        },
+        {
+          "title": "MDN: Mastering margin collapsing",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_box_model/Mastering_margin_collapsing"
+        }
+      ]
+    },
+    {
+      "id": "html-css-04-cascade-specificity",
+      "title": "Cascade, Specificity, Inheritance and Layers",
+      "level": "intermediate",
+      "summary": "Learn exactly how the browser decides which declaration wins, and how to keep that decision under control.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "How the cascade picks a winner",
+          "body": "When several declarations set the same property on the same element, the cascade sorts them by these criteria, in order. A later criterion is only used to break a tie in the earlier ones:\n\n- **Origin and importance**: user-agent, user and author styles. Normal author styles beat user-agent styles. For `!important` the order is reversed (user-agent important beats user important beats author important), which protects user accessibility settings. Transitions and animations also sit at specific points in this list.\n- **Context**: for Shadow DOM, styles from the outer context vs the shadow tree.\n- **Element-attached styles**: the `style` attribute beats any selector in a stylesheet.\n- **Cascade layers**: declarations in later layers beat earlier layers; unlayered styles beat all layers.\n- **Specificity**: more specific selectors win.\n- **Scope proximity**: with `@scope`, the closer scope root wins.\n- **Order of appearance**: the last declaration wins.\n\nSo specificity is not the first thing the browser checks. A low-specificity rule in a later layer beats an ID selector in an earlier layer."
+        },
+        {
+          "heading": "Calculating specificity",
+          "body": "Specificity is a three-part value (A, B, C), compared column by column from left to right:\n- **A**: ID selectors (`#nav`).\n- **B**: class selectors, attribute selectors (`[type=\"email\"]`) and pseudo-classes (`:hover`, `:nth-child()`).\n- **C**: type selectors (`p`) and pseudo-elements (`::before`).\n\nThe universal selector `*` and combinators (space, `>`, `+`, `~`) add nothing. One ID (1,0,0) beats any number of classes (0,99,0), because columns never carry over.\n\nFunctional pseudo-classes are special:\n- `:is()`, `:not()` and `:has()` take the specificity of their **most specific argument**. `:is(#hero, .card)` counts as an ID.\n- `:where()` always contributes **zero**, which makes it perfect for library defaults that should be easy to override.",
+          "code": {
+            "lang": "css",
+            "source": "/* (0,0,1) */  p { }\n/* (0,1,1) */  p.note { }\n/* (0,2,0) */  .nav .link { }\n/* (1,1,0) */  #nav .link { }\n/* (0,1,1) */  a:hover { }\n/* (0,0,2) */  p::first-line { }\n/* (1,0,1) */  :is(#main, .content) p { }\n/* (0,0,1) */  :where(#main, .content) p { }"
+          }
+        },
+        {
+          "heading": "Inheritance and the global keywords",
+          "body": "Some properties inherit from the parent by default, mostly text-related ones: `color`, `font-*`, `line-height`, `letter-spacing`, `text-align`, `visibility`, `cursor`, `list-style`. Box-related properties do not inherit: `margin`, `padding`, `border`, `background`, `width`, `display`.\n\nInherited values only apply when no declaration targets the element. A rule as weak as `* { color: black; }` still beats inheritance, because inheritance is not part of specificity at all.\n\nEvery property accepts these keywords:\n- `inherit`: take the parent's computed value.\n- `initial`: the property's initial value from the spec (for `display` this is `inline`, not the element's UA default).\n- `unset`: `inherit` for inherited properties, `initial` otherwise.\n- `revert`: roll back to the value the user-agent (or user) stylesheet would give, so `display: revert` on a div gives `block`.\n- `revert-layer`: roll back to the value from the previous cascade layer.\n\n`all: unset` or `all: revert` resets every property at once, which is useful for buttons inside design systems."
+        },
+        {
+          "heading": "Cascade layers with @layer",
+          "body": "`@layer` lets you define explicit priority buckets so you stop fighting specificity. The **order in which layers are first declared** sets their priority: later layers win over earlier ones, regardless of selector specificity.\n\nKey rules:\n- Declare the order once at the top: `@layer reset, base, components, utilities;`\n- Unlayered styles beat every layer (for normal declarations).\n- For `!important` declarations the order reverses: an important declaration in an earlier layer beats one in a later layer, and important layered styles beat important unlayered styles.\n- Third-party CSS can be imported into a layer: `@import url(lib.css) layer(vendor);`\n- Layers can be nested (`components.buttons`) and are supported in all modern browsers since 2022.",
+          "code": {
+            "lang": "css",
+            "source": "@layer reset, base, components, utilities;\n\n@layer base {\n  a { color: var(--link); }\n}\n@layer components {\n  #sidebar .card a { color: navy; } /* high specificity... */\n}\n@layer utilities {\n  .text-red { color: red; }         /* ...but this still wins: later layer */\n}"
+          }
+        },
+        {
+          "heading": "Selectors refresher",
+          "body": "- Descendant `.card p`, child `.card > p`, next sibling `h2 + p`, subsequent siblings `h2 ~ p`.\n- Attribute selectors: `[href]`, `[href^=\"https\"]` (starts with), `[href$=\".pdf\"]` (ends with), `[class*=\"btn\"]` (contains), `[lang|=\"en\"]`.\n- Pseudo-classes describe state or position (`:hover`, `:focus-visible`, `:checked`, `:nth-child(2n+1)`, `:first-of-type`, `:not()`). They use one colon.\n- Pseudo-elements create or target parts of an element (`::before`, `::after`, `::placeholder`, `::marker`, `::selection`). They use two colons. `::before` and `::after` need a `content` property to render.\n\nBrowsers match selectors right to left: for `.nav li a` they find every `a`, then check ancestors. Selector performance rarely matters today, but overly long chains still hurt readability and raise specificity."
+        },
+        {
+          "heading": "Keeping specificity under control",
+          "body": "Specificity wars (adding `!important` or extra classes to win) are a symptom of an architecture problem. Practical strategies:\n- Style with single classes. Avoid IDs and long descendant chains in stylesheets.\n- Use a naming convention such as BEM (`.card__title--large`) so selectors stay flat.\n- Use `@layer` to order resets, base, components and utilities explicitly.\n- Wrap library defaults in `:where()` so consumers override them with any class.\n- Use scoping where possible: CSS Modules, Shadow DOM, or `@scope`.\n- Reserve `!important` for utilities that must always win or for overriding third-party inline styles.\n- Debug with DevTools: the Styles panel shows crossed-out declarations and the layer each rule belongs to; the Computed panel shows the final value and its source."
+        }
+      ],
+      "keyPoints": [
+        "Cascade order: origin/importance, context, style attribute, layers, specificity, scope proximity, then source order.",
+        "Specificity is (IDs, classes/attributes/pseudo-classes, types/pseudo-elements), compared column by column.",
+        "* and combinators add zero; :is/:not/:has take their most specific argument; :where is always zero.",
+        "Inheritance applies only when nothing targets the element; any matching rule beats an inherited value.",
+        "initial uses the spec default, revert uses the browser default, unset picks inherit or initial.",
+        "Later @layer layers beat earlier ones regardless of specificity; unlayered styles beat all layers.",
+        "!important reverses layer order and origin order."
+      ],
+      "questions": [
+        {
+          "id": "html-css-04-q01",
+          "type": "mcq",
+          "prompt": "Which color does the link get?",
+          "code": "<!-- <nav id=\"nav\" class=\"nav\"><a class=\"link active\">Home</a></nav> -->\n#nav .link { color: red; }\n.nav .link.active { color: green; }",
+          "options": [
+            "green, because it has more classes",
+            "red, because the ID wins",
+            "green, because it comes last",
+            "blue"
+          ],
+          "answer": 1,
+          "explanation": "#nav .link is (1,1,0). .nav .link.active a is (0,3,1). Column A is compared first, and 1 beats 0, so the ID rule wins regardless of how many classes the other has or source order."
+        },
+        {
+          "id": "html-css-04-q02",
+          "type": "mcq",
+          "prompt": "What is the specificity of :is(#hero, .card) p ?",
+          "options": [
+            "(0,1,1)",
+            "(1,0,1)",
+            "(1,1,1)",
+            "(0,0,1)"
+          ],
+          "answer": 1,
+          "explanation": ":is() takes the specificity of its most specific argument (#hero = 1,0,0), then p adds (0,0,1), giving (1,0,1), even when the element matched via .card."
+        },
+        {
+          "id": "html-css-04-q03",
+          "type": "mcq",
+          "prompt": "What color is the button text?",
+          "code": "@layer components {\n  .btn.primary { color: red; }\n}\nbutton { color: blue; }\n/* <button class=\"btn primary\">Buy</button> */",
+          "options": [
+            "red",
+            "blue",
+            "black (browser default)",
+            "It depends on which file loads first"
+          ],
+          "answer": 1,
+          "explanation": "Unlayered author styles beat all layered styles for normal declarations, regardless of specificity. button (0,0,1) unlayered beats .btn.primary (0,2,0) inside a layer."
+        },
+        {
+          "id": "html-css-04-q04",
+          "type": "mcq",
+          "prompt": "Two layers are declared as @layer base, theme;. Both contain p { color: X !important; }. Which wins?",
+          "options": [
+            "theme, because later layers always win",
+            "base, because !important reverses layer order",
+            "Whichever has higher specificity",
+            "Neither; it is a parse error"
+          ],
+          "answer": 1,
+          "explanation": "For important declarations, layer precedence is reversed: earlier layers win. This lets low-level layers like resets lock values that later layers cannot override."
+        },
+        {
+          "id": "html-css-04-q05",
+          "type": "mcq",
+          "prompt": "Which of these properties is inherited by default?",
+          "options": [
+            "margin",
+            "border",
+            "color",
+            "background-color"
+          ],
+          "answer": 2,
+          "explanation": "Text-related properties such as color, font and line-height inherit. Box properties like margin, border and background do not; background only looks inherited because it is transparent by default."
+        },
+        {
+          "id": "html-css-04-q06",
+          "type": "mcq",
+          "prompt": "A <div> has display: initial. How is it displayed?",
+          "options": [
+            "block",
+            "inline",
+            "none",
+            "contents"
+          ],
+          "answer": 1,
+          "explanation": "initial means the CSS spec's initial value for the property, and display's initial value is inline. The block value comes from the user-agent stylesheet; use display: revert to get it back."
+        },
+        {
+          "id": "html-css-04-q07",
+          "type": "truefalse",
+          "prompt": "A style attribute on an element beats a stylesheet rule with an ID selector, unless !important is involved.",
+          "answer": true,
+          "explanation": "Element-attached declarations are compared before selector specificity in the cascade, so they beat any normal selector-based rule. An !important rule in the stylesheet would beat a normal inline style."
+        },
+        {
+          "id": "html-css-04-q08",
+          "type": "truefalse",
+          "prompt": "An inherited color from a parent with ID-level specificity beats * { color: black; }.",
+          "answer": false,
+          "explanation": "Inherited values have no specificity at all; they are only used when no rule matches the element. The universal selector rule matches, so the element is black."
+        },
+        {
+          "id": "html-css-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which contribute zero specificity?",
+          "options": [
+            "The universal selector *",
+            ":where(.card)",
+            "The child combinator >",
+            "::before",
+            ":not(.x)"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "*, :where() and combinators add nothing. ::before is a pseudo-element (0,0,1) and :not(.x) takes its argument's specificity (0,1,0)."
+        },
+        {
+          "id": "html-css-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the keyword ___ rolls a property back to the value it would have from the previous cascade layer.",
+          "accept": [
+            "revert-layer"
+          ],
+          "explanation": "revert-layer undoes the current layer's effect for that property; revert goes all the way back to the user-agent or user origin."
+        },
+        {
+          "id": "html-css-04-q11",
+          "type": "interview",
+          "prompt": "Walk me through how the browser decides which CSS declaration applies.",
+          "answer": "- First, it collects every declaration that applies to the element and property.\n- It sorts by origin and importance: user-agent, user, author, with !important reversing that order, plus animations and transitions at their special positions.\n- Then encapsulation context (Shadow DOM), then whether the declaration comes from a style attribute.\n- Then cascade layers: later declared layers win, unlayered beats layered (reversed for !important).\n- Then specificity (IDs, classes/attributes/pseudo-classes, types/pseudo-elements), then @scope proximity, and finally source order.\n- If nothing matches, inherited properties take the parent's value and others use their initial value. Knowing this order explains why a utility in a later layer beats an ID selector and why !important feels unpredictable.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-04-q12",
+          "type": "interview",
+          "prompt": "How do you keep CSS specificity manageable in a large codebase?",
+          "answer": "- Keep selectors flat: mostly single classes, no IDs in stylesheets, minimal nesting. Linters such as Stylelint can enforce max specificity and nesting depth.\n- Use a convention (BEM) or scoping tool (CSS Modules, Shadow DOM, @scope) so components do not leak.\n- Order concerns with @layer (reset, base, components, utilities) instead of fighting with specificity hacks; put third-party CSS into its own low layer.\n- Ship design-system defaults inside :where() so consumers can override with one class.\n- Treat !important as a smell except for utilities and overriding third-party inline styles.\n- When debugging, use DevTools to see crossed-out declarations and their layers rather than guessing.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-04-q13",
+          "type": "interview",
+          "prompt": "What problem do cascade layers solve, and how would you adopt them in an existing app?",
+          "answer": "- Before layers, the only tools for priority were specificity and source order, so overriding a library or base style often meant raising specificity or adding !important, which escalates.\n- Layers make priority explicit and independent of specificity: a utility layer always beats components even with weaker selectors.\n- Adoption plan: declare the order up front (@layer reset, vendor, base, components, utilities;), import third-party CSS into vendor with @import ... layer(vendor), and move existing code into layers gradually. Remember unlayered code beats all layers, so during migration legacy unlayered CSS still wins, which keeps things safe.\n- Watch out for !important: its layer order reverses, so an important reset can lock values.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Specificity",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity"
+        },
+        {
+          "title": "MDN: @layer",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@layer"
+        },
+        {
+          "title": "web.dev Learn CSS: The cascade",
+          "url": "https://web.dev/learn/css/the-cascade"
+        }
+      ]
+    },
+    {
+      "id": "html-css-05-flexbox",
+      "title": "Flexbox",
+      "level": "intermediate",
+      "summary": "Lay out items along one axis, distribute space with grow and shrink, and avoid the classic flex gotchas.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Axes and container properties",
+          "body": "`display: flex` turns direct children into flex items laid out along a **main axis** with a perpendicular **cross axis**.\n\n- `flex-direction`: `row` (default) makes the main axis horizontal (in left-to-right writing); `column` makes it vertical. The `-reverse` variants flip the visual order.\n- `justify-content` distributes items along the **main** axis: `flex-start`, `center`, `space-between`, `space-around`, `space-evenly`.\n- `align-items` aligns items on the **cross** axis: `stretch` (default), `flex-start`, `center`, `baseline`.\n- `flex-wrap: wrap` allows multiple lines; then `align-content` distributes those lines on the cross axis. On a single-line container `align-content` has no effect.\n- `gap` adds space between items without margin hacks.\n\nWhen you switch to `flex-direction: column`, the axes swap: `justify-content` now works vertically and `align-items` horizontally.",
+          "code": {
+            "lang": "css",
+            "source": ".toolbar {\n  display: flex;\n  align-items: center;      /* vertical centring in a row */\n  gap: 0.5rem;\n}\n.toolbar .spacer { margin-inline-start: auto; } /* pushes following items to the end */\n\n.stack {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;  /* now vertical */\n  align-items: flex-start;  /* now horizontal */\n}"
+          }
+        },
+        {
+          "heading": "The flex shorthand: grow, shrink, basis",
+          "body": "Each item has three properties, usually set with `flex`:\n- `flex-basis`: the starting size before free space is distributed (`auto` means \"use width/height, otherwise content size\").\n- `flex-grow`: how much of the **positive** free space the item takes, as a ratio.\n- `flex-shrink`: how much the item gives up when there is **negative** free space (overflow).\n\nCommon shorthands:\n- `flex: initial` = `0 1 auto` (the default: do not grow, can shrink).\n- `flex: 1` = `1 1 0%` (equal-width items, because they all start from 0).\n- `flex: auto` = `1 1 auto` (grow from content size, so bigger content gets bigger items).\n- `flex: none` = `0 0 auto` (rigid, keeps its size)."
+        },
+        {
+          "heading": "How space is actually distributed",
+          "body": "The algorithm: lay out items at their basis, compute free space = container size minus the sum of bases (and gaps), then share it.\n\n**Growing**: free space is split in proportion to `flex-grow`. Container 600px, three items with basis 100px and grow 1, 2, 3: free space is 300px, split 50/100/150, so final widths are 150px, 200px and 250px.\n\n**Shrinking**: overflow is removed in proportion to `flex-shrink x flex-basis`, so larger items shrink more in absolute terms. That is why a long title can squeeze its siblings less than you expect.\n\nItems never shrink below their **minimum size**, which leads to the most common flex bug."
+        },
+        {
+          "heading": "The min-width: auto gotcha",
+          "body": "Flex items default to `min-width: auto` (or `min-height: auto` in a column), which resolves to their **min-content size**. An item with a long URL, a `<pre>` block or a `white-space: nowrap` label refuses to shrink below that width and overflows the container.\n\nSymptoms: `text-overflow: ellipsis` does not work, a code block blows out a card, or a sidebar layout scrolls horizontally.\n\nFix: set `min-width: 0` (or `overflow: hidden`, which also resets the automatic minimum) on the flex item that should shrink. The same issue exists with grid's `1fr`.",
+          "code": {
+            "lang": "css",
+            "source": ".row { display: flex; gap: 1rem; }\n.row .avatar { flex: none; width: 40px; }\n.row .text {\n  flex: 1;\n  min-width: 0;            /* allow shrinking below content width */\n}\n.row .text p {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}"
+          }
+        },
+        {
+          "heading": "Alignment tricks, order and accessibility",
+          "body": "- Perfect centring: `display: flex; justify-content: center; align-items: center;` or the shorter `display: grid; place-items: center;`.\n- **Auto margins** absorb free space in flexbox: `margin-left: auto` on the last nav item pushes it to the right edge; `margin: auto` on a single child centres it on both axes.\n- `align-self` overrides `align-items` for one item. There is no `justify-self` in flexbox; use auto margins instead.\n- `order` and `row-reverse` change only the **visual** order. Tab order and screen-reader order follow the DOM, so a mismatch confuses keyboard users. Change the source order when the reading order matters.\n- `float`, `clear` and `vertical-align` have no effect on flex items.\n- Flex is one-dimensional: each line is laid out independently, so items in different wrapped rows do not line up in columns. Use grid when you need both dimensions."
+        }
+      ],
+      "keyPoints": [
+        "justify-content works on the main axis, align-items on the cross axis; column direction swaps them.",
+        "flex: 1 is 1 1 0% (equal shares); flex: auto is 1 1 auto (content-weighted); flex: none is 0 0 auto.",
+        "Growth is proportional to flex-grow; shrinkage is proportional to flex-shrink times flex-basis.",
+        "Flex items default to min-width: auto; set min-width: 0 to let them shrink and allow ellipsis.",
+        "Auto margins absorb free space, so margin-left: auto pushes an item to the end.",
+        "order and row-reverse change visual order only, not focus or reading order.",
+        "align-content only matters when items wrap onto multiple lines."
+      ],
+      "questions": [
+        {
+          "id": "html-css-05-q01",
+          "type": "mcq",
+          "prompt": "What are the final widths of a, b and c?",
+          "code": ".row { display: flex; width: 600px; }\n.a, .b, .c { flex-basis: 100px; }\n.a { flex-grow: 1; }\n.b { flex-grow: 2; }\n.c { flex-grow: 3; }",
+          "options": [
+            "200, 200, 200",
+            "150, 200, 250",
+            "100, 200, 300",
+            "50, 100, 150"
+          ],
+          "answer": 1,
+          "explanation": "Bases total 300px, leaving 300px free space. It is shared 1:2:3 (50, 100, 150px) and added to each 100px basis: 150, 200 and 250px."
+        },
+        {
+          "id": "html-css-05-q02",
+          "type": "mcq",
+          "prompt": "What does flex: 1 expand to?",
+          "options": [
+            "flex: 1 0 auto",
+            "flex: 1 1 0%",
+            "flex: 1 1 auto",
+            "flex: 0 1 auto"
+          ],
+          "answer": 1,
+          "explanation": "A single unitless number sets flex-grow, with flex-shrink 1 and flex-basis 0%. Starting from zero means all items get equal shares regardless of content."
+        },
+        {
+          "id": "html-css-05-q03",
+          "type": "mcq",
+          "prompt": "In a container with flex-direction: column, which property centres children horizontally?",
+          "options": [
+            "justify-content: center",
+            "align-items: center",
+            "text-align: center",
+            "align-content: center"
+          ],
+          "answer": 1,
+          "explanation": "With column direction the main axis is vertical, so the horizontal axis is the cross axis, controlled by align-items."
+        },
+        {
+          "id": "html-css-05-q04",
+          "type": "mcq",
+          "prompt": "A flex item with flex: 1 contains a long nowrap string, and text-overflow: ellipsis on it does nothing; the row overflows instead. What fixes it?",
+          "options": [
+            "flex-shrink: 2",
+            "min-width: 0 on the flex item",
+            "width: 100%",
+            "flex-wrap: wrap"
+          ],
+          "answer": 1,
+          "explanation": "Flex items default to min-width: auto, which equals their min-content width, so they cannot shrink below the long text. min-width: 0 removes that floor so overflow and ellipsis can apply."
+        },
+        {
+          "id": "html-css-05-q05",
+          "type": "mcq",
+          "prompt": "In a horizontal nav built with flexbox, how do you push only the last item (\"Log out\") to the far right?",
+          "options": [
+            "justify-content: space-between on the container",
+            "margin-left: auto on the last item",
+            "float: right on the last item",
+            "justify-self: end on the last item"
+          ],
+          "answer": 1,
+          "explanation": "An auto margin takes all remaining free space on that side. space-between would spread all items apart, float is ignored on flex items, and justify-self does nothing in flexbox."
+        },
+        {
+          "id": "html-css-05-q06",
+          "type": "mcq",
+          "prompt": "When does align-content have a visible effect in a flex container?",
+          "options": [
+            "Always",
+            "Only when flex-direction is column",
+            "Only when items wrap onto more than one line",
+            "Only when justify-content is set"
+          ],
+          "answer": 2,
+          "explanation": "align-content distributes flex lines along the cross axis. A nowrap container has a single line, so there is nothing to distribute."
+        },
+        {
+          "id": "html-css-05-q07",
+          "type": "truefalse",
+          "prompt": "Using order: -1 on an item also moves it earlier in the keyboard Tab order.",
+          "answer": false,
+          "explanation": "order affects only visual placement. Focus order and screen-reader reading order follow the DOM, which is why reordering can cause accessibility problems."
+        },
+        {
+          "id": "html-css-05-q08",
+          "type": "truefalse",
+          "prompt": "float: right on a flex item has no effect on its placement.",
+          "answer": true,
+          "explanation": "Floats do not apply to flex items; the flex layout algorithm ignores the property."
+        },
+        {
+          "id": "html-css-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are the default values on a flex container?",
+          "options": [
+            "flex-direction: row",
+            "flex-wrap: nowrap",
+            "align-items: stretch",
+            "justify-content: center",
+            "gap: 1rem"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Defaults are row, nowrap, stretch and justify-content: flex-start (normal). gap defaults to normal (0)."
+        },
+        {
+          "id": "html-css-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: flex: ___ is shorthand for 0 0 auto, an item that neither grows nor shrinks.",
+          "accept": [
+            "none"
+          ],
+          "explanation": "flex: none makes the item rigid at its natural size, useful for avatars and icons next to flexible text."
+        },
+        {
+          "id": "html-css-05-q11",
+          "type": "interview",
+          "prompt": "When do you choose Flexbox over Grid, and vice versa?",
+          "answer": "- Flexbox is one-dimensional and content-out: items size from their content and share space along a single axis. Good for toolbars, nav bars, button groups, media objects, centring, and wrapping tags or chips.\n- Grid is two-dimensional and layout-in: you define rows and columns and place items into them, so items line up both ways. Good for page layouts, card galleries where columns must align, dashboards and forms with aligned labels.\n- They combine well: a grid for the page, flex inside each component.\n- Rule of thumb: if you are fighting flex to make wrapped rows line up in columns, or setting widths like calc(33.333% - gap), switch to grid.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-05-q12",
+          "type": "interview",
+          "prompt": "Explain flex-grow, flex-shrink and flex-basis, and the difference between flex: 1 and flex: auto.",
+          "answer": "- flex-basis is the item's starting size before distribution; auto uses width or content size.\n- The container computes free space (container minus bases and gaps). If positive, items grow in proportion to flex-grow. If negative, items shrink in proportion to flex-shrink multiplied by their basis, and never below their min-width (min-content by default).\n- flex: 1 = 1 1 0%: every item starts at zero, so they end up equal widths (unless content min sizes interfere).\n- flex: auto = 1 1 auto: items start at their content size and share the leftover equally, so items with more content stay larger.\n- Default is 0 1 auto: items do not grow but can shrink.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-05-q13",
+          "type": "interview",
+          "prompt": "Show several ways to centre an element horizontally and vertically.",
+          "answer": "- Grid: .parent { display: grid; place-items: center; } is the shortest.\n- Flex: .parent { display: flex; justify-content: center; align-items: center; }.\n- Auto margins: .parent { display: flex; } .child { margin: auto; } (also works in grid).\n- Absolute: .child { position: absolute; inset: 0; margin: auto; width: fit-content; height: fit-content; } or the older top: 50%; left: 50%; transform: translate(-50%, -50%).\n- Text-level: text-align: center for inline content, and line-height for single-line vertical centring.\nI default to grid or flex because they handle unknown sizes without magic numbers.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Basic concepts of flexbox",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox"
+        },
+        {
+          "title": "web.dev Learn CSS: Flexbox",
+          "url": "https://web.dev/learn/css/flexbox"
+        },
+        {
+          "title": "CSS-Tricks: A Complete Guide to Flexbox",
+          "url": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/"
+        }
+      ]
+    },
+    {
+      "id": "html-css-06-grid",
+      "title": "CSS Grid Layout",
+      "level": "intermediate",
+      "summary": "Define rows and columns, place items precisely, and build responsive layouts with minmax, auto-fit and subgrid.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Grid basics: tracks, fr and gap",
+          "body": "`display: grid` creates a two-dimensional layout. You define **tracks** (columns and rows) on the container, and direct children become grid items placed into cells.\n\n- `grid-template-columns: 200px 1fr 2fr` defines three columns. The `fr` unit shares the **remaining** space after fixed tracks and gaps: in an 800px container, `1fr` = 200px and `2fr` = 400px.\n- `gap` (or `row-gap`/`column-gap`) sets gutters between tracks.\n- The **explicit grid** is what you define with `grid-template-*`. Items that do not fit go into the **implicit grid**: new rows (or columns) created automatically and sized by `grid-auto-rows`/`grid-auto-columns` (default `auto`).\n- `grid-auto-flow` controls auto-placement: `row` (default), `column`, and `dense`, which back-fills holes (and can make visual order differ from DOM order).",
+          "code": {
+            "lang": "css",
+            "source": ".layout {\n  display: grid;\n  grid-template-columns: 200px 1fr 2fr;\n  grid-auto-rows: minmax(100px, auto);\n  gap: 1rem;\n}"
+          }
+        },
+        {
+          "heading": "Placing items with lines and areas",
+          "body": "Grid lines are numbered from 1 at the start edge. Negative numbers count from the end of the **explicit** grid, so `grid-column: 1 / -1` spans every explicit column.\n\n- `grid-column: 2 / 4` starts at line 2 and ends at line 4 (two columns).\n- `grid-column: span 2` spans two tracks from wherever auto-placement puts it.\n- `grid-row` works the same way vertically. Items can overlap; `z-index` decides which is on top.\n\n**Named areas** make page layouts readable. Each string is a row, each word a cell, and `.` is an empty cell. Each named area must form a rectangle.",
+          "code": {
+            "lang": "css",
+            "source": ".page {\n  display: grid;\n  grid-template-columns: 220px 1fr;\n  grid-template-rows: auto 1fr auto;\n  grid-template-areas:\n    \"header header\"\n    \"sidebar main\"\n    \"footer footer\";\n  min-height: 100dvh;\n}\n.page > header  { grid-area: header; }\n.page > nav     { grid-area: sidebar; }\n.page > main    { grid-area: main; }\n.page > footer  { grid-area: footer; }\n\n@media (width < 700px) {\n  .page {\n    grid-template-columns: 1fr;\n    grid-template-areas: \"header\" \"main\" \"sidebar\" \"footer\";\n  }\n}"
+          }
+        },
+        {
+          "heading": "repeat, minmax and auto-fill vs auto-fit",
+          "body": "- `repeat(4, 1fr)` creates four equal columns.\n- `minmax(min, max)` sets a track's size range.\n- `repeat(auto-fill, minmax(200px, 1fr))` creates as many 200px+ columns as fit, keeping empty tracks if there are fewer items.\n- `repeat(auto-fit, minmax(200px, 1fr))` does the same but **collapses empty tracks** to zero, so the existing items stretch to fill the row.\n\nThis gives a responsive card grid with no media queries. Wrap the minimum in `min()` so a single column never overflows a container narrower than the minimum.",
+          "code": {
+            "lang": "css",
+            "source": ".cards {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));\n  gap: 1.5rem;\n}"
+          }
+        },
+        {
+          "heading": "The 1fr minimum gotcha",
+          "body": "`1fr` is really `minmax(auto, 1fr)`. The `auto` minimum is the item's min-content size, so a column with a long unbreakable string, a wide table or a `<pre>` block grows past its share and pushes the grid wider than its container.\n\nFixes:\n- Use `minmax(0, 1fr)` for tracks that must stay equal: `grid-template-columns: repeat(3, minmax(0, 1fr))`.\n- Or set `min-width: 0` (or `overflow: hidden`) on the grid item.\n- Allow long words to break with `overflow-wrap: anywhere`."
+        },
+        {
+          "heading": "Alignment and subgrid",
+          "body": "Grid has alignment on both axes and at two levels:\n- Items inside their cells: `justify-items`/`align-items` on the container, `justify-self`/`align-self` on an item. `place-items: center` sets both.\n- Tracks inside the container (when tracks are smaller than the container): `justify-content`/`align-content`.\n\n**Subgrid** (`grid-template-columns: subgrid` or `grid-template-rows: subgrid`) lets a nested grid reuse its parent's tracks. The classic use: cards in a row whose titles, bodies and footers align across cards even when content lengths differ. Subgrid has been supported in all major browsers since 2023.",
+          "code": {
+            "lang": "css",
+            "source": ".cards {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 1rem;\n}\n.card {\n  display: grid;\n  grid-row: span 3;\n  grid-template-rows: subgrid;  /* title, body, footer rows align across cards */\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "fr shares remaining space after fixed tracks and gaps.",
+        "The explicit grid comes from grid-template-*; extra items create implicit tracks sized by grid-auto-rows/columns.",
+        "grid-column: 1 / -1 spans the full explicit grid; span N spans N tracks.",
+        "grid-template-areas gives readable layouts; each area must be a rectangle.",
+        "auto-fill keeps empty tracks, auto-fit collapses them so items stretch.",
+        "1fr means minmax(auto, 1fr); use minmax(0, 1fr) to stop content from blowing out tracks.",
+        "Subgrid lets nested elements align to the parent grid's tracks."
+      ],
+      "questions": [
+        {
+          "id": "html-css-06-q01",
+          "type": "mcq",
+          "prompt": "The container is 800px wide with no gap. How wide are the three columns?",
+          "code": ".grid {\n  display: grid;\n  width: 800px;\n  grid-template-columns: 200px 1fr 2fr;\n}",
+          "options": [
+            "200, 300, 300",
+            "200, 200, 400",
+            "266, 266, 266",
+            "200, 400, 200"
+          ],
+          "answer": 1,
+          "explanation": "Fixed tracks are removed first: 800 - 200 = 600px remaining, split into 3 fr units of 200px. So 200px, 200px (1fr) and 400px (2fr)."
+        },
+        {
+          "id": "html-css-06-q02",
+          "type": "mcq",
+          "prompt": "What is the difference between repeat(auto-fill, minmax(200px, 1fr)) and repeat(auto-fit, minmax(200px, 1fr)) when there are only two items in a 1000px container?",
+          "options": [
+            "No difference",
+            "auto-fill keeps empty tracks so items stay about 200px; auto-fit collapses empty tracks so the two items stretch",
+            "auto-fit keeps empty tracks; auto-fill stretches items",
+            "auto-fill only works with fixed sizes"
+          ],
+          "answer": 1,
+          "explanation": "Both create five possible tracks. auto-fill keeps the three empty ones, so each item is one fifth of the width. auto-fit collapses empty tracks to 0, so the two items share the whole row."
+        },
+        {
+          "id": "html-css-06-q03",
+          "type": "mcq",
+          "prompt": "What does grid-column: 1 / -1 do?",
+          "options": [
+            "Places the item in the last column only",
+            "Spans the item across every column of the explicit grid",
+            "Hides the item",
+            "Spans the item across implicit columns too"
+          ],
+          "answer": 1,
+          "explanation": "-1 is the last line of the explicit grid, so the item spans from the first to the last explicit line. It does not include implicit tracks."
+        },
+        {
+          "id": "html-css-06-q04",
+          "type": "mcq",
+          "prompt": "A three-column grid using repeat(3, 1fr) becomes wider than its container when one cell contains a long URL. Why?",
+          "options": [
+            "fr units ignore the container width",
+            "1fr has an automatic minimum equal to min-content, so the track cannot shrink below the URL",
+            "gap is added twice",
+            "Grid items default to white-space: nowrap"
+          ],
+          "answer": 1,
+          "explanation": "1fr is minmax(auto, 1fr). Use minmax(0, 1fr) or min-width: 0 on the item, and allow the URL to break with overflow-wrap: anywhere."
+        },
+        {
+          "id": "html-css-06-q05",
+          "type": "mcq",
+          "prompt": "You defined grid-template-rows: 100px 100px but have 10 items in 2 columns. How tall are rows 3 to 5?",
+          "options": [
+            "100px",
+            "0",
+            "Sized by grid-auto-rows, which defaults to auto (content height)",
+            "They are not displayed"
+          ],
+          "answer": 2,
+          "explanation": "Rows beyond the explicit template are implicit tracks. They take their size from grid-auto-rows, which is auto by default."
+        },
+        {
+          "id": "html-css-06-q06",
+          "type": "mcq",
+          "prompt": "What problem does subgrid solve?",
+          "options": [
+            "It makes grids work in older browsers",
+            "It lets a nested grid use the parent's track sizes so content aligns across sibling components",
+            "It creates a grid inside flexbox",
+            "It replaces grid-template-areas"
+          ],
+          "answer": 1,
+          "explanation": "Without subgrid, each card's internal grid sizes its own rows, so titles of different lengths misalign. With grid-template-rows: subgrid, the cards share the parent's rows."
+        },
+        {
+          "id": "html-css-06-q07",
+          "type": "truefalse",
+          "prompt": "Each named area in grid-template-areas must form a rectangle.",
+          "answer": true,
+          "explanation": "L-shaped or disconnected areas make the declaration invalid, and it is ignored."
+        },
+        {
+          "id": "html-css-06-q08",
+          "type": "truefalse",
+          "prompt": "The gap property only works in CSS Grid.",
+          "answer": false,
+          "explanation": "gap (row-gap, column-gap) works in grid, flexbox and multi-column layout, and flex gap is supported in all modern browsers."
+        },
+        {
+          "id": "html-css-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which properties align grid items inside their own grid areas (cells)?",
+          "options": [
+            "justify-items",
+            "align-items",
+            "justify-self",
+            "justify-content"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "justify-items/align-items set defaults on the container and justify-self/align-self override per item. justify-content moves whole tracks inside the container when they do not fill it."
+        },
+        {
+          "id": "html-css-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the CSS Grid unit that represents a fraction of the remaining free space is ___.",
+          "accept": [
+            "fr",
+            "1fr"
+          ],
+          "explanation": "fr distributes leftover space after fixed and content-sized tracks and gaps are accounted for."
+        },
+        {
+          "id": "html-css-06-q11",
+          "type": "interview",
+          "prompt": "How would you build a responsive card grid without media queries?",
+          "answer": "- Use grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)) with a gap.\n- auto-fit creates as many columns as fit at the minimum width, and 1fr lets them stretch to fill the row; empty tracks collapse.\n- min(16rem, 100%) prevents overflow when the container is narrower than 16rem.\n- Use auto-fill instead if you want items to keep their size when there are few of them.\n- Add subgrid on the cards to align titles and footers across a row, and aspect-ratio on images to keep them consistent.\n- If the component lives in different contexts (sidebar vs main), container queries can adjust the inner card layout.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-06-q12",
+          "type": "interview",
+          "prompt": "Explain the explicit grid vs the implicit grid.",
+          "answer": "- The explicit grid is the set of tracks you define with grid-template-columns, grid-template-rows and grid-template-areas.\n- When items are placed outside those tracks, either by auto-placement running out of cells or by explicit placement like grid-row: 5, the browser creates implicit tracks.\n- Implicit tracks are sized with grid-auto-rows and grid-auto-columns (default auto), and grid-auto-flow decides whether new items fill rows or columns.\n- Negative line numbers (like -1) refer only to the explicit grid, which is why 1 / -1 does not span implicit columns.\n- A common pattern is to define only columns explicitly and let rows be implicit with grid-auto-rows: minmax(120px, auto).",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-06-q13",
+          "type": "interview",
+          "prompt": "Build a classic page layout (header, sidebar, main, footer) that stacks on mobile. How do you approach it?",
+          "answer": "- Use grid with grid-template-areas: \"header header\" \"sidebar main\" \"footer footer\", columns like minmax(12rem, 18rem) 1fr, and rows auto 1fr auto with min-height: 100dvh so the footer sits at the bottom.\n- Assign each landmark element (header, nav/aside, main, footer) a grid-area.\n- In a media query (or container query) switch to a single column and reorder areas via the template strings, for example main before sidebar.\n- Because the reordering is visual, keep the DOM in a sensible reading order (header, main, aside, footer) and check that focus order still makes sense.\n- Use minmax(0, 1fr) for the main column so wide content (tables, code) cannot blow out the layout; let those elements scroll with overflow: auto.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Basic concepts of grid layout",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Basic_concepts_of_grid_layout"
+        },
+        {
+          "title": "web.dev Learn CSS: Grid",
+          "url": "https://web.dev/learn/css/grid"
+        },
+        {
+          "title": "CSS-Tricks: A Complete Guide to CSS Grid",
+          "url": "https://css-tricks.com/snippets/css/complete-guide-grid/"
+        }
+      ]
+    },
+    {
+      "id": "html-css-07-positioning-stacking",
+      "title": "Positioning, z-index and Stacking Contexts",
+      "level": "intermediate",
+      "summary": "Master position values, containing blocks and stacking contexts so overlays and sticky elements behave.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "The five position values",
+          "body": "- `static` (default): normal flow. `top/left/z-index` have no effect (except `z-index` on flex and grid items).\n- `relative`: stays in flow and keeps its original space, but can be nudged with offsets. It also becomes the containing block for absolutely positioned descendants.\n- `absolute`: removed from flow (siblings act as if it is not there). Offsets are relative to its **containing block**: the padding box of the nearest positioned ancestor, or the initial containing block if there is none.\n- `fixed`: removed from flow and positioned relative to the viewport, so it stays put while scrolling.\n- `sticky`: behaves like `relative` until its scroll container scrolls it past a threshold (`top: 0`), then sticks, but only while its parent is still visible.\n\n`inset: 0` is shorthand for `top: 0; right: 0; bottom: 0; left: 0`, handy for overlays.",
+          "code": {
+            "lang": "css",
+            "source": ".card { position: relative; }\n.card .badge {\n  position: absolute;\n  top: 0.5rem;\n  right: 0.5rem;              /* relative to .card's padding box */\n}\n.site-header {\n  position: sticky;\n  top: 0;                     /* required threshold */\n  z-index: 10;\n}\n.overlay {\n  position: fixed;\n  inset: 0;\n  background: rgb(0 0 0 / 0.5);\n}"
+          }
+        },
+        {
+          "heading": "Containing block surprises",
+          "body": "Two rules cause many \"why is my element in the wrong place\" bugs:\n\n- `position: fixed` is normally relative to the viewport, but if **any ancestor** has `transform`, `perspective`, `filter`, `backdrop-filter`, `contain: paint` (or layout), or `will-change` set to one of those, that ancestor becomes the containing block. A \"fixed\" modal inside an animated, transformed card scrolls with the card.\n- Those same properties also make an element the containing block for absolute descendants even when it is `position: static`.\n\n`position: sticky` fails silently when:\n- no threshold (`top`, `bottom`, etc.) is set,\n- an ancestor between the element and the intended scroller has `overflow: hidden`, `auto` or `scroll` (it becomes the scroll container instead),\n- the parent is no taller than the sticky element, so there is no room to stick."
+        },
+        {
+          "heading": "z-index and stacking contexts",
+          "body": "`z-index` applies to positioned elements (anything except `static`) and to flex and grid items. Higher values paint on top, **but only when compared within the same stacking context**.\n\nA **stacking context** is an isolated group: its children are stacked among themselves and then the whole group is painted as one unit at the parent's level. A child with `z-index: 9999` can never escape a parent context that sits below a sibling with `z-index: 2`.\n\nThings that create a stacking context include:\n- the root element,\n- `position: relative/absolute` with a `z-index` other than `auto`,\n- `position: fixed` or `sticky` (always),\n- flex or grid items with a `z-index` other than `auto`,\n- `opacity` less than 1, `transform`, `filter`, `backdrop-filter`, `perspective`, `clip-path`, `mask`, `mix-blend-mode` other than normal,\n- `isolation: isolate`,\n- `will-change` naming one of those properties, `contain: paint`/`layout`, and container queries containers (`container-type` other than normal).",
+          "code": {
+            "lang": "html",
+            "source": "<div class=\"a\" style=\"position: relative; z-index: 1; transform: translateX(0)\">\n  <div class=\"modal\" style=\"position: fixed; z-index: 9999\">Modal</div>\n</div>\n<div class=\"b\" style=\"position: relative; z-index: 2\">Header</div>\n<!-- .modal is painted UNDER .b: it lives inside .a's stacking context (z-index 1) -->"
+          }
+        },
+        {
+          "heading": "Painting order and isolation",
+          "body": "Inside one stacking context, the browser paints in this order (back to front):\n- the context's own background and borders,\n- positioned descendants with negative z-index,\n- in-flow non-positioned blocks,\n- floats,\n- inline content,\n- positioned descendants with `z-index: auto` or `0` (in DOM order),\n- positioned descendants with positive z-index (in ascending order).\n\n`isolation: isolate` creates a stacking context with no other side effects. Put it on a component root so its internal z-indexes (for example a `z-index: -1` decorative background) cannot interact with the rest of the page.\n\nA sane z-index scale helps teams: define tokens like `--z-dropdown: 100; --z-sticky: 200; --z-modal: 300; --z-toast: 400` instead of random 9999 values."
+        },
+        {
+          "heading": "Escaping clipping: top layer, popover and anchor positioning",
+          "body": "Dropdowns and tooltips often get clipped by an ancestor with `overflow: hidden` or buried under a stacking context. Options:\n- Render the overlay at the end of `<body>` (a \"portal\" in React) and position it with JavaScript.\n- Use the **top layer**: `<dialog>` opened with `showModal()` and elements with the `popover` attribute render above everything else on the page, ignoring ancestor z-index and overflow. `::backdrop` styles the area behind them. Modal dialogs also make the rest of the page inert and close on Escape.\n- **CSS anchor positioning** (`anchor-name`, `position-anchor`, `position-area`, the `anchor()` function) tethers a positioned element to another element without JS. It is supported in Chromium and Safari 26; check current support for other browsers and keep a fallback.",
+          "code": {
+            "lang": "html",
+            "source": "<button popovertarget=\"menu\">Options</button>\n<div id=\"menu\" popover>\n  <button>Rename</button>\n  <button>Delete</button>\n</div>\n\n<dialog id=\"confirm\">\n  <form method=\"dialog\">\n    <p>Delete this file?</p>\n    <button value=\"cancel\">Cancel</button>\n    <button value=\"ok\">Delete</button>\n  </form>\n</dialog>"
+          }
+        }
+      ],
+      "keyPoints": [
+        "relative keeps its space; absolute and fixed leave the flow; sticky toggles between relative and fixed-like behaviour.",
+        "absolute is positioned against the nearest positioned ancestor (or one with transform, filter, contain, etc.).",
+        "A transformed or filtered ancestor breaks position: fixed by becoming its containing block.",
+        "sticky needs a threshold and no overflow-clipping ancestor in between.",
+        "z-index only compares elements inside the same stacking context; children cannot escape their parent's context.",
+        "opacity < 1, transform, filter, isolation: isolate and fixed/sticky all create stacking contexts.",
+        "dialog.showModal() and the popover attribute use the top layer, above all z-index values."
+      ],
+      "questions": [
+        {
+          "id": "html-css-07-q01",
+          "type": "mcq",
+          "prompt": "An element has position: absolute; top: 0; left: 0. Its parent is position: static, but the grandparent is position: relative. Where is it placed?",
+          "options": [
+            "Top-left of the parent",
+            "Top-left of the grandparent's padding box",
+            "Top-left of the viewport",
+            "Where it would be in normal flow"
+          ],
+          "answer": 1,
+          "explanation": "The containing block for absolute elements is the nearest ancestor that is positioned (or has a transform-like property). The static parent is skipped."
+        },
+        {
+          "id": "html-css-07-q02",
+          "type": "mcq",
+          "prompt": "Why is the modal painted under .b?",
+          "code": "<div class=\"a\" style=\"position: relative; z-index: 1\">\n  <div class=\"modal\" style=\"position: fixed; z-index: 9999\">Modal</div>\n</div>\n<div class=\"b\" style=\"position: relative; z-index: 2\">Header</div>",
+          "options": [
+            "fixed elements ignore z-index",
+            ".a creates a stacking context with z-index 1, so everything inside it is painted below .b (z-index 2)",
+            "9999 exceeds the maximum z-index",
+            ".b comes later in the DOM"
+          ],
+          "answer": 1,
+          "explanation": "Stacking contexts are atomic. .a forms one at z-index 1; the modal's 9999 only competes inside .a. At the root level .a (1) is below .b (2). Move the modal out (portal) or use dialog.showModal() and the top layer."
+        },
+        {
+          "id": "html-css-07-q03",
+          "type": "mcq",
+          "prompt": "A header with position: sticky; top: 0 scrolls away instead of sticking. Which is the most likely cause?",
+          "options": [
+            "The header has a background colour",
+            "An ancestor has overflow: hidden, becoming the scroll container",
+            "position: sticky requires z-index",
+            "Sticky only works on <header>"
+          ],
+          "answer": 1,
+          "explanation": "Sticky positioning is relative to the nearest scrolling ancestor. An ancestor with overflow hidden/auto/scroll takes that role, and if it does not scroll, nothing sticks."
+        },
+        {
+          "id": "html-css-07-q04",
+          "type": "mcq",
+          "prompt": "A position: fixed toast moves when its wrapper animates. The wrapper has transform: translateY(10px). Why?",
+          "options": [
+            "Transforms disable fixed positioning globally",
+            "The transformed ancestor becomes the containing block for fixed descendants",
+            "Fixed elements always follow their parent",
+            "The toast needs z-index"
+          ],
+          "answer": 1,
+          "explanation": "Any ancestor with transform, perspective, filter or contain: paint becomes the containing block for fixed descendants, so the toast is positioned relative to it."
+        },
+        {
+          "id": "html-css-07-q05",
+          "type": "mcq",
+          "prompt": "Which of these does NOT create a stacking context?",
+          "options": [
+            "opacity: 0.99",
+            "position: relative; z-index: auto",
+            "isolation: isolate",
+            "transform: scale(1)"
+          ],
+          "answer": 1,
+          "explanation": "A relatively positioned element only forms a stacking context when z-index is not auto. The others all create one."
+        },
+        {
+          "id": "html-css-07-q06",
+          "type": "mcq",
+          "prompt": "What does isolation: isolate do?",
+          "options": [
+            "Hides the element from screen readers",
+            "Creates a new stacking context without changing position, opacity or transforms",
+            "Prevents CSS inheritance",
+            "Disables pointer events"
+          ],
+          "answer": 1,
+          "explanation": "isolation: isolate exists purely to create a stacking context, so a component's internal z-index and blend modes stay contained."
+        },
+        {
+          "id": "html-css-07-q07",
+          "type": "truefalse",
+          "prompt": "z-index has an effect on a non-positioned (static) block element that is not a flex or grid item.",
+          "answer": false,
+          "explanation": "z-index applies to positioned elements and to flex and grid items. On a plain static block it is ignored."
+        },
+        {
+          "id": "html-css-07-q08",
+          "type": "truefalse",
+          "prompt": "A <dialog> opened with showModal() appears above elements with very high z-index values, even if its ancestor has overflow: hidden.",
+          "answer": true,
+          "explanation": "Modal dialogs and popovers are promoted to the top layer, which sits above the root stacking context and is not clipped by ancestors."
+        },
+        {
+          "id": "html-css-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which declarations create a new stacking context?",
+          "options": [
+            "opacity: 0.9",
+            "transform: translateZ(0)",
+            "position: relative; z-index: auto",
+            "isolation: isolate",
+            "display: block"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "opacity below 1, any transform other than none and isolation: isolate create stacking contexts. relative with z-index auto and plain display: block do not."
+        },
+        {
+          "id": "html-css-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the shorthand ___: 0 sets top, right, bottom and left to 0 at once.",
+          "accept": [
+            "inset"
+          ],
+          "explanation": "inset is a logical shorthand for the four physical offset properties."
+        },
+        {
+          "id": "html-css-07-q11",
+          "type": "interview",
+          "prompt": "Explain stacking contexts. How do you debug a z-index that \"does not work\"?",
+          "answer": "- A stacking context is an isolated layer group. Children are ordered only against each other, then the group is painted as one unit inside its parent context.\n- They are created by positioned elements with a non-auto z-index, fixed/sticky, flex/grid items with z-index, opacity < 1, transform, filter, isolation: isolate, will-change and others.\n- Debugging: first check the element is positioned (or a flex/grid item). Then walk up the ancestors looking for properties that create a stacking context; the element's z-index only competes inside the nearest one. Compare that ancestor's z-index with the element you want to cover.\n- Fixes: raise z-index on the ancestor context, remove the property creating the context, move the element out with a portal, or use the top layer (dialog/popover).\n- Prevent issues with a z-index scale in tokens and isolation: isolate on component roots. DevTools layer panels and the \"3D view\" help visualise it.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-07-q12",
+          "type": "interview",
+          "prompt": "Compare relative, absolute, fixed and sticky positioning with real use cases.",
+          "answer": "- relative: stays in flow and keeps its space; offsets just shift it visually. Main use: being the anchor (containing block) for absolute children, and allowing z-index.\n- absolute: leaves the flow, positioned against the nearest positioned ancestor. Use for badges on cards, icons inside inputs, custom tooltips.\n- fixed: leaves the flow, positioned against the viewport (unless a transformed ancestor interferes). Use for overlays, cookie banners, floating action buttons.\n- sticky: in flow until a scroll threshold, then sticks within its parent. Use for table headers, section headings and site headers. It needs a top/bottom value and no overflow-clipping ancestor in between.\n- Because absolute and fixed leave the flow, they can overlap content, so reserve space or manage it deliberately.",
+          "level": "beginner"
+        },
+        {
+          "id": "html-css-07-q13",
+          "type": "interview",
+          "prompt": "A dropdown inside a card with overflow: hidden is being clipped. What are your options?",
+          "answer": "- Remove overflow: hidden if it was only there to clip rounded corners; overflow: clip or clip-path can sometimes replace it, but they clip the dropdown too, so usually the menu must move out.\n- Render the menu in a portal at the end of <body> and position it with JavaScript (Floating UI) using the trigger's bounding rect, handling scroll, resize and viewport collisions.\n- Use the popover attribute: popovers go into the top layer, so ancestors cannot clip them, and you get light dismiss and Escape handling for free.\n- Position the popover with CSS anchor positioning where supported (Chromium, Safari 26), with a JS fallback elsewhere.\n- Keep accessibility: aria-expanded on the trigger, focus management and keyboard navigation inside the menu.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: position",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/position"
+        },
+        {
+          "title": "MDN: Stacking context",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_positioned_layout/Stacking_context"
+        },
+        {
+          "title": "web.dev Learn CSS: Z-index and stacking contexts",
+          "url": "https://web.dev/learn/css/z-index"
+        }
+      ]
+    },
+    {
+      "id": "html-css-08-responsive-design",
+      "title": "Responsive Design and Container Queries",
+      "level": "advanced",
+      "summary": "Build layouts that adapt to any screen and any container, with fluid type and responsive images.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Foundations: mobile-first and intrinsic layout",
+          "body": "Responsive design starts with the viewport meta tag, flexible units and layouts that adapt on their own (flex wrapping, grid auto-fit, `max-width: 100%` on media). Media queries then handle the cases intrinsic layout cannot.\n\n**Mobile-first** means the base styles target small screens and `min-width` queries add complexity as space grows. Benefits: simpler base CSS, small devices download and parse the least override logic, and it forces content prioritisation. Desktop-first uses `max-width` queries and tends to produce more overrides.\n\nChoose breakpoints where **the content breaks**, not at specific device widths. Use `em` or `rem` in media queries so they respect user font-size changes."
+        },
+        {
+          "heading": "Media queries in 2026",
+          "body": "Modern media queries support **range syntax**, which is clearer than `min-/max-` prefixes and avoids off-by-one gaps: `@media (40em <= width < 64em)`.\n\nUseful media features beyond width:\n- `prefers-color-scheme: dark` for system dark mode.\n- `prefers-reduced-motion: reduce` to tone down animation for users with vestibular disorders.\n- `prefers-contrast: more` and `forced-colors: active` (Windows high contrast).\n- `hover: hover` and `pointer: fine | coarse` to detect input capability rather than guessing from screen size: touch devices need bigger targets and no hover-only menus.\n- `orientation`, `resolution`, `display-mode: standalone` (installed PWAs).",
+          "code": {
+            "lang": "css",
+            "source": "/* mobile-first base */\n.nav { display: none; }\n\n@media (width >= 48em) {\n  .nav { display: flex; }\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .card:hover { box-shadow: 0 4px 16px rgb(0 0 0 / 0.15); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  *, *::before, *::after {\n    animation-duration: 0.01ms !important;\n    transition-duration: 0.01ms !important;\n    scroll-behavior: auto !important;\n  }\n}"
+          }
+        },
+        {
+          "heading": "Fluid sizing with clamp(), min() and max()",
+          "body": "`clamp(MIN, PREFERRED, MAX)` returns the preferred value but never below MIN or above MAX. It replaces stacks of breakpoints for type and spacing.\n\n`font-size: clamp(1.25rem, 1rem + 1.5vw, 2rem)`: at a 1000px viewport the middle value is 16 + 15 = 31px, between 20px and 32px. Mixing `rem` into the preferred value matters: pure `vw` font sizes do not grow when users zoom or increase their default font size, which fails WCAG resize-text requirements.\n\n- `min(100%, 60rem)` picks the smaller value: a container that is full-width on mobile and capped on desktop.\n- `max(1rem, 3vw)` picks the larger: spacing that never gets too small."
+        },
+        {
+          "heading": "Container queries",
+          "body": "Media queries respond to the **viewport**. Components, however, live in containers of different widths: the same card might sit in a narrow sidebar or a wide main column. **Container queries** let a component respond to its container's size. Size container queries are supported in all major browsers since 2023.\n\n- Mark an ancestor as a container: `container-type: inline-size` (queries width) or `size` (width and height; requires explicit height). Optionally name it with `container-name` or the `container` shorthand.\n- Query it: `@container card (width > 30rem) { ... }`. Without a name, the nearest ancestor container is used.\n- An element cannot query itself; styles inside the query apply to descendants. Containment is what prevents infinite layout loops (the container's size cannot depend on its contents in the queried axis).\n- Container query units: `cqi` (1% of container inline size), `cqb`, `cqw`, `cqh`, `cqmin`, `cqmax`.\n- **Style queries** (`@container style(--variant: compact)`) query custom property values; supported in Chromium and Safari, not yet in every browser.",
+          "code": {
+            "lang": "css",
+            "source": ".card-wrapper {\n  container: card / inline-size;\n}\n\n.card { display: grid; gap: 1rem; }\n\n@container card (width >= 30rem) {\n  .card { grid-template-columns: 10rem 1fr; }\n  .card h3 { font-size: clamp(1rem, 4cqi, 1.5rem); }\n}"
+          }
+        },
+        {
+          "heading": "Responsive images",
+          "body": "- **Resolution switching**: `srcset` with width descriptors (`640w`) plus `sizes` tells the browser the candidate files and how wide the image will display, so it can choose before layout happens. Without `sizes` the browser assumes `100vw` and may download an image far bigger than needed.\n- **Art direction**: `<picture>` with `<source media=\"...\">` swaps a different crop at different widths.\n- **Format switching**: `<source type=\"image/avif\">`, then WebP, with the `<img>` as fallback.\n- Keep `width`/`height` for aspect ratio, `loading=\"lazy\"` for off-screen images, and `fetchpriority=\"high\"` on the LCP image.\n- In CSS, `object-fit: cover` crops an image to fill its box without distortion; `image-set()` is the CSS equivalent of srcset for backgrounds.",
+          "code": {
+            "lang": "html",
+            "source": "<picture>\n  <source type=\"image/avif\" srcset=\"hero-800.avif 800w, hero-1600.avif 1600w\"\n          sizes=\"(width >= 64em) 50vw, 100vw\">\n  <img src=\"hero-800.jpg\"\n       srcset=\"hero-800.jpg 800w, hero-1600.jpg 1600w\"\n       sizes=\"(width >= 64em) 50vw, 100vw\"\n       width=\"1600\" height=\"900\" alt=\"Runner on a mountain trail\"\n       fetchpriority=\"high\">\n</picture>"
+          }
+        },
+        {
+          "heading": "Practical gotchas",
+          "body": "- `100vw` includes the vertical scrollbar on desktop, so `width: 100vw` often causes horizontal scrolling. Prefer `100%`.\n- Never disable zoom with `maximum-scale=1` or `user-scalable=no`; it is an accessibility failure.\n- Touch targets should be at least 24x24 CSS px (WCAG 2.2 AA) and ideally around 44x44.\n- Use logical properties (`margin-inline`, `padding-block`) so layouts work for right-to-left languages.\n- Test on real devices and DevTools device mode, including landscape, zoom at 200% and 400%, and a large default font size."
+        }
+      ],
+      "keyPoints": [
+        "Mobile-first uses min-width queries layered on simple base styles; pick breakpoints where content breaks.",
+        "Range syntax like (40em <= width < 64em) is clearer than min-/max- prefixes.",
+        "Query capabilities (hover, pointer, prefers-reduced-motion, prefers-color-scheme), not device names.",
+        "clamp() gives fluid type and spacing; include rem in the preferred value so zoom still works.",
+        "Container queries need an ancestor with container-type; elements style descendants, never themselves.",
+        "srcset + sizes is for resolution switching; <picture> is for art direction and formats.",
+        "100vw includes the scrollbar; never disable user zoom."
+      ],
+      "questions": [
+        {
+          "id": "html-css-08-q01",
+          "type": "mcq",
+          "prompt": "Which approach is mobile-first?",
+          "options": [
+            "Base styles for desktop, then @media (max-width: ...) overrides",
+            "Base styles for small screens, then @media (min-width: ...) enhancements",
+            "Separate m. subdomain",
+            "Using only vw units"
+          ],
+          "answer": 1,
+          "explanation": "Mobile-first writes the simplest layout as the default and adds features as space grows with min-width (or width >=) queries."
+        },
+        {
+          "id": "html-css-08-q02",
+          "type": "mcq",
+          "prompt": "Why does @container (width > 400px) have no effect on .card's children here?",
+          "code": ".card { display: flex; }\n@container (width > 400px) {\n  .card .title { font-size: 2rem; }\n}",
+          "options": [
+            "Container queries are not supported in browsers",
+            "No ancestor of the children has container-type set",
+            "The query must use min-width",
+            ".card must have position: relative"
+          ],
+          "answer": 1,
+          "explanation": "Container queries look for the nearest ancestor with container-type (or container). Without one, the query matches nothing. Add container-type: inline-size to a wrapper or to .card itself (then its children can respond)."
+        },
+        {
+          "id": "html-css-08-q03",
+          "type": "mcq",
+          "prompt": "What is the computed font-size at a 1000px wide viewport (root font-size 16px)?",
+          "code": "h1 { font-size: clamp(1rem, 4vw, 2rem); }",
+          "options": [
+            "16px",
+            "32px",
+            "40px",
+            "24px"
+          ],
+          "answer": 1,
+          "explanation": "The preferred value 4vw is 40px, which is above the maximum 2rem (32px), so clamp returns 32px."
+        },
+        {
+          "id": "html-css-08-q04",
+          "type": "mcq",
+          "prompt": "What does the sizes attribute tell the browser?",
+          "options": [
+            "Which file sizes in KB are available",
+            "How wide the image will be displayed in different conditions, so it can pick a srcset candidate before layout",
+            "The intrinsic dimensions of the image",
+            "The maximum zoom level"
+          ],
+          "answer": 1,
+          "explanation": "Image selection happens before CSS layout is known. sizes describes the expected display width so the browser can combine it with device pixel ratio and choose a candidate. Without it, the browser assumes 100vw."
+        },
+        {
+          "id": "html-css-08-q05",
+          "type": "mcq",
+          "prompt": "You need a tightly cropped portrait image on phones and a wide landscape crop on desktop. What should you use?",
+          "options": [
+            "srcset with x descriptors",
+            "<picture> with <source media=\"...\"> elements",
+            "object-fit: contain",
+            "loading=\"lazy\""
+          ],
+          "answer": 1,
+          "explanation": "Different crops are art direction, which is <picture>'s job. srcset alone only offers the same image at different resolutions and lets the browser choose."
+        },
+        {
+          "id": "html-css-08-q06",
+          "type": "mcq",
+          "prompt": "Why can an element not use a container query to style itself based on its own width?",
+          "options": [
+            "It is a browser bug",
+            "It would create a loop: the style could change the size being queried, so queries only style descendants of the container",
+            "Only the body can be a container",
+            "Container queries only support height"
+          ],
+          "answer": 1,
+          "explanation": "Containment stops the container's size from depending on its contents in the queried axis. Styling the container from its own size could change that size, so the spec only applies query styles to descendants."
+        },
+        {
+          "id": "html-css-08-q07",
+          "type": "truefalse",
+          "prompt": "On desktop browsers with classic scrollbars, width: 100vw can cause a horizontal scrollbar.",
+          "answer": true,
+          "explanation": "vw units include the vertical scrollbar width, so 100vw is wider than the available content area. Use 100% instead."
+        },
+        {
+          "id": "html-css-08-q08",
+          "type": "truefalse",
+          "prompt": "Setting font-size: 3vw on body text is accessible because it scales with the screen.",
+          "answer": false,
+          "explanation": "Pure vw values ignore browser zoom and user font-size preferences in many cases, failing WCAG text resizing. Combine with rem inside clamp()."
+        },
+        {
+          "id": "html-css-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are valid media features?",
+          "options": [
+            "prefers-reduced-motion",
+            "hover",
+            "pointer",
+            "container-type",
+            "prefers-color-scheme"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "container-type is a property for declaring query containers, not a media feature. The others are standard media features."
+        },
+        {
+          "id": "html-css-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: container-type: ___ makes an element a query container for its width only.",
+          "accept": [
+            "inline-size"
+          ],
+          "explanation": "inline-size applies size containment on the inline axis only, so the height can still depend on content. size contains both axes."
+        },
+        {
+          "id": "html-css-08-q11",
+          "type": "interview",
+          "prompt": "Media queries vs container queries: when do you use each?",
+          "answer": "- Media queries respond to the viewport and user environment: page-level layout (sidebar appears at wide widths), and user preferences like prefers-color-scheme, prefers-reduced-motion and pointer type.\n- Container queries respond to the size of an ancestor container. They make components truly reusable: a product card can be stacked in a narrow sidebar and horizontal in the main column on the same screen.\n- Typical architecture: media queries for the macro layout, container queries for components inside it.\n- Requirements: declare container-type: inline-size on a wrapper, query with @container, use cqi units for fluid internals. Remember size containment means the container cannot size itself from its content in that axis.\n- Style queries add a way to switch component variants via custom properties, with browser support still incomplete.",
+          "level": "advanced"
+        },
+        {
+          "id": "html-css-08-q12",
+          "type": "interview",
+          "prompt": "You inherit a desktop-only site. How would you make it responsive?",
+          "answer": "- Add the viewport meta tag and audit for fixed widths, absolute layouts and images without max-width.\n- Replace fixed pixel widths with fluid ones (%, fr, minmax, max-width with min()), and switch rigid layouts to flex and grid with auto-fit so many cases adapt with no breakpoints.\n- Introduce a small set of content-driven breakpoints in em, ideally refactoring toward mobile-first.\n- Make typography and spacing fluid with clamp(), and enlarge touch targets for coarse pointers.\n- Fix media: srcset/sizes, aspect-ratio, and responsive tables (horizontal scroll wrapper or stacked cards).\n- Rework hover-only navigation into a menu button for touch.\n- Test on real devices, rotated screens, 200% zoom and RTL if needed, and track CLS and LCP with real-user data.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-08-q13",
+          "type": "interview",
+          "prompt": "How do you optimise images for responsive pages and Core Web Vitals?",
+          "answer": "- Use srcset with width descriptors and accurate sizes so phones do not download desktop images.\n- Serve AVIF/WebP through <picture> or an image CDN with content negotiation.\n- Always set width/height or aspect-ratio to prevent CLS.\n- For the LCP image: do not lazy-load it, add fetchpriority=\"high\", make it discoverable in the HTML (not only as a CSS background or injected by JS), and preload if it is referenced late.\n- Lazy-load off-screen images with loading=\"lazy\" and use decoding=\"async\" where helpful.\n- Compress appropriately, strip metadata, and cache with long-lived immutable URLs.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "web.dev Learn Responsive Design: Media queries",
+          "url": "https://web.dev/learn/design/media-queries"
+        },
+        {
+          "title": "MDN: CSS container queries",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries"
+        },
+        {
+          "title": "web.dev Learn Responsive Design: Responsive images",
+          "url": "https://web.dev/learn/design/responsive-images"
+        }
+      ]
+    },
+    {
+      "id": "html-css-09-modern-css",
+      "title": "Modern CSS: Custom Properties, :has(), Nesting and Animation",
+      "level": "advanced",
+      "summary": "Use the modern CSS toolkit for theming, relational selectors, nesting and smooth, performant motion.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Custom properties (CSS variables)",
+          "body": "Custom properties are declared with two dashes and read with `var()`:\n- They **cascade and inherit** like normal properties, so you can override them per component, per theme or per media query: `.card { --pad: 1rem; }`.\n- `var(--x, fallback)` uses the fallback when `--x` is not defined.\n- They are resolved at **computed-value time**. If the substituted value is invalid for the property (for example `color: var(--size)` where `--size: 20px`), the declaration does not fall back to an earlier rule; it becomes **invalid at computed-value time** and behaves like `unset` (inherited color, for example).\n- They are live: changing one with JavaScript (`el.style.setProperty(\"--x\", \"10px\")`) updates everything that uses it, unlike Sass variables, which are compiled away.\n- They cannot be used in media query conditions or selectors.\n\n`@property` registers a custom property with a type, an initial value and inheritance. A registered `<color>` or `<angle>` property can be **animated and transitioned** (for example animating a gradient), and invalid values fall back to the initial value.",
+          "code": {
+            "lang": "css",
+            "source": ":root {\n  --brand: oklch(62% 0.19 255);\n  --radius: 0.5rem;\n  color-scheme: light dark;\n  --bg: light-dark(#ffffff, #0b1020);\n  --text: light-dark(#111827, #e5e7eb);\n}\nbody { background: var(--bg); color: var(--text); }\n.btn {\n  background: var(--btn-bg, var(--brand));\n  border-radius: var(--radius);\n}\n.btn:hover { background: color-mix(in oklch, var(--brand), black 15%); }\n\n@property --angle {\n  syntax: \"<angle>\";\n  inherits: false;\n  initial-value: 0deg;\n}\n.spinner {\n  background: conic-gradient(from var(--angle), var(--brand), transparent);\n  animation: spin 1s linear infinite;\n}\n@keyframes spin { to { --angle: 360deg; } }"
+          }
+        },
+        {
+          "heading": "Relational and forgiving selectors",
+          "body": "`:has()` is the long-awaited \"parent selector\" and much more: it matches an element if the relative selector inside matches something relative to it. It is supported in all major browsers since late 2023.\n- `.card:has(img)`: cards that contain an image.\n- `form:has(:user-invalid) button[type=submit]`: style the submit button when any field is invalid.\n- `h2:has(+ p)`: headings directly followed by a paragraph.\n- `body:has(dialog[open])`: lock scrolling while a modal is open.\n\n`:is()` and `:where()` group selectors and are **forgiving**: one invalid selector in the list does not drop the whole rule. `:is()` takes the highest specificity of its arguments; `:where()` is zero. `:not()` accepts complex selector lists.\n\nOther useful modern pseudo-classes: `:focus-visible`, `:focus-within`, `:user-invalid`, `:popover-open`."
+        },
+        {
+          "heading": "Native CSS nesting",
+          "body": "CSS supports nesting natively (all major browsers since 2023), similar to Sass:\n- `&` refers to the parent selector: `&:hover`, `&.active`, `.theme-dark &`.\n- Nested element selectors no longer need `&` in current browsers (the \"relaxed\" syntax): `.card { h2 { ... } }` works.\n- Media and container queries can nest inside a rule.\n- Unlike Sass, `&` is not string concatenation: `&__title` (BEM suffixing) does not work.\n- Nested rules behave like `:is()` for the parent, so specificity follows `:is()` rules.\n\nKeep nesting shallow (two or three levels) to avoid specificity creep.",
+          "code": {
+            "lang": "css",
+            "source": ".card {\n  padding: 1rem;\n\n  & h2 { margin-block: 0 0.5rem; }\n  &:hover { box-shadow: 0 4px 12px rgb(0 0 0 / 0.1); }\n  &.is-featured { border: 2px solid var(--brand); }\n\n  @media (width >= 48em) {\n    padding: 2rem;\n  }\n}"
+          }
+        },
+        {
+          "heading": "Transitions and keyframe animations",
+          "body": "**Transitions** animate between two states when a property changes (hover, class toggle): `transition: transform 200ms ease-out`. Always list specific properties instead of `all`.\n\n**Animations** use `@keyframes` and run on their own: `animation: name duration timing-function delay iteration-count direction fill-mode`. `animation-fill-mode: forwards` keeps the final keyframe's styles after the animation ends; `backwards` applies the first keyframe during the delay.\n\nAnimating to and from `display: none` used to be impossible. Now:\n- `@starting-style` defines the styles an element starts from when it first renders or goes from `display: none` to shown, enabling entry transitions.\n- `transition-behavior: allow-discrete` lets discrete properties like `display` and `overlay` flip at the right moment, so exit transitions finish before the element disappears.\n\nThe **View Transitions API** (`document.startViewTransition()`, and cross-document view transitions via `@view-transition`) animates between whole page states.",
+          "code": {
+            "lang": "css",
+            "source": ".toast {\n  transition: opacity 250ms, transform 250ms, display 250ms allow-discrete;\n  opacity: 1;\n  transform: translateY(0);\n\n  @starting-style {\n    opacity: 0;\n    transform: translateY(1rem);\n  }\n}\n.toast[hidden] {\n  display: none;\n  opacity: 0;\n  transform: translateY(1rem);\n}"
+          }
+        },
+        {
+          "heading": "Animation performance and accessibility",
+          "body": "The rendering pipeline is style, layout, paint, composite. The cost of an animation depends on which stages each frame triggers:\n- `width`, `height`, `top`, `left`, `margin` trigger **layout** every frame: expensive and janky on large pages.\n- `background-color`, `box-shadow` trigger **paint**.\n- `transform` and `opacity` can usually run on the **compositor** thread, skipping layout and paint, and stay smooth even when the main thread is busy.\n\nSo move things with `transform: translate()`, not `left`; fade with `opacity`; scale with `transform: scale()`.\n\n- `will-change: transform` hints the browser to promote a layer ahead of time. Use it sparingly and briefly; too many layers waste GPU memory.\n- `content-visibility: auto` skips rendering work for off-screen sections (pair with `contain-intrinsic-size` to avoid scrollbar jumps).\n- Respect `prefers-reduced-motion`: reduce or remove large motion, parallax and auto-playing animations."
+        }
+      ],
+      "keyPoints": [
+        "Custom properties cascade, inherit and update live; var() takes a fallback.",
+        "A custom property that is invalid for the target property makes the declaration behave like unset, not fall back to an earlier rule.",
+        "@property registers a typed custom property so it can be animated.",
+        ":has() selects elements based on descendants or following siblings; :where() has zero specificity.",
+        "Native nesting uses & and cannot concatenate strings like Sass's &__suffix.",
+        "@starting-style and transition-behavior: allow-discrete enable transitions to and from display: none.",
+        "Animate transform and opacity for compositor-friendly motion; avoid animating layout properties.",
+        "Always honour prefers-reduced-motion."
+      ],
+      "questions": [
+        {
+          "id": "html-css-09-q01",
+          "type": "mcq",
+          "prompt": "What is the width of .box?",
+          "code": ":root { --size: 20px; }\n.box { width: var(--gap, 10px); }",
+          "options": [
+            "0",
+            "10px",
+            "20px",
+            "auto"
+          ],
+          "answer": 1,
+          "explanation": "--gap is never defined, so var() uses its fallback, 10px. The --size variable is irrelevant here."
+        },
+        {
+          "id": "html-css-09-q02",
+          "type": "mcq",
+          "prompt": "What color is the text of p?",
+          "code": "body { color: blue; }\np { color: red; }\np { --c: 20px; color: var(--c); }",
+          "options": [
+            "red",
+            "blue (inherited from body)",
+            "black (browser default)",
+            "20px is coerced to a colour"
+          ],
+          "answer": 1,
+          "explanation": "The var() substitution is valid at parse time, so the earlier red rule is already overridden in the cascade. At computed-value time 20px is not a colour, so the declaration becomes invalid and acts like unset; color inherits, giving blue."
+        },
+        {
+          "id": "html-css-09-q03",
+          "type": "mcq",
+          "prompt": "Which selector styles cards that contain an image?",
+          "options": [
+            ".card img",
+            ".card:has(img)",
+            "img < .card",
+            ".card:contains(img)"
+          ],
+          "answer": 1,
+          "explanation": ".card img selects the images, not the cards. :has() matches the card when the relative selector inside finds a match. There is no < combinator or :contains() in CSS."
+        },
+        {
+          "id": "html-css-09-q04",
+          "type": "mcq",
+          "prompt": "Which property is cheapest to animate for moving an element horizontally?",
+          "options": [
+            "left",
+            "margin-left",
+            "transform: translateX()",
+            "width"
+          ],
+          "answer": 2,
+          "explanation": "transform skips layout and paint and can be composited off the main thread. left and margin-left trigger layout on every frame."
+        },
+        {
+          "id": "html-css-09-q05",
+          "type": "mcq",
+          "prompt": "Why register a custom property with @property?",
+          "options": [
+            "To make it global",
+            "To give it a type so the browser can interpolate (animate) it and validate values",
+            "To use it in media queries",
+            "To make it faster to read in JavaScript"
+          ],
+          "answer": 1,
+          "explanation": "Unregistered custom properties are untyped token streams that can only flip discretely. A registered type such as <angle> or <color> can be interpolated in transitions and animations."
+        },
+        {
+          "id": "html-css-09-q06",
+          "type": "mcq",
+          "prompt": "Which nested selector does NOT work with native CSS nesting the way it does in Sass?",
+          "options": [
+            "&:hover",
+            "& .child",
+            "&__title",
+            ".dark &"
+          ],
+          "answer": 2,
+          "explanation": "Native nesting treats & as a selector reference, not text. &__title would need to be a separate .card__title rule."
+        },
+        {
+          "id": "html-css-09-q07",
+          "type": "truefalse",
+          "prompt": "Custom properties can be used inside media query conditions, for example @media (width > var(--bp)).",
+          "answer": false,
+          "explanation": "var() only works in property values. Media query conditions are evaluated without element context, so variables are not allowed there."
+        },
+        {
+          "id": "html-css-09-q08",
+          "type": "truefalse",
+          "prompt": "With :has(), CSS can select a parent element based on its children.",
+          "answer": true,
+          "explanation": ":has() evaluates a relative selector against the element's descendants (or siblings with + and ~), so form:has(input:invalid) targets the form."
+        },
+        {
+          "id": "html-css-09-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are generally compositor-friendly properties to animate?",
+          "options": [
+            "transform",
+            "opacity",
+            "width",
+            "top",
+            "margin-left"
+          ],
+          "answers": [
+            0,
+            1
+          ],
+          "explanation": "transform and opacity can be handled by the compositor without layout or paint. width, top and margin-left trigger layout on every frame."
+        },
+        {
+          "id": "html-css-09-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the at-rule ___ defines the styles an element transitions from when it is first rendered or shown from display: none.",
+          "accept": [
+            "@starting-style",
+            "starting-style"
+          ],
+          "explanation": "@starting-style gives the browser a before-state for entry transitions, which previously required JavaScript and a forced reflow."
+        },
+        {
+          "id": "html-css-09-q11",
+          "type": "interview",
+          "prompt": "How do CSS custom properties differ from Sass variables? When would you use each?",
+          "answer": "- Sass variables are compiled away at build time; the browser only sees the final values. They cannot react to the DOM, media queries at runtime or JavaScript.\n- Custom properties live in the browser: they cascade, inherit, can be overridden per element, theme or media query, and update live when changed with JavaScript.\n- That makes custom properties ideal for theming (light/dark, brands), design tokens, component APIs (--btn-bg), and values set from JS like a cursor position.\n- Sass variables still fit build-time concerns: breakpoint values in media queries (var() is not allowed there), loops and generated utilities.\n- Watch out: invalid substitutions behave like unset rather than falling back to earlier rules, so supply fallbacks or register types with @property.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-09-q12",
+          "type": "interview",
+          "prompt": "Why should you animate transform and opacity instead of top/left or width? Tie it to the rendering pipeline.",
+          "answer": "- Each frame the browser may run style, layout, paint and composite. Animating left, top, width or margin changes geometry, so layout (and then paint) reruns every frame on the main thread, and can affect many other elements.\n- transform and opacity do not affect layout. When the element is on its own layer, the compositor (often on the GPU, in a separate thread) can apply them directly, so the animation stays at 60/120fps even if JavaScript is busy.\n- Techniques: move with translate, resize visually with scale, fade with opacity; use FLIP (First, Last, Invert, Play) or the View Transitions API to animate layout changes using transforms.\n- Use will-change only right before animating and remove it after, since each layer costs memory.\n- Verify with the DevTools Performance panel and Rendering tab (paint flashing, layer borders).",
+          "level": "advanced"
+        },
+        {
+          "id": "html-css-09-q13",
+          "type": "interview",
+          "prompt": "How would you implement light and dark themes with modern CSS?",
+          "answer": "- Define semantic tokens (--bg, --text, --surface, --border, --accent) as custom properties on :root rather than using raw colours in components.\n- Respect the OS setting with color-scheme: light dark plus light-dark() values, or @media (prefers-color-scheme: dark) overrides.\n- Support a manual toggle by setting a data-theme attribute on <html> that overrides the tokens; persist the choice in localStorage and apply it before first paint (a tiny inline script) to avoid a flash of the wrong theme.\n- color-scheme also switches native form controls and scrollbars.\n- Check contrast in both themes, adjust images and shadows (shadows read poorly on dark backgrounds), and consider color-mix() or oklch() for generating hover and muted shades from one brand colour.",
+          "level": "intermediate"
+        },
+        {
+          "id": "html-css-09-q14",
+          "type": "interview",
+          "prompt": "What can :has() do that was impossible before, and are there caveats?",
+          "answer": "- It allows selecting based on descendants or following siblings: style a card differently when it contains an image, a field group when it contains an invalid input, the page when a dialog is open, or a heading followed by a paragraph.\n- It replaces many JavaScript class toggles (for example adding .has-error to a parent) with pure CSS that stays in sync automatically.\n- Combined with :checked it enables CSS-only state such as theme switchers.\n- Caveats: :has() cannot be nested inside another :has(), pseudo-elements are not allowed inside it, and its specificity is that of its most specific argument. Very broad selectors such as body:has(.x) on huge, frequently changing DOMs can cost style recalculation time, so scope it to components where possible.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Using CSS custom properties",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties"
+        },
+        {
+          "title": "MDN: :has()",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/:has"
+        },
+        {
+          "title": "web.dev Learn CSS: Animations",
+          "url": "https://web.dev/learn/css/animations"
+        }
+      ]
+    }
+  ]
+}

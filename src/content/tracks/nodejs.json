@@ -1,0 +1,1905 @@
+{
+  "id": "nodejs",
+  "title": "Node.js",
+  "area": "backend",
+  "order": 30,
+  "icon": "ND",
+  "color": "#16a34a",
+  "description": "How Node.js really works: V8 and libuv, the event loop, modules and npm, streams, errors, concurrency, performance and the modern built-in toolchain. Built for backend interview prep.",
+  "chapters": [
+    {
+      "id": "nodejs-01-runtime",
+      "title": "The Node.js runtime: V8, libuv and non-blocking I/O",
+      "level": "beginner",
+      "summary": "What Node.js is made of, why a single JavaScript thread can serve thousands of connections, and how releases work.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "What Node.js actually is",
+          "body": "Node.js is a JavaScript runtime: a C++ program that embeds Google's **V8** engine to execute JavaScript and adds the APIs a server needs (files, sockets, processes, timers, crypto). The browser gives JavaScript the DOM; Node gives it the operating system.\n\nThe main building blocks:\n\n- **V8** compiles JavaScript to machine code (Ignition interpreter, then optimizing tiers such as Maglev and TurboFan) and manages the heap and garbage collection.\n- **libuv** is a C library that provides the event loop, async networking, timers and a thread pool for work the OS cannot do asynchronously.\n- **Bindings and core modules** (`node:fs`, `node:http`, `node:crypto`...) are JavaScript wrappers over C++ bindings that call libuv, OpenSSL, zlib, llhttp, simdjson and friends.\n\nWhen you run `node app.js`, Node boots V8, loads your module, runs its top-level code to completion, then enters the event loop and keeps running as long as there is pending work (open servers, timers, in-flight requests)."
+        },
+        {
+          "heading": "Single-threaded JavaScript, multi-threaded runtime",
+          "body": "Your JavaScript runs on **one main thread**. Only one callback executes at a time, so you never need locks around plain JS objects. But Node as a process is not single-threaded: V8 uses helper threads for GC and compilation, and libuv owns a **thread pool** (default 4 threads, set with `UV_THREADPOOL_SIZE`, max 1024).\n\nNetwork I/O does not use the thread pool. libuv hands sockets to the kernel's readiness APIs (epoll on Linux, kqueue on macOS, IOCP on Windows) and gets notified when data arrives. The thread pool is used for things without good async OS APIs: most `fs` operations, `dns.lookup`, and CPU-heavy `crypto` and `zlib` calls like `crypto.pbkdf2` or `zlib.gzip`.\n\nThis is why a Node server can hold 10,000 idle WebSocket connections cheaply: each connection is a file descriptor watched by the kernel, not a thread with its own stack."
+        },
+        {
+          "heading": "Non-blocking I/O and why blocking the loop hurts",
+          "body": "Node's model is: start an operation, register a callback (or await a promise), and return to the event loop immediately. When the OS reports completion, the callback is queued and runs when the stack is empty.\n\nThe flip side: anything that keeps the main thread busy blocks **every** request. A 200 ms synchronous JSON parse of a huge payload, a catastrophic regex, `fs.readFileSync` in a request handler or a tight loop all freeze the whole server for that time.\n\nRules of thumb:\n\n- Use async APIs in request paths; sync APIs (`readFileSync`) are fine at startup.\n- Move CPU-heavy work to `worker_threads`, a separate service, or a job queue.\n- Split big loops into chunks or stream data instead of buffering it all.",
+          "code": {
+            "lang": "js",
+            "source": "import { readFile } from \"node:fs/promises\";\nimport http from \"node:http\";\n\nconst server = http.createServer(async (req, res) => {\n  // Non-blocking: the loop serves other requests while the file is read\n  const data = await readFile(\"./big.json\", \"utf8\");\n  res.setHeader(\"content-type\", \"application/json\");\n  res.end(data);\n});\n\nserver.listen(3000, () => console.log(\"listening on 3000\"));"
+          }
+        },
+        {
+          "heading": "Globals and the process object",
+          "body": "Node has `globalThis` (aliased as `global`) plus web-standard globals: `fetch`, `URL`, `AbortController`, `TextEncoder`, `structuredClone`, `setTimeout`, `queueMicrotask`, `crypto` (Web Crypto), `WebSocket` (client, stable since Node 22) and `Blob`.\n\n`process` describes the running process: `process.argv` (command-line args), `process.env` (environment variables, always strings), `process.exitCode`, `process.memoryUsage()`, `process.pid`, `process.platform`, and events like `exit`, `SIGINT` and `SIGTERM`.\n\nPrefer setting `process.exitCode = 1` and letting the process finish naturally over calling `process.exit(1)`, which terminates immediately and can cut off pending writes such as logs flushing to stdout.",
+          "code": {
+            "lang": "js",
+            "source": "console.log(process.argv.slice(2)); // node app.js --port 8080 -> [ '--port', '8080' ]\nconsole.log(process.env.NODE_ENV ?? \"development\");\nconsole.log(process.versions.v8, process.versions.uv);\nprocess.on(\"SIGTERM\", () => {\n  console.log(\"shutting down\");\n  process.exitCode = 0;\n});"
+          }
+        },
+        {
+          "heading": "Release lines and LTS",
+          "body": "Node ships a new major every six months (April and October). **Even-numbered** majors enter **Long Term Support** in October and receive fixes for about 30 months total; odd-numbered majors are short-lived Current releases. Production systems should run an Active or Maintenance LTS line.\n\nAs of late 2026 the supported LTS lines are Node 22 (maintenance) and Node 24, with Node 26 entering LTS in October 2026. Node 20 reached end of life in April 2026. Check the official release schedule before choosing a version, and pin it with `.nvmrc`, the `engines` field, or your container base image.\n\nVersion managers like nvm, fnm or Volta let you switch versions per project. Corepack (bundled with Node up to v24, then distributed separately) manages pnpm and Yarn versions declared in the `packageManager` field."
+        }
+      ],
+      "keyPoints": [
+        "Node.js = V8 (executes JS) + libuv (event loop, async I/O, thread pool) + C++ bindings and core modules.",
+        "Your JavaScript runs on one main thread; the runtime itself uses several threads.",
+        "Network I/O uses OS readiness APIs (epoll, kqueue, IOCP), not the libuv thread pool.",
+        "The thread pool (default 4) serves most fs work, dns.lookup, and heavy crypto and zlib calls.",
+        "Blocking the main thread stalls every connection; keep request paths async and offload CPU work.",
+        "Prefer process.exitCode over process.exit() so pending I/O can flush.",
+        "Even-numbered majors become LTS; run an LTS line in production."
+      ],
+      "questions": [
+        {
+          "id": "nodejs-01-q01",
+          "type": "mcq",
+          "prompt": "Which component provides Node's event loop and thread pool?",
+          "options": [
+            "V8",
+            "libuv",
+            "OpenSSL",
+            "llhttp"
+          ],
+          "answer": 1,
+          "explanation": "libuv is the C library that implements the event loop, cross-platform async I/O and the worker thread pool. V8 only executes JavaScript and manages its heap."
+        },
+        {
+          "id": "nodejs-01-q02",
+          "type": "mcq",
+          "prompt": "What is the default size of the libuv thread pool?",
+          "options": [
+            "1",
+            "2",
+            "4",
+            "Number of CPU cores"
+          ],
+          "answer": 2,
+          "explanation": "The default is 4 threads. You can change it with the UV_THREADPOOL_SIZE environment variable (up to 1024), which must be set before the pool is first used."
+        },
+        {
+          "id": "nodejs-01-q03",
+          "type": "mcq",
+          "prompt": "Which of these operations does NOT use the libuv thread pool?",
+          "options": [
+            "fs.readFile",
+            "crypto.pbkdf2",
+            "A TCP socket read on an http server",
+            "zlib.gzip"
+          ],
+          "answer": 2,
+          "explanation": "Socket I/O is handled by the kernel's readiness mechanism (epoll/kqueue/IOCP). File system calls, pbkdf2 and zlib compression run on the thread pool because they block or are CPU-heavy."
+        },
+        {
+          "id": "nodejs-01-q04",
+          "type": "mcq",
+          "prompt": "A request handler calls a function that runs a 300 ms synchronous loop. What happens to other requests during that time?",
+          "options": [
+            "They are handled by other threads in parallel",
+            "They wait; nothing else runs on the main thread until the loop finishes",
+            "Node automatically moves the loop to a worker",
+            "They fail with a timeout error immediately"
+          ],
+          "answer": 1,
+          "explanation": "All JavaScript callbacks share one main thread. A synchronous loop holds it, so every other request waits in the queue until it finishes. Node never moves JS to another thread automatically."
+        },
+        {
+          "id": "nodejs-01-q05",
+          "type": "mcq",
+          "prompt": "What does this print?",
+          "code": "console.log(\"start\");\nsetTimeout(() => console.log(\"timeout\"), 0);\nconsole.log(\"end\");",
+          "options": [
+            "start, end, timeout",
+            "start, timeout, end",
+            "timeout, start, end",
+            "start, end (timeout never runs)"
+          ],
+          "answer": 0,
+          "explanation": "Top-level code runs to completion first. The timer callback can only run after the call stack is empty and the event loop reaches the timers phase, even with a 0 ms delay."
+        },
+        {
+          "id": "nodejs-01-q06",
+          "type": "mcq",
+          "prompt": "Which release line should a new production service target?",
+          "options": [
+            "The newest odd-numbered Current release",
+            "An Active or Maintenance LTS (even-numbered) release",
+            "Any release, they are all supported for 3 years",
+            "The nightly build"
+          ],
+          "answer": 1,
+          "explanation": "Even-numbered majors enter LTS and get roughly 30 months of fixes. Odd-numbered releases are only supported for a short time and are meant for trying new features."
+        },
+        {
+          "id": "nodejs-01-q07",
+          "type": "truefalse",
+          "prompt": "Because JavaScript in Node runs on a single thread, a Node process never uses more than one OS thread.",
+          "answer": false,
+          "explanation": "Only your JS callbacks run on the main thread. libuv's thread pool, V8's GC and compiler threads, and any worker_threads you create are additional OS threads."
+        },
+        {
+          "id": "nodejs-01-q08",
+          "type": "truefalse",
+          "prompt": "Values in process.env are always strings (or undefined).",
+          "answer": true,
+          "explanation": "Environment variables are strings at the OS level. Setting process.env.PORT = 3000 stores \"3000\", so parse numbers and booleans explicitly."
+        },
+        {
+          "id": "nodejs-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are available as globals in modern Node without importing anything?",
+          "options": [
+            "fetch",
+            "AbortController",
+            "document",
+            "structuredClone",
+            "localStorage (enabled by default)"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "fetch, AbortController and structuredClone are web-standard globals in Node. document is browser-only. Node's localStorage implementation is experimental and needs a flag and storage file, so it is not a default global you can rely on."
+        },
+        {
+          "id": "nodejs-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the environment variable ___ changes the number of libuv thread pool threads.",
+          "accept": [
+            "UV_THREADPOOL_SIZE"
+          ],
+          "explanation": "UV_THREADPOOL_SIZE sets the pool size. It must be set before the pool is first used, ideally in the environment that launches node."
+        },
+        {
+          "id": "nodejs-01-q11",
+          "type": "interview",
+          "prompt": "Explain how Node.js can handle thousands of concurrent connections with a single JavaScript thread.",
+          "answer": "- Node uses an event-driven, non-blocking model: I/O is started and the thread immediately goes back to the event loop instead of waiting.\n- For sockets, libuv registers file descriptors with the kernel (epoll, kqueue, IOCP) and is notified when they are readable or writable, so idle connections cost almost nothing (no thread per connection, no stack per connection).\n- When an operation completes, its callback is queued and run on the main thread; each callback should be short.\n- Operations without good async OS support (file system, dns.lookup, some crypto/zlib) run on libuv's thread pool and report back to the loop.\n- The trade-off: CPU-bound work blocks everything, so it must be chunked, moved to worker_threads, or offloaded to another service.",
+          "level": "beginner"
+        },
+        {
+          "id": "nodejs-01-q12",
+          "type": "interview",
+          "prompt": "What is the difference between V8 and Node.js?",
+          "answer": "V8 is Google's JavaScript and WebAssembly engine: it parses, compiles (Ignition, Sparkplug, Maglev, TurboFan) and executes JS, and manages the heap and garbage collector. It knows nothing about files, sockets or timers.\nNode.js is a runtime that embeds V8 and adds the host environment: libuv for the event loop and async I/O, core modules like fs, http, net and crypto, the module loaders (CommonJS and ESM), npm integration and process-level APIs.\nChrome also embeds V8 but provides browser APIs (DOM, fetch, Web Workers) instead. Other runtimes make different choices: Deno embeds V8 with a Rust host, Bun uses JavaScriptCore.",
+          "level": "beginner"
+        },
+        {
+          "id": "nodejs-01-q13",
+          "type": "interview",
+          "prompt": "When would you NOT choose Node.js for a backend service?",
+          "answer": "- Heavy CPU-bound workloads (video encoding, large numeric computation, ML inference) where you would spend most of the time fighting the single main thread; Go, Rust, Java or Python with native libraries may fit better, or Node can orchestrate while workers do the compute.\n- When the team and ecosystem are strongly elsewhere (e.g. existing JVM platform with shared libraries).\n- Node shines for I/O-bound APIs, BFFs, realtime (WebSockets), streaming and tooling, and when sharing TypeScript types between frontend and backend is valuable.\nA good answer acknowledges that worker_threads exist but adds complexity, and that many CPU-heavy tasks can be pushed to queues or specialised services.",
+          "level": "intermediate"
+        },
+        {
+          "id": "nodejs-01-q14",
+          "type": "interview",
+          "prompt": "Why is calling process.exit() inside a request handler or after logging often a bug?",
+          "answer": "process.exit() terminates synchronously: pending asynchronous work is abandoned. Writes to stdout/stderr are asynchronous for pipes on POSIX, so log lines can be lost, open DB transactions are not committed, and in-flight HTTP responses are cut off.\nBetter options: set process.exitCode and let the event loop drain; for shutdown, stop accepting connections (server.close()), finish in-flight work with a timeout, close pools, then exit. Reserve process.exit() for truly unrecoverable states, ideally after a hard timeout.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Node.js: Introduction to Node.js",
+          "url": "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs"
+        },
+        {
+          "title": "Node.js: Don't Block the Event Loop (or the Worker Pool)",
+          "url": "https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop"
+        },
+        {
+          "title": "Node.js release schedule",
+          "url": "https://nodejs.org/en/about/previous-releases"
+        }
+      ]
+    },
+    {
+      "id": "nodejs-02-modules",
+      "title": "Modules: CommonJS vs ES Modules",
+      "level": "beginner",
+      "summary": "How require and import differ, how Node decides which loader to use, and how to interoperate between the two systems.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Two module systems",
+          "body": "Node supports **CommonJS** (CJS, the original system: `require` and `module.exports`) and **ECMAScript Modules** (ESM, the language standard: `import` and `export`). New code should prefer ESM, but you will meet CJS in older packages and codebases for years.\n\nKey differences:\n\n- **Loading**: `require` is synchronous and runs the file immediately. ESM is parsed first, its static import graph is linked, then modules are evaluated, which allows top-level `await`.\n- **Bindings**: CJS exports a value copy (an object you get back). ESM exports are **live bindings**: if the exporting module reassigns an exported `let`, importers see the new value.\n- **Strictness**: ESM is always strict mode; `this` at the top level is `undefined` (in CJS it is `module.exports`).\n- **Paths**: ESM imports of relative files need the full file extension (`./util.js`); `require` resolves `./util` by trying extensions.",
+          "code": {
+            "lang": "js",
+            "source": "// math.cjs (CommonJS)\nfunction add(a, b) { return a + b; }\nmodule.exports = { add };\n\n// app.cjs\nconst { add } = require(\"./math.cjs\");\n\n// math.mjs (ES module)\nexport function add(a, b) { return a + b; }\nexport default { add };\n\n// app.mjs\nimport { add } from \"./math.mjs\";\nimport fs from \"node:fs/promises\";\nconst config = JSON.parse(await fs.readFile(\"./config.json\", \"utf8\")); // top-level await"
+          }
+        },
+        {
+          "heading": "How Node chooses CJS or ESM",
+          "body": "Node decides per file:\n\n- `.mjs` is always ESM, `.cjs` is always CommonJS.\n- `.js` follows the nearest `package.json` `\"type\"` field: `\"module\"` means ESM, `\"commonjs\"` or missing means CJS.\n- Since Node 22.7 / 20.19, **syntax detection** is on by default: a `.js` file with no `type` that contains ESM syntax is run as ESM. Being explicit with `\"type\"` is still best practice and avoids a double parse.\n\nUse the `node:` prefix for built-ins (`import fs from \"node:fs\"`). It is unambiguous, cannot be shadowed by an npm package, and is required for some newer modules such as `node:test` and `node:sqlite`."
+        },
+        {
+          "heading": "Missing CJS globals in ESM",
+          "body": "ESM files do not have `require`, `module`, `exports`, `__filename` or `__dirname`. Use `import.meta` instead:\n\n- `import.meta.url` is the file URL of the current module.\n- `import.meta.filename` and `import.meta.dirname` (Node 20.11+) give absolute paths.\n- `createRequire(import.meta.url)` from `node:module` gives you a `require` function when you really need one.\n- JSON can be imported with an import attribute: `import data from \"./data.json\" with { type: \"json\" }`.",
+          "code": {
+            "lang": "js",
+            "source": "import { createRequire } from \"node:module\";\nimport path from \"node:path\";\n\nconst here = import.meta.dirname;            // like __dirname\nconst file = path.join(here, \"templates\", \"a.html\");\n\nconst require = createRequire(import.meta.url);\nconst legacy = require(\"./legacy-config.cjs\");\n\nimport pkg from \"./package.json\" with { type: \"json\" };\nconsole.log(pkg.version);"
+          }
+        },
+        {
+          "heading": "Interop: importing CJS and requiring ESM",
+          "body": "**ESM importing CJS** always works: `module.exports` becomes the default export, and Node statically detects many named exports so `import { readFileSync } from \"some-cjs\"` usually works too.\n\n**CJS requiring ESM** used to be impossible (you had to use dynamic `import()`, which returns a promise). Since Node 22.12 and 20.19, `require(esm)` is enabled by default, as long as the ES module graph has **no top-level await**. If it does, `require` throws `ERR_REQUIRE_ASYNC_MODULE` and you must use `import()`.\n\nDynamic `import()` works in both systems and is also how you lazy-load a module only when needed."
+        },
+        {
+          "heading": "Package entry points and the exports field",
+          "body": "The `exports` field in `package.json` defines a package's public entry points and blocks deep imports of anything not listed. Conditional exports let one package serve different files to `import` and `require` callers.\n\nBeware the **dual package hazard**: if a package ships separate CJS and ESM builds, an app can end up loading both copies, giving you two instances of the same class or singleton state. Mitigations: ship ESM only (now practical thanks to `require(esm)`), or make one build a thin wrapper around the other.",
+          "code": {
+            "lang": "json",
+            "source": "{\n  \"name\": \"my-lib\",\n  \"type\": \"module\",\n  \"exports\": {\n    \".\": {\n      \"types\": \"./dist/index.d.ts\",\n      \"import\": \"./dist/index.js\",\n      \"require\": \"./dist/index.cjs\"\n    },\n    \"./utils\": \"./dist/utils.js\"\n  }\n}"
+          }
+        },
+        {
+          "heading": "Module caching and circular dependencies",
+          "body": "Both systems cache modules: a module's top-level code runs once, and later imports get the same instance. That is why a module-level `const pool = new Pool()` acts like a singleton.\n\nIn CJS, `require.cache` is keyed by resolved filename. In a circular `require`, the second module receives the first module's **partially populated** `module.exports`, which commonly shows up as `undefined` functions. In ESM, circular imports work with live bindings, but accessing a binding before its module has evaluated throws a `ReferenceError` (temporal dead zone). The real fix is usually to extract shared code into a third module."
+        }
+      ],
+      "keyPoints": [
+        "Prefer ESM (import/export) for new code; CJS (require/module.exports) remains common in older packages.",
+        ".mjs is always ESM, .cjs is always CJS, .js follows package.json \"type\".",
+        "ESM exports are live bindings; CJS gives you whatever object module.exports held.",
+        "In ESM use import.meta.dirname/filename/url instead of __dirname and __filename.",
+        "require(esm) works by default in Node 22.12+ and 20.19+ unless the ESM graph uses top-level await.",
+        "The exports field defines public entry points and conditional import/require targets.",
+        "Modules are cached; circular dependencies can expose partially initialised exports."
+      ],
+      "questions": [
+        {
+          "id": "nodejs-02-q01",
+          "type": "mcq",
+          "prompt": "A project has no \"type\" field in package.json. How is a file named server.cjs treated?",
+          "options": [
+            "As ESM",
+            "As CommonJS",
+            "It depends on syntax detection",
+            "It cannot be run"
+          ],
+          "answer": 1,
+          "explanation": "The .cjs extension always means CommonJS regardless of package.json. Likewise .mjs is always ESM. Only .js files depend on the \"type\" field (and syntax detection)."
+        },
+        {
+          "id": "nodejs-02-q02",
+          "type": "mcq",
+          "prompt": "Which line correctly gets the current directory inside an ES module on modern Node?",
+          "options": [
+            "const dir = __dirname;",
+            "const dir = import.meta.dirname;",
+            "const dir = process.cwd();",
+            "const dir = require.main.path;"
+          ],
+          "answer": 1,
+          "explanation": "__dirname is not defined in ESM. import.meta.dirname (Node 20.11+) gives the module's directory. process.cwd() is the working directory of the process, which can differ from the file's location."
+        },
+        {
+          "id": "nodejs-02-q03",
+          "type": "mcq",
+          "prompt": "What does this ESM program print?",
+          "code": "// counter.mjs\nexport let count = 0;\nexport function increment() { count++; }\n\n// main.mjs\nimport { count, increment } from \"./counter.mjs\";\nconsole.log(count);\nincrement();\nconsole.log(count);",
+          "options": [
+            "0 then 0",
+            "0 then 1",
+            "1 then 1",
+            "It throws because count is constant"
+          ],
+          "answer": 1,
+          "explanation": "ESM exports are live bindings. main.mjs sees the current value of count, so after increment() runs it reads 1. A CommonJS module exporting a primitive would give a copy instead."
+        },
+        {
+          "id": "nodejs-02-q04",
+          "type": "mcq",
+          "prompt": "In a CommonJS file on Node 24, you call require(\"./esm-lib.mjs\") and the module uses top-level await. What happens?",
+          "options": [
+            "It works and returns a promise",
+            "It throws ERR_REQUIRE_ASYNC_MODULE",
+            "It silently returns an empty object",
+            "It blocks until the await resolves"
+          ],
+          "answer": 1,
+          "explanation": "require(esm) is synchronous, so it only supports ES module graphs without top-level await. Otherwise Node throws ERR_REQUIRE_ASYNC_MODULE and you must use dynamic import()."
+        },
+        {
+          "id": "nodejs-02-q05",
+          "type": "mcq",
+          "prompt": "An ESM file contains import { helper } from \"./helper\"; and helper.js exists. What happens?",
+          "options": [
+            "It loads helper.js",
+            "ERR_MODULE_NOT_FOUND because ESM requires the extension",
+            "It loads helper/index.js",
+            "It works only with a bundler flag"
+          ],
+          "answer": 1,
+          "explanation": "Node's ESM resolver does not guess extensions or directory indexes for relative imports. You must write \"./helper.js\". TypeScript projects using NodeNext resolution enforce the same rule."
+        },
+        {
+          "id": "nodejs-02-q06",
+          "type": "mcq",
+          "prompt": "What does the \"exports\" field in package.json do?",
+          "options": [
+            "Lists dependencies to bundle",
+            "Defines the package's public entry points and blocks unlisted deep imports",
+            "Marks which functions are exported from index.js",
+            "Configures npm publish files"
+          ],
+          "answer": 1,
+          "explanation": "exports maps subpaths (\".\", \"./utils\") to files, supports conditions like import, require and types, and makes any unlisted path inaccessible to consumers (ERR_PACKAGE_PATH_NOT_EXPORTED)."
+        },
+        {
+          "id": "nodejs-02-q07",
+          "type": "truefalse",
+          "prompt": "A module's top-level code runs every time it is imported or required.",
+          "answer": false,
+          "explanation": "Modules are cached after the first load. Subsequent imports return the same instance, which is why module-level state behaves like a singleton within one process."
+        },
+        {
+          "id": "nodejs-02-q08",
+          "type": "truefalse",
+          "prompt": "Dynamic import() can be used from both CommonJS and ES modules.",
+          "answer": true,
+          "explanation": "import() is available in both systems and returns a promise of the module namespace. It is the standard way to load ESM from CJS when require(esm) is not possible, and to lazy-load code."
+        },
+        {
+          "id": "nodejs-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are NOT available by default inside an ES module?",
+          "options": [
+            "__filename",
+            "import.meta.url",
+            "require",
+            "module.exports",
+            "top-level await"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "__filename, require and module.exports are CommonJS wrapper variables. ESM provides import.meta.url and supports top-level await. createRequire can recreate require if needed."
+        },
+        {
+          "id": "nodejs-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: to load JSON in ESM you write import data from \"./data.json\" ___ { type: \"json\" };",
+          "accept": [
+            "with"
+          ],
+          "explanation": "Import attributes use the with keyword. The older assert keyword was removed from V8 and Node in favour of with."
+        },
+        {
+          "id": "nodejs-02-q11",
+          "type": "interview",
+          "prompt": "Compare CommonJS and ES Modules. Which would you use for a new Node.js project and why?",
+          "answer": "- CJS: require is synchronous and dynamic (can be called anywhere, with computed paths), exports a plain object, wraps files in a function providing __dirname, require, module.\n- ESM: static import/export syntax, parsed and linked before execution, live bindings, strict mode, top-level await, standard across browsers and runtimes, and enables tree shaking in bundlers.\n- For new projects I'd use ESM (\"type\": \"module\"), node: prefixed built-ins, and explicit file extensions. Since require(esm) is available in current LTS lines, shipping ESM-only libraries no longer strands CJS consumers unless top-level await is used.\n- I'd keep CJS only where tooling still requires it, and be aware of the dual package hazard if publishing both builds.",
+          "level": "beginner"
+        },
+        {
+          "id": "nodejs-02-q12",
+          "type": "interview",
+          "prompt": "What is the dual package hazard and how do you avoid it?",
+          "answer": "When a package ships both a CJS and an ESM build, one app can load both: one dependency requires it, another imports it. You get two copies of module state, so singletons, caches, instanceof checks and registered plugins diverge silently.\nAvoid it by: publishing ESM only (viable now that require(esm) is default); or making the ESM entry a thin wrapper that re-exports the CJS build (or vice versa) so there is one real instance; or keeping state out of the module (pass instances explicitly).",
+          "level": "intermediate"
+        },
+        {
+          "id": "nodejs-02-q13",
+          "type": "interview",
+          "prompt": "A teammate reports that a function imported from another module is undefined at runtime, but only in some code paths. How would you investigate?",
+          "answer": "My first suspect is a circular dependency. In CJS, if a.js requires b.js and b.js requires a.js, b receives a's module.exports before a has finished assigning it, so the destructured functions are undefined. In ESM it would surface as a ReferenceError for accessing a binding before initialization.\nSteps: check the import chain (tools like madge can draw the graph), log at module top level to see the evaluation order, and look for index.js barrel files that re-export everything, which often create hidden cycles.\nFix by moving the shared code into a separate module both can import, deferring the require into the function that needs it, or using dependency injection instead of module-level imports.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Node.js docs: Modules: ECMAScript modules",
+          "url": "https://nodejs.org/api/esm.html"
+        },
+        {
+          "title": "Node.js docs: Modules: CommonJS modules",
+          "url": "https://nodejs.org/api/modules.html"
+        },
+        {
+          "title": "Node.js docs: Modules: Packages (exports, type)",
+          "url": "https://nodejs.org/api/packages.html"
+        }
+      ]
+    },
+    {
+      "id": "nodejs-03-npm",
+      "title": "npm, package.json, semver and lockfiles",
+      "level": "beginner",
+      "summary": "Manage dependencies predictably: semver ranges, lockfiles, npm ci, scripts and supply-chain hygiene.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "package.json essentials",
+          "body": "`package.json` describes your project: its name and version, the module type, scripts, the Node version it supports, and its dependencies.\n\n- `dependencies`: needed at runtime.\n- `devDependencies`: only for building and testing (TypeScript, test runners, linters). Skipped with `npm ci --omit=dev`.\n- `peerDependencies`: a library declares the host package it plugs into (a React component library peers on `react`). npm 7+ installs peers automatically and errors on conflicts.\n- `optionalDependencies`: install failures are tolerated.\n- `engines`: the supported Node versions. npm only warns unless `engine-strict` is set.",
+          "code": {
+            "lang": "json",
+            "source": "{\n  \"name\": \"orders-api\",\n  \"version\": \"1.4.2\",\n  \"type\": \"module\",\n  \"engines\": { \"node\": \">=22\" },\n  \"scripts\": {\n    \"dev\": \"node --watch --env-file=.env src/server.js\",\n    \"test\": \"node --test\",\n    \"start\": \"node src/server.js\"\n  },\n  \"dependencies\": { \"express\": \"^5.1.0\", \"zod\": \"~4.1.0\" },\n  \"devDependencies\": { \"typescript\": \"^5.9.0\" }\n}"
+          }
+        },
+        {
+          "heading": "Semantic versioning and ranges",
+          "body": "Semver versions are `MAJOR.MINOR.PATCH`: bump MAJOR for breaking changes, MINOR for backward-compatible features, PATCH for backward-compatible fixes.\n\nCommon range operators:\n\n- `^1.4.2` (caret, npm's default): `>=1.4.2 <2.0.0`. Allows minor and patch updates.\n- `~1.4.2` (tilde): `>=1.4.2 <1.5.0`. Patch updates only.\n- `1.4.2`: exactly that version.\n- `*` or `latest`: anything (avoid).\n\nGotcha: for `0.x` versions the caret is stricter because 0.x is treated as unstable. `^0.4.2` means `>=0.4.2 <0.5.0`, and `^0.0.3` means exactly `0.0.3`.\n\nPre-release versions like `2.0.0-beta.1` are only matched by a range that explicitly includes a pre-release on the same `MAJOR.MINOR.PATCH`."
+        },
+        {
+          "heading": "Lockfiles, npm install and npm ci",
+          "body": "Ranges are resolved at install time, so two installs a week apart can produce different trees. The lockfile (`package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`, `bun.lock`) records the exact resolved version, tarball URL and integrity hash of every package in the tree. **Commit it** for applications.\n\n- `npm install` resolves ranges, may update the lockfile, and installs.\n- `npm ci` deletes `node_modules` and installs **exactly** what the lockfile says. It fails if `package.json` and the lockfile disagree. Use it in CI and Docker builds for reproducible, faster installs.\n- `npm update` moves packages to the newest version allowed by their ranges and updates the lockfile.\n- `npm outdated` shows what is behind.\n\nLibraries publish without a lockfile effect: consumers resolve the library's ranges against their own tree. That is why library authors should test against the range they declare."
+        },
+        {
+          "heading": "Scripts, npx and workspaces",
+          "body": "`npm run <name>` runs a script with `node_modules/.bin` on the PATH, so locally installed CLIs work without global installs. `pre` and `post` hooks (`pretest`, `posttest`) run automatically. `npm test` and `npm start` are shortcuts.\n\n`npx <pkg>` runs a package binary, downloading it temporarily if not installed. Node 22 also has `node --run <script>`, a faster built-in way to run package.json scripts (it skips pre/post hooks).\n\n**Workspaces** (`\"workspaces\": [\"packages/*\"]`) manage a monorepo with one lockfile and links between local packages. pnpm is popular here because its content-addressable store and strict, symlinked `node_modules` prevent using undeclared (phantom) dependencies."
+        },
+        {
+          "heading": "Supply-chain security",
+          "body": "Every dependency is code that runs with your app's permissions, and install scripts (`preinstall`, `postinstall`) run arbitrary code at install time. Real incidents include typosquatting, hijacked maintainer accounts publishing malicious versions, and self-propagating worms (the 2025 Shai-Hulud attack stole npm tokens and republished infected packages).\n\nPractical defenses:\n\n- Commit lockfiles and use `npm ci` so new versions arrive only through reviewed PRs.\n- Run `npm audit` (or Dependabot, Renovate, Snyk) and fix critical advisories.\n- Disable install scripts where possible (`npm ci --ignore-scripts`, pnpm blocks dependency build scripts by default since v10).\n- Use a release-age delay for new versions (pnpm `minimumReleaseAge`, Renovate `minimumReleaseAge`).\n- Prefer packages with provenance attestations, and use trusted publishing (OIDC from CI) instead of long-lived npm tokens for your own packages.\n- Use `overrides` in package.json to force a patched version of a transitive dependency."
+        }
+      ],
+      "keyPoints": [
+        "dependencies are runtime needs; devDependencies are build/test tools; peerDependencies declare the host a plugin needs.",
+        "^1.2.3 allows <2.0.0, ~1.2.3 allows <1.3.0; for 0.x the caret only allows patch-level changes within the same minor.",
+        "Commit the lockfile for applications; it pins exact versions and integrity hashes.",
+        "Use npm ci in CI and Docker: clean, exact, fails if the lockfile and package.json disagree.",
+        "npm run puts node_modules/.bin on the PATH; node --run is a faster built-in runner.",
+        "Install scripts and compromised packages are real attack vectors; audit, pin and limit scripts.",
+        "overrides force a version of a transitive dependency."
+      ],
+      "questions": [
+        {
+          "id": "nodejs-03-q01",
+          "type": "mcq",
+          "prompt": "Which versions satisfy the range ^2.3.1?",
+          "options": [
+            "2.3.1 up to but not including 2.4.0",
+            "2.3.1 up to but not including 3.0.0",
+            "Any version >= 2.3.1",
+            "Exactly 2.3.1"
+          ],
+          "answer": 1,
+          "explanation": "The caret allows changes that do not modify the left-most non-zero digit. For 2.3.1 that is the major, so minor and patch updates are allowed up to <3.0.0."
+        },
+        {
+          "id": "nodejs-03-q02",
+          "type": "mcq",
+          "prompt": "Which versions satisfy ^0.4.2?",
+          "options": [
+            ">=0.4.2 <1.0.0",
+            ">=0.4.2 <0.5.0",
+            "Exactly 0.4.2",
+            ">=0.4.2 <0.4.3"
+          ],
+          "answer": 1,
+          "explanation": "For 0.x versions the minor is the left-most non-zero digit, so the caret locks it: >=0.4.2 <0.5.0. Pre-1.0 versions are treated as unstable, where a minor bump can break things."
+        },
+        {
+          "id": "nodejs-03-q03",
+          "type": "mcq",
+          "prompt": "What does npm ci do differently from npm install?",
+          "options": [
+            "It installs only devDependencies",
+            "It removes node_modules and installs exactly what the lockfile specifies, failing on mismatch",
+            "It updates all packages to latest",
+            "It runs tests after installing"
+          ],
+          "answer": 1,
+          "explanation": "npm ci is for automated environments: it never writes to package.json or the lockfile, starts from a clean node_modules, and errors out if the lockfile is out of sync with package.json."
+        },
+        {
+          "id": "nodejs-03-q04",
+          "type": "mcq",
+          "prompt": "A security fix is in a transitive dependency's patch release, but your direct dependency pins an old range. What is the quickest correct fix in npm?",
+          "options": [
+            "Edit node_modules by hand",
+            "Add an overrides entry in package.json forcing the patched version",
+            "Delete the lockfile and hope",
+            "Move the package to devDependencies"
+          ],
+          "answer": 1,
+          "explanation": "overrides tells npm to replace a version anywhere in the tree. Hand edits to node_modules are lost on the next install, and deleting the lockfile changes many other versions unpredictably."
+        },
+        {
+          "id": "nodejs-03-q05",
+          "type": "mcq",
+          "prompt": "Which semver bump is right when you remove a public function from your library?",
+          "options": [
+            "PATCH",
+            "MINOR",
+            "MAJOR",
+            "No bump needed"
+          ],
+          "answer": 2,
+          "explanation": "Removing or changing public API breaks consumers, which requires a MAJOR bump. Added backward-compatible features are MINOR; bug fixes are PATCH."
+        },
+        {
+          "id": "nodejs-03-q06",
+          "type": "mcq",
+          "prompt": "Your package is a React component library. How should it declare react?",
+          "options": [
+            "dependencies",
+            "devDependencies only",
+            "peerDependencies (and devDependencies for local tests)",
+            "bundledDependencies"
+          ],
+          "answer": 2,
+          "explanation": "A peer dependency means the host app provides react, so only one copy exists at runtime. Putting it in dependencies risks two Reacts, which breaks hooks. It is also listed in devDependencies so the library's own tests can run."
+        },
+        {
+          "id": "nodejs-03-q07",
+          "type": "truefalse",
+          "prompt": "Applications should commit package-lock.json to version control.",
+          "answer": true,
+          "explanation": "The lockfile is what makes installs reproducible across machines, CI and production. Without it each install can resolve different versions."
+        },
+        {
+          "id": "nodejs-03-q08",
+          "type": "truefalse",
+          "prompt": "npm only runs a package's postinstall script if you explicitly approve it.",
+          "answer": false,
+          "explanation": "npm runs lifecycle scripts of dependencies by default during install, which is why malicious postinstall scripts are a common attack. You can disable them with --ignore-scripts. pnpm 10 blocks dependency build scripts unless allowlisted."
+        },
+        {
+          "id": "nodejs-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which practices reduce npm supply-chain risk?",
+          "options": [
+            "Installing with npm ci from a committed lockfile",
+            "Using * ranges to always get the latest fixes",
+            "Running npm audit or Dependabot/Renovate in CI",
+            "Disabling install scripts where not needed",
+            "Publishing your packages with long-lived tokens stored in many CI jobs"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Locked installs, automated advisories and disabled install scripts all reduce exposure. Wildcard ranges pull in compromised versions automatically, and long-lived tokens are exactly what attackers steal; trusted publishing via OIDC is safer."
+        },
+        {
+          "id": "nodejs-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the range ___1.4.2 allows 1.4.x patch updates but not 1.5.0.",
+          "accept": [
+            "~"
+          ],
+          "explanation": "The tilde range ~1.4.2 means >=1.4.2 <1.5.0. The caret would allow up to <2.0.0."
+        },
+        {
+          "id": "nodejs-03-q11",
+          "type": "interview",
+          "prompt": "Explain what a lockfile is and why npm ci exists.",
+          "answer": "- package.json holds ranges; resolving them depends on what is published at install time, so installs drift.\n- The lockfile captures the fully resolved tree: exact versions, where each was fetched from, and an integrity hash, so every install gets byte-identical packages.\n- npm ci is the install command for automation: it wipes node_modules, installs strictly from the lockfile, never modifies it, and fails if package.json and the lockfile disagree. That gives reproducible builds and catches developers forgetting to commit lockfile changes.\n- Dependency updates then become explicit, reviewable PRs (often by Renovate or Dependabot) rather than surprises in production.",
+          "level": "beginner"
+        },
+        {
+          "id": "nodejs-03-q12",
+          "type": "interview",
+          "prompt": "How do you protect a Node.js project from malicious or compromised npm packages?",
+          "answer": "- Commit lockfiles, install with npm ci, and update via reviewed bot PRs with a minimum release age so freshly published (possibly malicious) versions are not adopted instantly.\n- Limit install scripts (--ignore-scripts, pnpm's allowlist).\n- Run npm audit / Socket / Snyk in CI and fail on critical issues; check new dependencies for maintenance, downloads and typosquats before adding.\n- Keep the dependency count small; avoid trivial packages.\n- For your own packages: enable 2FA, use trusted publishing with provenance instead of long-lived tokens.\n- At runtime, apply least privilege: minimal secrets in the environment, containers without root, and consider Node's permission model for scripts.",
+          "level": "intermediate"
+        },
+        {
+          "id": "nodejs-03-q13",
+          "type": "interview",
+          "prompt": "What are peerDependencies and when have you seen them cause problems?",
+          "answer": "A peerDependency says \"I work inside a host that provides X\" (plugins for eslint, React component libraries, Express middleware sometimes). The consumer is expected to have exactly one compatible version.\nProblems: since npm 7 peers are auto-installed, and conflicting peer ranges cause ERESOLVE errors; people then reach for --legacy-peer-deps, which hides real incompatibilities. Misdeclaring a peer as a regular dependency leads to two copies (the classic \"invalid hook call\" from two Reacts, or instanceof failing across copies).\nThe right fix is to align versions or upgrade the plugin, not to blanket-disable peer checks.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "npm Docs: package.json",
+          "url": "https://docs.npmjs.com/cli/configuring-npm/package-json"
+        },
+        {
+          "title": "npm Docs: npm ci",
+          "url": "https://docs.npmjs.com/cli/commands/npm-ci"
+        },
+        {
+          "title": "Semantic Versioning 2.0.0",
+          "url": "https://semver.org/"
+        }
+      ]
+    },
+    {
+      "id": "nodejs-04-event-loop",
+      "title": "The event loop: phases, nextTick, microtasks and setImmediate",
+      "level": "intermediate",
+      "summary": "Predict exactly when callbacks run by understanding the loop phases and the two queues drained between them.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "The six phases",
+          "body": "After the main script finishes, libuv runs the event loop. Each iteration (a \"tick\" of the loop) walks through phases, each with its own FIFO queue of callbacks:\n\n- **timers**: callbacks from `setTimeout` and `setInterval` whose threshold has passed.\n- **pending callbacks**: some system-level callbacks deferred from the previous iteration (e.g. certain TCP errors).\n- **idle, prepare**: internal use.\n- **poll**: retrieve new I/O events and run their callbacks (socket data, completed fs operations). If nothing else is scheduled, the loop blocks here waiting for I/O, up to the nearest timer.\n- **check**: `setImmediate` callbacks.\n- **close callbacks**: e.g. `socket.on(\"close\")`.\n\nThe loop exits when there are no more referenced handles or requests: no active servers, timers, sockets or pending operations. `timer.unref()` lets a timer exist without keeping the process alive."
+        },
+        {
+          "heading": "Microtasks and the nextTick queue",
+          "body": "Two queues are not part of libuv's phases; Node drains them **after every individual callback** (and after the main script):\n\n- The **process.nextTick queue** is drained first, completely.\n- Then the **promise microtask queue** (`.then` callbacks, `await` continuations, `queueMicrotask`) is drained completely.\n- If draining microtasks schedules more nextTicks, Node loops again until both queues are empty.\n\nSo in a CommonJS script: synchronous code first, then all nextTicks, then all promise callbacks, then the event loop phases (timers, poll, check...).\n\n**ESM gotcha:** an ES module's top-level code is evaluated as part of a promise job. Promise callbacks queued there run before nextTick callbacks, so the same snippet can print `promise` before `nextTick` in a `.mjs` file. Never write code that relies on the relative order of nextTick and promises.",
+          "code": {
+            "lang": "js",
+            "source": "// order.cjs\nconsole.log(\"1 sync\");\nsetTimeout(() => console.log(\"5 timeout\"), 0);\nsetImmediate(() => console.log(\"6 immediate\"));\nPromise.resolve().then(() => console.log(\"4 promise\"));\nprocess.nextTick(() => console.log(\"3 nextTick\"));\nconsole.log(\"2 sync\");\n// 1 sync, 2 sync, 3 nextTick, 4 promise, then 5 timeout / 6 immediate\n// (timeout vs immediate order from the main module is not guaranteed)"
+          }
+        },
+        {
+          "heading": "setTimeout(0) vs setImmediate",
+          "body": "`setTimeout(fn, 0)` is really a 1 ms timer. `setImmediate(fn)` runs in the check phase of the current or next loop iteration.\n\n- **From the main module**, their order is non-deterministic: it depends on whether 1 ms has elapsed by the time the loop enters the timers phase, which depends on process performance.\n- **Inside an I/O callback** (poll phase), `setImmediate` always runs first, because the check phase comes right after poll, while timers wait for the next iteration.\n\nUse `setImmediate` to yield to the event loop between chunks of work so pending I/O can be processed.",
+          "code": {
+            "lang": "js",
+            "source": "import { readFile } from \"node:fs\";\n\nreadFile(import.meta.filename, () => {\n  setTimeout(() => console.log(\"timeout\"), 0);\n  setImmediate(() => console.log(\"immediate\"));\n});\n// Always: immediate, timeout"
+          }
+        },
+        {
+          "heading": "When to use which",
+          "body": "- `process.nextTick(fn)`: run after the current operation, before any I/O. Used inside Node and libraries to emit events or errors asynchronously after the constructor returns, so callers can attach listeners. The Node docs recommend `queueMicrotask` or `setImmediate` for most userland code.\n- `queueMicrotask(fn)` / promises: standard, cross-runtime microtask scheduling.\n- `setImmediate(fn)`: yield to I/O, then continue. Good for splitting long CPU loops.\n- `setTimeout(fn, ms)`: a minimum delay, never exact. Timers can fire late if the loop is busy.\n\n**Starvation:** because nextTick and microtask queues are drained completely, a callback that keeps scheduling more nextTicks (or a promise chain that never yields) prevents the loop from ever reaching the poll phase. I/O stops being processed. `setImmediate` recursion does not starve I/O, since each iteration passes through poll.",
+          "code": {
+            "lang": "js",
+            "source": "// Process a big array without blocking the loop\nfunction processInChunks(items, handle, chunk = 1000) {\n  return new Promise((resolve) => {\n    let i = 0;\n    function next() {\n      const end = Math.min(i + chunk, items.length);\n      for (; i < end; i++) handle(items[i]);\n      if (i < items.length) setImmediate(next); // let I/O run between chunks\n      else resolve();\n    }\n    next();\n  });\n}"
+          }
+        },
+        {
+          "heading": "async/await on the loop",
+          "body": "`await` splits a function: everything after it is a microtask continuation. An `async` function runs synchronously until its first `await`.\n\n`await` on an already-resolved value still defers the continuation to the microtask queue, so code after it runs after the current synchronous code finishes, but before timers and I/O.\n\nMeasuring loop health: `perf_hooks.monitorEventLoopDelay()` returns a histogram of loop delay, and `performance.eventLoopUtilization()` reports how busy the loop is. Rising p99 delay is the classic sign of blocking code.",
+          "code": {
+            "lang": "js",
+            "source": "async function f() {\n  console.log(\"A\");\n  await null;\n  console.log(\"C\");\n}\nf();\nconsole.log(\"B\");\n// A, B, C"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Loop phases in order: timers, pending callbacks, idle/prepare, poll, check, close callbacks.",
+        "After every callback Node drains the nextTick queue, then the promise microtask queue.",
+        "In CommonJS, nextTick callbacks run before promise callbacks; in ESM top-level code that order can flip.",
+        "setTimeout(0) vs setImmediate is non-deterministic in the main module, but setImmediate always wins inside an I/O callback.",
+        "Recursive nextTick or microtasks starve I/O; recursive setImmediate does not.",
+        "An async function runs synchronously until its first await.",
+        "Monitor loop delay with perf_hooks.monitorEventLoopDelay and eventLoopUtilization."
+      ],
+      "questions": [
+        {
+          "id": "nodejs-04-q01",
+          "type": "mcq",
+          "prompt": "In a CommonJS file, what is the output order?",
+          "code": "console.log(\"A\");\nsetTimeout(() => console.log(\"B\"), 0);\nPromise.resolve().then(() => console.log(\"C\"));\nprocess.nextTick(() => console.log(\"D\"));\nconsole.log(\"E\");",
+          "options": [
+            "A E D C B",
+            "A E C D B",
+            "A E B C D",
+            "A C D E B"
+          ],
+          "answer": 0,
+          "explanation": "Synchronous logs A and E run first. Then the nextTick queue (D) is drained, then promise microtasks (C), then the event loop reaches the timers phase (B)."
+        },
+        {
+          "id": "nodejs-04-q02",
+          "type": "mcq",
+          "prompt": "What does this print?",
+          "code": "const fs = require(\"node:fs\");\nfs.readFile(__filename, () => {\n  setTimeout(() => console.log(\"timeout\"), 0);\n  setImmediate(() => console.log(\"immediate\"));\n});",
+          "options": [
+            "immediate then timeout, always",
+            "timeout then immediate, always",
+            "Either order, it is non-deterministic",
+            "Only immediate"
+          ],
+          "answer": 0,
+          "explanation": "The callback runs in the poll phase. The next phase is check, where setImmediate runs; timers only run on the next loop iteration. Inside I/O callbacks setImmediate is always first."
+        },
+        {
+          "id": "nodejs-04-q03",
+          "type": "mcq",
+          "prompt": "What is the output?",
+          "code": "async function f() {\n  console.log(1);\n  await undefined;\n  console.log(2);\n  await undefined;\n  console.log(3);\n}\nf();\nconsole.log(4);",
+          "options": [
+            "1 2 3 4",
+            "1 4 2 3",
+            "1 2 4 3",
+            "4 1 2 3"
+          ],
+          "answer": 1,
+          "explanation": "f() runs synchronously until await, printing 1. Control returns to the caller, which prints 4. Then the microtask continuation prints 2, and the next await continuation prints 3."
+        },
+        {
+          "id": "nodejs-04-q04",
+          "type": "mcq",
+          "prompt": "What is the output in a CommonJS file?",
+          "code": "Promise.resolve().then(() => {\n  console.log(\"p1\");\n  process.nextTick(() => console.log(\"tick\"));\n});\nPromise.resolve().then(() => console.log(\"p2\"));",
+          "options": [
+            "p1, p2, tick",
+            "p1, tick, p2",
+            "tick, p1, p2",
+            "p2, p1, tick"
+          ],
+          "answer": 0,
+          "explanation": "Both promise callbacks are already in the microtask queue. Node drains the whole microtask queue before checking the nextTick queue again, so the nextTick scheduled inside p1 runs after p2."
+        },
+        {
+          "id": "nodejs-04-q05",
+          "type": "mcq",
+          "prompt": "In which phase do setImmediate callbacks run?",
+          "options": [
+            "timers",
+            "poll",
+            "check",
+            "close callbacks"
+          ],
+          "answer": 2,
+          "explanation": "setImmediate callbacks are queued for the check phase, which runs right after the poll phase."
+        },
+        {
+          "id": "nodejs-04-q06",
+          "type": "mcq",
+          "prompt": "A function recursively calls process.nextTick(itself) forever. What happens to incoming HTTP requests?",
+          "options": [
+            "They are processed normally between ticks",
+            "They are never processed because the loop never reaches the poll phase",
+            "Node throws a RangeError for the nextTick queue",
+            "They are handled by the thread pool"
+          ],
+          "answer": 1,
+          "explanation": "The nextTick queue is drained completely before the loop can move on. A self-replenishing queue starves I/O indefinitely. Using setImmediate instead would let each loop iteration pass through poll."
+        },
+        {
+          "id": "nodejs-04-q07",
+          "type": "truefalse",
+          "prompt": "setTimeout(fn, 100) guarantees fn runs exactly 100 ms later.",
+          "answer": false,
+          "explanation": "The delay is a minimum. The callback runs in the first timers phase after 100 ms have passed, and can be much later if the main thread is busy."
+        },
+        {
+          "id": "nodejs-04-q08",
+          "type": "truefalse",
+          "prompt": "A Node process exits automatically when there are no pending timers, I/O operations, servers or other referenced handles.",
+          "answer": true,
+          "explanation": "The event loop keeps running only while something is keeping it alive. unref() on a timer or server lets it not count toward this."
+        },
+        {
+          "id": "nodejs-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which run as promise microtasks (not nextTick and not a loop phase)?",
+          "options": [
+            "A .then() callback",
+            "Code after await in an async function",
+            "A queueMicrotask callback",
+            "A setImmediate callback",
+            "A process.nextTick callback"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "then callbacks, await continuations and queueMicrotask all go to V8's microtask queue. setImmediate is the check phase, and nextTick has its own Node-managed queue that is drained before microtasks."
+        },
+        {
+          "id": "nodejs-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: inside an fs callback, use ___ to schedule work that is guaranteed to run before any setTimeout(fn, 0) scheduled in the same callback.",
+          "accept": [
+            "setImmediate",
+            "setImmediate()"
+          ],
+          "explanation": "From the poll phase the loop proceeds to check (setImmediate) before wrapping around to timers."
+        },
+        {
+          "id": "nodejs-04-q11",
+          "type": "interview",
+          "prompt": "Walk me through the Node.js event loop phases and where process.nextTick and promises fit.",
+          "answer": "- After the main module runs, libuv iterates: timers (expired setTimeout/setInterval), pending callbacks, idle/prepare, poll (wait for and run I/O callbacks; blocks here if idle), check (setImmediate), close callbacks.\n- process.nextTick and promise microtasks are not phases. After each callback, Node drains the nextTick queue completely, then the microtask queue completely, repeating until both are empty.\n- Consequences: nextTick and promise callbacks run before any I/O or timers; setImmediate inside an I/O callback runs before timers; recursive nextTick/microtasks can starve I/O.\n- In practice I use promises/async-await, setImmediate to yield in long loops, and avoid depending on micro-ordering between nextTick and promises (it differs between CJS and ESM).",
+          "level": "intermediate"
+        },
+        {
+          "id": "nodejs-04-q12",
+          "type": "interview",
+          "prompt": "What is the difference between process.nextTick, setImmediate and setTimeout(fn, 0)?",
+          "answer": "- process.nextTick: runs right after the current callback finishes, before promises and before the loop continues. Highest priority; can starve I/O if abused. Used by libraries to defer event emission until after the caller attaches listeners.\n- setImmediate: runs in the check phase, after the current poll phase. Good for yielding to I/O. The naming is confusing: nextTick is more immediate than setImmediate.\n- setTimeout(fn, 0): a 1 ms timer in the timers phase of a later iteration. Relative to setImmediate it is non-deterministic from the main module, but always after setImmediate when scheduled from an I/O callback.",
+          "level": "intermediate"
+        },
+        {
+          "id": "nodejs-04-q13",
+          "type": "interview",
+          "prompt": "Your API's p99 latency spikes every few minutes while CPU stays moderate. How would you check whether the event loop is being blocked?",
+          "answer": "- Measure event loop delay with perf_hooks.monitorEventLoopDelay() (export p50/p99/max as metrics) and eventLoopUtilization(); spikes correlating with latency confirm blocking.\n- Look for the cause: a CPU profile during a spike (node --cpu-prof, clinic flame, 0x, or the inspector) shows the hot synchronous function, often JSON.parse/stringify on large payloads, sync fs/crypto calls, a regex with catastrophic backtracking, a large sort, or a periodic job running in-process.\n- Also check GC: --trace-gc or the GC entries in the profile; long major GCs from a growing heap look like blocking too.\n- Fixes: stream or paginate large payloads, move CPU work to worker_threads or a job queue, chunk loops with setImmediate, replace sync APIs, fix the regex, cap request body sizes.",
+          "level": "advanced"
+        },
+        {
+          "id": "nodejs-04-q14",
+          "type": "interview",
+          "prompt": "Why might the same snippet print nextTick before promise in a .cjs file but the reverse in a .mjs file?",
+          "answer": "In CommonJS the main script runs as a plain synchronous call; when it finishes Node drains the nextTick queue first, then microtasks.\nAn ES module's evaluation happens inside the module loader's promise machinery, so the top-level code is effectively already running in a microtask context. Promise callbacks queued there are drained as part of that same microtask checkpoint, before Node gets a chance to process the nextTick queue.\nThe lesson is that relative ordering of nextTick and promises is an implementation detail; code must not depend on it. If order matters, chain explicitly.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Node.js: The Node.js Event Loop",
+          "url": "https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick"
+        },
+        {
+          "title": "Node.js: Understanding process.nextTick()",
+          "url": "https://nodejs.org/en/learn/asynchronous-work/understanding-processnexttick"
+        },
+        {
+          "title": "Node.js: Understanding setImmediate()",
+          "url": "https://nodejs.org/en/learn/asynchronous-work/understanding-setimmediate"
+        }
+      ]
+    },
+    {
+      "id": "nodejs-05-fs-streams-buffers",
+      "title": "fs, path, Buffers and Streams",
+      "level": "intermediate",
+      "summary": "Work with files and binary data efficiently, and use streams with backpressure to process data larger than memory.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "fs: three API styles",
+          "body": "`node:fs` offers the same operations in three styles:\n\n- **Promise API** (`node:fs/promises`): `await readFile(path, \"utf8\")`. Default choice in application code.\n- **Callback API** (`fs.readFile(path, cb)`): older style, still used in hot paths and older libraries.\n- **Sync API** (`fs.readFileSync`): blocks the main thread. Fine for startup and CLI scripts, not in request handlers.\n\nUseful modern helpers: `fs.mkdir(dir, { recursive: true })`, `fs.rm(dir, { recursive: true, force: true })`, `fs.cp` for recursive copy, `fs.glob` (Node 22+) and `fs.watch`. Prefer handling errors over checking first: `access()` then `open()` is a race condition (TOCTOU). Just open and handle `ENOENT`.",
+          "code": {
+            "lang": "js",
+            "source": "import { readFile, writeFile, mkdir } from \"node:fs/promises\";\nimport path from \"node:path\";\n\nconst dir = path.join(import.meta.dirname, \"out\");\nawait mkdir(dir, { recursive: true });\n\ntry {\n  const raw = await readFile(path.join(dir, \"cache.json\"), \"utf8\");\n  console.log(JSON.parse(raw));\n} catch (err) {\n  if (err.code !== \"ENOENT\") throw err; // only ignore \"file not found\"\n  await writeFile(path.join(dir, \"cache.json\"), \"{}\");\n}"
+          }
+        },
+        {
+          "heading": "path and URL",
+          "body": "Never build paths by string concatenation. `path` handles separators (`/` vs `\\` on Windows) and normalisation:\n\n- `path.join(\"a\", \"../b\", \"c.txt\")` -> `b/c.txt` (joins and normalises).\n- `path.resolve(\"src\", \"app.js\")` -> absolute path, resolved against `process.cwd()` unless an absolute segment appears.\n- `path.basename`, `path.dirname`, `path.extname`, `path.parse`.\n- `fileURLToPath(import.meta.url)` and `pathToFileURL(p)` convert between file URLs and paths.\n\nSecurity: when joining user input into a path, resolve it and verify it stays inside the intended root, otherwise `../../etc/passwd` escapes (path traversal).",
+          "code": {
+            "lang": "js",
+            "source": "import path from \"node:path\";\nconst ROOT = path.resolve(\"uploads\");\n\nfunction safePath(userInput) {\n  const target = path.resolve(ROOT, userInput);\n  if (!target.startsWith(ROOT + path.sep)) throw new Error(\"Path traversal blocked\");\n  return target;\n}"
+          }
+        },
+        {
+          "heading": "Buffers: binary data",
+          "body": "A `Buffer` is a fixed-length sequence of bytes, a subclass of `Uint8Array`. Files, sockets and crypto produce Buffers unless you ask for a string encoding.\n\n- Create: `Buffer.from(\"hello\", \"utf8\")`, `Buffer.alloc(16)` (zero-filled), `Buffer.allocUnsafe(16)` (faster, may contain old memory: overwrite it fully before use).\n- Convert: `buf.toString(\"base64\")`, `\"hex\"`, `\"utf8\"`, `\"base64url\"`.\n- Length is in **bytes**, not characters: `Buffer.byteLength(\"é\")` is 2. Emojis are 4 bytes.\n- `buf.subarray()` returns a view sharing memory, not a copy. Mutating it mutates the original.\n- Compare secrets with `crypto.timingSafeEqual(a, b)`, not `===`.\n\nSplitting UTF-8 data at arbitrary chunk boundaries can cut a multi-byte character in half. Use `setEncoding(\"utf8\")` on streams or `StringDecoder` instead of calling `toString()` on each chunk."
+        },
+        {
+          "heading": "Streams and backpressure",
+          "body": "Streams process data piece by piece, so memory stays flat no matter how big the input is. Four types: **Readable** (file read, HTTP request body), **Writable** (file write, HTTP response), **Duplex** (TCP socket), **Transform** (gzip, encryption, parsing).\n\n**Backpressure**: when the consumer is slower than the producer, `writable.write()` returns `false` once its internal buffer passes `highWaterMark` (default 64 KiB for byte streams since Node 22, 16 objects in object mode). The producer should pause until the `drain` event. Ignoring this makes memory grow unbounded.\n\nUse `pipeline()` from `node:stream/promises`. It wires streams together, handles backpressure, propagates errors from any stage and destroys every stream on failure. Plain `.pipe()` does **not** forward errors or clean up, which leaks file descriptors.\n\nReadable streams are async iterables, so `for await (const chunk of stream)` consumes them with backpressure built in.",
+          "code": {
+            "lang": "js",
+            "source": "import { createReadStream, createWriteStream } from \"node:fs\";\nimport { pipeline } from \"node:stream/promises\";\nimport { createGzip } from \"node:zlib\";\nimport { Transform } from \"node:stream\";\n\nconst upper = new Transform({\n  transform(chunk, _enc, cb) {\n    cb(null, chunk.toString().toUpperCase());\n  },\n});\n\nawait pipeline(\n  createReadStream(\"access.log\"),\n  upper,\n  createGzip(),\n  createWriteStream(\"access.log.gz\")\n);\nconsole.log(\"done\"); // any stage failing rejects and cleans up all streams"
+          }
+        },
+        {
+          "heading": "Streaming HTTP responses",
+          "body": "An HTTP response is a Writable stream, so you can pipe a file or a database cursor straight into it. This keeps memory constant for large downloads and gets the first byte to the client quickly.\n\nWeb Streams (`ReadableStream`, `WritableStream`) are also implemented in Node, used by `fetch`. Convert with `Readable.fromWeb()` and `Readable.toWeb()`.",
+          "code": {
+            "lang": "js",
+            "source": "import http from \"node:http\";\nimport { createReadStream } from \"node:fs\";\nimport { pipeline } from \"node:stream/promises\";\n\nhttp.createServer(async (req, res) => {\n  res.setHeader(\"content-type\", \"text/csv\");\n  try {\n    await pipeline(createReadStream(\"report.csv\"), res);\n  } catch (err) {\n    // client disconnected or file missing; pipeline already destroyed streams\n    console.error(\"stream failed\", err.code);\n  }\n}).listen(3000);"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Use node:fs/promises in app code; sync fs APIs only at startup or in scripts.",
+        "Handle ENOENT instead of checking existence first, to avoid race conditions.",
+        "Build paths with path.join/resolve and guard against traversal when user input is involved.",
+        "Buffer length counts bytes; UTF-8 characters can be 1 to 4 bytes.",
+        "write() returning false means stop and wait for drain: that is backpressure.",
+        "Prefer stream/promises pipeline over .pipe(): it propagates errors and destroys all streams.",
+        "Readable streams are async iterables (for await...of)."
+      ],
+      "questions": [
+        {
+          "id": "nodejs-05-q01",
+          "type": "mcq",
+          "prompt": "What does Buffer.from(\"é\").length return?",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "It throws"
+          ],
+          "answer": 1,
+          "explanation": "Buffer length is measured in bytes. The character e with acute accent (U+00E9) is encoded as 2 bytes in UTF-8, so the buffer length is 2 even though the string length is 1."
+        },
+        {
+          "id": "nodejs-05-q02",
+          "type": "mcq",
+          "prompt": "Why is stream.pipeline() preferred over readable.pipe(writable)?",
+          "options": [
+            "pipe() does not support backpressure",
+            "pipeline() forwards errors from every stage and destroys all streams on failure",
+            "pipeline() is synchronous",
+            "pipe() only works with files"
+          ],
+          "answer": 1,
+          "explanation": "pipe() handles backpressure but does not propagate errors or clean up the other streams, leaking file descriptors and leaving requests hanging. pipeline() does both and gives you a single promise or callback."
+        },
+        {
+          "id": "nodejs-05-q03",
+          "type": "mcq",
+          "prompt": "writable.write(chunk) returned false. What should a well-behaved producer do?",
+          "options": [
+            "Retry the same chunk immediately",
+            "Stop writing until the writable emits drain",
+            "Destroy the stream",
+            "Nothing, false only means the chunk was small"
+          ],
+          "answer": 1,
+          "explanation": "false means the internal buffer is above highWaterMark. The chunk was accepted, but continuing to write grows memory. Wait for drain, then resume. pipeline and for-await handle this automatically."
+        },
+        {
+          "id": "nodejs-05-q04",
+          "type": "mcq",
+          "prompt": "What does path.join(\"/app\", \"uploads\", \"../config\", \"db.json\") return on POSIX?",
+          "options": [
+            "/app/uploads/../config/db.json",
+            "/app/config/db.json",
+            "/config/db.json",
+            "uploads/config/db.json"
+          ],
+          "answer": 1,
+          "explanation": "path.join concatenates segments and normalises them, resolving the .. against the preceding segment. uploads/.. cancels out, leaving /app/config/db.json. This normalisation is also why user input must be checked after resolving."
+        },
+        {
+          "id": "nodejs-05-q05",
+          "type": "mcq",
+          "prompt": "Which code is the safest way to compare an HMAC signature from a request to the expected one?",
+          "options": [
+            "sig === expected",
+            "sig.toString() == expected.toString()",
+            "crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected)) after checking lengths match",
+            "sig.localeCompare(expected) === 0"
+          ],
+          "answer": 2,
+          "explanation": "String comparison stops at the first differing byte, leaking timing information an attacker can use to guess the signature byte by byte. timingSafeEqual takes constant time but throws if lengths differ, so check length first."
+        },
+        {
+          "id": "nodejs-05-q06",
+          "type": "mcq",
+          "prompt": "You need to serve a 4 GB file over HTTP. Which approach keeps memory usage low?",
+          "options": [
+            "readFile then res.end(data)",
+            "readFileSync then res.end(data)",
+            "pipeline(createReadStream(file), res)",
+            "Read into a Buffer.allocUnsafe(4e9)"
+          ],
+          "answer": 2,
+          "explanation": "Streaming reads small chunks (64 KiB by default) and writes them as the socket accepts them, so memory stays flat. Reading the whole file would need 4 GB of memory and exceeds the maximum string size anyway."
+        },
+        {
+          "id": "nodejs-05-q07",
+          "type": "truefalse",
+          "prompt": "Checking fs.access() before fs.open() is the recommended way to avoid errors when a file might not exist.",
+          "answer": false,
+          "explanation": "Between the check and the open, another process can create or delete the file (a time-of-check to time-of-use race). The recommended approach is to open directly and handle ENOENT or EEXIST."
+        },
+        {
+          "id": "nodejs-05-q08",
+          "type": "truefalse",
+          "prompt": "buf.subarray(0, 4) returns a new Buffer that shares memory with buf.",
+          "answer": true,
+          "explanation": "subarray (and the deprecated slice on Buffer) create a view over the same memory. Changing a byte in the view changes the original. Use Buffer.from(view) or copy() for an independent copy."
+        },
+        {
+          "id": "nodejs-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are Duplex or Transform streams?",
+          "options": [
+            "net.Socket",
+            "zlib.createGzip()",
+            "fs.createReadStream()",
+            "http.ServerResponse",
+            "crypto.createCipheriv()"
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "explanation": "A TCP socket is Duplex (independent read and write sides). gzip and cipher streams are Transforms (output derived from input). A file read stream is Readable only, and ServerResponse is Writable."
+        },
+        {
+          "id": "nodejs-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: for await (const chunk of ___) works because Readable streams implement the async iterator protocol.",
+          "accept": [
+            "stream",
+            "readable",
+            "readableStream",
+            "a readable stream",
+            "a readable"
+          ],
+          "explanation": "Readable streams implement Symbol.asyncIterator, so for await...of reads chunks one at a time and naturally applies backpressure: the next chunk is only pulled after the loop body finishes."
+        },
+        {
+          "id": "nodejs-05-q11",
+          "type": "interview",
+          "prompt": "What is backpressure in Node.js streams and what happens if you ignore it?",
+          "answer": "- Backpressure is the mechanism that slows a fast producer down to the speed of a slow consumer.\n- Writable streams buffer incoming chunks; once the buffer exceeds highWaterMark, write() returns false. The producer should pause and resume on the drain event. Readable streams similarly stop reading from the source when their buffer is full and nobody is consuming.\n- Ignoring it (calling write() in a loop regardless of the return value) means data piles up in memory: a fast disk read piped into a slow network client can grow the heap until the process crashes or GC thrashes.\n- pipeline(), pipe() and for await...of handle this automatically, which is why they are preferred over manual data event handlers.",
+          "level": "intermediate"
+        },
+        {
+          "id": "nodejs-05-q12",
+          "type": "interview",
+          "prompt": "How would you process a 20 GB CSV file in Node.js and insert rows into a database?",
+          "answer": "- Stream it: createReadStream -> a CSV parser transform (e.g. csv-parse) in object mode -> a Writable or async iterator that batches rows (e.g. 1,000 at a time) and inserts each batch.\n- Use for await...of or pipeline so the database speed controls the read speed (backpressure), keeping memory flat.\n- Insert in batches or use the database's bulk path (COPY in Postgres via pg-copy-streams) inside transactions, with an idempotent strategy (upsert or a staging table) so the job can resume after failure; track progress by line or byte offset.\n- Handle bad rows by logging them to an error file rather than failing the whole job, and run it as a background job, not inside an HTTP request.",
+          "level": "advanced"
+        },
+        {
+          "id": "nodejs-05-q13",
+          "type": "interview",
+          "prompt": "Explain the difference between Buffer.alloc and Buffer.allocUnsafe.",
+          "answer": "Buffer.alloc(size) allocates and zero-fills memory, so it is safe but slightly slower. Buffer.allocUnsafe(size) skips zero-filling and may draw from a shared pre-allocated pool, so it can contain old data from previous allocations (possibly secrets like tokens).\nallocUnsafe is fine only when you immediately overwrite every byte (e.g. you are about to copy data into it). Otherwise returning or logging it can leak memory contents. Buffer.from and Buffer.concat already handle this correctly.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Node.js docs: Stream",
+          "url": "https://nodejs.org/api/stream.html"
+        },
+        {
+          "title": "Node.js: Backpressuring in Streams",
+          "url": "https://nodejs.org/en/learn/modules/backpressuring-in-streams"
+        },
+        {
+          "title": "Node.js docs: File system",
+          "url": "https://nodejs.org/api/fs.html"
+        }
+      ]
+    },
+    {
+      "id": "nodejs-06-events-errors",
+      "title": "EventEmitter, error handling and graceful shutdown",
+      "level": "intermediate",
+      "summary": "Use events correctly, handle sync and async errors without crashing or hiding bugs, and shut down cleanly.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "EventEmitter basics",
+          "body": "`EventEmitter` from `node:events` is the publish/subscribe primitive behind streams, servers, sockets and child processes. You register listeners with `on` (or `once`) and trigger them with `emit`.\n\nImportant behaviour:\n\n- `emit` calls listeners **synchronously**, in registration order, and returns `true` if any listener existed.\n- The `\"error\"` event is special: emitting it with no listener **throws** the error, which usually crashes the process.\n- More than 10 listeners for one event logs a `MaxListenersExceededWarning`. It often signals a leak (adding a listener per request without removing it).\n- `events.once(emitter, \"name\")` returns a promise, and `events.on(emitter, \"name\")` returns an async iterator.",
+          "code": {
+            "lang": "js",
+            "source": "import { EventEmitter, once } from \"node:events\";\n\nclass OrderService extends EventEmitter {\n  place(order) {\n    // ...save order...\n    this.emit(\"placed\", order);\n  }\n}\n\nconst orders = new OrderService();\norders.on(\"placed\", (o) => console.log(\"email for\", o.id));\norders.on(\"error\", (err) => console.error(\"order error\", err));\n\nconsole.log(\"before\");\norders.place({ id: 42 });   // listener runs synchronously here\nconsole.log(\"after\");       // before, email for 42, after\n\nconst [order] = await once(orders, \"placed\"); // promise-based wait"
+          }
+        },
+        {
+          "heading": "Operational vs programmer errors",
+          "body": "Two different categories need different handling:\n\n- **Operational errors** are expected failures in a correct program: a network timeout, `ENOENT`, invalid user input, a DB unique constraint. Handle them: retry, return a 4xx/5xx, fall back.\n- **Programmer errors** are bugs: reading a property of `undefined`, wrong argument types, a forgotten `await`. You cannot recover meaningfully; fix the code. If one escapes to the top level, the process state may be corrupt.\n\nThrow `Error` objects (never strings) so you get stack traces, and add context with `cause`: `throw new Error(\"Failed to load user\", { cause: err })`. Custom error classes with a `code` or `status` make handling explicit.",
+          "code": {
+            "lang": "js",
+            "source": "class NotFoundError extends Error {\n  constructor(resource, id) {\n    super(resource + \" \" + id + \" not found\");\n    this.name = \"NotFoundError\";\n    this.status = 404;\n  }\n}\n\nasync function getUser(id) {\n  try {\n    const row = await db.findUser(id);\n    if (!row) throw new NotFoundError(\"User\", id);\n    return row;\n  } catch (err) {\n    if (err instanceof NotFoundError) throw err;\n    throw new Error(\"getUser failed\", { cause: err }); // keep the original\n  }\n}"
+          }
+        },
+        {
+          "heading": "Async error patterns and their traps",
+          "body": "- **Callbacks**: error-first convention `(err, result)`. A `throw` inside an async callback cannot be caught by a surrounding `try/catch`, because the try block finished long ago.\n- **Promises**: errors flow to the nearest `.catch()`. With `async/await`, `try/catch` works only if you actually `await` the promise.\n- **Forgotten await**: `try { doAsync(); } catch {}` catches nothing. The rejection becomes unhandled.\n- **return vs return await**: inside a try block, `return promise` exits the try before the promise settles, so its rejection skips your catch. Use `return await` there.\n\n`Promise.all` rejects on the first failure (other promises keep running). Use `Promise.allSettled` when you need every result.",
+          "code": {
+            "lang": "js",
+            "source": "async function bad() {\n  try {\n    return fetchUser(); // rejection escapes the catch below\n  } catch (err) {\n    return fallbackUser();\n  }\n}\n\nasync function good() {\n  try {\n    return await fetchUser(); // rejection is caught here\n  } catch (err) {\n    return fallbackUser();\n  }\n}"
+          }
+        },
+        {
+          "heading": "Process-level handlers",
+          "body": "Since Node 15, an **unhandled promise rejection** crashes the process by default (`--unhandled-rejections=throw`), exactly like an uncaught exception. That is the right default: it surfaces bugs instead of silently hiding them.\n\n`process.on(\"uncaughtException\")` and `process.on(\"unhandledRejection\")` are for **last-resort logging**, then exit. Do not use them to keep serving traffic, because the process may hold half-finished state (open transactions, locks). Let your supervisor (Kubernetes, systemd, PM2) restart it.",
+          "code": {
+            "lang": "js",
+            "source": "process.on(\"unhandledRejection\", (reason) => {\n  logger.fatal({ reason }, \"unhandled rejection\");\n  process.exitCode = 1;\n  shutdown();\n});\nprocess.on(\"uncaughtException\", (err) => {\n  logger.fatal({ err }, \"uncaught exception\");\n  process.exit(1); // state is unknown; exit fast\n});"
+          }
+        },
+        {
+          "heading": "Cancellation and graceful shutdown",
+          "body": "`AbortController` is the standard cancellation primitive. Pass `signal` to `fetch`, `fs` methods, `events.once`, timers from `node:timers/promises` and many libraries. `AbortSignal.timeout(ms)` creates a signal that aborts automatically, and `AbortSignal.any([a, b])` combines signals.\n\nGraceful shutdown on `SIGTERM` (what Kubernetes and Docker send before `SIGKILL`):\n\n- Stop accepting new connections: `server.close()`. Mark readiness probes as failing.\n- Let in-flight requests finish, with a hard timeout. `server.closeIdleConnections()` releases idle keep-alive sockets.\n- Close resources: DB pools, Redis, message consumers. Flush logs.\n- Exit with code 0, or force-exit after the timeout.\n\nIn containers, run node as PID 1 carefully: use `exec node server.js` (not `npm start`, which may not forward signals) or an init like `tini`.",
+          "code": {
+            "lang": "js",
+            "source": "const res = await fetch(url, { signal: AbortSignal.timeout(3000) });\n\nprocess.on(\"SIGTERM\", async () => {\n  console.log(\"SIGTERM received\");\n  const force = setTimeout(() => process.exit(1), 10_000).unref();\n  server.close(async () => {\n    await db.end();\n    await redis.quit();\n    clearTimeout(force);\n    process.exit(0);\n  });\n  server.closeIdleConnections();\n});"
+          }
+        }
+      ],
+      "keyPoints": [
+        "emit() runs listeners synchronously, in registration order.",
+        "An \"error\" event with no listener throws and usually crashes the process.",
+        "MaxListenersExceededWarning usually means a listener leak.",
+        "Handle operational errors; fix programmer errors and let the process restart if one escapes.",
+        "try/catch only catches async errors you await; use return await inside try.",
+        "Unhandled rejections crash the process by default since Node 15.",
+        "Use AbortController/AbortSignal.timeout for cancellation and handle SIGTERM for graceful shutdown."
+      ],
+      "questions": [
+        {
+          "id": "nodejs-06-q01",
+          "type": "mcq",
+          "prompt": "What is the output?",
+          "code": "const { EventEmitter } = require(\"node:events\");\nconst e = new EventEmitter();\ne.on(\"ping\", () => console.log(\"A\"));\nconsole.log(\"B\");\ne.emit(\"ping\");\nconsole.log(\"C\");",
+          "options": [
+            "B A C",
+            "B C A",
+            "A B C",
+            "B C (listener never runs)"
+          ],
+          "answer": 0,
+          "explanation": "emit calls all listeners synchronously before returning. So the listener prints A between B and C."
+        },
+        {
+          "id": "nodejs-06-q02",
+          "type": "mcq",
+          "prompt": "What happens when this runs?",
+          "code": "const { EventEmitter } = require(\"node:events\");\nconst e = new EventEmitter();\ne.emit(\"error\", new Error(\"boom\"));\nconsole.log(\"after\");",
+          "options": [
+            "Nothing, the event is ignored",
+            "The error is thrown from emit() and, uncaught, crashes the process",
+            "A warning is printed",
+            "The error is passed to process.on(\"warning\")"
+          ],
+          "answer": 1,
+          "explanation": "If an EventEmitter emits \"error\" and there is no listener for it, Node throws the error from emit(). Always attach an error listener to emitters that can fail (streams, sockets, clients)."
+        },
+        {
+          "id": "nodejs-06-q03",
+          "type": "mcq",
+          "prompt": "Why does the catch block never run when fetchUser rejects?",
+          "code": "async function load() {\n  try {\n    return fetchUser();\n  } catch (err) {\n    return defaultUser;\n  }\n}",
+          "options": [
+            "fetchUser is not async",
+            "return without await leaves the try block before the promise settles",
+            "catch blocks do not work in async functions",
+            "The error is a programmer error"
+          ],
+          "answer": 1,
+          "explanation": "return fetchUser() hands the pending promise back to the caller immediately, so the try block is already finished when it rejects. return await keeps the function suspended inside try until settlement."
+        },
+        {
+          "id": "nodejs-06-q04",
+          "type": "mcq",
+          "prompt": "By default in Node 24, what happens on an unhandled promise rejection?",
+          "options": [
+            "A warning is printed and execution continues",
+            "The process exits with an error, like an uncaught exception",
+            "The rejection is silently ignored",
+            "Node retries the promise"
+          ],
+          "answer": 1,
+          "explanation": "Since Node 15 the default mode is throw: an unhandled rejection is raised as an uncaught exception, which terminates the process unless an uncaughtException handler intervenes."
+        },
+        {
+          "id": "nodejs-06-q05",
+          "type": "mcq",
+          "prompt": "Which statement about process.on(\"uncaughtException\") is the recommended practice?",
+          "options": [
+            "Use it to keep the server running after any error",
+            "Use it to log synchronously and then exit, letting a supervisor restart the process",
+            "Never register it",
+            "It replaces the need for try/catch"
+          ],
+          "answer": 1,
+          "explanation": "After an uncaught exception the application state is unknown. The handler should log the error and exit. Restart and redundancy come from the orchestrator (Kubernetes, systemd, PM2)."
+        },
+        {
+          "id": "nodejs-06-q06",
+          "type": "mcq",
+          "prompt": "Which call aborts a fetch that takes longer than 5 seconds?",
+          "options": [
+            "fetch(url, { timeout: 5000 })",
+            "fetch(url, { signal: AbortSignal.timeout(5000) })",
+            "setTimeout(() => fetch.cancel(), 5000)",
+            "fetch(url).timeout(5000)"
+          ],
+          "answer": 1,
+          "explanation": "fetch has no timeout option. AbortSignal.timeout creates a signal that aborts with a TimeoutError DOMException after the delay."
+        },
+        {
+          "id": "nodejs-06-q07",
+          "type": "truefalse",
+          "prompt": "A try/catch around a call that schedules a callback with setTimeout will catch errors thrown inside that callback.",
+          "answer": false,
+          "explanation": "The callback runs later on a fresh call stack, after the try block has completed. Errors thrown there are uncaught. Use promises with await, or handle errors inside the callback."
+        },
+        {
+          "id": "nodejs-06-q08",
+          "type": "truefalse",
+          "prompt": "Promise.all rejects as soon as one input promise rejects, but the other promises keep running.",
+          "answer": true,
+          "explanation": "Promises are not cancellable; Promise.all only stops waiting. If the other work should stop, pass an AbortSignal to each operation. Use allSettled when you need every outcome."
+        },
+        {
+          "id": "nodejs-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are operational errors rather than programmer errors?",
+          "options": [
+            "ECONNREFUSED when calling a downstream API",
+            "TypeError: Cannot read properties of undefined",
+            "A user submits an invalid email",
+            "Calling a function with the wrong number of arguments due to a typo",
+            "Disk full (ENOSPC) while writing a file"
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "explanation": "Network failures, invalid input and disk full are conditions a correct program must anticipate and handle. Reading properties of undefined and wrong call signatures are bugs to fix."
+        },
+        {
+          "id": "nodejs-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: throw new Error(\"Failed to save order\", { ___: err }) preserves the original error.",
+          "accept": [
+            "cause"
+          ],
+          "explanation": "The cause option (ES2022) attaches the underlying error, and Node prints it in stack traces. It keeps context without losing the original error's stack."
+        },
+        {
+          "id": "nodejs-06-q11",
+          "type": "interview",
+          "prompt": "How do you handle errors in an async Node.js application end to end?",
+          "answer": "- Distinguish operational errors (handle: retry with backoff, translate to HTTP status, fallback) from programmer errors (fix; let them crash).\n- Use async/await with try/catch where you can actually do something; otherwise let errors propagate. Throw Error subclasses with codes, wrap with cause for context.\n- In web frameworks, use a central error middleware that maps known errors to responses and logs unknown ones with request IDs, without leaking stack traces to clients.\n- Attach error listeners to every EventEmitter/stream, and use pipeline for streams.\n- At process level, log unhandledRejection/uncaughtException and exit; rely on the orchestrator to restart, and run multiple instances.\n- Add timeouts (AbortSignal.timeout) to all outbound calls so errors surface instead of hanging.",
+          "level": "intermediate"
+        },
+        {
+          "id": "nodejs-06-q12",
+          "type": "interview",
+          "prompt": "How would you implement graceful shutdown for a Node.js HTTP service running in Kubernetes?",
+          "answer": "- Listen for SIGTERM (Kubernetes sends it, then SIGKILL after terminationGracePeriodSeconds, default 30s).\n- Flip readiness to failing so the Service stops routing new traffic; optionally wait a few seconds for endpoint propagation.\n- Call server.close() to stop accepting connections, closeIdleConnections() for idle keep-alive sockets, and let in-flight requests complete.\n- Stop queue consumers from pulling new jobs and let current jobs finish or requeue them.\n- Close DB pools, Redis and broker connections, flush logs/metrics, then exit 0.\n- Set a hard timeout shorter than the grace period that force-exits. Make sure node actually receives the signal: exec form CMD [\"node\", \"server.js\"] or tini, not npm start.",
+          "level": "advanced"
+        },
+        {
+          "id": "nodejs-06-q13",
+          "type": "interview",
+          "prompt": "You see MaxListenersExceededWarning in production logs. What does it mean and what do you do?",
+          "answer": "It means more than 10 (the default) listeners were added to one event on one emitter. Usually that is a leak: code calls emitter.on() per request or per retry on a long-lived object (a shared socket, DB client, process) and never removes the listener, so memory and work grow over time.\nI would use the warning's stack trace (run with --trace-warnings) to find where listeners are added, then fix it: use once(), remove listeners on completion, use AbortSignal-based listeners, or restructure so one listener dispatches to many handlers.\nOnly raise setMaxListeners when a high, bounded listener count is genuinely by design.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Node.js docs: Events",
+          "url": "https://nodejs.org/api/events.html"
+        },
+        {
+          "title": "Node.js docs: Errors",
+          "url": "https://nodejs.org/api/errors.html"
+        },
+        {
+          "title": "Node.js docs: Process signal events",
+          "url": "https://nodejs.org/api/process.html#signal-events"
+        }
+      ]
+    },
+    {
+      "id": "nodejs-07-tooling-config-security",
+      "title": "Built-in test runner, configuration, security basics and modern Node",
+      "level": "intermediate",
+      "summary": "Use what ships in Node 22 and 24: node:test, --env-file, TypeScript type stripping, --watch, the permission model, and secure coding defaults.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "The built-in test runner",
+          "body": "`node:test` is stable and covers most unit and integration testing without installing Jest or Vitest: `test`/`describe`/`it`, hooks (`before`, `beforeEach`, `after`, `afterEach`), subtests, mocking (`mock.fn`, `mock.method`, `mock.timers`), snapshot tests and reporters (spec, tap, junit, lcov).\n\nRun `node --test` to auto-discover files like `*.test.js`, `test/**/*.js` or `*_test.mjs`. Add `--watch` for re-runs and `--experimental-test-coverage` (or `--test-coverage-*` options) for coverage. Pair it with `node:assert/strict`.\n\nJest and Vitest are still common in existing codebases (Vitest especially for Vite and TypeScript-heavy front ends), so know both worlds.",
+          "code": {
+            "lang": "js",
+            "source": "// math.test.js\nimport { test, describe, mock } from \"node:test\";\nimport assert from \"node:assert/strict\";\nimport { applyDiscount } from \"./math.js\";\n\ndescribe(\"applyDiscount\", () => {\n  test(\"applies a percentage\", () => {\n    assert.equal(applyDiscount(200, 10), 180);\n  });\n\n  test(\"rejects negative percentages\", () => {\n    assert.throws(() => applyDiscount(100, -5), /invalid/);\n  });\n\n  test(\"calls the logger once\", () => {\n    const log = mock.fn();\n    applyDiscount(100, 5, { log });\n    assert.equal(log.mock.callCount(), 1);\n  });\n});"
+          }
+        },
+        {
+          "heading": "Configuration and environment variables",
+          "body": "Follow the twelve-factor rule: config that varies per environment (URLs, credentials, feature flags) comes from environment variables, not from code.\n\n- `node --env-file=.env app.js` loads a dotenv file natively (Node 20.6+). `--env-file-if-exists` does not fail when the file is missing. `process.loadEnvFile()` and `util.parseEnv()` do the same from code. The `dotenv` package is no longer required.\n- Real environment variables take precedence over the file.\n- **Validate config once at startup** and fail fast with a clear message. Parse types (numbers, booleans, URLs) instead of sprinkling `process.env.X` around the code.\n- Never commit `.env` files with real secrets; commit a `.env.example`. In production, inject secrets from a secrets manager.\n\n`NODE_ENV=production` matters: Express and many libraries enable caching and disable verbose errors based on it.",
+          "code": {
+            "lang": "js",
+            "source": "// config.js\nimport { z } from \"zod\";\n\nconst Env = z.object({\n  NODE_ENV: z.enum([\"development\", \"test\", \"production\"]).default(\"development\"),\n  PORT: z.coerce.number().int().default(3000),\n  DATABASE_URL: z.url(),\n  JWT_SECRET: z.string().min(32),\n});\n\nconst parsed = Env.safeParse(process.env);\nif (!parsed.success) {\n  console.error(\"Invalid environment:\", z.prettifyError(parsed.error));\n  process.exit(1); // fail fast at startup\n}\nexport const config = parsed.data;"
+          }
+        },
+        {
+          "heading": "TypeScript and dev workflow without extra tools",
+          "body": "**Type stripping**: Node 22.18+ and Node 23.6+ run `.ts` files directly by erasing type annotations (no type checking). Only erasable syntax works out of the box: enums, namespaces and parameter properties need `--experimental-transform-types`, or should be avoided. Use `import type` for type-only imports, include `.ts` extensions in relative imports, and keep running `tsc --noEmit` in CI for type checking.\n\n- `node --watch app.js` restarts on file changes (replaces nodemon for most cases).\n- `node --run test` runs a package.json script quickly.\n- `node --inspect` opens the Chrome DevTools debugger.\n- Single executable applications (SEA) bundle a script into a Node binary."
+        },
+        {
+          "heading": "Security basics for Node code",
+          "body": "- **Never pass user input to a shell.** `exec(\"convert \" + filename)` is command injection. Use `execFile`/`spawn` with an argument array (no shell).\n- **Avoid `eval`, `new Function`, and `vm` for untrusted code.** The `vm` module is not a security sandbox.\n- **Prototype pollution**: merging untrusted JSON into objects can set `__proto__` and affect every object. Validate input with schemas, use `Object.create(null)` or `Map` for dictionaries, and use `--disable-proto=delete` if feasible.\n- **ReDoS**: regexes with nested quantifiers like `(a+)+$` can take exponential time on crafted input and block the loop. Limit input length and test regexes.\n- **Limit request sizes** and set timeouts (`server.requestTimeout`, `headersTimeout`).\n- **Keep Node patched**: security releases land on all supported lines. Run as a non-root user in containers.\n\nThe **permission model** (`--permission`, stable since Node 23.5 and in Node 24) restricts file system, child process, worker and native addon access: `node --permission --allow-fs-read=./data app.js`. It is a defence-in-depth seatbelt for scripts and tools, not a sandbox for hostile code.",
+          "code": {
+            "lang": "js",
+            "source": "import { execFile } from \"node:child_process\";\nimport { promisify } from \"node:util\";\nconst run = promisify(execFile);\n\n// Safe: no shell, filename is passed as a single argument\nawait run(\"convert\", [userFile, \"-resize\", \"200x200\", outFile]);\n\n// Dangerous: a filename like \"a.png; rm -rf /\" runs a second command\n// exec(\"convert \" + userFile + \" -resize 200x200 \" + outFile);"
+          }
+        },
+        {
+          "heading": "What is new in Node 22 and 24",
+          "body": "Node 22 (LTS 2024): `require(esm)` unflagged (22.12), `--run`, stable `--watch`, global `WebSocket` client, `fs.glob`, `node:sqlite` (experimental), type stripping (22.18), 64 KiB default stream highWaterMark, Maglev compiler enabled.\n\nNode 24 (LTS October 2025): V8 13.6 with `RegExp.escape`, `Float16Array`, `Error.isError` and explicit resource management (`using` and `await using` declarations that call `[Symbol.dispose]` automatically); global `URLPattern`; npm 11; undici 7 powering `fetch`; `AsyncLocalStorage` built on AsyncContextFrame by default; the permission model without the experimental flag; the test runner waits for subtests automatically.",
+          "code": {
+            "lang": "js",
+            "source": "// Explicit resource management (Node 24)\nclass TempFile {\n  constructor(path) { this.path = path; }\n  [Symbol.dispose]() { console.log(\"cleanup\", this.path); }\n}\n{\n  using f = new TempFile(\"/tmp/x\");\n  console.log(\"working with\", f.path);\n} // \"cleanup /tmp/x\" runs here, even if an exception is thrown"
+          }
+        }
+      ],
+      "keyPoints": [
+        "node:test plus node:assert/strict cover unit tests, mocks, timers and snapshots without dependencies.",
+        "--env-file loads .env natively; validate and type config once at startup and fail fast.",
+        "Node 22.18+/23.6+ strip TypeScript types natively; type checking still needs tsc.",
+        "Use execFile/spawn with argument arrays, never exec with user input.",
+        "Watch for prototype pollution and ReDoS in code that handles untrusted input.",
+        "--permission restricts fs, child_process and workers; it is defence in depth, not a sandbox.",
+        "Node 24 brings using declarations, URLPattern, RegExp.escape and npm 11."
+      ],
+      "questions": [
+        {
+          "id": "nodejs-07-q01",
+          "type": "mcq",
+          "prompt": "Which command runs a Node app with variables loaded from .env without any npm package?",
+          "options": [
+            "node -r dotenv/config app.js",
+            "node --env-file=.env app.js",
+            "node --dotenv app.js",
+            "NODE_ENV=.env node app.js"
+          ],
+          "answer": 1,
+          "explanation": "--env-file has been built in since Node 20.6. -r dotenv/config needs the dotenv package. The other options do not exist or do something else."
+        },
+        {
+          "id": "nodejs-07-q02",
+          "type": "mcq",
+          "prompt": "If PORT=8080 is set in the shell and .env contains PORT=3000, what does process.env.PORT equal with --env-file=.env?",
+          "options": [
+            "3000",
+            "8080",
+            "undefined",
+            "Node throws a conflict error"
+          ],
+          "answer": 1,
+          "explanation": "Variables already present in the environment take precedence over values from the env file, so deployment platforms can override file defaults."
+        },
+        {
+          "id": "nodejs-07-q03",
+          "type": "mcq",
+          "prompt": "You run node app.ts on Node 24 and the file uses a TypeScript enum. What happens?",
+          "options": [
+            "It runs fine, enums are erasable",
+            "It fails: enums need --experimental-transform-types because they generate runtime code",
+            "Node type-checks and reports errors",
+            "Node compiles it with tsc automatically"
+          ],
+          "answer": 1,
+          "explanation": "Type stripping only removes syntax that has no runtime effect. Enums, namespaces with values and parameter properties emit JavaScript, so they require transformation. Node never type-checks."
+        },
+        {
+          "id": "nodejs-07-q04",
+          "type": "mcq",
+          "prompt": "Which call is safe from shell command injection when filename comes from a user?",
+          "options": [
+            "exec(\"cat \" + filename)",
+            "exec(`cat ${filename}`)",
+            "execFile(\"cat\", [filename])",
+            "spawn(\"sh\", [\"-c\", \"cat \" + filename])"
+          ],
+          "answer": 2,
+          "explanation": "execFile runs the binary directly without a shell, so metacharacters like ; or && in filename are passed as literal text. The others all go through a shell that interprets them."
+        },
+        {
+          "id": "nodejs-07-q05",
+          "type": "mcq",
+          "prompt": "What does this print on Node 24?",
+          "code": "{\n  using r = { [Symbol.dispose]() { console.log(\"dispose\"); } };\n  console.log(\"start\");\n}\nconsole.log(\"end\");",
+          "options": [
+            "start, end, dispose",
+            "start, dispose, end",
+            "dispose, start, end",
+            "SyntaxError"
+          ],
+          "answer": 1,
+          "explanation": "A using declaration calls [Symbol.dispose] when its block exits. The block ends after start is logged, so dispose runs before the code after the block."
+        },
+        {
+          "id": "nodejs-07-q06",
+          "type": "mcq",
+          "prompt": "What is the main risk of this function?",
+          "code": "function merge(target, src) {\n  for (const key in src) {\n    if (typeof src[key] === \"object\") merge(target[key] ??= {}, src[key]);\n    else target[key] = src[key];\n  }\n  return target;\n}\nmerge({}, JSON.parse(req.body));",
+          "options": [
+            "It is slow for large objects",
+            "Prototype pollution: a payload containing __proto__ can add properties to every object",
+            "It leaks memory",
+            "It cannot copy arrays"
+          ],
+          "answer": 1,
+          "explanation": "With JSON.parse('{\"__proto__\": {\"isAdmin\": true}}'), the recursive merge walks into Object.prototype and sets isAdmin on every object in the process. Skip __proto__, constructor and prototype keys, or validate with a schema."
+        },
+        {
+          "id": "nodejs-07-q07",
+          "type": "truefalse",
+          "prompt": "The node:vm module is a safe way to run untrusted user code.",
+          "answer": false,
+          "explanation": "The Node docs state vm is not a security mechanism. Code can escape the context via prototype chains. Use a separate process with OS-level isolation, a container, or a purpose-built isolate for untrusted code."
+        },
+        {
+          "id": "nodejs-07-q08",
+          "type": "truefalse",
+          "prompt": "node --test can discover and run test files without any test framework installed.",
+          "answer": true,
+          "explanation": "The built-in runner finds files matching default patterns (like **/*.test.js and files under test/) and executes them, reporting results with the spec reporter in a terminal."
+        },
+        {
+          "id": "nodejs-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which features are built into current Node LTS releases?",
+          "options": [
+            "A test runner with mocking (node:test)",
+            "Loading .env files (--env-file)",
+            "File watching restarts (--watch)",
+            "Full TypeScript type checking at runtime",
+            "A global WebSocket client"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "node:test, --env-file, --watch and the global WebSocket client are all built in. Node strips types but never type-checks; you still need tsc for that."
+        },
+        {
+          "id": "nodejs-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: node ___ --allow-fs-read=./config app.js enables the permission model and only allows reading ./config.",
+          "accept": [
+            "--permission"
+          ],
+          "explanation": "--permission turns on the permission model; then access is denied by default and granted with flags like --allow-fs-read, --allow-fs-write, --allow-child-process and --allow-worker."
+        },
+        {
+          "id": "nodejs-07-q11",
+          "type": "interview",
+          "prompt": "How do you manage configuration and secrets in a Node.js service?",
+          "answer": "- Environment-specific values come from environment variables (twelve-factor), with sensible non-secret defaults in code and a committed .env.example.\n- Load and validate everything once at startup with a schema (Zod, envalid): parse numbers, booleans and URLs, and fail fast with a clear error if anything is missing.\n- Export a typed config object; the rest of the code never touches process.env directly.\n- Locally use --env-file; in production, inject secrets from a manager (AWS Secrets Manager, GCP Secret Manager, Vault, Doppler) via the platform, never bake them into images or commit them.\n- Rotate secrets, scope them per service, and avoid logging config objects that contain secrets (redact in the logger).",
+          "level": "intermediate"
+        },
+        {
+          "id": "nodejs-07-q12",
+          "type": "interview",
+          "prompt": "What are the most common security mistakes you see in Node.js code?",
+          "answer": "- Command injection via exec with string concatenation; fix with execFile/spawn argument arrays.\n- Injection into SQL/NoSQL queries built from strings; use parameterised queries and schema validation (e.g. reject objects where strings are expected to stop $ne operator injection in MongoDB).\n- Prototype pollution from deep-merging untrusted input.\n- ReDoS from vulnerable regexes on unbounded input, and missing body size limits, both of which can block the event loop.\n- Path traversal when joining user input into file paths.\n- Leaking stack traces or secrets in error responses and logs.\n- Outdated dependencies and Node versions; no lockfile; running as root in containers.",
+          "level": "intermediate"
+        },
+        {
+          "id": "nodejs-07-q13",
+          "type": "interview",
+          "prompt": "Would you use the built-in node:test runner or Jest/Vitest for a new backend service? Justify.",
+          "answer": "For a new pure Node backend, node:test is a solid default: zero dependencies, fast startup, native ESM and TypeScript (via type stripping), mocking including timers, watch mode, coverage and JUnit reporters for CI.\nJest or Vitest still win when the team relies on their richer ecosystem: Vitest's fast watch mode, in-source tests, browser mode and Vite-based transforms; Jest's mature snapshot and module mocking (jest.mock style hoisted mocks), and existing large suites.\nModule-level mocking is the main gap: node:test has mock.module behind a flag. Designing code with dependency injection makes that gap mostly irrelevant. In a monorepo with a Vite front end I'd likely standardise on Vitest for consistency.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Node.js docs: Test runner",
+          "url": "https://nodejs.org/api/test.html"
+        },
+        {
+          "title": "Node.js docs: Permissions",
+          "url": "https://nodejs.org/api/permissions.html"
+        },
+        {
+          "title": "Node.js: Security Best Practices",
+          "url": "https://nodejs.org/en/learn/getting-started/security-best-practices"
+        }
+      ]
+    },
+    {
+      "id": "nodejs-08-concurrency",
+      "title": "Scaling Node: worker_threads, child_process and cluster",
+      "level": "advanced",
+      "summary": "Choose the right tool to use multiple cores: threads for CPU work, processes for isolation and external programs, cluster or replicas for throughput.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Three ways to use more than one core",
+          "body": "A single Node process runs your JavaScript on one core. To use more:\n\n- **worker_threads**: extra V8 isolates (each with its own event loop and heap) inside the same process. Cheap messaging, can share memory. For CPU-bound JavaScript.\n- **child_process**: separate OS processes. For running other programs (ffmpeg, git, Python) or fully isolated Node scripts.\n- **cluster**: forks N copies of your server that share one listening port. For throughput of an HTTP server on one machine.\n\nIn containerised deployments the usual approach is simpler: run **one Node process per container** and scale replicas horizontally with Kubernetes or your platform. Use worker threads for CPU hot spots inside a service."
+        },
+        {
+          "heading": "worker_threads",
+          "body": "Each worker has its own isolate, event loop and module graph. Communication is by message passing (`postMessage`), which uses the structured clone algorithm (copies data). To avoid copying:\n\n- **Transfer** an `ArrayBuffer` (ownership moves, zero-copy; the sender can no longer use it).\n- **Share** a `SharedArrayBuffer` and coordinate with `Atomics` (true shared memory).\n\nStarting a worker costs tens of milliseconds and memory, so use a **pool** (Piscina is the standard library) rather than a worker per request. Workers do not help I/O-bound work: the main thread is already non-blocking for I/O.",
+          "code": {
+            "lang": "js",
+            "source": "// hash-worker.js\nimport { parentPort } from \"node:worker_threads\";\nimport { scryptSync } from \"node:crypto\";\nparentPort.on(\"message\", ({ password, salt }) => {\n  parentPort.postMessage(scryptSync(password, salt, 64).toString(\"hex\"));\n});\n\n// main.js\nimport { Worker } from \"node:worker_threads\";\nconst worker = new Worker(new URL(\"./hash-worker.js\", import.meta.url));\n\nfunction hash(password, salt) {\n  return new Promise((resolve, reject) => {\n    worker.once(\"message\", resolve);\n    worker.once(\"error\", reject);\n    worker.postMessage({ password, salt });\n  });\n}\nconsole.log(await hash(\"s3cret\", \"salt\"));\n// In production: a pool such as Piscina, with request IDs per message"
+          }
+        },
+        {
+          "heading": "child_process",
+          "body": "- `spawn(cmd, args)`: streams stdin/stdout/stderr. Best for long-running or large-output commands.\n- `execFile(file, args)`: buffers output, no shell. Good for short commands.\n- `exec(command)`: runs through a shell and buffers output (`maxBuffer` default 1 MiB). Convenient but injection-prone with user input.\n- `fork(modulePath)`: spawns a new Node process with an IPC channel (`process.send` / `on(\"message\")`).\n\nChild processes give full isolation: a crash or memory leak in the child does not take down the parent, and you can kill it on timeout. The cost is higher memory and slower startup than threads.",
+          "code": {
+            "lang": "js",
+            "source": "import { spawn } from \"node:child_process\";\n\nconst ff = spawn(\"ffmpeg\", [\"-i\", input, \"-vf\", \"scale=640:-1\", output]);\nff.stderr.on(\"data\", (d) => process.stdout.write(d));\nff.on(\"close\", (code) => console.log(\"ffmpeg exited with\", code));\nff.on(\"error\", (err) => console.error(\"failed to start\", err));"
+          }
+        },
+        {
+          "heading": "cluster and load balancing",
+          "body": "`cluster` forks worker processes that share the server port. The primary process accepts connections and distributes them round-robin to workers (the default on all platforms except Windows). If a worker dies, the primary can fork a new one.\n\nCaveats:\n\n- Workers share **no memory**. In-memory sessions, caches or rate-limit counters become per-worker and inconsistent. Store shared state in Redis or a database.\n- WebSocket and sticky-session protocols need sticky routing.\n- PM2's cluster mode wraps the same mechanism.\n\nIn Kubernetes, prefer one process per pod and let the platform replicate. Clustering inside a pod complicates CPU limits, health checks and metrics.",
+          "code": {
+            "lang": "js",
+            "source": "import cluster from \"node:cluster\";\nimport { availableParallelism } from \"node:os\";\nimport http from \"node:http\";\n\nif (cluster.isPrimary) {\n  for (let i = 0; i < availableParallelism(); i++) cluster.fork();\n  cluster.on(\"exit\", (worker, code) => {\n    console.log(\"worker\", worker.process.pid, \"died with\", code, \"- restarting\");\n    cluster.fork();\n  });\n} else {\n  http.createServer((req, res) => res.end(\"pid \" + process.pid)).listen(3000);\n}"
+          }
+        },
+        {
+          "heading": "The libuv thread pool as a hidden bottleneck",
+          "body": "Async `fs`, `dns.lookup`, `crypto.pbkdf2/scrypt/randomBytes` (async variants) and `zlib` share the default **4-thread** pool. If you hash passwords with bcrypt (native) or scrypt under load, those calls can queue behind slow file reads, and vice versa. Symptoms: latency climbs while CPU is not saturated.\n\nMitigations: raise `UV_THREADPOOL_SIZE` (set it in the environment, before startup), move heavy hashing into a dedicated worker pool, cache DNS or use `dns.resolve` (which uses c-ares, not the pool), and avoid sync variants on the main thread.\n\n`AsyncLocalStorage` (from `node:async_hooks`) is the standard way to carry request context (request ID, user, trace) across async boundaries, including into worker callbacks, without passing it through every function."
+        }
+      ],
+      "keyPoints": [
+        "worker_threads: same process, separate isolates; for CPU-bound JavaScript; use a pool.",
+        "postMessage copies via structured clone; transfer ArrayBuffers or use SharedArrayBuffer to avoid copies.",
+        "child_process: separate processes for external programs or isolation; spawn streams, exec buffers via a shell.",
+        "cluster forks processes sharing a port; state is not shared, so use Redis for sessions and counters.",
+        "In containers, prefer one process per container and scale replicas horizontally.",
+        "The 4-thread libuv pool is shared by fs, dns.lookup, crypto and zlib and can bottleneck.",
+        "AsyncLocalStorage carries request context across async calls."
+      ],
+      "questions": [
+        {
+          "id": "nodejs-08-q01",
+          "type": "mcq",
+          "prompt": "Your API spends 150 ms of CPU per request resizing images in pure JavaScript. What is the best fix within the service?",
+          "options": [
+            "Use cluster with 2 workers",
+            "Move the resizing into a worker_threads pool",
+            "Wrap the function in a Promise",
+            "Increase UV_THREADPOOL_SIZE"
+          ],
+          "answer": 1,
+          "explanation": "Wrapping CPU work in a promise still runs it on the main thread. UV_THREADPOOL_SIZE only affects libuv's built-in operations. A worker pool runs the JS on other cores while the main loop keeps serving requests. Cluster helps throughput but each process still blocks during resizing."
+        },
+        {
+          "id": "nodejs-08-q02",
+          "type": "mcq",
+          "prompt": "What happens to an ArrayBuffer passed in the transfer list of postMessage?",
+          "options": [
+            "It is copied",
+            "Ownership moves to the receiver and the sender's buffer becomes detached (length 0)",
+            "Both sides share it and see each other's writes",
+            "It is serialised to JSON"
+          ],
+          "answer": 1,
+          "explanation": "Transferring is zero-copy: the memory moves to the other thread. The sender's ArrayBuffer is detached. For true shared memory you need SharedArrayBuffer."
+        },
+        {
+          "id": "nodejs-08-q03",
+          "type": "mcq",
+          "prompt": "An app uses cluster with 8 workers and stores sessions in a JS Map. Users report being randomly logged out. Why?",
+          "options": [
+            "Map has a size limit",
+            "Each worker process has its own memory, so a session created on one worker is missing on the others",
+            "cluster clears memory every minute",
+            "Cookies are not shared between workers"
+          ],
+          "answer": 1,
+          "explanation": "Cluster workers are separate processes. Requests are distributed round-robin, so the next request often lands on a worker that never saw the session. Use a shared store like Redis."
+        },
+        {
+          "id": "nodejs-08-q04",
+          "type": "mcq",
+          "prompt": "Which child_process function should you use to stream gigabytes of output from a long-running command?",
+          "options": [
+            "exec",
+            "execSync",
+            "spawn",
+            "execFile with default options"
+          ],
+          "answer": 2,
+          "explanation": "spawn exposes stdout and stderr as streams. exec and execFile buffer the entire output in memory (and fail beyond maxBuffer, 1 MiB by default)."
+        },
+        {
+          "id": "nodejs-08-q05",
+          "type": "mcq",
+          "prompt": "Under load, fs.readFile calls slow down whenever many crypto.pbkdf2 calls run, even though CPU is at 50%. What is the likely cause?",
+          "options": [
+            "The event loop is blocked by pbkdf2",
+            "Both share the 4-thread libuv pool, so work queues behind each other",
+            "Disk I/O is saturated",
+            "V8 garbage collection"
+          ],
+          "answer": 1,
+          "explanation": "Async pbkdf2 and fs operations both run on the libuv thread pool. With only 4 threads, long hashes occupy them and file reads wait. Increase the pool size or isolate hashing in a worker pool."
+        },
+        {
+          "id": "nodejs-08-q06",
+          "type": "mcq",
+          "prompt": "Which statement about worker_threads is correct?",
+          "options": [
+            "Workers share the main thread's heap and globals",
+            "Each worker has its own V8 isolate, event loop and module instances",
+            "Workers can directly access the main thread's variables by name",
+            "Workers are separate OS processes"
+          ],
+          "answer": 1,
+          "explanation": "A worker is an OS thread in the same process running a separate isolate. Globals and module state are separate; communication happens via messages or SharedArrayBuffer."
+        },
+        {
+          "id": "nodejs-08-q07",
+          "type": "truefalse",
+          "prompt": "worker_threads make I/O-bound workloads, such as calling many HTTP APIs, significantly faster.",
+          "answer": false,
+          "explanation": "I/O is already non-blocking on the main thread. Workers add overhead for I/O-bound work. They help when JavaScript itself is CPU-bound."
+        },
+        {
+          "id": "nodejs-08-q08",
+          "type": "truefalse",
+          "prompt": "A crash due to an out-of-memory error in a forked child process does not crash the parent process.",
+          "answer": true,
+          "explanation": "Child processes have separate memory and V8 heaps. The parent receives exit or close events and can restart the child. This isolation is the main reason to choose processes over threads."
+        },
+        {
+          "id": "nodejs-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which run on the libuv thread pool by default?",
+          "options": [
+            "fs.readFile",
+            "dns.lookup",
+            "dns.resolve4",
+            "crypto.scrypt (async)",
+            "Reading from a TCP socket"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "fs calls, dns.lookup (uses getaddrinfo) and async scrypt use the pool. dns.resolve* uses c-ares with non-blocking sockets, and TCP reads use the OS readiness API."
+        },
+        {
+          "id": "nodejs-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: node:os ___() returns the number of CPUs the process can use and is preferred over os.cpus().length.",
+          "accept": [
+            "availableParallelism"
+          ],
+          "explanation": "os.availableParallelism() (Node 18.14+) returns the amount of parallelism available, which can respect CPU affinity, and avoids allocating the full cpus() array."
+        },
+        {
+          "id": "nodejs-08-q11",
+          "type": "interview",
+          "prompt": "Compare worker_threads, child_process and cluster. When do you use each?",
+          "answer": "- worker_threads: threads with separate isolates inside one process. Low overhead messaging, optional shared memory. Use for CPU-bound JS (parsing, image processing, hashing, compression) via a pool like Piscina.\n- child_process: separate processes. Use to run external binaries (ffmpeg, ImageMagick, git), Python scripts, or to isolate untrusted or crash-prone work; can kill on timeout.\n- cluster: N copies of the server sharing a port on one machine, primary does round-robin. Use to use all cores on a VM for HTTP throughput; state must live outside the process.\n- In Kubernetes or serverless I typically skip cluster: one process per container, scale replicas, and use worker threads only for CPU hot spots.",
+          "level": "advanced"
+        },
+        {
+          "id": "nodejs-08-q12",
+          "type": "interview",
+          "prompt": "How would you design a CPU-heavy endpoint (e.g. generating PDFs) in a Node.js API?",
+          "answer": "- Do not run it on the main thread. For short tasks (tens to a few hundred ms), use a worker pool with a bounded queue and concurrency limited to available cores; reject or 503 when the queue is full (backpressure).\n- For longer tasks, make it asynchronous: the API enqueues a job (BullMQ, SQS), returns 202 with a job id, a separate worker service generates the PDF and stores it in object storage, and the client polls or gets a webhook or SSE notification.\n- Add timeouts and idempotency keys, cap input size, and monitor event loop delay and queue depth to scale workers independently of the API.",
+          "level": "advanced"
+        },
+        {
+          "id": "nodejs-08-q13",
+          "type": "interview",
+          "prompt": "How does AsyncLocalStorage work and what would you use it for?",
+          "answer": "AsyncLocalStorage (node:async_hooks) stores a value that follows the async execution context: anything awaited or scheduled inside als.run(store, fn) can read the same store with als.getStore(), even through promises, timers and event callbacks.\nTypical uses: request IDs and trace context for logging (each log line automatically includes the request ID), the current user or tenant, and per-request database transactions. OpenTelemetry uses it for context propagation.\nSince Node 24 it is implemented on AsyncContextFrame, which is faster than the older async_hooks-based approach. Watch for context loss with libraries that queue callbacks in custom pools; AsyncResource.bind fixes those.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Node.js docs: Worker threads",
+          "url": "https://nodejs.org/api/worker_threads.html"
+        },
+        {
+          "title": "Node.js docs: Child process",
+          "url": "https://nodejs.org/api/child_process.html"
+        },
+        {
+          "title": "Node.js docs: Cluster",
+          "url": "https://nodejs.org/api/cluster.html"
+        }
+      ]
+    },
+    {
+      "id": "nodejs-09-performance-memory",
+      "title": "Performance, memory leaks and profiling",
+      "level": "advanced",
+      "summary": "Understand V8 memory and garbage collection, find leaks with heap snapshots, profile CPU hot spots and apply the optimisations that actually matter.",
+      "estMinutes": 45,
+      "lesson": [
+        {
+          "heading": "How V8 manages memory",
+          "body": "The V8 heap is generational:\n\n- **New space (young generation)**: small, where most objects are born. Collected often by a fast **scavenger** that copies survivors. Most objects die young, so this is cheap.\n- **Old space**: objects that survived two scavenges are promoted here. Collected by **mark-sweep-compact**, which is mostly concurrent and incremental but still has pauses.\n- **Large object space, code space**, and memory outside the heap: Buffers and ArrayBuffers live in **external** memory, counted separately.\n\n`process.memoryUsage()` reports `rss` (total resident memory of the process), `heapTotal` and `heapUsed` (V8 heap), `external` and `arrayBuffers`. A growing `rss` with flat `heapUsed` points to Buffers, native addons or allocator fragmentation rather than JS objects.\n\nThe old-space limit is derived from available memory. In containers set it explicitly, e.g. `node --max-old-space-size=1536` for a 2 GiB limit, leaving headroom for external memory and the stack. When the heap limit is hit, the process dies with `FATAL ERROR: ... JavaScript heap out of memory`."
+        },
+        {
+          "heading": "Common memory leak patterns",
+          "body": "In a garbage-collected language a leak means **unintentionally reachable** objects. The usual suspects:\n\n- **Unbounded caches**: a module-level `Map` keyed by user, URL or request that never evicts. Use an LRU with a max size and TTL, or `WeakMap` when keys are objects whose lifetime should control the entry.\n- **Event listeners** added per request on long-lived emitters and never removed.\n- **Timers**: `setInterval` callbacks that capture large objects and are never cleared.\n- **Closures** that capture more than needed (e.g. a whole request object kept alive by a callback stored somewhere).\n- **Global arrays** used as debug logs or queues that only grow.\n- **Promises that never settle** holding their continuations, e.g. awaiting an event that never fires.",
+          "code": {
+            "lang": "js",
+            "source": "// Leak: grows forever, one entry per unique URL\nconst cache = new Map();\nexport async function getPage(url) {\n  if (!cache.has(url)) cache.set(url, await render(url));\n  return cache.get(url);\n}\n\n// Fix: bounded LRU (npm: lru-cache)\nimport { LRUCache } from \"lru-cache\";\nconst pages = new LRUCache({ max: 500, ttl: 60_000 });\nexport async function getPageSafe(url) {\n  let html = pages.get(url);\n  if (html === undefined) {\n    html = await render(url);\n    pages.set(url, html);\n  }\n  return html;\n}"
+          }
+        },
+        {
+          "heading": "Finding leaks with heap snapshots",
+          "body": "The reliable technique is the **three-snapshot comparison**:\n\n- Start the app with `node --inspect` (or write snapshots with `v8.writeHeapSnapshot()` or the `--heapsnapshot-signal=SIGUSR2` flag in production).\n- Warm up, take snapshot 1. Run load (e.g. with autocannon), take snapshot 2. Run the same load again, take snapshot 3.\n- In Chrome DevTools, compare snapshots: object types whose count keeps growing across 2 and 3 are leak candidates. Inspect the **retainers** path to see what keeps them alive.\n\nAlso useful: `--heapsnapshot-near-heap-limit=1` writes a snapshot just before an OOM crash, and `--trace-gc` logs every GC with timings. Note that taking a snapshot pauses the process and needs roughly as much extra memory as the heap, so do it on one instance taken out of rotation."
+        },
+        {
+          "heading": "CPU profiling and finding hot paths",
+          "body": "- `node --cpu-prof app.js` writes a `.cpuprofile` on exit; open it in Chrome DevTools or speedscope as a flame graph.\n- `node --inspect` plus the DevTools Performance tab profiles live.\n- Clinic.js (Doctor, Flame, Bubbleprof) and 0x generate flame graphs and diagnose event loop delay versus I/O versus GC problems.\n- Load-test with autocannon or k6 while profiling, so you measure under realistic concurrency.\n\nWide plateaus at the top of a flame graph are where CPU time goes. Typical culprits: JSON serialisation of large objects, synchronous crypto, regexes, template rendering, logging with heavy formatting, and ORMs hydrating thousands of rows."
+        },
+        {
+          "heading": "Optimisations that matter in practice",
+          "body": "Measure first, then fix the biggest item. In most Node APIs the wins are architectural, not micro-optimisations:\n\n- **I/O**: reuse connections (DB pools, HTTP keep-alive agents; undici-based `fetch` keeps connections alive by default), run independent calls concurrently with `Promise.all`, avoid N+1 queries, add caching.\n- **Payloads**: paginate, select only needed fields, compress at the proxy, stream large responses. Schema-based serialisers (fast-json-stringify, used by Fastify) beat `JSON.stringify` for hot endpoints.\n- **Logging**: use an async, structured logger (pino) instead of heavy synchronous console formatting.\n- **V8 friendliness**: keep object shapes consistent (initialise all properties in the constructor, avoid `delete`), keep hot functions monomorphic (same argument types), and ignore old myths such as avoiding try/catch, which modern V8 optimises fine.\n- **Runtime**: stay on a current LTS; each major brings V8 and undici performance gains.",
+          "code": {
+            "lang": "js",
+            "source": "// Sequential: ~300 ms if each call takes 100 ms\nconst user = await getUser(id);\nconst orders = await getOrders(id);\nconst prefs = await getPrefs(id);\n\n// Concurrent: ~100 ms\nconst [user2, orders2, prefs2] = await Promise.all([\n  getUser(id), getOrders(id), getPrefs(id),\n]);"
+          }
+        }
+      ],
+      "keyPoints": [
+        "V8 uses a generational heap: fast scavenges for new space, mark-sweep-compact for old space.",
+        "rss includes external memory (Buffers); heapUsed is only the JS heap.",
+        "Set --max-old-space-size explicitly in containers, below the container memory limit.",
+        "Leaks are unintentionally reachable objects: unbounded caches, listeners, timers, closures.",
+        "Use the three-snapshot technique and follow retainer paths to find leaks.",
+        "Profile CPU with --cpu-prof, DevTools or Clinic.js under realistic load.",
+        "Biggest wins are usually I/O: concurrency, pooling, caching, smaller payloads."
+      ],
+      "questions": [
+        {
+          "id": "nodejs-09-q01",
+          "type": "mcq",
+          "prompt": "A service's rss grows steadily but heapUsed stays flat. What is the most likely area to investigate?",
+          "options": [
+            "Unbounded JavaScript Map",
+            "Buffers/ArrayBuffers, native addons or allocator fragmentation outside the V8 heap",
+            "The new space being too small",
+            "Too many closures"
+          ],
+          "answer": 1,
+          "explanation": "JS objects such as Maps, closures and arrays count toward heapUsed. Growth only in rss points to external memory (Buffers, native modules) or fragmentation."
+        },
+        {
+          "id": "nodejs-09-q02",
+          "type": "mcq",
+          "prompt": "What is the best way to confirm a suspected memory leak?",
+          "options": [
+            "Restart the app every hour",
+            "Compare multiple heap snapshots taken after repeated identical load and inspect retainers of growing objects",
+            "Increase --max-old-space-size",
+            "Call global.gc() in a loop"
+          ],
+          "answer": 1,
+          "explanation": "Snapshots after identical load cycles isolate objects that accumulate. Retainer paths show what keeps them alive. Restarting or adding memory only hides the problem."
+        },
+        {
+          "id": "nodejs-09-q03",
+          "type": "mcq",
+          "prompt": "Why is this code a leak?",
+          "code": "app.get(\"/status\", (req, res) => {\n  setInterval(() => {\n    console.log(\"polling for\", req.ip);\n  }, 1000);\n  res.send(\"ok\");\n});",
+          "options": [
+            "setInterval is deprecated",
+            "Each request adds an interval that is never cleared, and each closure retains its req object",
+            "console.log leaks memory",
+            "Intervals run on the thread pool"
+          ],
+          "answer": 1,
+          "explanation": "The interval keeps its callback alive forever, and the callback captures req. Every request permanently retains a request object and adds periodic work. Clear the interval on completion or redesign."
+        },
+        {
+          "id": "nodejs-09-q04",
+          "type": "mcq",
+          "prompt": "Which flag writes a heap snapshot automatically when the process is about to run out of heap?",
+          "options": [
+            "--trace-gc",
+            "--heapsnapshot-near-heap-limit=1",
+            "--max-old-space-size",
+            "--inspect-brk"
+          ],
+          "answer": 1,
+          "explanation": "--heapsnapshot-near-heap-limit=N writes up to N snapshots when heap usage approaches the limit, letting you analyse what filled the heap before the OOM crash."
+        },
+        {
+          "id": "nodejs-09-q05",
+          "type": "mcq",
+          "prompt": "Three independent 100 ms database calls are awaited one after another. What is the most effective change?",
+          "options": [
+            "Increase UV_THREADPOOL_SIZE",
+            "Run them concurrently with Promise.all",
+            "Use worker_threads",
+            "Use cluster mode"
+          ],
+          "answer": 1,
+          "explanation": "Sequential awaits add up latencies (about 300 ms). Starting all three then awaiting Promise.all overlaps them (about 100 ms). The bottleneck is waiting, not CPU."
+        },
+        {
+          "id": "nodejs-09-q06",
+          "type": "mcq",
+          "prompt": "Which object property pattern helps V8 optimise hot code?",
+          "options": [
+            "Adding properties in different orders depending on input",
+            "Using delete to remove unused properties",
+            "Initialising all properties in the constructor in the same order",
+            "Storing numbers and strings in the same property interchangeably"
+          ],
+          "answer": 2,
+          "explanation": "V8 assigns hidden classes (shapes) based on property order. Consistent shapes keep inline caches monomorphic and fast; delete and varying order create many shapes and deoptimise property access."
+        },
+        {
+          "id": "nodejs-09-q07",
+          "type": "truefalse",
+          "prompt": "Taking a heap snapshot is free and can be done on a busy production instance without impact.",
+          "answer": false,
+          "explanation": "Snapshotting pauses the JS thread and can need memory comparable to the heap size. Do it on an instance removed from load balancing, or in a staging environment that reproduces the leak."
+        },
+        {
+          "id": "nodejs-09-q08",
+          "type": "truefalse",
+          "prompt": "A WeakMap entry does not prevent its key object from being garbage collected.",
+          "answer": true,
+          "explanation": "WeakMap holds keys weakly. When nothing else references the key object, both the key and its value become collectable, which is ideal for attaching metadata to objects without leaking."
+        },
+        {
+          "id": "nodejs-09-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are common sources of memory leaks in Node services?",
+          "options": [
+            "Module-level caches without eviction",
+            "Listeners added to a long-lived emitter on every request",
+            "Using const instead of let",
+            "Uncleared setInterval timers capturing large objects",
+            "Streaming a file with pipeline"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Unbounded caches, accumulating listeners and uncleared timers keep objects reachable. const vs let does not affect reachability, and pipeline releases resources when done."
+        },
+        {
+          "id": "nodejs-09-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: node --___ app.js writes a .cpuprofile file you can open as a flame graph in Chrome DevTools.",
+          "accept": [
+            "cpu-prof"
+          ],
+          "explanation": "--cpu-prof starts the V8 CPU profiler at startup and writes the profile on exit. --cpu-prof-dir and --cpu-prof-name control the output location."
+        },
+        {
+          "id": "nodejs-09-q11",
+          "type": "interview",
+          "prompt": "How would you debug a memory leak in a production Node.js service?",
+          "answer": "- Confirm it: memory metrics (rss, heapUsed, external) climbing over hours with load-correlated growth and GC not reclaiming it, eventually OOM restarts.\n- Decide which memory: heapUsed growth means JS objects; rss/external growth means Buffers or native code.\n- Reproduce in staging with a load generator, or capture from one production instance pulled out of rotation using --heapsnapshot-signal or v8.writeHeapSnapshot().\n- Three-snapshot comparison in DevTools: find constructors whose counts grow, then follow retainers to the code holding them (a cache, listener, closure, global array).\n- Fix (bounded LRU, remove listeners, clear timers, WeakMap), add a regression load test, and keep --heapsnapshot-near-heap-limit enabled to catch the next one.\n- Short term mitigation while investigating: restarts, but never treat restarts as the fix.",
+          "level": "advanced"
+        },
+        {
+          "id": "nodejs-09-q12",
+          "type": "interview",
+          "prompt": "Explain V8 garbage collection at a level useful for a backend engineer.",
+          "answer": "- Generational hypothesis: most objects die young. New space is small and collected by a fast parallel scavenger (copying live objects); survivors are promoted to old space.\n- Old space uses mark-sweep-compact (Orinoco: concurrent marking, parallel compaction, incremental work) to minimise pauses, but large heaps still cause noticeable pauses.\n- Practical implications: allocation-heavy hot paths (large temporary arrays, string concatenation, huge JSON) raise GC pressure and p99 latency; very large heaps make major GCs longer; heap limits must be set below container limits.\n- Observe with --trace-gc, performance entries of type gc, and GC metrics in APM; reduce allocation, stream data, and keep the heap small and steady.",
+          "level": "advanced"
+        },
+        {
+          "id": "nodejs-09-q13",
+          "type": "interview",
+          "prompt": "An endpoint returns a 5 MB JSON response and p99 latency is poor. What would you do?",
+          "answer": "- Question the payload first: paginate, filter fields, or let clients request what they need (sparse fieldsets, GraphQL). Most 5 MB responses are design problems.\n- JSON.stringify of a 5 MB object blocks the event loop for tens of ms, and building the object allocates heavily. Stream the response (e.g. stream rows from a DB cursor as NDJSON or a streamed JSON array) to keep memory flat and get the first byte out early.\n- Use a schema-based serialiser (fast-json-stringify) for hot fixed-shape responses, compress with gzip/brotli at the proxy or CDN, and cache responses that do not change per request (ETag + Cache-Control).\n- Verify with a CPU profile and event loop delay metrics before and after.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Node.js: Using Heap Snapshot",
+          "url": "https://nodejs.org/en/learn/diagnostics/memory/using-heap-snapshot"
+        },
+        {
+          "title": "Node.js: Profiling Node.js Applications",
+          "url": "https://nodejs.org/en/learn/getting-started/profiling"
+        },
+        {
+          "title": "V8 blog: Trash talk - the Orinoco garbage collector",
+          "url": "https://v8.dev/blog/trash-talk"
+        }
+      ]
+    }
+  ]
+}

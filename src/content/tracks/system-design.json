@@ -1,0 +1,2040 @@
+{
+  "id": "system-design",
+  "title": "System Design",
+  "area": "fundamentals",
+  "order": 3,
+  "icon": "SD",
+  "color": "#f59e0b",
+  "description": "Learn to design scalable, reliable systems: estimation, caching, databases, queues, consistency and the classic interview designs. Ends with frontend system design for full stack roles.",
+  "chapters": [
+    {
+      "id": "system-design-01-foundations",
+      "title": "Requirements and Back-of-the-Envelope Estimation",
+      "level": "beginner",
+      "summary": "How to open a system design interview: clarify requirements, then size the system with quick, defensible math.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "The shape of a system design interview",
+          "body": "A system design interview is a 45-60 minute conversation, not a quiz. The interviewer wants to see how you turn a vague prompt ('design Twitter') into a concrete, defensible architecture. A reliable structure:\n\n- **Clarify requirements** (5 min): functional and non-functional.\n- **Estimate scale** (5 min): users, QPS, storage, bandwidth.\n- **Define the API and data model** (5-10 min).\n- **High-level design** (10-15 min): boxes and arrows for the main flows.\n- **Deep dive** (10-15 min): the hardest one or two components, bottlenecks, failure modes.\n- **Wrap up**: trade-offs, what you would do next, monitoring.\n\nDriving the conversation yourself, stating assumptions out loud and checking in with the interviewer matters as much as the final diagram."
+        },
+        {
+          "heading": "Functional vs non-functional requirements",
+          "body": "**Functional requirements** describe what the system does: 'users can post a tweet', 'users see a home timeline', 'short links redirect to the long URL'. Pick 3-5 core features and explicitly park the rest ('I will skip DMs and ads unless you want them').\n\n**Non-functional requirements** describe how well it does it:\n\n- Scale: daily active users (DAU), read/write ratio.\n- Latency: for example p99 under 200 ms for reads.\n- Availability: 99.9% is about 8.8 hours of downtime per year; 99.99% is about 53 minutes.\n- Consistency: can users see stale data for a few seconds?\n- Durability: can we ever lose data (payments: no; view counters: maybe).\n\nNon-functional requirements drive almost every architectural choice. A read-heavy, eventually consistent feed looks nothing like a strongly consistent payment ledger."
+        },
+        {
+          "heading": "Numbers every engineer should know",
+          "body": "Estimation needs a few anchors. Approximate values:\n\n- L1 cache reference: ~1 ns. Main memory reference: ~100 ns.\n- Read 1 MB sequentially from memory: ~3-10 microseconds; from SSD: ~50-200 microseconds.\n- Round trip within one data center: ~0.5 ms. Cross-continent round trip: ~70-150 ms.\n- A single well-tuned Postgres or MySQL node: thousands to low tens of thousands of simple queries per second.\n- A single Redis node: ~100k+ simple operations per second.\n- 1 day is ~86,400 seconds; use **~100k seconds** for quick math.\n\nPowers of two: 2^10 ~ 1 thousand (KB), 2^20 ~ 1 million (MB), 2^30 ~ 1 billion (GB), 2^40 ~ 1 trillion (TB). Precision is not the goal; being within an order of magnitude is."
+        },
+        {
+          "heading": "Estimating QPS, storage and bandwidth",
+          "body": "Work from users to requests:\n\n- Average QPS = DAU x actions per user per day / 86,400.\n- Peak QPS is usually 2-10x average (pick 2-3x unless traffic is spiky).\n- Storage = new items per day x size per item x retention days (add replication factor, often 3x).\n- Bandwidth = QPS x payload size.\n\nWorked example: 100M DAU, each user writes 2 posts/day and reads 100 posts/day. Writes = 200M/day ~ 2,300/s average, ~5k/s peak. Reads = 10B/day ~ 115k/s average, ~300k/s peak. Read:write is 50:1, so caching and read replicas matter more than write throughput. If a post is 1 KB, storage is 200 GB/day, ~73 TB/year before replication.\n\nState each assumption, round aggressively, and say what the number implies ('300k reads/s means we need a cache layer; one database will not serve that').",
+          "code": {
+            "lang": "text",
+            "source": "DAU                = 100,000,000\nwrites/user/day    = 2      -> 200M writes/day\nreads/user/day     = 100    -> 10B reads/day\nseconds/day        ~ 100,000 (86,400)\nwrite QPS (avg)    ~ 2,000   peak ~ 5,000\nread QPS  (avg)    ~ 100,000 peak ~ 300,000\npost size          = 1 KB   -> 200 GB/day -> ~73 TB/year (x3 replicas ~ 220 TB)"
+          }
+        },
+        {
+          "heading": "Defining the API and data model early",
+          "body": "After sizing, sketch the API. It forces you to pin down what the system accepts and returns, and it reveals the access patterns that drive the data model.\n\n- `POST /v1/posts {text, mediaIds}` returns `{postId}`\n- `GET /v1/feed?cursor=...&limit=20` returns posts plus `nextCursor`\n\nThen list the main entities and their key access patterns: 'get posts by user ordered by time', 'get followers of user'. Access patterns decide SQL vs NoSQL, indexes and partition keys. Prefer cursor-based pagination for feeds (stable under inserts) over offset pagination, which gets slow and skips or duplicates rows when data changes.\n\n**Gotcha**: do not jump into technology names ('Kafka! Cassandra!') before requirements justify them. Interviewers penalise buzzword-driven designs."
+        }
+      ],
+      "keyPoints": [
+        "Follow a structure: requirements, estimation, API, high-level design, deep dive, trade-offs.",
+        "Functional requirements say what the system does; non-functional ones (scale, latency, availability, consistency) drive the architecture.",
+        "Use ~100k seconds per day for fast QPS math; peak is typically 2-10x average.",
+        "Storage = items/day x size x retention x replication factor.",
+        "The read:write ratio tells you whether to optimise reads (cache, replicas) or writes (partitioning, queues).",
+        "99.9% availability is ~8.8 h downtime/year; each extra nine is 10x less.",
+        "Define the API and access patterns before choosing databases."
+      ],
+      "questions": [
+        {
+          "id": "system-design-01-q01",
+          "type": "mcq",
+          "prompt": "A service has 50M DAU and each user makes 20 requests per day. What is the approximate average QPS?",
+          "options": [
+            "~1,000",
+            "~12,000",
+            "~120,000",
+            "~1,200,000"
+          ],
+          "answer": 1,
+          "explanation": "50M x 20 = 1B requests/day. 1B / 86,400 ~ 11,600, so roughly 12k QPS on average. Peak would be 2-3x that."
+        },
+        {
+          "id": "system-design-01-q02",
+          "type": "mcq",
+          "prompt": "Which of these is a non-functional requirement?",
+          "options": [
+            "Users can upload a profile photo",
+            "Users can follow other users",
+            "The home feed loads in under 200 ms at p99",
+            "Admins can delete posts"
+          ],
+          "answer": 2,
+          "explanation": "Latency targets describe how well the system performs, not what it does. The others are features (functional requirements)."
+        },
+        {
+          "id": "system-design-01-q03",
+          "type": "mcq",
+          "prompt": "Roughly how much downtime per year does 99.99% availability allow?",
+          "options": [
+            "~5 minutes",
+            "~53 minutes",
+            "~8.8 hours",
+            "~3.6 days"
+          ],
+          "answer": 1,
+          "explanation": "0.01% of 525,600 minutes is ~52.6 minutes. 99.9% is ~8.8 hours and 99.999% is ~5 minutes."
+        },
+        {
+          "id": "system-design-01-q04",
+          "type": "mcq",
+          "prompt": "You store 10M new images per day, 500 KB each, kept for 5 years with 3x replication. Approximate raw storage?",
+          "options": [
+            "~9 TB",
+            "~90 TB",
+            "~27 PB",
+            "~2.7 PB"
+          ],
+          "answer": 2,
+          "explanation": "10M x 500 KB = 5 TB/day. x 365 x 5 ~ 9.1 PB. x 3 replicas ~ 27 PB. Object storage with erasure coding would reduce the overhead, but the order of magnitude is petabytes."
+        },
+        {
+          "id": "system-design-01-q05",
+          "type": "mcq",
+          "prompt": "A system has a 100:1 read:write ratio. Which investment usually gives the biggest win?",
+          "options": [
+            "Sharding the write path",
+            "A caching layer and read replicas",
+            "Switching to a message queue for writes",
+            "Stronger consistency on writes"
+          ],
+          "answer": 1,
+          "explanation": "When reads dominate, serving reads from cache or replicas offloads the primary. Write-path optimisations matter when writes are the bottleneck."
+        },
+        {
+          "id": "system-design-01-q06",
+          "type": "mcq",
+          "prompt": "Why is cursor-based pagination preferred over offset pagination for a feed?",
+          "options": [
+            "It uses less JSON",
+            "It stays stable when new items are inserted and avoids scanning skipped rows",
+            "It allows jumping to an arbitrary page number",
+            "It does not need an index"
+          ],
+          "answer": 1,
+          "explanation": "Offset N forces the database to scan and discard N rows, and inserts shift pages, causing duplicates or gaps. A cursor (for example the last seen id or timestamp) seeks directly via an index."
+        },
+        {
+          "id": "system-design-01-q07",
+          "type": "truefalse",
+          "prompt": "In an interview, you should produce exact capacity numbers to two significant figures before drawing any boxes.",
+          "answer": false,
+          "explanation": "Estimates only need to be within an order of magnitude. Their purpose is to justify decisions (do we need a cache, sharding, a CDN), so round aggressively and move on."
+        },
+        {
+          "id": "system-design-01-q08",
+          "type": "truefalse",
+          "prompt": "Peak QPS is commonly estimated as a small multiple (2-10x) of average QPS.",
+          "answer": true,
+          "explanation": "Traffic follows daily cycles and events. Designing only for the average would cause overload at peak, so a multiplier is applied."
+        },
+        {
+          "id": "system-design-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which questions belong in the requirements phase?",
+          "options": [
+            "How many daily active users do we expect?",
+            "Which Kafka partitioner should we use?",
+            "Is it acceptable for a user to see slightly stale data?",
+            "Do we need to support editing posts?",
+            "Should the Redis eviction policy be allkeys-lru?"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Scale, consistency tolerance and feature scope are requirements. Kafka partitioners and Redis eviction policies are implementation details for the deep dive."
+        },
+        {
+          "id": "system-design-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: for quick estimation, one day is about 86,400 ___ (round to 100k).",
+          "accept": [
+            "seconds",
+            "second",
+            "secs",
+            "s"
+          ],
+          "explanation": "24 x 60 x 60 = 86,400 seconds. Rounding to 100k makes mental division easy."
+        },
+        {
+          "id": "system-design-01-q11",
+          "type": "interview",
+          "prompt": "Estimate the storage and QPS for a photo-sharing app with 200M DAU where 10% of users upload 1 photo per day and everyone views 50 photos per day.",
+          "answer": "- Uploads: 200M x 10% = 20M photos/day ~ 230/s average, ~700/s peak.\n- Views: 200M x 50 = 10B/day ~ 115k/s average, ~350k/s peak. Read:write ~ 500:1.\n- Size: assume 2 MB original plus ~300 KB of thumbnails, ~2.3 MB per photo -> ~46 TB/day, ~17 PB/year before replication.\n- Bandwidth: if most views are 200 KB thumbnails, 115k/s x 200 KB ~ 23 GB/s egress, which clearly needs a CDN.\n- Implications: blobs in object storage (S3-like), metadata in a database, CDN for serving, async processing pipeline for thumbnails, metadata reads behind a cache. I would state each assumption and confirm sizes with the interviewer.",
+          "level": "beginner"
+        },
+        {
+          "id": "system-design-01-q12",
+          "type": "interview",
+          "prompt": "What questions do you ask in the first five minutes when given 'Design a chat application'?",
+          "answer": "- Scope: 1:1 only or group chats? Max group size? Media messages? Read receipts, typing indicators, online presence?\n- Platforms: mobile, web, both? Multi-device sync?\n- Scale: DAU, messages per user per day, peak concurrent connections.\n- Latency: what end-to-end delivery time is acceptable (for example under 500 ms)?\n- Ordering and delivery guarantees: must messages be strictly ordered per conversation? At-least-once with dedupe?\n- Retention: store history forever, or ephemeral? End-to-end encryption?\n- Then I summarise the agreed scope ('1:1 and groups up to 500, text plus images, history stored, 100M DAU') before estimating.",
+          "level": "beginner"
+        },
+        {
+          "id": "system-design-01-q13",
+          "type": "interview",
+          "prompt": "Why do non-functional requirements matter more than features in shaping an architecture? Give an example.",
+          "answer": "Features say which endpoints exist, but non-functional requirements decide how they are built. Two systems with identical features can need totally different designs. Example: a 'like' counter. If it must be exact and immediately consistent, every like is a transactional write to a primary database, which caps throughput. If a few seconds of staleness is fine, likes can be buffered in Redis or a queue and aggregated asynchronously, scaling to millions per second. Similarly, a 99.99% availability target forces multi-AZ redundancy and no single points of failure, while a 99% internal tool can run on one node. So I always pin down latency, availability, consistency and scale before drawing components.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "System Design Primer (GitHub)",
+          "url": "https://github.com/donnemartin/system-design-primer"
+        },
+        {
+          "title": "Latency numbers every programmer should know (Colin Scott)",
+          "url": "https://colin-scott.github.io/personal_website/research/interactive_latency.html"
+        },
+        {
+          "title": "AWS Well-Architected Framework",
+          "url": "https://aws.amazon.com/architecture/well-architected/"
+        }
+      ]
+    },
+    {
+      "id": "system-design-02-scalability",
+      "title": "Scalability and Load Balancing",
+      "level": "beginner",
+      "summary": "Vertical vs horizontal scaling, stateless services, and how load balancers spread traffic and survive failures.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Vertical vs horizontal scaling",
+          "body": "**Vertical scaling** (scale up) means a bigger machine: more CPU, RAM, faster disks. It is simple (no code changes, no distributed-systems problems) but has a hard ceiling, gets expensive non-linearly, and leaves a single point of failure.\n\n**Horizontal scaling** (scale out) means more machines behind a load balancer. It has near-unlimited headroom and gives redundancy, but requires the application to be designed for it: no in-process session state, shared storage, and handling partial failures.\n\nIn practice teams scale vertically first for databases (it is cheap engineering time) and horizontally for stateless application servers from day one. Saying 'start with one big Postgres and read replicas, shard only when needed' is a mature answer."
+        },
+        {
+          "heading": "Stateless services",
+          "body": "A service is **stateless** when any instance can handle any request because no request depends on data held in a specific instance's memory or local disk. State moves to shared systems:\n\n- Sessions in Redis or a signed JWT/cookie instead of server memory.\n- Uploaded files in object storage (S3) instead of the local filesystem.\n- Caches either shared (Redis) or treated as disposable local caches.\n\nStateless services can be added, removed or replaced at any time, which enables autoscaling, rolling deploys and recovery from crashed instances. **Sticky sessions** (the load balancer pins a user to one server) are a workaround for stateful apps, but they unbalance load and lose sessions when an instance dies."
+        },
+        {
+          "heading": "Load balancers: L4 vs L7",
+          "body": "A load balancer (LB) distributes requests across healthy backends.\n\n- **Layer 4** (transport) balancers route TCP/UDP connections by IP and port without reading the payload. Very fast, protocol-agnostic. Example: AWS Network Load Balancer.\n- **Layer 7** (application) balancers understand HTTP: they can route by path or host (`/api` to one pool, `/static` to another), terminate TLS, add headers, rewrite, and do retries. Examples: AWS Application Load Balancer, Nginx, Envoy, HAProxy in HTTP mode.\n\nThe LB itself must not be a single point of failure: managed cloud LBs are redundant internally; self-hosted ones run as an active-passive pair with a floating IP, or multiple instances behind DNS."
+        },
+        {
+          "heading": "Balancing algorithms and health checks",
+          "body": "Common algorithms:\n\n- **Round robin**: next server in turn. Good when requests are uniform.\n- **Weighted round robin**: bigger machines get more traffic.\n- **Least connections / least outstanding requests**: better when request durations vary.\n- **IP hash / consistent hashing**: the same client or key goes to the same backend, useful for cache affinity.\n- **Power of two random choices**: pick two backends at random and send to the less loaded; near-optimal and cheap.\n\n**Health checks** probe each backend (for example `GET /healthz` every 10 s). After N failures the backend is removed; after M successes it returns. Keep liveness checks shallow: if every instance's health check depends on the database, one database blip removes the whole fleet and turns a partial outage into a total one.",
+          "code": {
+            "lang": "nginx",
+            "source": "upstream api {\n    least_conn;\n    server 10.0.0.11:3000 max_fails=3 fail_timeout=10s;\n    server 10.0.0.12:3000 max_fails=3 fail_timeout=10s;\n    server 10.0.0.13:3000 weight=2;\n}\n\nserver {\n    listen 443 ssl;\n    location /api/ {\n        proxy_pass http://api;\n        proxy_next_upstream error timeout http_502 http_503;\n    }\n}"
+          }
+        },
+        {
+          "heading": "Autoscaling and removing bottlenecks",
+          "body": "Horizontal scaling is usually paired with **autoscaling**: add instances when CPU, request count or queue depth crosses a threshold, remove them when it drops. Scale on a metric that reflects saturation (requests in flight, queue lag), and keep a warm minimum because new instances take time to boot.\n\nScaling the app tier only moves the bottleneck. Typical progression for a growing web app:\n\n- One server -> separate database server.\n- Add LB plus multiple stateless app servers.\n- Add cache (Redis) and CDN for static assets.\n- Add database read replicas.\n- Move slow work to background queues.\n- Shard or split the database by domain when writes outgrow one primary.\n\nAlways ask 'what breaks next at 10x?'"
+        }
+      ],
+      "keyPoints": [
+        "Vertical scaling is simple but capped and a single point of failure; horizontal scaling needs stateless design.",
+        "Move session, file and cache state out of app instances so any instance can serve any request.",
+        "L4 load balancers route connections; L7 balancers understand HTTP and can route by path, host or header.",
+        "Least-connections handles variable request times better than round robin.",
+        "Health checks remove failed backends; keep them shallow to avoid cascading removal.",
+        "The load balancer must be redundant itself.",
+        "Scaling one tier moves the bottleneck; plan the next one."
+      ],
+      "questions": [
+        {
+          "id": "system-design-02-q01",
+          "type": "mcq",
+          "prompt": "Your app stores user sessions in server memory. After adding a second server behind a round-robin LB, users get logged out randomly. Best fix?",
+          "options": [
+            "Use sticky sessions forever",
+            "Store sessions in a shared store like Redis or use signed tokens",
+            "Increase server memory",
+            "Switch to an L4 load balancer"
+          ],
+          "answer": 1,
+          "explanation": "Requests land on a server that does not hold the session. Externalising session state makes the servers stateless. Sticky sessions hide the problem but break on instance failure and unbalance load."
+        },
+        {
+          "id": "system-design-02-q02",
+          "type": "mcq",
+          "prompt": "You need to route /api/* to one service and /images/* to another based on the URL path. Which load balancer type is required?",
+          "options": [
+            "Layer 3",
+            "Layer 4",
+            "Layer 7",
+            "DNS round robin"
+          ],
+          "answer": 2,
+          "explanation": "Path-based routing requires parsing HTTP, which is a Layer 7 capability. L4 balancers only see IPs and ports."
+        },
+        {
+          "id": "system-design-02-q03",
+          "type": "mcq",
+          "prompt": "Requests to your service take anywhere from 5 ms to 5 s. Which algorithm spreads load most evenly?",
+          "options": [
+            "Round robin",
+            "Least connections (or least outstanding requests)",
+            "IP hash",
+            "Random"
+          ],
+          "answer": 1,
+          "explanation": "Round robin gives each server the same number of requests regardless of how long they run, so slow requests pile up. Least connections sends new work to the least busy server."
+        },
+        {
+          "id": "system-design-02-q04",
+          "type": "mcq",
+          "prompt": "Every app instance's /health endpoint queries the database. The database has a 30-second hiccup. What is the likely outcome?",
+          "options": [
+            "Only the database is marked unhealthy",
+            "The LB removes all app instances, turning a partial outage into a full one",
+            "Nothing, health checks ignore database errors",
+            "Autoscaling adds more instances and fixes it"
+          ],
+          "answer": 1,
+          "explanation": "Deep health checks couple instance health to a shared dependency. All instances fail together and the LB has nowhere to send traffic. Liveness checks should test the process itself; dependency status belongs in readiness or monitoring with care."
+        },
+        {
+          "id": "system-design-02-q05",
+          "type": "mcq",
+          "prompt": "Which is the main drawback of vertical scaling?",
+          "options": [
+            "Requires rewriting the app",
+            "Hard upper limit and a single point of failure",
+            "Adds network latency between nodes",
+            "Cannot run databases"
+          ],
+          "answer": 1,
+          "explanation": "There is a biggest machine you can buy, and one machine fails as a unit. Vertical scaling needs no code changes, which is its advantage."
+        },
+        {
+          "id": "system-design-02-q06",
+          "type": "mcq",
+          "prompt": "Which metric is usually the best signal for autoscaling a worker fleet that consumes a queue?",
+          "options": [
+            "Disk usage",
+            "Queue depth or consumer lag",
+            "Number of deployments per day",
+            "Memory of the load balancer"
+          ],
+          "answer": 1,
+          "explanation": "Queue lag directly measures whether consumers keep up with producers. CPU can be misleading for I/O-bound workers."
+        },
+        {
+          "id": "system-design-02-q07",
+          "type": "truefalse",
+          "prompt": "A Layer 4 load balancer can terminate TLS and inspect HTTP headers to choose a backend.",
+          "answer": false,
+          "explanation": "Header inspection requires Layer 7. An L4 balancer forwards TCP/UDP streams based on addresses and ports (some can pass TLS through or terminate it, but they do not route on HTTP content)."
+        },
+        {
+          "id": "system-design-02-q08",
+          "type": "truefalse",
+          "prompt": "Stateless application servers make rolling deployments and autoscaling easier.",
+          "answer": true,
+          "explanation": "Since no instance holds unique state, instances can be started, drained and killed freely without losing user data."
+        },
+        {
+          "id": "system-design-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: what makes a web service stateless-friendly?",
+          "options": [
+            "Sessions in Redis or signed cookies",
+            "User uploads written to the instance's local disk",
+            "Files in object storage like S3",
+            "In-memory cache that is safe to lose",
+            "Background jobs tracked only in a process-local array"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Shared or disposable state is fine. Local-disk uploads and process-local job lists disappear or diverge when instances change."
+        },
+        {
+          "id": "system-design-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: adding more machines behind a load balancer is called ___ scaling.",
+          "accept": [
+            "horizontal",
+            "scale out",
+            "scaling out",
+            "scale-out"
+          ],
+          "explanation": "Horizontal scaling (scale out) adds nodes; vertical scaling (scale up) makes one node bigger."
+        },
+        {
+          "id": "system-design-02-q11",
+          "type": "interview",
+          "prompt": "Walk through how you would scale a monolithic web app from 1,000 to 10 million users.",
+          "answer": "- Start: one server running app plus database. First split the database onto its own machine so they scale independently.\n- Put a load balancer in front of 2+ stateless app servers; move sessions to Redis and files to S3. This also removes the app single point of failure.\n- Add a CDN for static assets and a Redis cache for hot reads (cache-aside).\n- Add database read replicas and route read-only queries to them; tolerate replication lag where acceptable.\n- Move slow or bursty work (emails, image processing) to a queue with workers.\n- Add autoscaling on request rate or latency, plus monitoring and alerting.\n- When writes outgrow a single primary, partition: first by functional domain (separate databases per service), then shard hot tables by a key like user_id.\n- Multi-AZ everywhere, and eventually multi-region if latency or availability targets demand it. At each step I measure first and fix the current bottleneck rather than prematurely distributing.",
+          "level": "beginner"
+        },
+        {
+          "id": "system-design-02-q12",
+          "type": "interview",
+          "prompt": "How do you make a load balancer itself highly available?",
+          "answer": "- Use a managed cloud LB (AWS ALB/NLB, GCP LB): it is internally redundant across availability zones and scales automatically.\n- Self-hosted: run two or more LB nodes (HAProxy/Nginx/Envoy) in active-passive with a floating virtual IP managed by keepalived (VRRP), or active-active behind DNS with multiple A records or anycast.\n- Spread LB nodes across availability zones.\n- Health-check the LBs themselves and keep config in version control so a replacement is quick.\n- For global traffic, use DNS-based or anycast global load balancing in front of regional LBs, so a whole region can fail over.",
+          "level": "intermediate"
+        },
+        {
+          "id": "system-design-02-q13",
+          "type": "interview",
+          "prompt": "When are sticky sessions acceptable, and what are their downsides?",
+          "answer": "Sticky sessions (session affinity) pin a client to one backend via a cookie or IP hash. They are acceptable as a temporary measure for legacy stateful apps, or when affinity improves performance (for example a WebSocket connection naturally stays on one server, or a per-node cache warms up for a user). Downsides: load becomes uneven (a few heavy users overload one node), scaling in or crashing an instance loses those users' in-memory sessions, deployments must drain carefully, and IP-hash breaks behind NATs where many users share one IP. The better long-term fix is externalising state so affinity becomes an optimisation rather than a correctness requirement.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Elastic Load Balancing documentation (AWS)",
+          "url": "https://docs.aws.amazon.com/elasticloadbalancing/"
+        },
+        {
+          "title": "Nginx HTTP load balancing",
+          "url": "https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/"
+        },
+        {
+          "title": "The Twelve-Factor App: Processes",
+          "url": "https://12factor.net/processes"
+        }
+      ]
+    },
+    {
+      "id": "system-design-03-caching-cdn",
+      "title": "Caching Layers and CDNs",
+      "level": "beginner",
+      "summary": "Where to cache, which caching pattern to use, how to invalidate, and how CDNs serve content close to users.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Why and where to cache",
+          "body": "A cache stores the result of expensive work (a database query, a rendered page, an API call) in faster storage so repeated requests skip the work. Caches exist at every layer:\n\n- **Browser cache**: controlled by `Cache-Control`, `ETag` headers.\n- **CDN / edge cache**: static assets and cacheable HTML/API responses near users.\n- **Reverse proxy cache**: Nginx or Varnish in front of the app.\n- **Application cache**: Redis or Memcached shared by app servers, or an in-process LRU.\n- **Database cache**: buffer pool, query cache, materialised views.\n\nCaching works because access is skewed: a small fraction of keys (hot items) get most reads. The **hit ratio** is the key metric; a cache with a 50% hit ratio only halves database load, while 99% reduces it 100x."
+        },
+        {
+          "heading": "Caching patterns",
+          "body": "- **Cache-aside (lazy loading)**: the app reads the cache; on a miss it reads the database and populates the cache. Most common. Only requested data is cached, and a cache outage degrades to slower reads instead of failure.\n- **Read-through**: the cache library itself loads from the database on a miss. Same idea, logic lives in the cache layer.\n- **Write-through**: writes go to the cache and the database synchronously. Cache is always fresh, but writes are slower and unread data fills the cache.\n- **Write-behind (write-back)**: writes go to the cache and are flushed to the database asynchronously. Very fast writes, but data can be lost if the cache dies before flushing.\n- **Write-around**: writes go only to the database; the cache fills on reads. Good when written data is rarely re-read soon.\n\nFor most web apps: cache-aside for reads, and on writes update the database then **delete** the cache key (not update it), which avoids races where a stale value overwrites a newer one.",
+          "code": {
+            "lang": "typescript",
+            "source": "async function getUser(id: string): Promise<User> {\n  const key = `user:${id}`;\n  const cached = await redis.get(key);\n  if (cached) return JSON.parse(cached);          // hit\n\n  const user = await db.users.findById(id);        // miss\n  await redis.set(key, JSON.stringify(user), \"EX\", 300); // TTL 5 min\n  return user;\n}\n\nasync function updateUser(id: string, patch: Partial<User>) {\n  await db.users.update(id, patch);\n  await redis.del(`user:${id}`);                 // invalidate, don't update\n}"
+          }
+        },
+        {
+          "heading": "Invalidation, TTLs and eviction",
+          "body": "'There are only two hard things in computer science: cache invalidation and naming things.' Strategies:\n\n- **TTL**: every entry expires after N seconds. Bounds staleness, simple, always use one as a safety net.\n- **Explicit invalidation**: delete keys when the source changes (on write, or via change-data-capture events).\n- **Versioned keys**: include a version in the key (`product:42:v7`); bump the version to invalidate everything at once.\n\nWhen memory is full the cache **evicts** entries: LRU (least recently used) is the common default; LFU (least frequently used) keeps long-term popular items; Redis offers policies like `allkeys-lru` and `volatile-ttl`. Add random jitter to TTLs so keys written together do not expire together."
+        },
+        {
+          "heading": "Cache failure modes",
+          "body": "- **Cache stampede (thundering herd)**: a hot key expires and thousands of requests miss simultaneously, all hitting the database. Fixes: a lock or single-flight so only one request recomputes, serve stale while revalidating, or refresh hot keys before expiry (probabilistic early expiration).\n- **Cache penetration**: requests for keys that do not exist always miss and hit the database (often malicious). Fix: cache negative results briefly, or use a Bloom filter of valid keys.\n- **Cache avalanche**: many keys expire at once, or the cache cluster restarts cold. Fix: TTL jitter, warm-up, and rate limiting to the database.\n- **Hot key**: one key receives more traffic than a single cache node can serve. Fix: replicate the key across nodes (`key#1..key#N`) or add a small in-process cache in front.\n- **Stale data / inconsistency**: write to DB succeeded but delete from cache failed. Fix: short TTLs, retries, or CDC-driven invalidation."
+        },
+        {
+          "heading": "CDNs and HTTP caching",
+          "body": "A **Content Delivery Network** (Cloudflare, CloudFront, Fastly, Akamai) is a set of edge servers (points of presence) worldwide. Users hit the nearest edge; on a miss the edge fetches from your **origin** and caches the response. Benefits: lower latency, offloaded origin bandwidth, DDoS absorption, TLS termination at the edge.\n\n- **Pull CDN**: edge fetches from origin on first request. Simple, the default.\n- **Push CDN**: you upload content to the CDN ahead of time. Useful for large files with predictable demand.\n\nCaching behaviour is driven by HTTP headers. Fingerprinted assets (`app.3f9a1c.js`) can be cached forever with `Cache-Control: public, max-age=31536000, immutable`, because a new deploy changes the file name. HTML should use short TTLs or `no-cache` with `ETag` revalidation. `s-maxage` sets the TTL for shared caches (CDN) separately from browsers, and `stale-while-revalidate` lets the edge serve stale content while refreshing in the background. Purge APIs invalidate content after urgent changes.",
+          "code": {
+            "lang": "http",
+            "source": "# Hashed static asset: cache forever\nCache-Control: public, max-age=31536000, immutable\n\n# HTML page: CDN caches 60 s, may serve stale up to 5 min while refreshing\nCache-Control: public, max-age=0, s-maxage=60, stale-while-revalidate=300\n\n# Private per-user API response: never store in shared caches\nCache-Control: private, no-store"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Caching pays off because access is skewed; hit ratio is the key metric.",
+        "Cache-aside is the default: read cache, on miss load from DB and populate.",
+        "On writes, update the database then delete the cache key rather than writing the new value.",
+        "Always set TTLs (with jitter) as a safety net for staleness.",
+        "Guard against stampedes with single-flight locks or stale-while-revalidate.",
+        "CDNs cache content at edge locations near users and shield the origin.",
+        "Fingerprinted static assets can be cached for a year with immutable; HTML gets short TTLs."
+      ],
+      "questions": [
+        {
+          "id": "system-design-03-q01",
+          "type": "mcq",
+          "prompt": "In cache-aside, what happens on a cache miss?",
+          "options": [
+            "The request fails",
+            "The application reads from the database and writes the result into the cache",
+            "The cache itself queries the database transparently",
+            "The database pushes the value into the cache"
+          ],
+          "answer": 1,
+          "explanation": "In cache-aside the application owns the logic. A cache that loads data itself on a miss is the read-through pattern."
+        },
+        {
+          "id": "system-design-03-q02",
+          "type": "mcq",
+          "prompt": "Which write strategy offers the fastest writes but risks data loss if the cache node crashes?",
+          "options": [
+            "Write-through",
+            "Write-around",
+            "Write-behind (write-back)",
+            "Cache-aside"
+          ],
+          "answer": 2,
+          "explanation": "Write-behind acknowledges the write once it is in the cache and flushes later; unflushed writes are lost on a crash."
+        },
+        {
+          "id": "system-design-03-q03",
+          "type": "mcq",
+          "prompt": "A celebrity profile key expires and 50,000 concurrent requests all miss and query the database. What is this called?",
+          "options": [
+            "Cache penetration",
+            "Cache stampede (thundering herd)",
+            "Write amplification",
+            "Split brain"
+          ],
+          "answer": 1,
+          "explanation": "A stampede is many simultaneous misses on the same key. Single-flight recomputation or serving stale data while one request refreshes prevents it."
+        },
+        {
+          "id": "system-design-03-q04",
+          "type": "mcq",
+          "prompt": "Attackers request random non-existent product IDs, bypassing the cache every time. Best mitigation?",
+          "options": [
+            "Increase TTLs",
+            "Cache negative results briefly and/or use a Bloom filter of valid IDs",
+            "Use write-through caching",
+            "Add a CDN"
+          ],
+          "answer": 1,
+          "explanation": "This is cache penetration. Caching 'not found' for a short time or checking a Bloom filter stops misses from reaching the database."
+        },
+        {
+          "id": "system-design-03-q05",
+          "type": "mcq",
+          "prompt": "Which header is appropriate for a fingerprinted bundle like main.8c1f2a.js?",
+          "options": [
+            "Cache-Control: no-store",
+            "Cache-Control: public, max-age=31536000, immutable",
+            "Cache-Control: private, max-age=60",
+            "Expires: 0"
+          ],
+          "answer": 1,
+          "explanation": "The hash changes whenever content changes, so the URL is effectively versioned. It can be cached for a year and never revalidated."
+        },
+        {
+          "id": "system-design-03-q06",
+          "type": "mcq",
+          "code": "await db.products.update(id, data);\nawait redis.set(`product:${id}`, JSON.stringify(data));",
+          "prompt": "Two concurrent updates run this code. What risk does setting (instead of deleting) the cache create?",
+          "options": [
+            "None, it is the recommended pattern",
+            "Writes can interleave so the cache ends with the older value while the database has the newer one",
+            "Redis will reject duplicate keys",
+            "The database update becomes non-atomic"
+          ],
+          "answer": 1,
+          "explanation": "Request A writes DB, request B writes DB, B sets cache, then A sets cache: the cache now holds A's stale value indefinitely. Deleting the key forces the next read to load the current value."
+        },
+        {
+          "id": "system-design-03-q07",
+          "type": "truefalse",
+          "prompt": "Adding random jitter to TTLs helps prevent many keys from expiring at the same moment.",
+          "answer": true,
+          "explanation": "Keys populated together (for example after a deploy or warm-up) would otherwise expire together, causing a burst of misses (avalanche)."
+        },
+        {
+          "id": "system-design-03-q08",
+          "type": "truefalse",
+          "prompt": "A CDN is only useful for static files such as images and JavaScript.",
+          "answer": false,
+          "explanation": "CDNs also cache HTML and public API responses, terminate TLS near users, absorb DDoS traffic and can run edge functions."
+        },
+        {
+          "id": "system-design-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: valid ways to reduce cache stampedes on a hot key.",
+          "options": [
+            "Single-flight lock so only one request recomputes the value",
+            "Serve stale data while refreshing in the background",
+            "Set TTL to zero",
+            "Refresh the value proactively before expiry",
+            "Disable the cache during peak hours"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Locks, stale-while-revalidate and early refresh all ensure the database sees one recomputation instead of thousands. A zero TTL or disabling the cache makes it worse."
+        },
+        {
+          "id": "system-design-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the most common cache eviction policy, which removes the entry not accessed for the longest time, is ___.",
+          "accept": [
+            "LRU",
+            "least recently used",
+            "least-recently-used"
+          ],
+          "explanation": "LRU assumes recently used items are likely to be used again. LFU, FIFO and TTL-based policies are alternatives."
+        },
+        {
+          "id": "system-design-03-q11",
+          "type": "interview",
+          "prompt": "Design the caching strategy for a product detail page on an e-commerce site with 50k reads/s and frequent price updates.",
+          "answer": "- Split data by volatility: static content (title, images, description) changes rarely; price and stock change often.\n- CDN: cache the page shell and images at the edge with s-maxage of a few minutes plus stale-while-revalidate; fetch price/stock client-side or via an edge include with a short TTL (or no cache).\n- Application cache: Redis cache-aside for product data, key product:{id}, TTL with jitter (for example 10 min); price/stock keys with short TTL (10-30 s) or explicit invalidation.\n- Invalidation: on price change, write DB then delete the Redis key and optionally purge the CDN path; a CDC stream (Debezium) from the DB can drive invalidation reliably.\n- Stampede protection for hot products: single-flight recomputation and early refresh.\n- Checkout must never trust cached price: re-read authoritative price and stock from the database inside the order transaction.\n- Monitor hit ratio, p99 latency and DB QPS; alert if hit ratio drops.",
+          "level": "intermediate"
+        },
+        {
+          "id": "system-design-03-q12",
+          "type": "interview",
+          "prompt": "Explain the trade-offs between write-through, write-behind and cache-aside.",
+          "answer": "- Cache-aside: app reads cache, loads DB on miss, deletes key on write. Pros: simple, caches only what is read, cache failure is non-fatal. Cons: first read is slow, small window of staleness, app code holds cache logic.\n- Write-through: every write updates cache and DB synchronously. Pros: cache always fresh for written keys, reads after writes hit. Cons: higher write latency, caches data that may never be read, still needs TTL/eviction.\n- Write-behind: write to cache, flush to DB asynchronously in batches. Pros: very low write latency, batching reduces DB load (good for counters, metrics). Cons: data loss risk on cache failure, complex ordering and consistency, DB lags.\n- Choice: cache-aside for general reads; write-through when read-after-write must hit cache; write-behind only for loss-tolerant high-write data like view counts.",
+          "level": "intermediate"
+        },
+        {
+          "id": "system-design-03-q13",
+          "type": "interview",
+          "prompt": "How does a CDN decide whether to serve from cache or go to origin, and how do you deploy a new frontend version safely?",
+          "answer": "- The edge computes a cache key (typically scheme, host, path, and configured query params/headers) and looks it up. If present and fresh per Cache-Control (s-maxage/max-age), it serves it; if stale it may revalidate with the origin using ETag/If-None-Match or serve stale under stale-while-revalidate; on miss it fetches from origin (possibly via a regional shield tier) and stores the response if cacheable.\n- Safe deploy: build assets with content hashes in file names and upload them first with a one-year immutable TTL. Then deploy the HTML (short TTL or no-cache) that references the new hashes. Old HTML still points at old assets, which remain available, so no user gets a mismatched bundle.\n- Keep old assets for a while for clients with cached HTML, and purge only the HTML paths if needed.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: HTTP caching",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching"
+        },
+        {
+          "title": "AWS: Caching best practices",
+          "url": "https://aws.amazon.com/caching/best-practices/"
+        },
+        {
+          "title": "Redis: key eviction",
+          "url": "https://redis.io/docs/latest/develop/reference/eviction/"
+        }
+      ]
+    },
+    {
+      "id": "system-design-04-database-scaling",
+      "title": "Database Scaling: Replication, Partitioning and Sharding",
+      "level": "intermediate",
+      "summary": "How databases grow past one node: read replicas, leader election, partitioning schemes, consistent hashing and the costs of sharding.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Choosing a data store",
+          "body": "Start from access patterns, not fashion.\n\n- **Relational (Postgres, MySQL)**: joins, transactions, constraints, flexible queries. The right default for most business data.\n- **Key-value (Redis, DynamoDB)**: lookups by key at huge scale with predictable latency.\n- **Wide-column (Cassandra, ScyllaDB)**: very high write throughput, queries designed around a partition key, tunable consistency.\n- **Document (MongoDB)**: nested JSON documents read as a whole.\n- **Search (Elasticsearch, OpenSearch)**: full-text and faceted search, usually fed from a primary store.\n- **Object storage (S3)**: large blobs; keep metadata in a database.\n\nMany systems are **polyglot**: Postgres as source of truth, Redis for cache, Elasticsearch for search, S3 for media. Every additional store adds a synchronisation problem, so justify each one."
+        },
+        {
+          "heading": "Replication",
+          "body": "Replication keeps copies of data on multiple nodes for availability and read scaling.\n\n- **Leader-follower (primary-replica)**: all writes go to the leader, which streams its log to followers. Reads can go to followers. Used by Postgres, MySQL, MongoDB replica sets.\n- **Synchronous** replication waits for a follower to confirm before acknowledging the write: no data loss on leader failure, but higher latency and writes block if the follower is down. **Asynchronous** is faster but can lose the last few writes on failover. A common compromise is one synchronous plus several async followers (semi-sync).\n- **Multi-leader**: several nodes accept writes (for example one per region). Needs conflict resolution (last-write-wins, CRDTs, app logic).\n- **Leaderless** (Dynamo-style, Cassandra): clients write to and read from several replicas; with N replicas, W write acks and R read responses, **R + W > N** guarantees the read set overlaps the latest write.\n\n**Replication lag** causes anomalies: a user updates their profile then reloads from a lagging replica and sees the old value. Fix with **read-your-writes** routing (read from the leader for a few seconds after a user writes, or track the log position)."
+        },
+        {
+          "heading": "Failover",
+          "body": "When the leader dies, a follower must be promoted. Steps: detect failure (heartbeats with timeouts), elect the most up-to-date follower (via a consensus system like etcd/ZooKeeper, or a managed service such as RDS Multi-AZ or Patroni for Postgres), and redirect clients (DNS or proxy update).\n\nRisks:\n\n- **Data loss** with async replication: the new leader may miss writes the old one acknowledged.\n- **Split brain**: the old leader comes back and still thinks it is leader; two nodes accept writes. Prevented with fencing tokens or STONITH (shoot the other node in the head).\n- **Timeout tuning**: too short causes unnecessary failovers under load; too long extends outages."
+        },
+        {
+          "heading": "Partitioning and sharding",
+          "body": "**Partitioning** splits a dataset into pieces. **Vertical partitioning** splits by columns or by feature (users DB, orders DB). **Horizontal partitioning** splits rows; when the pieces live on different servers it is called **sharding**.\n\nSharding strategies:\n\n- **Range-based**: `user_id 1-1M` on shard A, and so on. Efficient range scans, but sequential keys (timestamps, auto-increment ids) create hot shards.\n- **Hash-based**: `shard = hash(key) % N`. Even distribution, but range queries hit all shards, and changing N remaps almost every key.\n- **Directory/lookup-based**: a lookup service maps key to shard. Flexible, but the directory is an extra dependency.\n- **Consistent hashing**: keys and nodes are placed on a hash ring; a key belongs to the next node clockwise. Adding a node moves only ~1/N of the keys. Virtual nodes (many points per server) smooth the distribution.\n\nChoosing the **shard key** is the critical decision: it should have high cardinality, spread load evenly and keep the most common queries on a single shard (for example `tenant_id` for a SaaS app, `conversation_id` for messages).",
+          "code": {
+            "lang": "typescript",
+            "source": "// Minimal consistent hash ring with virtual nodes\nimport { createHash } from \"node:crypto\";\nconst h = (s: string) => parseInt(createHash(\"md5\").update(s).digest(\"hex\").slice(0, 8), 16);\n\nclass Ring {\n  private points: { hash: number; node: string }[] = [];\n  constructor(nodes: string[], private vnodes = 100) { nodes.forEach((n) => this.add(n)); }\n  add(node: string) {\n    for (let i = 0; i < this.vnodes; i++) this.points.push({ hash: h(`${node}#${i}`), node });\n    this.points.sort((a, b) => a.hash - b.hash);\n  }\n  get(key: string): string {\n    const k = h(key);\n    let lo = 0, hi = this.points.length;          // first point with hash >= k\n    while (lo < hi) { const m = (lo + hi) >> 1; this.points[m].hash < k ? (lo = m + 1) : (hi = m); }\n    return this.points[lo % this.points.length].node; // wrap around the ring\n  }\n}"
+          }
+        },
+        {
+          "heading": "The cost of sharding",
+          "body": "Sharding solves write and storage limits but adds real complexity:\n\n- **Cross-shard queries and joins** become scatter-gather or must be denormalised.\n- **Cross-shard transactions** need two-phase commit or sagas; most designs avoid them by choosing a shard key that keeps a transaction local.\n- **Rebalancing** data when adding shards must happen online without downtime.\n- **Hot spots**: a celebrity user or large tenant can overload one shard; split hot keys or give big tenants dedicated shards.\n- **Global unique IDs**: auto-increment no longer works; use UUIDv7, ULIDs or Snowflake-style IDs (timestamp + machine id + sequence) which are also roughly time-sortable.\n\nBefore sharding, exhaust cheaper options: indexes and query tuning, caching, read replicas, archiving old data, vertical scaling, and table partitioning within one node (Postgres declarative partitioning). Managed distributed SQL (CockroachDB, Spanner, Vitess for MySQL, Citus for Postgres) can shard for you."
+        }
+      ],
+      "keyPoints": [
+        "Pick data stores by access pattern; relational is the default for business data.",
+        "Leader-follower replication scales reads; async replication risks losing recent writes on failover.",
+        "Replication lag breaks read-your-writes; route a user's reads to the leader after they write.",
+        "In leaderless systems, R + W > N gives overlapping quorums.",
+        "Sharding splits rows across nodes; the shard key decides balance and query locality.",
+        "hash % N remaps most keys when N changes; consistent hashing moves only ~1/N.",
+        "Prevent split brain with consensus-based election and fencing.",
+        "Exhaust indexing, caching, replicas and vertical scaling before sharding."
+      ],
+      "questions": [
+        {
+          "id": "system-design-04-q01",
+          "type": "mcq",
+          "prompt": "A user edits their bio, the page reloads, and the old bio appears for a few seconds. Most likely cause?",
+          "options": [
+            "Cache stampede",
+            "Reading from an asynchronously replicated follower that lags the leader",
+            "A deadlock",
+            "Split brain"
+          ],
+          "answer": 1,
+          "explanation": "The write went to the leader but the read hit a replica that had not applied it yet. Read-your-writes routing fixes it."
+        },
+        {
+          "id": "system-design-04-q02",
+          "type": "mcq",
+          "prompt": "In a Dynamo-style store with N = 3 replicas, which setting guarantees reads see the latest acknowledged write?",
+          "options": [
+            "W = 1, R = 1",
+            "W = 2, R = 1",
+            "W = 2, R = 2",
+            "W = 1, R = 2"
+          ],
+          "answer": 2,
+          "explanation": "R + W must exceed N so the read and write sets overlap. 2 + 2 = 4 > 3. All other options sum to 3 or less."
+        },
+        {
+          "id": "system-design-04-q03",
+          "type": "mcq",
+          "prompt": "You shard with shard = hash(userId) % 8 and grow to 9 shards. Roughly what fraction of keys must move?",
+          "options": [
+            "~1/9",
+            "~1/2",
+            "~8/9",
+            "None"
+          ],
+          "answer": 2,
+          "explanation": "With modulo hashing, changing N changes the result for almost every key (about N/(N+1) of them). Consistent hashing would move only ~1/9."
+        },
+        {
+          "id": "system-design-04-q04",
+          "type": "mcq",
+          "prompt": "Range-sharding an events table by created_at timestamp causes which problem?",
+          "options": [
+            "Range queries become impossible",
+            "All new writes land on the newest shard, creating a hot spot",
+            "Joins become faster",
+            "Data cannot be deleted"
+          ],
+          "answer": 1,
+          "explanation": "Monotonic keys send every insert to the last range. Hashing the key or prefixing with a hashed bucket spreads writes."
+        },
+        {
+          "id": "system-design-04-q05",
+          "type": "mcq",
+          "prompt": "For a multi-tenant SaaS app where nearly every query filters by tenant, which shard key is usually best?",
+          "options": [
+            "created_at",
+            "tenant_id",
+            "A random UUID per row",
+            "country"
+          ],
+          "answer": 1,
+          "explanation": "tenant_id keeps each tenant's queries and transactions on one shard. Random UUIDs balance load but force scatter-gather queries; country has low cardinality and skew."
+        },
+        {
+          "id": "system-design-04-q06",
+          "type": "mcq",
+          "prompt": "What problem do fencing tokens solve during failover?",
+          "options": [
+            "Slow replication",
+            "A former leader continuing to accept writes after a new leader is elected (split brain)",
+            "Uneven shard sizes",
+            "Hot keys in a cache"
+          ],
+          "answer": 1,
+          "explanation": "Each new leader gets a higher token; storage rejects writes carrying an older token, so a zombie leader cannot corrupt data."
+        },
+        {
+          "id": "system-design-04-q07",
+          "type": "truefalse",
+          "prompt": "Synchronous replication to at least one follower prevents losing acknowledged writes when the leader fails.",
+          "answer": true,
+          "explanation": "The write is only acknowledged once a follower has it, so that follower can be promoted without loss. The cost is higher write latency."
+        },
+        {
+          "id": "system-design-04-q08",
+          "type": "truefalse",
+          "prompt": "Auto-increment primary keys work unchanged across independently sharded databases.",
+          "answer": false,
+          "explanation": "Each shard would generate the same ids. Use UUIDv7, ULIDs, Snowflake-style ids or a central id allocator."
+        },
+        {
+          "id": "system-design-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: things to try before sharding a relational database.",
+          "options": [
+            "Add missing indexes and fix slow queries",
+            "Add read replicas",
+            "Add a caching layer",
+            "Archive cold data",
+            "Rewrite the app in a new language"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Indexes, replicas, caches and archiving relieve most load cheaply. Language choice rarely limits database throughput."
+        },
+        {
+          "id": "system-design-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: placing nodes and keys on a hash ring so that adding a node moves only ~1/N of keys is called ___ hashing.",
+          "accept": [
+            "consistent",
+            "consistent hashing"
+          ],
+          "explanation": "Consistent hashing (used by Dynamo, Cassandra, many caches) limits data movement when the cluster changes size."
+        },
+        {
+          "id": "system-design-04-q11",
+          "type": "interview",
+          "prompt": "Your Postgres primary is at 80% CPU from reads and writes are growing 10% a month. Walk through your scaling plan.",
+          "answer": "- Measure first: pg_stat_statements to find top queries by total time; add or fix indexes, remove N+1 queries. This alone often halves load.\n- Offload reads: Redis cache-aside for hot reads, then read replicas with read-your-writes routing for user-facing paths. Use a connection pooler (PgBouncer) since Postgres connections are expensive.\n- Reduce write cost: batch writes, move non-critical writes (analytics, audit) to a queue or separate store, archive cold rows, use table partitioning for large time-series tables.\n- Scale up the primary if headroom is cheap, it buys months.\n- If writes still outgrow one node: split by domain first (separate databases per bounded context), then shard the hottest domain by a key that keeps transactions local (tenant_id/user_id), or adopt Citus/managed distributed SQL.\n- Throughout: monitor replication lag, CPU, IOPS, connection count, and set a capacity forecast so we act before hitting limits.",
+          "level": "intermediate"
+        },
+        {
+          "id": "system-design-04-q12",
+          "type": "interview",
+          "prompt": "Explain consistent hashing and why virtual nodes are used.",
+          "answer": "Consistent hashing maps both nodes and keys onto the same circular hash space (for example 0 to 2^32-1). A key is owned by the first node found moving clockwise from the key's hash. When a node joins, it takes over only the keys between itself and its predecessor; when one leaves, only its keys move to the successor. So about 1/N of keys move instead of nearly all with modulo hashing. With few physical nodes, random positions produce uneven arcs, so some nodes own much more data. Virtual nodes place each physical server at many points (for example 100-256) on the ring, which evens out load, spreads a failed node's keys across many survivors instead of one neighbour, and lets bigger machines take more vnodes. Replication is often done by storing a key on the next R distinct physical nodes clockwise.",
+          "level": "intermediate"
+        },
+        {
+          "id": "system-design-04-q13",
+          "type": "interview",
+          "prompt": "How would you generate globally unique, roughly time-ordered IDs across 1,000 shards without coordination on every insert?",
+          "answer": "- Snowflake-style 64-bit ID: 41 bits of milliseconds since a custom epoch (~69 years), 10 bits of worker/machine id (1,024 workers), 12 bits of per-millisecond sequence (4,096 ids per ms per worker).\n- Worker ids are assigned once at startup from a coordinator (ZooKeeper/etcd lease or config), so no per-insert coordination.\n- IDs sort roughly by time, which keeps B-tree index inserts mostly append-only and enables time-based cursors.\n- Handle clock skew: refuse to generate (or wait) if the clock moves backwards.\n- Alternatives: UUIDv7 (128-bit, time-ordered, no worker assignment needed, larger) or ULID. Random UUIDv4 avoids coordination but fragments indexes and is not sortable.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-04-q14",
+          "type": "interview",
+          "prompt": "Compare leader-follower, multi-leader and leaderless replication. When would you pick each?",
+          "answer": "- Leader-follower: one writer, simple consistency, easy reasoning, replicas for reads and failover. Default for relational databases and most apps. Limits: write throughput of one node and failover gaps.\n- Multi-leader: each region (or device) accepts writes locally and syncs asynchronously. Good for multi-region active-active with low write latency, offline-first apps, collaborative editing. Cost: write conflicts that need last-write-wins, CRDTs or custom merge logic.\n- Leaderless (Dynamo/Cassandra): any replica accepts writes, quorums (R + W > N) tune consistency, read repair and hinted handoff heal divergence. Good for very high write availability and throughput where eventual consistency is acceptable (event logs, IoT, user activity). Cost: no transactions across keys, conflict handling, careful data modelling around partition keys.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "PostgreSQL: High availability, load balancing and replication",
+          "url": "https://www.postgresql.org/docs/current/high-availability.html"
+        },
+        {
+          "title": "Amazon DynamoDB: Partitions and data distribution",
+          "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.Partitions.html"
+        },
+        {
+          "title": "Designing Data-Intensive Applications (Martin Kleppmann)",
+          "url": "https://dataintensive.net/"
+        }
+      ]
+    },
+    {
+      "id": "system-design-05-consistency",
+      "title": "CAP, PACELC and Consistency Models",
+      "level": "intermediate",
+      "summary": "What distributed systems can and cannot guarantee during failures, and the spectrum of consistency models between strong and eventual.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "The CAP theorem, stated precisely",
+          "body": "CAP says that when a **network partition** (P) happens, a distributed data store must choose between:\n\n- **Consistency (C)**: every read sees the most recent write (linearizability), or returns an error.\n- **Availability (A)**: every request to a non-failed node gets a non-error response, possibly with stale data.\n\nPartitions are not optional in real networks, so the practical choice is **CP vs AP during a partition**. 'CA' systems only exist if you assume the network never fails, which effectively means a single node.\n\n- **CP examples**: etcd, ZooKeeper, Spanner, HBase, a single-leader SQL database with synchronous failover. During a partition, the minority side refuses writes.\n- **AP examples**: Cassandra and DynamoDB in their default eventually consistent modes, DNS, CouchDB. Both sides keep serving, and conflicts are reconciled later.\n\nCommon misconception: CAP's C is not the C in ACID. ACID consistency means invariants (constraints) hold; CAP consistency means linearizability across replicas."
+        },
+        {
+          "heading": "PACELC: the trade-off that exists without failures",
+          "body": "CAP only describes behaviour during partitions, which are rare. **PACELC** extends it: if there is a **P**artition, choose **A** or **C**; **E**lse (normal operation), choose **L**atency or **C**onsistency.\n\nEven with a healthy network, strong consistency costs latency because a write must be confirmed by multiple replicas (possibly across regions) before acknowledging.\n\n- **PA/EL**: Cassandra, DynamoDB (default): available under partition, low latency normally, eventually consistent.\n- **PC/EC**: Spanner, CockroachDB, etcd: consistent always, paying latency for coordination.\n- **PA/EC**: MongoDB with majority read/write concerns is often classified roughly here, though behaviour depends on configuration.\n\nMany systems let you tune per request: DynamoDB `ConsistentRead`, Cassandra consistency levels (`ONE`, `QUORUM`, `ALL`), MongoDB read/write concerns."
+        },
+        {
+          "heading": "Consistency models from strongest to weakest",
+          "body": "- **Linearizability (strong consistency)**: the system behaves as if there is one copy; once a write completes, all subsequent reads see it. Needed for locks, leader election, unique usernames, account balances.\n- **Sequential consistency**: all clients see operations in the same order, but not necessarily real-time order.\n- **Causal consistency**: operations that are causally related (a reply after the post it answers) are seen in that order by everyone; concurrent operations may appear in different orders.\n- **Session guarantees** (practical, per client): **read-your-writes**, **monotonic reads** (never see time go backwards), **monotonic writes**, **writes-follow-reads**.\n- **Eventual consistency**: if writes stop, all replicas converge eventually. No bound on how stale a read can be in theory, though in practice lag is usually milliseconds to seconds.\n\nIn interviews, match the model to the data: balances and inventory reservations need strong consistency; like counts, feeds and view counters tolerate eventual consistency; chat needs at least causal ordering within a conversation."
+        },
+        {
+          "heading": "Consensus and quorums",
+          "body": "Strong consistency across replicas requires **consensus**: nodes agreeing on a single order of operations even when some fail. **Raft** (etcd, Consul, CockroachDB) and **Paxos** (Spanner, Chubby) are the main algorithms. A Raft cluster elects a leader; a write is committed once a **majority** (quorum) of nodes has persisted it. A cluster of 2f + 1 nodes tolerates f failures: 3 nodes tolerate 1, 5 tolerate 2. Even sizes add cost without extra fault tolerance.\n\nYou rarely implement consensus yourself. You use a coordination service (etcd, ZooKeeper) for leader election, distributed locks with fencing, and configuration, and you use databases built on it."
+        },
+        {
+          "heading": "Conflict resolution for eventually consistent data",
+          "body": "When replicas accept concurrent writes, they must reconcile:\n\n- **Last-write-wins (LWW)**: keep the value with the latest timestamp. Simple, but silently drops writes and depends on clock accuracy.\n- **Version vectors**: detect concurrent writes and keep both siblings for the application to merge.\n- **CRDTs** (conflict-free replicated data types): data structures whose merges are mathematically guaranteed to converge, such as G-counters, OR-sets and sequence CRDTs used in collaborative editors (Yjs, Automerge).\n- **Application-level merge**: for example union of shopping cart items.\n\nA useful framing: make operations **commutative** (increment instead of set) so order does not matter.",
+          "code": {
+            "lang": "typescript",
+            "source": "// G-Counter CRDT: each replica only increments its own slot; merge = element-wise max\ntype GCounter = Record<string, number>;\n\nconst increment = (c: GCounter, replica: string): GCounter =>\n  ({ ...c, [replica]: (c[replica] ?? 0) + 1 });\n\nconst merge = (a: GCounter, b: GCounter): GCounter => {\n  const out: GCounter = { ...a };\n  for (const [r, n] of Object.entries(b)) out[r] = Math.max(out[r] ?? 0, n);\n  return out;\n};\n\nconst value = (c: GCounter) => Object.values(c).reduce((s, n) => s + n, 0);"
+          }
+        }
+      ],
+      "keyPoints": [
+        "CAP: during a network partition, choose consistency (refuse some requests) or availability (serve possibly stale data).",
+        "CAP consistency means linearizability, not ACID's constraint consistency.",
+        "PACELC adds that without partitions you still trade latency against consistency.",
+        "Session guarantees like read-your-writes and monotonic reads fix most user-visible anomalies cheaply.",
+        "Consensus (Raft, Paxos) needs a majority; 2f + 1 nodes tolerate f failures.",
+        "Last-write-wins loses data silently; CRDTs and version vectors merge safely.",
+        "Choose consistency per data type: money and inventory strong, counters and feeds eventual."
+      ],
+      "questions": [
+        {
+          "id": "system-design-05-q01",
+          "type": "mcq",
+          "prompt": "During a network partition, a CP system will typically:",
+          "options": [
+            "Serve stale data from all nodes",
+            "Reject or block some requests (often on the minority side) to avoid inconsistent reads/writes",
+            "Lose all data",
+            "Switch to multi-leader mode"
+          ],
+          "answer": 1,
+          "explanation": "CP sacrifices availability during the partition: nodes that cannot reach a quorum refuse operations so no client sees divergent data."
+        },
+        {
+          "id": "system-design-05-q02",
+          "type": "mcq",
+          "prompt": "Which data most clearly requires strong (linearizable) consistency?",
+          "options": [
+            "Number of likes on a post",
+            "Recommended videos",
+            "Remaining seats when booking a specific flight seat",
+            "Last-seen timestamp of a friend"
+          ],
+          "answer": 2,
+          "explanation": "Two users must not both book the same seat. Likes, recommendations and last-seen tolerate staleness."
+        },
+        {
+          "id": "system-design-05-q03",
+          "type": "mcq",
+          "prompt": "What does the 'ELC' part of PACELC describe?",
+          "options": [
+            "Else, during normal operation, trade latency vs consistency",
+            "Eventual, leaderless, causal",
+            "Error, latency, cost",
+            "Elect a leader on crash"
+          ],
+          "answer": 0,
+          "explanation": "Without a partition, systems still choose between low latency (fewer replicas in the write path) and consistency (wait for coordination)."
+        },
+        {
+          "id": "system-design-05-q04",
+          "type": "mcq",
+          "prompt": "How many node failures can a 5-node Raft cluster tolerate while still committing writes?",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "answer": 1,
+          "explanation": "A majority of 5 is 3, so up to 2 nodes can fail. A 6-node cluster also tolerates only 2, which is why odd sizes are used."
+        },
+        {
+          "id": "system-design-05-q05",
+          "type": "mcq",
+          "prompt": "A user refreshes a page and sees a comment, refreshes again and the comment is gone, then it reappears. Which guarantee is violated?",
+          "options": [
+            "Monotonic reads",
+            "Linearizable writes",
+            "Durability",
+            "Atomicity"
+          ],
+          "answer": 0,
+          "explanation": "Monotonic reads means once you have seen a value you never see an older state. It breaks when successive reads hit replicas with different lag; pin the session to one replica or track versions."
+        },
+        {
+          "id": "system-design-05-q06",
+          "type": "mcq",
+          "prompt": "Two replicas concurrently set a user's display name using last-write-wins. What can happen?",
+          "options": [
+            "Both names are kept",
+            "One write is silently discarded, and clock skew may even discard the truly later one",
+            "The database throws a conflict error",
+            "The replicas never converge"
+          ],
+          "answer": 1,
+          "explanation": "LWW converges by dropping all but one write, chosen by timestamp. Clock skew between nodes means the 'latest' timestamp may not be the latest real event."
+        },
+        {
+          "id": "system-design-05-q07",
+          "type": "truefalse",
+          "prompt": "A system can be 'CA' in practice as long as it runs across multiple data centers.",
+          "answer": false,
+          "explanation": "Across a network, partitions will happen. You cannot opt out of P, so a distributed system must choose C or A when one occurs."
+        },
+        {
+          "id": "system-design-05-q08",
+          "type": "truefalse",
+          "prompt": "Causal consistency guarantees that a reply to a message is never seen before the message itself.",
+          "answer": true,
+          "explanation": "The reply causally depends on the original message, and causal consistency preserves that order for all observers."
+        },
+        {
+          "id": "system-design-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are session guarantees?",
+          "options": [
+            "Read-your-writes",
+            "Monotonic reads",
+            "Two-phase commit",
+            "Monotonic writes",
+            "Sharding"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Read-your-writes, monotonic reads, monotonic writes and writes-follow-reads are per-session guarantees. 2PC is an atomic commit protocol; sharding is data distribution."
+        },
+        {
+          "id": "system-design-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: ___ is the consensus algorithm used by etcd and designed to be easier to understand than Paxos.",
+          "accept": [
+            "Raft"
+          ],
+          "explanation": "Raft separates leader election, log replication and safety, and is used by etcd, Consul and CockroachDB."
+        },
+        {
+          "id": "system-design-05-q11",
+          "type": "interview",
+          "prompt": "Explain the CAP theorem to a junior engineer and correct the common misconceptions about it.",
+          "answer": "- Statement: in a distributed store, when the network partitions, you must choose between consistency (every read returns the latest write or an error) and availability (every request to a live node gets a non-error answer).\n- Misconception 1: 'pick two of three'. Partitions are not a choice, so the real decision is C vs A during a partition.\n- Misconception 2: CAP's C equals ACID's C. CAP means linearizability; ACID's C means constraints hold.\n- Misconception 3: systems are permanently CP or AP. Many are tunable per operation (Cassandra QUORUM vs ONE, DynamoDB strongly consistent reads).\n- Misconception 4: CAP covers latency. It does not; PACELC adds that even without partitions, stronger consistency costs latency.\n- Practical takeaway: decide per data type what users can tolerate during failure.",
+          "level": "intermediate"
+        },
+        {
+          "id": "system-design-05-q12",
+          "type": "interview",
+          "prompt": "Design consistency for an e-commerce platform: product catalog, shopping cart, inventory and orders. Which model for each and why?",
+          "answer": "- Catalog: eventual consistency. Read-heavy, cache and CDN friendly; a price change propagating in seconds is fine, but checkout re-validates price.\n- Cart: high availability, eventual with merge. Users must always be able to add items (Amazon's Dynamo motivation); merge concurrent carts by union, accept occasional resurrected items. Read-your-writes within a session.\n- Inventory: strong consistency for the decrement on purchase, using a conditional update (UPDATE ... SET stock = stock - 1 WHERE stock > 0) or reservation with TTL. Display stock ('only 3 left') can be eventually consistent.\n- Orders and payments: strong consistency and durability in a relational DB with transactions; idempotency keys on payment calls; downstream effects (emails, analytics) via outbox events, eventually consistent.\n- Summary: strong where invariants protect money and oversell, eventual everywhere else for latency and availability.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-05-q13",
+          "type": "interview",
+          "prompt": "How would you implement a distributed lock safely, and what can go wrong?",
+          "answer": "- Use a CP coordination service: etcd or ZooKeeper with a lease/session, or a database row lock. A single Redis SET key value NX PX ttl works for efficiency locks (avoiding duplicate work) but is not safe for correctness under failover.\n- Always use a TTL/lease so a crashed holder does not hold the lock forever.\n- Problem: the holder can pause (GC, network delay) past its lease, another client acquires the lock, and the first resumes believing it still holds it.\n- Fix: fencing tokens. The lock service returns a monotonically increasing token with each grant; the protected resource (database, storage) rejects writes with a token lower than the highest it has seen.\n- Release only your own lock (compare the value before deleting, atomically).\n- Prefer designs that avoid locks: idempotent operations, conditional writes (compare-and-set), or a single owner per partition.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Jepsen: Consistency models",
+          "url": "https://jepsen.io/consistency"
+        },
+        {
+          "title": "The Raft consensus algorithm",
+          "url": "https://raft.github.io/"
+        },
+        {
+          "title": "Amazon DynamoDB read consistency",
+          "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html"
+        }
+      ]
+    },
+    {
+      "id": "system-design-06-queues-events",
+      "title": "Message Queues, Event-Driven Design and Idempotency",
+      "level": "intermediate",
+      "summary": "Decouple services with queues and event streams, understand delivery guarantees, and make consumers safe to retry.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Why asynchronous messaging",
+          "body": "A queue sits between a **producer** and a **consumer** so they do not have to be up, fast or scaled at the same time. Benefits:\n\n- **Decoupling**: the producer does not know who consumes or how many consumers exist.\n- **Load levelling**: bursts are buffered and processed at a steady rate instead of overwhelming downstream services.\n- **Reliability**: work survives consumer crashes and is retried.\n- **Latency**: the user request returns as soon as the job is enqueued (send email, resize image, generate report).\n\nThe cost is eventual consistency, harder debugging (trace across async hops), and the need to handle duplicates and ordering explicitly."
+        },
+        {
+          "heading": "Queues vs logs (pub/sub)",
+          "body": "Two families:\n\n- **Message queues** (RabbitMQ, Amazon SQS, BullMQ on Redis): each message is delivered to one consumer of a queue and deleted after acknowledgement. Great for task distribution (competing consumers). Features: visibility timeouts, retries, delays, dead-letter queues.\n- **Log-based streams** (Apache Kafka, Amazon Kinesis, Redpanda, Pulsar): messages are appended to a durable, partitioned log and retained for days. Each **consumer group** tracks its own offset, so many independent services can read the same events, and you can replay history. Ordering is guaranteed only **within a partition**, so the partition key (for example `orderId`) decides what is ordered.\n\n**Pub/sub** (SNS, Google Pub/Sub, Kafka topics with multiple groups) fans one event out to many subscribers. A common AWS pattern is SNS topic -> multiple SQS queues, one per consuming service."
+        },
+        {
+          "heading": "Delivery guarantees",
+          "body": "- **At-most-once**: messages may be lost, never duplicated (ack before processing).\n- **At-least-once**: messages are never lost but may be delivered more than once (ack after processing). The default for SQS, RabbitMQ and most Kafka consumers.\n- **Exactly-once**: impossible end-to-end over an unreliable network in general; what systems offer is **effectively-once** processing, combining at-least-once delivery with idempotent or transactional processing (Kafka transactions inside Kafka, SQS FIFO deduplication within a 5-minute window).\n\nSo the practical rule is: **assume at-least-once and make consumers idempotent**.\n\n**Dead-letter queues (DLQ)** catch messages that fail repeatedly (poison messages) so they do not block the queue; alert on DLQ depth. Use exponential backoff with jitter for retries."
+        },
+        {
+          "heading": "Idempotency",
+          "body": "An operation is **idempotent** if performing it multiple times has the same effect as once. HTTP `GET`, `PUT` and `DELETE` are defined as idempotent; `POST` is not. Retries happen everywhere (client timeouts, LB retries, queue redelivery), so side-effecting operations need explicit protection.\n\nTechniques:\n\n- **Idempotency keys**: the client generates a unique key per logical operation (Stripe's `Idempotency-Key` header). The server stores key -> result; a repeat returns the stored result instead of charging twice.\n- **Natural idempotency**: `SET status = 'shipped'` instead of toggling; upserts with unique constraints.\n- **Dedup table**: consumers record processed message ids in the same transaction as their side effect.\n- **Conditional writes / versions**: `UPDATE ... WHERE version = 7`.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Idempotent payment endpoint (simplified)\napp.post(\"/payments\", async (req, res) => {\n  const key = req.header(\"Idempotency-Key\");\n  if (!key) return res.status(400).send(\"Idempotency-Key required\");\n\n  const result = await db.transaction(async (tx) => {\n    // unique constraint on idempotency_keys.key makes concurrent duplicates fail fast\n    const existing = await tx.idempotencyKeys.find(key);\n    if (existing) return existing.response;\n\n    const charge = await tx.payments.create({ amount: req.body.amount, userId: req.user.id });\n    const response = { paymentId: charge.id, status: \"succeeded\" };\n    await tx.idempotencyKeys.insert({ key, response, userId: req.user.id });\n    return response;\n  });\n  res.json(result);\n});"
+          }
+        },
+        {
+          "heading": "The dual-write problem and the outbox pattern",
+          "body": "A service that writes to its database **and** publishes an event has a dual-write problem: if the DB commit succeeds and the publish fails (or vice versa), systems diverge. You cannot wrap a database and a broker in one local transaction.\n\n**Transactional outbox**: write the business row and an `outbox` row in the same database transaction. A separate relay (a poller, or change-data-capture with Debezium reading the WAL) publishes outbox rows to the broker and marks them sent. Delivery is at-least-once, so consumers stay idempotent.\n\nFor multi-service workflows (order -> payment -> inventory -> shipping) use **sagas**: a sequence of local transactions, each publishing an event, with **compensating actions** (refund, release stock) on failure. Sagas can be choreographed (services react to events) or orchestrated (a central coordinator such as Temporal or AWS Step Functions drives the steps). Orchestration is easier to observe and change as the flow grows."
+        },
+        {
+          "heading": "Ordering, backpressure and event design",
+          "body": "- **Ordering**: global ordering does not scale. Order per entity by using the entity id as the partition key; consumers must still handle duplicates and occasional out-of-order delivery after retries (use version numbers and ignore older versions).\n- **Backpressure**: when consumers fall behind, lag grows. Scale consumers (up to the number of partitions in Kafka), shed load, or slow producers. Alert on consumer lag, not just errors.\n- **Event design**: prefer **event notification** ('OrderPlaced {orderId}') or **event-carried state transfer** ('OrderPlaced {full order}') deliberately. Version schemas (Avro/Protobuf with a schema registry, or additive-only JSON changes) because producers and consumers deploy independently.\n- **Event sourcing** stores the sequence of events as the source of truth and derives state by replaying; powerful for audit-heavy domains, but adds complexity. It is not required to be event-driven."
+        }
+      ],
+      "keyPoints": [
+        "Queues decouple producers and consumers, smooth bursts and make background work reliable.",
+        "Task queues deliver each message to one consumer; log streams like Kafka retain events for many consumer groups and replay.",
+        "Kafka orders messages only within a partition; the partition key defines ordering scope.",
+        "Assume at-least-once delivery and make consumers idempotent.",
+        "Idempotency keys let clients retry POSTs safely.",
+        "Use a transactional outbox to avoid dual writes between a database and a broker.",
+        "Sagas with compensating actions replace distributed transactions across services.",
+        "Send repeatedly failing messages to a dead-letter queue and alert on it."
+      ],
+      "questions": [
+        {
+          "id": "system-design-06-q01",
+          "type": "mcq",
+          "prompt": "A consumer processes a message, crashes before acknowledging, and the message is redelivered. Which guarantee is this?",
+          "options": [
+            "At-most-once",
+            "At-least-once",
+            "Exactly-once",
+            "Best-effort"
+          ],
+          "answer": 1,
+          "explanation": "Acknowledging after processing means nothing is lost but a crash causes redelivery, so duplicates are possible."
+        },
+        {
+          "id": "system-design-06-q02",
+          "type": "mcq",
+          "prompt": "Three independent services (search indexer, analytics, email) must each receive every OrderPlaced event. Best fit?",
+          "options": [
+            "One SQS queue with three competing consumers",
+            "A pub/sub topic or Kafka topic with a separate consumer group per service",
+            "Direct HTTP calls from the order service to each",
+            "A shared database table polled by all three"
+          ],
+          "answer": 1,
+          "explanation": "Competing consumers on one queue would split events among services. Pub/sub or separate consumer groups give each service its own copy and independent progress."
+        },
+        {
+          "id": "system-design-06-q03",
+          "type": "mcq",
+          "prompt": "In Kafka, events for the same order are processed out of order. The most likely cause?",
+          "options": [
+            "Kafka does not support ordering",
+            "Events were produced with different (or no) partition keys, landing in different partitions",
+            "The topic has too much retention",
+            "The consumer uses JSON"
+          ],
+          "answer": 1,
+          "explanation": "Kafka guarantees order only within a partition. Keying events by orderId puts all events for one order in the same partition."
+        },
+        {
+          "id": "system-design-06-q04",
+          "type": "mcq",
+          "prompt": "A service saves an order in Postgres and then publishes to Kafka. Sometimes events are missing after crashes. Best fix?",
+          "options": [
+            "Publish first, then save",
+            "Transactional outbox: write the event to an outbox table in the same transaction, relay it asynchronously",
+            "Retry the publish forever in the request thread",
+            "Use a larger Kafka cluster"
+          ],
+          "answer": 1,
+          "explanation": "The outbox makes the business write and the event record atomic. Reversing the order just moves the inconsistency."
+        },
+        {
+          "id": "system-design-06-q05",
+          "type": "mcq",
+          "prompt": "Which HTTP method is NOT idempotent by definition?",
+          "options": [
+            "GET",
+            "PUT",
+            "DELETE",
+            "POST"
+          ],
+          "answer": 3,
+          "explanation": "POST creates or triggers actions; repeating it may create duplicates. That is why payment APIs add idempotency keys to POST."
+        },
+        {
+          "id": "system-design-06-q06",
+          "type": "mcq",
+          "prompt": "A message fails processing every time because of a malformed payload, blocking progress. What should handle it?",
+          "options": [
+            "Infinite immediate retries",
+            "A dead-letter queue after N attempts, with an alert",
+            "Deleting the whole queue",
+            "Switching to at-most-once delivery"
+          ],
+          "answer": 1,
+          "explanation": "Poison messages should be moved aside after bounded retries so healthy messages continue, and humans can inspect and replay them."
+        },
+        {
+          "id": "system-design-06-q07",
+          "type": "truefalse",
+          "prompt": "Exactly-once delivery between arbitrary systems over an unreliable network is generally achievable without idempotent consumers.",
+          "answer": false,
+          "explanation": "Effectively-once processing comes from at-least-once delivery plus deduplication or transactions. The consumer side must still be idempotent or transactional."
+        },
+        {
+          "id": "system-design-06-q08",
+          "type": "truefalse",
+          "prompt": "Adding more Kafka consumers than partitions in a consumer group does not increase throughput for that group.",
+          "answer": true,
+          "explanation": "Each partition is assigned to at most one consumer in a group; extra consumers sit idle. Increase partitions to scale further."
+        },
+        {
+          "id": "system-design-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: ways to make a consumer idempotent.",
+          "options": [
+            "Store processed message ids in a dedup table in the same transaction as the side effect",
+            "Use upserts keyed by a natural unique id",
+            "Increment a counter on every delivery",
+            "Use conditional writes with version numbers",
+            "Acknowledge before processing"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Dedup tables, upserts and version checks make repeats harmless. Blind increments double count; acking early changes the guarantee to at-most-once rather than fixing duplicates."
+        },
+        {
+          "id": "system-design-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a long-running business process split into local transactions with compensating actions is called a ___.",
+          "accept": [
+            "saga",
+            "saga pattern"
+          ],
+          "explanation": "Sagas replace distributed ACID transactions across services; each step has a compensation (refund, release) for rollback."
+        },
+        {
+          "id": "system-design-06-q11",
+          "type": "interview",
+          "prompt": "Design an order checkout flow across Order, Payment, Inventory and Shipping services without distributed transactions.",
+          "answer": "- Use an orchestrated saga (Temporal or Step Functions, or an order-service state machine) for visibility.\n- Steps: create order (PENDING) -> reserve inventory (with TTL) -> charge payment (idempotency key = orderId) -> confirm reservation -> create shipment -> mark order CONFIRMED.\n- Compensations: payment fails -> release inventory, mark order FAILED; shipping fails -> refund payment, release stock.\n- Each service writes its state change and an outbox event atomically; events flow through Kafka/SQS; all handlers are idempotent (dedup on orderId + step).\n- Timeouts and retries with backoff at each step; DLQ plus alerting for stuck sagas; a reconciliation job checks for orders stuck in PENDING.\n- User experience: return 202 with orderId and poll or push status updates; send confirmation email from the OrderConfirmed event.\n- Trade-off: eventual consistency and more moving parts, but services stay independently deployable and available.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-06-q12",
+          "type": "interview",
+          "prompt": "When would you choose Kafka over RabbitMQ or SQS?",
+          "answer": "- Kafka: high-throughput event streams (hundreds of thousands to millions of messages per second), multiple independent consumers of the same data, replay and reprocessing (rebuild a search index, backfill analytics), retention as a source of truth, per-key ordering, stream processing (Kafka Streams, Flink). Cost: operational complexity (or managed MSK/Confluent), partition planning, consumer-group rebalancing.\n- RabbitMQ: flexible routing (topic/direct/fanout exchanges), per-message acks, priorities, request/reply, lower volumes, task queues.\n- SQS: fully managed, near-zero ops, scales automatically, visibility timeouts and DLQs built in; FIFO queues for ordering by message group. Great default for background jobs on AWS. No replay once consumed.\n- Rule of thumb: jobs to be done once -> queue (SQS/RabbitMQ/BullMQ); facts that many services care about and may re-read -> log (Kafka).",
+          "level": "intermediate"
+        },
+        {
+          "id": "system-design-06-q13",
+          "type": "interview",
+          "prompt": "A client calls POST /payments, the request times out, and the client retries. How do you guarantee the customer is charged once?",
+          "answer": "- Require an Idempotency-Key header generated by the client per logical payment (UUID), reused on retries.\n- Server: in one transaction, insert the key with status IN_PROGRESS (unique constraint), perform the charge, store the response and mark COMPLETED.\n- On a retry with the same key: if COMPLETED, return the stored response; if IN_PROGRESS, return 409 or wait/poll; never start a second charge.\n- Validate that the request body matches the original for that key (reject reuse with different params).\n- Pass the same idempotency key downstream to the payment provider (Stripe supports it), so even our own retries to the provider are safe.\n- Expire keys after a window (for example 24 hours) and scope them per user.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Apache Kafka documentation",
+          "url": "https://kafka.apache.org/documentation/"
+        },
+        {
+          "title": "Amazon SQS dead-letter queues",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html"
+        },
+        {
+          "title": "Stripe: Idempotent requests",
+          "url": "https://docs.stripe.com/api/idempotent_requests"
+        }
+      ]
+    },
+    {
+      "id": "system-design-07-services-gateway-ratelimit",
+      "title": "Microservices, API Gateways, Rate Limiting and Observability",
+      "level": "intermediate",
+      "summary": "When to split a monolith, what an API gateway does, how to design a rate limiter, and how to see what a distributed system is doing.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Monolith vs microservices",
+          "body": "A **monolith** is one deployable unit. A **modular monolith** keeps clear internal module boundaries in one codebase and process. **Microservices** split the system into independently deployable services, each owning its data.\n\nMicroservices help when many teams need to deploy independently, when parts have very different scaling or reliability needs, or when a component needs a different technology. They cost: network calls instead of function calls (latency, partial failure), distributed transactions (sagas), data duplication, versioned APIs, and heavy platform needs (service discovery, tracing, CI/CD per service).\n\nThe common senior answer: start with a well-structured modular monolith, and extract services along **bounded contexts** (from domain-driven design) when team size or scaling pressure justifies it. A **distributed monolith** (services that must deploy together and share a database) has the costs of both and the benefits of neither."
+        },
+        {
+          "heading": "API gateway and backend-for-frontend",
+          "body": "An **API gateway** is the single entry point for external clients. Typical responsibilities:\n\n- Routing `/orders/*` to the order service, `/users/*` to the user service.\n- Authentication (validate JWT/OAuth tokens) so services receive a trusted identity.\n- Rate limiting and quotas per API key or user.\n- TLS termination, request/response transformation, CORS, compression.\n- Aggregation: combine several service calls into one response.\n- Observability: access logs, metrics, trace ids.\n\nExamples: AWS API Gateway, Kong, Envoy-based gateways, Apigee, Nginx. A **Backend-for-Frontend (BFF)** is a gateway tailored to one client (web vs mobile), shaping data for that UI; a Next.js server layer often plays this role. Keep business logic out of the gateway, and make it horizontally scalable so it is not a bottleneck or single point of failure. Internal service-to-service traffic often uses a **service mesh** (Istio, Linkerd) for mTLS, retries and traffic shifting."
+        },
+        {
+          "heading": "Rate limiting algorithms",
+          "body": "Rate limiting protects services from abuse and overload and enforces fair use. Algorithms:\n\n- **Fixed window counter**: count requests per key per minute bucket. Simple, but allows 2x bursts at window edges (100 at 0:59 and 100 at 1:00).\n- **Sliding window log**: store each request timestamp; exact, but memory-heavy.\n- **Sliding window counter**: weight the previous window's count by overlap: `current + previous x (1 - elapsed/window)`. Accurate enough, cheap. Used widely.\n- **Token bucket**: a bucket holds up to B tokens, refilled at rate r per second; each request takes a token. Allows bursts up to B while enforcing average rate r. Used by AWS API Gateway and many others.\n- **Leaky bucket**: requests enter a queue that drains at a fixed rate; smooths output, adds queueing.\n\nResponses: reject with **HTTP 429 Too Many Requests** and a `Retry-After` header; expose remaining quota with `RateLimit-*` style headers.",
+          "code": {
+            "lang": "lua",
+            "source": "-- Token bucket in Redis, executed atomically with EVAL\n-- KEYS[1] = bucket key, ARGV = capacity, refill_per_sec, now_ms\nlocal cap  = tonumber(ARGV[1])\nlocal rate = tonumber(ARGV[2])\nlocal now  = tonumber(ARGV[3])\nlocal b = redis.call(\"HMGET\", KEYS[1], \"tokens\", \"ts\")\nlocal tokens = tonumber(b[1]) or cap\nlocal ts     = tonumber(b[2]) or now\ntokens = math.min(cap, tokens + (now - ts) / 1000 * rate)\nlocal allowed = 0\nif tokens >= 1 then tokens = tokens - 1; allowed = 1 end\nredis.call(\"HSET\", KEYS[1], \"tokens\", tokens, \"ts\", now)\nredis.call(\"PEXPIRE\", KEYS[1], math.ceil(cap / rate * 1000) + 1000)\nreturn allowed"
+          }
+        },
+        {
+          "heading": "Distributed rate limiter design",
+          "body": "With many gateway instances, limits must be shared:\n\n- **Centralised counter in Redis**: each request runs an atomic Lua script or `INCR` + `EXPIRE`. Adds ~1 ms per request; Redis cluster sharded by key scales it.\n- **Local + sync**: each node enforces a fraction of the limit locally and periodically syncs; less precise, no per-request network hop.\n- **Fail open vs fail closed**: if Redis is down, most APIs fail open (allow traffic, rely on autoscaling) to avoid a self-inflicted outage; security-sensitive limits (login attempts) may fail closed.\n\nAlso decide the **key** (user id, API key, IP, endpoint), layered limits (global, per tenant, per endpoint), and where to enforce (edge/CDN WAF for IP floods, gateway for API quotas, service for expensive operations). Watch for race conditions: read-then-write in two commands lets concurrent requests exceed the limit, which is why the check-and-decrement must be atomic."
+        },
+        {
+          "heading": "Observability: logs, metrics, traces",
+          "body": "In a distributed system you cannot attach a debugger, so you need telemetry:\n\n- **Metrics**: numeric time series, cheap to store and alert on. Use **RED** for services (Rate, Errors, Duration) and **USE** for resources (Utilization, Saturation, Errors). Track latency as percentiles (p50, p95, p99), never just averages.\n- **Logs**: structured JSON events with context (request id, user id, trace id). Centralise them (ELK/OpenSearch, Loki, Datadog). Avoid logging secrets and PII.\n- **Traces**: a trace follows one request across services as a tree of spans, revealing which hop is slow. Context propagates via the W3C `traceparent` header. **OpenTelemetry** is the vendor-neutral standard for instrumenting all three signals.\n\nDefine **SLIs** (measured indicators, such as the fraction of requests under 300 ms), **SLOs** (targets, such as 99.9% over 30 days) and use the **error budget** (the allowed 0.1%) to balance reliability work against feature work. Alert on symptoms users feel (SLO burn rate), not on every CPU spike."
+        },
+        {
+          "heading": "Resilience patterns between services",
+          "body": "- **Timeouts** on every network call; a missing timeout lets one slow dependency exhaust threads/connections everywhere.\n- **Retries with exponential backoff and jitter**, only for idempotent operations, with a retry budget to avoid retry storms.\n- **Circuit breaker**: after repeated failures, stop calling the dependency for a cool-down period and fail fast or serve a fallback; half-open state probes recovery.\n- **Bulkheads**: separate connection pools or concurrency limits per dependency so one failure does not sink everything.\n- **Graceful degradation**: show cached recommendations or hide a widget instead of failing the whole page.\n- **Load shedding**: reject low-priority work early when overloaded."
+        }
+      ],
+      "keyPoints": [
+        "Start with a modular monolith; extract microservices along bounded contexts when teams or scaling demand it.",
+        "Each microservice owns its data; a shared database creates a distributed monolith.",
+        "API gateways centralise routing, auth, rate limiting and TLS; keep business logic out.",
+        "Token bucket allows bursts up to capacity while enforcing an average rate; fixed windows allow edge bursts.",
+        "Distributed rate limits need atomic check-and-update (Redis Lua) and a fail-open or fail-closed decision.",
+        "Return 429 with Retry-After when limiting.",
+        "Metrics, logs and traces together give observability; OpenTelemetry standardises them.",
+        "Use timeouts, retries with jitter, circuit breakers and bulkheads to contain failures."
+      ],
+      "questions": [
+        {
+          "id": "system-design-07-q01",
+          "type": "mcq",
+          "prompt": "A limit of 100 requests/minute uses a fixed window. What is the worst-case number of requests accepted in any 60-second span?",
+          "options": [
+            "100",
+            "150",
+            "~200",
+            "Unlimited"
+          ],
+          "answer": 2,
+          "explanation": "A client can send 100 at the end of one window and 100 at the start of the next, nearly 200 within a few seconds. Sliding windows or token buckets fix this."
+        },
+        {
+          "id": "system-design-07-q02",
+          "type": "mcq",
+          "prompt": "A token bucket has capacity 10 and refills 1 token per second. A client idle for a minute sends 15 requests instantly. How many succeed?",
+          "options": [
+            "1",
+            "10",
+            "15",
+            "60"
+          ],
+          "answer": 1,
+          "explanation": "Tokens cap at capacity (10), regardless of idle time. The burst consumes all 10; the other 5 are rejected until tokens refill."
+        },
+        {
+          "id": "system-design-07-q03",
+          "type": "mcq",
+          "prompt": "Which HTTP status code signals the client has been rate limited?",
+          "options": [
+            "403",
+            "409",
+            "429",
+            "503"
+          ],
+          "answer": 2,
+          "explanation": "429 Too Many Requests, ideally with a Retry-After header. 503 means the server is unavailable, not that this client exceeded a quota."
+        },
+        {
+          "id": "system-design-07-q04",
+          "type": "mcq",
+          "code": "const count = await redis.get(key);\nif (Number(count) < LIMIT) {\n  await redis.incr(key);\n  return allow();\n}\nreturn reject();",
+          "prompt": "What is wrong with this distributed rate-limit check?",
+          "options": [
+            "Nothing",
+            "The read and increment are separate operations, so concurrent requests can all pass the check and exceed the limit",
+            "Redis cannot store integers",
+            "It should use DECR instead of INCR"
+          ],
+          "answer": 1,
+          "explanation": "This is a check-then-act race. Use a single atomic INCR and compare its returned value, or a Lua script, so check and update happen together. Also note the key never gets an expiry here."
+        },
+        {
+          "id": "system-design-07-q05",
+          "type": "mcq",
+          "prompt": "Which is a sign of a 'distributed monolith'?",
+          "options": [
+            "Services communicate through events",
+            "Services share one database schema and must be deployed together",
+            "Each service has its own CI pipeline",
+            "An API gateway routes external traffic"
+          ],
+          "answer": 1,
+          "explanation": "Shared schemas and lockstep deploys mean services are not independent; you pay network costs without gaining autonomy."
+        },
+        {
+          "id": "system-design-07-q06",
+          "type": "mcq",
+          "prompt": "A dependency starts timing out. Which pattern stops your service from wasting resources calling it repeatedly?",
+          "options": [
+            "Circuit breaker",
+            "Sticky sessions",
+            "Write-through cache",
+            "Blue-green deployment"
+          ],
+          "answer": 0,
+          "explanation": "A circuit breaker opens after a failure threshold and fails fast (or serves a fallback) until a probe shows recovery."
+        },
+        {
+          "id": "system-design-07-q07",
+          "type": "truefalse",
+          "prompt": "Average latency is a sufficient metric for setting latency SLOs.",
+          "answer": false,
+          "explanation": "Averages hide tail latency. A few very slow requests affect real users; SLOs use percentiles such as p95 or p99."
+        },
+        {
+          "id": "system-design-07-q08",
+          "type": "truefalse",
+          "prompt": "Retries should use exponential backoff with jitter and be limited to idempotent operations.",
+          "answer": true,
+          "explanation": "Backoff and jitter prevent synchronized retry storms; retrying non-idempotent operations risks duplicate side effects."
+        },
+        {
+          "id": "system-design-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: typical responsibilities of an API gateway.",
+          "options": [
+            "Request routing",
+            "Token validation (authentication)",
+            "Rate limiting",
+            "Owning the order database schema",
+            "TLS termination"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Gateways handle cross-cutting edge concerns. Domain data and business rules belong to services."
+        },
+        {
+          "id": "system-design-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the vendor-neutral CNCF standard for collecting traces, metrics and logs is Open___.",
+          "accept": [
+            "Telemetry",
+            "OpenTelemetry",
+            "otel"
+          ],
+          "explanation": "OpenTelemetry provides APIs, SDKs and the Collector, and exports to many backends (Jaeger, Prometheus, Datadog, Honeycomb)."
+        },
+        {
+          "id": "system-design-07-q11",
+          "type": "interview",
+          "prompt": "Design a rate limiter for a public API: 1,000 requests per minute per API key, enforced across 50 gateway instances.",
+          "answer": "- Requirements: per-key limits, low added latency (< 2 ms), accurate within a few percent, highly available, tiers configurable per customer.\n- Algorithm: token bucket (capacity = burst allowance, refill = 1000/60 per s) or sliding window counter. Token bucket gives friendly bursts.\n- Storage: Redis cluster, key ratelimit:{apiKey}, state updated with an atomic Lua script (read, refill, decrement, set TTL). Sharding by key spreads load.\n- Flow: gateway authenticates the key, loads its tier from a local cache, calls Redis, then forwards or returns 429 with Retry-After and RateLimit headers.\n- Scale: 50 instances x requests share Redis; at very high QPS, use local token pre-allocation (each node takes batches of tokens) to cut Redis round trips.\n- Failure: if Redis is unreachable, fail open with a conservative local in-memory limit, and alert.\n- Extras: separate limits per endpoint for expensive calls, global limit to protect backends, IP-based limits at the edge (WAF) for unauthenticated floods, metrics on 429 rate per customer.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-07-q12",
+          "type": "interview",
+          "prompt": "Your team wants to split a 5-year-old monolith into microservices. How do you approach it?",
+          "answer": "- First ask why: deployment contention between teams, scaling a specific hot path, reliability isolation? If the pain is code quality, modularising the monolith may be enough.\n- Map bounded contexts and dependencies; enforce module boundaries inside the monolith first (no cross-module table access).\n- Use the strangler fig pattern: put a gateway/proxy in front, extract one well-bounded, high-value context (for example notifications or search), route its traffic to the new service, and repeat.\n- Give each service its own data store; sync data via events (outbox) rather than shared tables; accept eventual consistency.\n- Build the platform before many services: CI/CD per service, service discovery, centralised logging, tracing, contract tests, on-call ownership.\n- Measure: deploy frequency, lead time, incident rate. Stop extracting when costs exceed benefits.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-07-q13",
+          "type": "interview",
+          "prompt": "A user reports checkout is 'sometimes slow'. How do you find the cause in a microservice system?",
+          "answer": "- Check metrics: checkout endpoint p50/p95/p99 latency and error rate over time; is it all users or a segment (region, payment method, cart size)? Correlate with deploys and traffic spikes.\n- Use distributed tracing: filter traces for checkout above the p99 threshold and inspect the span waterfall to find which downstream call dominates (payment provider, inventory DB query, a sequential fan-out that should be parallel).\n- Drill into that service: its RED metrics, DB slow query logs, connection pool saturation, GC pauses, CPU throttling.\n- Use logs correlated by trace id for the specific slow requests to see retries or timeouts.\n- Common culprits: missing timeouts and retries stacking, N+1 calls, lock contention, cold caches, noisy neighbours.\n- Fix, then add an SLO-based alert so it is caught before users report it.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "OpenTelemetry documentation",
+          "url": "https://opentelemetry.io/docs/"
+        },
+        {
+          "title": "Martin Fowler: Microservices",
+          "url": "https://martinfowler.com/articles/microservices.html"
+        },
+        {
+          "title": "Google SRE Book: Service Level Objectives",
+          "url": "https://sre.google/sre-book/service-level-objectives/"
+        }
+      ]
+    },
+    {
+      "id": "system-design-08-url-shortener-storage",
+      "title": "Classic Designs: URL Shortener and File Storage",
+      "level": "advanced",
+      "summary": "Two end-to-end designs: a URL shortener (ID generation, redirects, analytics) and a Dropbox-style file storage service (chunking, uploads, sync).",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "URL shortener: requirements and estimates",
+          "body": "Functional: create a short URL for a long URL (optionally custom alias and expiry); visiting the short URL redirects; basic click analytics.\n\nNon-functional: redirects must be very fast (p99 < 50 ms at the edge) and highly available; short codes must be unique and not easily enumerable if that matters.\n\nEstimates: 100M new links/month (~40 writes/s), read:write ~100:1, so ~4,000 redirects/s average, peaks ~20k/s. Each record ~500 bytes -> 100M x 500 B = 50 GB/month, ~6 TB over 10 years. Small enough for one well-indexed database plus cache; the design challenge is ID generation and read latency, not raw storage.\n\nCode length: base62 (`a-z A-Z 0-9`) with 7 characters gives 62^7 ~ 3.5 trillion codes, plenty for 10 years of 1.2B links/year."
+        },
+        {
+          "heading": "Generating short codes",
+          "body": "Options:\n\n- **Hash the long URL** (MD5/SHA-256, take first 7 base62 chars): same URL gives the same code (dedup), but collisions must be detected and resolved (append a salt and retry), which needs a uniqueness check on every write.\n- **Counter + base62 encoding**: a unique integer id (database sequence, Snowflake id, or ranges handed out by a coordinator) encoded in base62. No collisions. Sequential codes are guessable; fix by shuffling the bits with a reversible permutation or using a random offset.\n- **Pre-generated key service**: a key-generation service creates random unique codes offline and hands batches to app servers; each server marks a batch as used. Fast writes, no collision checks at request time.\n- **Random code + unique constraint**: generate 7-8 random base62 chars, insert with a unique constraint, retry on conflict. Simple and fine at moderate scale since collision probability is low while the space is mostly empty.\n\nCustom aliases are checked for availability and stored in the same table with the same uniqueness constraint.",
+          "code": {
+            "lang": "typescript",
+            "source": "const ALPHABET = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n\nfunction toBase62(n: bigint): string {\n  if (n === 0n) return \"0\";\n  let s = \"\";\n  while (n > 0n) {\n    s = ALPHABET[Number(n % 62n)] + s;\n    n /= 62n;\n  }\n  return s;\n}\n\ntoBase62(125n);            // \"21\"\ntoBase62(3_521_614_606_207n); // \"ZZZZZZZ\" = 62^7 - 1"
+          }
+        },
+        {
+          "heading": "URL shortener: redirect path and analytics",
+          "body": "Data model: `links(code PK, long_url, user_id, created_at, expires_at)`. A key-value store (DynamoDB) or Postgres both work; the main query is a primary key lookup.\n\nRead path: client -> CDN/edge -> app -> Redis cache (cache-aside, hot links stay resident thanks to skew) -> database. Return **301 Moved Permanently** or **302 Found**:\n\n- 301 is cached by browsers, which reduces load but means later clicks never reach you (analytics lost, destination cannot change).\n- 302 (or 307) hits your service every time, enabling analytics and editable destinations. Most commercial shorteners use 302 for that reason.\n\nAnalytics: do not write to the database synchronously on every redirect. Emit a click event (code, timestamp, referrer, country, user agent) to Kafka/Kinesis and aggregate asynchronously into an OLAP store (ClickHouse, BigQuery) for dashboards.\n\nAbuse: rate-limit creation, scan destinations against malware/phishing lists, and allow takedowns."
+        },
+        {
+          "heading": "File storage service: requirements and architecture",
+          "body": "Design a Dropbox/Google Drive-like service: upload, download, share, and sync files across devices; files up to tens of GB.\n\nKey decisions:\n\n- **Separate metadata from blobs**: file content lives in object storage (S3, GCS) which is cheap, durable (S3 is designed for 11 nines of durability) and scalable. Metadata (file tree, versions, permissions, chunk lists) lives in a relational database sharded by user or workspace.\n- **Direct uploads with pre-signed URLs**: the client asks the API for an upload URL, then uploads bytes directly to object storage, so app servers never proxy large payloads.\n- **Chunking**: split files into chunks (for example 4-8 MB). Benefits: resumable uploads, parallel transfer, and **delta sync** (only changed chunks are re-uploaded). S3 multipart upload provides this for large objects.\n- **Content-addressed deduplication**: name each chunk by its hash (SHA-256); if the chunk already exists, skip the upload. Saves storage and bandwidth across versions and users (with care for privacy side channels).\n- Downloads via CDN or pre-signed GET URLs with short expiry."
+        },
+        {
+          "heading": "Sync, versioning and conflicts",
+          "body": "Each device runs a client that watches the local folder, chunks changed files, uploads new chunks, then commits a new **file version** (ordered list of chunk hashes) to the metadata service. Other devices learn about changes via a notification channel (WebSocket or long polling) carrying a cursor; they then fetch the metadata changes since their cursor and download the missing chunks.\n\n- **Versioning**: keep previous versions (chunk lists are cheap) for restore and undo.\n- **Conflicts**: if two devices edit the same file based on the same parent version, the second commit fails a version check (optimistic concurrency); the client saves a 'conflicted copy' rather than silently overwriting.\n- **Consistency**: metadata updates are strongly consistent (transactions) so the file tree never corrupts; blob replication is handled by object storage.\n- **Garbage collection**: chunks unreferenced by any version (after retention) are deleted by a background job using reference counts or mark-and-sweep."
+        }
+      ],
+      "keyPoints": [
+        "7 base62 characters give ~3.5 trillion codes, enough for most URL shorteners.",
+        "Counter + base62 avoids collisions; random codes need a unique constraint and retry.",
+        "302 redirects keep analytics and editable destinations; 301 lets browsers cache and bypass you.",
+        "Record click analytics asynchronously through a stream, not in the redirect path.",
+        "Store file bytes in object storage and metadata in a database.",
+        "Use pre-signed URLs so clients upload directly to object storage.",
+        "Chunking enables resumable uploads, parallelism, delta sync and deduplication.",
+        "Use version checks to detect sync conflicts and keep conflicted copies."
+      ],
+      "questions": [
+        {
+          "id": "system-design-08-q01",
+          "type": "mcq",
+          "prompt": "How many distinct codes do 7 base62 characters provide?",
+          "options": [
+            "~62 million",
+            "~3.5 billion",
+            "~3.5 trillion",
+            "~78 billion"
+          ],
+          "answer": 2,
+          "explanation": "62^7 = 3,521,614,606,208, about 3.5 trillion."
+        },
+        {
+          "id": "system-design-08-q02",
+          "type": "mcq",
+          "prompt": "Why do most commercial URL shorteners use 302 rather than 301 redirects?",
+          "options": [
+            "302 is faster",
+            "Browsers cache 301 permanently, so later clicks bypass the service, losing analytics and the ability to change the destination",
+            "301 is deprecated",
+            "302 is required for HTTPS"
+          ],
+          "answer": 1,
+          "explanation": "A 301 is cacheable by default; returning visitors may never hit your server again. 302 keeps every click visible."
+        },
+        {
+          "id": "system-design-08-q03",
+          "type": "mcq",
+          "prompt": "What is the main downside of encoding a sequential database id in base62 as the short code?",
+          "options": [
+            "Collisions",
+            "Codes are predictable, allowing enumeration of all links",
+            "It is slow to encode",
+            "Codes are too long"
+          ],
+          "answer": 1,
+          "explanation": "Sequential ids reveal volume and let anyone iterate through links. Permuting the id or adding randomness addresses it."
+        },
+        {
+          "id": "system-design-08-q04",
+          "type": "mcq",
+          "prompt": "In a file storage service, why should clients upload through pre-signed URLs rather than via the API servers?",
+          "options": [
+            "Pre-signed URLs compress files",
+            "Large uploads go directly to object storage, so app servers do not spend bandwidth and memory proxying bytes",
+            "It removes the need for authentication",
+            "Object storage cannot accept uploads otherwise"
+          ],
+          "answer": 1,
+          "explanation": "The API authorises the upload and signs a short-lived URL; the heavy transfer bypasses your fleet entirely."
+        },
+        {
+          "id": "system-design-08-q05",
+          "type": "mcq",
+          "prompt": "A user edits 1 MB in the middle of a 2 GB file. With 4 MB content-addressed chunks, roughly what is re-uploaded?",
+          "options": [
+            "2 GB",
+            "Only the changed chunk(s), a few MB",
+            "Nothing",
+            "Half the file"
+          ],
+          "answer": 1,
+          "explanation": "Unchanged chunks keep the same hash and already exist on the server. (With fixed-size chunks an insertion that shifts bytes changes all later chunks; content-defined chunking avoids that.)"
+        },
+        {
+          "id": "system-design-08-q06",
+          "type": "mcq",
+          "prompt": "Where should click analytics for a URL shortener be written?",
+          "options": [
+            "Synchronously to the primary database in the redirect request",
+            "To an event stream, aggregated asynchronously into an analytics store",
+            "In the browser's localStorage",
+            "Nowhere; analytics are impossible with 302"
+          ],
+          "answer": 1,
+          "explanation": "The redirect is latency-critical. Fire-and-forget events into Kafka/Kinesis decouple analytics from the hot path."
+        },
+        {
+          "id": "system-design-08-q07",
+          "type": "truefalse",
+          "prompt": "Hash-based short codes (truncated MD5 of the URL) can collide, so the system must detect and resolve collisions.",
+          "answer": true,
+          "explanation": "Truncating to 7 characters loses most of the hash; different URLs can map to the same code, so a uniqueness check and retry are needed."
+        },
+        {
+          "id": "system-design-08-q08",
+          "type": "truefalse",
+          "prompt": "File metadata (folder tree, permissions, versions) should be stored in object storage alongside the blobs.",
+          "answer": false,
+          "explanation": "Metadata needs transactions, indexes and queries (list folder, check permissions), which a database provides. Object storage is for immutable blobs."
+        },
+        {
+          "id": "system-design-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: benefits of chunking large files.",
+          "options": [
+            "Resumable uploads after network failure",
+            "Parallel uploads",
+            "Deduplication across versions",
+            "Strong consistency of metadata",
+            "Delta sync of only changed parts"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Chunking helps transfer and storage efficiency. Metadata consistency comes from the database's transactions, not chunking."
+        },
+        {
+          "id": "system-design-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: encoding integers with the characters 0-9, a-z and A-Z is called base___ encoding.",
+          "accept": [
+            "62",
+            "base62",
+            "sixty-two"
+          ],
+          "explanation": "Base62 uses 62 URL-safe characters, giving short, readable codes."
+        },
+        {
+          "id": "system-design-08-q11",
+          "type": "interview",
+          "prompt": "Design a URL shortener like bit.ly.",
+          "answer": "- Requirements: shorten (custom alias, expiry), redirect, click stats. Redirect p99 < 50 ms, 99.99% available. 100M links/month, 100:1 reads.\n- API: POST /links {longUrl, alias?, expiresAt?} -> {code}; GET /{code} -> 302 Location; GET /links/{code}/stats.\n- Codes: 7-char base62. Use a Snowflake-style or range-allocated counter permuted through a reversible bit shuffle (unique, non-sequential), or random codes with a unique constraint and retry.\n- Storage: links table keyed by code in DynamoDB or Postgres (~6 TB over 10 years); replicate across AZs.\n- Read path: edge/CDN may cache 302s briefly; Redis cache-aside with LRU for hot links (high hit ratio); DB on miss; negative caching for unknown codes.\n- Analytics: emit click events to Kafka, aggregate into ClickHouse; dashboards read aggregates.\n- Expiry: check expires_at on read, background job purges.\n- Abuse: creation rate limits, malware URL scanning, takedown flag checked on redirect.\n- Scale-out: stateless app tier behind LB, multi-region read replicas with geo-DNS for low-latency redirects.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-08-q12",
+          "type": "interview",
+          "prompt": "Design a file storage and sync service like Dropbox.",
+          "answer": "- Requirements: upload/download files up to 50 GB, sync across devices, sharing, version history. Durability is paramount; sync latency of seconds is fine.\n- Components: client sync agent, API/metadata service, object storage for chunks, notification service, CDN for downloads.\n- Upload: client splits file into chunks (content-defined ~4 MB), hashes each; asks metadata service which hashes are missing; uploads only missing chunks directly to S3 via pre-signed URLs (multipart for large); commits a new version {fileId, parentVersion, chunkHashes} in a DB transaction.\n- Metadata DB: users, workspaces, files (tree), versions, chunks, shares; sharded by workspace; strongly consistent.\n- Sync: on commit, publish an event; notification service pushes 'changes available' over WebSocket/long poll to the user's other devices, which call GET /changes?cursor=... and download missing chunks.\n- Conflicts: optimistic concurrency on parentVersion; losers save a conflicted copy.\n- Sharing: ACL rows on folders, checked by the metadata service; share links are signed tokens.\n- Durability and cost: S3 cross-region replication for critical data, lifecycle rules to move old versions to cheaper tiers, GC for unreferenced chunks.\n- Scale: stateless API tier, read replicas for metadata reads, CDN for popular shared files.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-08-q13",
+          "type": "interview",
+          "prompt": "How would you support resumable uploads of a 20 GB video from a flaky mobile connection?",
+          "answer": "- Client calls POST /uploads with file size and type; server creates an upload session (S3 CreateMultipartUpload) and returns an uploadId plus part size (for example 16 MB).\n- Client requests pre-signed URLs for parts (in batches) and uploads parts in parallel, recording ETags per part locally.\n- On disconnect, client asks GET /uploads/{id} (or S3 ListParts) for completed parts and resumes only the missing ones.\n- When all parts are done, client calls complete; server calls CompleteMultipartUpload, verifies checksum, writes metadata, and emits an event for processing (transcoding).\n- Clean up abandoned sessions with an S3 lifecycle rule that aborts incomplete multipart uploads after N days.\n- The tus open protocol is an alternative standard for resumable uploads.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Amazon S3: Uploading objects using multipart upload",
+          "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html"
+        },
+        {
+          "title": "Amazon S3: Sharing objects with presigned URLs",
+          "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html"
+        },
+        {
+          "title": "MDN: Redirections in HTTP",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections"
+        }
+      ]
+    },
+    {
+      "id": "system-design-09-feed-chat-notifications",
+      "title": "Classic Designs: News Feed, Chat and Notifications",
+      "level": "advanced",
+      "summary": "Fan-out strategies for feeds, real-time messaging over WebSockets, and a multi-channel notification system.",
+      "estMinutes": 45,
+      "lesson": [
+        {
+          "heading": "News feed: fan-out on write vs fan-out on read",
+          "body": "A home feed shows recent posts from accounts a user follows, usually ranked.\n\n- **Fan-out on write (push)**: when a user posts, write the post id into each follower's precomputed feed (a Redis list or sorted set per user). Reads are a single fast lookup. Cost: a user with 50M followers triggers 50M writes per post, and you do work for inactive followers.\n- **Fan-out on read (pull)**: at read time, fetch recent posts from each followed account and merge. Writes are cheap; reads are expensive for users who follow thousands.\n- **Hybrid** (what Twitter/X and Instagram-style systems do): push for normal accounts; for celebrities (above a follower threshold), skip fan-out and merge their recent posts at read time. Also skip pushing to long-inactive users and rebuild their feed on next login.\n\nFeed caches store only post ids (and maybe scores), capped to a few hundred entries; post bodies and author data are hydrated from separate caches."
+        },
+        {
+          "heading": "News feed: storage, ranking and pagination",
+          "body": "Data: `posts(id, author_id, content, media, created_at)` sharded by post id or author id; `follows(follower_id, followee_id)` with indexes in both directions (who I follow, who follows me); a graph store or sharded tables for big social graphs. Media goes to object storage plus CDN.\n\nWrite path: API -> posts DB -> event 'PostCreated' -> fan-out workers (queue) -> feed caches.\n\nRead path: GET /feed?cursor -> feed service reads the id list from Redis, merges celebrity posts, applies ranking, hydrates posts (batch fetch from post cache), filters deleted/blocked content, returns a page and `nextCursor`.\n\nRanking: chronological is simplest; ranked feeds score candidates with signals (affinity, engagement, recency) via an ML model. Generate candidates cheaply, then rank a few hundred. Paginate with a cursor (last score/id), not offsets, since the feed changes constantly."
+        },
+        {
+          "heading": "Chat: connections and message flow",
+          "body": "Real-time chat needs a persistent, bidirectional channel: **WebSockets** (or MQTT on mobile). HTTP polling wastes resources; long polling and Server-Sent Events are fallbacks (SSE is one-way, server to client).\n\nArchitecture:\n\n- **Gateway/connection servers** hold millions of WebSocket connections (each server tens to hundreds of thousands). They are stateful: a **session registry** (Redis) maps userId -> connection server(s).\n- **Chat service** validates, assigns a per-conversation sequence number, persists the message, then routes it.\n- **Routing**: look up recipients' connection servers and deliver via pub/sub (Redis pub/sub, NATS, Kafka). Offline recipients get a push notification instead.\n- **Storage**: messages partitioned by `conversation_id` and ordered by sequence/time. Write-heavy and append-only, so a wide-column store (Cassandra/ScyllaDB, as Discord used) or a sharded SQL table fits.\n\nThe client sends each message with a client-generated id; the server acks with the server id and sequence, and the client deduplicates on retry. Ordering is guaranteed per conversation, not globally.",
+          "code": {
+            "lang": "text",
+            "source": "Sender --ws--> Gateway A --> Chat Service --> Messages DB (partition: conversation_id)\n                                   |\n                                   +--> Session registry: recipient -> Gateway B\n                                   +--> Pub/Sub channel \"gateway-B\" --> Gateway B --ws--> Recipient\n                                   +--> (recipient offline) --> Push notification service"
+          }
+        },
+        {
+          "heading": "Chat: groups, presence, receipts and sync",
+          "body": "- **Group messages**: for small groups, fan out to each member's connection; for large channels (thousands), store once and let clients pull by cursor, pushing only a lightweight 'new messages' signal.\n- **Delivery and read receipts**: separate small events (delivered up to seq N, read up to seq M) stored per member per conversation, not per message.\n- **Presence**: clients heartbeat every ~30 s; the server marks users offline after missed heartbeats. Presence changes are high-volume, so only fan them out to users currently viewing the contact, and batch/debounce updates.\n- **Multi-device sync**: each device keeps the last sequence it has seen per conversation and fetches the gap on reconnect.\n- **End-to-end encryption** (Signal protocol): the server routes ciphertext only; this limits server-side search and moderation.\n- **Reconnect storms**: when a gateway restarts, its clients reconnect at once; use jittered backoff and spread connections."
+        },
+        {
+          "heading": "Notification system",
+          "body": "A notification service sends messages across channels: mobile push (APNs for iOS, FCM for Android and web push), email (SES, SendGrid), SMS (Twilio), and in-app.\n\nDesign:\n\n- Producers (other services) call `POST /notify {userId, template, data, priority}` or publish an event.\n- The **notification service** validates, loads user preferences (opt-outs, quiet hours, channel choices), renders the template, dedupes (idempotency key per event), applies **rate limits** per user so nobody gets spammed, and enqueues per channel.\n- **Per-channel queues and workers** call third-party providers with retries, exponential backoff and DLQs; one slow provider must not block others.\n- **Priorities**: separate queues for critical (OTP, security alerts) and bulk (marketing) so bulk campaigns never delay OTPs.\n- **Device tokens**: stored per user per device; remove tokens the provider reports as invalid.\n- **Tracking**: store status (queued, sent, delivered, opened, failed) for analytics and debugging.\n\nDelivery is at-least-once, so dedupe on the event id; scheduled notifications use a delay queue or scheduler that respects time zones."
+        }
+      ],
+      "keyPoints": [
+        "Fan-out on write makes feed reads cheap but explodes for celebrities; fan-out on read is the reverse.",
+        "Use a hybrid feed: push for normal users, pull celebrity posts at read time.",
+        "Feed caches hold post ids; hydrate content from separate caches.",
+        "Chat uses WebSockets with a session registry mapping users to connection servers.",
+        "Order chat messages per conversation with sequence numbers; dedupe with client message ids.",
+        "Store messages partitioned by conversation id in a write-optimised store.",
+        "Notification systems separate channels and priorities into their own queues, honour preferences and rate limit per user."
+      ],
+      "questions": [
+        {
+          "id": "system-design-09-q01",
+          "type": "mcq",
+          "prompt": "A celebrity with 80M followers posts. Under pure fan-out on write, what happens?",
+          "options": [
+            "One write",
+            "80M feed-cache writes, causing a large delay and load spike",
+            "The post is rejected",
+            "Followers must refresh manually"
+          ],
+          "answer": 1,
+          "explanation": "Every follower's feed list must be updated. That is why hybrid systems pull celebrity posts at read time instead."
+        },
+        {
+          "id": "system-design-09-q02",
+          "type": "mcq",
+          "prompt": "Which transport is most appropriate for bidirectional, low-latency chat in browsers?",
+          "options": [
+            "HTTP short polling every second",
+            "WebSockets",
+            "SMTP",
+            "Server-Sent Events only"
+          ],
+          "answer": 1,
+          "explanation": "WebSockets give a persistent full-duplex channel. SSE is server-to-client only; polling wastes requests and adds latency."
+        },
+        {
+          "id": "system-design-09-q03",
+          "type": "mcq",
+          "prompt": "How does the chat service know which server holds the recipient's WebSocket connection?",
+          "options": [
+            "It broadcasts to every server in the cluster",
+            "A session registry (for example Redis) maps userId to connection server(s)",
+            "DNS lookup of the user id",
+            "The load balancer remembers it"
+          ],
+          "answer": 1,
+          "explanation": "Connection servers register users on connect and remove them on disconnect, so routing is a single lookup. Broadcasting to all servers does not scale."
+        },
+        {
+          "id": "system-design-09-q04",
+          "type": "mcq",
+          "prompt": "Which partition key fits chat message storage best?",
+          "options": [
+            "message_id (random)",
+            "conversation_id",
+            "sender's country",
+            "created_date"
+          ],
+          "answer": 1,
+          "explanation": "The dominant query is 'latest messages in conversation X'. Partitioning by conversation_id keeps them together and ordered; date keys create hot partitions."
+        },
+        {
+          "id": "system-design-09-q05",
+          "type": "mcq",
+          "prompt": "A marketing campaign of 20M emails is delaying login OTP SMS and emails. Best fix?",
+          "options": [
+            "Send OTPs from the frontend",
+            "Separate queues and workers by priority so critical notifications never wait behind bulk sends",
+            "Increase the email TTL",
+            "Send all notifications synchronously"
+          ],
+          "answer": 1,
+          "explanation": "Priority isolation (bulkheads) ensures time-sensitive messages have dedicated capacity."
+        },
+        {
+          "id": "system-design-09-q06",
+          "type": "mcq",
+          "prompt": "What should a feed service store per user in its Redis feed cache?",
+          "options": [
+            "Full post objects with author profiles",
+            "A capped list of post ids (and scores), hydrated at read time",
+            "All posts ever made by followed users",
+            "Only the user's own posts"
+          ],
+          "answer": 1,
+          "explanation": "Ids are small, so millions of feeds fit in memory, and post edits or deletions do not require rewriting every feed."
+        },
+        {
+          "id": "system-design-09-q07",
+          "type": "truefalse",
+          "prompt": "Chat systems usually guarantee message ordering per conversation rather than globally across all conversations.",
+          "answer": true,
+          "explanation": "Global ordering needs a single sequencer and does not scale. Users only perceive order within a conversation."
+        },
+        {
+          "id": "system-design-09-q08",
+          "type": "truefalse",
+          "prompt": "Mobile push notifications for iOS are delivered through FCM directly to the device without involving Apple's APNs.",
+          "answer": false,
+          "explanation": "iOS push always goes through APNs. FCM can be used as an abstraction, but it forwards iOS messages via APNs."
+        },
+        {
+          "id": "system-design-09-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: responsibilities of a notification service.",
+          "options": [
+            "Respect user channel preferences and quiet hours",
+            "Per-user rate limiting to avoid spam",
+            "Retries with backoff and dead-letter queues per provider",
+            "Rendering the product catalog page",
+            "Deduplicating events with idempotency keys"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Preferences, rate limits, reliable delivery and dedupe are core. Rendering product pages belongs to other services."
+        },
+        {
+          "id": "system-design-09-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: precomputing followers' feeds when a post is created is called fan-out on ___.",
+          "accept": [
+            "write",
+            "writes",
+            "push"
+          ],
+          "explanation": "Fan-out on write (push model) moves work to post time; fan-out on read (pull model) does it at read time."
+        },
+        {
+          "id": "system-design-09-q11",
+          "type": "interview",
+          "prompt": "Design the Twitter/X home timeline for 300M DAU.",
+          "answer": "- Requirements: post, follow, home timeline (reverse-chron or ranked), timeline load p99 < 300 ms, eventual consistency acceptable (seconds).\n- Estimates: ~600M posts/day (~7k/s), ~30B timeline reads/day (~350k/s peak). Very read-heavy.\n- Storage: posts in a sharded store keyed by post id (Snowflake ids, time-sortable); social graph in sharded follower/followee tables; media in S3 + CDN.\n- Write path: post saved -> PostCreated event -> fan-out workers push post id into followers' Redis timelines (capped ~800 ids), skipping inactive users. Accounts above ~100k followers are not fanned out.\n- Read path: timeline service reads cached ids, merges recent posts from followed celebrities (cached per celebrity), ranks, hydrates via batched post/user cache lookups, filters blocks/deletes, returns cursor page.\n- Cold users: rebuild timeline on demand from follow list.\n- Reliability: replicated Redis, fan-out via Kafka for replay; timelines are rebuildable cache, posts DB is source of truth.\n- Extras: search via an inverted index fed by events; trends via stream processing; observability on fan-out lag.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-09-q12",
+          "type": "interview",
+          "prompt": "Design a chat application like WhatsApp or Slack DMs with 100M DAU.",
+          "answer": "- Requirements: 1:1 and groups (up to 500), text and media, delivery/read receipts, presence, history, multi-device. Delivery under 500 ms; no message loss.\n- Connections: clients keep WebSockets to stateless-ish gateway servers behind an L4 LB; ~50M concurrent connections / ~100k per server ~ 500 gateways. Session registry in Redis: userId -> gatewayIds.\n- Send flow: client sends {clientMsgId, conversationId, body}; chat service checks membership, assigns per-conversation seq (atomic counter per conversation), persists to Cassandra (partition conversation_id, clustering seq), acks to sender with seq.\n- Delivery: for each recipient, look up gateways and publish via pub/sub; offline -> push notification via APNs/FCM. Clients ack delivery; receipts stored as last-delivered/last-read seq per member.\n- Sync: on reconnect, client sends last seq per conversation and fetches gaps.\n- Media: upload to S3 via pre-signed URL, message carries the object key; CDN for downloads.\n- Presence: heartbeats with TTL keys, fan-out only to interested viewers.\n- Reliability: at-least-once delivery with dedupe by clientMsgId; multi-AZ Cassandra; gateways drain connections gracefully on deploy with jittered reconnect.\n- Optional: end-to-end encryption, which moves search client-side.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-09-q13",
+          "type": "interview",
+          "prompt": "Design a notification system that sends 1 billion notifications per day across push, email and SMS.",
+          "answer": "- Scale: ~12k/s average, peaks of 100k/s+ during campaigns.\n- Ingest: services publish NotificationRequested events (userId, type, data, priority, idempotencyKey) to Kafka, or call an API that enqueues.\n- Processing service: dedupe on idempotencyKey (Redis set with TTL), load user preferences and device tokens (cached), apply per-user and per-type rate limits and quiet hours, render template with localisation, then enqueue to per-channel, per-priority queues.\n- Channel workers: push (APNs/FCM with HTTP/2 connection pools), email (SES/SendGrid), SMS (Twilio), in-app (store + WebSocket). Each has retries with exponential backoff, provider failover where possible, and a DLQ.\n- Scheduling: delayed/scheduled sends via a scheduler table polled by time bucket or a delay queue, respecting user time zone.\n- Tracking: status events (sent, delivered, opened, bounced) into an analytics store; invalid tokens and hard bounces update user records.\n- Isolation: critical (OTP, security) path has dedicated queues and capacity; bulk campaigns are throttled.\n- Observability: per-channel success rate, latency, queue lag, provider error rates.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: The WebSocket API",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API"
+        },
+        {
+          "title": "Firebase Cloud Messaging documentation",
+          "url": "https://firebase.google.com/docs/cloud-messaging"
+        },
+        {
+          "title": "Discord: How Discord stores trillions of messages",
+          "url": "https://discord.com/blog/how-discord-stores-trillions-of-messages"
+        }
+      ]
+    },
+    {
+      "id": "system-design-10-frontend",
+      "title": "Frontend System Design: Autocomplete, Infinite Feed and Design Systems",
+      "level": "advanced",
+      "summary": "How to approach frontend system design rounds: component architecture, data flow, performance and accessibility for autocomplete, infinite feeds and design systems.",
+      "estMinutes": 45,
+      "lesson": [
+        {
+          "heading": "A framework for frontend system design",
+          "body": "Frontend rounds use the same discipline as backend ones, with a different focus. A useful structure (often called RADIO):\n\n- **Requirements**: features, devices, offline needs, accessibility, internationalisation, performance targets (LCP, INP, CLS).\n- **Architecture**: component tree, where data lives (server state vs client state), rendering strategy (SSR, SSG, CSR, React Server Components, streaming).\n- **Data model**: client-side entities, normalised caches, what is persisted.\n- **Interface**: the API between client and server (REST, GraphQL, pagination shape) and between components (props, events).\n- **Optimisations**: performance, accessibility, security (XSS, CSP), observability (RUM, error tracking).\n\nInterviewers look for trade-off reasoning about network, rendering and UX, not just React syntax."
+        },
+        {
+          "heading": "Design an autocomplete / typeahead",
+          "body": "Requirements: show suggestions as the user types, keyboard navigable, fast (< 100 ms perceived), works on mobile, accessible.\n\nKey techniques:\n\n- **Debounce** input (150-300 ms) so you do not fire a request on every keystroke; throttle is for continuous events like scroll.\n- **Cancel stale requests** with `AbortController`, and ignore out-of-order responses (only render the response matching the latest query), otherwise a slow response for 'ap' can overwrite results for 'apple'.\n- **Client cache**: a Map of query -> results (LRU, with TTL) so backspacing is instant; prefix results can filter locally.\n- **Minimum query length** and trimming.\n- **Highlight** matched substrings safely (no `dangerouslySetInnerHTML` with raw input).\n- **Accessibility**: WAI-ARIA combobox pattern: input with `role=\"combobox\"`, `aria-expanded`, `aria-controls`, `aria-activedescendant`; list with `role=\"listbox\"` and items `role=\"option\"`; Up/Down/Enter/Escape keys.\n- **Server side**: a trie or prefix index (Elasticsearch completion suggester, Redis sorted sets), ranked by popularity, results cached at the CDN for common prefixes.",
+          "code": {
+            "lang": "typescript",
+            "source": "function useAutocomplete(query: string) {\n  const [results, setResults] = useState<string[]>([]);\n  const cache = useRef(new Map<string, string[]>());\n\n  useEffect(() => {\n    const q = query.trim().toLowerCase();\n    if (q.length < 2) return setResults([]);\n    if (cache.current.has(q)) return setResults(cache.current.get(q)!);\n\n    const ctrl = new AbortController();\n    const timer = setTimeout(async () => {\n      try {\n        const res = await fetch(`/api/suggest?q=${encodeURIComponent(q)}`, { signal: ctrl.signal });\n        const data: string[] = await res.json();\n        cache.current.set(q, data);\n        setResults(data);\n      } catch (e) {\n        if ((e as Error).name !== \"AbortError\") console.error(e);\n      }\n    }, 200);                                   // debounce\n\n    return () => { clearTimeout(timer); ctrl.abort(); }; // cancel stale work\n  }, [query]);\n\n  return results;\n}"
+          }
+        },
+        {
+          "heading": "Design an infinite scrolling feed",
+          "body": "Requirements: load more items as the user scrolls, smooth on low-end phones, supports new posts arriving, restores scroll position on back navigation.\n\n- **Pagination**: cursor-based API (`?cursor=abc&limit=20`) returning `nextCursor`; offsets break when new items are inserted at the top.\n- **Trigger loading** with `IntersectionObserver` on a sentinel element near the bottom (not scroll event handlers), prefetching before the user reaches the end.\n- **Virtualisation** (windowing): render only visible items plus a buffer (TanStack Virtual, react-window). Without it, thousands of DOM nodes cause memory bloat and slow interactions. Variable-height items need measurement.\n- **Data layer**: TanStack Query `useInfiniteQuery` or similar for pages, caching, dedup and refetch; normalise entities so a 'like' updates everywhere.\n- **New items**: show a 'N new posts' pill instead of shifting content under the user (avoid layout shift).\n- **Images**: lazy load, reserve dimensions (aspect-ratio) to prevent CLS, responsive `srcset`, modern formats.\n- **Optimistic updates** for likes with rollback on error.\n- **Accessibility**: use `role=\"feed\"` with `article` items, keep focus stable, provide a way to reach the footer (or a 'Load more' button alternative)."
+        },
+        {
+          "heading": "Design a design system / component library",
+          "body": "A design system is shared design tokens, components, patterns and documentation used across products.\n\n- **Design tokens**: named values for color, spacing, typography, radius, shadow, motion (`color.bg.surface`, `space.4`). Tiered: primitive tokens (blue-500) -> semantic tokens (color.action.primary) -> component tokens. Distributed as CSS custom properties so theming (dark mode, brands) swaps values at runtime without rebuilding components.\n- **Component API design**: small, composable, consistent prop names (`variant`, `size`), controlled and uncontrolled modes, `asChild`/polymorphic `as` props, forward refs, and compound components (`<Tabs><Tabs.List/>...`). Build on headless, accessible primitives (Radix UI, React Aria) rather than re-implementing focus management.\n- **Accessibility baked in**: keyboard support, focus rings, ARIA roles, colour contrast checks in CI.\n- **Packaging**: tree-shakeable ESM, typed (TypeScript), CSS strategy that avoids runtime cost (CSS modules, vanilla-extract, Tailwind with tokens), peer dependency on React.\n- **Versioning and governance**: semver, changesets, codemods for breaking changes, deprecation warnings, contribution process.\n- **Docs and quality**: Storybook for docs and visual testing, visual regression (Chromatic/Playwright screenshots), unit and a11y tests (axe)."
+        },
+        {
+          "heading": "Cross-cutting frontend performance and reliability",
+          "body": "- **Core Web Vitals**: LCP (largest contentful paint, target < 2.5 s), INP (interaction to next paint, < 200 ms; replaced FID in 2024), CLS (cumulative layout shift, < 0.1).\n- **Rendering strategy**: SSR/streaming or static generation for fast first paint and SEO; client rendering for highly interactive, authenticated views; React Server Components to keep data fetching and heavy libraries on the server.\n- **Bundle**: code-split by route and on interaction (`import()`), avoid large dependencies, measure with a bundle analyzer.\n- **Network**: HTTP caching and CDN, preconnect/preload critical resources, compress (Brotli), batch requests.\n- **State**: separate server state (TanStack Query, SWR, RSC) from UI state; avoid one giant global store causing re-renders.\n- **Resilience**: error boundaries, retries with backoff, offline support via service workers where valuable.\n- **Observability**: real user monitoring of Web Vitals, error tracking (Sentry), feature flags for gradual rollouts.\n- **Security**: escape output to prevent XSS, Content Security Policy, avoid storing tokens in localStorage when httpOnly cookies are possible."
+        }
+      ],
+      "keyPoints": [
+        "Use a structure like RADIO: requirements, architecture, data model, interface, optimisations.",
+        "Autocomplete: debounce input, abort stale requests, ignore out-of-order responses, cache results, follow the ARIA combobox pattern.",
+        "Infinite feeds: cursor pagination, IntersectionObserver triggers, virtualisation for long lists.",
+        "Reserve image dimensions and avoid shifting content to keep CLS low.",
+        "Design systems: tiered design tokens as CSS variables, accessible headless primitives, consistent component APIs.",
+        "Version component libraries with semver and provide codemods for breaking changes.",
+        "Core Web Vitals targets: LCP < 2.5 s, INP < 200 ms, CLS < 0.1."
+      ],
+      "questions": [
+        {
+          "id": "system-design-10-q01",
+          "type": "mcq",
+          "prompt": "In an autocomplete, the response for 'ap' arrives after the response for 'apple' and overwrites the correct results. Best fix?",
+          "options": [
+            "Increase the debounce to 2 seconds",
+            "Abort previous requests and only render the response matching the latest query",
+            "Use throttle instead of debounce",
+            "Disable caching"
+          ],
+          "answer": 1,
+          "explanation": "Network responses can arrive out of order. Aborting stale fetches with AbortController and checking the query before setting state prevents race conditions."
+        },
+        {
+          "id": "system-design-10-q02",
+          "type": "mcq",
+          "prompt": "Which technique keeps a feed of 10,000 items smooth on a low-end phone?",
+          "options": [
+            "Render all items with React.memo",
+            "List virtualisation (windowing)",
+            "Using CSS grid",
+            "Server-side rendering of all 10,000 items"
+          ],
+          "answer": 1,
+          "explanation": "Virtualisation renders only visible items plus a buffer, keeping the DOM small. Memoisation does not reduce DOM size."
+        },
+        {
+          "id": "system-design-10-q03",
+          "type": "mcq",
+          "prompt": "What is the recommended way to detect that the user is near the bottom of a feed?",
+          "options": [
+            "A scroll event listener that calls getBoundingClientRect on every event",
+            "IntersectionObserver on a sentinel element",
+            "setInterval polling scrollTop",
+            "A CSS :hover rule"
+          ],
+          "answer": 1,
+          "explanation": "IntersectionObserver runs off the main scroll path and avoids layout thrashing from repeated measurement."
+        },
+        {
+          "id": "system-design-10-q04",
+          "type": "mcq",
+          "prompt": "Which ARIA role should the text input of an autocomplete have?",
+          "options": [
+            "textbox only, no extra role",
+            "combobox",
+            "listbox",
+            "menu"
+          ],
+          "answer": 1,
+          "explanation": "The WAI-ARIA combobox pattern uses role=combobox on the input, controlling a popup with role=listbox containing role=option items."
+        },
+        {
+          "id": "system-design-10-q05",
+          "type": "mcq",
+          "prompt": "Images in a feed cause content to jump as they load. Which metric suffers and what is the fix?",
+          "options": [
+            "LCP; preload all images",
+            "CLS; reserve space with width/height or aspect-ratio",
+            "INP; use web workers",
+            "TTFB; use a CDN"
+          ],
+          "answer": 1,
+          "explanation": "Unreserved image space causes layout shifts, raising Cumulative Layout Shift. Setting dimensions lets the browser reserve the box before the image arrives."
+        },
+        {
+          "id": "system-design-10-q06",
+          "type": "mcq",
+          "prompt": "Why are design tokens commonly shipped as CSS custom properties?",
+          "options": [
+            "They are faster than JavaScript variables in loops",
+            "Themes (dark mode, brands) can swap values at runtime without rebuilding or re-rendering components",
+            "Browsers require it",
+            "They prevent XSS"
+          ],
+          "answer": 1,
+          "explanation": "Components reference var(--color-action-primary); changing the variable under a theme selector restyles everything instantly."
+        },
+        {
+          "id": "system-design-10-q07",
+          "type": "truefalse",
+          "prompt": "Debouncing an autocomplete input means a request is sent at most once per fixed interval while the user types continuously.",
+          "answer": false,
+          "explanation": "That describes throttling. Debouncing waits until the user pauses for the specified delay, then fires once."
+        },
+        {
+          "id": "system-design-10-q08",
+          "type": "truefalse",
+          "prompt": "INP (Interaction to Next Paint) replaced FID as a Core Web Vital in 2024.",
+          "answer": true,
+          "explanation": "INP became a Core Web Vital in March 2024, measuring responsiveness across all interactions instead of only the first input delay."
+        },
+        {
+          "id": "system-design-10-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: good practices for a shared React component library.",
+          "options": [
+            "Build on accessible headless primitives",
+            "Publish tree-shakeable ESM with TypeScript types",
+            "Bundle a private copy of React inside the library",
+            "Provide codemods and deprecation warnings for breaking changes",
+            "Run visual regression and axe accessibility tests in CI"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "explanation": "React must be a peer dependency; bundling it causes duplicate React instances and broken hooks. The rest are standard practice."
+        },
+        {
+          "id": "system-design-10-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the browser API used to cancel an in-flight fetch request is ___.",
+          "accept": [
+            "AbortController",
+            "abort controller",
+            "AbortController.abort",
+            "AbortSignal"
+          ],
+          "explanation": "Pass controller.signal to fetch and call controller.abort() to cancel; the fetch promise rejects with an AbortError."
+        },
+        {
+          "id": "system-design-10-q11",
+          "type": "interview",
+          "prompt": "Design a search autocomplete component and its backend for an e-commerce site.",
+          "answer": "- Requirements: suggestions after 2 chars within ~100 ms perceived, keyboard and screen reader accessible, mobile friendly, show categories and products, recent searches.\n- Component: SearchCombobox (input, listbox popover, option rows, highlight), following the ARIA combobox pattern with aria-activedescendant; Up/Down to move, Enter to select, Escape to close; announce result counts via a live region.\n- Data flow: local state for query; debounce 150-250 ms; AbortController cancels stale requests; LRU cache keyed by normalised query; show recent searches (localStorage) on focus.\n- API: GET /suggest?q=&limit=8 returning typed groups; cacheable at CDN for short TTL since popular prefixes repeat.\n- Backend: prefix index (Elasticsearch completion suggester or a trie in memory per shard) ranked by popularity and conversion, refreshed periodically from search logs; typo tolerance via fuzzy matching.\n- Performance: tiny bundle, no layout shift for the popover, prefetch the result page on highlight.\n- Metrics: suggestion click-through, latency p95, zero-result queries.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-10-q12",
+          "type": "interview",
+          "prompt": "Design the frontend of an infinite news feed (like Facebook or LinkedIn).",
+          "answer": "- Requirements: infinite scroll, mixed post types (text, image, video), like/comment, new posts indicator, back-navigation restores position, works on low-end devices, accessible.\n- Rendering: SSR/stream the first page for fast LCP; hydrate and fetch subsequent pages client-side.\n- Data: GET /feed?cursor=&limit=10 -> {items, nextCursor}; useInfiniteQuery manages pages; normalise posts and users in the cache so updates propagate.\n- Loading: IntersectionObserver sentinel a few screens before the end; skeleton placeholders with fixed height.\n- Rendering performance: virtualise the list with measured variable heights; lazy-load images and videos (play only in viewport); memoise post components; code-split heavy post types.\n- Interactions: optimistic likes with rollback; comments load lazily.\n- New posts: poll or receive via SSE/WebSocket, show 'N new posts' button rather than inserting above the viewport.\n- Scroll restoration: keep cached pages and scroll offset in history state/memory.\n- Accessibility: role=feed with article items, aria-busy while loading, keyboard shortcuts, focus management.\n- Observability: RUM for Web Vitals, error boundaries per post so one bad post does not crash the feed.",
+          "level": "advanced"
+        },
+        {
+          "id": "system-design-10-q13",
+          "type": "interview",
+          "prompt": "How would you architect a design system used by 10 product teams across React web apps?",
+          "answer": "- Foundations: tokens defined in a source format (for example the W3C design tokens JSON), built with a tool like Style Dictionary into CSS variables, TS constants and Figma variables, so design and code share one source of truth. Tiered primitive -> semantic -> component tokens; themes as token sets.\n- Components: built on headless accessible primitives (Radix/React Aria), consistent APIs (variant, size, asChild), forwardRef, controlled/uncontrolled support, composition over configuration.\n- Styling: zero-runtime CSS approach (CSS modules, vanilla-extract or Tailwind preset using tokens) to avoid runtime cost and SSR issues; works with React Server Components where possible.\n- Distribution: monorepo package, ESM, tree-shakeable, React as peer dependency, semver with changesets, codemods for breaking changes, deprecation period.\n- Quality: Storybook docs with usage guidelines, visual regression in CI, axe a11y tests, bundle size budgets.\n- Governance: a core team owns it, contribution model for product teams, RFCs for new components, adoption metrics (usage scanning across repos).",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "WAI-ARIA Authoring Practices: Combobox pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/"
+        },
+        {
+          "title": "web.dev: Web Vitals",
+          "url": "https://web.dev/articles/vitals"
+        },
+        {
+          "title": "MDN: Intersection Observer API",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1712 @@
+{
+  "id": "frontend-testing",
+  "title": "Testing",
+  "area": "frontend",
+  "order": 17,
+  "icon": "QA",
+  "color": "#22c55e",
+  "description": "Write tests that catch real bugs without slowing you down: unit tests with Vitest and Jest, component tests with React Testing Library, network mocking with MSW, API tests with supertest and end-to-end tests with Playwright.",
+  "chapters": [
+    {
+      "id": "frontend-testing-01-foundations",
+      "title": "Why We Test: Pyramid, Trophy and What to Test",
+      "level": "beginner",
+      "summary": "Understand the kinds of automated tests, how the testing pyramid and testing trophy allocate effort, and how to decide what is worth testing.",
+      "estMinutes": 20,
+      "lesson": [
+        {
+          "heading": "What automated tests are for",
+          "body": "Tests are code that checks other code. Their real value is **confidence to change things**: refactor, upgrade dependencies and ship on a Friday without manually clicking through the app. A good test suite catches regressions before users do, documents intended behavior and makes code review faster because reviewers can trust the checks.\n\nTests also have costs: writing time, maintenance when code changes, CI minutes, and the damage done by flaky tests that fail randomly and train people to ignore red builds. The goal is not maximum test count; it is the most confidence per unit of cost.\n\nA useful rule from Kent C. Dodds: \"The more your tests resemble the way your software is used, the more confidence they can give you.\""
+        },
+        {
+          "heading": "The kinds of tests",
+          "body": "- **Static analysis**: TypeScript, ESLint. Catches typos, wrong types and unsafe patterns without running code. Cheapest of all.\n- **Unit tests**: one function, hook or small component in isolation, dependencies mocked. Very fast (milliseconds), precise failure messages.\n- **Integration tests**: several units working together, for example a form component with its validation, state and a mocked network layer, or an API route with a real database. Slower, much more realistic.\n- **End-to-end (E2E) tests**: drive a real browser against a running app, through the UI, often with a real backend. Highest confidence per test, slowest, most likely to flake.\n- Others: contract tests (API producer and consumer agree on a schema), visual regression tests (screenshot diffs), accessibility checks (axe), performance budgets, manual exploratory testing.",
+          "code": {
+            "lang": "ts",
+            "source": "// unit: pure function, no I/O\nexpect(formatPrice(1999, 'USD')).toBe('$19.99');\n\n// integration: component + state + mocked network\nrender(<Checkout />);\nawait user.click(screen.getByRole('button', { name: /pay/i }));\nexpect(await screen.findByText(/order confirmed/i)).toBeInTheDocument();\n\n// e2e: real browser, real app\nawait page.goto('/checkout');\nawait page.getByRole('button', { name: 'Pay' }).click();\nawait expect(page.getByText('Order confirmed')).toBeVisible();"
+          }
+        },
+        {
+          "heading": "Pyramid vs trophy",
+          "body": "The **testing pyramid** (Mike Cohn) says: many unit tests at the base, fewer integration tests, very few E2E tests at the top, because higher tests are slower and more expensive.\n\nThe **testing trophy** (Kent C. Dodds) adapts this for modern frontend work: a base of static analysis, a small layer of unit tests, the **largest layer of integration tests**, and a cap of E2E tests. The argument: frontend bugs usually live in how pieces fit together (props, state, effects, network), and tools like React Testing Library and MSW make integration tests nearly as fast as unit tests.\n\nBoth agree on the essential point: E2E tests are valuable but should cover critical user journeys (sign up, checkout, login), not every edge case. Edge cases belong in cheaper, faster layers."
+        },
+        {
+          "heading": "Test behavior, not implementation",
+          "body": "A test should fail when the behavior breaks and pass when you refactor without changing behavior. Tests coupled to implementation details produce two problems: **false negatives** (they break on a harmless refactor) and **false positives** (they pass even though the user-facing behavior is broken).\n\nImplementation details include component state variable names, internal method calls, CSS class names and the exact component tree. Behavior is what users and callers observe: rendered text and roles, events fired, network requests made, return values.\n\nGood test anatomy is Arrange, Act, Assert (or Given, When, Then): set up the situation, perform one action, check the outcome. One behavior per test, a name that describes it (\"shows an error when the email is invalid\"), and no logic like loops or conditionals in the test body.",
+          "code": {
+            "lang": "tsx",
+            "source": "// Brittle: tied to implementation\nexpect(wrapper.state('isOpen')).toBe(true);\nexpect(container.querySelector('.modal--open')).not.toBeNull();\n\n// Robust: tied to behavior\nawait user.click(screen.getByRole('button', { name: 'Delete' }));\nexpect(screen.getByRole('dialog', { name: 'Confirm delete' })).toBeVisible();"
+          }
+        },
+        {
+          "heading": "Deciding what to test",
+          "body": "Prioritize by risk and value:\n\n- Business-critical paths: payments, auth, data loss, anything that costs money or trust when broken\n- Complex logic: calculations, parsing, state machines, permission rules\n- Code that has broken before: every bug fix gets a regression test that fails without the fix\n- Public contracts: API responses, shared library functions, component props used across the app\n\nSkip or minimize: trivial getters, third-party library internals, framework behavior, and pure layout markup with no logic. Snapshot tests of large component trees are usually low value: they break on every change and reviewers approve updates without reading them. Small, focused inline snapshots of serialized data can be fine."
+        }
+      ],
+      "keyPoints": [
+        "Tests buy confidence to change code; measure value as confidence per cost, not test count.",
+        "Static analysis, unit, integration and E2E tests trade speed and precision for realism.",
+        "The pyramid favors many unit tests; the trophy favors integration tests for frontend code.",
+        "Use E2E tests for critical user journeys, not for every edge case.",
+        "Test observable behavior so refactors do not break tests and real bugs do.",
+        "Structure tests as Arrange, Act, Assert with one behavior per test.",
+        "Every bug fix should come with a regression test that fails without the fix."
+      ],
+      "questions": [
+        {
+          "id": "frontend-testing-01-q01",
+          "type": "mcq",
+          "prompt": "In the testing trophy, which layer is meant to be the largest?",
+          "options": [
+            "Static analysis",
+            "Unit tests",
+            "Integration tests",
+            "End-to-end tests"
+          ],
+          "answer": 2,
+          "explanation": "The trophy argues integration tests give the best balance of confidence and cost for UI code, because most frontend bugs come from how pieces work together."
+        },
+        {
+          "id": "frontend-testing-01-q02",
+          "type": "mcq",
+          "prompt": "A test fails after you rename a private state variable in a component, though the UI behaves identically. What kind of problem is this?",
+          "options": [
+            "A false negative caused by testing implementation details",
+            "A real regression",
+            "A flaky test",
+            "Missing coverage"
+          ],
+          "answer": 0,
+          "explanation": "The behavior did not change, but the test did fail. Tests coupled to internals produce this noise and discourage refactoring."
+        },
+        {
+          "id": "frontend-testing-01-q03",
+          "type": "mcq",
+          "prompt": "Which is the best candidate for an E2E test?",
+          "options": [
+            "Every validation message on the signup form",
+            "The full checkout flow from cart to order confirmation",
+            "A date formatting helper",
+            "The color of a disabled button"
+          ],
+          "answer": 1,
+          "explanation": "E2E tests are slow and costly, so they should cover critical user journeys across the whole stack. Validation messages and helpers are cheaper to cover with integration and unit tests."
+        },
+        {
+          "id": "frontend-testing-01-q04",
+          "type": "mcq",
+          "prompt": "Which kind of check is cheapest and catches a misspelled property on a typed object before any test runs?",
+          "options": [
+            "Unit test",
+            "Static type checking with TypeScript",
+            "E2E test",
+            "Visual regression test"
+          ],
+          "answer": 1,
+          "explanation": "Static analysis runs in the editor and CI without executing code, catching whole classes of bugs for nearly zero cost. It is the base of the trophy."
+        },
+        {
+          "id": "frontend-testing-01-q05",
+          "type": "mcq",
+          "prompt": "You fixed a bug where discounts were applied twice. What should you add?",
+          "options": [
+            "A snapshot of the cart component",
+            "A regression test that fails without the fix and passes with it",
+            "Nothing, the bug is fixed",
+            "An E2E test of the whole site"
+          ],
+          "answer": 1,
+          "explanation": "A regression test proves the fix works and prevents the same bug returning. Writing it first and watching it fail confirms it actually reproduces the bug."
+        },
+        {
+          "id": "frontend-testing-01-q06",
+          "type": "mcq",
+          "prompt": "What does the Arrange, Act, Assert pattern describe?",
+          "options": [
+            "The order of CI pipeline stages",
+            "Setting up state, performing an action, then checking the outcome",
+            "Unit, integration and E2E layers",
+            "Writing tests before code"
+          ],
+          "answer": 1,
+          "explanation": "AAA keeps each test readable: given a situation, when something happens, then expect a result."
+        },
+        {
+          "id": "frontend-testing-01-q07",
+          "type": "truefalse",
+          "prompt": "Large snapshot tests of whole component trees are a reliable way to catch regressions.",
+          "answer": false,
+          "explanation": "They fail on every markup change, so developers update them with `-u` without reading the diff. They rarely express intended behavior. Targeted assertions are more useful."
+        },
+        {
+          "id": "frontend-testing-01-q08",
+          "type": "truefalse",
+          "prompt": "Tests that resemble how users interact with the software generally give more confidence.",
+          "answer": true,
+          "explanation": "If a test interacts the way a user does (roles, labels, clicks, typing), passing it means users can likely do the same. This is the guiding principle of Testing Library."
+        },
+        {
+          "id": "frontend-testing-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are implementation details a component test should usually avoid asserting on?",
+          "options": [
+            "Internal state variable values",
+            "Visible text and accessible roles",
+            "CSS class names used for styling",
+            "Whether an internal helper function was called",
+            "The network request the component sends"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Users never see state, class names or private helpers. Visible output and outgoing requests are observable behavior and fair to assert."
+        },
+        {
+          "id": "frontend-testing-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the testing ___ puts many unit tests at the base and few E2E tests at the top.",
+          "accept": [
+            "pyramid",
+            "test pyramid",
+            "testing pyramid"
+          ],
+          "explanation": "Mike Cohn's pyramid reflects that lower-level tests are faster and cheaper; the trophy is a later variation focused on integration."
+        },
+        {
+          "id": "frontend-testing-01-q11",
+          "type": "interview",
+          "prompt": "Explain the testing pyramid and the testing trophy. How would you apply them to a React application?",
+          "answer": "The pyramid says to have many fast unit tests, fewer integration tests and very few slow E2E tests. The trophy, from Kent C. Dodds, keeps the idea that E2E is expensive but makes integration tests the largest layer, adds static analysis at the base, and shrinks pure unit tests. For a React app I would follow the trophy: TypeScript and ESLint everywhere, unit tests for pure logic like pricing or date utils, integration tests with React Testing Library and MSW for features (render a page or feature, interact like a user, mock only the network), and a handful of Playwright tests for critical journeys like login and checkout. The reasoning is that most frontend bugs come from wiring between components, state and APIs, which integration tests catch cheaply.",
+          "level": "beginner"
+        },
+        {
+          "id": "frontend-testing-01-q12",
+          "type": "interview",
+          "prompt": "What makes a test good? What makes one bad?",
+          "answer": "- Good: it fails when behavior breaks and only then, so it survives refactors.\n- Good: it is readable as a specification, with a descriptive name, clear Arrange-Act-Assert and one behavior per test.\n- Good: it is fast, deterministic and isolated, with no dependence on order, time or shared state.\n- Good: failure messages point straight at the problem.\n- Bad: asserting internals (state, private methods, class names), so it breaks on refactors.\n- Bad: over-mocking, so it passes while the real integration is broken.\n- Bad: flaky timing with arbitrary sleeps, giant snapshots nobody reads, logic and loops in tests, and tests that test the framework rather than our code.",
+          "level": "beginner"
+        },
+        {
+          "id": "frontend-testing-01-q13",
+          "type": "interview",
+          "prompt": "You join a team with zero tests on a large frontend. Where do you start?",
+          "answer": "I would not try to backfill coverage everywhere. First, set up the tooling and CI (Vitest, React Testing Library, MSW, Playwright) so writing a test is easy, and turn on TypeScript strictness and ESLint, the cheapest wins. Next, add a few E2E smoke tests for the most critical journeys (login, core workflow, payment) so the biggest risks are covered quickly. Then adopt a rule going forward: every bug fix gets a regression test and every new feature ships with integration tests. Finally, add tests around risky areas before refactoring them. Coverage grows where change actually happens, which is where tests pay off.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Testing Library: Guiding Principles",
+          "url": "https://testing-library.com/docs/guiding-principles"
+        },
+        {
+          "title": "Kent C. Dodds: The Testing Trophy and Testing Classifications",
+          "url": "https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications"
+        },
+        {
+          "title": "Martin Fowler: The Practical Test Pyramid",
+          "url": "https://martinfowler.com/articles/practical-test-pyramid.html"
+        }
+      ]
+    },
+    {
+      "id": "frontend-testing-02-unit-vitest-jest",
+      "title": "Unit Testing with Vitest and Jest",
+      "level": "beginner",
+      "summary": "Set up Vitest or Jest, structure tests with describe and it, use the core matchers, and test errors, async code and edge cases.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Vitest vs Jest",
+          "body": "Jest (originally from Meta) was the default JavaScript test runner for years. Vitest is built on Vite: it reuses your Vite config and plugins, supports ESM and TypeScript out of the box, and has a fast watch mode. Its API is intentionally Jest-compatible (`describe`, `it`, `expect`, mocks), so knowledge transfers directly; the main difference is the `vi` object instead of `jest` for mocks and timers.\n\n- Vite, Vue, SvelteKit, modern React projects: Vitest is the natural choice\n- Existing large Jest suites, React Native: Jest (React Native's preset is Jest-based)\n- Next.js documents setups for both Vitest and Jest (`next/jest` handles SWC transforms and config)\n\nComponent tests need a DOM, so set the environment to `jsdom` (or `happy-dom`). Pure logic tests can use the default Node environment, which is faster.",
+          "code": {
+            "lang": "ts",
+            "source": "// vitest.config.ts\nimport { defineConfig } from 'vitest/config';\nimport react from '@vitejs/plugin-react';\n\nexport default defineConfig({\n  plugins: [react()],\n  test: {\n    environment: 'jsdom',\n    globals: true,              // describe/it/expect without imports\n    setupFiles: ['./vitest.setup.ts'],\n  },\n});\n\n// vitest.setup.ts\nimport '@testing-library/jest-dom/vitest';"
+          }
+        },
+        {
+          "heading": "Structure: describe, it and hooks",
+          "body": "`describe` groups related tests; `it` (alias `test`) defines one test case. Name them so the output reads as a specification: \"cart total > applies percentage discount\".\n\nLifecycle hooks set up and clean up shared state:\n\n- `beforeEach` / `afterEach` run around every test in the block\n- `beforeAll` / `afterAll` run once for the block (for expensive setup like starting a server)\n\nPrefer `beforeEach` that creates fresh state over shared mutable objects, because tests must not depend on each other or on execution order. Modifiers help during development: `it.only` focuses a test, `it.skip` skips it, `it.todo` records a planned test, and `it.each` runs a table of cases.",
+          "code": {
+            "lang": "ts",
+            "source": "import { describe, it, expect, beforeEach } from 'vitest';\nimport { Cart } from './cart';\n\ndescribe('Cart', () => {\n  let cart: Cart;\n  beforeEach(() => { cart = new Cart(); });\n\n  it('starts empty', () => {\n    expect(cart.total()).toBe(0);\n  });\n\n  it.each([\n    [1, 1000, 1000],\n    [3, 1000, 3000],\n    [0, 1000, 0],\n  ])('qty %i x %i cents = %i', (qty, price, expected) => {\n    cart.add({ id: 'a', price }, qty);\n    expect(cart.total()).toBe(expected);\n  });\n});"
+          }
+        },
+        {
+          "heading": "Matchers you use every day",
+          "body": "- `toBe` uses `Object.is`: for primitives and same-reference checks\n- `toEqual` recursively compares values, ignoring undefined properties; `toStrictEqual` also checks undefined properties, array sparseness and class types\n- `toMatchObject` checks a subset of properties\n- `toContain` (array item or substring), `toHaveLength`, `toHaveProperty`\n- `toBeNull`, `toBeUndefined`, `toBeDefined`, `toBeTruthy`, `toBeFalsy`\n- `toBeCloseTo` for floating point: `0.1 + 0.2` is not exactly `0.3`\n- `toThrow` / `toThrowError` for errors, `.not` to negate any matcher\n- Asymmetric matchers inside objects: `expect.any(String)`, `expect.stringContaining('id')`, `expect.objectContaining({...})`\n\nUse the most specific matcher available; it gives better failure messages than `expect(a === b).toBe(true)`.",
+          "code": {
+            "lang": "ts",
+            "source": "expect({ a: 1, b: { c: 2 } }).toEqual({ a: 1, b: { c: 2 } }); // passes\nexpect({ a: 1 }).toBe({ a: 1 });          // fails: different objects\nexpect(0.1 + 0.2).toBeCloseTo(0.3);\nexpect(user).toMatchObject({ role: 'admin' });\nexpect(createUser('Ana')).toEqual({\n  id: expect.any(String),\n  name: 'Ana',\n  createdAt: expect.any(Date),\n});\nexpect(() => parseAge('-1')).toThrow('Age must be positive');"
+          }
+        },
+        {
+          "heading": "Testing async code and errors",
+          "body": "Return or await promises so the runner waits for them. A test that fires an async call without awaiting it can pass before the assertion even runs.\n\n- `await expect(promise).resolves.toEqual(...)`\n- `await expect(promise).rejects.toThrow('Not found')`\n- Forgetting `await` before `expect(...).rejects` is a classic bug: the test passes no matter what\n- `expect.assertions(n)` verifies that n assertions actually ran, useful in try/catch style tests\n\nFor errors in synchronous code, pass a function to `expect`: `expect(() => fn()).toThrow()`. Calling `expect(fn()).toThrow()` executes fn before expect can catch the error, so the test itself crashes.",
+          "code": {
+            "lang": "ts",
+            "source": "it('loads a user', async () => {\n  const user = await getUser('42');\n  expect(user.name).toBe('Ana');\n});\n\nit('rejects unknown ids', async () => {\n  await expect(getUser('nope')).rejects.toThrow(/not found/i);\n});\n\n// Bug: missing await, this test can never fail\nit('broken', () => {\n  expect(getUser('nope')).rejects.toThrow();\n});"
+          }
+        },
+        {
+          "heading": "Writing focused unit tests",
+          "body": "Unit tests shine for pure functions and logic-heavy modules: formatters, validators, reducers, state machines, permission checks. To make code unit-testable:\n\n- Keep logic in pure functions separate from I/O (fetching, DOM, storage)\n- Inject dependencies (pass a clock or API client) rather than importing singletons deep inside\n- Return values instead of mutating globals\n\nCover the edge cases: empty input, zero, negative numbers, boundaries (exactly at a limit, one below, one above), null and undefined, very large values, unicode strings and time zones. Table-driven tests with `it.each` make edge cases cheap to add and easy to scan.\n\nRun tests in watch mode during development (`vitest` defaults to watch locally; `vitest run` runs once for CI).",
+          "code": {
+            "lang": "ts",
+            "source": "// pure, easy to test\nexport function shippingCost(subtotalCents: number): number {\n  if (subtotalCents < 0) throw new RangeError('negative subtotal');\n  return subtotalCents >= 5000 ? 0 : 499;\n}\n\nit.each([\n  [0, 499], [4999, 499], [5000, 0], [12000, 0],\n])('subtotal %i -> shipping %i', (subtotal, expected) => {\n  expect(shippingCost(subtotal)).toBe(expected);\n});\n\nit('rejects negatives', () => {\n  expect(() => shippingCost(-1)).toThrow(RangeError);\n});"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Vitest is Jest-compatible, Vite-native and ESM/TypeScript friendly; Jest is still common in older projects and React Native.",
+        "Use the jsdom or happy-dom environment for DOM tests and Node for pure logic.",
+        "toBe checks identity with Object.is; toEqual compares structure; toStrictEqual is stricter about undefined and types.",
+        "Always await async assertions, especially `.rejects` and `.resolves`.",
+        "Wrap throwing calls in a function: `expect(() => fn()).toThrow()`.",
+        "Use beforeEach to create fresh state; tests must not depend on each other.",
+        "Cover boundaries and edge cases with table-driven `it.each` tests."
+      ],
+      "questions": [
+        {
+          "id": "frontend-testing-02-q01",
+          "type": "mcq",
+          "prompt": "Why does `expect({ id: 1 }).toBe({ id: 1 })` fail?",
+          "options": [
+            "toBe only works with strings",
+            "toBe uses Object.is, and these are two different object references",
+            "The objects have different keys",
+            "toBe requires await"
+          ],
+          "answer": 1,
+          "explanation": "Object.is compares references for objects. Use toEqual to compare structure."
+        },
+        {
+          "id": "frontend-testing-02-q02",
+          "type": "mcq",
+          "prompt": "What is wrong with this test?",
+          "code": "it('rejects bad input', () => {\n  expect(save(null)).rejects.toThrow();\n});",
+          "options": [
+            "rejects only works with toEqual",
+            "The assertion is not awaited or returned, so the test finishes before it runs",
+            "save must be wrapped in a function",
+            "Nothing"
+          ],
+          "answer": 1,
+          "explanation": "Without await or return, the runner ends the test synchronously and an unmet expectation is never reported. Write `await expect(save(null)).rejects.toThrow()`."
+        },
+        {
+          "id": "frontend-testing-02-q03",
+          "type": "mcq",
+          "prompt": "Which assertion correctly checks that `parse('x')` throws?",
+          "options": [
+            "expect(parse('x')).toThrow()",
+            "expect(() => parse('x')).toThrow()",
+            "expect(parse).toThrow('x')",
+            "expect(await parse('x')).toThrow()"
+          ],
+          "answer": 1,
+          "explanation": "The function must run inside expect so the error can be caught. Calling parse('x') directly throws before expect is evaluated."
+        },
+        {
+          "id": "frontend-testing-02-q04",
+          "type": "mcq",
+          "prompt": "Which matcher should you use to compare `0.1 + 0.2` with `0.3`?",
+          "options": [
+            "toBe",
+            "toEqual",
+            "toBeCloseTo",
+            "toStrictEqual"
+          ],
+          "answer": 2,
+          "explanation": "Floating point addition gives 0.30000000000000004. toBeCloseTo compares within a precision tolerance."
+        },
+        {
+          "id": "frontend-testing-02-q05",
+          "type": "mcq",
+          "prompt": "In Vitest, which object provides mock functions and fake timers?",
+          "options": [
+            "jest",
+            "vi",
+            "mock",
+            "sinon"
+          ],
+          "answer": 1,
+          "explanation": "Vitest exposes `vi.fn`, `vi.mock`, `vi.spyOn` and `vi.useFakeTimers`, mirroring Jest's `jest` object."
+        },
+        {
+          "id": "frontend-testing-02-q06",
+          "type": "mcq",
+          "prompt": "Which test environment should a React component test use in Vitest?",
+          "options": [
+            "node",
+            "jsdom or happy-dom",
+            "edge-runtime",
+            "No environment is needed"
+          ],
+          "answer": 1,
+          "explanation": "Rendering components requires a DOM implementation. jsdom and happy-dom simulate the browser APIs in Node."
+        },
+        {
+          "id": "frontend-testing-02-q07",
+          "type": "truefalse",
+          "prompt": "`toEqual` treats `{ a: 1, b: undefined }` and `{ a: 1 }` as equal, while `toStrictEqual` does not.",
+          "answer": true,
+          "explanation": "toEqual ignores properties with undefined values; toStrictEqual checks them, along with array sparseness and object types."
+        },
+        {
+          "id": "frontend-testing-02-q08",
+          "type": "truefalse",
+          "prompt": "It is good practice for later tests in a file to rely on state created by earlier tests.",
+          "answer": false,
+          "explanation": "Order-dependent tests break when run alone, in parallel or shuffled. Each test should arrange its own state, typically in beforeEach."
+        },
+        {
+          "id": "frontend-testing-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which inputs are good edge cases for a function that paginates a list with a page size of 10?",
+          "options": [
+            "An empty list",
+            "Exactly 10 items",
+            "11 items",
+            "Page number 0 or negative",
+            "A list of exactly 7 items with names starting with A"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Empty input, exact boundary, one over the boundary and invalid page numbers are where off-by-one and validation bugs hide. The last option is just an ordinary case."
+        },
+        {
+          "id": "frontend-testing-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `it.___` runs the same test body for each row in a table of inputs.",
+          "accept": [
+            "each"
+          ],
+          "explanation": "it.each (and describe.each) generate one test per row, with printf-style placeholders like %i or %s in the name."
+        },
+        {
+          "id": "frontend-testing-02-q11",
+          "type": "interview",
+          "prompt": "Vitest or Jest for a new React project? Justify your choice.",
+          "answer": "For a new Vite-based or modern React project I would pick Vitest. It shares the Vite config and transforms, so TypeScript, JSX, path aliases and ESM work without separate Babel or ts-jest setup, and its watch mode is fast. The API is Jest-compatible, so React Testing Library, jest-dom and most team knowledge carry over, and migrating later is mostly replacing `jest.` with `vi.`. I would choose Jest when the project is React Native, when there is a large existing Jest suite, or when a framework preset like `next/jest` is already in place and working. The runner matters less than the testing approach; either works well with Testing Library and MSW.",
+          "level": "beginner"
+        },
+        {
+          "id": "frontend-testing-02-q12",
+          "type": "interview",
+          "prompt": "How do you make code easier to unit test?",
+          "answer": "- Separate pure logic from side effects: a `calculateInvoice` function that returns data is trivial to test, while one that also fetches and writes to the DOM is not.\n- Inject dependencies such as API clients, clocks and random generators as parameters or context, so tests pass fakes without module mocking.\n- Keep functions small with clear inputs and outputs, and avoid hidden global state.\n- In React, move logic into custom hooks or plain functions and keep components focused on rendering.\n- When code is hard to test, treat it as design feedback: the difficulty usually means too many responsibilities or tight coupling.",
+          "level": "beginner"
+        },
+        {
+          "id": "frontend-testing-02-q13",
+          "type": "interview",
+          "prompt": "What is the difference between toBe, toEqual and toStrictEqual, and when would each bite you?",
+          "answer": "toBe uses Object.is, so it is right for primitives and for checking that two variables reference the same object; it fails on structurally equal objects and also distinguishes +0 from -0. toEqual recursively compares structure but ignores properties set to undefined and does not check class types, so `{ a: undefined }` equals `{}` and a class instance equals a plain object with the same fields, which can hide bugs like a missing field or wrong type. toStrictEqual closes those gaps: undefined properties, sparse arrays and object types must match. I default to toEqual for data, use toStrictEqual when the exact shape is part of the contract (API responses, serialization), and toBe for primitives and identity.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Vitest: Getting Started",
+          "url": "https://vitest.dev/guide/"
+        },
+        {
+          "title": "Vitest API: expect",
+          "url": "https://vitest.dev/api/expect.html"
+        },
+        {
+          "title": "Jest: Getting Started",
+          "url": "https://jestjs.io/docs/getting-started"
+        }
+      ]
+    },
+    {
+      "id": "frontend-testing-03-react-testing-library",
+      "title": "React Testing Library: Queries and user-event",
+      "level": "beginner",
+      "summary": "Render components, find elements the way users do with role and label queries, simulate real interactions with user-event, and assert with jest-dom matchers.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "The Testing Library philosophy",
+          "body": "React Testing Library (RTL) renders components into a real DOM (jsdom in unit tests) and gives you queries that find elements the way users and assistive technology do: by role, accessible name, label and text. It deliberately offers no API to read component state or props.\n\nThe result is tests that survive refactors and double as accessibility checks: if `getByRole('button', { name: 'Save' })` cannot find your button, a screen reader user probably cannot either.\n\nThe core API: `render(<Component />)` mounts it, `screen` exposes queries bound to `document.body`, and `@testing-library/user-event` simulates interactions. RTL automatically unmounts after each test when the runner exposes `afterEach` globally (Vitest with `globals: true`, or Jest).",
+          "code": {
+            "lang": "tsx",
+            "source": "import { render, screen } from '@testing-library/react';\nimport userEvent from '@testing-library/user-event';\nimport { Counter } from './Counter';\n\nit('increments when clicked', async () => {\n  const user = userEvent.setup();\n  render(<Counter initial={2} />);\n\n  await user.click(screen.getByRole('button', { name: /increment/i }));\n\n  expect(screen.getByText('Count: 3')).toBeInTheDocument();\n});"
+          }
+        },
+        {
+          "heading": "Query priority",
+          "body": "Testing Library recommends this order, from most to least user-like:\n\n- `getByRole` with `{ name }`: buttons, links, headings, textboxes, checkboxes, dialogs. Works for almost everything and checks accessibility at the same time.\n- `getByLabelText`: form fields by their label, as users find them\n- `getByPlaceholderText`: only if there is no label (placeholders are not labels)\n- `getByText`: non-interactive content such as paragraphs and messages\n- `getByDisplayValue`: current value of an input or select\n- `getByAltText`, `getByTitle`: images and titled elements\n- `getByTestId`: last resort for things users cannot see or identify by role or text\n\nThe accessible name of a button is its text content or `aria-label`; for inputs it comes from the associated `<label>`. Use regex with `i` for case-insensitive matching, and `screen.logTestingPlaygroundURL()` or `screen.debug()` when you are stuck.",
+          "code": {
+            "lang": "tsx",
+            "source": "screen.getByRole('heading', { level: 1, name: 'Settings' });\nscreen.getByRole('textbox', { name: 'Email' });      // <label>Email<input/></label>\nscreen.getByRole('checkbox', { name: /remember me/i });\nscreen.getByRole('link', { name: 'Docs' });\nscreen.getByLabelText('Password');\nscreen.getByText(/no results/i);\nscreen.getByTestId('chart-canvas');                // last resort\nscreen.debug();                                   // print the DOM"
+          }
+        },
+        {
+          "heading": "getBy, queryBy and findBy",
+          "body": "Each query comes in three variants (plus `All` versions that return arrays):\n\n- `getBy...` returns the element or **throws** if there are zero or multiple matches. Use it for elements that should be present right now.\n- `queryBy...` returns the element or **null**. Use it only to assert absence: `expect(screen.queryByText('Error')).not.toBeInTheDocument()`.\n- `findBy...` returns a **promise** that resolves when the element appears (it retries, by default for up to 1000 ms) and rejects on timeout. Use it for things that appear asynchronously after fetches or state updates.\n\n`getAllBy`, `queryAllBy`, `findAllBy` handle multiple matches. To limit a query to part of the page, use `within(element).getByRole(...)`, for example to find the Delete button inside one table row.",
+          "code": {
+            "lang": "tsx",
+            "source": "// present now\nexpect(screen.getByRole('button', { name: 'Submit' })).toBeDisabled();\n\n// absent\nexpect(screen.queryByRole('alert')).not.toBeInTheDocument();\n\n// appears later (after a fetch)\nexpect(await screen.findByRole('heading', { name: 'Ana Lima' })).toBeVisible();\n\n// scoped\nconst row = screen.getByRole('row', { name: /invoice 1042/i });\nawait user.click(within(row).getByRole('button', { name: 'Delete' }));"
+          }
+        },
+        {
+          "heading": "Simulating users with user-event",
+          "body": "`@testing-library/user-event` (v14) simulates full interactions the way a browser would: a click fires pointerdown, mousedown, focus, pointerup, mouseup and click; typing fires keydown, keypress, input and keyup per character. The lower-level `fireEvent` dispatches one synthetic event and skips that realism, so it can let tests pass where real users would fail (for example clicking a disabled or hidden element).\n\nCall `userEvent.setup()` once per test (before render is fine) and await every interaction, since all v14 APIs return promises.\n\n- `user.click`, `user.dblClick`, `user.hover`\n- `user.type(input, 'hello')`, `user.clear(input)`\n- `user.keyboard('{Enter}')`, `user.tab()` for keyboard navigation\n- `user.selectOptions(select, 'de')`, `user.upload(input, file)`\n\nWith fake timers, pass `userEvent.setup({ advanceTimers: vi.advanceTimersByTime })` so user-event's internal delays do not hang.",
+          "code": {
+            "lang": "tsx",
+            "source": "it('submits the login form', async () => {\n  const user = userEvent.setup();\n  const onSubmit = vi.fn();\n  render(<LoginForm onSubmit={onSubmit} />);\n\n  await user.type(screen.getByLabelText('Email'), 'ana@example.com');\n  await user.type(screen.getByLabelText('Password'), 's3cret!');\n  await user.click(screen.getByRole('button', { name: 'Sign in' }));\n\n  expect(onSubmit).toHaveBeenCalledWith({\n    email: 'ana@example.com',\n    password: 's3cret!',\n  });\n});"
+          }
+        },
+        {
+          "heading": "jest-dom matchers and providers",
+          "body": "`@testing-library/jest-dom` adds DOM-aware matchers that read clearly and give helpful errors:\n\n- `toBeInTheDocument`, `toBeVisible`, `toBeDisabled` / `toBeEnabled`\n- `toHaveTextContent`, `toHaveValue`, `toBeChecked`, `toHaveFocus`\n- `toHaveAttribute`, `toHaveClass` (use sparingly), `toHaveAccessibleName`, `toHaveAccessibleDescription`\n- `toBeInvalid`, `toBeRequired` for form validation states\n\nComponents that need context (router, theme, React Query client, i18n, Redux store) should be rendered through a custom `render` that wraps them in the providers, exported from a `test-utils` file. Create a new QueryClient per test with retries off, so cache does not leak between tests and failed requests do not retry for seconds.",
+          "code": {
+            "lang": "tsx",
+            "source": "// test-utils.tsx\nexport function renderWithProviders(ui: React.ReactElement) {\n  const queryClient = new QueryClient({\n    defaultOptions: { queries: { retry: false } },\n  });\n  return render(\n    <QueryClientProvider client={queryClient}>\n      <ThemeProvider>{ui}</ThemeProvider>\n    </QueryClientProvider>,\n  );\n}\n\nexpect(screen.getByLabelText('Email')).toBeInvalid();\nexpect(screen.getByRole('switch')).toBeChecked();"
+          }
+        }
+      ],
+      "keyPoints": [
+        "RTL tests interact through the DOM like users do and provide no access to component internals.",
+        "Prefer getByRole with a name, then getByLabelText; getByTestId is the last resort.",
+        "getBy throws, queryBy returns null (for absence checks), findBy returns a promise (for async appearance).",
+        "Use `within` to scope queries to part of the page.",
+        "Prefer user-event over fireEvent; call userEvent.setup() and await every interaction.",
+        "jest-dom matchers like toBeVisible, toHaveValue and toBeDisabled make assertions readable.",
+        "Wrap providers in a custom render helper and create fresh clients or stores per test."
+      ],
+      "questions": [
+        {
+          "id": "frontend-testing-03-q01",
+          "type": "mcq",
+          "prompt": "Which query does Testing Library recommend first for finding a Save button?",
+          "options": [
+            "getByTestId('save-btn')",
+            "getByRole('button', { name: 'Save' })",
+            "container.querySelector('.btn-save')",
+            "getByText('Save')"
+          ],
+          "answer": 1,
+          "explanation": "Role plus accessible name matches how users and assistive technology identify the button, and fails if the button is not accessible."
+        },
+        {
+          "id": "frontend-testing-03-q02",
+          "type": "mcq",
+          "prompt": "You want to assert that an error message is NOT shown. Which query fits?",
+          "options": [
+            "getByText",
+            "queryByText",
+            "findByText",
+            "getAllByText"
+          ],
+          "answer": 1,
+          "explanation": "queryBy returns null when nothing matches, so you can assert `.not.toBeInTheDocument()`. getBy would throw before the assertion."
+        },
+        {
+          "id": "frontend-testing-03-q03",
+          "type": "mcq",
+          "prompt": "A user name appears after a fetch resolves. How should you query it?",
+          "options": [
+            "screen.getByText('Ana')",
+            "await screen.findByText('Ana')",
+            "screen.queryByText('Ana')",
+            "setTimeout then getByText"
+          ],
+          "answer": 1,
+          "explanation": "findBy retries until the element appears or the timeout (1000 ms by default) passes, matching asynchronous UI without arbitrary sleeps."
+        },
+        {
+          "id": "frontend-testing-03-q04",
+          "type": "mcq",
+          "prompt": "What happens when `getByRole('button')` matches three buttons?",
+          "options": [
+            "It returns the first one",
+            "It throws a multiple-elements error",
+            "It returns an array",
+            "It returns null"
+          ],
+          "answer": 1,
+          "explanation": "getBy expects exactly one match. Add a name filter, use `within` to scope, or use getAllByRole when you want all of them."
+        },
+        {
+          "id": "frontend-testing-03-q05",
+          "type": "mcq",
+          "prompt": "Why is user-event preferred over fireEvent?",
+          "options": [
+            "It is synchronous",
+            "It simulates the full sequence of browser events a real interaction produces",
+            "It accesses component state",
+            "It works without a DOM"
+          ],
+          "answer": 1,
+          "explanation": "A real click involves pointer, mouse and focus events, and typing fires key and input events per character. fireEvent dispatches a single event, which can miss bugs."
+        },
+        {
+          "id": "frontend-testing-03-q06",
+          "type": "mcq",
+          "prompt": "Where does the accessible name for `<label for=\"em\">Email</label><input id=\"em\" />` come from?",
+          "options": [
+            "The input's id",
+            "The associated label text 'Email'",
+            "The placeholder",
+            "The name attribute"
+          ],
+          "answer": 1,
+          "explanation": "The label association gives the textbox the name 'Email', so both getByLabelText('Email') and getByRole('textbox', { name: 'Email' }) find it."
+        },
+        {
+          "id": "frontend-testing-03-q07",
+          "type": "truefalse",
+          "prompt": "In user-event v14, interaction methods like `user.click` return promises and should be awaited.",
+          "answer": true,
+          "explanation": "v14 made all APIs async to model real event timing. Not awaiting them leads to assertions running before the interaction finishes."
+        },
+        {
+          "id": "frontend-testing-03-q08",
+          "type": "truefalse",
+          "prompt": "A placeholder is an acceptable substitute for a label, so getByPlaceholderText is as good as getByLabelText.",
+          "answer": false,
+          "explanation": "Placeholders disappear when typing, often have poor contrast and are not reliable accessible names. Testing Library ranks them below labels for this reason."
+        },
+        {
+          "id": "frontend-testing-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are jest-dom matchers?",
+          "options": [
+            "toBeInTheDocument",
+            "toHaveValue",
+            "toBeDisabled",
+            "toHaveState",
+            "toBeVisible"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "jest-dom matchers inspect the DOM. There is no toHaveState because component state is an implementation detail RTL intentionally hides."
+        },
+        {
+          "id": "frontend-testing-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `___(row).getByRole('button', { name: 'Delete' })` limits the query to one table row.",
+          "accept": [
+            "within"
+          ],
+          "explanation": "within(element) returns all the queries bound to that element instead of document.body."
+        },
+        {
+          "id": "frontend-testing-03-q11",
+          "type": "interview",
+          "prompt": "Explain the difference between getBy, queryBy and findBy queries and when to use each.",
+          "answer": "getBy returns a single matching element synchronously and throws if there are none or more than one, so it is the default for elements that should already be there; the thrown error prints the DOM, which helps debugging. queryBy returns null instead of throwing when nothing matches, so I use it only to assert that something is absent. findBy returns a promise that polls until the element appears or times out (1000 ms default), so I use it for content that appears after async work such as fetches. Each has an All variant returning arrays. A common mistake is using queryBy for presence checks, which gives worse error messages, or wrapping getBy in waitFor when findBy does the same thing more clearly.",
+          "level": "beginner"
+        },
+        {
+          "id": "frontend-testing-03-q12",
+          "type": "interview",
+          "prompt": "Why does React Testing Library discourage data-testid, and when is it acceptable?",
+          "answer": "Test IDs are invisible to users, so a test that finds elements by them proves nothing about whether users or assistive technology can find the element; the button might have no accessible name and the test still passes. Role and label queries test the real interface and push the team towards accessible markup. Test IDs are acceptable when there is no meaningful role or text: a canvas chart, a drag handle, a container you need to scope into, or dynamic content where the text is unpredictable. Even then I would first check whether adding a proper label or role would improve accessibility, since that solves both problems.",
+          "level": "beginner"
+        },
+        {
+          "id": "frontend-testing-03-q13",
+          "type": "interview",
+          "prompt": "How would you test a form with validation, submission and a server error?",
+          "answer": "- Render the form through a custom render with its providers, and use MSW to mock the API so the real fetch code runs.\n- Validation: click submit with empty fields, assert error messages via `getByText` or `toHaveAccessibleDescription` and that `aria-invalid` is set (`toBeInvalid`), and that no request was sent.\n- Happy path: type valid data with user-event, submit, and assert the success state (`findByRole('status')` or a redirect) plus the request payload if it matters.\n- Server error: override the handler with `server.use` to return 500, submit, and assert the error alert appears and the inputs keep their values.\n- Also check the submit button is disabled while pending to avoid double submissions.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Testing Library: About Queries",
+          "url": "https://testing-library.com/docs/queries/about"
+        },
+        {
+          "title": "user-event documentation",
+          "url": "https://testing-library.com/docs/user-event/intro"
+        },
+        {
+          "title": "jest-dom custom matchers",
+          "url": "https://github.com/testing-library/jest-dom"
+        }
+      ]
+    },
+    {
+      "id": "frontend-testing-04-mocking-msw",
+      "title": "Mocking: Functions, Modules, Timers and the Network with MSW",
+      "level": "intermediate",
+      "summary": "Use mock functions, spies and module mocks appropriately, control time with fake timers, and mock HTTP at the network level with Mock Service Worker.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Mock functions and spies",
+          "body": "Test doubles replace real dependencies so a test is fast, deterministic and isolated. The common kinds: a **stub** returns canned values, a **spy** records calls while (optionally) calling through to the real implementation, a **mock** is a stub you also assert calls on, and a **fake** is a working lightweight implementation (an in-memory repository).\n\nIn Vitest:\n\n- `vi.fn()` creates a mock function; configure it with `mockReturnValue`, `mockResolvedValue`, `mockRejectedValue`, `mockImplementation`, or the `Once` variants for one call\n- `vi.spyOn(obj, 'method')` wraps an existing method; add `.mockImplementation` to replace it\n- Assert with `toHaveBeenCalled`, `toHaveBeenCalledTimes(n)`, `toHaveBeenCalledWith(...)`, `toHaveBeenLastCalledWith(...)`\n\nCleanup matters: `mockClear` resets call history, `mockReset` also removes implementations, and `mockRestore` restores the original for spies. Set `restoreMocks: true` (or `clearMocks`) in config so state does not leak between tests.",
+          "code": {
+            "lang": "ts",
+            "source": "const onSave = vi.fn();\nrender(<Editor onSave={onSave} />);\nawait user.click(screen.getByRole('button', { name: 'Save' }));\nexpect(onSave).toHaveBeenCalledTimes(1);\nexpect(onSave).toHaveBeenCalledWith(expect.objectContaining({ title: 'Draft' }));\n\nconst warn = vi.spyOn(console, 'warn').mockImplementation(() => {});\nrunLegacyThing();\nexpect(warn).toHaveBeenCalledWith(expect.stringContaining('deprecated'));\nwarn.mockRestore();"
+          }
+        },
+        {
+          "heading": "Module mocking",
+          "body": "`vi.mock('./path', factory)` replaces a whole module for the test file. Vitest **hoists** `vi.mock` calls to the top of the file, before imports, so the mocked version is what your component imports. Because of hoisting, the factory cannot reference variables declared in the test file unless they are created with `vi.hoisted`.\n\n- `vi.mock('./analytics')` without a factory auto-mocks every export as `vi.fn()`\n- `vi.mocked(fn)` gives TypeScript the mock type so you can call `.mockResolvedValue` without casts\n- `await vi.importActual('./module')` lets a factory keep real exports and override only some\n\nJest works the same way with `jest.mock` and `jest.requireActual`.\n\nUse module mocks for things that are genuinely external or non-deterministic in tests: analytics, feature flag SDKs, `next/navigation`, crypto random IDs. Avoid mocking your own modules heavily: each mock is an assumption about how the real code behaves, and tests can pass while the real integration is broken.",
+          "code": {
+            "lang": "ts",
+            "source": "import { track } from './analytics';\nimport { useRouter } from 'next/navigation';\n\nvi.mock('./analytics');                      // automock: track is vi.fn()\nvi.mock('next/navigation', () => ({\n  useRouter: vi.fn(),\n  usePathname: () => '/settings',\n}));\n\nconst push = vi.fn();\nbeforeEach(() => {\n  vi.mocked(useRouter).mockReturnValue({ push } as any);\n});\n\nit('tracks and redirects after save', async () => {\n  // ...render and click save...\n  expect(track).toHaveBeenCalledWith('settings_saved');\n  expect(push).toHaveBeenCalledWith('/dashboard');\n});"
+          }
+        },
+        {
+          "heading": "Controlling time with fake timers",
+          "body": "Code using `setTimeout`, `setInterval`, debouncing or `Date.now()` would make tests slow or nondeterministic. Fake timers replace the clock:\n\n- `vi.useFakeTimers()` in beforeEach, `vi.useRealTimers()` in afterEach\n- `vi.advanceTimersByTime(300)` moves time forward and runs due callbacks; `vi.runAllTimers()` runs everything pending; `vi.runOnlyPendingTimers()` avoids infinite loops with intervals\n- `vi.setSystemTime(new Date('2026-01-15T10:00:00Z'))` freezes `Date` for date-dependent logic\n- Async variants like `vi.advanceTimersByTimeAsync` also flush promises scheduled between timers\n\nWith React and user-event, configure `userEvent.setup({ advanceTimers: vi.advanceTimersByTime })`. Fake timers combined with promises are the most common source of hanging tests; if a `findBy` never resolves, check whether time is frozen.",
+          "code": {
+            "lang": "ts",
+            "source": "beforeEach(() => vi.useFakeTimers());\nafterEach(() => vi.useRealTimers());\n\nit('debounces search input by 300ms', () => {\n  const search = vi.fn();\n  const debounced = debounce(search, 300);\n\n  debounced('re');\n  debounced('rea');\n  debounced('react');\n  expect(search).not.toHaveBeenCalled();\n\n  vi.advanceTimersByTime(300);\n  expect(search).toHaveBeenCalledTimes(1);\n  expect(search).toHaveBeenCalledWith('react');\n});"
+          }
+        },
+        {
+          "heading": "Mock Service Worker: mock the network, not fetch",
+          "body": "MSW intercepts requests at the network layer. In the browser it uses a Service Worker; in Node (Vitest, Jest) it hooks into the HTTP and fetch modules. Your app code, fetch wrapper, React Query or SWR, headers and JSON parsing all run for real; only the server is replaced.\n\nBenefits over mocking `fetch` or `axios` directly:\n\n- Tests do not care which HTTP client you use, so switching from axios to fetch does not break them\n- The same handlers work in unit tests, Storybook and local development\n- You test real error handling for 4xx and 5xx responses and network errors\n\nMSW 2.x uses the `http` namespace and the standard Fetch API `Response` via `HttpResponse`. Set `onUnhandledRequest: 'error'` so a request without a handler fails loudly instead of silently hitting the network.",
+          "code": {
+            "lang": "ts",
+            "source": "// mocks/handlers.ts\nimport { http, HttpResponse } from 'msw';\n\nexport const handlers = [\n  http.get('/api/user/:id', ({ params }) =>\n    HttpResponse.json({ id: params.id, name: 'Ana Lima' }),\n  ),\n  http.post('/api/todos', async ({ request }) => {\n    const body = (await request.json()) as { title: string };\n    return HttpResponse.json({ id: 't1', ...body }, { status: 201 });\n  }),\n];\n\n// vitest.setup.ts\nimport { setupServer } from 'msw/node';\nexport const server = setupServer(...handlers);\nbeforeAll(() => server.listen({ onUnhandledRequest: 'error' }));\nafterEach(() => server.resetHandlers());\nafterAll(() => server.close());"
+          }
+        },
+        {
+          "heading": "Per-test overrides and error scenarios",
+          "body": "Default handlers describe the happy path. Individual tests override them with `server.use(...)`, which prepends handlers until `resetHandlers()` runs after the test.\n\n- Server errors: `new HttpResponse(null, { status: 500 })`\n- Validation errors: `HttpResponse.json({ error: 'Email taken' }, { status: 409 })`\n- Network failure: `HttpResponse.error()`\n- Slow responses: `await delay(2000)` from msw to test loading states\n- Assert on the request: capture `request` inside the handler, or check the UI outcome that depends on it\n\nA practical rule for what to mock: mock at the boundary of your system (network, time, randomness, browser APIs jsdom lacks such as `IntersectionObserver` or `matchMedia`), and use real implementations for everything inside it.",
+          "code": {
+            "lang": "tsx",
+            "source": "import { http, HttpResponse, delay } from 'msw';\nimport { server } from '../vitest.setup';\n\nit('shows an error when the profile fails to load', async () => {\n  server.use(\n    http.get('/api/user/:id', () => new HttpResponse(null, { status: 500 })),\n  );\n  renderWithProviders(<Profile id=\"42\" />);\n  expect(await screen.findByRole('alert')).toHaveTextContent(/could not load/i);\n});\n\nit('shows a spinner while loading', async () => {\n  server.use(http.get('/api/user/:id', async () => {\n    await delay('infinite');\n    return HttpResponse.json({});\n  }));\n  renderWithProviders(<Profile id=\"42\" />);\n  expect(screen.getByRole('progressbar')).toBeInTheDocument();\n});"
+          }
+        }
+      ],
+      "keyPoints": [
+        "vi.fn creates mocks, vi.spyOn wraps existing methods; assert with toHaveBeenCalledWith and toHaveBeenCalledTimes.",
+        "Restore or clear mocks between tests (restoreMocks/clearMocks config) to avoid leaking state.",
+        "vi.mock is hoisted above imports; use vi.hoisted for variables and vi.importActual for partial mocks.",
+        "Mock at system boundaries (network, time, randomness, missing browser APIs); keep your own code real.",
+        "Fake timers make debounce, polling and date logic fast and deterministic; restore real timers afterwards.",
+        "MSW mocks HTTP at the network level so your real fetching code runs, independent of the HTTP client.",
+        "Use server.use for per-test error and loading scenarios and onUnhandledRequest: 'error' to catch missing handlers."
+      ],
+      "questions": [
+        {
+          "id": "frontend-testing-04-q01",
+          "type": "mcq",
+          "prompt": "Why can't a `vi.mock` factory reference a `const` declared at the top of the test file?",
+          "options": [
+            "Factories must be async",
+            "vi.mock is hoisted above imports and declarations, so the variable is not initialized yet",
+            "Mocks cannot use closures",
+            "Only Jest supports factories"
+          ],
+          "answer": 1,
+          "explanation": "Vitest moves vi.mock calls to the top so mocks apply before imports run. Use vi.hoisted to create values that are available to the factory."
+        },
+        {
+          "id": "frontend-testing-04-q02",
+          "type": "mcq",
+          "prompt": "What is the main advantage of MSW over mocking `global.fetch` directly?",
+          "options": [
+            "It is faster",
+            "Your real request code (client, headers, parsing, error handling) runs and tests do not depend on the HTTP library",
+            "It needs no setup",
+            "It records real API responses automatically"
+          ],
+          "answer": 1,
+          "explanation": "MSW intercepts at the network layer, so swapping axios for fetch or adding an interceptor does not break tests, and the code path tested is the real one."
+        },
+        {
+          "id": "frontend-testing-04-q03",
+          "type": "mcq",
+          "prompt": "Which call makes the next invocation of a mock resolve with a value, then fall back to the default?",
+          "options": [
+            "mockResolvedValue",
+            "mockResolvedValueOnce",
+            "mockReturnValue",
+            "mockImplementation"
+          ],
+          "answer": 1,
+          "explanation": "The Once variants apply to a single call and are queued in order. mockResolvedValue applies to every call."
+        },
+        {
+          "id": "frontend-testing-04-q04",
+          "type": "mcq",
+          "prompt": "A debounced search waits 500 ms. With fake timers enabled, what makes the callback fire in the test?",
+          "options": [
+            "await new Promise(r => setTimeout(r, 500))",
+            "vi.advanceTimersByTime(500)",
+            "vi.useRealTimers()",
+            "vi.clearAllMocks()"
+          ],
+          "answer": 1,
+          "explanation": "Advancing the fake clock runs callbacks that are due. A real setTimeout wait would itself be faked and never resolve, which is a common cause of hanging tests."
+        },
+        {
+          "id": "frontend-testing-04-q05",
+          "type": "mcq",
+          "prompt": "What does `server.use(...)` do in an MSW test?",
+          "options": [
+            "Replaces all handlers permanently",
+            "Prepends runtime handlers that take priority until resetHandlers is called",
+            "Starts the server",
+            "Logs requests"
+          ],
+          "answer": 1,
+          "explanation": "Runtime handlers override the defaults for the current test; `afterEach(() => server.resetHandlers())` removes them so tests stay isolated."
+        },
+        {
+          "id": "frontend-testing-04-q06",
+          "type": "mcq",
+          "prompt": "Which is the difference between mockClear and mockRestore on a spy?",
+          "options": [
+            "No difference",
+            "mockClear resets call history; mockRestore also restores the original implementation",
+            "mockRestore only clears calls",
+            "mockClear deletes the spy"
+          ],
+          "answer": 1,
+          "explanation": "mockClear empties `mock.calls` and results. mockReset also removes implementations. mockRestore puts the original method back for spies."
+        },
+        {
+          "id": "frontend-testing-04-q07",
+          "type": "truefalse",
+          "prompt": "With `onUnhandledRequest: 'error'`, MSW makes requests that have no matching handler fail the test.",
+          "answer": true,
+          "explanation": "This catches missing handlers and typos in URLs instead of silently sending real network requests or returning confusing results."
+        },
+        {
+          "id": "frontend-testing-04-q08",
+          "type": "truefalse",
+          "prompt": "Mocking every child component and hook gives you the most confidence that a feature works.",
+          "answer": false,
+          "explanation": "Each mock encodes an assumption. Heavy mocking produces tests that pass while the real pieces do not fit together. Mock at boundaries and keep internal code real."
+        },
+        {
+          "id": "frontend-testing-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are reasonable things to mock in a component test?",
+          "options": [
+            "The HTTP API (with MSW)",
+            "Date.now for a 'posted 5 minutes ago' label",
+            "The component's own child components",
+            "window.matchMedia, which jsdom does not implement",
+            "The React useState hook"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Network, time and missing browser APIs are system boundaries or environment gaps. Mocking your own children or React itself tests a fiction."
+        },
+        {
+          "id": "frontend-testing-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in MSW 2, a handler returns `___.json({ id: 1 })` to send a JSON response.",
+          "accept": [
+            "HttpResponse"
+          ],
+          "explanation": "HttpResponse extends the Fetch API Response with helpers such as json(), text() and error()."
+        },
+        {
+          "id": "frontend-testing-04-q11",
+          "type": "interview",
+          "prompt": "When should you mock and when should you not? How do you avoid over-mocking?",
+          "answer": "I mock things that make tests slow, flaky or impossible to control: the network, time, randomness, third-party SDKs like analytics or payments, and browser APIs that jsdom lacks. I avoid mocking code I own inside the unit under test, such as child components, hooks and utilities, because every mock is an assumption that can drift from reality. Signs of over-mocking: tests that assert a mock was called with exact arguments instead of checking outcomes, tests that break on refactors, or bugs reaching production in code that was fully mocked. Mocking at the network level with MSW is a good default because the whole client stack stays real. If something is hard to test without many mocks, I treat it as a design smell and inject the dependency instead.",
+          "level": "intermediate"
+        },
+        {
+          "id": "frontend-testing-04-q12",
+          "type": "interview",
+          "prompt": "How does MSW work, and how would you set it up for both tests and local development?",
+          "answer": "MSW defines request handlers that match method and URL and return responses built with the Fetch API. In the browser it registers a Service Worker that intercepts fetch requests from the page; in Node it patches the HTTP and fetch modules through its interceptors. I keep handlers in a shared `mocks/handlers.ts`. For tests, `setupServer(...handlers)` from `msw/node` with listen in beforeAll (`onUnhandledRequest: 'error'`), resetHandlers in afterEach and close in afterAll. For development and Storybook, `setupWorker` from `msw/browser`, started conditionally behind an env flag, with the worker script generated by `npx msw init public`. That lets frontend work proceed before the backend exists, and the same handlers drive tests, so mocks stay consistent. To keep handlers honest I base them on the API's OpenAPI schema or shared types.",
+          "level": "intermediate"
+        },
+        {
+          "id": "frontend-testing-04-q13",
+          "type": "interview",
+          "prompt": "Explain stubs, spies, mocks and fakes with examples.",
+          "answer": "- A stub returns predetermined data so the code under test can run: an API client stub that always returns a user.\n- A spy records how a function was called, optionally still running the real code: `vi.spyOn(console, 'error')` to assert an error was logged.\n- A mock is a stub with expectations about its use: `onSubmit = vi.fn()` then `expect(onSubmit).toHaveBeenCalledWith(formData)`.\n- A fake is a simplified working implementation: an in-memory repository instead of Postgres, or MSW acting as a fake server.\n- Fakes often give the most realistic tests because they behave like the real thing. Mocks are best for verifying interactions at boundaries, such as a callback prop or analytics event.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Vitest: Mocking guide",
+          "url": "https://vitest.dev/guide/mocking"
+        },
+        {
+          "title": "Mock Service Worker documentation",
+          "url": "https://mswjs.io/docs/"
+        },
+        {
+          "title": "Vitest API: vi",
+          "url": "https://vitest.dev/api/vi.html"
+        }
+      ]
+    },
+    {
+      "id": "frontend-testing-05-async-hooks",
+      "title": "Testing Async UI and Custom Hooks",
+      "level": "intermediate",
+      "summary": "Handle asynchronous rendering with findBy and waitFor, understand act warnings, and test custom hooks with renderHook.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Async UI: findBy and waitFor",
+          "body": "Most real components update asynchronously: data loads, a mutation completes, a debounce fires. Testing Library gives you two tools that **retry** until a condition holds or a timeout passes (1000 ms by default):\n\n- `await screen.findByRole(...)` waits for an element to appear. This covers most cases.\n- `await waitFor(() => expect(...))` retries an arbitrary assertion, for example waiting for a mock to be called or an element to disappear.\n- `await waitForElementToBeRemoved(() => screen.queryByText('Loading...'))` waits for something to go away.\n\nRules for `waitFor`: put one assertion inside, no side effects (do not click inside waitFor, since it may run many times), and do not wrap `getBy` in waitFor when `findBy` does the job. Never use fixed sleeps like `await new Promise(r => setTimeout(r, 500))`; they are slow when generous and flaky when tight.",
+          "code": {
+            "lang": "tsx",
+            "source": "it('loads and shows todos', async () => {\n  renderWithProviders(<TodoList />);\n\n  expect(screen.getByText(/loading/i)).toBeInTheDocument();\n  expect(await screen.findAllByRole('listitem')).toHaveLength(3);\n  expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();\n});\n\nit('saves the draft after typing stops', async () => {\n  const onSave = vi.fn();\n  render(<AutosaveEditor onSave={onSave} />);\n  await userEvent.setup().type(screen.getByRole('textbox'), 'hi');\n  await waitFor(() => expect(onSave).toHaveBeenCalledWith('hi'));\n});"
+          }
+        },
+        {
+          "heading": "Understanding act() warnings",
+          "body": "React batches state updates and effects. `act()` tells React to flush all pending updates and effects before your assertions run, so tests observe the same final UI a user would.\n\nRTL already wraps `render`, user-event interactions, `findBy` and `waitFor` in act, so you rarely call it yourself. The warning \"An update to X inside a test was not wrapped in act(...)\" usually means **something updated after your test stopped watching**: a fetch resolved or a timer fired after the last assertion. The fix is almost never to sprinkle `act` around; it is to wait for the final state:\n\n- Add `await screen.findBy...` for the UI that appears after the async update\n- Make sure the test ends after loading finishes, not mid-request\n- With fake timers, advance them inside act or use the async timer helpers\n\nTreat act warnings as signals of untested async behavior or a race condition in the test.",
+          "code": {
+            "lang": "tsx",
+            "source": "// Warns: fetch resolves after the test ends\nit('renders the title', () => {\n  render(<Post id=\"1\" />);\n  expect(screen.getByText(/loading/i)).toBeInTheDocument();\n});\n\n// Fixed: wait for the final state\nit('renders the title', async () => {\n  render(<Post id=\"1\" />);\n  expect(await screen.findByRole('heading', { name: 'Hello' })).toBeInTheDocument();\n});"
+          }
+        },
+        {
+          "heading": "Testing custom hooks with renderHook",
+          "body": "`renderHook` (exported from `@testing-library/react` since v13.1) renders a tiny test component that calls your hook and exposes the latest return value as `result.current`.\n\n- Wrap state-changing calls in `act` because you are calling hook functions directly, outside of RTL's event helpers\n- Use `rerender(newProps)` to test how the hook reacts to changed arguments\n- Use `unmount()` to test cleanup (subscriptions removed, timers cleared)\n- Pass `wrapper` for hooks that need providers\n\nBefore reaching for renderHook, ask whether the hook is better tested through a component that uses it. Reusable library-like hooks (`useDebounce`, `useLocalStorage`, `usePagination`) deserve direct tests; a hook used by one component is usually covered by that component's tests.",
+          "code": {
+            "lang": "tsx",
+            "source": "import { renderHook, act } from '@testing-library/react';\nimport { useCounter } from './useCounter';\n\nit('increments and resets', () => {\n  const { result } = renderHook(() => useCounter(5));\n\n  act(() => result.current.increment());\n  expect(result.current.count).toBe(6);\n\n  act(() => result.current.reset());\n  expect(result.current.count).toBe(5);\n});\n\nit('reacts to new initial values', () => {\n  const { result, rerender } = renderHook(({ start }) => useCounter(start), {\n    initialProps: { start: 1 },\n  });\n  rerender({ start: 10 });\n  // assert the documented behavior for changed props\n});"
+          }
+        },
+        {
+          "heading": "Hooks with data fetching and context",
+          "body": "Hooks built on React Query, SWR or context need providers. Pass a `wrapper` that creates fresh instances per test, and let MSW serve the data.\n\nFor React Query specifically: create a new `QueryClient` in each test with `retry: false`, otherwise failed queries retry three times with exponential backoff and your error test times out, and cached data leaks between tests.\n\nThen await the hook's async state with `waitFor`, checking a flag like `isSuccess` or `isError`.",
+          "code": {
+            "lang": "tsx",
+            "source": "function createWrapper() {\n  const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });\n  return ({ children }: { children: React.ReactNode }) => (\n    <QueryClientProvider client={client}>{children}</QueryClientProvider>\n  );\n}\n\nit('fetches the user', async () => {\n  const { result } = renderHook(() => useUser('42'), { wrapper: createWrapper() });\n  await waitFor(() => expect(result.current.isSuccess).toBe(true));\n  expect(result.current.data?.name).toBe('Ana Lima');\n});\n\nit('exposes errors', async () => {\n  server.use(http.get('/api/user/:id', () => new HttpResponse(null, { status: 404 })));\n  const { result } = renderHook(() => useUser('x'), { wrapper: createWrapper() });\n  await waitFor(() => expect(result.current.isError).toBe(true));\n});"
+          }
+        },
+        {
+          "heading": "Race conditions, cleanup and effects",
+          "body": "Async bugs that tests should catch:\n\n- **Out-of-order responses**: the user types \"re\" then \"react\"; if the \"re\" response arrives last, stale results show. Test by delaying the first handler longer than the second with MSW `delay` and asserting the final UI matches the latest query.\n- **State updates after unmount**: navigating away mid-request. Test with `unmount()` before the response and assert no errors are logged (spy on console.error).\n- **Cleanup**: subscriptions, intervals and event listeners removed on unmount. Spy on `removeEventListener` or check a mock unsubscribe was called.\n- **Double effects in Strict Mode**: in development React mounts, unmounts and remounts components, running effects twice. Effects must clean up properly; tests rendering in StrictMode reveal missing cleanup.\n\nThe usual fix for stale responses is an `AbortController` or an ignore flag in the effect cleanup, or a data library that tracks query keys.",
+          "code": {
+            "lang": "tsx",
+            "source": "useEffect(() => {\n  const controller = new AbortController();\n  fetch(`/api/search?q=${query}`, { signal: controller.signal })\n    .then((r) => r.json())\n    .then(setResults)\n    .catch((e) => { if (e.name !== 'AbortError') setError(e); });\n  return () => controller.abort();   // cancels stale request\n}, [query]);"
+          }
+        }
+      ],
+      "keyPoints": [
+        "findBy waits for elements to appear; waitFor retries an assertion; both default to a 1000 ms timeout.",
+        "Never use fixed sleeps in tests; wait for observable outcomes instead.",
+        "Keep waitFor callbacks to a single assertion with no side effects.",
+        "act warnings usually mean an async update happened after the test stopped waiting; fix by awaiting the final UI.",
+        "renderHook exposes result.current; wrap direct state changes in act and use rerender and unmount.",
+        "Create fresh providers (like a QueryClient with retry: false) per test.",
+        "Test race conditions and unmount cleanup; abort stale requests in effect cleanup."
+      ],
+      "questions": [
+        {
+          "id": "frontend-testing-05-q01",
+          "type": "mcq",
+          "prompt": "What is the default timeout for findBy queries and waitFor in Testing Library?",
+          "options": [
+            "100 ms",
+            "1000 ms",
+            "5000 ms",
+            "No timeout"
+          ],
+          "answer": 1,
+          "explanation": "Both poll (every 50 ms by default) for up to 1000 ms, configurable per call or globally via configure({ asyncUtilTimeout })."
+        },
+        {
+          "id": "frontend-testing-05-q02",
+          "type": "mcq",
+          "prompt": "Which is the best fix for an 'update not wrapped in act(...)' warning caused by a fetch that resolves after your last assertion?",
+          "options": [
+            "Wrap render in act",
+            "Await the UI that appears after the fetch, for example with findBy",
+            "Silence console.error",
+            "Add a 500 ms sleep"
+          ],
+          "answer": 1,
+          "explanation": "The warning reveals the test ended before the async update. Waiting for the final state both removes the warning and tests the loaded UI."
+        },
+        {
+          "id": "frontend-testing-05-q03",
+          "type": "mcq",
+          "prompt": "What is wrong with this code?",
+          "code": "await waitFor(async () => {\n  await user.click(screen.getByRole('button', { name: 'Retry' }));\n  expect(screen.getByText('Done')).toBeInTheDocument();\n});",
+          "options": [
+            "Nothing",
+            "waitFor may run the callback many times, clicking repeatedly; side effects belong outside",
+            "user.click cannot be awaited",
+            "getByText cannot be used in tests"
+          ],
+          "answer": 1,
+          "explanation": "waitFor retries the callback until it passes. Perform the click once before waitFor (or use findByText) and keep only the assertion inside."
+        },
+        {
+          "id": "frontend-testing-05-q04",
+          "type": "mcq",
+          "prompt": "In a renderHook test, why do you wrap `result.current.increment()` in act?",
+          "options": [
+            "To make it async",
+            "Because the call updates state outside RTL's event helpers, and act flushes the update before assertions",
+            "act is required for every line",
+            "To mock the hook"
+          ],
+          "answer": 1,
+          "explanation": "user-event and render are already wrapped in act. Calling a hook function directly is not, so act ensures React processes the state update."
+        },
+        {
+          "id": "frontend-testing-05-q05",
+          "type": "mcq",
+          "prompt": "Your React Query error test times out. What is the most likely cause?",
+          "options": [
+            "MSW is not installed",
+            "The default retry policy retries failed queries with backoff before reporting an error",
+            "React Query does not support errors",
+            "waitFor has no timeout"
+          ],
+          "answer": 1,
+          "explanation": "React Query retries failed queries 3 times by default with exponential backoff, which exceeds the waitFor timeout. Set `retry: false` in the test QueryClient."
+        },
+        {
+          "id": "frontend-testing-05-q06",
+          "type": "mcq",
+          "prompt": "How can you test that a search box does not show stale results when responses arrive out of order?",
+          "options": [
+            "Snapshot the component",
+            "Delay the first query's MSW response longer than the second, type both queries, and assert the UI shows results for the latest one",
+            "Mock useState",
+            "Use getByText without waiting"
+          ],
+          "answer": 1,
+          "explanation": "Controlling response timing with MSW delay reproduces the race deterministically, so the test fails if stale responses overwrite newer ones."
+        },
+        {
+          "id": "frontend-testing-05-q07",
+          "type": "truefalse",
+          "prompt": "renderHook is exported from @testing-library/react in current versions, so the separate @testing-library/react-hooks package is not needed for React 18+.",
+          "answer": true,
+          "explanation": "renderHook moved into @testing-library/react in v13.1. The older react-hooks package is not maintained for React 18 and later."
+        },
+        {
+          "id": "frontend-testing-05-q08",
+          "type": "truefalse",
+          "prompt": "Wrapping getByText in waitFor is the recommended way to wait for an element to appear.",
+          "answer": false,
+          "explanation": "findByText is the purpose-built shortcut for that, with clearer intent and error messages. waitFor is for other assertions, such as a mock being called."
+        },
+        {
+          "id": "frontend-testing-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which practices make async tests reliable?",
+          "options": [
+            "Awaiting findBy queries for content that loads",
+            "Using fixed setTimeout sleeps",
+            "Creating a fresh QueryClient per test",
+            "Asserting the loading state disappears before finishing",
+            "Sharing a cache across tests to speed them up"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Waiting on observable outcomes and isolating state make tests deterministic. Sleeps and shared caches cause flakiness and order dependence."
+        },
+        {
+          "id": "frontend-testing-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the object returned by renderHook exposes the hook's latest return value at `result.___`.",
+          "accept": [
+            "current"
+          ],
+          "explanation": "result.current always reflects the latest render, so read it after each act rather than destructuring once."
+        },
+        {
+          "id": "frontend-testing-05-q11",
+          "type": "interview",
+          "prompt": "What does act() do, and why do you see act warnings in tests?",
+          "answer": "act groups a unit of interaction and makes React flush all resulting state updates, effects and re-renders before continuing, so assertions see the UI as the user would after that interaction. RTL wraps render, fireEvent, user-event, findBy and waitFor in act, so explicit act is mainly needed when calling hook functions directly or advancing fake timers. The warning appears when React detects a state update that happened outside act, typically because a promise or timer resolved after the test's last awaited step. That means the test is not waiting for some async behavior. The right fix is to await the resulting UI with findBy or waitFor, or make sure requests complete or are aborted, not to wrap random lines in act or silence console.error.",
+          "level": "intermediate"
+        },
+        {
+          "id": "frontend-testing-05-q12",
+          "type": "interview",
+          "prompt": "How do you decide whether to test a custom hook directly with renderHook or through a component?",
+          "answer": "I think about how the hook is consumed. Generic, reusable hooks with their own contract, like useDebounce, useLocalStorage, usePagination or a shared data hook, get direct renderHook tests because they are effectively a small library and many components rely on their behavior. A hook extracted from one component purely for readability is an implementation detail of that component, so I test it through the component's UI; that way I can refactor the hook freely. Direct hook tests also make sense for edge cases hard to reach through the UI, like cleanup on unmount or behavior when arguments change, where rerender and unmount are convenient.",
+          "level": "intermediate"
+        },
+        {
+          "id": "frontend-testing-05-q13",
+          "type": "interview",
+          "prompt": "A test passes locally but fails about 1 in 10 runs in CI with 'Unable to find role=\"row\"'. How do you investigate?",
+          "answer": "- The pattern suggests a timing problem: a synchronous getBy on something that appears asynchronously, which passes on fast machines and fails on slower CI runners.\n- Check whether the query should be findBy, and whether a previous step is awaited (missing `await` on user-event calls is common).\n- Look for shared state between tests: caches, MSW handlers not reset, global mocks, test order. Run the file with `--sequence.shuffle` and in isolation.\n- Reproduce by running it many times in a shell loop (or with Vitest's `repeats` test option) and with CPU throttled, and read the DOM dump in the error.\n- Fix the root cause rather than increasing timeouts or adding retries, then add a lint rule like eslint-plugin-testing-library to catch these patterns.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Testing Library: Async Methods",
+          "url": "https://testing-library.com/docs/dom-testing-library/api-async"
+        },
+        {
+          "title": "React Testing Library API (renderHook)",
+          "url": "https://testing-library.com/docs/react-testing-library/api"
+        },
+        {
+          "title": "React docs: act",
+          "url": "https://react.dev/reference/react/act"
+        }
+      ]
+    },
+    {
+      "id": "frontend-testing-06-api-integration",
+      "title": "API Integration Tests with supertest",
+      "level": "intermediate",
+      "summary": "Test HTTP APIs end to end inside the process with supertest, manage test databases, and verify status codes, payloads, auth and error handling.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "What an API integration test covers",
+          "body": "An API integration test sends a real HTTP request to your server and checks the response, exercising routing, middleware (auth, validation, parsing), handlers, the data layer and serialization together. It sits between unit tests of individual functions and full E2E tests through a browser.\n\nsupertest takes an HTTP server or an Express/Koa/Fastify-compatible request handler, binds it to an ephemeral port internally and gives you a fluent API to make requests and assert on responses. No need to start the server on a fixed port.\n\nThe key design requirement: **export the app separately from `listen()`**, so tests can import the app without opening a port.",
+          "code": {
+            "lang": "ts",
+            "source": "// app.ts\nimport express from 'express';\nexport const app = express();\napp.use(express.json());\napp.get('/health', (_req, res) => res.json({ ok: true }));\napp.use('/api/todos', todosRouter);\n\n// server.ts (not imported by tests)\nimport { app } from './app';\napp.listen(process.env.PORT ?? 3000);"
+          }
+        },
+        {
+          "heading": "Writing requests and assertions",
+          "body": "supertest requests are thenable, so you `await` them and get a response object with `status`, `body`, `headers` and `text`.\n\n- Chain `.set('Authorization', 'Bearer ...')`, `.send({...})` (JSON by default for objects), `.query({ page: 2 })`, `.attach('file', path)` for uploads\n- Built-in expectations: `.expect(200)`, `.expect('Content-Type', /json/)`\n- Or assert with your test runner on the awaited response, which usually gives clearer failure output\n\nTest the contract the client depends on: status codes, response shape, headers (caching, CORS, content type), and error format. Asserting the shape with a schema (zod or JSON Schema) catches accidental contract changes.",
+          "code": {
+            "lang": "ts",
+            "source": "import request from 'supertest';\nimport { app } from '../src/app';\n\ndescribe('POST /api/todos', () => {\n  it('creates a todo', async () => {\n    const res = await request(app)\n      .post('/api/todos')\n      .set('Authorization', `Bearer ${token}`)\n      .send({ title: 'Write tests' });\n\n    expect(res.status).toBe(201);\n    expect(res.headers['content-type']).toMatch(/json/);\n    expect(res.body).toEqual({ id: expect.any(String), title: 'Write tests', done: false });\n  });\n\n  it('rejects an empty title', async () => {\n    const res = await request(app).post('/api/todos').set('Authorization', `Bearer ${token}`).send({ title: '' });\n    expect(res.status).toBe(400);\n    expect(res.body.error).toMatch(/title/i);\n  });\n});"
+          }
+        },
+        {
+          "heading": "Databases in integration tests",
+          "body": "The most valuable API tests use a real database engine of the same type as production. SQLite or in-memory fakes miss real behavior: constraints, transactions, JSON operators, collation and query planner differences.\n\nOptions:\n\n- **Testcontainers** starts a disposable Postgres, MySQL or Redis in Docker per test run\n- A dedicated test database in docker-compose or a CI service container\n- Run migrations once before the suite, not per test\n\nIsolation strategies between tests:\n\n- Wrap each test in a transaction and roll it back (fast; tricky if the code under test manages its own transactions)\n- Truncate tables in beforeEach (simple, slower with many tables)\n- Unique data per test (random emails, IDs) so parallel tests do not collide\n\nUse factories (`createUser({ role: 'admin' })`) instead of big shared fixture files, so each test shows the data it depends on.",
+          "code": {
+            "lang": "ts",
+            "source": "import { PostgreSqlContainer } from '@testcontainers/postgresql';\n\nlet container: StartedPostgreSqlContainer;\nbeforeAll(async () => {\n  container = await new PostgreSqlContainer('postgres:16').start();\n  process.env.DATABASE_URL = container.getConnectionUri();\n  await runMigrations();\n}, 60_000);\n\nafterAll(async () => { await db.end(); await container.stop(); });\n\nbeforeEach(async () => {\n  await db.query('TRUNCATE todos, users RESTART IDENTITY CASCADE');\n});"
+          }
+        },
+        {
+          "heading": "Testing auth, permissions and errors",
+          "body": "Security and failure paths are where API bugs hurt most, and they are cheap to test at this level. For each protected endpoint, cover:\n\n- **401 Unauthorized**: no token, expired token, malformed token\n- **403 Forbidden**: authenticated but not allowed (a user editing another user's todo)\n- **404** for missing resources, and consider returning 404 instead of 403 when revealing existence is a leak\n- **400 or 422** for validation errors with a consistent error format\n- **409 Conflict** for duplicates such as an email already registered\n- No internal details (stack traces, SQL) in 500 responses\n\nA table-driven test over endpoints and roles keeps authorization coverage systematic: broken access control is the number one risk (A01) in the OWASP Top 10.",
+          "code": {
+            "lang": "ts",
+            "source": "const cases = [\n  { name: 'no token', token: undefined, status: 401 },\n  { name: 'other user', token: bobToken, status: 404 },\n  { name: 'owner', token: anaToken, status: 200 },\n  { name: 'admin', token: adminToken, status: 200 },\n];\n\nit.each(cases)('GET /api/todos/:id as $name -> $status', async ({ token, status }) => {\n  const req = request(app).get(`/api/todos/${anaTodo.id}`);\n  if (token) req.set('Authorization', `Bearer ${token}`);\n  const res = await req;\n  expect(res.status).toBe(status);\n});"
+          }
+        },
+        {
+          "heading": "External services and contract safety",
+          "body": "Your API calls other services: payment providers, email, third-party APIs. In integration tests, replace them at the HTTP boundary:\n\n- MSW in Node or `nock` intercepts outgoing HTTP from the server process\n- Or inject a fake client (in-memory email sender that records messages)\n\nThen assert on what was sent (\"an email was sent to ana@example.com\") rather than how.\n\nContract drift is a separate risk: your fake can diverge from the real provider, and your frontend's MSW handlers can diverge from your backend. Mitigations include generating types and mocks from an OpenAPI spec, consumer-driven contract tests (Pact), and a small number of E2E or staging smoke tests against real integrations.\n\nFor Next.js Route Handlers, which are plain functions taking a `Request`, you can often call the exported `GET` or `POST` directly with `new Request(url, init)` instead of using supertest.",
+          "code": {
+            "lang": "ts",
+            "source": "// app/api/todos/route.ts exports async function POST(req: Request)\nimport { POST } from '@/app/api/todos/route';\n\nit('creates a todo via the route handler', async () => {\n  const req = new Request('http://localhost/api/todos', {\n    method: 'POST',\n    headers: { 'content-type': 'application/json' },\n    body: JSON.stringify({ title: 'Ship it' }),\n  });\n  const res = await POST(req);\n  expect(res.status).toBe(201);\n  expect(await res.json()).toMatchObject({ title: 'Ship it' });\n});"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Export the app separately from listen() so supertest can bind it to an ephemeral port.",
+        "Assert the full contract: status, body shape, important headers and error format.",
+        "Use the same database engine as production (Testcontainers or a CI service) and run migrations once.",
+        "Isolate tests with transactions, truncation or unique data; build data with factories.",
+        "Systematically test 401, 403/404, validation and conflict cases; broken access control is OWASP's top risk.",
+        "Replace third-party services at the HTTP boundary (MSW or nock) or with injected fakes.",
+        "Next.js Route Handlers can be tested by calling GET or POST directly with a Request object."
+      ],
+      "questions": [
+        {
+          "id": "frontend-testing-06-q01",
+          "type": "mcq",
+          "prompt": "Why should `app.listen()` live in a separate file from the Express app definition?",
+          "options": [
+            "Express requires it",
+            "Tests can import the app without opening a fixed port; supertest binds its own ephemeral port",
+            "It improves production performance",
+            "To support TypeScript"
+          ],
+          "answer": 1,
+          "explanation": "Importing a module that calls listen opens a port as a side effect, causing EADDRINUSE errors and hanging test processes."
+        },
+        {
+          "id": "frontend-testing-06-q02",
+          "type": "mcq",
+          "prompt": "A user requests another user's private order. Which status codes are reasonable?",
+          "options": [
+            "200 with the order",
+            "403 Forbidden, or 404 Not Found to avoid revealing the order exists",
+            "401 Unauthorized",
+            "500 Internal Server Error"
+          ],
+          "answer": 1,
+          "explanation": "The user is authenticated (so not 401) but not allowed. 403 is accurate; 404 hides existence. Either way, the test must prove the data is not returned."
+        },
+        {
+          "id": "frontend-testing-06-q03",
+          "type": "mcq",
+          "prompt": "Why is SQLite in-memory a risky substitute for Postgres in API integration tests?",
+          "options": [
+            "It is too slow",
+            "It behaves differently for types, constraints, JSON functions and transactions, so tests can pass while production fails",
+            "It cannot store strings",
+            "supertest does not support it"
+          ],
+          "answer": 1,
+          "explanation": "Integration tests exist to check real integration. Differences between engines mean you are testing a different system. Testcontainers makes real engines easy."
+        },
+        {
+          "id": "frontend-testing-06-q04",
+          "type": "mcq",
+          "prompt": "Which isolation strategy rolls back all writes after each test with minimal cost?",
+          "options": [
+            "Recreating the database per test",
+            "Running each test inside a transaction that is rolled back",
+            "Never cleaning up",
+            "Running tests in alphabetical order"
+          ],
+          "answer": 1,
+          "explanation": "Transaction rollback is fast because nothing is committed. It gets complicated when the code under test opens its own transactions or uses multiple connections, in which case truncation is simpler."
+        },
+        {
+          "id": "frontend-testing-06-q05",
+          "type": "mcq",
+          "prompt": "Your API sends emails through a provider's HTTP API. How should integration tests handle it?",
+          "options": [
+            "Send real emails to a test inbox on every run",
+            "Intercept the outgoing HTTP call (MSW or nock) or inject a fake sender, and assert on what would be sent",
+            "Skip testing that endpoint",
+            "Mock the database"
+          ],
+          "answer": 1,
+          "explanation": "Replacing the external service at its boundary keeps tests fast and deterministic while still verifying the email content and recipient."
+        },
+        {
+          "id": "frontend-testing-06-q06",
+          "type": "mcq",
+          "prompt": "What does supertest's `.send({ title: 'x' })` do by default?",
+          "options": [
+            "Sends form-encoded data",
+            "Sends a JSON body and sets Content-Type to application/json",
+            "Sends query parameters",
+            "Uploads a file"
+          ],
+          "answer": 1,
+          "explanation": "Objects passed to send are serialized as JSON with the matching content type. Use `.type('form')` for URL-encoded bodies."
+        },
+        {
+          "id": "frontend-testing-06-q07",
+          "type": "truefalse",
+          "prompt": "A 500 response should include the stack trace so API clients can debug problems.",
+          "answer": false,
+          "explanation": "Stack traces and SQL errors leak internals useful to attackers. Return a generic error with a correlation ID and log details server-side; a test should assert this."
+        },
+        {
+          "id": "frontend-testing-06-q08",
+          "type": "truefalse",
+          "prompt": "Next.js Route Handlers can be unit tested by importing the exported GET/POST function and calling it with a Request object.",
+          "answer": true,
+          "explanation": "Route Handlers use the standard Web Request and Response APIs, so they are plain async functions. Dependencies such as cookies() or the database may still need mocking."
+        },
+        {
+          "id": "frontend-testing-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which cases should a protected `DELETE /api/projects/:id` endpoint test cover?",
+          "options": [
+            "Request without a token returns 401",
+            "Non-owner gets 403 or 404 and nothing is deleted",
+            "Owner gets success and the project is gone",
+            "The response time is under 1 ms",
+            "Deleting a missing project returns 404"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Authentication, authorization, the happy path and not-found are all contract behaviors. A 1 ms timing assertion would be flaky and is not a functional requirement."
+        },
+        {
+          "id": "frontend-testing-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the library ___ starts throwaway Docker containers (for example Postgres) for integration tests.",
+          "accept": [
+            "Testcontainers",
+            "testcontainers",
+            "test containers"
+          ],
+          "explanation": "Testcontainers manages container lifecycle from test code, giving each run a clean, production-like dependency."
+        },
+        {
+          "id": "frontend-testing-06-q11",
+          "type": "interview",
+          "prompt": "How do you structure integration tests for a REST API backed by Postgres?",
+          "answer": "- Separate the app from the server bootstrap and test it in-process with supertest.\n- Start a real Postgres via Testcontainers or a CI service container, run migrations once in global setup, and point the app at it through config.\n- Isolate each test with truncation or transaction rollback, and create data with factories so each test declares what it needs.\n- Per endpoint, cover the happy path, validation errors, auth (401), authorization (403/404) and conflicts, plus key side effects such as rows written or events emitted.\n- Replace third-party HTTP services with MSW or nock.\n- Keep the suite parallel-safe with unique data or a database or schema per worker, and fast enough to run on every PR.",
+          "level": "intermediate"
+        },
+        {
+          "id": "frontend-testing-06-q12",
+          "type": "interview",
+          "prompt": "Frontend tests mock the API with MSW and backend tests verify the API. How do you stop the two from drifting apart?",
+          "answer": "The risk is that MSW handlers return a shape the real backend no longer produces, so both suites pass and production breaks. I would make one source of truth for the contract: an OpenAPI spec (or shared TypeScript/zod schemas in a monorepo) from which backend validation, frontend types and even MSW handlers are generated, so a contract change shows up as a type error. Backend tests validate responses against the schema. For independent teams, consumer-driven contract testing with Pact lets the frontend publish its expectations and the backend's CI verify them. Finally, a few E2E smoke tests against a real deployed backend catch anything left over.",
+          "level": "advanced"
+        },
+        {
+          "id": "frontend-testing-06-q13",
+          "type": "interview",
+          "prompt": "What is the difference between unit, integration and E2E tests for a backend API, and how would you balance them?",
+          "answer": "Unit tests cover pure domain logic, such as pricing rules or permission checks, without I/O; they are fast and precise. Integration tests send HTTP requests to the app in-process with a real database and fake external services; they verify routing, middleware, validation, queries and serialization together, and they catch most real bugs. E2E tests exercise the deployed system with real infrastructure and integrations; they are slow and fragile, so I keep them to critical flows and smoke checks after deploy. For a typical CRUD-heavy API I would make integration tests the bulk, add unit tests where logic is complex, and run a small E2E suite against staging.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "supertest on GitHub",
+          "url": "https://github.com/ladjs/supertest"
+        },
+        {
+          "title": "Testcontainers for Node.js",
+          "url": "https://node.testcontainers.org/"
+        },
+        {
+          "title": "OWASP Top 10",
+          "url": "https://owasp.org/www-project-top-ten/"
+        }
+      ]
+    },
+    {
+      "id": "frontend-testing-07-playwright-e2e",
+      "title": "End-to-End Testing with Playwright",
+      "level": "advanced",
+      "summary": "Write reliable Playwright tests with locators, auto-waiting and web-first assertions, reuse authentication, mock the network, and run fast in CI with traces for debugging.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Playwright essentials",
+          "body": "Playwright (by Microsoft) drives Chromium, Firefox and WebKit through one API, in parallel and headless by default. Its test runner `@playwright/test` gives each test a fresh **browser context**, an isolated incognito-like profile with its own cookies and storage, which is cheap to create and keeps tests independent.\n\nKey ideas:\n\n- **Locators** describe how to find an element and are re-evaluated on every use, so they survive re-renders\n- **Auto-waiting**: actions like `click` wait until the element is attached, visible, stable, enabled and receiving events\n- **Web-first assertions**: `await expect(locator).toBeVisible()` retries until the condition holds or the timeout (5 seconds by default) passes\n\nTogether these remove almost all need for manual waits. `npx playwright codegen <url>` records interactions into test code, and `npx playwright test --ui` opens a time-travel UI for writing and debugging.",
+          "code": {
+            "lang": "ts",
+            "source": "import { test, expect } from '@playwright/test';\n\ntest('user can add a todo', async ({ page }) => {\n  await page.goto('/todos');\n  await page.getByLabel('New todo').fill('Write E2E tests');\n  await page.getByRole('button', { name: 'Add' }).click();\n\n  await expect(page.getByRole('listitem').filter({ hasText: 'Write E2E tests' })).toBeVisible();\n  await expect(page.getByText('1 item left')).toBeVisible();\n});"
+          }
+        },
+        {
+          "heading": "Locators and assertions done right",
+          "body": "Use the same user-facing priority as Testing Library: `getByRole`, `getByLabel`, `getByPlaceholder`, `getByText`, `getByAltText`, `getByTitle`, then `getByTestId` (configurable attribute). Avoid CSS chains and XPath tied to layout.\n\n- Narrow with `.filter({ hasText })`, `.filter({ has: locator })`, chaining (`row.getByRole('button')`) and `.nth()` only as a last resort\n- Locators are **strict**: an action on a locator matching multiple elements throws, which prevents clicking the wrong thing\n- Always use web-first assertions (`await expect(locator).toHaveText(...)`). `expect(await locator.textContent()).toBe(...)` reads once and does not retry, so it flakes\n- `toHaveURL`, `toHaveTitle`, `toHaveCount`, `toBeEnabled`, `toHaveValue`, `toHaveScreenshot` for visual comparisons\n\nNever use `page.waitForTimeout()` in real tests. Wait for a meaningful condition instead: an element, a URL, or a specific response with `page.waitForResponse`.",
+          "code": {
+            "lang": "ts",
+            "source": "const row = page.getByRole('row').filter({ hasText: 'Invoice #1042' });\nawait row.getByRole('button', { name: 'Pay' }).click();\nawait expect(row.getByRole('cell', { name: 'Paid' })).toBeVisible();\n\n// Flaky: reads once, no retry\nexpect(await page.locator('.status').textContent()).toBe('Paid');\n// Reliable: retries until timeout\nawait expect(page.getByTestId('status')).toHaveText('Paid');\n\nawait expect(page).toHaveURL(/\\/invoices\\/1042$/);"
+          }
+        },
+        {
+          "heading": "Authentication and test data",
+          "body": "Logging in through the UI in every test is slow. The recommended pattern is a **setup project** that logs in once and saves the browser storage (cookies, localStorage) to a file with `storageState`. Other projects depend on it and start already authenticated.\n\nFor multiple roles, save one state file per role and use `test.use({ storageState: 'playwright/.auth/admin.json' })` in the relevant files. Keep the auth directory out of Git.\n\nTest data should be created through APIs or database seeding rather than UI clicks. Playwright's `request` fixture makes HTTP calls sharing the context's cookies, which is ideal for arranging data. Give each test unique data (a random suffix in names) so tests running in parallel never fight over the same records.",
+          "code": {
+            "lang": "ts",
+            "source": "// tests/auth.setup.ts\nimport { test as setup, expect } from '@playwright/test';\nconst authFile = 'playwright/.auth/user.json';\n\nsetup('authenticate', async ({ page }) => {\n  await page.goto('/login');\n  await page.getByLabel('Email').fill(process.env.E2E_USER!);\n  await page.getByLabel('Password').fill(process.env.E2E_PASSWORD!);\n  await page.getByRole('button', { name: 'Sign in' }).click();\n  await expect(page).toHaveURL('/dashboard');\n  await page.context().storageState({ path: authFile });\n});\n\n// playwright.config.ts (excerpt)\nprojects: [\n  { name: 'setup', testMatch: /.*\\.setup\\.ts/ },\n  { name: 'chromium', use: { ...devices['Desktop Chrome'], storageState: authFile }, dependencies: ['setup'] },\n]"
+          }
+        },
+        {
+          "heading": "Network mocking, fixtures and page objects",
+          "body": "`page.route(urlPattern, handler)` intercepts requests from the page. Use it to simulate errors, slow responses or third-party services (payment widgets, maps) that you do not want in E2E runs:\n\n- `route.fulfill({ status, json })` returns a fake response\n- `route.abort()` simulates network failure\n- `route.continue()` or `route.fetch()` passes through, optionally modifying the request or response\n\nBe deliberate: mocking your own backend in E2E removes the very integration you wanted to test. Full mocking makes it a component test in a browser.\n\n**Fixtures** (`test.extend`) package setup and teardown, such as a seeded project or a logged-in API client, and inject them by name. **Page objects** wrap locators and actions for a page (`await todoPage.add('x')`), reducing duplication. Keep assertions mostly in tests so they read as specifications.",
+          "code": {
+            "lang": "ts",
+            "source": "test('shows a friendly error when checkout fails', async ({ page }) => {\n  await page.route('**/api/checkout', (route) =>\n    route.fulfill({ status: 503, json: { error: 'unavailable' } }),\n  );\n  await page.goto('/cart');\n  await page.getByRole('button', { name: 'Checkout' }).click();\n  await expect(page.getByRole('alert')).toContainText('try again');\n});\n\n// fixture\nexport const test = base.extend<{ project: Project }>({\n  project: async ({ request }, use) => {\n    const project = await (await request.post('/api/projects', { data: { name: `p-${Date.now()}` } })).json();\n    await use(project);\n    await request.delete(`/api/projects/${project.id}`);\n  },\n});"
+          }
+        },
+        {
+          "heading": "Running in CI and debugging failures",
+          "body": "A practical CI configuration:\n\n- `webServer` in the config starts the app (ideally a production build) before tests and waits for the URL\n- `retries: 2` on CI only, with `trace: 'on-first-retry'` so failures come with a trace\n- `fullyParallel: true` and `workers` tuned to the machine; split large suites across machines with `--shard=1/4`\n- Install browsers with `npx playwright install --with-deps`, or use the official Playwright Docker image\n- Upload the HTML report and traces as CI artifacts\n\nThe **Trace Viewer** (`npx playwright show-trace trace.zip`) shows every action with DOM snapshots before and after, console logs, network requests and the source line. It is the fastest way to understand a CI-only failure. A test that passes only on retry is reported as **flaky**: fix it, do not let retries hide it.",
+          "code": {
+            "lang": "ts",
+            "source": "// playwright.config.ts\nimport { defineConfig, devices } from '@playwright/test';\n\nexport default defineConfig({\n  testDir: './e2e',\n  fullyParallel: true,\n  forbidOnly: !!process.env.CI,\n  retries: process.env.CI ? 2 : 0,\n  reporter: process.env.CI ? [['html'], ['github']] : 'list',\n  use: { baseURL: 'http://localhost:3000', trace: 'on-first-retry' },\n  webServer: {\n    command: 'npm run build && npm run start',\n    url: 'http://localhost:3000',\n    reuseExistingServer: !process.env.CI,\n  },\n  projects: [\n    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },\n    { name: 'webkit', use: { ...devices['Desktop Safari'] } },\n  ],\n});"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Each Playwright test gets a fresh, isolated browser context.",
+        "Locators are lazy and strict; actions auto-wait for actionability.",
+        "Use web-first assertions (`await expect(locator)...`), never one-shot reads or waitForTimeout.",
+        "Prefer role, label and text locators; use test IDs only when nothing user-facing fits.",
+        "Log in once in a setup project and reuse storageState; create test data via API with unique names.",
+        "page.route mocks third parties and failure modes, but mocking your own backend defeats E2E.",
+        "In CI: webServer, retries with traces on first retry, sharding, and fix tests marked flaky."
+      ],
+      "questions": [
+        {
+          "id": "frontend-testing-07-q01",
+          "type": "mcq",
+          "prompt": "Why is `expect(await page.locator('#total').textContent()).toBe('$40')` flaky?",
+          "options": [
+            "textContent is deprecated",
+            "It reads the text once with no retry, so it fails if the UI has not updated yet",
+            "toBe cannot compare strings",
+            "Locators cannot use ids"
+          ],
+          "answer": 1,
+          "explanation": "Web-first assertions like `await expect(locator).toHaveText('$40')` retry until the condition holds or the timeout passes, which matches asynchronous UI."
+        },
+        {
+          "id": "frontend-testing-07-q02",
+          "type": "mcq",
+          "prompt": "What does Playwright check before performing `locator.click()`?",
+          "options": [
+            "Nothing, it clicks immediately",
+            "That the element is attached, visible, stable, enabled and receives events",
+            "Only that it exists in the DOM",
+            "That the page finished all network requests"
+          ],
+          "answer": 1,
+          "explanation": "Actionability checks make clicks wait for animations to settle and overlays to disappear, preventing a large class of flaky failures."
+        },
+        {
+          "id": "frontend-testing-07-q03",
+          "type": "mcq",
+          "prompt": "What is the recommended way to avoid logging in through the UI in every test?",
+          "options": [
+            "Disable auth in the test environment",
+            "A setup project that logs in once and saves storageState, reused by other projects",
+            "Share one page across all tests",
+            "Hardcode a session cookie in source"
+          ],
+          "answer": 1,
+          "explanation": "storageState captures cookies and local storage after a real login. Tests start authenticated while keeping auth realistic."
+        },
+        {
+          "id": "frontend-testing-07-q04",
+          "type": "mcq",
+          "prompt": "A locator matches 3 elements and you call `.click()` on it. What happens?",
+          "options": [
+            "Clicks the first",
+            "Clicks all three",
+            "Throws a strict mode violation",
+            "Clicks a random one"
+          ],
+          "answer": 2,
+          "explanation": "Locators are strict for actions, which prevents interacting with the wrong element. Narrow it with filter, chaining or a more specific role and name."
+        },
+        {
+          "id": "frontend-testing-07-q05",
+          "type": "mcq",
+          "prompt": "Which config gives you a debuggable trace for CI failures without slowing down passing tests?",
+          "options": [
+            "trace: 'on'",
+            "trace: 'on-first-retry' with retries enabled on CI",
+            "trace: 'off'",
+            "video: 'on'"
+          ],
+          "answer": 1,
+          "explanation": "Recording traces for every run costs time and storage. Recording only when a test is retried captures the failing scenario."
+        },
+        {
+          "id": "frontend-testing-07-q06",
+          "type": "mcq",
+          "prompt": "How do you split a 40-minute Playwright suite across 4 CI machines?",
+          "options": [
+            "--workers=4",
+            "--shard=1/4 through --shard=4/4 on each machine",
+            "--project=4",
+            "--retries=4"
+          ],
+          "answer": 1,
+          "explanation": "Sharding divides tests between separate machines; workers parallelize within one machine. Reports can be merged afterwards with the blob reporter."
+        },
+        {
+          "id": "frontend-testing-07-q07",
+          "type": "truefalse",
+          "prompt": "Each Playwright test gets a fresh browser context, so cookies and localStorage do not leak between tests.",
+          "answer": true,
+          "explanation": "Contexts are isolated, cheap profiles. Isolation is the default; you opt in to shared state with storageState."
+        },
+        {
+          "id": "frontend-testing-07-q08",
+          "type": "truefalse",
+          "prompt": "Mocking all of your own API endpoints with page.route still gives you true end-to-end coverage.",
+          "answer": false,
+          "explanation": "With your backend mocked, the test no longer checks frontend-backend integration. Mock only third parties or rare failure modes in E2E."
+        },
+        {
+          "id": "frontend-testing-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which practices reduce flakiness in Playwright tests?",
+          "options": [
+            "Web-first assertions",
+            "page.waitForTimeout(3000) after each click",
+            "Unique test data per test",
+            "Role and label based locators",
+            "Sharing state between tests via a global variable"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Retried assertions, isolated data and resilient locators remove timing and collision problems. Fixed sleeps and shared state introduce them."
+        },
+        {
+          "id": "frontend-testing-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `npx playwright ___` opens a browser and records your interactions as test code.",
+          "accept": [
+            "codegen"
+          ],
+          "explanation": "Codegen generates role-based locators and actions, a fast starting point you then refine with assertions."
+        },
+        {
+          "id": "frontend-testing-07-q11",
+          "type": "interview",
+          "prompt": "How do you keep an E2E suite fast and reliable as it grows?",
+          "answer": "- Scope: E2E only for critical journeys; push edge cases down to integration and unit tests.\n- Isolation: fresh contexts, unique data created via API per test, no order dependence, so `fullyParallel` is safe.\n- Speed: reuse auth with storageState, seed data through APIs rather than the UI, shard across machines, and run against a production build.\n- Reliability: role and label locators, web-first assertions, no fixed sleeps, wait for specific responses when needed, and stable test environments with controlled third parties.\n- Observability: traces on first retry, HTML reports as artifacts, and tracking flaky tests so retries do not hide them.\n- Ownership: a flaky test is a bug with an owner and a deadline; quarantine it if needed, but fix it.",
+          "level": "advanced"
+        },
+        {
+          "id": "frontend-testing-07-q12",
+          "type": "interview",
+          "prompt": "Playwright vs Cypress: what are the main differences?",
+          "answer": "Playwright drives browsers through the Chrome DevTools Protocol and equivalent protocols for Firefox and WebKit from a Node process outside the browser, supports Chromium, Firefox and WebKit (Safari's engine), multiple tabs, origins and browser contexts, and runs tests in parallel for free. Its API is async/await with auto-waiting locators. Cypress runs test code inside the browser alongside the app, which gives an excellent interactive runner and direct access to the app, but historically limited multi-tab and cross-origin flows (improved with cy.origin), has no WebKit support beyond experimental, and uses a chained command queue instead of async/await; parallelization is tied to its cloud service or third-party tools. For a new project I would usually choose Playwright for cross-browser coverage, parallelism and its trace viewer; Cypress is fine where the team already has a healthy suite.",
+          "level": "advanced"
+        },
+        {
+          "id": "frontend-testing-07-q13",
+          "type": "interview",
+          "prompt": "An E2E test fails only in CI. Walk me through debugging it.",
+          "answer": "I start with the artifacts: the HTML report and the trace from the retry. The Trace Viewer shows each action with before and after DOM snapshots, console errors and network calls, which usually reveals the cause, for example a 500 from an API, a toast covering a button, or an assertion running before data loaded. Common CI-only causes are slower machines exposing missing waits, different data or environment variables, time zone or locale differences, viewport size, missing fonts, or parallel tests sharing the same records. I reproduce locally with the same settings (`--workers` equal to CI, the CI viewport, the Docker image, CPU throttling, `--repeat-each`). Then I fix the root cause, such as waiting for the right condition or isolating data, rather than adding sleeps or raising timeouts.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Playwright: Writing tests",
+          "url": "https://playwright.dev/docs/writing-tests"
+        },
+        {
+          "title": "Playwright: Best Practices",
+          "url": "https://playwright.dev/docs/best-practices"
+        },
+        {
+          "title": "Playwright: Authentication",
+          "url": "https://playwright.dev/docs/auth"
+        }
+      ]
+    },
+    {
+      "id": "frontend-testing-08-nextjs-server",
+      "title": "Testing Next.js: Server Components, Server Actions and Route Handlers",
+      "level": "advanced",
+      "summary": "Choose the right test level for App Router code: unit test client and sync components, test Server Actions and data functions as plain async functions, and cover async Server Components end to end.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Where App Router code runs and why it matters for tests",
+          "body": "In the Next.js App Router, components are **Server Components** by default. They can be `async`, fetch data directly and use server-only APIs (`cookies()`, `headers()`, database clients). Files marked `'use client'` are Client Components that hydrate in the browser. **Server Actions** (`'use server'` functions) run on the server when called from forms or client code. **Route Handlers** (`route.ts`) are HTTP endpoints built on the Web Request and Response APIs.\n\nTest runners like Vitest and Jest render with React DOM in a simulated browser. The Next.js docs state that async Server Components are not supported by Vitest and Jest at this time, and recommend E2E tests for them. Synchronous Server Components and Client Components can still be unit tested with React Testing Library.\n\nSo the strategy is layered: test logic as plain functions, components with RTL where they render synchronously, and full pages with Playwright."
+        },
+        {
+          "heading": "Structure code so the logic is testable",
+          "body": "The most effective technique is architectural: keep async Server Components thin. They fetch data and pass it to presentational components, which are easy to test with plain props.\n\n- Data access lives in a module (`lib/data/orders.ts`) that you test against a real test database or with an injected client\n- Presentational components take data as props and contain the rendering logic, testable with RTL whether they are server or client components (as long as they are not async)\n- The async page component composes them and is covered by E2E tests\n\nThis mirrors the container and presentational split, and it keeps most of your logic in fast tests.",
+          "code": {
+            "lang": "tsx",
+            "source": "// app/orders/page.tsx (async Server Component: cover with E2E)\nexport default async function OrdersPage() {\n  const orders = await getOrdersForCurrentUser();\n  return <OrdersTable orders={orders} />;\n}\n\n// components/OrdersTable.tsx (sync, pure props: unit test with RTL)\nexport function OrdersTable({ orders }: { orders: Order[] }) {\n  if (orders.length === 0) return <p>No orders yet</p>;\n  return (<table>{/* rows */}</table>);\n}\n\n// OrdersTable.test.tsx\nit('shows empty state', () => {\n  render(<OrdersTable orders={[]} />);\n  expect(screen.getByText('No orders yet')).toBeInTheDocument();\n});"
+          }
+        },
+        {
+          "heading": "Testing Server Actions",
+          "body": "A Server Action is an exported async function. In a test you can import and call it directly with a `FormData` or arguments; the `'use server'` directive only matters to the Next.js compiler.\n\nWhat usually needs mocking:\n\n- `next/cache` functions like `revalidatePath` and `revalidateTag` (they need the Next runtime)\n- `next/navigation` `redirect` and `notFound`, which work by throwing special errors; mock them to assert they were called\n- `next/headers` `cookies()` and `headers()` for the current user or session\n- Your auth helper, so you can call the action as different users\n\nWhat to assert: validation results for bad input, authorization (a user cannot modify someone else's data, since Server Actions are publicly reachable endpoints), the database change, and revalidation or redirect calls. Treat every Server Action as a public API: validate input with a schema and check permissions inside the action, then test both.",
+          "code": {
+            "lang": "ts",
+            "source": "// app/todos/actions.ts\n'use server';\nexport async function createTodo(_prev: State, formData: FormData) {\n  const user = await requireUser();\n  const parsed = schema.safeParse({ title: formData.get('title') });\n  if (!parsed.success) return { error: 'Title is required' };\n  await db.todo.create({ data: { ...parsed.data, userId: user.id } });\n  revalidatePath('/todos');\n  return { error: null };\n}\n\n// actions.test.ts\nvi.mock('next/cache', () => ({ revalidatePath: vi.fn() }));\nvi.mock('@/lib/auth', () => ({ requireUser: vi.fn().mockResolvedValue({ id: 'u1' }) }));\n\nit('validates the title', async () => {\n  const fd = new FormData();\n  fd.set('title', '');\n  expect(await createTodo({ error: null }, fd)).toEqual({ error: 'Title is required' });\n  expect(revalidatePath).not.toHaveBeenCalled();\n});"
+          }
+        },
+        {
+          "heading": "Client Components that use Next.js hooks",
+          "body": "Client Components often call `useRouter`, `usePathname` or `useSearchParams` from `next/navigation`. Outside the Next.js runtime these hooks have no router context, so mock the module and control the return values.\n\nFor forms using `useActionState` (React 19) or `useFormStatus` with a Server Action, test the client component by passing a mocked action or mocking the actions module: assert the pending state, the error message rendered from the returned state, and that the action received the right FormData.\n\nNext.js-specific components such as `next/image` and `next/link` render fine in jsdom with the official Vitest or Jest setup. `next/jest` configures SWC transforms, CSS and image mocks automatically; for Vitest, the Next.js docs show a setup with `@vitejs/plugin-react` and `vite-tsconfig-paths`.",
+          "code": {
+            "lang": "tsx",
+            "source": "vi.mock('next/navigation', () => ({\n  useRouter: () => ({ push: vi.fn(), refresh: vi.fn() }),\n  useSearchParams: () => new URLSearchParams('q=shoes'),\n  usePathname: () => '/search',\n}));\n\nit('prefills the search box from the URL', () => {\n  render(<SearchBox />);\n  expect(screen.getByRole('searchbox')).toHaveValue('shoes');\n});"
+          }
+        },
+        {
+          "heading": "End-to-end coverage for the full stack",
+          "body": "Async Server Components, streaming with Suspense, middleware or proxy logic, caching and revalidation behavior, and redirects only show their true behavior when Next.js actually runs. Cover them with Playwright against a production build (`next build && next start`), because development mode behaves differently: no caching of the same kind, slower compiles, extra Strict Mode double rendering.\n\nUseful E2E checks for App Router apps:\n\n- A protected page redirects anonymous users to login\n- A Server Action form submission updates the page after revalidation\n- `loading.tsx` and `error.tsx` boundaries show up for slow or failing data\n- `not-found.tsx` renders with a 404 status for missing resources (check with `page.goto` response status)\n\nFor server-side fetches to third-party APIs during E2E, the browser-level `page.route` cannot intercept them, because they happen in the Node server. Point the server at a mock server (MSW in the Next process, or a stub service) through environment variables."
+        }
+      ],
+      "keyPoints": [
+        "Vitest and Jest do not support rendering async Server Components; cover them with E2E tests.",
+        "Keep async pages thin: fetch data, pass it to presentational components that are easy to unit test.",
+        "Server Actions are plain async functions in tests; mock next/cache, next/headers, next/navigation and auth.",
+        "Server Actions are public endpoints: validate input and check authorization inside them, and test both.",
+        "Mock next/navigation hooks for Client Components rendered outside the Next runtime.",
+        "Run E2E against a production build; dev mode behaves differently.",
+        "page.route cannot intercept server-side fetches; mock those at the server via config."
+      ],
+      "questions": [
+        {
+          "id": "frontend-testing-08-q01",
+          "type": "mcq",
+          "prompt": "According to the Next.js docs, how should async Server Components be tested?",
+          "options": [
+            "Render them with React Testing Library in jsdom",
+            "With end-to-end tests, since Vitest and Jest do not support async Server Components",
+            "They cannot be tested",
+            "Snapshot testing only"
+          ],
+          "answer": 1,
+          "explanation": "React DOM test rendering in Vitest and Jest does not support async components yet, so the docs recommend E2E for them while unit testing sync and client components."
+        },
+        {
+          "id": "frontend-testing-08-q02",
+          "type": "mcq",
+          "prompt": "Why must a Server Action check authorization itself, even if the page that renders its form already checks it?",
+          "options": [
+            "It doesn't need to",
+            "Server Actions are reachable as POST endpoints, so anyone can invoke them directly",
+            "Pages are cached",
+            "React requires it"
+          ],
+          "answer": 1,
+          "explanation": "The action ID is exposed to the client and can be called with arbitrary input. Treat actions like API routes: authenticate, authorize and validate inside."
+        },
+        {
+          "id": "frontend-testing-08-q03",
+          "type": "mcq",
+          "prompt": "Calling a Server Action directly in a Vitest test throws because `revalidatePath` needs the Next.js runtime. What is the usual fix?",
+          "options": [
+            "Remove revalidatePath from the action",
+            "vi.mock('next/cache') and assert revalidatePath was called with the right path",
+            "Run the test in the browser",
+            "Use fireEvent"
+          ],
+          "answer": 1,
+          "explanation": "Mocking the framework boundary keeps the action's own logic real while letting you assert the cache invalidation it requests."
+        },
+        {
+          "id": "frontend-testing-08-q04",
+          "type": "mcq",
+          "prompt": "A Client Component calls `useSearchParams()`. In a unit test it throws or returns nothing useful. Why?",
+          "options": [
+            "useSearchParams only works on the server",
+            "There is no Next.js router context in the test environment, so next/navigation must be mocked",
+            "jsdom has no URL support",
+            "The component must be async"
+          ],
+          "answer": 1,
+          "explanation": "Next.js navigation hooks read from router context provided by the framework. Mock the module to supply controlled values."
+        },
+        {
+          "id": "frontend-testing-08-q05",
+          "type": "mcq",
+          "prompt": "Your async page fetches data from a third-party API on the server. In a Playwright test you call `page.route('**/api.thirdparty.com/**', ...)`, but the real API is still called. Why?",
+          "options": [
+            "page.route only works in Firefox",
+            "The fetch happens in the Next.js server process, not the browser, so browser routing cannot see it",
+            "The URL pattern needs regex",
+            "Server Components cache forever"
+          ],
+          "answer": 1,
+          "explanation": "page.route intercepts browser traffic. Server-side requests must be redirected via configuration, for example pointing an env var at a mock server."
+        },
+        {
+          "id": "frontend-testing-08-q06",
+          "type": "mcq",
+          "prompt": "Why should E2E tests for a Next.js app run against `next build && next start` rather than `next dev`?",
+          "options": [
+            "Dev mode lacks routing",
+            "Production builds behave like real deployments (caching, no on-demand compilation, no dev-only double rendering)",
+            "Playwright cannot connect to dev servers",
+            "next start enables test IDs"
+          ],
+          "answer": 1,
+          "explanation": "Dev mode compiles routes on demand (slow, timeouts) and differs in caching and rendering behavior, so it can hide or create problems."
+        },
+        {
+          "id": "frontend-testing-08-q07",
+          "type": "truefalse",
+          "prompt": "A synchronous Server Component that only renders props can be tested with React Testing Library.",
+          "answer": true,
+          "explanation": "A non-async component that does not use server-only APIs is just a function returning JSX, so RTL can render it in jsdom."
+        },
+        {
+          "id": "frontend-testing-08-q08",
+          "type": "truefalse",
+          "prompt": "The 'use server' directive prevents a Server Action from being imported and called in a Vitest test.",
+          "answer": false,
+          "explanation": "The directive is a compiler hint for Next.js. In tests the module is ordinary code, so you can call the exported function directly, mocking runtime-only dependencies."
+        },
+        {
+          "id": "frontend-testing-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which Next.js behaviors are best verified with E2E tests rather than unit tests?",
+          "options": [
+            "Middleware redirecting anonymous users",
+            "Formatting a price in a pure helper",
+            "Streaming with loading.tsx while data loads",
+            "Revalidation after a Server Action updates the page",
+            "Validation logic inside a zod schema"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Middleware, streaming and cache revalidation depend on the Next.js runtime. Pure helpers and schemas are faster to verify with unit tests."
+        },
+        {
+          "id": "frontend-testing-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in a Server Action test you build the input with `new ___()` and set fields with `.set('title', 'x')`.",
+          "accept": [
+            "FormData"
+          ],
+          "explanation": "Form-bound Server Actions receive a FormData object, available globally in Node 18+ and jsdom."
+        },
+        {
+          "id": "frontend-testing-08-q11",
+          "type": "interview",
+          "prompt": "How would you design a testing strategy for a Next.js App Router application?",
+          "answer": "- Static: strict TypeScript and ESLint, including the Next.js lint rules.\n- Unit: pure logic, zod schemas, data-access functions (against a test database) and Server Actions called directly, with next/cache, next/headers, next/navigation and auth mocked; assert validation, authorization, DB effects and revalidation.\n- Component: Client Components and sync presentational components with RTL, MSW for client-side fetching, and next/navigation mocked.\n- Architecture: keep async Server Components thin so little logic hides where unit tests cannot reach.\n- E2E: Playwright against a production build for critical journeys, auth redirects, Server Action forms, loading and error boundaries, with server-side third-party calls pointed at mocks via env config.\n- CI: unit and component tests on every PR, E2E on PRs for critical paths and against preview deployments.",
+          "level": "advanced"
+        },
+        {
+          "id": "frontend-testing-08-q12",
+          "type": "interview",
+          "prompt": "How do you test a Server Action that validates input, checks ownership, writes to the database and redirects?",
+          "answer": "I call the exported action directly. I mock the auth helper to return different users, mock `revalidatePath` from next/cache, and mock `redirect` from next/navigation (in production it throws a special error, so in tests I make it a spy, or assert that the thrown redirect error carries the expected URL). The database stays real in an isolated test database, or I use a repository fake. Test cases: invalid FormData returns the validation error and writes nothing; a user acting on someone else's record is rejected and nothing changes; the happy path writes the right row, revalidates the right path and redirects to the right URL; and an unauthenticated call is rejected. Finally a Playwright test covers the form end to end once.",
+          "level": "advanced"
+        },
+        {
+          "id": "frontend-testing-08-q13",
+          "type": "interview",
+          "prompt": "Why are async Server Components hard to unit test, and how do you keep coverage high anyway?",
+          "answer": "Unit test runners render components with React DOM in jsdom, and the client rendering path does not support async components, so `render(<Page />)` on an async component fails. Async components also usually depend on server-only APIs and framework features like caching. Rather than fighting the tooling, I keep async components as thin composition layers: they call data functions and pass results to presentational components. The data functions get unit or integration tests, the presentational components get RTL tests with props, and the composed page gets a Playwright test against a production build. Coverage reports for the page file may look low, which is acceptable because its behavior is verified by E2E.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Next.js: Testing overview",
+          "url": "https://nextjs.org/docs/app/guides/testing"
+        },
+        {
+          "title": "Next.js: Setting up Vitest",
+          "url": "https://nextjs.org/docs/app/guides/testing/vitest"
+        },
+        {
+          "title": "Next.js: Setting up Playwright",
+          "url": "https://nextjs.org/docs/app/guides/testing/playwright"
+        }
+      ]
+    }
+  ]
+}

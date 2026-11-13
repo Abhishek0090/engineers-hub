@@ -1,0 +1,1863 @@
+{
+  "id": "api-design",
+  "title": "APIs with Express and beyond",
+  "area": "backend",
+  "order": 31,
+  "icon": "API",
+  "color": "#0891b2",
+  "description": "Design and build production APIs: HTTP semantics, REST, Express 5, validation, pagination, versioning, GraphQL and tRPC, realtime, webhooks, background jobs and message brokers.",
+  "chapters": [
+    {
+      "id": "api-design-01-http",
+      "title": "HTTP fundamentals: methods, status codes and idempotency",
+      "level": "beginner",
+      "summary": "The HTTP semantics every API builds on: what each method promises, which status code to return, and why idempotency matters for retries.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Requests and responses",
+          "body": "An HTTP request has a **method**, a **target** (path and query string), **headers** and an optional **body**. A response has a **status code**, headers and an optional body. HTTP/1.1, HTTP/2 and HTTP/3 share these semantics (defined in RFC 9110); they differ only in how bytes travel (text over TCP, binary frames multiplexed over TCP, or QUIC over UDP).\n\nHeaders you will use constantly:\n\n- `Content-Type`: the format of the body (`application/json`).\n- `Accept`: what the client wants back.\n- `Authorization`: credentials, e.g. `Bearer <token>`.\n- `Cache-Control`, `ETag`, `If-None-Match`: caching and conditional requests.\n- `Location`: URL of a newly created resource (with 201) or redirect target.\n- `Retry-After`: when to try again (with 429 or 503).",
+          "code": {
+            "lang": "http",
+            "source": "POST /orders HTTP/1.1\nHost: api.example.com\nContent-Type: application/json\nAuthorization: Bearer eyJhbGciOi...\nIdempotency-Key: 9f1c2a7e-3b4d-4c55-8e21-7d0f5b1a2c3e\n\n{\"productId\": \"p_123\", \"quantity\": 2}\n\nHTTP/1.1 201 Created\nLocation: /orders/ord_789\nContent-Type: application/json\n\n{\"id\": \"ord_789\", \"status\": \"pending\"}"
+          }
+        },
+        {
+          "heading": "Methods, safety and idempotency",
+          "body": "- **Safe** methods do not change server state (read-only): GET, HEAD, OPTIONS.\n- **Idempotent** methods have the same effect whether called once or many times: GET, HEAD, OPTIONS, PUT, DELETE.\n- **POST** and **PATCH** are neither safe nor idempotent by definition.\n\nWhat each method means:\n\n- `GET`: read a resource. Cacheable. No body semantics.\n- `POST`: create a subordinate resource or trigger a process.\n- `PUT`: replace the resource at this URL entirely (create it if the client chooses the ID).\n- `PATCH`: partial update (JSON Merge Patch or JSON Patch).\n- `DELETE`: remove. Deleting twice leaves the same state, though the second call may return 404.\n- `HEAD`: like GET without the body. `OPTIONS`: allowed methods, used by CORS preflight.\n\nIdempotency matters because networks fail. If a client times out on `PUT /users/1`, it can safely retry. Retrying a `POST /payments` might charge twice, which is why payment APIs accept an **Idempotency-Key** header: the server stores the result of the first request with that key and returns it for retries."
+        },
+        {
+          "heading": "Status codes by class",
+          "body": "- **2xx success**: `200 OK`, `201 Created` (with `Location`), `202 Accepted` (queued for async processing), `204 No Content` (success, empty body).\n- **3xx redirection**: `301`/`308` permanent, `302`/`307` temporary (307 and 308 keep the method and body), `304 Not Modified` (conditional GET, use your cache).\n- **4xx client errors**: `400 Bad Request` (malformed), `401 Unauthorized` (not authenticated: missing or invalid credentials), `403 Forbidden` (authenticated but not allowed), `404 Not Found`, `405 Method Not Allowed`, `409 Conflict` (state conflict, duplicate, version mismatch), `412 Precondition Failed`, `413 Content Too Large`, `415 Unsupported Media Type`, `422 Unprocessable Content` (well-formed but semantically invalid), `429 Too Many Requests`.\n- **5xx server errors**: `500 Internal Server Error`, `502 Bad Gateway` (bad response from upstream), `503 Service Unavailable` (overloaded or in maintenance), `504 Gateway Timeout` (upstream too slow).\n\nRule of thumb: 4xx means the client should change something before retrying; 5xx means the server failed and a retry later might work."
+        },
+        {
+          "heading": "Conditional requests and caching basics",
+          "body": "Servers can tag a representation with an `ETag` (a version fingerprint) or `Last-Modified`. Clients send it back:\n\n- **Conditional GET**: `If-None-Match: \"v42\"`. If unchanged, the server returns `304 Not Modified` with no body, saving bandwidth.\n- **Optimistic concurrency**: `PUT` with `If-Match: \"v42\"`. If someone else updated the resource first, the server returns `412 Precondition Failed` instead of silently overwriting (the lost update problem).\n\n`Cache-Control` tells clients and CDNs how long to reuse a response: `max-age=60`, `no-store` for sensitive data, `private` for per-user responses."
+        },
+        {
+          "heading": "Content negotiation and error bodies",
+          "body": "Clients state preferences with `Accept` (and `Accept-Encoding` for gzip/br). The server picks a representation and sets `Content-Type`, or returns `406 Not Acceptable`. Sending a body type the server does not support should get `415`.\n\nUse a consistent error format. **RFC 9457 Problem Details** (`application/problem+json`, replacing RFC 7807) is the standard: `type`, `title`, `status`, `detail`, `instance`, plus your own extension fields such as validation errors.",
+          "code": {
+            "lang": "http",
+            "source": "HTTP/1.1 422 Unprocessable Content\nContent-Type: application/problem+json\n\n{\n  \"type\": \"https://api.example.com/problems/validation-error\",\n  \"title\": \"Your request is not valid\",\n  \"status\": 422,\n  \"detail\": \"2 fields failed validation\",\n  \"errors\": [\n    { \"field\": \"email\", \"message\": \"must be a valid email\" },\n    { \"field\": \"quantity\", \"message\": \"must be >= 1\" }\n  ]\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Safe methods: GET, HEAD, OPTIONS. Idempotent: those plus PUT and DELETE. POST and PATCH are neither.",
+        "Idempotency makes retries safe; use an Idempotency-Key header for POST operations like payments.",
+        "401 means not authenticated; 403 means authenticated but not permitted.",
+        "201 + Location for creation, 202 for accepted async work, 204 for success with no body.",
+        "4xx: client must change the request; 5xx: server-side failure, retry may help.",
+        "ETag + If-None-Match gives 304s; If-Match prevents lost updates with 412.",
+        "Use RFC 9457 Problem Details for consistent error responses."
+      ],
+      "questions": [
+        {
+          "id": "api-design-01-q01",
+          "type": "mcq",
+          "prompt": "Which HTTP method is idempotent but not safe?",
+          "options": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH"
+          ],
+          "answer": 2,
+          "explanation": "PUT replaces the resource with the given representation, so repeating it yields the same state (idempotent), but it modifies state (not safe). GET is safe and idempotent; POST and PATCH are neither."
+        },
+        {
+          "id": "api-design-01-q02",
+          "type": "mcq",
+          "prompt": "A user with a valid token requests another tenant's invoice they are not allowed to see. Which status is most appropriate?",
+          "options": [
+            "400",
+            "401",
+            "403 (or 404 to avoid revealing existence)",
+            "500"
+          ],
+          "answer": 2,
+          "explanation": "The user is authenticated, so 401 is wrong. 403 says they lack permission. Many APIs return 404 instead to avoid confirming that the resource exists, which is also acceptable."
+        },
+        {
+          "id": "api-design-01-q03",
+          "type": "mcq",
+          "prompt": "A client creates an order with POST. What should a well-designed API return?",
+          "options": [
+            "200 with an empty body",
+            "201 Created with a Location header and the created resource",
+            "204 No Content",
+            "302 redirect to the order page"
+          ],
+          "answer": 1,
+          "explanation": "201 signals that a resource was created, and Location tells the client its URL. Returning the representation saves an extra GET."
+        },
+        {
+          "id": "api-design-01-q04",
+          "type": "mcq",
+          "prompt": "A request to generate a large report is accepted and will be processed in the background. Which status fits best?",
+          "options": [
+            "200",
+            "201",
+            "202",
+            "204"
+          ],
+          "answer": 2,
+          "explanation": "202 Accepted means the request was valid and queued, but processing is not complete. Typically the response includes a job ID or a status URL to poll."
+        },
+        {
+          "id": "api-design-01-q05",
+          "type": "mcq",
+          "prompt": "The client sends a GET with If-None-Match: \"abc\" and the resource's ETag is still \"abc\". What should the server do?",
+          "options": [
+            "Return 200 with the full body",
+            "Return 304 Not Modified with no body",
+            "Return 412 Precondition Failed",
+            "Return 409 Conflict"
+          ],
+          "answer": 1,
+          "explanation": "A matching ETag means the client's cached copy is current. 304 tells it to reuse that copy, saving bandwidth. 412 is for failed If-Match preconditions on writes."
+        },
+        {
+          "id": "api-design-01-q06",
+          "type": "mcq",
+          "prompt": "A JSON body parses fine but the email field is not a valid email. Which status do many APIs use to distinguish this from malformed JSON?",
+          "options": [
+            "400",
+            "415",
+            "422",
+            "500"
+          ],
+          "answer": 2,
+          "explanation": "422 Unprocessable Content means the syntax is correct but the content fails validation. 400 is often reserved for malformed requests. Both are acceptable as long as the API is consistent; 415 is for unsupported media types."
+        },
+        {
+          "id": "api-design-01-q07",
+          "type": "truefalse",
+          "prompt": "DELETE is idempotent, so calling it twice must return the same status code both times.",
+          "answer": false,
+          "explanation": "Idempotency is about server state, not responses. The first DELETE returns 204 and removes the resource; the second may return 404. The resulting state is the same, which is what idempotency requires."
+        },
+        {
+          "id": "api-design-01-q08",
+          "type": "truefalse",
+          "prompt": "HTTP/2 and HTTP/3 change the meaning of methods and status codes compared with HTTP/1.1.",
+          "answer": false,
+          "explanation": "All versions share the semantics in RFC 9110. HTTP/2 adds binary framing and multiplexing; HTTP/3 runs over QUIC. Methods, headers and status codes mean the same thing."
+        },
+        {
+          "id": "api-design-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which status codes indicate a client should NOT retry the identical request unchanged?",
+          "options": [
+            "400 Bad Request",
+            "503 Service Unavailable",
+            "422 Unprocessable Content",
+            "429 Too Many Requests",
+            "404 Not Found"
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "explanation": "400, 422 and 404 mean the request itself is wrong or targets nothing, so an identical retry fails again. 503 and 429 are temporary; retry later, ideally after the Retry-After delay."
+        },
+        {
+          "id": "api-design-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: to make POST /payments safe to retry, clients send a unique ___ header that the server uses to return the original result for duplicates.",
+          "accept": [
+            "Idempotency-Key",
+            "Idempotency Key",
+            "IdempotencyKey"
+          ],
+          "explanation": "Stripe popularised the Idempotency-Key header and it is now an IETF draft. The server stores the key with the first response and replays it for retries."
+        },
+        {
+          "id": "api-design-01-q11",
+          "type": "interview",
+          "prompt": "What is idempotency and how would you make a non-idempotent endpoint like POST /payments safe to retry?",
+          "answer": "- An operation is idempotent if performing it multiple times has the same effect on server state as performing it once. GET, PUT, DELETE are idempotent by HTTP semantics; POST is not.\n- Clients retry on timeouts and network errors without knowing whether the first request succeeded, so a non-idempotent POST could double-charge.\n- Solution: the client generates a unique Idempotency-Key per logical operation. The server, inside a transaction, inserts the key with a unique constraint and status in-progress; on completion stores the response. A duplicate with the same key returns the stored response (or 409 if the first is still running, or 422 if the payload differs).\n- Keys expire after a window (e.g. 24 hours). Downstream calls should also be idempotent (pass the key along to the payment provider).",
+          "level": "beginner"
+        },
+        {
+          "id": "api-design-01-q12",
+          "type": "interview",
+          "prompt": "Explain the difference between 401 and 403, and between 502, 503 and 504.",
+          "answer": "- 401 Unauthorized actually means unauthenticated: no credentials or invalid/expired ones. It should include a WWW-Authenticate header; the client can fix it by logging in or refreshing a token.\n- 403 Forbidden: the server knows who you are and you are not allowed. Re-authenticating will not help.\n- 502 Bad Gateway: a proxy or gateway received an invalid response from the upstream (crash, connection reset).\n- 503 Service Unavailable: the server is temporarily unable to handle the request (overload, maintenance, circuit open), ideally with Retry-After.\n- 504 Gateway Timeout: the proxy did not get a response from upstream in time.",
+          "level": "beginner"
+        },
+        {
+          "id": "api-design-01-q13",
+          "type": "interview",
+          "prompt": "How do you prevent the lost update problem when two clients edit the same resource?",
+          "answer": "Use optimistic concurrency control. Every representation carries a version, exposed as an ETag (or a version field). Clients send it back with If-Match on PUT/PATCH. The server updates only if the current version matches, e.g. UPDATE ... SET ..., version = version + 1 WHERE id = $1 AND version = $2. If zero rows changed, return 412 Precondition Failed (or 409), and the client refetches, merges and retries.\nPessimistic locking (SELECT FOR UPDATE) works inside one transaction but does not fit long user edit sessions. Last-write-wins is acceptable only when overwrites are harmless.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: HTTP request methods",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods"
+        },
+        {
+          "title": "MDN: HTTP response status codes",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status"
+        },
+        {
+          "title": "RFC 9457: Problem Details for HTTP APIs",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457"
+        }
+      ]
+    },
+    {
+      "id": "api-design-02-rest",
+      "title": "REST resource design",
+      "level": "beginner",
+      "summary": "Model an API as resources with predictable URLs, consistent payloads and correct use of HTTP, so clients can guess how it works.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Resources, not actions",
+          "body": "REST (Representational State Transfer) models the API as **resources** identified by URLs, manipulated through the uniform HTTP interface. The URL names the thing; the method says what to do with it.\n\n- Use plural nouns: `/users`, `/users/42`, `/orders/ord_789`.\n- Avoid verbs in paths: `POST /users` rather than `POST /createUser`; `DELETE /users/42` rather than `POST /users/42/delete`.\n- Use lowercase, hyphenated path segments: `/shipping-addresses`.\n- Identifiers should be stable and opaque. Prefixed IDs (`ord_789`) or UUIDs (UUIDv7 sorts by time) avoid leaking counts and prevent enumeration.\n\nReal-world operations that are not CRUD can be modelled as sub-resources or state changes: `POST /orders/ord_789/cancellation` or `POST /orders/ord_789:cancel` (Google's custom method style). Pick one convention and use it everywhere.",
+          "code": {
+            "lang": "text",
+            "source": "GET    /orders               list orders (filter, sort, paginate)\nPOST   /orders               create an order          -> 201 + Location\nGET    /orders/{id}          get one order            -> 200 / 404\nPATCH  /orders/{id}          partial update           -> 200\nPUT    /orders/{id}          full replace             -> 200 / 201\nDELETE /orders/{id}          delete                   -> 204\nGET    /orders/{id}/items    items of an order (sub-collection)\nPOST   /orders/{id}/cancel   non-CRUD action          -> 200 / 409 if not cancellable"
+          }
+        },
+        {
+          "heading": "Nesting and relationships",
+          "body": "Nest only to express **ownership** and keep it shallow: `/users/42/orders` is fine; `/users/42/orders/7/items/3/reviews` is hard to use and couples clients to your hierarchy. Once an item has a globally unique ID, expose it at the top level too: `/items/3`.\n\nOptions for related data:\n\n- Return IDs and links (`\"customerId\": \"cus_1\"`).\n- Allow **expansion** on demand: `GET /orders/1?expand=customer` (Stripe-style) or `?include=customer` (JSON:API).\n- Allow **sparse fieldsets**: `?fields=id,total,status` to shrink payloads.\n\nAvoid making clients do N+1 requests for common screens; that is often the signal to add expansion, a composite endpoint, or a BFF."
+        },
+        {
+          "heading": "Payload conventions",
+          "body": "Consistency matters more than any specific choice:\n\n- One casing style for JSON fields (camelCase is the most common in JS ecosystems; snake_case in Stripe and many Python APIs).\n- Dates as ISO 8601 strings in UTC: `\"2026-03-01T12:00:00Z\"`.\n- Money as integer minor units plus currency (`{ \"amount\": 1999, \"currency\": \"EUR\" }`), never floats.\n- Enums as strings (`\"status\": \"shipped\"`), not magic numbers.\n- Wrap collections in an object so you can add metadata later without breaking clients: `{ \"data\": [...], \"nextCursor\": \"...\" }`.\n- Do not return internal fields (password hashes, internal flags). Map DB rows to explicit response DTOs.",
+          "code": {
+            "lang": "json",
+            "source": "{\n  \"data\": [\n    {\n      \"id\": \"ord_789\",\n      \"status\": \"shipped\",\n      \"total\": { \"amount\": 4598, \"currency\": \"USD\" },\n      \"createdAt\": \"2026-03-01T12:00:00Z\",\n      \"customerId\": \"cus_12\"\n    }\n  ],\n  \"nextCursor\": \"eyJpZCI6Im9yZF83ODkifQ\"\n}"
+          }
+        },
+        {
+          "heading": "REST constraints and maturity",
+          "body": "Fielding's REST constraints: client-server, **stateless** (each request carries everything needed, e.g. a token; no server-side conversation state), cacheable, uniform interface, layered system, and optional code-on-demand. Statelessness is what lets you put any instance behind a load balancer.\n\nThe Richardson Maturity Model describes levels: 0 (one endpoint, RPC over HTTP), 1 (resources), 2 (resources + HTTP methods and status codes), 3 (hypermedia controls, HATEOAS: responses include links to next actions). Most production \"REST\" APIs are level 2, and that is fine."
+        },
+        {
+          "heading": "Designing for evolution",
+          "body": "Clients you do not control will depend on your API for years. Design so most changes are **additive**:\n\n- Adding optional fields and new endpoints is non-breaking. Clients must ignore unknown fields (tolerant reader).\n- Removing or renaming fields, changing types, making optional inputs required, or changing error formats are breaking.\n- Use an **API-first** workflow: write the OpenAPI contract, review it with consumers, then implement. Lint it (Spectral) for consistency."
+        }
+      ],
+      "keyPoints": [
+        "URLs name resources with plural nouns; HTTP methods express the action.",
+        "Keep nesting shallow and only for ownership; expose globally unique resources at the top level.",
+        "Use expansion (?expand=) and sparse fieldsets (?fields=) to avoid over- and under-fetching.",
+        "Be consistent: one casing style, ISO 8601 UTC dates, money as integer minor units, string enums.",
+        "Wrap collections in an object so metadata like cursors can be added later.",
+        "REST is stateless, which lets any instance serve any request.",
+        "Additive changes are safe; removing, renaming or retyping fields breaks clients."
+      ],
+      "questions": [
+        {
+          "id": "api-design-02-q01",
+          "type": "mcq",
+          "prompt": "Which endpoint follows REST conventions for deleting user 42?",
+          "options": [
+            "POST /deleteUser?id=42",
+            "GET /users/42/delete",
+            "DELETE /users/42",
+            "DELETE /user/delete/42"
+          ],
+          "answer": 2,
+          "explanation": "The URL identifies the resource (/users/42) and the DELETE method expresses the action. A GET that deletes is dangerous because crawlers and prefetchers follow GET links."
+        },
+        {
+          "id": "api-design-02-q02",
+          "type": "mcq",
+          "prompt": "How should an API represent a price of 19.99 euros?",
+          "options": [
+            "\"price\": 19.99",
+            "\"price\": \"19.99 EUR\"",
+            "\"price\": { \"amount\": 1999, \"currency\": \"EUR\" }",
+            "\"price\": 19.990000001"
+          ],
+          "answer": 2,
+          "explanation": "Floating-point numbers cannot represent most decimal fractions exactly, causing rounding bugs. Integer minor units plus an explicit currency code are exact and unambiguous."
+        },
+        {
+          "id": "api-design-02-q03",
+          "type": "mcq",
+          "prompt": "Which change to an existing API response is non-breaking for well-behaved clients?",
+          "options": [
+            "Renaming userName to username",
+            "Adding a new optional field middleName",
+            "Changing id from number to string",
+            "Removing the createdAt field"
+          ],
+          "answer": 1,
+          "explanation": "Additive changes do not break clients that ignore unknown fields. Renames, type changes and removals break any client reading those fields."
+        },
+        {
+          "id": "api-design-02-q04",
+          "type": "mcq",
+          "prompt": "Why wrap list responses as { \"data\": [...] } instead of returning a bare array?",
+          "options": [
+            "Bare arrays are invalid JSON",
+            "It lets you add pagination cursors and metadata later without breaking clients",
+            "It is required by HTTP",
+            "It makes responses smaller"
+          ],
+          "answer": 1,
+          "explanation": "Changing a bare array into an object later is a breaking change. Starting with an envelope leaves room for nextCursor, totals or warnings."
+        },
+        {
+          "id": "api-design-02-q05",
+          "type": "mcq",
+          "prompt": "A screen needs an order and its customer. Clients currently call GET /orders/1 then GET /customers/9. Which design reduces round trips while keeping REST resources?",
+          "options": [
+            "Embed every related object in every response always",
+            "Support GET /orders/1?expand=customer",
+            "Create POST /getOrderWithCustomer",
+            "Return the customer in a response header"
+          ],
+          "answer": 1,
+          "explanation": "Opt-in expansion gives clients the related data when needed without bloating every response. Always embedding everything causes over-fetching; RPC-style verbs break resource conventions."
+        },
+        {
+          "id": "api-design-02-q06",
+          "type": "mcq",
+          "prompt": "What does the REST stateless constraint mean?",
+          "options": [
+            "The server has no database",
+            "Each request contains all the information needed to process it; the server keeps no client session between requests",
+            "Responses can never be cached",
+            "Clients must not store data"
+          ],
+          "answer": 1,
+          "explanation": "Stateless refers to conversation state: the server does not remember previous requests from the client. Resource state still lives in databases. Statelessness enables horizontal scaling."
+        },
+        {
+          "id": "api-design-02-q07",
+          "type": "truefalse",
+          "prompt": "Most production REST APIs implement HATEOAS (Richardson level 3).",
+          "answer": false,
+          "explanation": "Most APIs stop at level 2: resources plus proper methods and status codes. Hypermedia controls are valuable in some domains but rarely fully implemented."
+        },
+        {
+          "id": "api-design-02-q08",
+          "type": "truefalse",
+          "prompt": "Using sequential integer IDs in public URLs can leak business information and make enumeration attacks easier.",
+          "answer": true,
+          "explanation": "IDs like /orders/1043 reveal volume and let attackers iterate through records, which is dangerous when combined with missing authorization checks. Opaque IDs (UUIDs, prefixed random IDs) reduce this, though authorization is still the real fix."
+        },
+        {
+          "id": "api-design-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are breaking changes for existing clients?",
+          "options": [
+            "Making a previously optional request field required",
+            "Adding a new endpoint",
+            "Changing an error response format",
+            "Adding a new optional query parameter",
+            "Changing a date field from ISO string to Unix timestamp"
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "explanation": "Newly required inputs reject old requests, changed error formats break error handling, and type changes break parsing. New endpoints and optional parameters are additive."
+        },
+        {
+          "id": "api-design-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a client asking only for some fields with GET /users/1?fields=id,name is using sparse ___.",
+          "accept": [
+            "fieldsets",
+            "fieldset",
+            "fields"
+          ],
+          "explanation": "Sparse fieldsets (a JSON:API term) let clients choose the fields returned, reducing payload size, similar to field selection in GraphQL."
+        },
+        {
+          "id": "api-design-02-q11",
+          "type": "interview",
+          "prompt": "How do you design a REST API for a new feature? Walk me through your process.",
+          "answer": "- Start from use cases and consumers: which screens or services call it, with what access patterns.\n- Identify resources and relationships (nouns), their identifiers and ownership; map operations to methods and status codes; model non-CRUD actions as sub-resources or explicit action endpoints.\n- Define representations: field names, types, formats (ISO dates, money in minor units), required vs optional, and what is never exposed.\n- Decide cross-cutting concerns up front: auth and authorization per endpoint, pagination/filtering/sorting, error format (Problem Details), idempotency for POSTs, rate limits, versioning.\n- Write it as an OpenAPI contract, review with consumers, lint for consistency, generate mocks so frontend can start, then implement with contract tests.",
+          "level": "beginner"
+        },
+        {
+          "id": "api-design-02-q12",
+          "type": "interview",
+          "prompt": "When would you nest resources in URLs and when would you not?",
+          "answer": "Nest when the child only makes sense within the parent and access is scoped by it: /users/42/addresses, /orders/1/items. The URL then encodes ownership and makes authorization checks natural.\nAvoid nesting deeper than one or two levels, and avoid it when the child has its own global identity or is accessed independently: comments with global IDs can be /comments/c_9, filtered by ?postId=. Deep nesting makes URLs brittle and forces clients to know the full hierarchy.\nA common pattern is both: POST /posts/1/comments to create in context, GET/PATCH/DELETE /comments/{id} for direct access.",
+          "level": "intermediate"
+        },
+        {
+          "id": "api-design-02-q13",
+          "type": "interview",
+          "prompt": "What makes an API easy to evolve without breaking clients?",
+          "answer": "- Additive change by default; clients written as tolerant readers that ignore unknown fields.\n- Envelopes around collections and errors so metadata can be added.\n- Strings for enums and documenting that new enum values can appear; clients must handle unknown values.\n- Explicit contracts (OpenAPI) with automated breaking-change detection in CI (oasdiff or similar).\n- Deprecation process: Deprecation and Sunset headers, changelogs, usage metrics per field/endpoint to know who still uses what.\n- A versioning strategy for when breaking changes are unavoidable.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Microsoft: Web API design best practices",
+          "url": "https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design"
+        },
+        {
+          "title": "Google Cloud: API Design Guide",
+          "url": "https://cloud.google.com/apis/design"
+        },
+        {
+          "title": "Martin Fowler: Richardson Maturity Model",
+          "url": "https://martinfowler.com/articles/richardsonMaturityModel.html"
+        }
+      ]
+    },
+    {
+      "id": "api-design-03-express",
+      "title": "Express 5: routing, middleware and error handling",
+      "level": "beginner",
+      "summary": "Build APIs with Express 5: the middleware pipeline, routers, async error handling and the changes from Express 4.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "The middleware pipeline",
+          "body": "An Express app is a list of **middleware** functions `(req, res, next)` run in the order they are registered. Each one can read or modify `req`/`res`, end the response, or call `next()` to pass control on. Route handlers are just middleware bound to a method and path.\n\nIf a middleware neither responds nor calls `next()`, the request hangs until the client times out. Calling `next()` after sending a response leads to `ERR_HTTP_HEADERS_SENT` when a later handler tries to respond.",
+          "code": {
+            "lang": "js",
+            "source": "import express from \"express\";\n\nconst app = express();\napp.use(express.json({ limit: \"100kb\" }));      // parse JSON bodies, cap size\n\napp.use((req, res, next) => {                    // logging middleware\n  const start = performance.now();\n  res.on(\"finish\", () => {\n    console.log(req.method, req.originalUrl, res.statusCode,\n      Math.round(performance.now() - start) + \"ms\");\n  });\n  next();\n});\n\napp.get(\"/health\", (req, res) => res.json({ ok: true }));\n\napp.listen(3000);"
+          }
+        },
+        {
+          "heading": "Routing and routers",
+          "body": "Routes match method plus path. Path parameters are in `req.params`, query strings in `req.query`, parsed bodies in `req.body`.\n\nGroup related routes with `express.Router()` and mount them on a prefix. Routers can have their own middleware (e.g. authentication for an admin router).\n\n**Express 5 path syntax** (path-to-regexp v8) changed: wildcards must be named (`/files/*splat`), optional segments use braces (`/users{/:id}`), and regex characters inside path strings are no longer supported. Use explicit regex routes or validation instead.",
+          "code": {
+            "lang": "js",
+            "source": "// routes/users.js\nimport { Router } from \"express\";\nexport const users = Router();\n\nusers.get(\"/\", async (req, res) => {\n  const { limit = \"20\" } = req.query;\n  res.json({ data: await db.users.list({ limit: Number(limit) }) });\n});\n\nusers.get(\"/:id\", async (req, res) => {\n  const user = await db.users.find(req.params.id);\n  if (!user) return res.status(404).json({ title: \"User not found\" });\n  res.json(user);\n});\n\n// app.js\napp.use(\"/api/users\", requireAuth, users);\napp.get(\"/files/*splat\", (req, res) => res.send(req.params.splat.join(\"/\")));"
+          }
+        },
+        {
+          "heading": "Error handling",
+          "body": "Error-handling middleware has **four** parameters `(err, req, res, next)`, and Express identifies it by that arity. Register it **after** all routes. Calling `next(err)` from anywhere skips the remaining normal middleware and jumps to it.\n\n**Express 5** forwards rejected promises and thrown errors from async handlers to the error handler automatically. In Express 4 an async handler that threw caused an unhandled rejection unless you wrapped it (express-async-handler) or called `next(err)` yourself.\n\nA good central handler maps known errors to status codes, logs unknown ones with a request ID, and never leaks stack traces to clients in production. Also add a final 404 handler for unmatched routes.",
+          "code": {
+            "lang": "js",
+            "source": "class HttpError extends Error {\n  constructor(status, title) { super(title); this.status = status; }\n}\n\napp.get(\"/orders/:id\", async (req, res) => {\n  const order = await db.orders.find(req.params.id); // a rejection here goes to the error handler in Express 5\n  if (!order) throw new HttpError(404, \"Order not found\");\n  res.json(order);\n});\n\napp.use((req, res) => res.status(404).json({ title: \"Route not found\" }));\n\napp.use((err, req, res, next) => {\n  if (res.headersSent) return next(err);  // delegate to Express default handler\n  const status = err.status ?? 500;\n  if (status >= 500) req.log?.error(err);\n  res.status(status).type(\"application/problem+json\").json({\n    title: status >= 500 ? \"Internal Server Error\" : err.message,\n    status,\n  });\n});"
+          }
+        },
+        {
+          "heading": "Other Express 5 changes worth knowing",
+          "body": "Express 5.0 shipped in late 2024 and 5.1 became the default `latest` on npm in 2025. It requires Node 18+. Notable changes:\n\n- Async error forwarding (above).\n- `req.query` is a read-only getter; the default query parser is `simple` (no nested objects like `a[b]=1` unless you opt into `extended`).\n- `req.body` is `undefined` (not `{}`) when no body parser ran.\n- Removed: `app.del`, `req.param()`, `res.sendfile` (use `res.sendFile`), and the `res.send(status)` number form (use `res.sendStatus`).\n- `res.status()` only accepts valid integer codes 100 to 999.\n- `express.urlencoded` defaults to `extended: false`."
+        },
+        {
+          "heading": "Structuring an Express app",
+          "body": "Keep routing thin: handlers parse input, call a **service** layer that holds business logic, then map the result to HTTP. Services should not know about `req`/`res`, which makes them testable and reusable from jobs or CLIs.\n\nExport the `app` separately from `app.listen()` so tests can use supertest against the app without opening a port. Add security middleware early: `helmet` for headers, CORS configuration, body size limits, rate limiting.",
+          "code": {
+            "lang": "js",
+            "source": "// app.js\nexport function createApp({ db }) {\n  const app = express();\n  app.use(helmet());\n  app.use(express.json({ limit: \"100kb\" }));\n  app.use(\"/api/orders\", ordersRouter({ orders: new OrderService(db) }));\n  app.use(errorHandler);\n  return app;\n}\n\n// server.js\nconst app = createApp({ db });\napp.listen(process.env.PORT ?? 3000);\n\n// orders.test.js\nimport request from \"supertest\";\nawait request(createApp({ db: fakeDb })).get(\"/api/orders/1\").expect(200);"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Middleware runs in registration order; each must respond or call next().",
+        "Error handlers take four arguments (err, req, res, next) and are registered after routes.",
+        "Express 5 forwards rejected promises from async handlers to the error handler automatically.",
+        "Express 5 path syntax: named wildcards (/*splat), optional segments with braces, no inline regex.",
+        "req.query is read-only in Express 5 and req.body is undefined without a parser.",
+        "Keep handlers thin; put business logic in services that do not depend on req/res.",
+        "Export the app separately from listen() for testing with supertest."
+      ],
+      "questions": [
+        {
+          "id": "api-design-03-q01",
+          "type": "mcq",
+          "prompt": "What is logged for a GET /a request?",
+          "code": "app.use((req, res, next) => { console.log(1); next(); });\napp.get(\"/a\", (req, res) => { console.log(2); res.send(\"ok\"); });\napp.use((req, res, next) => { console.log(3); next(); });",
+          "options": [
+            "1 2 3",
+            "1 3",
+            "1 2",
+            "2 3"
+          ],
+          "answer": 2,
+          "explanation": "Middleware runs in order. The first logs 1 and calls next(). The /a handler logs 2 and sends the response without calling next(), so the third middleware never runs."
+        },
+        {
+          "id": "api-design-03-q02",
+          "type": "mcq",
+          "prompt": "How does Express recognise an error-handling middleware?",
+          "options": [
+            "It is named errorHandler",
+            "It is registered with app.error()",
+            "The function declares four parameters (err, req, res, next)",
+            "It is the last middleware registered"
+          ],
+          "answer": 2,
+          "explanation": "Express checks the function's arity. Even if you do not use next, you must declare it, or Express treats the function as normal middleware."
+        },
+        {
+          "id": "api-design-03-q03",
+          "type": "mcq",
+          "prompt": "In Express 5, an async route handler awaits a DB call that rejects. What happens?",
+          "options": [
+            "Unhandled promise rejection crashes the process",
+            "The rejection is passed to the error-handling middleware",
+            "The request hangs forever",
+            "Express retries the handler"
+          ],
+          "answer": 1,
+          "explanation": "Express 5 handles returned promises: a rejection is forwarded like next(err). In Express 4 the same code produced an unhandled rejection unless wrapped."
+        },
+        {
+          "id": "api-design-03-q04",
+          "type": "mcq",
+          "prompt": "Which route path is valid in Express 5 to match /files/a/b/c?",
+          "options": [
+            "/files/*",
+            "/files/(.*)",
+            "/files/*splat",
+            "/files/:path(*)"
+          ],
+          "answer": 2,
+          "explanation": "path-to-regexp v8 requires wildcards to have a name. /files/*splat captures the remaining segments as an array in req.params.splat. Unnamed * and inline regex syntax were removed."
+        },
+        {
+          "id": "api-design-03-q05",
+          "type": "mcq",
+          "prompt": "What happens with this handler when the user is not found?",
+          "code": "app.get(\"/users/:id\", async (req, res) => {\n  const user = await db.find(req.params.id);\n  if (!user) res.status(404).json({ title: \"Not found\" });\n  res.json(user);\n});",
+          "options": [
+            "It returns 404 only",
+            "It sends 404 then crashes the process",
+            "It sends 404, then res.json throws ERR_HTTP_HEADERS_SENT",
+            "It returns 200 with null"
+          ],
+          "answer": 2,
+          "explanation": "Without return, execution continues after sending the 404 and calls res.json, which tries to send a second response. Use return res.status(404)... to stop."
+        },
+        {
+          "id": "api-design-03-q06",
+          "type": "mcq",
+          "prompt": "Why should the app be exported separately from app.listen()?",
+          "options": [
+            "Express requires it",
+            "So tests can run requests against the app (e.g. supertest) without binding a real port, and inject dependencies",
+            "It improves performance",
+            "To enable HTTPS"
+          ],
+          "answer": 1,
+          "explanation": "Separating construction from listening enables in-process HTTP tests, dependency injection of fakes, and reuse of the same app in serverless adapters."
+        },
+        {
+          "id": "api-design-03-q07",
+          "type": "truefalse",
+          "prompt": "Middleware registered with app.use() after a route still runs for requests that route already answered.",
+          "answer": false,
+          "explanation": "Once a handler sends the response and does not call next(), later middleware is skipped. Middleware that should run for every request (logging, body parsing) must be registered before routes."
+        },
+        {
+          "id": "api-design-03-q08",
+          "type": "truefalse",
+          "prompt": "In Express 5, req.body is undefined if no body-parsing middleware has run.",
+          "answer": true,
+          "explanation": "Express 4 defaulted req.body to {}. Express 5 leaves it undefined, so destructuring req.body without a parser throws. Register express.json() before routes that read bodies."
+        },
+        {
+          "id": "api-design-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which were removed or changed in Express 5?",
+          "options": [
+            "app.del()",
+            "req.param()",
+            "res.json()",
+            "res.sendfile() in favour of res.sendFile()",
+            "express.Router()"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "app.del, req.param and res.sendfile were removed. res.json and express.Router remain core APIs."
+        },
+        {
+          "id": "api-design-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: an Express error handler signature is (___, req, res, next).",
+          "accept": [
+            "err",
+            "error",
+            "e"
+          ],
+          "explanation": "The first parameter receives the error. The four-parameter signature is how Express distinguishes error handlers from regular middleware."
+        },
+        {
+          "id": "api-design-03-q11",
+          "type": "interview",
+          "prompt": "Explain the Express middleware model and how you structure error handling in a production Express app.",
+          "answer": "- An Express app is an ordered chain of (req, res, next) functions; each can end the response or call next(). Order matters: parsers, security headers, CORS, logging and auth go before routes; 404 and error handlers go last.\n- Errors: throw or reject inside handlers (Express 5 forwards async errors), or call next(err). Use typed error classes (NotFound, Validation, Conflict) carrying a status.\n- A single error middleware maps known errors to Problem Details responses, logs 5xx with request ID and context, hides internals in production, and checks res.headersSent to delegate if the response already started.\n- Process-level handlers log and exit on unhandled rejections; graceful shutdown closes the server and pools.",
+          "level": "beginner"
+        },
+        {
+          "id": "api-design-03-q12",
+          "type": "interview",
+          "prompt": "How do you structure a large Express codebase so it stays maintainable?",
+          "answer": "- Feature-based modules (orders, users) each with router, controller/handlers, service, repository and schemas, instead of global controllers/ and models/ folders.\n- Thin HTTP layer: validate input (Zod), call services, map results to responses. Services contain business rules and know nothing about Express; repositories encapsulate DB access.\n- Dependency injection via factory functions (createApp({ db, cache })) to make testing easy.\n- Shared cross-cutting middleware: auth, request ID with AsyncLocalStorage, structured logging (pino-http), error handler, rate limiting.\n- OpenAPI generated from schemas or written first; integration tests with supertest; config validated at startup.",
+          "level": "intermediate"
+        },
+        {
+          "id": "api-design-03-q13",
+          "type": "interview",
+          "prompt": "What changed between Express 4 and Express 5 that affects migration?",
+          "answer": "- Promise support: rejected promises from handlers and middleware go to next(err), so async wrappers can be removed.\n- path-to-regexp v8: wildcard routes must be named (/*splat), optional parameters use {}, regex in strings removed. This is usually the biggest migration task.\n- req.query is a getter (cannot be reassigned by middleware like sanitizers that wrote to it); default query parser is simple.\n- Removed legacy APIs: app.del, req.param, res.sendfile, res.json(status, body) signatures, res.send(number).\n- req.body undefined without parsers; urlencoded extended defaults to false; Node 18+ required.\nThe Express team provides codemods (@expressjs/codemod) to automate parts of this.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Express: Using middleware",
+          "url": "https://expressjs.com/en/guide/using-middleware.html"
+        },
+        {
+          "title": "Express: Error handling",
+          "url": "https://expressjs.com/en/guide/error-handling.html"
+        },
+        {
+          "title": "Express: Migrating to Express 5",
+          "url": "https://expressjs.com/en/guide/migrating-5.html"
+        }
+      ]
+    },
+    {
+      "id": "api-design-04-validation-pagination",
+      "title": "Validation with Zod, pagination, filtering, sorting and versioning",
+      "level": "intermediate",
+      "summary": "Validate every input at the boundary, page through large collections correctly, and evolve an API with a clear versioning policy.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Validate at the boundary with Zod",
+          "body": "Everything from the client is untrusted: body, params, query, headers. TypeScript types disappear at runtime, so you need runtime validation. **Zod** (v4 is current) lets you declare a schema once and get both validation and an inferred TypeScript type.\n\nGood practices:\n\n- Validate body, params and query separately, and **use the parsed output**, not the raw input. Parsing strips unknown keys by default (`z.object`), which also blocks mass assignment of fields like `isAdmin`. Use `z.strictObject` to reject unknown keys instead.\n- Use `z.coerce.number()` for query strings, which are always strings.\n- Return all validation errors at once (422 or 400 with a field list).\n- Alternatives: Valibot (smaller bundles), TypeBox/AJV (JSON Schema based, used by Fastify), class-validator (NestJS).",
+          "code": {
+            "lang": "ts",
+            "source": "import { z } from \"zod\";\n\nconst CreateOrder = z.object({\n  productId: z.string().startsWith(\"p_\"),\n  quantity: z.number().int().min(1).max(100),\n  note: z.string().max(500).optional(),\n});\ntype CreateOrder = z.infer<typeof CreateOrder>;\n\nconst validate = (schema, where = \"body\") => (req, res, next) => {\n  const result = schema.safeParse(req[where]);\n  if (!result.success) {\n    return res.status(422).json({\n      title: \"Validation failed\",\n      errors: result.error.issues.map((i) => ({ path: i.path.join(\".\"), message: i.message })),\n    });\n  }\n  req.valid = { ...req.valid, [where]: result.data };\n  next();\n};\n\napp.post(\"/orders\", validate(CreateOrder), async (req, res) => {\n  const order = await orders.create(req.valid.body); // parsed, typed, unknown keys stripped\n  res.status(201).location(\"/orders/\" + order.id).json(order);\n});"
+          }
+        },
+        {
+          "heading": "Pagination: offset vs cursor",
+          "body": "Never return unbounded lists. Two main strategies:\n\n- **Offset/limit** (`?page=3&limit=20` -> `OFFSET 40 LIMIT 20`): simple, supports jumping to page N and showing total pages. But the database still scans and discards the skipped rows, so deep pages get slow, and inserts or deletes between requests shift rows, causing duplicates or skipped items.\n- **Cursor (keyset)** (`?limit=20&cursor=...`): the cursor encodes the last item's sort key, and the query uses `WHERE (created_at, id) < ($1, $2) ORDER BY created_at DESC, id DESC LIMIT 21`. It uses an index, stays fast at any depth and is stable under concurrent writes. No random page jumps.\n\nTips: always add a unique tiebreaker (id) to the sort; fetch `limit + 1` rows to know if there is a next page; make cursors opaque (base64url JSON) so you can change their contents; cap `limit` (e.g. max 100). Total counts are expensive on big tables; make them optional or approximate.",
+          "code": {
+            "lang": "js",
+            "source": "app.get(\"/orders\", async (req, res) => {\n  const { limit, cursor } = z.object({\n    limit: z.coerce.number().int().min(1).max(100).default(20),\n    cursor: z.string().optional(),\n  }).parse(req.query);\n\n  const after = cursor ? JSON.parse(Buffer.from(cursor, \"base64url\").toString()) : null;\n  const rows = await sql`\n    SELECT id, created_at, total FROM orders\n    WHERE ${after ? sql`(created_at, id) < (${after.createdAt}, ${after.id})` : sql`true`}\n    ORDER BY created_at DESC, id DESC\n    LIMIT ${limit + 1}`;\n\n  const hasMore = rows.length > limit;\n  const page = rows.slice(0, limit);\n  const last = page.at(-1);\n  res.json({\n    data: page,\n    nextCursor: hasMore\n      ? Buffer.from(JSON.stringify({ createdAt: last.created_at, id: last.id })).toString(\"base64url\")\n      : null,\n  });\n});"
+          }
+        },
+        {
+          "heading": "Filtering and sorting",
+          "body": "Common conventions:\n\n- Simple equality filters as query params: `?status=shipped&customerId=cus_1`.\n- Ranges with suffixes or brackets: `?createdAfter=2026-01-01` or `?total[gte]=100`.\n- Sorting: `?sort=-createdAt,name` (minus for descending).\n- Search: `?q=keyboard`.\n\nSecurity and performance: **allowlist** filterable and sortable fields and map them to columns yourself. Never interpolate a sort field into SQL, and never pass a query object straight into a MongoDB query (operator injection with `{ \"$ne\": null }`). Make sure common filter and sort combinations are backed by indexes."
+        },
+        {
+          "heading": "Versioning strategies",
+          "body": "When a breaking change is unavoidable you need a version:\n\n- **URL path**: `/v1/orders`. Most common, explicit, easy to route and cache, visible in logs. Coarse-grained.\n- **Header**: `Accept: application/vnd.example.v2+json` or a custom `Api-Version` header. Cleaner URLs, harder to test in a browser.\n- **Date-based versions** (Stripe): each account is pinned to the API version from its signup date; requests can override with a header. The server transforms responses through a chain of version changes. Lets you ship small breaking changes continuously.\n- **Query param** (`?api-version=2026-01-01`, used by Azure).\n\nWhatever you choose: version only for breaking changes, support old versions for a published period, announce deprecation with `Deprecation` and `Sunset` headers, and track usage per version so you know when it is safe to turn one off. GraphQL typically avoids versions entirely by deprecating fields."
+        }
+      ],
+      "keyPoints": [
+        "Validate body, params and query at runtime; TypeScript types do not exist at runtime.",
+        "Use the parsed output; stripping unknown keys prevents mass assignment.",
+        "Query string values are strings; coerce and bound them (e.g. limit max 100).",
+        "Offset pagination is simple but slow for deep pages and unstable under writes.",
+        "Cursor pagination uses an indexed WHERE on the sort key plus a unique tiebreaker.",
+        "Allowlist filter and sort fields; never interpolate them into queries.",
+        "Version only for breaking changes; URL versioning is most common, date-based versioning is Stripe's approach."
+      ],
+      "questions": [
+        {
+          "id": "api-design-04-q01",
+          "type": "mcq",
+          "prompt": "Why is OFFSET 100000 LIMIT 20 slow on a large table?",
+          "options": [
+            "LIMIT is not indexed",
+            "The database still has to walk and discard the first 100,000 rows",
+            "OFFSET disables caching",
+            "It returns too many rows"
+          ],
+          "answer": 1,
+          "explanation": "OFFSET does not jump; the engine produces rows in order and throws away the first N. Cost grows linearly with page depth. Keyset pagination seeks directly via an index."
+        },
+        {
+          "id": "api-design-04-q02",
+          "type": "mcq",
+          "prompt": "A feed uses offset pagination. While a user reads page 1, five new items are inserted at the top. What do they see on page 2?",
+          "options": [
+            "Exactly the next items",
+            "Five items repeated from page 1",
+            "Five items skipped",
+            "An error"
+          ],
+          "answer": 1,
+          "explanation": "New rows at the top shift everything down by five, so page 2's offset now covers five items the user already saw. Cursor pagination avoids this by continuing after the last seen key."
+        },
+        {
+          "id": "api-design-04-q03",
+          "type": "mcq",
+          "prompt": "What does this Zod v4 schema do with the input { name: \"Ann\", isAdmin: true }?",
+          "code": "const User = z.object({ name: z.string() });\nconst out = User.parse({ name: \"Ann\", isAdmin: true });",
+          "options": [
+            "Throws because isAdmin is unknown",
+            "Returns { name: \"Ann\" } with isAdmin stripped",
+            "Returns the input unchanged",
+            "Returns { name: \"Ann\", isAdmin: false }"
+          ],
+          "answer": 1,
+          "explanation": "z.object strips unknown keys by default. Using the parsed result instead of req.body therefore blocks mass assignment. z.strictObject would reject the input; z.looseObject would keep the extra key."
+        },
+        {
+          "id": "api-design-04-q04",
+          "type": "mcq",
+          "prompt": "Why add the id column to ORDER BY created_at DESC, id DESC in keyset pagination?",
+          "options": [
+            "It makes the query faster",
+            "created_at may not be unique; a unique tiebreaker gives a total order so no rows are skipped or duplicated between pages",
+            "IDs are required by SQL",
+            "It sorts alphabetically"
+          ],
+          "answer": 1,
+          "explanation": "If two rows share created_at, a cursor based only on created_at cannot tell which were already returned. Adding a unique column makes the sort deterministic and the cursor exact."
+        },
+        {
+          "id": "api-design-04-q05",
+          "type": "mcq",
+          "prompt": "A client sends ?limit=abc. With z.coerce.number().int().min(1).max(100), what happens?",
+          "options": [
+            "limit becomes 0",
+            "Validation fails because Number(\"abc\") is NaN",
+            "limit defaults to 100",
+            "limit becomes \"abc\""
+          ],
+          "answer": 1,
+          "explanation": "coerce converts with Number(), giving NaN, which fails the number check. The API should return a 4xx validation error instead of passing NaN to the database."
+        },
+        {
+          "id": "api-design-04-q06",
+          "type": "mcq",
+          "prompt": "Which versioning approach pins each customer to the API version current when they signed up and transforms responses for older versions?",
+          "options": [
+            "URL path versioning",
+            "Date-based versioning as used by Stripe",
+            "Semantic versioning in package.json",
+            "GraphQL field deprecation"
+          ],
+          "answer": 1,
+          "explanation": "Stripe uses dated versions per account, with a Stripe-Version header to override. Internally, version change modules transform requests and responses, allowing frequent small breaking changes."
+        },
+        {
+          "id": "api-design-04-q07",
+          "type": "truefalse",
+          "prompt": "If you use TypeScript types for request bodies, runtime validation is unnecessary.",
+          "answer": false,
+          "explanation": "Types are erased at compile time and the client can send anything. Runtime validation (Zod, Valibot, AJV) is what actually rejects bad input; tools like z.infer keep the types in sync."
+        },
+        {
+          "id": "api-design-04-q08",
+          "type": "truefalse",
+          "prompt": "Cursor-based pagination makes it hard to jump directly to an arbitrary page number like page 50.",
+          "answer": true,
+          "explanation": "Cursors only know the position after a specific item. That is the trade-off for speed and stability; it fits infinite scroll and APIs but not UIs that need numbered page links."
+        },
+        {
+          "id": "api-design-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good practices for list endpoints?",
+          "options": [
+            "Enforce a maximum page size",
+            "Allow sorting by any column the client names, passed straight to SQL",
+            "Use a unique tiebreaker in the sort for cursor pagination",
+            "Make cursors opaque to clients",
+            "Always compute an exact total count on huge tables"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Max page size protects the server, a tiebreaker keeps pages deterministic, and opaque cursors let you change their format. Unvalidated sort columns invite injection, and exact counts on huge tables can be very expensive."
+        },
+        {
+          "id": "api-design-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in Zod, ___.infer<typeof Schema> derives a TypeScript type from a schema.",
+          "accept": [
+            "z"
+          ],
+          "explanation": "z.infer extracts the output type, so the schema is the single source of truth for both runtime validation and compile-time types."
+        },
+        {
+          "id": "api-design-04-q11",
+          "type": "interview",
+          "prompt": "Compare offset and cursor pagination. Which would you choose for a public API's /events endpoint?",
+          "answer": "- Offset: OFFSET/LIMIT or page/size; easy, allows random access and total pages. Cost grows with depth, and concurrent inserts/deletes cause duplicates or gaps.\n- Cursor/keyset: client passes an opaque cursor encoding the last item's sort key; query uses WHERE (sort_key, id) < (...) with an index. Constant performance and stable results, but only next/previous navigation.\n- For an events feed that is append-heavy and potentially large, I'd use cursor pagination ordered by (created_at, id) with an index, fetch limit+1 to compute hasMore, cap limit at 100, and return nextCursor in the envelope.\n- If a UI needs page numbers on small, admin-style datasets, offset is fine.",
+          "level": "intermediate"
+        },
+        {
+          "id": "api-design-04-q12",
+          "type": "interview",
+          "prompt": "How do you handle API versioning and deprecation in practice?",
+          "answer": "- Avoid versions as long as possible by making additive changes and tolerant clients.\n- When breaking change is needed, use a clear scheme: URL major versions (/v1, /v2) for simplicity, or date-based versions for frequent small changes; run old and new side by side with adapters translating at the edge so core logic has one implementation.\n- Announce deprecation in docs and changelog, send Deprecation and Sunset headers, notify known consumers, and measure traffic per version/client.\n- Remove only after usage drops and the sunset date passes; consider brownouts (temporary failures) to flush out forgotten clients.",
+          "level": "intermediate"
+        },
+        {
+          "id": "api-design-04-q13",
+          "type": "interview",
+          "prompt": "Where and how do you validate input in a Node.js API, and why not just in the database?",
+          "answer": "- At the HTTP boundary, every request: body, params, query and relevant headers, with a schema library. Reject early with clear field-level errors (400/422) and pass typed, sanitised data inward.\n- Business invariants that depend on state (stock available, unique email) belong in the service layer and, for integrity, in the database too (constraints, unique indexes, foreign keys), because concurrent requests can race past application checks.\n- Relying only on the database gives poor error messages, wastes a round trip, and does not catch non-persisted inputs (query params, external calls). Relying only on app code risks races. Use both.\n- Also validate outputs in critical paths (response schemas) to avoid leaking fields, which Fastify's serialisers do by design.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Zod documentation",
+          "url": "https://zod.dev/"
+        },
+        {
+          "title": "Use the Index, Luke: Paging Through Results (keyset pagination)",
+          "url": "https://use-the-index-luke.com/sql/partial-results/fetch-next-page"
+        },
+        {
+          "title": "Stripe: API versioning",
+          "url": "https://docs.stripe.com/api/versioning"
+        }
+      ]
+    },
+    {
+      "id": "api-design-05-production-apis",
+      "title": "File uploads, rate limiting and OpenAPI documentation",
+      "level": "intermediate",
+      "summary": "Handle uploads safely and at scale, protect APIs with rate limits, and document them with OpenAPI.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "File uploads: multipart and streaming",
+          "body": "Browsers upload files with `multipart/form-data`. `express.json()` does not parse it; use **multer** (built on busboy) or busboy directly. Key rules:\n\n- **Set limits**: max file size, number of files and fields. Without limits, one request can fill your disk or memory.\n- **Do not trust the filename or `Content-Type`** sent by the client. Generate your own storage key, check the real type from magic bytes (e.g. the `file-type` package), and allowlist extensions.\n- Prefer disk or streaming storage over `memoryStorage` for anything beyond small files.\n- Store files in object storage (S3, GCS, R2), not on the API server's local disk, which is not shared between instances.\n- Serve user uploads from a separate domain or with `Content-Disposition: attachment` to avoid stored XSS via HTML or SVG files; scan for malware when required.",
+          "code": {
+            "lang": "js",
+            "source": "import multer from \"multer\";\n\nconst upload = multer({\n  dest: \"/tmp/uploads\",\n  limits: { fileSize: 5 * 1024 * 1024, files: 1 },\n  fileFilter: (req, file, cb) =>\n    cb(null, [\"image/png\", \"image/jpeg\", \"image/webp\"].includes(file.mimetype)),\n});\n\napp.post(\"/avatars\", requireAuth, upload.single(\"avatar\"), async (req, res) => {\n  if (!req.file) return res.status(422).json({ title: \"PNG, JPEG or WebP up to 5 MB required\" });\n  // verify magic bytes, then move to object storage under a server-generated key\n  const key = \"avatars/\" + req.user.id + \"/\" + crypto.randomUUID();\n  await storage.uploadFromFile(req.file.path, key);\n  res.status(201).json({ key });\n});"
+          }
+        },
+        {
+          "heading": "Direct-to-storage uploads with presigned URLs",
+          "body": "For large files, do not proxy bytes through your API at all. The flow:\n\n- Client asks the API for an upload URL: `POST /uploads { fileName, size, contentType }`.\n- API authorises the request and returns a **presigned URL** (S3 `PutObject` or a presigned POST policy) valid for a few minutes, bound to a specific key, content type and size limit.\n- Client uploads directly to object storage. Multipart uploads allow resumable, parallel uploads of multi-GB files.\n- Client confirms (or a storage event notification fires) and the API records the file, validates it and kicks off processing (thumbnails, virus scan) as a background job.\n\nThis removes upload bandwidth and memory pressure from the API servers and works with CDNs."
+        },
+        {
+          "heading": "Rate limiting",
+          "body": "Rate limiting protects availability and fairness, and slows brute force and scraping. Common algorithms:\n\n- **Fixed window**: count per key per minute. Simple, but allows bursts of up to 2x at window boundaries.\n- **Sliding window** (log or counter approximation): smoother and more accurate.\n- **Token bucket**: tokens refill at a steady rate up to a burst capacity; each request spends one. Allows controlled bursts, widely used by API gateways.\n- **Leaky bucket**: processes requests at a constant rate, queueing or dropping the excess.\n\nImplementation notes: key by API key or user ID when authenticated, otherwise by IP (beware NAT and proxies; configure `trust proxy` correctly so `req.ip` is the real client). With multiple instances, store counters in **Redis** so limits are global. Return **429** with `Retry-After`, and expose limits with `RateLimit-Limit`/`RateLimit-Remaining`/`RateLimit-Reset` headers (IETF draft, used by express-rate-limit). Apply stricter limits to expensive or sensitive endpoints such as login and password reset. Edge limits (CDN, API gateway, WAF) stop floods before they reach Node.",
+          "code": {
+            "lang": "js",
+            "source": "import { rateLimit } from \"express-rate-limit\";\nimport { RedisStore } from \"rate-limit-redis\";\n\napp.set(\"trust proxy\", 1); // behind exactly one proxy/load balancer\n\nconst apiLimiter = rateLimit({\n  windowMs: 60_000,\n  limit: 100,                         // 100 requests per minute per key\n  standardHeaders: \"draft-8\",\n  legacyHeaders: false,\n  keyGenerator: (req) => req.user?.id ?? req.ip,\n  store: new RedisStore({ sendCommand: (...args) => redis.sendCommand(args) }),\n});\napp.use(\"/api\", apiLimiter);"
+          }
+        },
+        {
+          "heading": "OpenAPI documentation",
+          "body": "**OpenAPI** (current versions 3.1 and 3.2) describes HTTP APIs in YAML or JSON: paths, operations, parameters, request and response schemas (JSON Schema), auth schemes and examples. From one spec you get interactive docs (Swagger UI, Redoc, Scalar), client SDK generation, mock servers, contract tests and breaking-change detection.\n\nTwo workflows:\n\n- **Design-first**: write the spec, review it, then implement and validate requests and responses against it.\n- **Code-first**: generate the spec from code (Zod schemas via zod-openapi or the Zod 4 `z.toJSONSchema()` support, Fastify route schemas, NestJS decorators, Hono's OpenAPI middleware).\n\nEither way, keep the spec in CI: lint it (Spectral, Redocly), diff it against main to catch breaking changes, and publish docs automatically.",
+          "code": {
+            "lang": "yaml",
+            "source": "openapi: 3.1.0\ninfo: { title: Orders API, version: 1.0.0 }\npaths:\n  /orders/{id}:\n    get:\n      operationId: getOrder\n      parameters:\n        - { name: id, in: path, required: true, schema: { type: string } }\n      responses:\n        \"200\":\n          description: The order\n          content:\n            application/json:\n              schema: { $ref: \"#/components/schemas/Order\" }\n        \"404\": { description: Not found }\ncomponents:\n  schemas:\n    Order:\n      type: object\n      required: [id, status]\n      properties:\n        id: { type: string }\n        status: { type: string, enum: [pending, paid, shipped] }"
+          }
+        },
+        {
+          "heading": "Other production basics",
+          "body": "- **Timeouts** everywhere: server request timeouts, DB query timeouts, outbound HTTP timeouts.\n- **Health endpoints**: liveness (process is alive) vs readiness (dependencies are reachable and the instance should receive traffic).\n- **Request IDs**: accept or generate `X-Request-Id` (or use W3C `traceparent`) and include it in every log line and error response.\n- **Compression** for large text responses, ideally at the proxy or CDN.\n- **CORS** configured with an explicit origin allowlist, never reflecting arbitrary origins with credentials."
+        }
+      ],
+      "keyPoints": [
+        "Always set upload limits; never trust client filenames or Content-Type.",
+        "Store uploads in object storage; use presigned URLs to upload large files directly.",
+        "Rate limit algorithms: fixed window, sliding window, token bucket, leaky bucket.",
+        "Use a shared store such as Redis for rate limits across instances; return 429 with Retry-After.",
+        "Configure trust proxy correctly or every client shares the load balancer's IP.",
+        "OpenAPI 3.1 powers docs, SDKs, mocks and breaking-change checks; keep it in CI.",
+        "Add timeouts, request IDs and liveness/readiness endpoints to every service."
+      ],
+      "questions": [
+        {
+          "id": "api-design-05-q01",
+          "type": "mcq",
+          "prompt": "Why is the fixed window rate limiting algorithm criticised?",
+          "options": [
+            "It needs a database per user",
+            "Clients can send up to twice the limit around a window boundary",
+            "It cannot be implemented in Redis",
+            "It blocks all users at once"
+          ],
+          "answer": 1,
+          "explanation": "With 100 per minute, a client can send 100 at 00:59 and 100 at 01:00. Sliding windows or token buckets smooth this out."
+        },
+        {
+          "id": "api-design-05-q02",
+          "type": "mcq",
+          "prompt": "An API runs on 6 instances behind a load balancer and uses an in-memory rate limiter set to 100 req/min. What is the effective limit per client?",
+          "options": [
+            "100 req/min",
+            "Up to about 600 req/min, depending on how requests are distributed",
+            "16 req/min",
+            "Unlimited"
+          ],
+          "answer": 1,
+          "explanation": "Each instance counts separately, so a client spread across instances gets up to 6x the intended limit. A shared Redis store makes the limit global."
+        },
+        {
+          "id": "api-design-05-q03",
+          "type": "mcq",
+          "prompt": "Behind a load balancer, all requests appear to come from the same IP and the rate limiter blocks everyone. What is the fix in Express?",
+          "options": [
+            "Disable rate limiting",
+            "Configure app.set(\"trust proxy\", ...) to match your proxy setup so req.ip uses X-Forwarded-For",
+            "Rate limit by User-Agent",
+            "Use a bigger limit"
+          ],
+          "answer": 1,
+          "explanation": "Without trust proxy, req.ip is the load balancer's address. Setting it to the number of trusted hops makes Express read the client IP from X-Forwarded-For. Trusting too broadly lets clients spoof their IP."
+        },
+        {
+          "id": "api-design-05-q04",
+          "type": "mcq",
+          "prompt": "What is the main advantage of presigned URL uploads?",
+          "options": [
+            "They encrypt files automatically",
+            "Clients upload directly to object storage, so large file bytes never pass through the API servers",
+            "They remove the need for authentication",
+            "They make files public"
+          ],
+          "answer": 1,
+          "explanation": "The API only issues short-lived, scoped permission to upload. Bandwidth, memory and long-lived connections move to the storage service, which is built for it."
+        },
+        {
+          "id": "api-design-05-q05",
+          "type": "mcq",
+          "prompt": "A user uploads profile.png that is actually an HTML file with JavaScript. What is the best defence combination?",
+          "options": [
+            "Trust the .png extension",
+            "Check magic bytes, store under a generated key, and serve uploads from a separate domain or as attachments with correct Content-Type",
+            "Rename it to profile.jpg",
+            "Compress the file"
+          ],
+          "answer": 1,
+          "explanation": "Extensions and client-sent MIME types are attacker-controlled. Content sniffing plus isolated serving origins and nosniff headers prevent stored XSS from uploaded files."
+        },
+        {
+          "id": "api-design-05-q06",
+          "type": "mcq",
+          "prompt": "Which algorithm allows short bursts up to a capacity while enforcing a long-term average rate?",
+          "options": [
+            "Fixed window",
+            "Token bucket",
+            "Round robin",
+            "Least connections"
+          ],
+          "answer": 1,
+          "explanation": "A token bucket refills at the average rate and holds up to the burst capacity, so idle clients can briefly exceed the average. Round robin and least connections are load balancing strategies."
+        },
+        {
+          "id": "api-design-05-q07",
+          "type": "truefalse",
+          "prompt": "multer's memoryStorage is a good default for accepting video uploads of several gigabytes.",
+          "answer": false,
+          "explanation": "memoryStorage buffers the whole file in RAM. A few concurrent large uploads can exhaust memory. Stream to disk or object storage, or use presigned direct uploads."
+        },
+        {
+          "id": "api-design-05-q08",
+          "type": "truefalse",
+          "prompt": "An OpenAPI document can be used to generate client SDKs and to detect breaking changes between versions.",
+          "answer": true,
+          "explanation": "Tools like openapi-generator or Orval produce clients, and diff tools such as oasdiff compare two specs to flag removed fields, new required parameters and similar breaking changes."
+        },
+        {
+          "id": "api-design-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which headers or responses are appropriate when a client exceeds a rate limit?",
+          "options": [
+            "Status 429 Too Many Requests",
+            "Retry-After header",
+            "Status 503 for every rate-limited request",
+            "RateLimit-Remaining: 0 style headers",
+            "Status 401 Unauthorized"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "429 is the specific status for rate limiting, Retry-After tells clients when to retry, and RateLimit headers expose the quota. 503 means the server itself is unavailable, and 401 is about authentication."
+        },
+        {
+          "id": "api-design-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the standard status code for rate-limited requests is ___.",
+          "accept": [
+            "429",
+            "429 Too Many Requests"
+          ],
+          "explanation": "429 Too Many Requests (RFC 6585) indicates the client sent too many requests in a given time, ideally with Retry-After."
+        },
+        {
+          "id": "api-design-05-q11",
+          "type": "interview",
+          "prompt": "How would you design file uploads for an application that accepts videos up to 5 GB?",
+          "answer": "- Do not proxy through the API. The client requests an upload session; the API authenticates, checks quota and file metadata, then creates an S3 multipart upload and returns presigned part URLs (or uses a resumable protocol like tus).\n- The client uploads parts in parallel directly to storage with retries per part, then calls complete. Uploads go to a quarantine bucket/prefix.\n- A storage event or the completion call enqueues a background job: verify size and real type, virus scan, transcode, generate thumbnails, then move to the public bucket and mark the record ready.\n- Lifecycle rules abort incomplete multipart uploads after N days. Serve via CDN with signed URLs if content is private.",
+          "level": "advanced"
+        },
+        {
+          "id": "api-design-05-q12",
+          "type": "interview",
+          "prompt": "How would you implement rate limiting for a public API running on multiple instances?",
+          "answer": "- Layered: coarse IP-based limits at the edge (CDN/WAF/API gateway) to absorb floods; precise per-API-key or per-user limits in the application.\n- Algorithm: token bucket or sliding window, implemented atomically in Redis (a Lua script or a library such as rate-limiter-flexible) so all instances share counters.\n- Different limits per plan and per endpoint cost; stricter limits on login, signup and password reset.\n- Respond 429 with Retry-After and RateLimit headers; document limits.\n- Decide fail-open vs fail-closed if Redis is down (usually fail-open with a local fallback limiter for availability).\n- Monitor 429 rates to tune limits and catch abusive clients.",
+          "level": "intermediate"
+        },
+        {
+          "id": "api-design-05-q13",
+          "type": "interview",
+          "prompt": "Design-first or code-first OpenAPI? What would you choose and why?",
+          "answer": "Design-first: the contract is reviewed before implementation, frontend and backend can work in parallel against mocks, and the spec is the deliberate product. Risk: drift unless requests and responses are validated against the spec in tests or at runtime.\nCode-first: the spec is generated from schemas in code (Zod, TypeBox, decorators), so it cannot drift from the implementation, and there is one source of truth. Risk: API design becomes an afterthought and accidental breaking changes slip in.\nMy default for internal services is code-first from validation schemas, plus CI that diffs the generated spec against main and flags breaking changes for review. For public or multi-team APIs, design-first reviews of the contract are worth the overhead.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Express: multer middleware",
+          "url": "https://expressjs.com/en/resources/middleware/multer.html"
+        },
+        {
+          "title": "OpenAPI Initiative: Learn OpenAPI",
+          "url": "https://learn.openapis.org/"
+        },
+        {
+          "title": "OWASP File Upload Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html"
+        }
+      ]
+    },
+    {
+      "id": "api-design-06-graphql-trpc-frameworks",
+      "title": "GraphQL, tRPC and choosing a Node framework",
+      "level": "intermediate",
+      "summary": "Know when GraphQL or tRPC beats REST, the classic GraphQL pitfalls, and how Fastify, NestJS and Hono differ from Express.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "GraphQL in one page",
+          "body": "GraphQL exposes a **typed schema** and a single endpoint (usually `POST /graphql`). Clients send queries describing exactly the fields they want, possibly across related objects, and get JSON back in the same shape. **Mutations** change data; **subscriptions** push updates (over WebSockets or SSE).\n\nEach field is backed by a **resolver** function. The server walks the query and calls resolvers for each field, which is where the flexibility and the pitfalls come from.\n\nStrengths: no over- or under-fetching, one round trip for nested data, a strongly typed self-documenting schema, tooling (codegen, GraphiQL), and evolution by deprecating fields rather than versioning. Popular Node servers: Apollo Server, GraphQL Yoga, Mercurius (Fastify); schema builders like Pothos.",
+          "code": {
+            "lang": "graphql",
+            "source": "type Query {\n  order(id: ID!): Order\n}\ntype Order {\n  id: ID!\n  total: Int!\n  customer: Customer!\n  items: [OrderItem!]!\n}\n\n# client query: one request, exactly these fields\nquery {\n  order(id: \"ord_789\") {\n    total\n    customer { name }\n    items { quantity product { title } }\n  }\n}"
+          }
+        },
+        {
+          "heading": "GraphQL pitfalls: N+1, cost and caching",
+          "body": "- **N+1 queries**: fetching 50 orders, then the `customer` resolver runs once per order = 51 DB queries. Fix with **DataLoader**, which batches all keys requested in the same tick into one query (`WHERE id IN (...)`) and caches per request.\n- **Query cost and abuse**: clients can request deeply nested or huge queries. Enforce depth limits, query complexity/cost analysis, pagination on lists, timeouts, and ideally **persisted queries** (only allowlisted query hashes in production).\n- **Caching**: everything is a POST to one URL, so HTTP and CDN caching does not work out of the box. Use GET for persisted queries, response caching, or client normalized caches (Apollo Client, urql).\n- **Errors**: responses usually return 200 with an `errors` array, so monitoring must inspect bodies, not just status codes.\n- **Authorization** must happen per field or per object in resolvers or the business layer, not only at the endpoint.",
+          "code": {
+            "lang": "js",
+            "source": "import DataLoader from \"dataloader\";\n\n// created per request so the cache does not leak between users\nconst makeLoaders = () => ({\n  customer: new DataLoader(async (ids) => {\n    const rows = await db.customers.findMany({ where: { id: { in: ids } } });\n    const byId = new Map(rows.map((c) => [c.id, c]));\n    return ids.map((id) => byId.get(id) ?? null); // same order as ids\n  }),\n});\n\nconst resolvers = {\n  Order: {\n    customer: (order, _args, ctx) => ctx.loaders.customer.load(order.customerId),\n  },\n};"
+          }
+        },
+        {
+          "heading": "tRPC: end-to-end types without a schema language",
+          "body": "**tRPC** (v11) lets a TypeScript client call server procedures with full type inference: you export the router's **type**, and the client imports it. No codegen, no OpenAPI, no GraphQL schema; inputs are validated with Zod or similar.\n\nIt fits best when the same team owns client and server in a TypeScript monorepo (Next.js apps, internal dashboards). It is a poor fit for public APIs or non-TypeScript consumers. If you need both, tools like oRPC or trpc-to-openapi can expose OpenAPI too.",
+          "code": {
+            "lang": "ts",
+            "source": "// server\nimport { initTRPC } from \"@trpc/server\";\nimport { z } from \"zod\";\nconst t = initTRPC.create();\n\nexport const appRouter = t.router({\n  orderById: t.procedure\n    .input(z.object({ id: z.string() }))\n    .query(({ input }) => db.orders.find(input.id)),\n});\nexport type AppRouter = typeof appRouter;\n\n// client\nimport { createTRPCClient, httpBatchLink } from \"@trpc/client\";\nimport type { AppRouter } from \"../server/router\";\nconst trpc = createTRPCClient<AppRouter>({ links: [httpBatchLink({ url: \"/trpc\" })] });\nconst order = await trpc.orderById.query({ id: \"ord_789\" }); // fully typed"
+          }
+        },
+        {
+          "heading": "REST vs GraphQL vs tRPC vs gRPC",
+          "body": "- **REST**: universal, cacheable via HTTP and CDNs, simple tooling. Best for public APIs and resource-oriented domains.\n- **GraphQL**: many clients with different data needs (web, mobile, partners), aggregating several back-end services, rapidly changing UIs. Costs: server complexity, caching, query cost control.\n- **tRPC**: TypeScript full-stack apps with one team; maximum developer speed, minimal ceremony.\n- **gRPC**: service-to-service calls with Protobuf contracts, HTTP/2 streaming and high performance; poor fit for browsers without a proxy (gRPC-Web, Connect).\n\nIt is common to mix them: REST for public endpoints and webhooks, GraphQL or tRPC for the product's own front end, gRPC between internal services."
+        },
+        {
+          "heading": "Node frameworks beyond Express",
+          "body": "- **Fastify** (v5): high performance, JSON Schema validation and fast serialisation per route, a strong plugin system with encapsulation, first-class TypeScript and logging (pino). A natural Express replacement for new services.\n- **NestJS** (v11): an opinionated framework with modules, controllers, providers and dependency injection, decorators, guards, pipes and interceptors (inspired by Angular). Runs on Express or Fastify underneath. Good for large teams wanting enforced structure.\n- **Hono**: tiny, built on Web Standards (`Request`/`Response`), runs on Node, Bun, Deno, Cloudflare Workers and other edge runtimes, with typed routes and an RPC client. Great for edge and multi-runtime APIs.\n- **Koa**: from Express's original authors; minimal, async middleware with a context object.\n\nExpress remains the most widely deployed and known, so interviewers still expect it, but discussing why you might pick Fastify or NestJS shows depth.",
+          "code": {
+            "lang": "js",
+            "source": "// Fastify: validation and serialisation from the same schema\nimport Fastify from \"fastify\";\nconst app = Fastify({ logger: true });\n\napp.get(\"/orders/:id\", {\n  schema: {\n    params: { type: \"object\", properties: { id: { type: \"string\" } }, required: [\"id\"] },\n    response: { 200: { type: \"object\", properties: { id: { type: \"string\" }, total: { type: \"integer\" } } } },\n  },\n}, async (req) => db.orders.find(req.params.id)); // extra fields are not serialised\n\nawait app.listen({ port: 3000 });"
+          }
+        }
+      ],
+      "keyPoints": [
+        "GraphQL: typed schema, one endpoint, clients choose fields; resolvers per field.",
+        "Solve GraphQL N+1 with per-request DataLoader batching.",
+        "Protect GraphQL with depth/complexity limits, pagination and persisted queries.",
+        "GraphQL responses often return 200 with an errors array; monitor bodies.",
+        "tRPC shares router types with a TypeScript client: no codegen, best within one team's monorepo.",
+        "REST for public and cacheable APIs, GraphQL for diverse clients, gRPC for internal services.",
+        "Fastify: speed and schemas; NestJS: structure and DI; Hono: web standards and edge runtimes."
+      ],
+      "questions": [
+        {
+          "id": "api-design-06-q01",
+          "type": "mcq",
+          "prompt": "A GraphQL query fetches 100 posts and each post's author. Without batching, how many DB queries does a naive resolver setup typically run?",
+          "options": [
+            "1",
+            "2",
+            "101",
+            "200"
+          ],
+          "answer": 2,
+          "explanation": "One query for the posts, then the author resolver runs once per post: 1 + 100 = 101. This is the N+1 problem; DataLoader collapses the 100 author lookups into one IN query, giving 2."
+        },
+        {
+          "id": "api-design-06-q02",
+          "type": "mcq",
+          "prompt": "Why must a DataLoader instance usually be created per request?",
+          "options": [
+            "DataLoader is not thread-safe",
+            "Its cache would otherwise serve one user's data to another and grow forever",
+            "It only works once",
+            "GraphQL requires it"
+          ],
+          "answer": 1,
+          "explanation": "DataLoader memoizes loaded keys. A shared instance would leak data across users (ignoring their permissions) and keep stale data. Per-request instances scope batching and caching to one request."
+        },
+        {
+          "id": "api-design-06-q03",
+          "type": "mcq",
+          "prompt": "Which is a real drawback of GraphQL compared with REST?",
+          "options": [
+            "Clients cannot select fields",
+            "HTTP/CDN caching is harder because queries are usually POSTs to one URL",
+            "It cannot express mutations",
+            "It has no type system"
+          ],
+          "answer": 1,
+          "explanation": "REST GETs to distinct URLs cache naturally. GraphQL needs persisted queries over GET, response caches or client-side normalized caches to get similar benefits."
+        },
+        {
+          "id": "api-design-06-q04",
+          "type": "mcq",
+          "prompt": "What does tRPC share between server and client to provide end-to-end type safety?",
+          "options": [
+            "A generated OpenAPI file",
+            "A .proto file",
+            "The TypeScript type of the router (type-only import)",
+            "A GraphQL SDL schema"
+          ],
+          "answer": 2,
+          "explanation": "The client imports only the type of the router. TypeScript infers procedure inputs and outputs, so there is no codegen step. This requires a TypeScript client with access to the server types."
+        },
+        {
+          "id": "api-design-06-q05",
+          "type": "mcq",
+          "prompt": "Which framework is built on Web Standard Request/Response and runs on Cloudflare Workers, Bun, Deno and Node?",
+          "options": [
+            "Express",
+            "NestJS",
+            "Hono",
+            "Koa"
+          ],
+          "answer": 2,
+          "explanation": "Hono targets the Fetch API standard, which makes it portable across runtimes including edge platforms. Express and Koa are built on Node's http module."
+        },
+        {
+          "id": "api-design-06-q06",
+          "type": "mcq",
+          "prompt": "A Fastify route has a response schema with properties id and total. The handler returns { id, total, passwordHash }. What does the client receive?",
+          "options": [
+            "All three fields",
+            "Only id and total",
+            "A 500 error",
+            "Only passwordHash"
+          ],
+          "answer": 1,
+          "explanation": "Fastify compiles the response schema into a serialiser (fast-json-stringify) that outputs only declared properties. This is faster than JSON.stringify and prevents accidental leaks."
+        },
+        {
+          "id": "api-design-06-q07",
+          "type": "truefalse",
+          "prompt": "GraphQL APIs typically need URL-based versioning like /v1 and /v2.",
+          "answer": false,
+          "explanation": "GraphQL usually evolves a single schema: add fields freely, mark old ones with @deprecated, monitor field usage, and remove when unused. Versioning the endpoint is rare."
+        },
+        {
+          "id": "api-design-06-q08",
+          "type": "truefalse",
+          "prompt": "NestJS can use Fastify instead of Express as its underlying HTTP adapter.",
+          "answer": true,
+          "explanation": "NestJS abstracts the HTTP platform; @nestjs/platform-fastify swaps Express for Fastify for better performance while keeping the same controllers."
+        },
+        {
+          "id": "api-design-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which measures protect a public GraphQL API from expensive queries?",
+          "options": [
+            "Query depth limits",
+            "Query complexity/cost analysis",
+            "Persisted queries allowlist",
+            "Disabling DataLoader",
+            "Pagination arguments with maximum page sizes"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Depth and cost limits reject abusive queries, persisted queries block arbitrary ones, and bounded pagination limits list sizes. Disabling DataLoader would make queries more expensive."
+        },
+        {
+          "id": "api-design-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in GraphQL, write operations are called ___.",
+          "accept": [
+            "mutations",
+            "mutation"
+          ],
+          "explanation": "Queries read, mutations write, and subscriptions stream updates. Mutation fields at the top level run serially, unlike query fields."
+        },
+        {
+          "id": "api-design-06-q11",
+          "type": "interview",
+          "prompt": "When would you choose GraphQL over REST, and what problems would you need to solve?",
+          "answer": "Choose GraphQL when many clients (web, iOS, Android, partners) need different shapes of the same data, when screens aggregate data from several services (GraphQL as a BFF or federated gateway), and when front-end iteration speed matters.\nProblems to solve:\n- N+1: DataLoader per request, or SQL-level joins/lookahead.\n- Cost control: depth and complexity limits, max page sizes, timeouts, persisted queries for first-party clients.\n- Caching: client normalized caches, persisted GET queries for CDN, response caches; HTTP semantics are weaker.\n- Authorization at field/object level, not just the endpoint.\n- Observability: errors arrive with 200, so trace per operation name and resolver.\nFor a simple public API with few clients, REST is usually simpler and more cacheable.",
+          "level": "intermediate"
+        },
+        {
+          "id": "api-design-06-q12",
+          "type": "interview",
+          "prompt": "What is tRPC, and why would or wouldn't you use it?",
+          "answer": "tRPC is a TypeScript RPC framework: you define procedures (queries, mutations, subscriptions) on a server router with input validators, export the router type, and the client gets full type inference and autocomplete for every call without codegen.\nUse it for full-stack TypeScript monorepos where one team controls both sides (Next.js apps, admin tools): refactors propagate instantly and there is no schema drift.\nAvoid it for public or third-party APIs, polyglot consumers, or when you need HTTP caching semantics and a language-agnostic contract; REST with OpenAPI or GraphQL fits better. It also couples client and server deploys closely.",
+          "level": "intermediate"
+        },
+        {
+          "id": "api-design-06-q13",
+          "type": "interview",
+          "prompt": "Express, Fastify or NestJS for a new service? How do you decide?",
+          "answer": "- Express: huge ecosystem and familiarity; Express 5 fixed async errors. Fine for small services, but no built-in schema validation or structure.\n- Fastify: better throughput and lower overhead, schema-based validation and serialisation, built-in pino logging, encapsulated plugins, good TypeScript. My default for new plain Node APIs.\n- NestJS: enforced architecture with DI, modules, guards, interceptors; batteries for GraphQL, microservices, queues. Good for large teams and enterprise codebases; more abstraction and boilerplate.\n- Hono if targeting edge or multiple runtimes.\nDecision factors: team experience, size and lifetime of the codebase, performance needs, deployment target, and ecosystem plugins needed. Raw framework speed rarely dominates; DB and network do.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "GraphQL: Introduction",
+          "url": "https://graphql.org/learn/"
+        },
+        {
+          "title": "tRPC documentation",
+          "url": "https://trpc.io/docs"
+        },
+        {
+          "title": "Fastify documentation",
+          "url": "https://fastify.dev/docs/latest/"
+        }
+      ]
+    },
+    {
+      "id": "api-design-07-realtime-webhooks",
+      "title": "Realtime with WebSockets and SSE, and webhooks",
+      "level": "intermediate",
+      "summary": "Push data to clients with polling, SSE or WebSockets, scale realtime servers, and send and receive webhooks reliably and securely.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Options for pushing updates",
+          "body": "- **Short polling**: the client asks every N seconds. Simple, works everywhere, wasteful and laggy.\n- **Long polling**: the server holds the request open until there is data or a timeout, then the client reconnects. Fewer empty responses, still one request per message.\n- **Server-Sent Events (SSE)**: one long-lived HTTP response with `Content-Type: text/event-stream`; the server streams events, the browser's `EventSource` reconnects automatically and resends `Last-Event-ID`. Server-to-client only, text only, works through most proxies, multiplexed nicely over HTTP/2. Popular for notifications, dashboards and streaming LLM tokens.\n- **WebSockets**: a full-duplex, message-based connection upgraded from HTTP (`101 Switching Protocols`). For chat, collaborative editing, multiplayer games and anything needing low-latency client-to-server messages too.\n\nRule of thumb: if only the server pushes, start with SSE. If both sides talk frequently, use WebSockets."
+        },
+        {
+          "heading": "Server-Sent Events in Node",
+          "body": "SSE is plain HTTP: set the headers, keep the response open, write `data:` lines followed by a blank line. Send a comment line periodically as a heartbeat so proxies do not close idle connections, and clean up when the client disconnects.",
+          "code": {
+            "lang": "js",
+            "source": "app.get(\"/events\", requireAuth, (req, res) => {\n  res.writeHead(200, {\n    \"Content-Type\": \"text/event-stream\",\n    \"Cache-Control\": \"no-cache\",\n    Connection: \"keep-alive\",\n  });\n  const send = (event, data, id) =>\n    res.write((id ? \"id: \" + id + \"\\n\" : \"\") + \"event: \" + event + \"\\ndata: \" + JSON.stringify(data) + \"\\n\\n\");\n\n  const unsubscribe = bus.subscribe(req.user.id, (msg) => send(\"order\", msg, msg.id));\n  const heartbeat = setInterval(() => res.write(\": ping\\n\\n\"), 25_000);\n\n  req.on(\"close\", () => {            // client went away\n    clearInterval(heartbeat);\n    unsubscribe();\n  });\n});\n\n// browser\nconst es = new EventSource(\"/events\");\nes.addEventListener(\"order\", (e) => console.log(JSON.parse(e.data)));"
+          }
+        },
+        {
+          "heading": "WebSockets and scaling them",
+          "body": "In Node, use the `ws` library (or Socket.IO, which adds rooms, acknowledgements, reconnection and fallbacks with its own protocol; a plain WebSocket client cannot talk to a Socket.IO server). Node 22+ also has a global WebSocket **client**.\n\nScaling challenges:\n\n- **Stateful connections**: each client is pinned to one server. To send a message to a user connected elsewhere, servers share events through a **pub/sub backplane** (Redis pub/sub or streams, NATS, Kafka). Socket.IO's Redis adapter does this.\n- **Load balancing**: the LB must support the upgrade and long-lived connections; some protocols need sticky sessions.\n- **Authentication**: browsers cannot set custom headers on WebSocket connections, so authenticate with a cookie during the upgrade or a short-lived token in the first message or query string (and avoid logging it). Re-check authorization per message.\n- **Backpressure and heartbeats**: detect dead connections with ping/pong, drop or buffer slow consumers (`ws.bufferedAmount`), cap message sizes.\n- **Deployments**: restarts drop every connection, so clients need reconnection with jittered backoff and a way to resync missed events.",
+          "code": {
+            "lang": "js",
+            "source": "import { WebSocketServer } from \"ws\";\n\nconst wss = new WebSocketServer({ server: httpServer, maxPayload: 64 * 1024 });\n\nwss.on(\"connection\", (socket, req) => {\n  const user = authenticateFromCookie(req.headers.cookie);\n  if (!user) return socket.close(1008, \"unauthorized\");\n\n  socket.isAlive = true;\n  socket.on(\"pong\", () => (socket.isAlive = true));\n  socket.on(\"message\", (raw) => {\n    const msg = JSON.parse(raw.toString());           // validate in real code\n    redisPub.publish(\"room:\" + msg.roomId, JSON.stringify({ from: user.id, text: msg.text }));\n  });\n});\n\nsetInterval(() => {\n  for (const s of wss.clients) {\n    if (!s.isAlive) { s.terminate(); continue; }\n    s.isAlive = false;\n    s.ping();\n  }\n}, 30_000);"
+          }
+        },
+        {
+          "heading": "Webhooks: sending them reliably",
+          "body": "A webhook is an HTTP POST your system sends to a URL a customer registered, when an event happens (`invoice.paid`). Delivery is the hard part:\n\n- Persist the event first (an outbox table), then deliver from a background worker, never inline in the request that caused it.\n- **Retry** with exponential backoff and jitter for hours or days on timeouts and non-2xx responses; then mark it failed and alert the customer. Provide a way to replay.\n- **Sign** every payload (HMAC-SHA256 over timestamp + body with a per-endpoint secret) so receivers can verify authenticity and reject replays.\n- Include a unique event ID and type; delivery is **at least once**, so receivers must deduplicate.\n- Use short timeouts (e.g. 10 s), and protect against **SSRF**: customers can register URLs pointing to your internal network, so block private IP ranges after DNS resolution.\n\nThe Standard Webhooks specification describes a common format (headers `webhook-id`, `webhook-timestamp`, `webhook-signature`)."
+        },
+        {
+          "heading": "Webhooks: receiving them safely",
+          "body": "- Verify the signature over the **raw body** (before JSON parsing changes whitespace or key order), using a constant-time comparison, and reject timestamps older than a few minutes.\n- Respond **quickly** with 2xx and process asynchronously (enqueue a job). Slow handlers cause provider timeouts and retries.\n- Make processing **idempotent**: store processed event IDs with a unique constraint and skip duplicates.\n- Do not assume ordering; events can arrive out of order. Fetch the current state from the provider's API when in doubt.",
+          "code": {
+            "lang": "js",
+            "source": "import crypto from \"node:crypto\";\n\napp.post(\"/webhooks/payments\", express.raw({ type: \"application/json\" }), async (req, res) => {\n  const ts = req.get(\"webhook-timestamp\");\n  const sig = req.get(\"x-signature\") ?? \"\";\n  const expected = crypto.createHmac(\"sha256\", process.env.WEBHOOK_SECRET)\n    .update(ts + \".\" + req.body)            // req.body is the raw Buffer here\n    .digest(\"hex\");\n\n  const fresh = Math.abs(Date.now() / 1000 - Number(ts)) < 300;\n  const valid = sig.length === expected.length &&\n    crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected));\n  if (!fresh || !valid) return res.sendStatus(400);\n\n  const event = JSON.parse(req.body);\n  const inserted = await db.webhookEvents.insertIfAbsent(event.id); // unique constraint\n  if (inserted) await queue.add(\"payment-event\", event);\n  res.sendStatus(200); // acknowledge fast, process in the background\n});"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Polling is simple but wasteful; SSE streams server-to-client over HTTP; WebSockets are full duplex.",
+        "SSE reconnects automatically and supports Last-Event-ID resume.",
+        "Scale WebSockets with a pub/sub backplane (e.g. Redis) because connections are pinned to servers.",
+        "Use heartbeats (ping/pong or comments) to detect dead connections and keep proxies open.",
+        "Send webhooks from a background worker with retries, backoff, signatures and unique event IDs.",
+        "Receivers verify signatures on the raw body, respond fast, process async and deduplicate.",
+        "Webhook senders must guard against SSRF from customer-supplied URLs."
+      ],
+      "questions": [
+        {
+          "id": "api-design-07-q01",
+          "type": "mcq",
+          "prompt": "A dashboard only needs the server to push price updates to browsers. Which is the simplest fitting technology?",
+          "options": [
+            "WebSockets with a custom protocol",
+            "Server-Sent Events",
+            "Short polling every 100 ms",
+            "gRPC streaming from the browser"
+          ],
+          "answer": 1,
+          "explanation": "SSE is designed for one-way server-to-client streams over plain HTTP, with built-in reconnection. WebSockets work too but add complexity you do not need."
+        },
+        {
+          "id": "api-design-07-q02",
+          "type": "mcq",
+          "prompt": "A chat app runs 4 WebSocket servers. User A on server 1 messages user B on server 3. How does the message reach B?",
+          "options": [
+            "The load balancer forwards it automatically",
+            "Servers publish messages to a shared backplane such as Redis pub/sub, and server 3 delivers to B",
+            "B's browser polls server 1",
+            "It cannot work with multiple servers"
+          ],
+          "answer": 1,
+          "explanation": "Each socket lives on one server. A pub/sub layer fans messages out to every server so whichever one holds B's connection can deliver it."
+        },
+        {
+          "id": "api-design-07-q03",
+          "type": "mcq",
+          "prompt": "Why must a webhook receiver verify the signature over the raw request body?",
+          "options": [
+            "Raw bodies are smaller",
+            "Parsing and re-serialising JSON can change bytes (whitespace, key order), so the HMAC would not match",
+            "JSON cannot be signed",
+            "Express requires it"
+          ],
+          "answer": 1,
+          "explanation": "The HMAC is computed over exact bytes. Use express.raw for that route (or keep a copy of the raw buffer) and verify before trusting the parsed content."
+        },
+        {
+          "id": "api-design-07-q04",
+          "type": "mcq",
+          "prompt": "A webhook provider retries an event because your endpoint timed out, although you processed it. What prevents double processing?",
+          "options": [
+            "Returning 500",
+            "Storing processed event IDs with a unique constraint and skipping duplicates",
+            "Disabling retries in the provider dashboard",
+            "Processing synchronously"
+          ],
+          "answer": 1,
+          "explanation": "Webhook delivery is at least once. Idempotent processing keyed by event ID turns duplicates into no-ops."
+        },
+        {
+          "id": "api-design-07-q05",
+          "type": "mcq",
+          "prompt": "Why does the WebSocket server code in production typically ping clients periodically?",
+          "options": [
+            "To measure bandwidth",
+            "To detect dead connections (no pong) and terminate them, freeing resources",
+            "To keep the CPU busy",
+            "WebSockets require one ping per message"
+          ],
+          "answer": 1,
+          "explanation": "TCP connections can die silently (network change, NAT timeout). Without heartbeats the server keeps zombie sockets forever. Pings also keep intermediaries from closing idle connections."
+        },
+        {
+          "id": "api-design-07-q06",
+          "type": "mcq",
+          "prompt": "Customers can register any webhook URL. What is the main security risk for the sender?",
+          "options": [
+            "XSS",
+            "SSRF: URLs pointing at internal services or cloud metadata endpoints",
+            "CSRF",
+            "SQL injection"
+          ],
+          "answer": 1,
+          "explanation": "The sender's servers make the request from inside your network. A URL like http://169.254.169.254/ or an internal hostname could expose secrets. Resolve DNS and block private, loopback and link-local ranges, and re-check on redirects."
+        },
+        {
+          "id": "api-design-07-q07",
+          "type": "truefalse",
+          "prompt": "The browser EventSource API reconnects automatically and can send the last received event ID so the server can resume.",
+          "answer": true,
+          "explanation": "EventSource handles reconnects with a server-adjustable retry delay and sends the Last-Event-ID header, letting the server replay missed events if it keeps a buffer."
+        },
+        {
+          "id": "api-design-07-q08",
+          "type": "truefalse",
+          "prompt": "Browsers let you set an Authorization header when opening a WebSocket with new WebSocket(url).",
+          "answer": false,
+          "explanation": "The browser WebSocket API does not allow custom headers. Use cookies sent with the upgrade request, or a short-lived token in a query parameter or first message."
+        },
+        {
+          "id": "api-design-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good practices for sending webhooks?",
+          "options": [
+            "Deliver from a background worker reading an outbox",
+            "Retry with exponential backoff and jitter",
+            "Sign payloads with a per-endpoint secret",
+            "Wait up to 5 minutes for each response",
+            "Include a unique event ID"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Async delivery, backoff, signatures and event IDs are standard. Long timeouts tie up workers; use short timeouts and retry."
+        },
+        {
+          "id": "api-design-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: SSE responses use the Content-Type text/___.",
+          "accept": [
+            "event-stream"
+          ],
+          "explanation": "text/event-stream tells the browser to treat the response as an SSE stream of events separated by blank lines."
+        },
+        {
+          "id": "api-design-07-q11",
+          "type": "interview",
+          "prompt": "SSE vs WebSockets vs long polling: how do you choose?",
+          "answer": "- Long polling: universal compatibility, simple infra, but per-message request overhead and latency. Fallback option.\n- SSE: server-to-client only, built on HTTP (works with existing auth cookies, proxies, HTTP/2 multiplexing), automatic reconnect with Last-Event-ID, text only. Great for notifications, feeds, progress updates, LLM token streaming.\n- WebSockets: bidirectional, low overhead per message, binary support. Needed for chat, collaboration, games. Costs: custom protocol design, auth during upgrade, heartbeats, reconnection, sticky connections and a backplane for scale.\nI default to SSE when the client only listens and WebSockets when clients send frequent messages.",
+          "level": "intermediate"
+        },
+        {
+          "id": "api-design-07-q12",
+          "type": "interview",
+          "prompt": "Design a reliable webhook delivery system.",
+          "answer": "- When a domain event happens, write it to an outbox table in the same transaction as the state change.\n- A dispatcher reads the outbox and enqueues one delivery job per subscribed endpoint (BullMQ/SQS).\n- Workers POST with a short timeout, signed headers (event id, timestamp, HMAC signature), and a JSON payload containing id, type, created time and data.\n- 2xx = success. Otherwise retry with exponential backoff and jitter over ~3 days; then mark failed, disable the endpoint after repeated failures, and notify the customer. Provide a dashboard to inspect and replay deliveries.\n- Security: SSRF protection on URLs, secret rotation (support two active secrets), HTTPS only.\n- Per-endpoint concurrency limits so one slow customer does not starve others. Document at-least-once delivery and no ordering guarantee.",
+          "level": "advanced"
+        },
+        {
+          "id": "api-design-07-q13",
+          "type": "interview",
+          "prompt": "How would you scale a WebSocket service to 1 million concurrent connections?",
+          "answer": "- Many instances, each holding tens of thousands of connections (memory per connection is the main constraint; tune ws, disable per-message deflate if memory-bound, raise file descriptor limits).\n- A load balancer that supports long-lived upgraded connections, with connection draining on deploys.\n- A pub/sub backplane (Redis, NATS, Kafka) for fan-out, and a presence/registry layer mapping users to nodes, or topic-based routing so nodes subscribe only to channels their clients need.\n- Heartbeats, backpressure handling for slow consumers, message size limits, rate limits per connection.\n- Clients reconnect with jittered backoff to avoid thundering herds after a deploy, and resync state using a sequence number or last event ID.\n- Consider managed services (AWS API Gateway WebSockets, Ably, Pusher) if this is not a core competency.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Using server-sent events",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events"
+        },
+        {
+          "title": "MDN: The WebSocket API",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API"
+        },
+        {
+          "title": "Standard Webhooks specification",
+          "url": "https://www.standardwebhooks.com/"
+        }
+      ]
+    },
+    {
+      "id": "api-design-08-jobs-queues",
+      "title": "Background jobs and queues with BullMQ",
+      "level": "advanced",
+      "summary": "Move slow or unreliable work out of the request path with job queues, and make jobs safe to retry.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Why background jobs",
+          "body": "Some work should not happen while the user waits: sending emails, generating PDFs, resizing images, calling slow third-party APIs, syncing to a CRM, or scheduled tasks like nightly reports. Doing it inline makes requests slow, couples availability to third parties, and loses work if the process crashes mid-way.\n\nA **job queue** decouples this: the API enqueues a small job description and responds immediately (often `202 Accepted`); separate **worker** processes pull jobs and execute them, with retries, concurrency limits and visibility into failures. Workers scale independently from the API.\n\nOptions in Node: **BullMQ** (Redis-based, the most popular), pg-boss and Graphile Worker (PostgreSQL-based, no extra infrastructure), cloud queues (SQS, Google Cloud Tasks, Azure Service Bus), and durable workflow engines (Temporal, Inngest, Trigger.dev) for long multi-step processes."
+        },
+        {
+          "heading": "BullMQ basics",
+          "body": "BullMQ stores queues in Redis. A **Queue** adds jobs, a **Worker** processes them with a given concurrency, and **QueueEvents** or worker events report progress. Features: retries with backoff, delayed jobs, repeatable/cron jobs (job schedulers), priorities, rate limiting per queue, parent-child flows, deduplication, and sandboxed processors in separate processes.\n\nRedis for BullMQ must use `maxmemory-policy noeviction`, otherwise Redis may evict job keys under memory pressure and silently lose jobs. Workers need `maxRetriesPerRequest: null` on their ioredis connection.",
+          "code": {
+            "lang": "js",
+            "source": "import { Queue, Worker } from \"bullmq\";\nconst connection = { host: \"localhost\", port: 6379, maxRetriesPerRequest: null };\n\n// producer (API)\nexport const emailQueue = new Queue(\"emails\", { connection });\nawait emailQueue.add(\n  \"welcome\",\n  { userId: \"u_1\" },\n  {\n    jobId: \"welcome:u_1\",                         // dedupe: same id is not added twice\n    attempts: 5,\n    backoff: { type: \"exponential\", delay: 2000 },\n    removeOnComplete: 1000,\n    removeOnFail: 5000,\n  }\n);\n\n// consumer (worker process)\nconst worker = new Worker(\"emails\", async (job) => {\n  const user = await db.users.find(job.data.userId);\n  await mailer.send({ to: user.email, template: \"welcome\" });\n}, { connection, concurrency: 10 });\n\nworker.on(\"failed\", (job, err) => log.error({ jobId: job?.id, err }, \"email job failed\"));"
+          }
+        },
+        {
+          "heading": "Delivery semantics and idempotency",
+          "body": "Queues give **at-least-once** delivery in practice: a worker can finish the work and crash before acknowledging, or a lock can expire on a stalled job, so the job runs again. Exactly-once delivery is not achievable across a network; aim for **exactly-once effects** with idempotent handlers:\n\n- Use natural idempotency keys (`welcome:u_1`) as job IDs to avoid duplicate enqueues.\n- Record completion in the database (unique constraint on an operation ID) and check it before side effects.\n- Pass idempotency keys to third parties (payment providers support them).\n- Prefer \"set state to X\" over \"increment by 1\" style operations.\n\nKeep job payloads small: store IDs and re-read current data in the worker rather than embedding large or stale objects."
+        },
+        {
+          "heading": "Retries, failures and dead letters",
+          "body": "- Retry transient errors (timeouts, 5xx, rate limits) with **exponential backoff and jitter**; do not retry permanent errors (validation failures, 4xx). BullMQ's `UnrecoverableError` fails a job without further attempts.\n- After max attempts, a job moves to the **failed** set, which acts as a dead-letter queue. Alert on it, inspect, fix, and retry from a dashboard (Bull Board, Taskforce).\n- Set **timeouts** on work inside jobs so a hung HTTP call does not hold a worker forever.\n- Handle **graceful shutdown**: `await worker.close()` on SIGTERM lets active jobs finish.\n- **Stalled jobs**: if a worker's event loop is blocked too long, its lock expires and the job is considered stalled and retried, which is another reason to keep CPU-heavy work in sandboxed processors."
+        },
+        {
+          "heading": "The dual-write problem and the outbox",
+          "body": "A classic bug: save an order in the database, then enqueue a job. If the process crashes between the two, the order exists but the job never runs. Reversing the order risks a job for an order that was rolled back.\n\nThe **transactional outbox** fixes it: write the job/event into an `outbox` table in the **same transaction** as the business change. A relay process polls the outbox (or tails the DB log with change data capture such as Debezium) and pushes entries to the queue, marking them sent. Combined with idempotent consumers this gives reliable at-least-once processing. Postgres-backed queues like pg-boss avoid the problem by enqueueing inside the same transaction.",
+          "code": {
+            "lang": "js",
+            "source": "await db.transaction(async (tx) => {\n  const order = await tx.orders.insert({ userId, total });\n  await tx.outbox.insert({\n    topic: \"order.created\",\n    payload: { orderId: order.id },\n  });\n});\n// relay (separate loop): SELECT ... FROM outbox WHERE sent_at IS NULL\n//   ORDER BY id LIMIT 100 FOR UPDATE SKIP LOCKED; push to queue; mark sent_at"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Move slow, unreliable or scheduled work out of the request path into queued jobs.",
+        "BullMQ uses Redis: set maxmemory-policy noeviction and maxRetriesPerRequest: null for workers.",
+        "Delivery is at least once; make handlers idempotent to get exactly-once effects.",
+        "Retry transient errors with exponential backoff and jitter; fail permanent errors immediately.",
+        "The failed set is your dead-letter queue: alert on it and support replay.",
+        "Keep payloads small (IDs), set timeouts, close workers gracefully on SIGTERM.",
+        "Use a transactional outbox to avoid the dual-write problem between DB and queue."
+      ],
+      "questions": [
+        {
+          "id": "api-design-08-q01",
+          "type": "mcq",
+          "prompt": "Your API saves an order then calls queue.add(). The process crashes right after the DB commit. What is the result and the standard fix?",
+          "options": [
+            "Nothing is lost; BullMQ retries",
+            "The order exists but its job is never enqueued; use a transactional outbox",
+            "The DB rolls back automatically",
+            "The queue enqueues the job twice"
+          ],
+          "answer": 1,
+          "explanation": "Two separate writes without a shared transaction can partially succeed. Writing the event to an outbox table in the same DB transaction, then relaying it, guarantees it is eventually enqueued."
+        },
+        {
+          "id": "api-design-08-q02",
+          "type": "mcq",
+          "prompt": "Why should Redis used by BullMQ have maxmemory-policy set to noeviction?",
+          "options": [
+            "It makes Redis faster",
+            "Other policies may evict job data under memory pressure, silently losing jobs",
+            "BullMQ cannot connect otherwise",
+            "It enables persistence"
+          ],
+          "answer": 1,
+          "explanation": "With LRU/LFU or TTL eviction Redis can delete queue keys, corrupting or losing jobs. noeviction makes writes fail loudly instead, which you can monitor and fix."
+        },
+        {
+          "id": "api-design-08-q03",
+          "type": "mcq",
+          "prompt": "A worker sends an email, then crashes before marking the job complete. What happens next with default settings?",
+          "options": [
+            "The job is lost",
+            "The job is detected as stalled or retried and the email may be sent twice",
+            "BullMQ guarantees exactly-once delivery",
+            "The job moves to completed automatically"
+          ],
+          "answer": 1,
+          "explanation": "Queues provide at-least-once processing. Handlers with side effects must be idempotent, e.g. by recording sent emails keyed by job or business ID."
+        },
+        {
+          "id": "api-design-08-q04",
+          "type": "mcq",
+          "prompt": "A job fails because the referenced user no longer exists. What is the right handling?",
+          "options": [
+            "Retry with backoff 10 times",
+            "Throw an UnrecoverableError (or otherwise fail permanently) so it is not retried",
+            "Restart the worker",
+            "Delete Redis keys"
+          ],
+          "answer": 1,
+          "explanation": "Permanent failures will not succeed on retry. Retrying wastes resources and delays the signal. Fail fast and log or alert."
+        },
+        {
+          "id": "api-design-08-q05",
+          "type": "mcq",
+          "prompt": "Why add jitter to exponential backoff?",
+          "options": [
+            "To make retries faster",
+            "To prevent many failed jobs from retrying at exactly the same moments and overwhelming a recovering dependency",
+            "To satisfy BullMQ validation",
+            "To reduce Redis memory"
+          ],
+          "answer": 1,
+          "explanation": "Without jitter, jobs that failed together retry together, creating synchronised traffic spikes (thundering herd). Randomising delays spreads the load."
+        },
+        {
+          "id": "api-design-08-q06",
+          "type": "mcq",
+          "prompt": "Which item should a job payload usually contain for a \"send invoice email\" job?",
+          "options": [
+            "The full invoice PDF as base64",
+            "The invoice ID (and maybe a version), with the worker loading current data",
+            "The user's password",
+            "The entire user object as of enqueue time"
+          ],
+          "answer": 1,
+          "explanation": "Small payloads keep Redis memory low and avoid acting on stale data. The worker fetches the current invoice when it runs."
+        },
+        {
+          "id": "api-design-08-q07",
+          "type": "truefalse",
+          "prompt": "A well-configured message queue can guarantee exactly-once delivery across network failures.",
+          "answer": false,
+          "explanation": "Because acknowledgements can be lost, systems choose at-most-once or at-least-once delivery. Exactly-once effects come from idempotent processing or transactional integration (e.g. Kafka transactions within Kafka)."
+        },
+        {
+          "id": "api-design-08-q08",
+          "type": "truefalse",
+          "prompt": "PostgreSQL-backed queues like pg-boss can enqueue a job in the same transaction as a business write.",
+          "answer": true,
+          "explanation": "Because the queue table lives in the same database, the job insert commits or rolls back with the business data, which removes the dual-write problem without a separate outbox relay."
+        },
+        {
+          "id": "api-design-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which tasks are good candidates for background jobs?",
+          "options": [
+            "Sending a password reset email",
+            "Validating the request body",
+            "Generating a monthly PDF report",
+            "Transcoding an uploaded video",
+            "Checking the user's session cookie"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Email, report generation and transcoding are slow or depend on external systems. Body validation and session checks must happen synchronously to answer the request."
+        },
+        {
+          "id": "api-design-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a queue where messages that repeatedly fail end up for inspection is called a ___ queue.",
+          "accept": [
+            "dead-letter",
+            "dead letter",
+            "DLQ",
+            "deadletter"
+          ],
+          "explanation": "A dead-letter queue holds messages that exhausted retries or could not be processed, so they do not block the main queue and can be investigated and replayed."
+        },
+        {
+          "id": "api-design-08-q11",
+          "type": "interview",
+          "prompt": "How do you make background jobs reliable?",
+          "answer": "- Enqueue reliably: transactional outbox or a DB-backed queue so jobs are not lost between commit and enqueue; deterministic job IDs to dedupe.\n- Process idempotently: assume at-least-once delivery; record completed operations with unique constraints; pass idempotency keys to external APIs.\n- Retries with exponential backoff and jitter for transient errors; immediate failure for permanent ones; max attempts then dead-letter with alerts and replay tooling.\n- Timeouts on all I/O in jobs; concurrency limits and per-queue rate limits to protect dependencies.\n- Observability: queue depth, age of oldest job, failure rate, processing duration; dashboards and alerts.\n- Graceful shutdown (worker.close), and keep CPU-heavy work in sandboxed processors to avoid stalled jobs.",
+          "level": "advanced"
+        },
+        {
+          "id": "api-design-08-q12",
+          "type": "interview",
+          "prompt": "Explain the transactional outbox pattern and when you need it.",
+          "answer": "When a service must both change its database and publish a message (enqueue a job, emit an event to Kafka), doing two independent writes risks inconsistency: the DB commits and the publish fails, or vice versa.\nThe outbox pattern writes the message into an outbox table within the same local transaction as the business change. A separate relay reads unsent rows (polling with FOR UPDATE SKIP LOCKED, or change data capture like Debezium reading the WAL), publishes them, and marks them sent.\nThis gives at-least-once publishing; consumers must be idempotent. Also consider ordering per aggregate (partition by aggregate ID) and cleanup of old outbox rows. You need it whenever losing or inventing an event would cause real inconsistency, such as orders, payments or inventory.",
+          "level": "advanced"
+        },
+        {
+          "id": "api-design-08-q13",
+          "type": "interview",
+          "prompt": "BullMQ, pg-boss, SQS or Temporal: how would you pick a job system?",
+          "answer": "- BullMQ: rich features (priorities, delays, cron, flows, rate limits), fast, great Node DX. Requires operating Redis correctly (noeviction, persistence, HA).\n- pg-boss/Graphile Worker: jobs in Postgres you already run, transactional enqueue, simpler ops; lower throughput, adds DB load.\n- SQS (or other managed queues): fully managed, scales massively, cheap; fewer features (basic delays, visibility timeouts, DLQs), at-least-once with possible duplicates, vendor lock-in.\n- Temporal/Inngest/Trigger.dev: durable workflows with many steps, long waits, compensation and visibility; more concepts and infrastructure.\nPick based on existing infrastructure, throughput, feature needs and team ops capacity. For a typical Node SaaS with Postgres and Redis, BullMQ or pg-boss is a solid start.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "BullMQ documentation",
+          "url": "https://docs.bullmq.io/"
+        },
+        {
+          "title": "microservices.io: Transactional outbox",
+          "url": "https://microservices.io/patterns/data/transactional-outbox.html"
+        },
+        {
+          "title": "AWS Builders' Library: Timeouts, retries and backoff with jitter",
+          "url": "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/"
+        }
+      ]
+    },
+    {
+      "id": "api-design-09-microservices-brokers",
+      "title": "Microservices and message brokers: RabbitMQ and Kafka",
+      "level": "advanced",
+      "summary": "When to split a system into services, how services communicate, and how RabbitMQ and Kafka differ.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Monolith first, services when it hurts",
+          "body": "Microservices split a system into independently deployable services, each owning its data and a business capability. Benefits: independent deploys and scaling, team autonomy, fault isolation, technology choice per service. Costs: network calls that fail, distributed data and transactions, harder debugging, more infrastructure, and versioned contracts between teams.\n\nA **modular monolith** (one deployable, strict internal module boundaries) gets many benefits with far less operational cost. Split out a service when there is a clear reason: a team boundary, very different scaling or reliability needs, or a separate release cadence. A \"distributed monolith\" (services that must deploy together and call each other synchronously in long chains) has the costs of both and the benefits of neither.\n\nCore principles: **database per service** (no shared tables; others access data via APIs or events), boundaries along business domains (DDD bounded contexts), and asynchronous communication where possible."
+        },
+        {
+          "heading": "Synchronous vs asynchronous communication",
+          "body": "- **Synchronous** (REST, gRPC): simple request/response, immediate answers. But availability multiplies: if a request touches 5 services each at 99.9%, the chain is about 99.5%. Needs timeouts, retries with backoff (only for idempotent calls), **circuit breakers** to stop hammering failing dependencies, and bulkheads.\n- **Asynchronous** (messages/events via a broker): services publish events (`OrderPlaced`) and others react. Temporal decoupling (the consumer can be down), load leveling, easy fan-out. Costs: eventual consistency, harder tracing, duplicate and out-of-order messages.\n\n**Commands** tell a specific service to do something (`ChargePayment`); **events** state that something happened (`PaymentCharged`) and the publisher does not know who listens.\n\nSupporting infrastructure: an API gateway at the edge (auth, rate limiting, routing), service discovery, and distributed tracing with **OpenTelemetry** propagating `traceparent` across HTTP and message headers."
+        },
+        {
+          "heading": "RabbitMQ: a smart broker with routing",
+          "body": "RabbitMQ implements AMQP 0-9-1 (and AMQP 1.0, MQTT, STOMP). Producers publish to an **exchange**, which routes messages to **queues** via **bindings**:\n\n- **direct**: exact routing key match.\n- **topic**: pattern match (`order.*.eu`, `order.#`).\n- **fanout**: copy to every bound queue.\n- **headers**: match on message headers.\n\nConsumers receive messages pushed from a queue and **ack** them after processing; unacked messages are redelivered if the consumer dies. **Prefetch** (`basic.qos`) limits unacked messages per consumer for fair work distribution. Rejected or expired messages can go to a dead-letter exchange. Once acked, a message is removed: queues are for work distribution, not replay. Use **quorum queues** (Raft-replicated) for durability; RabbitMQ **streams** add Kafka-like append-only logs with replay.",
+          "code": {
+            "lang": "js",
+            "source": "import amqp from \"amqplib\";\nconst conn = await amqp.connect(process.env.AMQP_URL);\nconst ch = await conn.createChannel();\n\nawait ch.assertExchange(\"orders\", \"topic\", { durable: true });\nawait ch.assertQueue(\"email.order-placed\", { durable: true, arguments: { \"x-queue-type\": \"quorum\" } });\nawait ch.bindQueue(\"email.order-placed\", \"orders\", \"order.placed\");\n\nch.publish(\"orders\", \"order.placed\", Buffer.from(JSON.stringify({ orderId: \"o_1\" })), {\n  persistent: true, messageId: \"evt_123\",\n});\n\nawait ch.prefetch(10);\nawait ch.consume(\"email.order-placed\", async (msg) => {\n  try {\n    await handle(JSON.parse(msg.content.toString()));\n    ch.ack(msg);\n  } catch {\n    ch.nack(msg, false, false); // to the dead-letter exchange, if configured\n  }\n});"
+          }
+        },
+        {
+          "heading": "Kafka: a distributed log",
+          "body": "Kafka stores events in **topics** split into **partitions**. Each partition is an append-only, ordered, replicated log; each message has an **offset**. Messages are retained by time or size (or forever with log compaction keeping the latest value per key), regardless of whether anyone has read them.\n\n- Producers choose the partition, usually by hashing the **message key**, so all events for one key (e.g. `orderId`) go to one partition and keep their **order**. There is no ordering guarantee across partitions.\n- Consumers in a **consumer group** split the partitions among themselves; each partition is read by exactly one consumer in the group, so parallelism is capped by the partition count. Different groups read the same topic independently.\n- Consumers **commit offsets** to record progress. Committing after processing gives at-least-once; Kafka transactions plus idempotent producers enable exactly-once within Kafka read-process-write pipelines.\n- Kafka 4.0 (2025) removed ZooKeeper; clusters use the built-in **KRaft** consensus.\n\nNode clients: KafkaJS (popular but no longer actively maintained) and Confluent's `@confluentinc/kafka-javascript` (librdkafka-based, with a KafkaJS-compatible API)."
+        },
+        {
+          "heading": "Sagas: transactions across services",
+          "body": "With database per service there is no distributed ACID transaction (two-phase commit is rarely used). A **saga** splits a business transaction into local transactions, each publishing an event or command that triggers the next; if a step fails, **compensating actions** undo earlier steps (refund payment, release inventory).\n\n- **Choreography**: services react to each other's events. No central coordinator; can become hard to follow as steps grow.\n- **Orchestration**: a coordinator (a service or a workflow engine like Temporal) tells each participant what to do and handles failures. Easier to reason about and monitor.\n\nSagas need idempotent steps, the outbox pattern for reliable publishing, and handling for the lack of isolation (other requests can see intermediate states; use states like `PENDING`)."
+        }
+      ],
+      "keyPoints": [
+        "Start with a modular monolith; split services for team, scaling or reliability reasons.",
+        "Each service owns its database; share data via APIs and events, not tables.",
+        "Synchronous chains multiply failure; use timeouts, retries, circuit breakers, or async messaging.",
+        "RabbitMQ: exchanges route to queues; messages are removed after ack; great for task distribution and routing.",
+        "Kafka: partitioned, replicated logs with retention and replay; order only within a partition.",
+        "Consumer group parallelism is limited by the number of partitions.",
+        "Sagas coordinate multi-service workflows with compensating actions, via choreography or orchestration."
+      ],
+      "questions": [
+        {
+          "id": "api-design-09-q01",
+          "type": "mcq",
+          "prompt": "In Kafka, how do you guarantee that all events for the same order are processed in order?",
+          "options": [
+            "Use one topic per order",
+            "Produce them with the same key (e.g. orderId) so they land in the same partition",
+            "Set consumer concurrency to 1 across the whole cluster",
+            "Kafka orders all messages globally by default"
+          ],
+          "answer": 1,
+          "explanation": "Kafka guarantees order only within a partition. Keying by orderId hashes all of that order's events to one partition, preserving their order while other orders are processed in parallel."
+        },
+        {
+          "id": "api-design-09-q02",
+          "type": "mcq",
+          "prompt": "A topic has 6 partitions and a consumer group has 10 consumers. How many consumers actively receive messages?",
+          "options": [
+            "10",
+            "6",
+            "1",
+            "60"
+          ],
+          "answer": 1,
+          "explanation": "Each partition is assigned to one consumer within a group. With 6 partitions only 6 consumers get work; the remaining 4 are idle standbys. Add partitions to increase parallelism."
+        },
+        {
+          "id": "api-design-09-q03",
+          "type": "mcq",
+          "prompt": "Which RabbitMQ exchange type delivers a copy of each message to every bound queue regardless of routing key?",
+          "options": [
+            "direct",
+            "topic",
+            "fanout",
+            "headers"
+          ],
+          "answer": 2,
+          "explanation": "fanout ignores routing keys and broadcasts to all bound queues. topic matches patterns, direct matches exact keys, headers matches header values."
+        },
+        {
+          "id": "api-design-09-q04",
+          "type": "mcq",
+          "prompt": "A new analytics service needs to process the last 30 days of order events that were published before it existed. Which broker supports this naturally?",
+          "options": [
+            "RabbitMQ classic queues",
+            "Kafka with 30+ days retention",
+            "Redis pub/sub",
+            "HTTP webhooks"
+          ],
+          "answer": 1,
+          "explanation": "Kafka retains events independently of consumption, so a new consumer group can start from an earlier offset and replay history. Classic queues delete messages once acked, and Redis pub/sub does not store messages."
+        },
+        {
+          "id": "api-design-09-q05",
+          "type": "mcq",
+          "prompt": "Five synchronous services are called in sequence per request, each with 99.9% availability. Roughly what is the availability of the whole chain?",
+          "options": [
+            "99.9%",
+            "99.5%",
+            "95%",
+            "99.99%"
+          ],
+          "answer": 1,
+          "explanation": "Availabilities multiply: 0.999^5 is about 0.995. Long synchronous chains reduce reliability, which motivates async messaging, caching and fewer hops."
+        },
+        {
+          "id": "api-design-09-q06",
+          "type": "mcq",
+          "prompt": "What does a circuit breaker do?",
+          "options": [
+            "Encrypts traffic between services",
+            "Stops calling a failing dependency for a period after repeated failures, failing fast instead, then probes to see if it recovered",
+            "Restarts crashed services",
+            "Limits requests per user"
+          ],
+          "answer": 1,
+          "explanation": "In the open state calls fail immediately (or use a fallback), protecting both caller resources and the struggling dependency. After a timeout a half-open state lets trial calls through."
+        },
+        {
+          "id": "api-design-09-q07",
+          "type": "truefalse",
+          "prompt": "In a saga, a failure in step 3 is handled by rolling back steps 1 and 2 with a distributed ACID transaction.",
+          "answer": false,
+          "explanation": "Sagas avoid distributed transactions. Earlier steps already committed locally, so they are undone with explicit compensating actions such as refunding a payment."
+        },
+        {
+          "id": "api-design-09-q08",
+          "type": "truefalse",
+          "prompt": "In RabbitMQ, a message that a consumer received but did not ack is redelivered if the consumer's channel or connection closes.",
+          "answer": true,
+          "explanation": "Unacked messages return to the queue when the consumer goes away, which gives at-least-once delivery. This is why consumers must be idempotent."
+        },
+        {
+          "id": "api-design-09-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are characteristics of Kafka?",
+          "options": [
+            "Messages are retained after consumption for a configured period",
+            "Order is guaranteed within a partition",
+            "Messages are deleted as soon as one consumer acks them",
+            "Consumer groups track progress with offsets",
+            "Routing via exchanges and bindings"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Retention, per-partition ordering and offsets are Kafka concepts. Delete-on-ack and exchanges/bindings describe RabbitMQ."
+        },
+        {
+          "id": "api-design-09-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: since Kafka 4.0, clusters no longer use ZooKeeper and rely on the built-in ___ consensus protocol.",
+          "accept": [
+            "KRaft",
+            "Kraft",
+            "Kafka Raft"
+          ],
+          "explanation": "KRaft (Kafka Raft) moves metadata management into Kafka itself, simplifying operations. ZooKeeper mode was removed in 4.0."
+        },
+        {
+          "id": "api-design-09-q11",
+          "type": "interview",
+          "prompt": "RabbitMQ vs Kafka: when would you use each?",
+          "answer": "- RabbitMQ: a message broker for task queues and flexible routing. Exchanges/bindings, per-message acks, priorities, delayed/dead-letter handling, low latency. Messages are gone after ack. Great for work distribution (jobs, commands), RPC-style patterns, and complex routing with moderate throughput.\n- Kafka: a distributed commit log for event streaming. Very high throughput, durable retention, replay, multiple independent consumer groups, ordering per key via partitions, stream processing (Kafka Streams, Flink), log compaction for state. Great for event sourcing, CDC pipelines, analytics, and as the backbone of event-driven architectures.\n- Trade-offs: Kafka needs careful partition design and has coarser per-message semantics (offsets, not individual acks); RabbitMQ is not built for replay or massive retention (though RabbitMQ streams narrow the gap).",
+          "level": "advanced"
+        },
+        {
+          "id": "api-design-09-q12",
+          "type": "interview",
+          "prompt": "When should a company move from a monolith to microservices?",
+          "answer": "When the monolith's coupling is the bottleneck, not as a default. Signals: many teams blocked on each other's deploys, parts of the system with very different scaling or reliability needs, a domain area that needs a different tech stack, or regulatory isolation.\nBefore splitting: modularise the monolith with clear boundaries and owned data; this often solves the problem. Then extract services along bounded contexts using the strangler fig pattern, starting with a well-isolated capability.\nPrerequisites: CI/CD per service, observability (logs, metrics, distributed tracing), container orchestration, contract testing, and on-call ownership. Without them microservices increase incidents.",
+          "level": "advanced"
+        },
+        {
+          "id": "api-design-09-q13",
+          "type": "interview",
+          "prompt": "How do you implement an order checkout spanning order, payment and inventory services without distributed transactions?",
+          "answer": "- Use a saga. Orchestrated version: the order service creates the order as PENDING (with an outbox event), the orchestrator sends ReserveInventory, then ChargePayment; on success it marks the order CONFIRMED.\n- If payment fails, compensate: ReleaseInventory and mark the order FAILED. Every step and compensation is idempotent, keyed by order ID.\n- Reliable messaging through outbox + broker; consumers dedupe by message ID.\n- Timeouts for each step with retries, and states the UI can show (pending, confirmed, failed).\n- Choreography is possible for few steps, but orchestration (possibly with Temporal) gives clearer visibility as the flow grows.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "RabbitMQ: AMQP 0-9-1 Model Explained",
+          "url": "https://www.rabbitmq.com/tutorials/amqp-concepts"
+        },
+        {
+          "title": "Apache Kafka documentation",
+          "url": "https://kafka.apache.org/documentation/"
+        },
+        {
+          "title": "microservices.io: Saga pattern",
+          "url": "https://microservices.io/patterns/data/saga.html"
+        }
+      ]
+    }
+  ]
+}

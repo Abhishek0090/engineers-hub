@@ -1,0 +1,47 @@
+[
+  {
+    "id": "interview",
+    "title": "Crack the interview",
+    "tagline": "Most-asked questions first, beginner to senior.",
+    "description": "A focused path through the topics that come up in full stack interviews: JavaScript and TypeScript internals, React and Next.js, Node.js, databases, system design, DSA and behavioral rounds.",
+    "icon": "target",
+    "dailyGoalXp": 50,
+    "trackIds": ["javascript", "typescript", "react", "nextjs", "nodejs", "api-design", "postgresql", "mongodb", "system-design", "dsa", "behavioral"]
+  },
+  {
+    "id": "fullstack",
+    "title": "Full stack mastery",
+    "tagline": "The complete path from HTML to production deploys.",
+    "description": "Every track in build order: web basics, the frontend stack with Next.js, the backend stack with Node.js, SQL and NoSQL databases with Prisma and Drizzle, then Docker, CI/CD and testing.",
+    "icon": "layers",
+    "dailyGoalXp": 40,
+    "trackIds": ["web-fundamentals", "html-css", "javascript", "typescript", "react", "nextjs", "tailwind-styling", "state-management", "nodejs", "api-design", "auth-security", "postgresql", "prisma", "drizzle", "mongodb", "redis-caching", "docker", "devops-cloud", "frontend-testing", "web-performance-a11y", "git-cli", "system-design"]
+  },
+  {
+    "id": "frontend",
+    "title": "Frontend specialist",
+    "tagline": "Next.js, React and everything around them.",
+    "description": "HTML, CSS, JavaScript, TypeScript, React, Next.js, styling, state management, testing, performance and accessibility.",
+    "icon": "layout",
+    "dailyGoalXp": 30,
+    "trackIds": ["html-css", "javascript", "typescript", "react", "nextjs", "tailwind-styling", "state-management", "frontend-testing", "web-performance-a11y"]
+  },
+  {
+    "id": "backend",
+    "title": "Backend and databases",
+    "tagline": "Node.js, APIs, MongoDB, PostgreSQL, ORMs and Docker.",
+    "description": "Node.js runtime internals, API design, authentication and security, MongoDB, PostgreSQL, Prisma, Drizzle, Redis, Docker and deployment.",
+    "icon": "server",
+    "dailyGoalXp": 30,
+    "trackIds": ["nodejs", "api-design", "auth-security", "mongodb", "postgresql", "prisma", "drizzle", "redis-caching", "docker", "devops-cloud"]
+  },
+  {
+    "id": "growth",
+    "title": "Self development",
+    "tagline": "Fundamentals that make you a better engineer.",
+    "description": "How the web works, Git and the command line, data structures and algorithms, system design and the soft skills that move a career forward.",
+    "icon": "sprout",
+    "dailyGoalXp": 20,
+    "trackIds": ["web-fundamentals", "git-cli", "dsa", "system-design", "web-performance-a11y", "behavioral"]
+  }
+]

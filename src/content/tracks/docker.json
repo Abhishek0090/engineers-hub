@@ -1,0 +1,1426 @@
+{
+  "id": "docker",
+  "title": "Docker and Containers",
+  "area": "devops",
+  "order": 50,
+  "icon": "DK",
+  "color": "#0284c7",
+  "description": "Build, run and ship containerized apps with Docker: images and layers, Dockerfiles, multi-stage Node and Next.js builds, compose stacks with Postgres, Mongo and Redis, and the security and debugging skills interviewers probe for.",
+  "chapters": [
+    {
+      "id": "docker-01-containers-basics",
+      "title": "Containers vs VMs and the Docker Basics",
+      "level": "beginner",
+      "summary": "What a container really is, how it differs from a virtual machine, and the core Docker CLI workflow.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "What a container actually is",
+          "body": "A container is a normal Linux process (or group of processes) that the kernel isolates and limits. There is no tiny operating system booting inside it. Two kernel features do the work:\n\n- **Namespaces** give the process its own view of the system: its own PID tree (it sees itself as PID 1), network stack, mount table, hostname (UTS), IPC and user IDs.\n- **cgroups** (control groups) cap and account for resources: CPU shares, memory limits, PIDs, block I/O.\n\nOn top of that, the container gets a root filesystem from an **image**, plus security layers such as capabilities, seccomp profiles and AppArmor/SELinux. Because it is just a process, a container starts in milliseconds and adds almost no memory overhead.\n\nOn macOS and Windows, Docker Desktop runs a small Linux VM and your containers run inside it, because containers need a Linux kernel (Windows containers are a separate, less common case)."
+        },
+        {
+          "heading": "Containers vs virtual machines",
+          "body": "A virtual machine emulates hardware. A hypervisor (KVM, Hyper-V, ESXi) runs full guest operating systems, each with its own kernel. A container shares the host kernel and only packages the user-space: your app, its runtime and libraries.\n\n- **Startup**: VMs boot in seconds to minutes; containers start in milliseconds.\n- **Size**: VM images are gigabytes; container images are often 50-300 MB, sometimes under 20 MB.\n- **Isolation**: VMs have a stronger boundary (separate kernel). A kernel exploit in a container can affect the host, which is why multi-tenant platforms often use micro-VMs (Firecracker, gVisor, Kata) to run untrusted containers.\n- **Density**: you can run many more containers than VMs on the same host.\n- **OS**: a Linux container cannot run a Windows kernel feature, because there is only one kernel.\n\nIn practice they are complementary: cloud providers run your containers inside VMs."
+        },
+        {
+          "heading": "Images, containers, registries",
+          "body": "Three nouns cover most of Docker:\n\n- An **image** is a read-only, layered filesystem plus metadata (default command, env vars, exposed ports, user). It is identified by a content digest such as `sha256:3f1a...` and usually referenced by a tag such as `node:22-alpine`.\n- A **container** is a running (or stopped) instance of an image. Docker adds a thin writable layer on top of the image layers; anything the process writes goes there and is lost when the container is removed.\n- A **registry** stores and distributes images: Docker Hub, GitHub Container Registry (ghcr.io), Amazon ECR, Google Artifact Registry.\n\nThe analogy that interviewers accept: image is to container what a class is to an object, or what a program binary is to a process.\n\nDocker itself is a client (`docker` CLI) talking to a daemon (`dockerd`) that uses containerd and runc underneath. runc is the low-level OCI runtime that actually creates the namespaces and cgroups."
+        },
+        {
+          "heading": "The everyday CLI workflow",
+          "body": "Most of your work is a handful of commands. `docker run` is the big one: it pulls the image if missing, creates a container and starts it.\n\n- `-d` runs detached (in the background).\n- `-p 8080:3000` publishes container port 3000 on host port 8080 (host:container order).\n- `--name api` gives a stable name instead of a random one.\n- `--rm` deletes the container when it exits, which is ideal for one-off tasks.\n- `-e KEY=value` sets environment variables; `--env-file .env` loads a file.\n- `-it` gives an interactive terminal.\n\n`docker ps` lists running containers (`-a` includes stopped ones). `docker logs -f api` follows output. `docker exec -it api sh` opens a shell in a running container. `docker stop` sends SIGTERM, then SIGKILL after a grace period (10 seconds by default).",
+          "code": {
+            "lang": "bash",
+            "source": "# Run Postgres in the background with a port and a password\ndocker run -d --name db -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:17\n\n# One-off throwaway container with a shell\ndocker run --rm -it node:22-alpine sh\n\n# Inspect and operate\ndocker ps                 # running containers\ndocker logs -f db         # follow logs\ndocker exec -it db psql -U postgres\ndocker stop db && docker rm db\n\n# Images\ndocker images             # local images\ndocker pull redis:7\ndocker image prune        # remove dangling images\ndocker system df          # disk usage summary"
+          }
+        },
+        {
+          "heading": "Container lifecycle and PID 1",
+          "body": "A container lives exactly as long as its main process. When the process started by `CMD`/`ENTRYPOINT` exits, the container stops. That is why `docker run ubuntu` exits immediately: bash has no terminal and ends.\n\nThe main process runs as PID 1 inside the PID namespace, and PID 1 is special in Linux: signals with no installed handler are ignored, and it is responsible for reaping zombie child processes. A Node app that does not handle SIGTERM will therefore not stop on `docker stop` and gets SIGKILLed after the timeout, dropping in-flight requests.\n\nFixes: handle SIGTERM in your app (close the server, drain connections, then exit), and use `docker run --init` or `tini` so a tiny init process forwards signals and reaps zombies.\n\nStates you will see: created, running, paused, restarting, exited, dead. Restart policies (`--restart unless-stopped`, `on-failure`, `always`) tell the daemon what to do when the process exits."
+        }
+      ],
+      "keyPoints": [
+        "A container is an isolated Linux process using namespaces (what it can see) and cgroups (what it can use).",
+        "Containers share the host kernel; VMs run a full guest OS with its own kernel, so VMs isolate more strongly but are heavier.",
+        "An image is a read-only layered template; a container is an instance with a thin writable layer on top.",
+        "Data written inside a container's writable layer disappears when the container is removed - use volumes for state.",
+        "`-p host:container` publishes ports; the order is host first, container second.",
+        "A container stops when its main process (PID 1) exits; PID 1 must handle SIGTERM or `docker stop` falls back to SIGKILL after 10s.",
+        "On macOS/Windows, Docker Desktop runs Linux containers inside a lightweight Linux VM."
+      ],
+      "questions": [
+        {
+          "id": "docker-01-q01",
+          "type": "mcq",
+          "prompt": "Which Linux kernel features provide a container's isolation and resource limits?",
+          "options": [
+            "Hypervisor and virtual hardware",
+            "Namespaces and cgroups",
+            "chroot and cron",
+            "systemd units and SELinux only"
+          ],
+          "answer": 1,
+          "explanation": "Namespaces isolate what a process can see (PIDs, network, mounts, hostname, users) and cgroups limit what it can consume (CPU, memory, PIDs, I/O). No hypervisor is involved."
+        },
+        {
+          "id": "docker-01-q02",
+          "type": "mcq",
+          "prompt": "What does this command do?",
+          "code": "docker run -d -p 8080:3000 --name web my-app:1.0",
+          "options": [
+            "Maps container port 8080 to host port 3000",
+            "Runs my-app in the foreground on port 3000",
+            "Runs my-app in the background and forwards host port 8080 to container port 3000",
+            "Builds my-app:1.0 and exposes port 8080"
+          ],
+          "answer": 2,
+          "explanation": "`-d` detaches, and `-p` takes host:container, so traffic to localhost:8080 reaches port 3000 inside the container. `docker run` does not build images."
+        },
+        {
+          "id": "docker-01-q03",
+          "type": "mcq",
+          "prompt": "Why does `docker run ubuntu` exit immediately?",
+          "options": [
+            "The ubuntu image is broken",
+            "The default command (bash) has no interactive terminal attached, so it exits and the container stops with it",
+            "Docker requires --rm for base images",
+            "Containers always exit unless a port is published"
+          ],
+          "answer": 1,
+          "explanation": "A container lives as long as its main process. bash without `-it` reads EOF from stdin and exits, so the container stops. `docker run -it ubuntu` keeps it alive."
+        },
+        {
+          "id": "docker-01-q04",
+          "type": "mcq",
+          "prompt": "Which statement about containers vs VMs is correct?",
+          "options": [
+            "Containers include their own kernel, VMs share the host kernel",
+            "Both share the host kernel",
+            "VMs include a guest kernel; containers share the host kernel",
+            "Neither uses the host kernel"
+          ],
+          "answer": 2,
+          "explanation": "A hypervisor runs full guest OSes with their own kernels. Containers are host processes, so they use the host kernel. That is why a Linux container needs a Linux kernel."
+        },
+        {
+          "id": "docker-01-q05",
+          "type": "mcq",
+          "prompt": "You run `docker stop api` and it always takes about 10 seconds before the container exits. What is the most likely cause?",
+          "options": [
+            "The image is too large",
+            "The app running as PID 1 ignores SIGTERM, so Docker waits for the timeout and then sends SIGKILL",
+            "Docker is pulling a new image",
+            "The network driver is slow to detach"
+          ],
+          "answer": 1,
+          "explanation": "`docker stop` sends SIGTERM, waits for the grace period (10s default) and then SIGKILLs. PID 1 ignores signals it has no handler for, so add a SIGTERM handler or run with `--init`/tini."
+        },
+        {
+          "id": "docker-01-q06",
+          "type": "mcq",
+          "prompt": "Where does data go if a process writes to /app/uploads inside a container with no volume mounted?",
+          "options": [
+            "Directly to the host's /app/uploads",
+            "Into the image, so new containers see it",
+            "Into the container's writable layer, removed with the container",
+            "Nowhere - container filesystems are read-only by default"
+          ],
+          "answer": 2,
+          "explanation": "Each container has a thin copy-on-write writable layer. It survives stop/start but is deleted with `docker rm`. Images are never modified by running containers."
+        },
+        {
+          "id": "docker-01-q07",
+          "type": "truefalse",
+          "prompt": "On a Mac, Linux containers run directly on the macOS kernel.",
+          "answer": false,
+          "explanation": "macOS has no Linux namespaces or cgroups. Docker Desktop runs a lightweight Linux VM and the containers run inside it."
+        },
+        {
+          "id": "docker-01-q08",
+          "type": "truefalse",
+          "prompt": "A stopped container still keeps the files written to its writable layer until it is removed.",
+          "answer": true,
+          "explanation": "Stopping only ends the process. The writable layer remains until `docker rm`, so `docker start` brings the same files back."
+        },
+        {
+          "id": "docker-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are advantages of containers over VMs?",
+          "options": [
+            "Faster startup",
+            "Stronger kernel-level isolation",
+            "Higher density per host",
+            "Smaller images",
+            "Can run a different kernel than the host"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Containers start fast, pack densely and ship small images because they share the host kernel. Isolation is weaker than a VM and they cannot run a different kernel."
+        },
+        {
+          "id": "docker-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `docker ___ -it api sh` opens a shell inside the already running container named api.",
+          "accept": [
+            "exec"
+          ],
+          "explanation": "`docker exec` runs an additional process inside a running container. `docker run` would create a new container instead."
+        },
+        {
+          "id": "docker-01-q11",
+          "type": "interview",
+          "prompt": "Explain the difference between a container and a virtual machine. When would you still choose a VM?",
+          "answer": "- A VM virtualizes hardware: a hypervisor runs a full guest OS with its own kernel. A container is a host process isolated with namespaces and limited with cgroups, sharing the host kernel.\n- Consequences: containers start in milliseconds, use far less memory and disk, and pack densely; VMs take seconds to boot and carry a whole OS.\n- Isolation: the VM boundary is stronger. A kernel vulnerability can let a container escape to the host, so for untrusted multi-tenant code you use VMs or micro-VMs (Firecracker, gVisor, Kata).\n- Choose a VM when you need a different kernel or OS (Windows workloads, custom kernel modules), strict tenant isolation, or legacy software that expects a full machine.\n- In the cloud they combine: Kubernetes nodes and ECS hosts are VMs running many containers.",
+          "level": "beginner"
+        },
+        {
+          "id": "docker-01-q12",
+          "type": "interview",
+          "prompt": "What is the difference between an image and a container?",
+          "answer": "- An image is an immutable, read-only template: an ordered stack of filesystem layers plus config (CMD, ENTRYPOINT, ENV, USER, exposed ports), addressed by a content digest and usually referenced by a tag.\n- A container is a runtime instance of an image: Docker adds a thin writable copy-on-write layer, creates namespaces and cgroups, and starts the configured process.\n- Many containers can run from one image and share its layers on disk; each gets its own writable layer.\n- Changes inside a container never alter the image. To persist data you use volumes; to change the image you rebuild it from a Dockerfile.\n- Analogy: image is to container what a class is to an object, or an executable to a process.",
+          "level": "beginner"
+        },
+        {
+          "id": "docker-01-q13",
+          "type": "interview",
+          "prompt": "Your Node.js container takes 10 seconds to stop and in-flight requests are dropped during deploys. What is happening and how do you fix it?",
+          "answer": "- `docker stop` (and Kubernetes) sends SIGTERM to PID 1, waits for a grace period, then sends SIGKILL.\n- Node running as PID 1 has no default SIGTERM behaviour in that role, so the signal is ignored and the process is killed hard at the timeout, dropping connections.\n- A common extra cause is `CMD npm start` or a shell-form CMD: the shell or npm is PID 1 and may not forward signals to node. Use exec form, e.g. `CMD [\"node\", \"server.js\"]`.\n- Add a handler: on SIGTERM stop accepting new connections (`server.close()`), finish in-flight requests, close DB pools, then `process.exit(0)`, with a safety timeout.\n- Run with `--init` (or tini as ENTRYPOINT) so an init process forwards signals and reaps zombies.\n- In orchestrators, also fail the readiness probe first so the load balancer stops sending traffic before shutdown.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Docker overview (Docker Docs)",
+          "url": "https://docs.docker.com/get-started/docker-overview/"
+        },
+        {
+          "title": "docker container run reference",
+          "url": "https://docs.docker.com/reference/cli/docker/container/run/"
+        },
+        {
+          "title": "What is a container? (Docker Docs)",
+          "url": "https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/"
+        }
+      ]
+    },
+    {
+      "id": "docker-02-images-layers-cache",
+      "title": "Images, Layers and the Build Cache",
+      "level": "beginner",
+      "summary": "How images are built from layers, how tags and digests work, and how to order a Dockerfile so the build cache makes rebuilds fast.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Layers and the union filesystem",
+          "body": "An image is an ordered stack of read-only layers. Each filesystem-changing Dockerfile instruction (`RUN`, `COPY`, `ADD`) produces a new layer containing only the diff from the previous one. Metadata instructions (`ENV`, `CMD`, `EXPOSE`, `USER`, `WORKDIR`) change the image config without adding filesystem content.\n\nAt runtime a union filesystem (overlay2 on Linux) stacks those layers and adds a writable layer on top. Reading a file finds the topmost copy. Modifying a file from a lower layer triggers **copy-on-write**: the whole file is copied into the writable layer first.\n\nGotcha: deleting a file in a later layer does not shrink the image. The bytes still live in the earlier layer; the later layer just records a \"whiteout\". So `RUN apt-get install ...` followed by `RUN rm -rf /var/lib/apt/lists/*` saves nothing. Do the install and cleanup in the same `RUN`."
+        },
+        {
+          "heading": "Tags, digests and the image reference",
+          "body": "A full image reference looks like `registry/namespace/repository:tag@digest`, for example `ghcr.io/acme/api:1.4.2`. Omitted parts get defaults: registry `docker.io`, namespace `library` for official images, tag `latest`.\n\n- A **tag** is a mutable pointer. `node:22-alpine` today and next month can be different images. `latest` is just the default tag name, not \"the newest\" in any enforced sense.\n- A **digest** (`sha256:...`) is the content hash of the manifest. It is immutable: pinning `node:22-alpine@sha256:...` guarantees byte-identical images.\n- **Multi-platform images** use a manifest list (OCI index) so the same tag resolves to `linux/amd64` on an Intel server and `linux/arm64` on an Apple Silicon laptop or Graviton instance.\n\nProduction practice: tag your own images with an immutable version or git SHA (`api:3f9c2e1`), never deploy `latest`, and consider pinning base images by digest with a bot (Renovate, Dependabot) to bump them."
+        },
+        {
+          "heading": "How the build cache decides",
+          "body": "BuildKit (the default builder) walks the Dockerfile top to bottom. For each instruction it checks whether it has a cached layer built from the same parent with the same instruction:\n\n- For `RUN`, the cache key is the command string. Docker does not know that `apt-get update` would return new data today; the same string hits the cache.\n- For `COPY` and `ADD`, the key includes a checksum of the copied files' contents (not modification times).\n- Once one instruction misses the cache, **every instruction after it is rebuilt**.\n\nThat last rule drives Dockerfile ordering: put things that change rarely (base image, OS packages, dependency install) first and things that change constantly (your source code) last."
+        },
+        {
+          "heading": "Ordering a Node Dockerfile for the cache",
+          "body": "The classic mistake is `COPY . .` before `npm install`: every source edit changes the copied files' checksum, the cache misses, and you reinstall all dependencies on every build.\n\nCopy only the manifest and lockfile first, install, then copy the rest. Now a code change only invalidates the final `COPY` and later steps; dependencies come from cache. `npm ci` is preferred over `npm install` in images because it installs exactly what the lockfile says and fails if `package.json` and the lockfile disagree.\n\nBuildKit cache mounts go further: `RUN --mount=type=cache,target=/root/.npm npm ci` keeps the npm download cache between builds without baking it into a layer.",
+          "code": {
+            "lang": "dockerfile",
+            "source": "# syntax=docker/dockerfile:1\nFROM node:22-alpine\nWORKDIR /app\n\n# 1. Dependencies: only re-run when the lockfile changes\nCOPY package.json package-lock.json ./\nRUN --mount=type=cache,target=/root/.npm npm ci\n\n# 2. Source: changes often, so it comes last\nCOPY . .\nRUN npm run build\n\nCMD [\"node\", \"dist/server.js\"]"
+          }
+        },
+        {
+          "heading": "Inspecting and managing images",
+          "body": "Useful commands when reasoning about layers and size:\n\n- `docker history my-app:1.0` shows each layer, its size and the instruction that created it. Great for spotting a 400 MB `COPY`.\n- `docker image inspect my-app:1.0` shows config: Env, Cmd, Entrypoint, User, ExposedPorts, layer digests.\n- `docker build --no-cache .` forces a full rebuild (for example to pick up new OS security patches).\n- `docker build --pull .` re-checks the registry for a newer base image under the same tag.\n- `docker builder prune` clears the build cache; `docker image prune -a` removes unused images.\n- Tools such as `dive` let you browse each layer's files to find waste.\n\nIn CI, the local cache is usually empty on each run. Use `docker buildx build --cache-from` / `--cache-to` with a registry or the GitHub Actions cache backend (`type=gha`) to reuse layers across runs."
+        }
+      ],
+      "keyPoints": [
+        "Each RUN, COPY and ADD creates a layer holding only the diff from the previous layer.",
+        "Deleting files in a later layer does not shrink the image; clean up in the same RUN that created the files.",
+        "Tags are mutable pointers; digests (sha256) are immutable content hashes.",
+        "A cache miss invalidates every following instruction, so order from least to most frequently changing.",
+        "Copy package.json and the lockfile, install, then copy source - so code edits do not reinstall dependencies.",
+        "RUN cache keys are the command text; COPY cache keys are file content checksums.",
+        "In CI, export and import the build cache (buildx --cache-to/--cache-from) because runners start empty."
+      ],
+      "questions": [
+        {
+          "id": "docker-02-q01",
+          "type": "mcq",
+          "prompt": "In this Dockerfile, what happens on rebuild after you edit only src/index.ts?",
+          "code": "FROM node:22-alpine\nWORKDIR /app\nCOPY . .\nRUN npm ci\nRUN npm run build",
+          "options": [
+            "Only `npm run build` re-runs",
+            "`COPY . .`, `npm ci` and `npm run build` all re-run",
+            "Nothing re-runs; the cache is keyed on the Dockerfile text",
+            "The base image is re-pulled"
+          ],
+          "answer": 1,
+          "explanation": "The changed file alters the checksum for `COPY . .`, so that layer misses the cache, and every later instruction rebuilds - including the slow `npm ci`. Copy the lockfile and install first."
+        },
+        {
+          "id": "docker-02-q02",
+          "type": "mcq",
+          "prompt": "How much smaller does the final image get from the second RUN?",
+          "code": "RUN apt-get update && apt-get install -y build-essential\nRUN rm -rf /var/lib/apt/lists/*",
+          "options": [
+            "By the full size of the apt lists",
+            "By about half",
+            "Not at all - the files still exist in the earlier layer",
+            "It fails because layers are read-only"
+          ],
+          "answer": 2,
+          "explanation": "Layers are additive. The second RUN only adds whiteout markers; the bytes remain in the first layer. Chain `&& rm -rf /var/lib/apt/lists/*` in the same RUN."
+        },
+        {
+          "id": "docker-02-q03",
+          "type": "mcq",
+          "prompt": "Which reference guarantees you get byte-for-byte the same image every time?",
+          "options": [
+            "node:latest",
+            "node:22",
+            "node:22.11.0-alpine",
+            "node@sha256:<digest>"
+          ],
+          "answer": 3,
+          "explanation": "Every tag, even a fully specified version tag, can be re-pushed to point at a new image. Only a digest is a content hash that cannot change."
+        },
+        {
+          "id": "docker-02-q04",
+          "type": "mcq",
+          "prompt": "`RUN apt-get update && apt-get install -y curl` was cached last month. You rebuild today without flags. What happens?",
+          "options": [
+            "Docker detects new packages upstream and re-runs it",
+            "The cached layer is reused because the command string and parent layer are unchanged",
+            "The build fails because the cache has expired",
+            "Docker always re-runs apt-get commands"
+          ],
+          "answer": 1,
+          "explanation": "The RUN cache key is the instruction text plus the parent layer. Docker cannot know the remote package index changed. Use `--no-cache` or `--pull` (for base image updates) to refresh."
+        },
+        {
+          "id": "docker-02-q05",
+          "type": "mcq",
+          "prompt": "Which instruction does NOT add a filesystem layer with content?",
+          "options": [
+            "RUN",
+            "COPY",
+            "ADD",
+            "ENV"
+          ],
+          "answer": 3,
+          "explanation": "ENV, CMD, EXPOSE, USER, WORKDIR, LABEL and similar only change image metadata. RUN, COPY and ADD change files and produce content layers."
+        },
+        {
+          "id": "docker-02-q06",
+          "type": "mcq",
+          "prompt": "What is the best tool for seeing which instruction made an image grow by 600 MB?",
+          "options": [
+            "docker ps -s",
+            "docker history <image>",
+            "docker logs <image>",
+            "docker network inspect"
+          ],
+          "answer": 1,
+          "explanation": "`docker history` lists every layer with its size and the creating instruction. `dive` gives a file-level view of the same data."
+        },
+        {
+          "id": "docker-02-q07",
+          "type": "truefalse",
+          "prompt": "The `latest` tag always points to the most recently pushed version of an image.",
+          "answer": false,
+          "explanation": "`latest` is only the default tag used when none is given. It points to whatever was last pushed with that exact tag, which may be old or unrelated to the newest version."
+        },
+        {
+          "id": "docker-02-q08",
+          "type": "truefalse",
+          "prompt": "Two containers started from the same image share the image's read-only layers on disk.",
+          "answer": true,
+          "explanation": "Layers are content-addressed and shared. Each container only adds its own thin writable layer, which is why starting 20 containers from one image costs little disk."
+        },
+        {
+          "id": "docker-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which practices make Docker builds faster or more cache-friendly?",
+          "options": [
+            "Copy dependency manifests and install before copying source",
+            "Put `COPY . .` as the first instruction",
+            "Use a .dockerignore to exclude node_modules and .git",
+            "Use `RUN --mount=type=cache` for package manager caches",
+            "Add a `RUN date` line at the top to keep layers fresh"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Ordering by change frequency, shrinking the build context, and cache mounts all speed builds. Copying everything first or adding changing commands at the top invalidates the cache constantly."
+        },
+        {
+          "id": "docker-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in CI, `docker buildx build --cache-to type=___` stores layer cache in the GitHub Actions cache service.",
+          "accept": [
+            "gha"
+          ],
+          "explanation": "BuildKit supports cache backends such as `registry`, `local`, `inline` and `gha`. `type=gha` uses the GitHub Actions cache so ephemeral runners can reuse layers."
+        },
+        {
+          "id": "docker-02-q11",
+          "type": "interview",
+          "prompt": "Explain how Docker layer caching works and how you would structure a Dockerfile for a Node app to make rebuilds fast.",
+          "answer": "- Each RUN/COPY/ADD creates a layer. BuildKit reuses a cached layer when the parent layer and the instruction match: for RUN the command text, for COPY/ADD a checksum of the copied file contents.\n- After the first cache miss, all later instructions rebuild, so order from stable to volatile.\n- For Node: pinned base image, `WORKDIR`, `COPY package.json package-lock.json ./`, `RUN npm ci`, then `COPY . .` and `RUN npm run build`. Code edits only rerun the last two steps.\n- Add a `.dockerignore` (node_modules, .git, dist, .env) so irrelevant files do not bust the COPY checksum and the context stays small.\n- Use `RUN --mount=type=cache,target=/root/.npm` to reuse downloads across builds without bloating layers.\n- In CI, persist cache with `--cache-from/--cache-to` (registry or `type=gha`).",
+          "level": "beginner"
+        },
+        {
+          "id": "docker-02-q12",
+          "type": "interview",
+          "prompt": "Why should you not deploy images tagged `latest`, and what tagging strategy would you use instead?",
+          "answer": "- `latest` is mutable and ambiguous: you cannot tell what code is running, rollbacks are unreliable, and two nodes pulling at different times may run different code.\n- Kubernetes also defaults `imagePullPolicy` to Always for `:latest`, adding pulls and surprise changes.\n- Tag every build with an immutable identifier, typically the git SHA (`api:3f9c2e1`), and optionally a semver tag on releases (`api:1.4.2`).\n- Deploy by that tag or, stricter, by digest, so the manifest records exactly what runs.\n- Configure the registry for tag immutability where available (ECR supports it) so a tag cannot be overwritten.\n- Keep convenience tags like `main` or `staging` for humans, never as the deploy reference.",
+          "level": "intermediate"
+        },
+        {
+          "id": "docker-02-q13",
+          "type": "interview",
+          "prompt": "A teammate's image is 2.1 GB. Walk through how you would investigate and reduce it.",
+          "answer": "- Measure: `docker history` to find the largest layers and the instructions behind them; `dive` to see the actual files.\n- Common culprits: build tools and dev dependencies shipped to production, a full `node_modules` with devDependencies, apt caches, copied `.git` or test data, and files deleted in a later layer (still present in an earlier one).\n- Fixes: add a `.dockerignore`; use a multi-stage build so compilers and dev deps stay in the builder stage; install only production deps (`npm ci --omit=dev`) or use Next.js standalone output.\n- Choose a smaller base: `-slim`, Alpine (check musl compatibility) or distroless.\n- Combine install and cleanup in one RUN (`apt-get install --no-install-recommends ... && rm -rf /var/lib/apt/lists/*`).\n- Verify the result with `docker images` and keep a size check in CI to stop regressions.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Docker build cache (Docker Docs)",
+          "url": "https://docs.docker.com/build/cache/"
+        },
+        {
+          "title": "Optimize cache usage in builds",
+          "url": "https://docs.docker.com/build/cache/optimize/"
+        },
+        {
+          "title": "Image layers (Docker concepts)",
+          "url": "https://docs.docker.com/get-started/docker-concepts/building-images/understanding-image-layers/"
+        }
+      ]
+    },
+    {
+      "id": "docker-03-dockerfile",
+      "title": "Dockerfile Instructions in Depth",
+      "level": "beginner",
+      "summary": "Every common Dockerfile instruction, the exec vs shell form, CMD vs ENTRYPOINT, ARG vs ENV and the .dockerignore file.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "The core instructions",
+          "body": "A Dockerfile is a recipe the builder executes top to bottom.\n\n- `FROM image AS name` - base image; every stage starts with one. `FROM scratch` is an empty image.\n- `WORKDIR /app` - sets (and creates) the working directory for later instructions and for the running container. Prefer it over `RUN cd ...`, which does not persist between instructions.\n- `COPY src dest` - copies files from the build context (or `--from=stage`). Supports `--chown=node:node` and `--chmod`.\n- `ADD` - like COPY but also extracts local tar archives and can fetch URLs or git repos. Use COPY unless you need those features, because ADD's magic is surprising.\n- `RUN cmd` - executes a command at build time and commits the result as a layer.\n- `ENV KEY=value` - environment variable at build time and at runtime.\n- `ARG NAME=default` - build-time variable only, set with `--build-arg`.\n- `EXPOSE 3000` - documentation of the listening port. It does not publish anything; you still need `-p`.\n- `USER node` - user for later RUN/CMD/ENTRYPOINT.\n- `CMD` / `ENTRYPOINT` - what runs when the container starts.\n- `HEALTHCHECK`, `LABEL`, `VOLUME`, `STOPSIGNAL`, `SHELL`, `ONBUILD` round out the list."
+        },
+        {
+          "heading": "Exec form vs shell form",
+          "body": "RUN, CMD and ENTRYPOINT accept two syntaxes:\n\n- **Exec form** (JSON array): `CMD [\"node\", \"server.js\"]`. The binary runs directly as PID 1, receives signals such as SIGTERM, and no shell is involved. Variables like `$PORT` are NOT expanded because there is no shell.\n- **Shell form**: `CMD node server.js`. Docker runs `/bin/sh -c \"node server.js\"`. You get variable expansion, pipes and `&&`, but the shell becomes PID 1 and may not forward SIGTERM to node.\n\nRule of thumb: use exec form for CMD and ENTRYPOINT; shell form is fine for RUN. If you need expansion at startup, use a small entrypoint script that ends with `exec \"$@\"` so the real process replaces the shell.\n\nJSON array syntax needs double quotes. `CMD ['node', 'server.js']` with single quotes is not valid JSON and silently falls back to shell form."
+        },
+        {
+          "heading": "CMD vs ENTRYPOINT",
+          "body": "Both define the startup command, and they combine:\n\n- `CMD` alone is the default command, fully replaced by any arguments after the image name: `docker run img echo hi` runs `echo hi`.\n- `ENTRYPOINT` is the fixed executable. Arguments to `docker run` are appended to it, and CMD supplies default arguments.\n- Override ENTRYPOINT only with `docker run --entrypoint`.\n\nPattern for a CLI-style image: `ENTRYPOINT [\"curl\"]` plus `CMD [\"--help\"]`. `docker run img https://example.com` runs `curl https://example.com`.\n\nPattern for an app with setup work: `ENTRYPOINT [\"/docker-entrypoint.sh\"]` and `CMD [\"node\", \"server.js\"]`, where the script runs migrations or templating and ends with `exec \"$@\"`. The official Postgres and Nginx images work this way.\n\nOnly the last CMD and last ENTRYPOINT in the final stage count.",
+          "code": {
+            "lang": "dockerfile",
+            "source": "FROM node:22-alpine\nWORKDIR /app\nCOPY --chown=node:node . .\nRUN npm ci --omit=dev\nUSER node\nENV NODE_ENV=production PORT=3000\nEXPOSE 3000\nENTRYPOINT [\"./docker-entrypoint.sh\"]   # runs setup, ends with: exec \"$@\"\nCMD [\"node\", \"server.js\"]               # default args, easy to override"
+          }
+        },
+        {
+          "heading": "ARG vs ENV",
+          "body": "- `ARG` exists only during the build. It is set with `docker build --build-arg NODE_VERSION=22`. An ARG declared before `FROM` can parameterize the base image but must be re-declared inside the stage to be used there.\n- `ENV` is baked into the image config and visible to the running container (and to every later build step).\n\nCommon pattern: `ARG APP_VERSION` then `ENV APP_VERSION=$APP_VERSION` to promote a build arg into the runtime environment.\n\n**Never pass secrets with ARG or ENV.** Build args are recorded in the image history (`docker history` shows them) and ENV values are visible in `docker inspect`. For build-time secrets such as a private npm token, use BuildKit secret mounts: `RUN --mount=type=secret,id=npmrc,target=/root/.npmrc npm ci` with `docker build --secret id=npmrc,src=$HOME/.npmrc .`. The secret is available only during that RUN and never lands in a layer.\n\nFor Next.js, `NEXT_PUBLIC_*` variables are inlined into the client bundle at build time, so they must be present at `next build` (via ARG/ENV); server-only variables can be supplied at runtime."
+        },
+        {
+          "heading": "The build context and .dockerignore",
+          "body": "`docker build .` sends the directory `.` (the **build context**) to the builder. COPY can only see files in that context, never `../something`.\n\nA `.dockerignore` file in the context root excludes paths, using patterns similar to `.gitignore`. It matters for three reasons:\n\n- **Speed**: not shipping a 500 MB `node_modules` or `.git` to the builder.\n- **Cache**: excluded files cannot bust the checksum of `COPY . .`.\n- **Security**: `.env` files, keys and credentials never reach an image layer by accident.\n\nAlso exclude the host `node_modules` so native modules compiled for macOS do not overwrite the Linux ones built inside the image.",
+          "code": {
+            "lang": "text",
+            "source": "# .dockerignore\nnode_modules\n.next\ndist\ncoverage\n.git\n.github\nDockerfile*\ndocker-compose*.yml\n*.log\n.env\n.env.*\n!.env.example"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Use exec form `[\"node\", \"server.js\"]` for CMD/ENTRYPOINT so the app is PID 1 and receives signals.",
+        "CMD is a default that `docker run` arguments replace; ENTRYPOINT is fixed and receives CMD or run arguments as parameters.",
+        "EXPOSE only documents a port; publishing requires `-p` or compose `ports`.",
+        "ARG is build-time only; ENV persists into the running container.",
+        "Never put secrets in ARG or ENV - use `RUN --mount=type=secret` for build secrets and runtime injection for app secrets.",
+        "Prefer COPY over ADD unless you need tar extraction or remote fetching.",
+        "A .dockerignore shrinks the build context, protects the cache and keeps .env and .git out of images."
+      ],
+      "questions": [
+        {
+          "id": "docker-03-q01",
+          "type": "mcq",
+          "prompt": "Given this Dockerfile, what runs for `docker run img https://example.com`?",
+          "code": "FROM alpine\nRUN apk add --no-cache curl\nENTRYPOINT [\"curl\"]\nCMD [\"--help\"]",
+          "options": [
+            "curl --help",
+            "curl https://example.com",
+            "https://example.com",
+            "curl --help https://example.com"
+          ],
+          "answer": 1,
+          "explanation": "Arguments after the image name replace CMD and are appended to ENTRYPOINT. With no arguments, CMD's `--help` is used."
+        },
+        {
+          "id": "docker-03-q02",
+          "type": "mcq",
+          "prompt": "What does `CMD [\"echo\", \"$HOME\"]` print?",
+          "options": [
+            "The value of HOME, e.g. /root",
+            "The literal text $HOME",
+            "An empty line",
+            "A build error"
+          ],
+          "answer": 1,
+          "explanation": "Exec form runs the binary directly with no shell, so there is no variable expansion. Use shell form or `[\"sh\", \"-c\", \"echo $HOME\"]` if you need expansion."
+        },
+        {
+          "id": "docker-03-q03",
+          "type": "mcq",
+          "prompt": "Your Dockerfile has `EXPOSE 3000` and you run `docker run -d img`. Can you reach the app at localhost:3000 on the host?",
+          "options": [
+            "Yes, EXPOSE publishes the port",
+            "No, EXPOSE only documents the port; you need -p 3000:3000",
+            "Yes, but only on Linux",
+            "No, EXPOSE blocks the port"
+          ],
+          "answer": 1,
+          "explanation": "EXPOSE is metadata. Publishing happens with `-p host:container` (or `-P`, which publishes all exposed ports to random host ports)."
+        },
+        {
+          "id": "docker-03-q04",
+          "type": "mcq",
+          "prompt": "Which is the safe way to use a private npm token during `npm ci` in a build?",
+          "options": [
+            "ARG NPM_TOKEN and write it to .npmrc in a RUN",
+            "ENV NPM_TOKEN=... in the Dockerfile",
+            "RUN --mount=type=secret,id=npmrc,target=/root/.npmrc npm ci",
+            "COPY .npmrc . and delete it in the next RUN"
+          ],
+          "answer": 2,
+          "explanation": "Secret mounts exist only during that RUN and are never written to a layer. ARG values show up in `docker history`, ENV in `docker inspect`, and a file deleted in a later layer still exists in the earlier one."
+        },
+        {
+          "id": "docker-03-q05",
+          "type": "mcq",
+          "prompt": "Why prefer `WORKDIR /app` over `RUN cd /app`?",
+          "options": [
+            "RUN cd is slower",
+            "Each RUN starts a new shell, so the cd does not persist to later instructions",
+            "WORKDIR is required by the OCI spec",
+            "RUN cd creates a security vulnerability"
+          ],
+          "answer": 1,
+          "explanation": "Every RUN is a separate process. `cd` only affects that process. WORKDIR changes the working directory for all following instructions and the running container."
+        },
+        {
+          "id": "docker-03-q06",
+          "type": "mcq",
+          "prompt": "`COPY ../shared ./shared` fails with \"not found\". Why?",
+          "options": [
+            "COPY does not support directories",
+            "Paths outside the build context are not available to the builder",
+            "You must use ADD for relative paths",
+            "The destination must be absolute"
+          ],
+          "answer": 1,
+          "explanation": "The builder only receives the build context. Move the context up (`docker build -f app/Dockerfile .` from the repo root) or use BuildKit named contexts (`--build-context`)."
+        },
+        {
+          "id": "docker-03-q07",
+          "type": "truefalse",
+          "prompt": "A variable declared with ARG is available as an environment variable in the running container.",
+          "answer": false,
+          "explanation": "ARG is build-time only. To expose it at runtime, assign it to ENV, e.g. `ENV APP_VERSION=$APP_VERSION`."
+        },
+        {
+          "id": "docker-03-q08",
+          "type": "truefalse",
+          "prompt": "`CMD ['node', 'server.js']` (single quotes) is treated as exec form.",
+          "answer": false,
+          "explanation": "Exec form must be valid JSON, which requires double quotes. With single quotes Docker falls back to shell form and runs it through /bin/sh -c, which then fails or behaves unexpectedly."
+        },
+        {
+          "id": "docker-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: what should a Node project's .dockerignore usually exclude?",
+          "options": [
+            "node_modules",
+            ".git",
+            ".env",
+            "package-lock.json",
+            "coverage"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Exclude host dependencies, VCS history, secrets and build artifacts. The lockfile must be included because `npm ci` needs it for reproducible installs."
+        },
+        {
+          "id": "docker-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: an entrypoint shell script should end with `___ \"$@\"` so the CMD process replaces the shell and becomes PID 1.",
+          "accept": [
+            "exec"
+          ],
+          "explanation": "`exec` replaces the shell process with the target command, so it receives signals directly and the shell does not linger as PID 1."
+        },
+        {
+          "id": "docker-03-q11",
+          "type": "interview",
+          "prompt": "Explain the difference between CMD and ENTRYPOINT and when you would use each.",
+          "answer": "- CMD sets the default command or default arguments. Anything after the image name in `docker run` replaces it completely.\n- ENTRYPOINT sets the executable that always runs; run arguments are appended to it and CMD becomes its default arguments. It is only overridden with `--entrypoint`.\n- Use CMD alone for typical app images (`CMD [\"node\", \"server.js\"]`) so people can easily run `docker run img sh` to debug.\n- Use ENTRYPOINT for tool-like images (`ENTRYPOINT [\"curl\"]`) or for a setup wrapper script that ends with `exec \"$@\"`, with CMD as the default app command.\n- Always use exec form for both so the app is PID 1 and gets SIGTERM; shell form wraps it in /bin/sh -c, which also makes ENTRYPOINT ignore CMD.",
+          "level": "beginner"
+        },
+        {
+          "id": "docker-03-q12",
+          "type": "interview",
+          "prompt": "How do you handle configuration and secrets for a containerized app, at build time and at runtime?",
+          "answer": "- Build the image once and promote it through environments; configuration comes from the environment at runtime (12-factor), not from separate images per environment.\n- Non-secret config: ENV defaults in the Dockerfile, overridden by `-e`, `--env-file`, compose `environment`, or Kubernetes ConfigMaps.\n- Runtime secrets: inject from a secret manager (AWS Secrets Manager, Vault, Kubernetes Secrets, Docker/compose secrets mounted as files under /run/secrets). Prefer files over env vars where possible because env vars leak into crash dumps, `docker inspect` and child processes.\n- Build-time secrets (private registry tokens): BuildKit `--secret` with `RUN --mount=type=secret`, never ARG/ENV/COPY, which persist in layers or history.\n- Keep `.env` out of the context via .dockerignore, and scan images for leaked secrets in CI.\n- Exception to know: frontend public variables (e.g. Next.js `NEXT_PUBLIC_*`) are compiled into the bundle, so they are build-time by nature and must not contain secrets.",
+          "level": "intermediate"
+        },
+        {
+          "id": "docker-03-q13",
+          "type": "interview",
+          "prompt": "When would you use ADD instead of COPY?",
+          "answer": "- COPY copies files and directories from the build context or another stage; it is explicit and predictable, so it is the default choice.\n- ADD additionally auto-extracts local tar archives (gzip, bzip2, xz) into the destination, and can fetch remote URLs and git repositories.\n- Use ADD when you deliberately want to unpack a local tarball, e.g. a vendor rootfs, or with `ADD --checksum=sha256:...` to fetch a pinned remote artifact.\n- Avoid ADD for plain files: the auto-extraction can surprise you, and remote URLs without a checksum hurt reproducibility and caching.\n- For downloads where you need cleanup or verification logic, a RUN with curl plus checksum verification in the same layer is clearer.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Dockerfile reference",
+          "url": "https://docs.docker.com/reference/dockerfile/"
+        },
+        {
+          "title": "Building best practices",
+          "url": "https://docs.docker.com/build/building/best-practices/"
+        },
+        {
+          "title": "Build secrets",
+          "url": "https://docs.docker.com/build/building/secrets/"
+        }
+      ]
+    },
+    {
+      "id": "docker-04-storage-networking",
+      "title": "Volumes, Bind Mounts and Networking",
+      "level": "intermediate",
+      "summary": "Persist data with volumes and bind mounts, and connect containers with user-defined networks, DNS and port publishing.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Three ways to mount storage",
+          "body": "A container's writable layer is temporary and slow for heavy writes. For data that must outlive the container you mount storage:\n\n- **Named volumes** (`-v pgdata:/var/lib/postgresql/data`): Docker creates and manages the directory (under `/var/lib/docker/volumes` on Linux). Portable, easy to back up, and the right default for databases. If the volume is empty when first mounted, Docker copies the image's existing files at that path into it.\n- **Bind mounts** (`-v ./src:/app/src` or `--mount type=bind,src=...,dst=...`): map an exact host path. Ideal for local development with hot reload; tied to the host's directory layout and permissions, so avoid them in production.\n- **tmpfs mounts** (`--tmpfs /tmp`): in-memory, never written to disk. Good for scratch files or sensitive temporary data.\n\nThe `--mount` syntax is more explicit than `-v` and errors if a bind source does not exist, whereas `-v` silently creates an empty directory. Add `readonly` (or `:ro`) when the container should not write."
+        },
+        {
+          "heading": "Volume gotchas",
+          "body": "- **Bind mounts hide image content.** Mounting `./:/app` over a directory where the image installed `node_modules` hides those modules. The common dev trick is an extra anonymous volume `-v /app/node_modules` so the container keeps its own Linux-built dependencies.\n- **Permissions**: the container user's UID must be able to write the mounted path. A non-root container (UID 1000) writing to a root-owned host directory fails with EACCES. Fix ownership on the host or in the image, or match UIDs.\n- **Performance on macOS/Windows**: bind mounts cross the VM boundary. Docker Desktop's VirtioFS and synchronized file shares help, but large `node_modules` trees are still faster in a volume.\n- **Volumes are not deleted** with `docker rm` unless you pass `-v`; `docker compose down -v` removes compose volumes. That is a feature for databases and a disk leak otherwise (`docker volume prune`).\n- **Backups**: run a throwaway container that mounts the volume and tars it: `docker run --rm -v pgdata:/data -v $PWD:/backup alpine tar czf /backup/pg.tgz -C /data .` For databases, prefer the native dump tool (`pg_dump`, `mongodump`) for consistent backups.",
+          "code": {
+            "lang": "bash",
+            "source": "# Named volume for database state\ndocker volume create pgdata\ndocker run -d --name db -v pgdata:/var/lib/postgresql/data \\\n  -e POSTGRES_PASSWORD=secret postgres:17\n\n# Dev: bind-mount source, keep container node_modules\ndocker run --rm -it -p 3000:3000 \\\n  -v \"$PWD\":/app -v /app/node_modules -w /app node:22 npm run dev\n\n# Read-only config via --mount\ndocker run -d --mount type=bind,src=\"$PWD\"/nginx.conf,dst=/etc/nginx/nginx.conf,readonly nginx"
+          }
+        },
+        {
+          "heading": "Network drivers",
+          "body": "Docker networking gives each container its own network namespace with a virtual interface.\n\n- **bridge** (default): containers on a private subnet behind NAT on the host. The default `bridge` network does NOT provide DNS by container name. User-defined bridge networks do.\n- **host**: the container shares the host's network stack directly. No port mapping, no isolation, best raw performance. Fully supported on Linux; Docker Desktop has more limited support.\n- **none**: only loopback. Useful for batch jobs that must not touch the network.\n- **overlay**: spans multiple hosts (Swarm). **macvlan/ipvlan**: give a container its own address on the physical LAN.\n\nAlways create a user-defined bridge for multi-container apps: `docker network create appnet`, then `--network appnet` on each container. Containers on it resolve each other by name (and by `--network-alias`) through Docker's embedded DNS server at 127.0.0.11, and containers on different user-defined networks are isolated from each other."
+        },
+        {
+          "heading": "Container to container vs host to container",
+          "body": "Two different paths, often confused in interviews:\n\n- **Container to container** on the same user-defined network: connect to the service name and the **container port**, e.g. `postgres://db:5432`. No `-p` is required. Publishing is only for traffic coming from outside Docker.\n- **Host (or outside world) to container**: needs a published port. `-p 5433:5432` lets your laptop's psql connect to `localhost:5433`.\n- **Container to host**: use `host.docker.internal` (built into Docker Desktop; on Linux add `--add-host=host.docker.internal:host-gateway`).\n\nClassic bug: an app in a container connects to `localhost:5432` for the database. Inside a container, localhost is the container itself, not the host or the db container. Use the service name.\n\nAnother classic: the app listens on `127.0.0.1` inside the container, so published traffic never reaches it. Servers must bind `0.0.0.0` in containers (for example `next start -H 0.0.0.0`, or `HOSTNAME=0.0.0.0` for Next.js standalone).\n\nSecurity note: `-p 5432:5432` binds on all host interfaces. Use `-p 127.0.0.1:5432:5432` to keep a dev database off the network, and remember Docker's iptables rules can bypass host firewalls like ufw."
+        },
+        {
+          "heading": "Inspecting networks",
+          "body": "- `docker network ls` and `docker network inspect appnet` show subnets and attached containers with their IPs.\n- `docker port api` lists published port mappings.\n- `docker network connect appnet api` attaches a running container to another network; a container can be on several networks (for example a reverse proxy on a public and a private network).\n- To debug DNS or connectivity, run a tools container on the same network: `docker run --rm -it --network appnet nicolaka/netshoot` and then `dig db`, `curl http://api:3000/health`, `nc -zv db 5432`.\n- Or share a container's network namespace directly: `docker run --rm -it --network container:api nicolaka/netshoot`, useful when the app image has no shell or tools."
+        }
+      ],
+      "keyPoints": [
+        "Use named volumes for persistent data such as databases; use bind mounts mainly for local development.",
+        "A bind mount over a directory hides whatever the image had there - use an anonymous volume to keep container node_modules.",
+        "Volumes survive `docker rm` and `compose down` unless you explicitly remove them (`-v`).",
+        "User-defined bridge networks give automatic DNS by container or service name; the default bridge does not.",
+        "Containers talk to each other on the container port by name; `-p` is only for traffic from outside Docker.",
+        "Inside a container, localhost is the container itself; servers must bind 0.0.0.0 to be reachable.",
+        "Bind published dev ports to 127.0.0.1 to avoid exposing databases to the network."
+      ],
+      "questions": [
+        {
+          "id": "docker-04-q01",
+          "type": "mcq",
+          "prompt": "An API container connects to `postgres://localhost:5432` and gets ECONNREFUSED, though a `db` container is running on the same user-defined network. What is the fix?",
+          "options": [
+            "Publish port 5432 on the db container",
+            "Use `postgres://db:5432` - localhost inside the API container refers to the API container itself",
+            "Switch both to the default bridge network",
+            "Use `postgres://0.0.0.0:5432`"
+          ],
+          "answer": 1,
+          "explanation": "Each container has its own network namespace, so localhost is the container itself. On a user-defined network the embedded DNS resolves the name `db` to its IP; no port publishing is needed for container-to-container traffic."
+        },
+        {
+          "id": "docker-04-q02",
+          "type": "mcq",
+          "prompt": "Which storage type is the best default for a production Postgres container's data directory?",
+          "options": [
+            "The container writable layer",
+            "A named volume",
+            "A tmpfs mount",
+            "A bind mount to the developer's home directory"
+          ],
+          "answer": 1,
+          "explanation": "Named volumes are managed by Docker, persist across container replacement, perform well and avoid host-path coupling. tmpfs is lost on stop; the writable layer is lost on removal."
+        },
+        {
+          "id": "docker-04-q03",
+          "type": "mcq",
+          "prompt": "With this command, why does the app fail with \"Cannot find module 'express'\"?",
+          "code": "# image ran npm ci into /app/node_modules\ndocker run -v \"$PWD\":/app -w /app my-api node server.js",
+          "options": [
+            "Express is not in package.json",
+            "The bind mount of the project directory hides the image's /app/node_modules (and the host has none)",
+            "Bind mounts are read-only",
+            "-w must come before -v"
+          ],
+          "answer": 1,
+          "explanation": "A mount replaces the view of that directory. Add an anonymous volume `-v /app/node_modules` to preserve the container's dependencies, or install inside the container."
+        },
+        {
+          "id": "docker-04-q04",
+          "type": "mcq",
+          "prompt": "Your Express app inside a container listens on 127.0.0.1:3000 and you ran `-p 3000:3000`. Requests from the host fail. Why?",
+          "options": [
+            "Port 3000 is reserved",
+            "Published traffic arrives on the container's network interface, not its loopback, so the app must listen on 0.0.0.0",
+            "You need EXPOSE 3000",
+            "Docker only forwards ports above 8000"
+          ],
+          "answer": 1,
+          "explanation": "Port forwarding delivers packets to the container's eth0 address. A server bound to 127.0.0.1 only accepts loopback connections from inside the container."
+        },
+        {
+          "id": "docker-04-q05",
+          "type": "mcq",
+          "prompt": "Two containers on the default `bridge` network cannot reach each other by name. What is the recommended fix?",
+          "options": [
+            "Use --link",
+            "Hard-code their IP addresses",
+            "Create a user-defined bridge network and attach both containers",
+            "Use the host network for both"
+          ],
+          "answer": 2,
+          "explanation": "Only user-defined networks get embedded DNS name resolution. `--link` is legacy, IPs change on restart, and host networking removes isolation."
+        },
+        {
+          "id": "docker-04-q06",
+          "type": "mcq",
+          "prompt": "How does a container reach a service running on the developer's host machine with Docker Desktop?",
+          "options": [
+            "localhost",
+            "host.docker.internal",
+            "docker0.local",
+            "gateway.docker"
+          ],
+          "answer": 1,
+          "explanation": "Docker Desktop resolves `host.docker.internal` to the host. On Linux engines add `--add-host=host.docker.internal:host-gateway` to get the same name."
+        },
+        {
+          "id": "docker-04-q07",
+          "type": "truefalse",
+          "prompt": "`docker rm db` also deletes the named volume the container used.",
+          "answer": false,
+          "explanation": "Named volumes persist independently so data survives container replacement. Remove with `docker volume rm`, `docker volume prune` or `docker compose down -v`."
+        },
+        {
+          "id": "docker-04-q08",
+          "type": "truefalse",
+          "prompt": "Two containers on the same user-defined network can talk to each other without publishing any ports.",
+          "answer": true,
+          "explanation": "Publishing maps host ports for external access. Containers on a shared network connect directly to each other's container ports."
+        },
+        {
+          "id": "docker-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which statements about bind mounts are true?",
+          "options": [
+            "They map a specific host path into the container",
+            "They are the recommended way to store production database data",
+            "They are useful for hot reload during development",
+            "With `-v`, a missing host path is created as an empty directory",
+            "They are managed with `docker volume ls`"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Bind mounts point at host paths and are great for dev. `-v` auto-creates missing paths (`--mount` errors instead). Production data belongs in volumes, and bind mounts do not appear in `docker volume ls`."
+        },
+        {
+          "id": "docker-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `docker run -p ___:5432:5432 postgres:17` publishes the database only on the host's loopback interface.",
+          "accept": [
+            "127.0.0.1",
+            "localhost"
+          ],
+          "explanation": "Prefixing the host IP limits which interface listens. Without it Docker binds 0.0.0.0, exposing the port to the network, often bypassing ufw because Docker manages iptables directly."
+        },
+        {
+          "id": "docker-04-q11",
+          "type": "interview",
+          "prompt": "Explain the difference between named volumes, bind mounts and tmpfs, with a use case for each.",
+          "answer": "- Named volume: storage managed by Docker, referenced by name, independent of host paths. Persists across container recreation, pre-populated from the image on first mount. Use for database data (Postgres, Mongo, Redis AOF) and shared state between containers.\n- Bind mount: maps an exact host path. Depends on the host's filesystem layout, UIDs and permissions. Use for local development (mount source for hot reload) or injecting a config file read-only.\n- tmpfs: memory-only, gone when the container stops. Use for scratch space, caches or sensitive temp files you never want on disk, especially with a read-only root filesystem.\n- Gotchas: mounts hide the image's content at that path; volumes are not removed with the container; bind mounts on macOS/Windows are slower because they cross the VM boundary.",
+          "level": "intermediate"
+        },
+        {
+          "id": "docker-04-q12",
+          "type": "interview",
+          "prompt": "How does service discovery work between containers in Docker, and what are the common networking mistakes?",
+          "answer": "- Containers attached to the same user-defined network (compose creates one per project automatically) can resolve each other by container name, service name or alias via Docker's embedded DNS at 127.0.0.11.\n- Traffic goes directly to the container port over the bridge; no publishing needed. Ports are published only for access from the host or outside.\n- Common mistakes: using localhost to reach another container; binding the server to 127.0.0.1 instead of 0.0.0.0; relying on the default bridge (no DNS); hard-coding container IPs that change on restart; confusing host and container ports in connection strings (use the container port internally).\n- Also: publishing databases on 0.0.0.0 in production, and assuming `depends_on` means the dependency is ready (it only orders start unless you use health conditions).\n- To debug, attach a netshoot container to the network and use dig, curl and nc.",
+          "level": "intermediate"
+        },
+        {
+          "id": "docker-04-q13",
+          "type": "interview",
+          "prompt": "A non-root container fails with EACCES writing to a bind-mounted directory. How do you diagnose and fix it?",
+          "answer": "- Bind mounts expose host files with their host UIDs/GIDs; the container process runs as some UID (e.g. 1000 for the `node` user) and the kernel checks those numbers, not user names.\n- Diagnose: `docker exec app id` for the process UID, `docker exec app ls -ln /data` for numeric ownership on the mount.\n- Fixes: chown the host directory to the container UID; run the container with `--user $(id -u):$(id -g)` in development so files match your host user; or create the directory with the right owner in the image and use a named volume instead (volumes inherit image ownership on first mount).\n- Avoid the shortcut of running as root or chmod 777; that trades a permissions bug for a security issue.\n- On SELinux hosts, also add `:z` or `:Z` to relabel the mount.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Volumes (Docker Docs)",
+          "url": "https://docs.docker.com/engine/storage/volumes/"
+        },
+        {
+          "title": "Bind mounts (Docker Docs)",
+          "url": "https://docs.docker.com/engine/storage/bind-mounts/"
+        },
+        {
+          "title": "Networking overview (Docker Docs)",
+          "url": "https://docs.docker.com/engine/network/"
+        }
+      ]
+    },
+    {
+      "id": "docker-05-compose",
+      "title": "Docker Compose: App, Postgres, Mongo and Redis",
+      "level": "intermediate",
+      "summary": "Define a full local stack in compose.yaml with services, volumes, networks, env files, secrets and healthcheck-gated startup.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "What compose gives you",
+          "body": "Docker Compose describes a multi-container application in one YAML file (`compose.yaml`; `docker-compose.yml` still works) and runs it with `docker compose` (v2, a Docker CLI plugin; the old Python `docker-compose` v1 is retired).\n\nThe top-level `version:` key is obsolete under the Compose Specification. Compose ignores it and prints a warning, so omit it.\n\nFor each project, compose automatically creates a default network, so every service can reach every other by **service name**. It also prefixes resource names with the project name (the directory name or `-p`/`name:`).\n\nEveryday commands:\n\n- `docker compose up -d` - create and start everything; `--build` rebuilds images first.\n- `docker compose ps`, `logs -f api`, `exec api sh`.\n- `docker compose down` - stop and remove containers and the network; add `-v` to also delete named volumes.\n- `docker compose config` - print the fully resolved file, invaluable for debugging interpolation.\n- `docker compose watch` - sync or rebuild on file changes using `develop.watch` rules."
+        },
+        {
+          "heading": "A full-stack compose file",
+          "body": "The file below runs a Node/Next.js API with Postgres, MongoDB and Redis. Notice the details interviewers look for: named volumes for all data, healthchecks on each database, `depends_on` with `condition: service_healthy`, connection strings using service names and container ports, and database ports bound to 127.0.0.1 only.",
+          "code": {
+            "lang": "yaml",
+            "source": "name: shop\n\nservices:\n  api:\n    build:\n      context: .\n      target: runner\n    ports:\n      - \"3000:3000\"\n    env_file: .env\n    environment:\n      DATABASE_URL: postgres://app:${POSTGRES_PASSWORD}@postgres:5432/shop\n      MONGO_URL: mongodb://mongo:27017/shop\n      REDIS_URL: redis://redis:6379\n    depends_on:\n      postgres:\n        condition: service_healthy\n      mongo:\n        condition: service_healthy\n      redis:\n        condition: service_healthy\n    restart: unless-stopped\n\n  postgres:\n    image: postgres:17\n    environment:\n      POSTGRES_USER: app\n      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}\n      POSTGRES_DB: shop\n    volumes:\n      - pgdata:/var/lib/postgresql/data\n    ports:\n      - \"127.0.0.1:5432:5432\"\n    healthcheck:\n      test: [\"CMD-SHELL\", \"pg_isready -U app -d shop\"]\n      interval: 5s\n      timeout: 3s\n      retries: 10\n\n  mongo:\n    image: mongo:8\n    volumes:\n      - mongodata:/data/db\n    healthcheck:\n      test: [\"CMD\", \"mongosh\", \"--quiet\", \"--eval\", \"db.adminCommand('ping')\"]\n      interval: 10s\n      timeout: 5s\n      retries: 10\n      start_period: 20s\n\n  redis:\n    image: redis:7-alpine\n    command: [\"redis-server\", \"--appendonly\", \"yes\"]\n    volumes:\n      - redisdata:/data\n    healthcheck:\n      test: [\"CMD\", \"redis-cli\", \"ping\"]\n      interval: 5s\n      retries: 10\n\nvolumes:\n  pgdata:\n  mongodata:\n  redisdata:"
+          }
+        },
+        {
+          "heading": "depends_on and healthchecks",
+          "body": "`depends_on` with the short list syntax only controls **start order**: Postgres's container is started before the API's, but Postgres may need several seconds before it accepts connections, so the API crashes on boot.\n\nThe long syntax fixes that: `condition: service_healthy` waits until the dependency's healthcheck reports healthy. Other conditions are `service_started` (the default) and `service_completed_successfully`, which is ideal for a one-shot `migrate` service that must finish before the app starts.\n\nA healthcheck has `test`, `interval`, `timeout`, `retries` and `start_period` (a grace period during which failures do not count) plus `start_interval` for faster checks during startup. `CMD` runs the command directly; `CMD-SHELL` runs it through `/bin/sh -c`.\n\nEven with healthchecks, your app should retry connections with backoff. In production (Kubernetes, ECS) depends_on does not exist, and dependencies can restart at any time."
+        },
+        {
+          "heading": "Environment variables, .env and interpolation",
+          "body": "Two separate mechanisms are easy to confuse:\n\n- **Interpolation**: `${VAR}` inside compose.yaml is substituted by compose itself from your shell environment and from a `.env` file in the project directory. `${VAR:-default}` supplies a default; `${VAR:?message}` fails fast if missing. Escape a literal dollar sign as `$$`.\n- **Container environment**: `environment:` and `env_file:` set variables inside the container. `env_file: .env` passes every line of that file into the container.\n\nPrecedence for a container variable (highest first): `docker compose run -e`, then `environment:` in the file (with interpolation), then `env_file:`, then the image's ENV.\n\nUse multiple files for environments: `compose.yaml` as the base plus `compose.override.yaml` (loaded automatically) for dev-only settings such as bind mounts, or explicit `-f compose.yaml -f compose.prod.yaml`. Profiles (`profiles: [debug]`) let optional services such as pgAdmin start only with `--profile debug`."
+        },
+        {
+          "heading": "Secrets in compose",
+          "body": "Environment variables are convenient but leak easily: `docker inspect` shows them, they are inherited by child processes and often end up in logs or crash reports.\n\nCompose supports file-based secrets. Declare them at the top level from a file (or an environment variable on the host), grant them per service, and they appear read-only at `/run/secrets/<name>` inside the container. Many official images accept `_FILE` variants for this, e.g. `POSTGRES_PASSWORD_FILE=/run/secrets/db_password`.\n\nKeep real secret files out of git and out of the build context. In production, the same pattern maps to Kubernetes Secrets mounted as files or to a cloud secret manager.",
+          "code": {
+            "lang": "yaml",
+            "source": "services:\n  postgres:\n    image: postgres:17\n    environment:\n      POSTGRES_PASSWORD_FILE: /run/secrets/db_password\n    secrets:\n      - db_password\n\nsecrets:\n  db_password:\n    file: ./secrets/db_password.txt"
+          }
+        },
+        {
+          "heading": "Local development workflow",
+          "body": "A productive dev setup usually layers an override file on the production-like base:\n\n- Bind-mount the source and keep `node_modules` in the container, or use `develop.watch` with `action: sync` for source files and `action: rebuild` when `package.json` changes.\n- Run migrations as a separate service (`command: npx prisma migrate deploy`) with the app depending on it via `service_completed_successfully`.\n- Seed data with init scripts: the Postgres image runs `*.sql` and `*.sh` files in `/docker-entrypoint-initdb.d` only when the data directory is empty. Changing the script later has no effect until you remove the volume.\n- `docker compose up -d postgres redis` starts only dependencies while you run the app natively.\n- `docker compose down -v` gives a clean slate when a schema or init script changed."
+        }
+      ],
+      "keyPoints": [
+        "Use `docker compose` (v2) with compose.yaml; the `version:` key is obsolete and ignored.",
+        "Compose creates a project network, so services reach each other by service name on container ports.",
+        "Short `depends_on` only orders startup; use `condition: service_healthy` with healthchecks to wait for readiness.",
+        "`${VAR}` interpolation in the YAML comes from the shell and the project .env file; `env_file:` sets variables inside the container.",
+        "Use `${VAR:?error}` to fail fast on missing required variables.",
+        "Use compose secrets (mounted at /run/secrets) and `_FILE` variables instead of plain env vars for passwords.",
+        "`docker compose down` keeps named volumes; `down -v` deletes them."
+      ],
+      "questions": [
+        {
+          "id": "docker-05-q01",
+          "type": "mcq",
+          "prompt": "The API container crashes on startup with \"connection refused\" to Postgres, even though it has `depends_on: [postgres]`. What is the best fix?",
+          "options": [
+            "Add `restart: always` to Postgres",
+            "Add a healthcheck to Postgres and use `depends_on: postgres: condition: service_healthy`",
+            "Publish port 5432",
+            "Put the API service after Postgres in the YAML file"
+          ],
+          "answer": 1,
+          "explanation": "Short depends_on only waits for the container to start, not for the database to accept connections. A health-gated dependency waits for `pg_isready` to pass. App-level retries are still good practice."
+        },
+        {
+          "id": "docker-05-q02",
+          "type": "mcq",
+          "prompt": "Which connection string should the api service use for Redis in the compose file from the lesson?",
+          "options": [
+            "redis://localhost:6379",
+            "redis://127.0.0.1:6379",
+            "redis://redis:6379",
+            "redis://host.docker.internal:6379"
+          ],
+          "answer": 2,
+          "explanation": "Compose's default network gives DNS resolution by service name. localhost would be the api container itself."
+        },
+        {
+          "id": "docker-05-q03",
+          "type": "mcq",
+          "prompt": "What does `docker compose down` do to the `pgdata` named volume?",
+          "options": [
+            "Deletes it",
+            "Keeps it",
+            "Converts it to a bind mount",
+            "Backs it up then deletes it"
+          ],
+          "answer": 1,
+          "explanation": "`down` removes containers and networks but preserves named volumes so data survives. `down -v` removes them too."
+        },
+        {
+          "id": "docker-05-q04",
+          "type": "mcq",
+          "prompt": "In compose.yaml you wrote `POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?missing}` and the variable is not set anywhere. What happens on `docker compose up`?",
+          "options": [
+            "Postgres starts with an empty password",
+            "Compose aborts with an error containing \"missing\"",
+            "The literal text ${POSTGRES_PASSWORD:?missing} is used",
+            "Compose prompts for the value"
+          ],
+          "answer": 1,
+          "explanation": "The `:?` form makes interpolation fail with the given message when the variable is unset or empty, which catches configuration mistakes before containers start."
+        },
+        {
+          "id": "docker-05-q05",
+          "type": "mcq",
+          "prompt": "You changed an SQL file in /docker-entrypoint-initdb.d but the Postgres schema did not change after `docker compose up`. Why?",
+          "options": [
+            "Init scripts only run when the data directory is empty, and the existing volume already has data",
+            "Init scripts only accept .sh files",
+            "You must run `docker compose restart`",
+            "Compose caches SQL files"
+          ],
+          "answer": 0,
+          "explanation": "The official image runs init scripts only on first initialization. Remove the volume (`down -v`) for a fresh init, or use a proper migration tool for schema changes."
+        },
+        {
+          "id": "docker-05-q06",
+          "type": "mcq",
+          "prompt": "Which `depends_on` condition fits a one-shot `migrate` service that must finish before the app starts?",
+          "options": [
+            "service_started",
+            "service_healthy",
+            "service_completed_successfully",
+            "service_ready"
+          ],
+          "answer": 2,
+          "explanation": "`service_completed_successfully` waits for the dependency container to exit with code 0. `service_ready` does not exist."
+        },
+        {
+          "id": "docker-05-q07",
+          "type": "truefalse",
+          "prompt": "Modern compose files must start with `version: \"3.8\"`.",
+          "answer": false,
+          "explanation": "The Compose Specification made the version key obsolete. Docker Compose v2 ignores it and warns, so omit it."
+        },
+        {
+          "id": "docker-05-q08",
+          "type": "truefalse",
+          "prompt": "Compose reads a `.env` file in the project directory to interpolate `${VAR}` references in compose.yaml.",
+          "answer": true,
+          "explanation": "The project-level .env feeds interpolation. That is separate from `env_file:`, which injects variables into a container."
+        },
+        {
+          "id": "docker-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good practices for a local compose stack with Postgres, Mongo and Redis?",
+          "options": [
+            "Named volumes for each database's data directory",
+            "Healthchecks plus `condition: service_healthy` for dependencies",
+            "Publish database ports on 0.0.0.0 so teammates can connect",
+            "Put real passwords directly in compose.yaml committed to git",
+            "Use service names in connection strings"
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "explanation": "Volumes persist data, health-gated startup avoids races, and service names use compose DNS. Exposing databases to the network and committing secrets are both risks."
+        },
+        {
+          "id": "docker-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: compose secrets are mounted inside the container under the directory `/run/___/`.",
+          "accept": [
+            "secrets",
+            "secrets/"
+          ],
+          "explanation": "Each granted secret appears as a read-only file at /run/secrets/<name>. Images that support `_FILE` env vars read passwords from there."
+        },
+        {
+          "id": "docker-05-q11",
+          "type": "interview",
+          "prompt": "Write (describe) a docker compose setup for a Next.js app with Postgres, MongoDB and Redis for local development. What decisions matter?",
+          "answer": "- One compose.yaml without `version:`; services `web`, `postgres`, `mongo`, `redis`, and optionally `migrate`.\n- Data: named volumes for each database (`pgdata:/var/lib/postgresql/data`, `mongodata:/data/db`, `redisdata:/data` with AOF on).\n- Readiness: healthchecks (`pg_isready`, `mongosh --eval \"db.adminCommand('ping')\"`, `redis-cli ping`) and `depends_on` with `service_healthy`; migrations as a one-shot service gated by `service_completed_successfully`.\n- Networking: connection strings use service names and container ports (`postgres:5432`); only the web port is published; DB ports bound to 127.0.0.1 if needed by local tools.\n- Config: `.env` for interpolation (gitignored, with `.env.example` committed), `${VAR:?}` for required values, secrets via files for passwords.\n- Dev ergonomics: `compose.override.yaml` with a bind mount or `develop.watch` sync for hot reload, an anonymous volume for node_modules, `HOSTNAME=0.0.0.0` so Next.js listens on all interfaces, and profiles for optional tools like pgAdmin.",
+          "level": "intermediate"
+        },
+        {
+          "id": "docker-05-q12",
+          "type": "interview",
+          "prompt": "What is the difference between `environment`, `env_file` and the `.env` file in Docker Compose?",
+          "answer": "- The project `.env` file (next to compose.yaml, or set with `--env-file`) is read by compose for variable interpolation in the YAML. Its values do not automatically reach containers.\n- `env_file:` on a service loads a file's key=value pairs into that container's environment.\n- `environment:` sets container variables inline and can use interpolated values like `${POSTGRES_PASSWORD}`.\n- Precedence inside the container: `run -e` overrides `environment:`, which overrides `env_file:`, which overrides the image's ENV.\n- Debug with `docker compose config` to see the resolved values and `docker compose exec api env` to see what the process gets.\n- Never commit real secrets in any of them; prefer secrets mounted as files.",
+          "level": "intermediate"
+        },
+        {
+          "id": "docker-05-q13",
+          "type": "interview",
+          "prompt": "Is Docker Compose suitable for production? What would you use instead and why?",
+          "answer": "- Compose works well for local development, CI integration tests, and simple single-host deployments (a small VPS running an app plus reverse proxy).\n- Limits: one host means no automatic failover across machines; no rolling deploys with traffic shifting out of the box; no autoscaling; restarts and health handling are basic; secrets management is file-based.\n- For production at scale use an orchestrator or managed platform: Kubernetes (EKS/GKE/AKS), ECS/Fargate, Cloud Run, or a PaaS. These provide scheduling across nodes, rolling and canary deploys, service discovery, autoscaling and secret integration.\n- Managed databases (RDS, Atlas, ElastiCache) usually replace containerized Postgres/Mongo/Redis in production for backups, failover and patching.\n- The compose file still pays off: it documents dependencies and can be translated (manually or with tools like Kompose) as a starting point.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Docker Compose overview",
+          "url": "https://docs.docker.com/compose/"
+        },
+        {
+          "title": "Compose file reference",
+          "url": "https://docs.docker.com/reference/compose-file/"
+        },
+        {
+          "title": "Control startup order in Compose",
+          "url": "https://docs.docker.com/compose/how-tos/startup-order/"
+        }
+      ]
+    },
+    {
+      "id": "docker-06-multi-stage",
+      "title": "Multi-stage Builds for Node and Next.js",
+      "level": "intermediate",
+      "summary": "Separate build and runtime stages to ship small images, including the Next.js standalone output pattern.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Why multi-stage builds",
+          "body": "Building a TypeScript or Next.js app needs compilers, devDependencies, source maps and caches. Running it needs only the compiled output and production dependencies. Before multi-stage builds, teams maintained two Dockerfiles or shipped everything.\n\nA multi-stage Dockerfile has several `FROM` lines. Each starts a new stage with a fresh filesystem. Later stages copy just the artifacts they need with `COPY --from=<stage>`. Only the final stage becomes the image you ship; earlier stages are discarded (though cached for the next build).\n\nBenefits:\n\n- **Smaller images**: often 1+ GB down to 150-250 MB for Node apps.\n- **Smaller attack surface**: no compilers, package managers or dev tools in production.\n- **Parallelism**: BuildKit builds independent stages concurrently and skips stages the target does not depend on.\n- **One Dockerfile** for dev, test and prod using `--target`."
+        },
+        {
+          "heading": "A Node/TypeScript API",
+          "body": "Three stages is the usual shape: install all dependencies, build, then a runtime stage that installs only production dependencies and copies the compiled output. Note `npm ci --omit=dev` (the newer replacement for `--production`), the non-root `node` user that the official Node images provide, and `--chown` on COPY so files are not owned by root.",
+          "code": {
+            "lang": "dockerfile",
+            "source": "# syntax=docker/dockerfile:1\nFROM node:22-alpine AS deps\nWORKDIR /app\nCOPY package.json package-lock.json ./\nRUN npm ci\n\nFROM deps AS build\nCOPY . .\nRUN npm run build          # tsc -> dist/\n\nFROM node:22-alpine AS runner\nWORKDIR /app\nENV NODE_ENV=production\nCOPY package.json package-lock.json ./\nRUN npm ci --omit=dev && npm cache clean --force\nCOPY --from=build --chown=node:node /app/dist ./dist\nUSER node\nEXPOSE 3000\nCMD [\"node\", \"dist/server.js\"]"
+          }
+        },
+        {
+          "heading": "Next.js standalone output",
+          "body": "Setting `output: \"standalone\"` in `next.config.js` makes `next build` trace exactly which files and node_modules the server needs and write them to `.next/standalone`, including a minimal `server.js`. You run `node server.js` instead of `next start`, and the image no longer needs the full node_modules.\n\nTwo folders are NOT copied into standalone automatically and must be copied yourself: `public/` and `.next/static/`. Forgetting them is the classic bug: the page renders but CSS, JS chunks and images return 404. (Alternatively, serve them from a CDN.)\n\nOther details:\n\n- Set `HOSTNAME=0.0.0.0` so the standalone server listens on all interfaces inside the container, and `PORT` to choose the port.\n- `NEXT_PUBLIC_*` variables are inlined at build time, so pass them as build args to the builder stage.\n- `NEXT_TELEMETRY_DISABLED=1` disables anonymous telemetry in CI and containers.\n- For Alpine bases, Next.js's official example has historically added `libc6-compat` for some native binaries; check whether your dependencies need it.",
+          "code": {
+            "lang": "dockerfile",
+            "source": "# syntax=docker/dockerfile:1\nFROM node:22-alpine AS deps\nWORKDIR /app\nCOPY package.json package-lock.json ./\nRUN npm ci\n\nFROM node:22-alpine AS builder\nWORKDIR /app\nCOPY --from=deps /app/node_modules ./node_modules\nCOPY . .\nARG NEXT_PUBLIC_API_URL\nENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL NEXT_TELEMETRY_DISABLED=1\nRUN npm run build            # next.config: output: \"standalone\"\n\nFROM node:22-alpine AS runner\nWORKDIR /app\nENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0\nCOPY --from=builder --chown=node:node /app/.next/standalone ./\nCOPY --from=builder --chown=node:node /app/.next/static ./.next/static\nCOPY --from=builder --chown=node:node /app/public ./public\nUSER node\nEXPOSE 3000\nCMD [\"node\", \"server.js\"]"
+          }
+        },
+        {
+          "heading": "Targets, test stages and other tricks",
+          "body": "- `docker build --target build .` stops at a named stage. Teams add a `test` stage (`FROM build AS test` + `RUN npm test`) that CI builds explicitly; because the runner does not depend on it, a normal build skips it.\n- `COPY --from=` can reference any image, not just stages: `COPY --from=ghcr.io/foo/tool:1.2 /bin/tool /usr/local/bin/` is a clean way to grab a static binary.\n- A `dev` stage with devDependencies and `CMD [\"npm\", \"run\", \"dev\"]` lets compose use `target: dev` locally and the same file in production.\n- ARGs are scoped per stage. Declare `ARG` before the first FROM to parameterize base images (`FROM node:${NODE_VERSION}-alpine`), and re-declare inside a stage to use the value there.\n- Monorepos: tools such as `turbo prune --docker` produce a pruned workspace so the deps stage copies only the lockfile and package.json files for one app.\n- Native modules (bcrypt, sharp, Prisma engines) must be built for the runtime's OS and libc. Build them in a stage with the same base family as the runner (Alpine/musl vs Debian/glibc), or the binary fails to load."
+        },
+        {
+          "heading": "Choosing a base image",
+          "body": "- `node:22` (Debian, full): large (~1 GB) but has build tools. Fine for builder stages.\n- `node:22-slim` (Debian slim): ~200 MB, glibc, good runtime default with broad native module compatibility.\n- `node:22-alpine`: ~130-180 MB, musl libc. Small, but some native binaries and DNS behaviour differ from glibc; test it.\n- `gcr.io/distroless/nodejs22-debian12`: only Node and its runtime libraries - no shell, no package manager. Smallest attack surface; debugging needs ephemeral debug containers.\n- Chainguard and Docker Hardened Images offer minimal, frequently rebuilt images with very low CVE counts.\n\nWhatever you choose, use the same major Node version as development and CI, pin it, and rebuild regularly to pick up security patches."
+        }
+      ],
+      "keyPoints": [
+        "Each FROM starts a new stage; only the final stage ships, and `COPY --from` moves artifacts between stages.",
+        "Builder stages hold compilers and devDependencies; the runtime stage holds only output and production deps (`npm ci --omit=dev`).",
+        "Next.js `output: \"standalone\"` produces a minimal server.js plus traced node_modules.",
+        "With standalone, copy `.next/static` and `public` yourself or assets 404.",
+        "Set `HOSTNAME=0.0.0.0` for the Next.js standalone server in containers; NEXT_PUBLIC_* values are fixed at build time.",
+        "`--target` builds a specific stage; stages the target does not depend on are skipped.",
+        "Native modules must be built against the same libc (musl vs glibc) as the runtime image."
+      ],
+      "questions": [
+        {
+          "id": "docker-06-q01",
+          "type": "mcq",
+          "prompt": "Your Next.js standalone image serves HTML but all CSS and JS chunks return 404. What was most likely missed?",
+          "options": [
+            "Setting NODE_ENV=production",
+            "Copying `.next/static` (and `public`) into the runner stage",
+            "Running `next export`",
+            "Exposing port 80"
+          ],
+          "answer": 1,
+          "explanation": "The standalone folder excludes static assets because they are meant for a CDN. Copy `.next/static` to `./.next/static` and `public` to `./public` next to server.js."
+        },
+        {
+          "id": "docker-06-q02",
+          "type": "mcq",
+          "prompt": "Which stages does `docker build --target runner .` build?",
+          "code": "FROM node:22 AS deps\n...\nFROM deps AS build\n...\nFROM build AS test\nRUN npm test\nFROM node:22-slim AS runner\nCOPY --from=build /app/dist ./dist",
+          "options": [
+            "All four",
+            "deps, build and runner",
+            "Only runner",
+            "runner and test"
+          ],
+          "answer": 1,
+          "explanation": "BuildKit builds the dependency graph of the target: runner copies from build, which depends on deps. The test stage is unused and skipped."
+        },
+        {
+          "id": "docker-06-q03",
+          "type": "mcq",
+          "prompt": "What does `npm ci --omit=dev` do in the runtime stage?",
+          "options": [
+            "Installs only devDependencies",
+            "Installs dependencies from the lockfile excluding devDependencies",
+            "Removes the lockfile",
+            "Installs the latest versions ignoring the lockfile"
+          ],
+          "answer": 1,
+          "explanation": "`npm ci` installs exactly what the lockfile specifies; `--omit=dev` skips devDependencies, keeping the runtime image small."
+        },
+        {
+          "id": "docker-06-q04",
+          "type": "mcq",
+          "prompt": "Your app works with node:22-slim but crashes on node:22-alpine with \"Error loading shared library ld-linux-x86-64.so.2\". Why?",
+          "options": [
+            "Alpine lacks Node",
+            "A native module was compiled for glibc but Alpine uses musl libc",
+            "Alpine images cannot run JavaScript",
+            "The port is wrong"
+          ],
+          "answer": 1,
+          "explanation": "Prebuilt binaries for glibc do not load on musl. Build native modules inside an Alpine stage, install the musl variant, or use a Debian-based runtime."
+        },
+        {
+          "id": "docker-06-q05",
+          "type": "mcq",
+          "prompt": "In a Next.js Dockerfile, where must `NEXT_PUBLIC_API_URL` be provided for the browser bundle to use it?",
+          "options": [
+            "Only at runtime via `docker run -e`",
+            "At build time in the stage that runs `next build`",
+            "In the runner stage's CMD",
+            "In .dockerignore"
+          ],
+          "answer": 1,
+          "explanation": "Next.js inlines NEXT_PUBLIC_* values into client JavaScript during `next build`. Setting them only at runtime does not change the already built bundle."
+        },
+        {
+          "id": "docker-06-q06",
+          "type": "mcq",
+          "prompt": "What is the main trade-off of a distroless Node runtime image?",
+          "options": [
+            "It cannot run Node",
+            "It has no shell or package manager, so `docker exec sh` debugging does not work",
+            "It is larger than node:22",
+            "It must run as root"
+          ],
+          "answer": 1,
+          "explanation": "Distroless images drop shells and tools to minimize attack surface. Debug with `:debug` variants, `docker debug`, or Kubernetes ephemeral containers."
+        },
+        {
+          "id": "docker-06-q07",
+          "type": "truefalse",
+          "prompt": "Files that exist only in an earlier build stage end up in the final image's layers.",
+          "answer": false,
+          "explanation": "The final image consists only of the final stage's layers. Earlier stages contribute only what you explicitly COPY --from them."
+        },
+        {
+          "id": "docker-06-q08",
+          "type": "truefalse",
+          "prompt": "`COPY --from` can copy files out of an external image, not only from a stage in the same Dockerfile.",
+          "answer": true,
+          "explanation": "`COPY --from=image:tag /path /dest` pulls the image and copies from it, a common way to add static binaries."
+        },
+        {
+          "id": "docker-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: what belongs in the runner stage of a Next.js standalone image?",
+          "options": [
+            ".next/standalone contents",
+            ".next/static",
+            "public/",
+            "The full source code and devDependencies",
+            "The TypeScript compiler"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "The standalone server, static chunks and public assets are all that is needed at runtime. Source, devDependencies and compilers stay in the builder."
+        },
+        {
+          "id": "docker-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in next.config.js, `output: \"___\"` makes next build produce a self-contained server for Docker.",
+          "accept": [
+            "standalone"
+          ],
+          "explanation": "Standalone output traces required files into .next/standalone with a minimal server.js, so the image needs neither the full node_modules nor the next CLI."
+        },
+        {
+          "id": "docker-06-q11",
+          "type": "interview",
+          "prompt": "Walk through a production Dockerfile for a Next.js app and explain each decision.",
+          "answer": "- Stage `deps`: `node:22-alpine`, copy package.json and lockfile, `npm ci` (cache mount for ~/.npm). Isolated so code edits do not reinstall deps.\n- Stage `builder`: copy node_modules from deps and the source; accept `NEXT_PUBLIC_*` as build args because they are inlined; `NEXT_TELEMETRY_DISABLED=1`; `next build` with `output: \"standalone\"`.\n- Stage `runner`: fresh small base; `NODE_ENV=production`, `HOSTNAME=0.0.0.0`, `PORT=3000`; copy `.next/standalone`, `.next/static` and `public` with `--chown=node:node`; `USER node`; `CMD [\"node\", \"server.js\"]` in exec form so SIGTERM reaches Node.\n- `.dockerignore` excludes node_modules, .next, .git and .env files.\n- Outcome: an image around 150-250 MB with no compilers or dev deps, runtime config via env, plus a HEALTHCHECK or orchestrator probe hitting a lightweight route.\n- Optional: serve `_next/static` from a CDN, add a test stage built in CI with `--target test`, and scan the image before pushing.",
+          "level": "intermediate"
+        },
+        {
+          "id": "docker-06-q12",
+          "type": "interview",
+          "prompt": "What are multi-stage builds and what problems do they solve?",
+          "answer": "- A Dockerfile with several FROM instructions, each a separate stage with its own filesystem. Later stages copy selected artifacts from earlier ones with `COPY --from`; only the final stage is the shipped image.\n- They separate the build environment (compilers, devDependencies, SDKs) from the runtime environment.\n- Results: much smaller images, fewer vulnerabilities and tools for an attacker, faster pulls and cold starts.\n- They replace the old pattern of a separate build script plus a second Dockerfile.\n- BuildKit builds independent stages in parallel and skips unused ones; `--target` lets one Dockerfile define dev, test and prod images.\n- Examples: Go compiled into a static binary copied onto scratch or distroless; React built with Node and served by an nginx stage; Next.js standalone on a slim Node runtime.",
+          "level": "beginner"
+        },
+        {
+          "id": "docker-06-q13",
+          "type": "interview",
+          "prompt": "How would you containerize one app from a Turborepo/pnpm monorepo efficiently?",
+          "answer": "- Problem: copying the whole monorepo busts the cache on any change in any package and bloats the context.\n- Use `turbo prune <app> --docker`: it outputs `out/json` (only the package.json files and pruned lockfile the app needs) and `out/full` (the needed source).\n- Stage 1 copies `out/json` and the pruned lockfile and runs `pnpm install --frozen-lockfile` with a cache mount for the pnpm store, so deps rebuild only when relevant manifests change.\n- Stage 2 copies `out/full` and runs `turbo run build --filter=<app>`.\n- Runner stage copies only the built output (for Next.js, the standalone folder plus static and public; set `outputFileTracingRoot` to the monorepo root so tracing includes workspace packages).\n- Build from the repo root as context with `-f apps/web/Dockerfile`, and keep a root .dockerignore. In CI, use remote caching (registry or gha) for both BuildKit layers and Turbo tasks.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Multi-stage builds (Docker Docs)",
+          "url": "https://docs.docker.com/build/building/multi-stage/"
+        },
+        {
+          "title": "Next.js output: standalone",
+          "url": "https://nextjs.org/docs/app/api-reference/config/next-config-js/output"
+        },
+        {
+          "title": "Next.js with-docker example",
+          "url": "https://github.com/vercel/next.js/tree/canary/examples/with-docker"
+        }
+      ]
+    },
+    {
+      "id": "docker-07-security-registries",
+      "title": "Image Size, Security and Registries",
+      "level": "advanced",
+      "summary": "Harden images and containers (non-root, minimal bases, capabilities, read-only filesystems), scan and sign them, and publish to registries.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Run as non-root",
+          "body": "By default a container's process runs as root (UID 0). Namespaces make it a restricted root, but if an attacker exploits the app and then a kernel or runtime bug, root inside can mean root on the host. Running as an unprivileged user is the single most important hardening step.\n\n- Official Node images ship a `node` user (UID 1000). Add `USER node` after installing packages.\n- Otherwise create one: `RUN addgroup -S app && adduser -S app -G app` (Alpine) and `USER app`.\n- Prefer a numeric `USER 10001:10001` when the platform must verify non-root without reading /etc/passwd (Kubernetes `runAsNonRoot` requires a numeric UID to verify).\n- Ports below 1024 need extra privileges, so listen on 3000 or 8080 and map externally.\n- Files your app writes must be owned by that user: use `COPY --chown` and create writable directories explicitly.\n\n**Rootless Docker** and **user namespace remapping** go further by mapping container root to an unprivileged host UID."
+        },
+        {
+          "heading": "Reduce privileges at runtime",
+          "body": "Defense in depth beyond the user:\n\n- **Drop capabilities**: `--cap-drop=ALL` then add back only what is needed (`--cap-add=NET_BIND_SERVICE`). Docker's default set is already reduced, but most web apps need none.\n- **No privilege escalation**: `--security-opt no-new-privileges` blocks setuid binaries from gaining privileges.\n- **Read-only root filesystem**: `--read-only` with `--tmpfs /tmp` for scratch space. An attacker cannot drop binaries or modify app code.\n- **Never use `--privileged`** for apps; it disables most isolation. Never mount `/var/run/docker.sock` into an app container: access to the socket is equivalent to root on the host.\n- **Resource limits**: `--memory=512m --cpus=1 --pids-limit=200` contain runaway processes and fork bombs.\n- Keep seccomp and AppArmor/SELinux profiles enabled (the defaults block dangerous syscalls).",
+          "code": {
+            "lang": "bash",
+            "source": "docker run -d --name api \\\n  --user 10001:10001 \\\n  --read-only --tmpfs /tmp \\\n  --cap-drop=ALL \\\n  --security-opt no-new-privileges \\\n  --memory=512m --cpus=1 --pids-limit=200 \\\n  -p 8080:8080 ghcr.io/acme/api:3f9c2e1"
+          }
+        },
+        {
+          "heading": "Small, minimal images",
+          "body": "Every package in an image is a potential CVE and makes the image slower to pull. Techniques, roughly in order of impact:\n\n- Multi-stage builds so build tools never reach the runtime image.\n- Minimal bases: slim, Alpine, distroless, Chainguard or Docker Hardened Images. For static binaries (Go, Rust), `FROM scratch` or `distroless/static`.\n- Install with `--no-install-recommends` (apt) or `--no-cache` (apk) and clean package lists in the same RUN.\n- Production-only dependencies, or Next.js standalone tracing.\n- A strict `.dockerignore`.\n\nA smaller image is not automatically more secure (an Alpine image with an outdated OpenSSL is still vulnerable), so pair it with scanning and regular rebuilds."
+        },
+        {
+          "heading": "Scanning, SBOMs and signing",
+          "body": "Supply-chain controls that come up in senior interviews:\n\n- **Vulnerability scanning**: Docker Scout (`docker scout cves img`), Trivy (`trivy image img`), Grype, Snyk, or the registry's built-in scanning (ECR, GCR, GHCR via Dependabot). Run in CI and fail on critical or high findings with a fix available.\n- **SBOM** (software bill of materials): `docker buildx build --sbom=true` or `syft` produces an SPDX/CycloneDX inventory, so you can answer \"are we affected by CVE-X?\" in minutes.\n- **Provenance attestations**: `--provenance=true` records how and from what source the image was built (SLSA).\n- **Signing**: Sigstore `cosign sign` (keyless with OIDC in CI) lets clusters verify images before running them with admission policies (Kyverno, Sigstore policy-controller).\n- **Secret scanning**: catch keys accidentally baked into layers (Trivy and GitHub secret scanning).\n- **Pin and refresh**: pin base images by digest and let Renovate/Dependabot open PRs to update them, then rebuild so patched OS packages land."
+        },
+        {
+          "heading": "Registries and pushing images",
+          "body": "Image names encode the registry: `docker.io/library/nginx`, `ghcr.io/org/app`, `123456789012.dkr.ecr.us-east-1.amazonaws.com/app`.\n\nWorkflow: `docker login` (or a credential helper), `docker tag local-img registry/repo:tag`, `docker push registry/repo:tag`. With buildx you usually build and push in one step, optionally for several platforms.\n\n- **Docker Hub** has pull rate limits for anonymous and free users, which can break CI. Authenticate, use a pull-through cache, or mirror base images into your own registry.\n- **ECR** authenticates with short-lived tokens (`aws ecr get-login-password | docker login --username AWS --password-stdin <registry>`), supports tag immutability, scanning and lifecycle policies to expire old images.\n- **GHCR** integrates with GitHub Actions via `GITHUB_TOKEN` and package permissions.\n- In CI, prefer OIDC federation (GitHub Actions to AWS IAM role) over long-lived registry passwords.",
+          "code": {
+            "lang": "bash",
+            "source": "# Multi-platform build and push with buildx\ndocker buildx create --use\ndocker buildx build \\\n  --platform linux/amd64,linux/arm64 \\\n  -t ghcr.io/acme/api:3f9c2e1 -t ghcr.io/acme/api:1.4.2 \\\n  --sbom=true --provenance=true \\\n  --push .\n\n# Scan before deploying\ndocker scout cves ghcr.io/acme/api:3f9c2e1\ntrivy image --severity HIGH,CRITICAL --exit-code 1 ghcr.io/acme/api:3f9c2e1"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Run containers as a non-root user (ideally a numeric UID) and listen on ports above 1024.",
+        "Drop all capabilities, set no-new-privileges, use a read-only root filesystem, and set memory/CPU/PID limits.",
+        "Never run app containers with --privileged or with the Docker socket mounted - both are effectively host root.",
+        "Minimal bases (slim, distroless, hardened images) plus multi-stage builds shrink size and attack surface.",
+        "Scan images in CI (Docker Scout, Trivy, Grype) and rebuild regularly to pick up patched base layers.",
+        "Generate SBOMs and provenance, and sign images (cosign) so clusters can verify what they run.",
+        "Use immutable tags, registry credentials via OIDC or short-lived tokens, and lifecycle policies for old images."
+      ],
+      "questions": [
+        {
+          "id": "docker-07-q01",
+          "type": "mcq",
+          "prompt": "Why is mounting `/var/run/docker.sock` into a web app container dangerous?",
+          "options": [
+            "It slows down the container",
+            "Anyone controlling the app can start privileged containers and mount the host filesystem - effectively root on the host",
+            "It disables networking",
+            "It prevents logging"
+          ],
+          "answer": 1,
+          "explanation": "The Docker API has no fine-grained authorization. With the socket you can `docker run --privileged -v /:/host` and own the host."
+        },
+        {
+          "id": "docker-07-q02",
+          "type": "mcq",
+          "prompt": "Kubernetes rejects your pod with `runAsNonRoot` because it \"cannot verify user is non-root\". The Dockerfile has `USER appuser`. What fixes it?",
+          "options": [
+            "Use `USER root`",
+            "Use a numeric UID such as `USER 10001` (or set runAsUser in the pod spec)",
+            "Add EXPOSE 1024",
+            "Remove the USER instruction"
+          ],
+          "answer": 1,
+          "explanation": "The kubelet checks the UID without reading the image's /etc/passwd. A non-numeric user name cannot be verified; a numeric non-zero UID can."
+        },
+        {
+          "id": "docker-07-q03",
+          "type": "mcq",
+          "prompt": "Which flag combination best implements least privilege for a stateless Node API?",
+          "options": [
+            "--privileged",
+            "--cap-add=ALL --user root",
+            "--cap-drop=ALL --read-only --tmpfs /tmp --security-opt no-new-privileges --user 10001",
+            "--network host --pid host"
+          ],
+          "answer": 2,
+          "explanation": "Dropping capabilities, a read-only root filesystem, blocking privilege escalation and a non-root user each remove an attack path. Host namespaces and privileged mode remove isolation."
+        },
+        {
+          "id": "docker-07-q04",
+          "type": "mcq",
+          "prompt": "What is an SBOM used for?",
+          "options": [
+            "Speeding up builds",
+            "Listing every package and version in an image so you can check exposure to vulnerabilities and licenses",
+            "Encrypting image layers",
+            "Load balancing containers"
+          ],
+          "answer": 1,
+          "explanation": "A software bill of materials is an inventory (SPDX or CycloneDX). When a new CVE drops, you query SBOMs instead of rebuilding or guessing."
+        },
+        {
+          "id": "docker-07-q05",
+          "type": "mcq",
+          "prompt": "Your CI fails intermittently with \"toomanyrequests: You have reached your pull rate limit\". What is the most robust fix?",
+          "options": [
+            "Retry the job until it passes",
+            "Authenticate to Docker Hub and/or mirror base images through a pull-through cache or private registry",
+            "Use the latest tag",
+            "Disable BuildKit"
+          ],
+          "answer": 1,
+          "explanation": "Docker Hub rate-limits anonymous and free pulls. Authenticated pulls get higher limits, and a mirror (ECR pull-through cache, Artifactory, Harbor) removes the dependency."
+        },
+        {
+          "id": "docker-07-q06",
+          "type": "mcq",
+          "prompt": "Which statement about image size and security is accurate?",
+          "options": [
+            "Alpine images never have vulnerabilities",
+            "Smaller images reduce attack surface, but outdated packages are still vulnerable - you still need scanning and rebuilds",
+            "Image size has no relation to security",
+            "Distroless images cannot be scanned"
+          ],
+          "answer": 1,
+          "explanation": "Fewer packages mean fewer potential CVEs and tools for attackers, but what remains must be patched. Scanners support Alpine, distroless and others."
+        },
+        {
+          "id": "docker-07-q07",
+          "type": "truefalse",
+          "prompt": "Root inside a container is exactly as powerful as root on the host.",
+          "answer": false,
+          "explanation": "Namespaces, dropped capabilities, seccomp and LSMs restrict container root. It is still risky because a kernel or runtime escape makes it host root, which is why non-root users are recommended."
+        },
+        {
+          "id": "docker-07-q08",
+          "type": "truefalse",
+          "prompt": "Signing images with cosign lets a cluster admission policy refuse images that were not built by your CI pipeline.",
+          "answer": true,
+          "explanation": "Policy engines such as Kyverno or the Sigstore policy-controller verify signatures (and attestations) before admitting pods, blocking tampered or unknown images."
+        },
+        {
+          "id": "docker-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which reduce a container image's attack surface?",
+          "options": [
+            "Multi-stage builds that leave compilers in the builder stage",
+            "Distroless or hardened minimal base images",
+            "Installing curl, vim and a shell for debugging in production",
+            "`--no-install-recommends` and cleaning package caches",
+            "Running as root for convenience"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Removing build tools, using minimal bases and avoiding extra packages all shrink what an attacker can use. Debug tools and root do the opposite."
+        },
+        {
+          "id": "docker-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the docker run flag `--cap-___=ALL` removes all Linux capabilities from the container.",
+          "accept": [
+            "drop"
+          ],
+          "explanation": "`--cap-drop=ALL` removes every capability; add back specific ones with `--cap-add` only if needed."
+        },
+        {
+          "id": "docker-07-q11",
+          "type": "interview",
+          "prompt": "How would you harden a Docker image and its runtime configuration for production?",
+          "answer": "- Build: multi-stage, minimal pinned base (slim, distroless or hardened), production deps only, strict .dockerignore, no secrets in layers (BuildKit secret mounts).\n- Identity: numeric non-root USER, files owned via `COPY --chown`, app listening above 1024.\n- Runtime: drop all capabilities, `no-new-privileges`, read-only root filesystem with tmpfs for scratch, memory/CPU/PID limits, default seccomp/AppArmor; never --privileged, host namespaces or the Docker socket.\n- Supply chain: scan in CI and fail on fixable high/critical CVEs, generate SBOM and provenance, sign with cosign and verify at admission, pin base digests with automated update PRs, rebuild regularly.\n- Registry: immutable tags (git SHA), scanning on push, lifecycle policies, OIDC-based CI credentials.\n- Kubernetes equivalents: securityContext with runAsNonRoot, readOnlyRootFilesystem, allowPrivilegeEscalation false, capabilities drop ALL, Pod Security Admission restricted profile.",
+          "level": "advanced"
+        },
+        {
+          "id": "docker-07-q12",
+          "type": "interview",
+          "prompt": "A critical CVE is announced in OpenSSL. How do you find and remediate affected containers across your organization?",
+          "answer": "- Find: query stored SBOMs or registry scan results for the affected package and versions; registries and tools (Docker Scout, Trivy, ECR Inspector) can list affected images and running workloads.\n- Prioritize by exposure: internet-facing services, images actually running in production, and whether the vulnerable code path is used.\n- Fix: bump the base image (or its digest) once the distro publishes a patch; rebuild every dependent image, even if your code did not change, because the vulnerable library sits in a base layer.\n- Ship through the normal pipeline with immutable tags, then verify with a fresh scan.\n- Prevent recurrence: automated base image update PRs, scheduled rebuilds, CI gates on fixable critical CVEs, minimal bases that do not include unnecessary libraries, and an inventory of which services use which base.",
+          "level": "advanced"
+        },
+        {
+          "id": "docker-07-q13",
+          "type": "interview",
+          "prompt": "Explain how you would build and publish multi-architecture images (amd64 and arm64) in CI.",
+          "answer": "- Need: developers on Apple Silicon and Graviton/ARM servers alongside x86 hosts; one tag should work everywhere.\n- Use `docker buildx` with `--platform linux/amd64,linux/arm64 --push`. Buildx builds each platform and pushes a manifest list (OCI index), so clients pull the matching variant automatically.\n- Emulation via QEMU (`docker/setup-qemu-action`) is simple but slow for compile-heavy builds. Faster: native ARM runners or remote builders per architecture, or cross-compilation using `--platform=$BUILDPLATFORM` in the builder stage with `TARGETOS/TARGETARCH` args (natural for Go).\n- Watch for native Node modules and binaries that must exist for both architectures.\n- In GitHub Actions: setup-qemu, setup-buildx, login (GITHUB_TOKEN for GHCR or OIDC for ECR), docker/build-push-action with platforms, tags from the git SHA, and `cache-from/cache-to: type=gha`.\n- Verify with `docker buildx imagetools inspect <image>`.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Docker Engine security",
+          "url": "https://docs.docker.com/engine/security/"
+        },
+        {
+          "title": "Docker Scout",
+          "url": "https://docs.docker.com/scout/"
+        },
+        {
+          "title": "OWASP Docker Security Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html"
+        }
+      ]
+    }
+  ]
+}

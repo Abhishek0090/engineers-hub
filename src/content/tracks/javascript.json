@@ -1,0 +1,2183 @@
+{
+  "id": "javascript",
+  "title": "JavaScript",
+  "area": "frontend",
+  "order": 11,
+  "icon": "JS",
+  "color": "#eab308",
+  "description": "The language itself, from types and coercion through closures, this, prototypes and the event loop. Built around the output-prediction puzzles and concept questions that frontend interviews lean on.",
+  "chapters": [
+    {
+      "id": "javascript-01-types-coercion",
+      "title": "Types, Values and Coercion",
+      "level": "beginner",
+      "summary": "The eight JavaScript types, how equality works, and the coercion rules behind the language's most famous surprises.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Primitives and objects",
+          "body": "JavaScript has eight types. Seven are primitives: `string`, `number`, `bigint`, `boolean`, `undefined`, `null` and `symbol`. Everything else (plain objects, arrays, functions, dates, maps, class instances) is an **object**.\n\nPrimitives are immutable. `\"abc\".toUpperCase()` returns a new string; it never changes the original. When you call a method on a primitive, the engine temporarily wraps it in an object (`String`, `Number`...) so the method can run.\n\nVariables hold primitives directly, but they hold objects by reference. Assigning or passing an object copies the reference, so two variables can point at the same object:\n\n- `let a = 1; let b = a; b++` leaves `a` at 1.\n- `const x = { n: 1 }; const y = x; y.n = 2` changes `x.n` too, because there is one object.\n\nJavaScript is always pass-by-value. For objects the value being copied is the reference, which is why reassigning a parameter inside a function does not affect the caller, while mutating it does.",
+          "code": {
+            "lang": "js",
+            "source": "let a = 1;\nlet b = a;\nb++;\nconsole.log(a); // 1\n\nconst x = { n: 1 };\nconst y = x;\ny.n = 2;\nconsole.log(x.n); // 2\n\nfunction reassign(obj) { obj = { n: 99 }; }\nfunction mutate(obj) { obj.n = 99; }\nreassign(x); console.log(x.n); // 2\nmutate(x);   console.log(x.n); // 99"
+          }
+        },
+        {
+          "heading": "typeof and its quirks",
+          "body": "`typeof` returns a string describing a value's type. Most results are what you expect, with two historical exceptions:\n\n- `typeof null` is `\"object\"`. This is a bug from the first implementation that can never be fixed without breaking the web. Check for null with `value === null`.\n- `typeof function () {}` is `\"function\"`, even though functions are objects.\n\nOther useful facts: `typeof NaN` is `\"number\"`, `typeof []` is `\"object\"` (use `Array.isArray`), and `typeof undeclaredVariable` returns `\"undefined\"` instead of throwing (the one safe way to probe for an undeclared global).",
+          "code": {
+            "lang": "js",
+            "source": "typeof \"hi\";        // \"string\"\ntypeof 42;          // \"number\"\ntypeof 10n;         // \"bigint\"\ntypeof Symbol();    // \"symbol\"\ntypeof undefined;   // \"undefined\"\ntypeof null;        // \"object\"  (legacy bug)\ntypeof [];          // \"object\"\ntypeof (() => {});  // \"function\"\nArray.isArray([]);  // true"
+          }
+        },
+        {
+          "heading": "Equality: ===, == and Object.is",
+          "body": "`===` (strict equality) compares without converting types. Two objects are strictly equal only if they are the same reference, so `{} === {}` is false.\n\n`==` (loose equality) converts operands first, using a fixed algorithm:\n\n- `null == undefined` is true, and neither equals anything else. So `null == 0` is false.\n- If one side is a number and the other a string, the string is converted to a number: `\"1\" == 1` is true.\n- Booleans are converted to numbers first: `true == \"1\"` is true, `true == \"true\"` is false.\n- An object compared with a primitive is converted with `ToPrimitive` (`valueOf`, then `toString`): `[1] == 1` is true.\n\n`Object.is` is like `===` except for two cases: `Object.is(NaN, NaN)` is true and `Object.is(0, -0)` is false. React uses `Object.is` to compare state and dependency values.\n\n**Rule of thumb:** use `===` everywhere. The one common, readable exception is `value == null`, which checks for both `null` and `undefined` at once."
+        },
+        {
+          "heading": "Implicit coercion",
+          "body": "Operators convert operands to the types they need.\n\n- **+** first converts both operands to primitives. If either result is a string, it concatenates. Otherwise it adds numbers. So `\"5\" + 2` is `\"52\"` but `\"5\" - 2` is `3`, because `-` only works on numbers.\n- `[] + []` is `\"\"` (both become empty strings). `[] + {}` is `\"[object Object]\"`.\n- Relational operators (`<`, `>=`) convert to numbers. That is why `null >= 0` is true even though `null == 0` is false: `==` has the special null rule, `>=` does not.\n- `Number(\"\")` is 0, `Number(\" 12 \")` is 12, `Number(\"12px\")` is NaN, while `parseInt(\"12px\", 10)` is 12 because it parses until the first invalid character.\n\nExplicit conversion (`String(x)`, `Number(x)`, `Boolean(x)`) is clearer than relying on these rules.",
+          "code": {
+            "lang": "js",
+            "source": "console.log(\"5\" + 2);       // \"52\"\nconsole.log(\"5\" - 2);       // 3\nconsole.log(\"5\" * \"2\");     // 10\nconsole.log(true + 1);      // 2\nconsole.log([] + {});       // \"[object Object]\"\nconsole.log(null == 0);     // false\nconsole.log(null >= 0);     // true\nconsole.log(parseInt(\"12px\", 10)); // 12\nconsole.log(Number(\"12px\"));       // NaN"
+          }
+        },
+        {
+          "heading": "Truthy, falsy, ?? and ?.",
+          "body": "In a boolean context every value is either truthy or falsy. The falsy values are: `false`, `0`, `-0`, `0n`, `\"\"`, `null`, `undefined` and `NaN`. Everything else is truthy, including `\"0\"`, `\"false\"`, `[]` and `{}`.\n\n`||` returns the first truthy operand, which breaks defaults when 0 or \"\" are valid: `count || 10` turns a real 0 into 10. The nullish coalescing operator `??` only falls back on `null` or `undefined`: `count ?? 10` keeps 0.\n\nOptional chaining `?.` stops and returns `undefined` if the left side is `null` or `undefined`: `user?.address?.city`, `fn?.()`, `arr?.[0]`.",
+          "code": {
+            "lang": "js",
+            "source": "const count = 0;\nconsole.log(count || 10); // 10  (0 is falsy)\nconsole.log(count ?? 10); // 0   (0 is not nullish)\n\nconst user = { profile: null };\nconsole.log(user.profile?.name); // undefined, no TypeError"
+          }
+        },
+        {
+          "heading": "Numbers: floating point, NaN and BigInt",
+          "body": "Every `number` is an IEEE 754 64-bit float. Many decimals cannot be represented exactly, so `0.1 + 0.2` is `0.30000000000000004`. Compare floats with a tolerance, or store money as integer cents.\n\nIntegers are exact only up to `Number.MAX_SAFE_INTEGER` (2^53 - 1). Beyond that, use `bigint` (`123n`). You cannot mix bigint and number in arithmetic without converting: `1n + 1` throws a TypeError.\n\n`NaN` is the only value not equal to itself. Use `Number.isNaN(x)`, not the global `isNaN(x)`, which coerces first so `isNaN(\"hello\")` is true.",
+          "code": {
+            "lang": "js",
+            "source": "console.log(0.1 + 0.2 === 0.3);                            // false\nconsole.log(Math.abs(0.1 + 0.2 - 0.3) < Number.EPSILON);   // true\nconsole.log(Number.MAX_SAFE_INTEGER + 2);                  // 9007199254740992 (wrong!)\nconsole.log(9007199254740991n + 2n);                       // 9007199254740993n\nconsole.log(NaN === NaN, Number.isNaN(NaN));               // false true\nconsole.log(isNaN(\"hello\"), Number.isNaN(\"hello\"));        // true false"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Seven primitives (string, number, bigint, boolean, undefined, null, symbol) plus objects.",
+        "Primitives are copied by value; objects are shared through references, but argument passing is still by value.",
+        "`typeof null` is \"object\"; check null with `=== null` and arrays with `Array.isArray`.",
+        "Prefer `===`; `x == null` is the accepted shortcut for null-or-undefined.",
+        "`+` concatenates if either operand becomes a string; other arithmetic operators convert to numbers.",
+        "Only 8 values are falsy; `[]`, `{}` and `\"0\"` are truthy.",
+        "Use `??` for defaults when 0 or empty string are valid values.",
+        "Floats are imprecise; use a tolerance, integer cents or bigint."
+      ],
+      "questions": [
+        {
+          "id": "javascript-01-q01",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "console.log(typeof null);",
+          "options": [
+            "\"null\"",
+            "\"object\"",
+            "\"undefined\"",
+            "It throws"
+          ],
+          "answer": 1,
+          "explanation": "`typeof null` returns \"object\" because of a bug in the original implementation where null shared the object type tag. It was kept for web compatibility."
+        },
+        {
+          "id": "javascript-01-q02",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "console.log([] + {});",
+          "options": [
+            "\"[object Object]\"",
+            "\"\"",
+            "0",
+            "NaN"
+          ],
+          "answer": 0,
+          "explanation": "`+` converts both operands to primitives. `[]` becomes \"\" and `{}` becomes \"[object Object]\". One side is a string, so the result is string concatenation."
+        },
+        {
+          "id": "javascript-01-q03",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "console.log(\"5\" - \"2\" + \"1\");",
+          "options": [
+            "\"521\"",
+            "\"31\"",
+            "4",
+            "\"3\" then \"1\""
+          ],
+          "answer": 1,
+          "explanation": "`-` forces numeric conversion: `\"5\" - \"2\"` is 3. Then `3 + \"1\"` has a string operand, so it concatenates to \"31\"."
+        },
+        {
+          "id": "javascript-01-q04",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "console.log(null == 0, null >= 0);",
+          "options": [
+            "false false",
+            "true true",
+            "false true",
+            "true false"
+          ],
+          "answer": 2,
+          "explanation": "`==` has a special rule: null is only loosely equal to undefined, so `null == 0` is false. Relational operators like `>=` convert null to the number 0, so `null >= 0` is true."
+        },
+        {
+          "id": "javascript-01-q05",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "const qty = 0;\nconsole.log(qty || 10, qty ?? 10);",
+          "options": [
+            "0 0",
+            "10 10",
+            "10 0",
+            "0 10"
+          ],
+          "answer": 2,
+          "explanation": "`||` falls back on any falsy value, and 0 is falsy, so the first gives 10. `??` only falls back on null or undefined, so the second keeps 0."
+        },
+        {
+          "id": "javascript-01-q06",
+          "type": "mcq",
+          "prompt": "Which check correctly detects NaN without false positives?",
+          "options": [
+            "`x === NaN`",
+            "`isNaN(x)`",
+            "`Number.isNaN(x)`",
+            "`x == NaN`"
+          ],
+          "answer": 2,
+          "explanation": "NaN is never equal to anything, including itself, so the equality checks are always false. Global `isNaN` coerces its argument first, so `isNaN(\"abc\")` is true. `Number.isNaN` returns true only for the actual NaN value (`Object.is(x, NaN)` also works)."
+        },
+        {
+          "id": "javascript-01-q07",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "console.log({ a: 1 } === { a: 1 });",
+          "options": [
+            "true",
+            "false",
+            "TypeError",
+            "undefined"
+          ],
+          "answer": 1,
+          "explanation": "The two literals create two different objects. Strict equality on objects compares references, not contents."
+        },
+        {
+          "id": "javascript-01-q08",
+          "type": "truefalse",
+          "prompt": "`typeof NaN` returns \"number\".",
+          "answer": true,
+          "explanation": "NaN (Not-a-Number) is a special value of the number type defined by IEEE 754, so typeof reports \"number\"."
+        },
+        {
+          "id": "javascript-01-q09",
+          "type": "truefalse",
+          "prompt": "`Object.is(0, -0)` returns true, just like `0 === -0`.",
+          "answer": false,
+          "explanation": "`0 === -0` is true, but `Object.is` distinguishes signed zeros and returns false. It also treats NaN as equal to NaN."
+        },
+        {
+          "id": "javascript-01-q10",
+          "type": "multi",
+          "prompt": "Select all that apply: which values are falsy?",
+          "options": [
+            "`0n`",
+            "`\"0\"`",
+            "`[]`",
+            "`NaN`",
+            "`\"\"`",
+            "`{}`"
+          ],
+          "answers": [
+            0,
+            3,
+            4
+          ],
+          "explanation": "The falsy values are false, 0, -0, 0n, \"\", null, undefined and NaN. The string \"0\" is non-empty, and every object (including empty arrays and objects) is truthy."
+        },
+        {
+          "id": "javascript-01-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: the operator ___ returns its right operand only when the left operand is null or undefined.",
+          "accept": [
+            "??",
+            "nullish coalescing",
+            "nullish coalescing operator"
+          ],
+          "explanation": "`??` is the nullish coalescing operator. Unlike `||`, it does not treat 0, \"\" or false as missing."
+        },
+        {
+          "id": "javascript-01-q12",
+          "type": "interview",
+          "prompt": "What is the difference between == and ===, and when (if ever) would you use ==?",
+          "answer": "- `===` compares type and value with no conversion; objects are equal only if they are the same reference.\n- `==` runs the Abstract Equality algorithm: null and undefined equal each other and nothing else, strings and booleans are converted to numbers, objects are converted with ToPrimitive. This gives results like `[1] == 1` and `\"\" == 0` being true.\n- I default to `===` (and enforce it with ESLint `eqeqeq`) because it is predictable.\n- The one idiom I accept is `value == null` to check for null or undefined in one comparison; many style guides allow it explicitly.\n- For NaN and signed zero edge cases I use `Object.is` or `Number.isNaN`.",
+          "level": "beginner"
+        },
+        {
+          "id": "javascript-01-q13",
+          "type": "interview",
+          "prompt": "Why is 0.1 + 0.2 not equal to 0.3 in JavaScript, and how do you handle money?",
+          "answer": "- All JS numbers are IEEE 754 double-precision floats. 0.1 and 0.2 have no exact binary representation, so their stored values are tiny approximations and the sum is 0.30000000000000004.\n- This is not JS-specific; Python, Java doubles and C behave the same.\n- To compare floats, check that the difference is under a tolerance such as `Number.EPSILON` scaled to the magnitude.\n- For money I store integer minor units (cents) or use `bigint`, and format only at the edges with `Intl.NumberFormat`. For complex decimal math a decimal library is safer.\n- I also keep in mind that integers are only exact up to 2^53 - 1, which matters for IDs from 64-bit databases; those should travel as strings or bigint.",
+          "level": "beginner"
+        },
+        {
+          "id": "javascript-01-q14",
+          "type": "interview",
+          "prompt": "Explain how primitives and objects differ when passed to a function. Is JavaScript pass-by-reference?",
+          "answer": "- JavaScript is always pass-by-value. For primitives the value is the data itself; for objects the value is a reference to the object.\n- So a function that mutates a parameter object (`obj.x = 1`) changes what the caller sees, because both hold references to the same object.\n- But reassigning the parameter (`obj = {}`) only rebinds the local variable; the caller still points at the original. True pass-by-reference (like C++ `&`) would change the caller's variable.\n- In practice this is why React and Redux insist on immutable updates: if you mutate shared objects, reference equality checks cannot detect the change.",
+          "level": "beginner"
+        },
+        {
+          "id": "javascript-01-q15",
+          "type": "interview",
+          "prompt": "Walk me through how JavaScript evaluates [] == ![].",
+          "answer": "- `![]` runs first. Arrays are truthy, so `![]` is `false`. The comparison is now `[] == false`.\n- With `==`, a boolean operand is converted to a number: `false` becomes `0`, giving `[] == 0`.\n- An object compared with a number goes through ToPrimitive: `[].valueOf()` returns the array itself (not primitive), so `toString()` is used and returns `\"\"`. Now `\"\" == 0`.\n- A string compared with a number is converted to a number: `Number(\"\")` is 0, so `0 == 0` is true.\n- The takeaway I would give in an interview: knowing the algorithm explains the puzzle, but the fix in real code is to use `===` and explicit conversions.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: JavaScript data types and data structures",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Data_structures"
+        },
+        {
+          "title": "MDN: Equality comparisons and sameness",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness"
+        },
+        {
+          "title": "MDN: Type coercion",
+          "url": "https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion"
+        }
+      ]
+    },
+    {
+      "id": "javascript-02-scope-hoisting",
+      "title": "Scope, Hoisting and the TDZ",
+      "level": "beginner",
+      "summary": "How var, let and const are scoped, what hoisting really does, and why the temporal dead zone exists.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Kinds of scope",
+          "body": "Scope decides where a name is visible. JavaScript has:\n\n- **Global scope**: names declared at the top of a classic script.\n- **Module scope**: each ES module has its own top-level scope; nothing leaks to `globalThis` unless you assign it explicitly.\n- **Function scope**: created by every function call.\n- **Block scope**: created by `{ }` blocks (if, for, while, bare blocks) for `let`, `const` and `class`.\n\nScope is **lexical** (static): it depends on where code is written, not where it is called from. When a name is looked up, the engine checks the current scope, then the enclosing scope, and so on up to global. This is the **scope chain**. If the name is never found you get a ReferenceError.",
+          "code": {
+            "lang": "js",
+            "source": "const app = \"hub\";            // module or global scope\nfunction outer() {\n  const a = 1;                // function scope\n  if (true) {\n    const b = 2;              // block scope\n    console.log(app, a, b);   // walks the scope chain: \"hub\" 1 2\n  }\n  // console.log(b);          // ReferenceError: b is not defined\n}\nouter();"
+          }
+        },
+        {
+          "heading": "var, let and const",
+          "body": "- `var` is function-scoped (it ignores blocks), can be redeclared, and at the top level of a classic script it creates a property on `window`.\n- `let` is block-scoped, cannot be redeclared in the same scope, and can be reassigned.\n- `const` is block-scoped and cannot be reassigned. It must be initialized at declaration.\n\n`const` makes the **binding** constant, not the value. `const user = {}; user.name = \"A\"` is fine. Use `Object.freeze` for a shallow read-only object.\n\nModern style: use `const` by default, `let` when you need to reassign, and avoid `var`.",
+          "code": {
+            "lang": "js",
+            "source": "if (true) {\n  var v = 1;\n  let l = 2;\n}\nconsole.log(v);       // 1  (var leaks out of the block)\n// console.log(l);    // ReferenceError\n\nconst config = { debug: false };\nconfig.debug = true;  // allowed: mutating the object\n// config = {};       // TypeError: Assignment to constant variable"
+          }
+        },
+        {
+          "heading": "Hoisting",
+          "body": "Before running a scope, the engine processes its declarations. This is called hoisting. Nothing physically moves; the names are registered when the scope is created.\n\n- **Function declarations** are hoisted with their body, so you can call them before the line they appear on.\n- **var** declarations are hoisted and initialized to `undefined`. Reading one early gives `undefined`, not an error. The assignment stays where it is.\n- **let, const and class** are hoisted too (the scope knows about them), but they are left **uninitialized** until their declaration line runs.\n- **Function expressions** and arrow functions follow the rule of the variable that holds them. `var f = function () {}` gives `f` = undefined early, so calling it throws \"f is not a function\".",
+          "code": {
+            "lang": "js",
+            "source": "sayHi();                   // works: declaration fully hoisted\nfunction sayHi() { console.log(\"hi\"); }\n\nconsole.log(count);        // undefined\nvar count = 5;\n\ntry { greet(); } catch (e) { console.log(e.constructor.name); } // TypeError\nvar greet = function () {};"
+          }
+        },
+        {
+          "heading": "The temporal dead zone",
+          "body": "The **temporal dead zone (TDZ)** is the time between entering a scope and the evaluation of a `let`, `const` or `class` declaration. Touching the name in that window throws a ReferenceError (\"Cannot access 'x' before initialization\").\n\nIt is \"temporal\" because it is about time of execution, not position in the text. A function defined above the declaration can safely use the variable as long as it is **called** after the declaration runs.\n\nThe TDZ also explains shadowing surprises: an inner `let x` shadows an outer `x` for the whole block, including lines before its declaration. Even `typeof x` throws inside the TDZ.\n\nWhy it exists: it catches use-before-initialization bugs, and it gives `const` sane semantics (a const should never be observed with a value other than the one it was declared with).",
+          "code": {
+            "lang": "js",
+            "source": "let x = 1;\n{\n  // console.log(x);   // ReferenceError: the inner x is in its TDZ\n  let x = 2;\n  console.log(x);      // 2\n}\n\nfunction useLater() { return value; }\nconst value = 42;\nconsole.log(useLater()); // 42: called after initialization"
+          }
+        },
+        {
+          "heading": "The classic loop and closure bug",
+          "body": "Callbacks created in a loop capture variables, not values. With `var` there is one `i` for the whole function, so every callback sees its final value. With `let`, the spec creates a fresh binding for each iteration, so each callback captures its own `i`.\n\nBefore `let` existed, the fix was an IIFE that copied `i` into a new function scope. You will still see this in older code and interview questions.",
+          "code": {
+            "lang": "js",
+            "source": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(\"var\", i));   // var 3, var 3, var 3\n}\nfor (let j = 0; j < 3; j++) {\n  setTimeout(() => console.log(\"let\", j));   // let 0, let 1, let 2\n}\n// Pre-ES2015 fix\nfor (var k = 0; k < 3; k++) {\n  (function (k) {\n    setTimeout(() => console.log(\"iife\", k)); // iife 0, 1, 2\n  })(k);\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Scope is lexical: it is decided by where code is written.",
+        "`var` is function-scoped; `let` and `const` are block-scoped.",
+        "`const` prevents reassignment of the binding, not mutation of the object.",
+        "Function declarations are fully hoisted; `var` is hoisted as undefined.",
+        "`let`, `const` and `class` are hoisted but uninitialized: the TDZ.",
+        "An inner `let` shadows the outer name for the entire block, even before its line.",
+        "`let` in a for loop creates a new binding per iteration, fixing the classic setTimeout bug."
+      ],
+      "questions": [
+        {
+          "id": "javascript-02-q01",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "console.log(a);\nvar a = 1;",
+          "options": [
+            "1",
+            "undefined",
+            "ReferenceError",
+            "null"
+          ],
+          "answer": 1,
+          "explanation": "The `var a` declaration is hoisted and initialized to undefined. The assignment `a = 1` happens on its own line, after the log."
+        },
+        {
+          "id": "javascript-02-q02",
+          "type": "mcq",
+          "prompt": "What happens here?",
+          "code": "console.log(b);\nlet b = 1;",
+          "options": [
+            "Logs undefined",
+            "Logs 1",
+            "ReferenceError",
+            "SyntaxError"
+          ],
+          "answer": 2,
+          "explanation": "`let b` is hoisted but uninitialized. Reading it before the declaration runs is a TDZ access and throws `ReferenceError: Cannot access 'b' before initialization`."
+        },
+        {
+          "id": "javascript-02-q03",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i));\n}",
+          "options": [
+            "0 1 2",
+            "3 3 3",
+            "undefined x3",
+            "2 2 2"
+          ],
+          "answer": 1,
+          "explanation": "`var i` is a single function-scoped binding. The callbacks run after the loop finishes, when i is 3, and all three read the same variable."
+        },
+        {
+          "id": "javascript-02-q04",
+          "type": "mcq",
+          "prompt": "What is logged?",
+          "code": "try {\n  run();\n} catch (e) {\n  console.log(e.name + \": run is not a function\");\n}\nvar run = function () { console.log(\"hello\"); };",
+          "options": [
+            "\"hello\"",
+            "undefined",
+            "TypeError: run is not a function",
+            "ReferenceError"
+          ],
+          "answer": 2,
+          "explanation": "`var run` is hoisted as undefined; the function expression is only assigned later. Calling undefined throws a TypeError."
+        },
+        {
+          "id": "javascript-02-q05",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "let x = 1;\n{\n  console.log(x);\n  let x = 2;\n}",
+          "options": [
+            "1",
+            "2",
+            "undefined",
+            "ReferenceError"
+          ],
+          "answer": 3,
+          "explanation": "The inner `let x` shadows the outer x for the whole block. At the log line the inner x is in its temporal dead zone, so it throws instead of falling back to the outer x."
+        },
+        {
+          "id": "javascript-02-q06",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "const settings = { theme: \"light\" };\nsettings.theme = \"dark\";\nconsole.log(settings);",
+          "options": [
+            "TypeError",
+            "{ theme: \"dark\" }",
+            "{ theme: \"light\" }",
+            "SyntaxError"
+          ],
+          "answer": 1,
+          "explanation": "`const` only stops reassignment of the binding. Mutating a property of the object it points to is allowed."
+        },
+        {
+          "id": "javascript-02-q07",
+          "type": "mcq",
+          "prompt": "In a classic (non-module) browser script, what does this log?",
+          "code": "var first = \"a\";\nlet second = \"b\";\nconsole.log(window.first, window.second);",
+          "options": [
+            "\"a\" undefined",
+            "\"a\" \"b\"",
+            "undefined undefined",
+            "undefined \"b\""
+          ],
+          "answer": 0,
+          "explanation": "Top-level `var` in a classic script creates a property on the global object (`window`). Top-level `let` and `const` live in a separate declarative scope and do not become window properties."
+        },
+        {
+          "id": "javascript-02-q08",
+          "type": "truefalse",
+          "prompt": "`let` and `const` declarations are not hoisted at all.",
+          "answer": false,
+          "explanation": "They are hoisted in the sense that the scope registers them at creation, which is exactly why an inner `let` shadows an outer variable before its line. They are just not initialized, so access throws (the TDZ)."
+        },
+        {
+          "id": "javascript-02-q09",
+          "type": "truefalse",
+          "prompt": "A function can reference a `const` declared below it, as long as the function is called after the const line has executed.",
+          "answer": true,
+          "explanation": "The TDZ is about execution time, not source position. By the time the function runs, the const is initialized."
+        },
+        {
+          "id": "javascript-02-q10",
+          "type": "multi",
+          "prompt": "Select all that apply: which can be used before their declaration line executes without throwing?",
+          "options": [
+            "A function declaration (calling it)",
+            "A var variable (reading it gives undefined)",
+            "A let variable",
+            "A class declaration",
+            "An arrow function stored in a const"
+          ],
+          "answers": [
+            0,
+            1
+          ],
+          "explanation": "Function declarations are hoisted with their body and var is hoisted as undefined. let, const and class bindings are in the TDZ until their declaration runs, so the arrow in a const is unusable too."
+        },
+        {
+          "id": "javascript-02-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: the window between entering a scope and evaluating a let or const declaration is called the ___.",
+          "accept": [
+            "temporal dead zone",
+            "TDZ",
+            "the temporal dead zone",
+            "the TDZ"
+          ],
+          "explanation": "Accessing the binding during the temporal dead zone throws a ReferenceError."
+        },
+        {
+          "id": "javascript-02-q12",
+          "type": "interview",
+          "prompt": "What is hoisting? Explain how it differs for var, let/const, function declarations and function expressions.",
+          "answer": "- Hoisting is the effect of the engine creating all bindings for a scope before executing its code.\n- Function declarations are created and initialized with their body, so they are callable anywhere in the scope.\n- `var` bindings are created and initialized to `undefined`; the assignment stays in place, so early reads return undefined.\n- `let`, `const` and `class` bindings are created but not initialized. Accessing them before the declaration executes throws a ReferenceError (the TDZ).\n- Function expressions and arrows behave like whatever variable holds them: with var you get \"is not a function\", with const you get a TDZ ReferenceError.\n- I'd mention that nothing is literally moved to the top; the \"move to top\" picture is a mental model.",
+          "level": "beginner"
+        },
+        {
+          "id": "javascript-02-q13",
+          "type": "interview",
+          "prompt": "Compare var, let and const. Which do you use and why?",
+          "answer": "- Scope: var is function-scoped; let and const are block-scoped.\n- Redeclaration: var allows it silently; let and const throw a SyntaxError in the same scope.\n- Hoisting: var is initialized to undefined; let and const sit in the TDZ.\n- Globals: top-level var in a classic script creates a `window` property; let and const do not.\n- Loops: let gets a fresh binding per iteration, which fixes closure-in-loop bugs.\n- I use const by default because it signals the binding never changes, let when I must reassign (counters, accumulators), and never var in new code. I also point out that const does not make objects immutable.",
+          "level": "beginner"
+        },
+        {
+          "id": "javascript-02-q14",
+          "type": "interview",
+          "prompt": "Why does the language have a temporal dead zone instead of just initializing let to undefined like var?",
+          "answer": "- Reading a variable before it is initialized is almost always a bug; the TDZ turns that silent `undefined` into a loud error at the faulty line.\n- It is needed for `const` to make sense: a const must never be observed with any value other than its initializer, so it cannot be undefined first.\n- It keeps shadowing honest: inside a block that declares `let x`, every reference to x means the inner one, so you cannot accidentally read the outer x on early lines.\n- Classes use it too, so `new Foo()` before `class Foo` fails clearly instead of producing a half-defined object.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-02-q15",
+          "type": "interview",
+          "prompt": "Here is a loop that schedules three setTimeout calls with var and prints 3 3 3. Give two ways to fix it and explain why they work.",
+          "answer": "- Cause: var creates one function-scoped `i`. The callbacks close over that single binding and run after the loop ends, when i is 3.\n- Fix 1: use `let`. The for-loop spec copies the binding into a new lexical environment for each iteration, so each callback closes over its own i.\n- Fix 2 (older code): wrap the body in an IIFE `(function (j) { setTimeout(() => log(j)); })(i)`, which creates a new function scope per iteration holding a copy of the value.\n- Fix 3: pass the value as an argument: `setTimeout(console.log, 0, i)` or `setTimeout(log.bind(null, i))`, which captures the value at scheduling time.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Hoisting",
+          "url": "https://developer.mozilla.org/en-US/docs/Glossary/Hoisting"
+        },
+        {
+          "title": "MDN: let (including the temporal dead zone)",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let"
+        },
+        {
+          "title": "MDN: Scope",
+          "url": "https://developer.mozilla.org/en-US/docs/Glossary/Scope"
+        }
+      ]
+    },
+    {
+      "id": "javascript-03-functions-closures",
+      "title": "Functions and Closures",
+      "level": "beginner",
+      "summary": "Function forms, arrow function differences, higher-order functions and closures with real use cases and pitfalls.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Function forms",
+          "body": "Functions are first-class values: you can store them in variables, pass them as arguments and return them.\n\n- **Declaration**: `function add(a, b) { }`. Hoisted with its body.\n- **Expression**: `const add = function (a, b) { }`. Can be named for better stack traces.\n- **Arrow**: `const add = (a, b) => a + b`. Concise, with different `this` rules.\n- **Method shorthand**: `{ add(a, b) { } }` inside objects and classes.\n\nParameters support defaults and rest syntax. Default values are evaluated **at call time**, every time, and can refer to earlier parameters.",
+          "code": {
+            "lang": "js",
+            "source": "function greet(name = \"guest\", greeting = `Hello, ${name}`) {\n  return greeting;\n}\ngreet();          // \"Hello, guest\"\n\nfunction sum(...nums) {          // rest collects remaining args into an array\n  return nums.reduce((a, b) => a + b, 0);\n}\nsum(1, 2, 3);     // 6"
+          }
+        },
+        {
+          "heading": "Arrow functions are different",
+          "body": "Arrow functions are not just shorter syntax. Compared with regular functions they:\n\n- have no own `this`; they use `this` from the enclosing scope (lexical this)\n- have no own `arguments` object (use rest parameters instead)\n- cannot be called with `new` and have no `prototype` property\n- cannot be generators\n\nThat makes arrows ideal for callbacks inside methods (they keep the method's `this`) and a bad choice for object methods that need `this` to be the object.\n\nReturning an object literal from a concise arrow needs parentheses: `() => ({ ok: true })`. Without them the braces are read as a function body.",
+          "code": {
+            "lang": "js",
+            "source": "const timer = {\n  seconds: 0,\n  start() {\n    setInterval(() => {\n      this.seconds++;           // arrow: this is timer\n    }, 1000);\n  },\n};\n\nconst make = () => ({ ok: true }); // parentheses required\n// new make();                      // TypeError: make is not a constructor"
+          }
+        },
+        {
+          "heading": "Higher-order functions",
+          "body": "A higher-order function takes a function as an argument or returns one. `map`, `filter`, `reduce`, `addEventListener` and `setTimeout` are all examples.\n\nReturning functions is how you build function factories, partial application and decorators that wrap behavior (logging, caching, retry). These patterns rely on closures.",
+          "code": {
+            "lang": "js",
+            "source": "const multiplyBy = (factor) => (n) => n * factor;\nconst double = multiplyBy(2);\n[1, 2, 3].map(double);   // [2, 4, 6]\n\nfunction withLogging(fn) {\n  return function (...args) {\n    console.log(\"calling\", fn.name, args);\n    return fn.apply(this, args);\n  };\n}"
+          }
+        },
+        {
+          "heading": "What a closure is",
+          "body": "A **closure** is a function together with a reference to the scope it was created in. Because scope is lexical, a function can always read and write the variables that were visible where it was defined, even after the outer function has returned.\n\nThe important word is **reference**: a closure does not copy values. If the captured variable changes later, the closure sees the new value. Each call of the outer function creates a new scope, so each returned closure gets its own private state.",
+          "code": {
+            "lang": "js",
+            "source": "function createCounter() {\n  let count = 0;                // private: only reachable via the closure\n  return {\n    increment: () => ++count,\n    get: () => count,\n  };\n}\nconst a = createCounter();\nconst b = createCounter();\na.increment(); a.increment();\nb.increment();\nconsole.log(a.get(), b.get()); // 2 1  (separate scopes)"
+          }
+        },
+        {
+          "heading": "Practical closures: once and memoize",
+          "body": "Closures are everywhere in real code:\n\n- **Encapsulation**: private state without classes (the counter above, the old module pattern).\n- **Function factories** and partial application.\n- **Callbacks** that remember context (event handlers, React hooks).\n- **Caching**: memoize stores results in a closed-over `Map`.\n- **Run-once logic**: `once` remembers whether it already ran.\n\nPitfalls: a closure keeps its whole captured scope alive, which can retain large objects in memory, and it can read **stale** values if it was created during an earlier render or iteration (the classic React stale-closure bug with `useEffect` and intervals).",
+          "code": {
+            "lang": "js",
+            "source": "function once(fn) {\n  let done = false, result;\n  return function (...args) {\n    if (!done) {\n      done = true;\n      result = fn.apply(this, args);\n    }\n    return result;\n  };\n}\n\nfunction memoize(fn) {\n  const cache = new Map();\n  return (arg) => {\n    if (!cache.has(arg)) cache.set(arg, fn(arg));\n    return cache.get(arg);\n  };\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Functions are first-class values; higher-order functions take or return functions.",
+        "Default parameters are evaluated on every call and can reference earlier parameters.",
+        "Arrows have lexical `this`, no `arguments`, no `prototype` and cannot be used with `new`.",
+        "A closure is a function plus a live reference to the scope it was defined in.",
+        "Closures capture variables, not snapshots of values.",
+        "Each call of an outer function creates fresh, independent closed-over state.",
+        "Closures power memoization, once, factories, private state and event handlers, but can retain memory and read stale values."
+      ],
+      "questions": [
+        {
+          "id": "javascript-03-q01",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "function counter() {\n  let count = 0;\n  return () => ++count;\n}\nconst next = counter();\nconsole.log(next(), next());",
+          "options": [
+            "1 1",
+            "1 2",
+            "2 2",
+            "0 1"
+          ],
+          "answer": 1,
+          "explanation": "The returned arrow closes over the same `count` variable. Each call increments the shared closed-over value."
+        },
+        {
+          "id": "javascript-03-q02",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "function counter() {\n  let count = 0;\n  return () => ++count;\n}\nconst a = counter();\nconst b = counter();\na();\nconsole.log(a(), b());",
+          "options": [
+            "1 1",
+            "2 1",
+            "2 2",
+            "1 2"
+          ],
+          "answer": 1,
+          "explanation": "Each call to `counter()` creates a new scope with its own count. `a` was called twice, `b` once."
+        },
+        {
+          "id": "javascript-03-q03",
+          "type": "mcq",
+          "prompt": "What does f(3) return?",
+          "code": "function f(a, b = a * 2) {\n  return a + b;\n}\nf(3);",
+          "options": [
+            "3",
+            "6",
+            "9",
+            "NaN"
+          ],
+          "answer": 2,
+          "explanation": "Default parameters are evaluated at call time and can use earlier parameters. b defaults to 3 * 2 = 6, so the result is 3 + 6."
+        },
+        {
+          "id": "javascript-03-q04",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "let x = 1;\nconst show = () => console.log(x);\nx = 20;\nshow();",
+          "options": [
+            "1",
+            "20",
+            "undefined",
+            "ReferenceError"
+          ],
+          "answer": 1,
+          "explanation": "Closures hold a reference to the variable, not a copy of its value at creation time. By the time `show` runs, `x` has been reassigned to 20."
+        },
+        {
+          "id": "javascript-03-q05",
+          "type": "mcq",
+          "prompt": "What does this return?",
+          "code": "const make = () => { ok: true };\nmake();",
+          "options": [
+            "{ ok: true }",
+            "undefined",
+            "true",
+            "SyntaxError"
+          ],
+          "answer": 1,
+          "explanation": "Without parentheses the braces are a function body, and `ok:` is parsed as a label followed by the expression `true`. The body has no return statement, so the result is undefined. Write `() => ({ ok: true })`."
+        },
+        {
+          "id": "javascript-03-q06",
+          "type": "mcq",
+          "prompt": "This runs at the top level of an ES module. What happens?",
+          "code": "const f = () => arguments;\nconsole.log(f(1, 2));",
+          "options": [
+            "Logs [1, 2]",
+            "Logs undefined",
+            "Throws ReferenceError: arguments is not defined",
+            "Logs an empty arguments object"
+          ],
+          "answer": 2,
+          "explanation": "Arrow functions have no own `arguments`, so the name is looked up in the enclosing scope. Module top level has no `arguments` binding, so it throws. Inside a regular function the arrow would see that outer function's arguments instead. Use rest parameters `(...args) =>`."
+        },
+        {
+          "id": "javascript-03-q07",
+          "type": "truefalse",
+          "prompt": "A closure copies the values of outer variables at the moment the inner function is created.",
+          "answer": false,
+          "explanation": "A closure keeps a reference to the outer scope (environment record). Later changes to those variables are visible to the closure."
+        },
+        {
+          "id": "javascript-03-q08",
+          "type": "truefalse",
+          "prompt": "Arrow functions cannot be used as constructors with `new`.",
+          "answer": true,
+          "explanation": "Arrows have no [[Construct]] internal method and no prototype property, so `new` throws a TypeError."
+        },
+        {
+          "id": "javascript-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are true about arrow functions?",
+          "options": [
+            "They inherit `this` from the enclosing scope",
+            "They have their own `arguments` object",
+            "`call` and `bind` cannot change their `this`",
+            "They can be generators with `*`",
+            "They have no `prototype` property"
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "explanation": "Arrows use lexical this, which call/apply/bind cannot override (only the arguments are passed). They lack an own arguments object, cannot be generators and have no prototype."
+        },
+        {
+          "id": "javascript-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a function bundled with a reference to the lexical scope where it was defined is called a ___.",
+          "accept": [
+            "closure",
+            "a closure",
+            "closures"
+          ],
+          "explanation": "That combination is a closure. Every JavaScript function forms one, but it only becomes interesting when the function outlives the scope it came from."
+        },
+        {
+          "id": "javascript-03-q11",
+          "type": "interview",
+          "prompt": "What is a closure? Give two real-world uses.",
+          "answer": "- A closure is a function combined with a reference to the lexical environment it was created in, so it can keep accessing those variables after the outer function returns.\n- Use 1: encapsulation. A factory like `createStore()` keeps state in a local variable and exposes only functions that read and update it, so nothing outside can mutate it directly.\n- Use 2: caching or rate limiting. `memoize`, `once`, `debounce` and `throttle` all keep their cache, flag or timer id in a closure.\n- Others: event handlers that remember an item id, partial application, React hooks (every render's handlers close over that render's props and state).\n- Trade-offs: captured scopes stay alive as long as the closure does, so long-lived closures can retain memory; and closures read whatever the variable holds when they run, which can be stale.",
+          "level": "beginner"
+        },
+        {
+          "id": "javascript-03-q12",
+          "type": "interview",
+          "prompt": "Implement a memoize function. What are its limitations?",
+          "answer": "- Basic version: `function memoize(fn) { const cache = new Map(); return function (...args) { const key = JSON.stringify(args); if (cache.has(key)) return cache.get(key); const r = fn.apply(this, args); cache.set(key, r); return r; }; }`\n- The cache lives in a closure, so each memoized function has its own.\n- Limitations: JSON keys fail for functions, cycles and distinguish `{a,b}` order; object arguments with the same contents collide or differ unexpectedly. For single object arguments a `WeakMap` keyed by reference avoids leaks.\n- The cache grows forever unless bounded (LRU, TTL).\n- Only safe for pure functions; side effects or time-dependent results break it.\n- For async functions, cache the promise so concurrent calls share one request, and evict on rejection.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-03-q13",
+          "type": "interview",
+          "prompt": "Explain the stale closure problem, for example in a React interval.",
+          "answer": "- A closure reads the variables of the scope it was created in. In React, each render is a new function call with its own props and state, so each render's callbacks close over that render's values.\n- If `useEffect(() => { const id = setInterval(() => setCount(count + 1), 1000); return () => clearInterval(id); }, [])` runs only once, the interval callback captures `count` from the first render (0) forever, so the count goes to 1 and stays.\n- Fixes: use the functional updater `setCount(c => c + 1)` so the callback does not read count; include count in the dependency array so the effect re-subscribes; or keep the latest value in a ref.\n- The general lesson: long-lived callbacks need a way to read current values, not values captured at creation.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-03-q14",
+          "type": "interview",
+          "prompt": "When would you not use an arrow function?",
+          "answer": "- Object methods that use `this`: `{ name: \"a\", hi: () => this.name }` reads the outer this, not the object.\n- Prototype or class methods meant to be shared: a class field arrow creates a new function per instance (more memory) and cannot be overridden through `super` cleanly.\n- Constructors: arrows cannot be called with new.\n- DOM event handlers where you want `this` to be the element (though `event.currentTarget` works with arrows).\n- Functions that need `arguments`, or generators.\n- Arrows are my default for callbacks and small utilities, especially inside methods where lexical this is exactly what I want.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Closures",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures"
+        },
+        {
+          "title": "MDN: Arrow function expressions",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions"
+        },
+        {
+          "title": "MDN: Functions guide",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions"
+        }
+      ]
+    },
+    {
+      "id": "javascript-04-this-binding",
+      "title": "this, call, apply and bind",
+      "level": "intermediate",
+      "summary": "How this is decided at call time, the four binding rules and their precedence, and how to stop losing this.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "this is decided by the call, not the definition",
+          "body": "For regular functions, `this` is not fixed when the function is written. It is set every time the function is **called**, based on how it is called. The same function can see different `this` values on different calls.\n\nArrow functions are the exception: they have no `this` of their own and use the `this` of the scope they were defined in.\n\nTo figure out `this` for a regular function call, look at the call site and apply the rules below in order of precedence."
+        },
+        {
+          "heading": "The four binding rules",
+          "body": "From highest to lowest precedence:\n\n- **new binding**: `new Foo()` creates a fresh object, sets its prototype to `Foo.prototype` and uses it as `this`.\n- **Explicit binding**: `fn.call(obj)`, `fn.apply(obj)` or a function produced by `fn.bind(obj)` use `obj`.\n- **Implicit binding**: `obj.method()` uses the object before the dot. Only the last object in the chain counts: in `a.b.c()`, `this` is `a.b`.\n- **Default binding**: a plain call `fn()` gets `undefined` in strict mode (which includes ES modules and class bodies) and `globalThis` in sloppy mode.\n\n`new` beats `bind`: calling `new` on a bound function ignores the bound `this` (bound arguments are still applied).",
+          "code": {
+            "lang": "js",
+            "source": "function show() { return this; }\nconst obj = { show };\n\nobj.show() === obj;        // implicit\nshow.call(obj) === obj;    // explicit\nshow();                    // undefined in strict mode / modules\n\nfunction Person(name) { this.name = name; }\nconst BoundPerson = Person.bind({ name: \"ignored\" });\nnew BoundPerson(\"Ada\").name; // \"Ada\": new wins over bind"
+          }
+        },
+        {
+          "heading": "Losing this",
+          "body": "The most common bug: a method is taken off its object and called as a plain function. The call site no longer has an object before the dot, so the default rule applies.\n\nThis happens when you:\n\n- assign a method to a variable: `const f = obj.method; f()`\n- pass a method as a callback: `setTimeout(obj.method, 100)`, `button.addEventListener(\"click\", obj.method)`, `arr.map(obj.method)`\n- destructure it: `const { method } = obj`\n\nFixes: bind it (`obj.method.bind(obj)`), wrap it in an arrow (`() => obj.method()`), or define it as an arrow class field so it captures the instance. Many array methods also take a `thisArg` (`arr.map(fn, obj)`).",
+          "code": {
+            "lang": "js",
+            "source": "class Counter {\n  count = 0;\n  inc() { this.count++; }\n  incArrow = () => { this.count++; };  // class field arrow: this is the instance\n}\nconst c = new Counter();\nconst { inc, incArrow } = c;\ntry { inc(); } catch (e) { console.log(e.name); } // TypeError: this is undefined\nincArrow();\nconsole.log(c.count); // 1"
+          }
+        },
+        {
+          "heading": "Arrow functions and lexical this",
+          "body": "An arrow function looks up `this` like any other variable: in its enclosing scope. `call`, `apply` and `bind` cannot change it.\n\nThis is exactly what you want for callbacks inside methods, and exactly wrong for methods on object literals. An arrow defined directly in an object literal does not see the object, because object literals do not create a scope; it sees the `this` of the surrounding code (`undefined` in a module).",
+          "code": {
+            "lang": "js",
+            "source": "const team = {\n  name: \"core\",\n  members: [\"a\", \"b\"],\n  list() {\n    // arrow inherits this from list(), so this.name works\n    return this.members.map((m) => `${m}@${this.name}`);\n  },\n  broken: () => this,   // not the object: module-level this (undefined)\n};\nteam.list();   // [\"a@core\", \"b@core\"]\nteam.broken(); // undefined"
+          }
+        },
+        {
+          "heading": "call, apply and bind",
+          "body": "- `fn.call(thisArg, a, b)` calls immediately with arguments listed individually.\n- `fn.apply(thisArg, [a, b])` calls immediately with arguments as an array (handy before spread existed: `Math.max.apply(null, nums)`).\n- `fn.bind(thisArg, a)` does not call. It returns a new function with `this` permanently set and optional leading arguments pre-filled (partial application).\n\nA bound function cannot be re-bound: `f.bind(a).bind(b)` still uses `a`. Only `new` can override it.\n\nA simplified `bind` polyfill shows how it works with closures:",
+          "code": {
+            "lang": "js",
+            "source": "Function.prototype.myBind = function (ctx, ...preset) {\n  const fn = this;\n  return function bound(...args) {\n    // if called with new, ignore ctx (simplified check)\n    if (new.target) return new fn(...preset, ...args);\n    return fn.apply(ctx, [...preset, ...args]);\n  };\n};\n\nfunction greet(greeting, mark) { return greeting + \", \" + this.name + mark; }\nconst hi = greet.myBind({ name: \"Ada\" }, \"Hi\");\nhi(\"!\"); // \"Hi, Ada!\""
+          }
+        }
+      ],
+      "keyPoints": [
+        "For regular functions, `this` depends on how the function is called.",
+        "Precedence: new > explicit (call/apply/bind) > implicit (obj.method()) > default.",
+        "Default binding is `undefined` in strict mode, modules and classes; `globalThis` in sloppy scripts.",
+        "Extracting or passing a method as a callback loses its `this`.",
+        "Arrow functions take `this` lexically and ignore call/apply/bind.",
+        "`bind` returns a new function; it cannot be re-bound, but `new` overrides its this.",
+        "`call` takes arguments individually, `apply` takes an array."
+      ],
+      "questions": [
+        {
+          "id": "javascript-04-q01",
+          "type": "mcq",
+          "prompt": "This code is in an ES module. What does it log?",
+          "code": "const user = {\n  name: \"Ada\",\n  hi() { return this?.name; },\n};\nconst hi = user.hi;\nconsole.log(user.hi(), hi());",
+          "options": [
+            "Ada Ada",
+            "Ada undefined",
+            "undefined undefined",
+            "It throws"
+          ],
+          "answer": 1,
+          "explanation": "`user.hi()` uses implicit binding, so this is user. `hi()` is a plain call; modules are strict, so this is undefined and `this?.name` is undefined."
+        },
+        {
+          "id": "javascript-04-q02",
+          "type": "mcq",
+          "prompt": "This code is in an ES module. What does it log?",
+          "code": "const obj = { whoami: () => this };\nconsole.log(obj.whoami());",
+          "options": [
+            "obj",
+            "undefined",
+            "globalThis",
+            "TypeError"
+          ],
+          "answer": 1,
+          "explanation": "Object literals do not create a scope for `this`. The arrow takes this from the module top level, which is undefined."
+        },
+        {
+          "id": "javascript-04-q03",
+          "type": "mcq",
+          "prompt": "What does g() return?",
+          "code": "function f() { return this.x; }\nconst g = f.bind({ x: 1 }).bind({ x: 2 });\ng();",
+          "options": [
+            "1",
+            "2",
+            "undefined",
+            "TypeError"
+          ],
+          "answer": 0,
+          "explanation": "The first bind fixes this to `{ x: 1 }`. Binding a bound function again creates a wrapper, but the inner call still uses the original bound this."
+        },
+        {
+          "id": "javascript-04-q04",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "function P(name) { this.name = name; }\nconst Bound = P.bind({ name: \"ctx\" });\nconst p = new Bound(\"new\");\nconsole.log(p.name);",
+          "options": [
+            "\"ctx\"",
+            "\"new\"",
+            "undefined",
+            "TypeError"
+          ],
+          "answer": 1,
+          "explanation": "new binding has higher precedence than bind. The bound this is ignored and the newly created object is used, so name is \"new\"."
+        },
+        {
+          "id": "javascript-04-q05",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "class Timer {\n  constructor() { this.n = 1; }\n  tick() { return this.n; }\n}\nconst t = new Timer();\nconst f = t.tick;\ntry { console.log(f()); } catch (e) { console.log(e.name); }",
+          "options": [
+            "1",
+            "undefined",
+            "TypeError",
+            "NaN"
+          ],
+          "answer": 2,
+          "explanation": "Class bodies are always strict mode. `f()` is a plain call, so this is undefined, and reading `undefined.n` throws a TypeError."
+        },
+        {
+          "id": "javascript-04-q06",
+          "type": "mcq",
+          "prompt": "This code is in an ES module. What do the two calls return?",
+          "code": "const obj = {\n  viaFunction() { return [1].map(function () { return this; }); },\n  viaArrow() { return [1].map(() => this); },\n};\nobj.viaFunction();\nobj.viaArrow();",
+          "options": [
+            "[obj] and [obj]",
+            "[undefined] and [obj]",
+            "[obj] and [undefined]",
+            "[undefined] and [undefined]"
+          ],
+          "answer": 1,
+          "explanation": "The regular function callback is called by map with no thisArg, so default binding gives undefined. The arrow inherits this from `viaArrow`, which was called as `obj.viaArrow()`."
+        },
+        {
+          "id": "javascript-04-q07",
+          "type": "mcq",
+          "prompt": "What does this return?",
+          "code": "Math.max.apply(null, [1, 5, 3]);",
+          "options": [
+            "5",
+            "[1, 5, 3]",
+            "NaN",
+            "-Infinity"
+          ],
+          "answer": 0,
+          "explanation": "`apply` spreads the array as individual arguments, so this is `Math.max(1, 5, 3)`. Today you would write `Math.max(...nums)`."
+        },
+        {
+          "id": "javascript-04-q08",
+          "type": "truefalse",
+          "prompt": "For a regular function, `this` is determined where the function is defined.",
+          "answer": false,
+          "explanation": "That describes arrow functions. Regular functions get this from the call site each time they are called."
+        },
+        {
+          "id": "javascript-04-q09",
+          "type": "truefalse",
+          "prompt": "`fn.bind(obj)` calls `fn` immediately with this set to obj.",
+          "answer": false,
+          "explanation": "bind returns a new function and does not call anything. `call` and `apply` invoke immediately."
+        },
+        {
+          "id": "javascript-04-q10",
+          "type": "multi",
+          "prompt": "Select all that apply: which calls run `fn` with this set to `obj` (fn is a regular function)?",
+          "options": [
+            "`fn.call(obj)`",
+            "`fn.apply(obj, [])`",
+            "`fn.bind(obj)()`",
+            "`[1].map(fn, obj)`",
+            "`const o = { fn }; const g = o.fn; g()`"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "call, apply and bind set this explicitly, and many array methods accept a thisArg. The last one extracts the method and calls it plainly, so default binding applies."
+        },
+        {
+          "id": "javascript-04-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: `fn.___(obj)` returns a new function whose this is permanently obj.",
+          "accept": [
+            "bind"
+          ],
+          "explanation": "`bind` creates a bound function. Only `new` can override its this."
+        },
+        {
+          "id": "javascript-04-q12",
+          "type": "interview",
+          "prompt": "Explain how this is determined in JavaScript, including precedence.",
+          "answer": "- For arrow functions, this is lexical: it comes from the enclosing scope and nothing at the call site changes it.\n- For regular functions, it is decided per call: new binding (fresh object) beats explicit binding (call, apply, bind), which beats implicit binding (the object before the dot), which beats default binding.\n- Default binding is undefined in strict code (modules, classes, \"use strict\") and globalThis in sloppy scripts.\n- Edge cases: bound functions ignore later call/apply/bind but not new; callbacks lose implicit binding; DOM listeners registered with a regular function get the element (`currentTarget`) as this.\n- I usually explain it by pointing at the call site: \"what is to the left of the dot when this runs?\"",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-04-q13",
+          "type": "interview",
+          "prompt": "Implement Function.prototype.bind without using bind.",
+          "answer": "- Store the original function: `const fn = this`.\n- Return a new function that merges preset and call-time arguments and calls `fn.apply(ctx, [...preset, ...args])`.\n- Handle `new`: if the bound function is called with new (`new.target` is set), construct with the original function instead of applying ctx, so `new` wins as the spec requires.\n- Preserve the prototype chain so `instanceof` works (the spec's bound functions do this via the target's prototype; a polyfill sets `bound.prototype = Object.create(fn.prototype)`).\n- Optionally throw a TypeError if `this` is not callable.\n- I'd mention that real bound functions also have a `name` of \"bound fn\" and a `length` reduced by the preset count.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-04-q14",
+          "type": "interview",
+          "prompt": "Why did React class components need this.handleClick = this.handleClick.bind(this)?",
+          "answer": "- In JSX, `onClick={this.handleClick}` passes the method as a callback. React later calls it as a plain function, so implicit binding is lost.\n- Class bodies are strict mode, so this inside the handler is undefined and `this.setState` throws.\n- Binding in the constructor creates one bound function per instance that always has the component as this.\n- Alternatives: class field arrows (`handleClick = () => {}`) capture the instance lexically; inline arrows in render (`onClick={() => this.handleClick()}`) work but create a new function each render.\n- Function components with hooks avoid the issue because they do not use this at all.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-04-q15",
+          "type": "interview",
+          "prompt": "What is the difference between call, apply and bind? Give a use case for each.",
+          "answer": "- `call(thisArg, ...args)` invokes now with listed arguments. Use case: borrowing a method, e.g. `Array.prototype.slice.call(arguments)` or calling a parent constructor in pre-class code: `Parent.call(this, name)`.\n- `apply(thisArg, argsArray)` invokes now with an array of arguments. Use case: forwarding all arguments in a wrapper, `fn.apply(this, args)`, or `Math.max.apply(null, nums)` (now usually spread).\n- `bind(thisArg, ...preset)` returns a new function for later. Use case: passing a method as an event handler or timer callback, or partial application like `const log = console.log.bind(console, \"[app]\")`.\n- Note that none of them affect arrow functions' this.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: this",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this"
+        },
+        {
+          "title": "MDN: Function.prototype.bind()",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind"
+        },
+        {
+          "title": "MDN: Function.prototype.call()",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call"
+        }
+      ]
+    },
+    {
+      "id": "javascript-05-prototypes-classes",
+      "title": "Prototypes and Classes",
+      "level": "intermediate",
+      "summary": "The prototype chain, what new does, and how class syntax, private fields and inheritance map onto prototypes.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "The prototype chain",
+          "body": "Every object has an internal link, `[[Prototype]]`, to another object or `null`. When you read a property that the object does not have, the engine follows that link and looks there, and so on up the chain until it reaches `null`. This is **prototypal inheritance**: objects delegate to other objects.\n\n- Read it with `Object.getPrototypeOf(obj)`; the legacy accessor `obj.__proto__` does the same.\n- **Writes** do not walk the chain. Assigning `obj.x = 1` creates or updates an own property on `obj`, which shadows any `x` further up.\n- `Object.hasOwn(obj, \"x\")` checks only own properties; the `in` operator checks the whole chain.\n\nArrays get their methods this way: `[].map` is found on `Array.prototype`, whose prototype is `Object.prototype`, whose prototype is `null`.",
+          "code": {
+            "lang": "js",
+            "source": "const animal = { eats: true, describe() { return \"eats: \" + this.eats; } };\nconst rabbit = Object.create(animal);   // rabbit -> animal -> Object.prototype -> null\nrabbit.jumps = true;\n\nrabbit.eats;                 // true (found on animal)\nrabbit.describe();           // \"eats: true\" (this is rabbit)\nObject.hasOwn(rabbit, \"eats\"); // false\n\"eats\" in rabbit;            // true\n\nrabbit.eats = false;         // creates an own property, animal is unchanged\nanimal.eats;                 // true"
+          }
+        },
+        {
+          "heading": "prototype vs __proto__ and what new does",
+          "body": "These two names cause most of the confusion:\n\n- `Foo.prototype` is an ordinary property that exists on functions. It is the object that will become the prototype of instances created with `new Foo()`.\n- `obj.__proto__` (or `Object.getPrototypeOf(obj)`) is the actual prototype link of an object.\n\nSo `new Foo().__proto__ === Foo.prototype`.\n\n`new Foo(args)` does four things:\n\n- creates an empty object\n- links its prototype to `Foo.prototype`\n- calls `Foo` with `this` bound to the new object\n- returns the new object, unless `Foo` explicitly returns another object\n\n`instanceof` checks whether `Foo.prototype` appears anywhere in the object's prototype chain. Replacing `Foo.prototype` after creating instances therefore makes `instanceof` return false for them.",
+          "code": {
+            "lang": "js",
+            "source": "function Dog(name) {\n  this.name = name;              // own property per instance\n}\nDog.prototype.bark = function () { // shared by all instances\n  return this.name + \" says woof\";\n};\n\nconst rex = new Dog(\"Rex\");\nObject.getPrototypeOf(rex) === Dog.prototype; // true\nrex.bark();                                   // \"Rex says woof\"\nrex instanceof Dog;                           // true"
+          }
+        },
+        {
+          "heading": "Classes are prototypes with better syntax",
+          "body": "`class` does not add a new object model. Methods go on `Class.prototype`, and instances delegate to it just like with constructor functions. What class syntax adds:\n\n- class bodies are always strict mode\n- methods are non-enumerable (they do not show up in `for...in`)\n- calling a class without `new` throws a TypeError\n- class declarations are in the TDZ until evaluated (not usable before the line)\n- `static` members live on the constructor itself\n- **class fields** (`count = 0`) are own properties created on each instance during construction\n- **private elements** (`#secret`, `#helper()`) are truly inaccessible outside the class body; `#x in obj` checks for them\n- `static { }` blocks for one-time setup",
+          "code": {
+            "lang": "js",
+            "source": "class Account {\n  static count = 0;\n  #balance = 0;                   // private field\n  owner;                          // public field, own property\n\n  constructor(owner) {\n    this.owner = owner;\n    Account.count++;\n  }\n  deposit(amount) {               // on Account.prototype\n    if (amount <= 0) throw new RangeError(\"amount must be positive\");\n    this.#balance += amount;\n    return this;\n  }\n  get balance() { return this.#balance; }\n  static isAccount(x) { return #balance in x; }\n}\n\nconst acc = new Account(\"Ada\").deposit(50);\nacc.balance;               // 50\nObject.keys(acc);          // [\"owner\"]  (methods are on the prototype)\n// acc.#balance            // SyntaxError outside the class"
+          }
+        },
+        {
+          "heading": "Inheritance with extends and super",
+          "body": "`class B extends A` sets up two prototype links: `B.prototype` delegates to `A.prototype` (instance methods) and `B` delegates to `A` (static methods).\n\nIn a derived class constructor you **must** call `super(...)` before touching `this`, because the parent constructor is what creates the object. Using `this` first throws a ReferenceError. If you omit the constructor entirely, a default one that forwards all arguments to `super` is generated.\n\n`super.method()` calls the parent's version of a method, which is how you extend rather than replace behavior.",
+          "code": {
+            "lang": "js",
+            "source": "class Animal {\n  constructor(name) { this.name = name; }\n  speak() { return this.name + \" makes a sound\"; }\n}\nclass Dog extends Animal {\n  constructor(name, breed) {\n    super(name);           // must come before this\n    this.breed = breed;\n  }\n  speak() { return super.speak() + \" (woof)\"; }\n}\nnew Dog(\"Rex\", \"lab\").speak(); // \"Rex makes a sound (woof)\""
+          }
+        },
+        {
+          "heading": "Gotchas and design advice",
+          "body": "- **Shared mutable state on the prototype**: putting an array or object on the prototype means every instance shares it. Initialize per-instance data in the constructor or with class fields.\n- **Arrow class fields** bind `this` but create one function per instance and are not on the prototype, so subclasses cannot call them with `super`.\n- `Object.create(null)` makes an object with no prototype: useful as a pure dictionary since keys like `\"toString\"` or `\"__proto__\"` cannot collide with inherited ones (though `Map` is usually better).\n- Deep inheritance hierarchies get brittle. Prefer composition (objects that hold other objects or functions) when you only need to share behavior.",
+          "code": {
+            "lang": "js",
+            "source": "function Team() {}\nTeam.prototype.members = [];          // shared by every instance!\nconst t1 = new Team();\nconst t2 = new Team();\nt1.members.push(\"ada\");\nconsole.log(t2.members);              // [\"ada\"]\n\nconst dict = Object.create(null);\nconsole.log(typeof dict.toString);    // \"undefined\""
+          }
+        }
+      ],
+      "keyPoints": [
+        "Property reads walk the prototype chain; writes create own properties that shadow.",
+        "`Foo.prototype` becomes the prototype of objects created by `new Foo()`.",
+        "`new` creates an object, links its prototype, runs the constructor with that this, and returns it.",
+        "`instanceof` searches the prototype chain for `Foo.prototype`.",
+        "Classes use prototypes underneath, but are strict, require `new`, and have non-enumerable methods.",
+        "Call `super()` before using `this` in a derived constructor.",
+        "`#private` fields are enforced by the language; class fields are per-instance own properties.",
+        "Never put mutable shared data on a prototype by accident."
+      ],
+      "questions": [
+        {
+          "id": "javascript-05-q01",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "function Dog() {}\nDog.prototype.tricks = [];\nconst a = new Dog();\nconst b = new Dog();\na.tricks.push(\"sit\");\nconsole.log(b.tricks.length);",
+          "options": [
+            "0",
+            "1",
+            "undefined",
+            "TypeError"
+          ],
+          "answer": 1,
+          "explanation": "`tricks` lives on `Dog.prototype`, so both instances read the same array. `a.tricks.push` mutates that shared array; it does not create an own property."
+        },
+        {
+          "id": "javascript-05-q02",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "function A() {}\nconst a = new A();\nA.prototype = {};\nconsole.log(a instanceof A);",
+          "options": [
+            "true",
+            "false",
+            "TypeError",
+            "undefined"
+          ],
+          "answer": 1,
+          "explanation": "instanceof checks whether the current `A.prototype` is in the chain of `a`. The object `a` still points to the old prototype object, which is no longer `A.prototype`."
+        },
+        {
+          "id": "javascript-05-q03",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "class Point {\n  x = 1;\n  move() {}\n}\nconsole.log(Object.keys(new Point()));",
+          "options": [
+            "[\"x\", \"move\"]",
+            "[\"x\"]",
+            "[\"move\"]",
+            "[]"
+          ],
+          "answer": 1,
+          "explanation": "Class fields become own enumerable properties of each instance. Methods live on `Point.prototype` and are non-enumerable, so `Object.keys` only sees x."
+        },
+        {
+          "id": "javascript-05-q04",
+          "type": "mcq",
+          "prompt": "What happens?",
+          "code": "class A {}\nclass B extends A {\n  constructor() {\n    this.x = 1;\n    super();\n  }\n}\nnew B();",
+          "options": [
+            "Creates the instance normally",
+            "ReferenceError: must call super constructor before accessing this",
+            "TypeError: B is not a constructor",
+            "this.x is set on A.prototype"
+          ],
+          "answer": 1,
+          "explanation": "In a derived class the parent constructor creates the object. Until `super()` runs, `this` is uninitialized, so touching it throws a ReferenceError."
+        },
+        {
+          "id": "javascript-05-q05",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "const o = Object.create(null);\nconsole.log(typeof o.toString);",
+          "options": [
+            "\"function\"",
+            "\"undefined\"",
+            "\"object\"",
+            "TypeError"
+          ],
+          "answer": 1,
+          "explanation": "`Object.create(null)` creates an object whose prototype is null, so nothing (including toString) is inherited from Object.prototype."
+        },
+        {
+          "id": "javascript-05-q06",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "class Dog {\n  constructor(name) { this.name = name; }\n}\ntry { Dog(\"Rex\"); } catch (e) { console.log(e.message); }",
+          "options": [
+            "\"Rex\"",
+            "undefined",
+            "TypeError: Class constructor Dog cannot be invoked without 'new'",
+            "ReferenceError"
+          ],
+          "answer": 2,
+          "explanation": "Unlike constructor functions, classes throw if called without new. This prevents the old bug where forgetting new wrote properties onto the global object."
+        },
+        {
+          "id": "javascript-05-q07",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "class Animal { speak() {} }\nconst rex = new Animal();\nconsole.log(\"speak\" in rex, Object.hasOwn(rex, \"speak\"));",
+          "options": [
+            "true true",
+            "true false",
+            "false true",
+            "false false"
+          ],
+          "answer": 1,
+          "explanation": "`speak` is not an own property of rex; it is found on Animal.prototype. `in` walks the chain, `Object.hasOwn` does not."
+        },
+        {
+          "id": "javascript-05-q08",
+          "type": "truefalse",
+          "prompt": "ES2015 classes introduced a new, separate object model that replaces prototypes.",
+          "answer": false,
+          "explanation": "Classes are mostly syntax over the same prototype mechanism. `typeof SomeClass` is \"function\" and its methods live on `SomeClass.prototype`."
+        },
+        {
+          "id": "javascript-05-q09",
+          "type": "truefalse",
+          "prompt": "Methods defined in a class body are non-enumerable.",
+          "answer": true,
+          "explanation": "Class methods are defined with enumerable: false, unlike methods assigned to `Foo.prototype.method = ...` in constructor-function code."
+        },
+        {
+          "id": "javascript-05-q10",
+          "type": "multi",
+          "prompt": "Select all that apply: what does `new Foo()` do?",
+          "options": [
+            "Creates a new empty object",
+            "Sets the new object's prototype to `Foo.prototype`",
+            "Copies all methods from `Foo.prototype` onto the object",
+            "Calls Foo with this bound to the new object",
+            "Returns the new object unless Foo returns another object"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "explanation": "Methods are not copied. Instances delegate to the prototype at lookup time, which is why adding a method to the prototype later makes it available to existing instances."
+        },
+        {
+          "id": "javascript-05-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: `Object.___(proto)` creates a new object whose prototype is proto.",
+          "accept": [
+            "create",
+            "Object.create"
+          ],
+          "explanation": "`Object.create(proto)` links a new object to proto without running any constructor. `Object.create(null)` makes a prototype-less object."
+        },
+        {
+          "id": "javascript-05-q12",
+          "type": "interview",
+          "prompt": "Explain prototypal inheritance and how it differs from classical inheritance.",
+          "answer": "- In JavaScript, objects link to other objects. A property lookup that misses on the object follows the [[Prototype]] link up the chain until it finds the property or hits null.\n- Behavior is shared by delegation at lookup time, not by copying. Changing a prototype immediately affects all objects that delegate to it.\n- In classical languages (Java, C#), classes are blueprints and instances are created from them with a fixed shape; inheritance is between classes at compile time.\n- JS class syntax looks classical but compiles to prototypes: methods on `Class.prototype`, `extends` linking prototypes and constructors.\n- Practical consequences: you can create objects from other objects (`Object.create`), patch prototypes at runtime (which is how polyfills work), and writes shadow rather than modify inherited properties.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-05-q13",
+          "type": "interview",
+          "prompt": "What is the difference between __proto__ and prototype?",
+          "answer": "- `prototype` is a regular property on functions (and classes). It holds the object that instances created with `new` will delegate to.\n- `__proto__` is a legacy accessor on Object.prototype that exposes an object's actual [[Prototype]] link. Modern code uses `Object.getPrototypeOf` and `Object.setPrototypeOf` (or `Object.create`).\n- The connection: `new Foo().__proto__ === Foo.prototype`.\n- Plain objects do not have a `prototype` property; only functions do (and arrow functions and methods do not, since they cannot be constructors).\n- I would avoid `setPrototypeOf` on hot objects, because changing an object's prototype after creation deoptimizes it in engines.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-05-q14",
+          "type": "interview",
+          "prompt": "How do private class fields (#x) compare to closures or naming conventions like _x for privacy?",
+          "answer": "- `_x` is only a convention; anyone can read and write it.\n- Closures give real privacy (the variable is not reachable), but methods must be created per instance inside the constructor, so they are not shared on the prototype.\n- `#x` fields are enforced by the language: accessing them outside the class body is a SyntaxError, they do not show in `Object.keys` or JSON, and methods stay on the prototype.\n- `#x in obj` gives a reliable brand check, better than instanceof which can be fooled across realms or by prototype changes.\n- Limitations: subclasses cannot access a parent's private fields, and Proxies wrapping an instance break private access because the proxy is not the original object.",
+          "level": "advanced"
+        },
+        {
+          "id": "javascript-05-q15",
+          "type": "interview",
+          "prompt": "When would you choose composition over inheritance in JavaScript?",
+          "answer": "- Inheritance fits a true \"is-a\" relationship with a stable base, such as custom Error subclasses or framework base classes.\n- Composition fits when objects need to share pieces of behavior across unrelated types: give an object functions or collaborators (a logger, a storage adapter) instead of extending a class that has them.\n- Deep hierarchies cause the fragile base class problem: changing the parent breaks children in unexpected ways, and you end up inheriting methods you do not want.\n- In JS composition is cheap: factory functions returning objects, mixing in functions with object spread, or dependency injection via constructor parameters.\n- Modern frontend code reflects this: React moved from class inheritance to hooks, which compose behavior through functions.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Inheritance and the prototype chain",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain"
+        },
+        {
+          "title": "MDN: Classes",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes"
+        },
+        {
+          "title": "MDN: Private elements",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_elements"
+        }
+      ]
+    },
+    {
+      "id": "javascript-06-dom-events",
+      "title": "DOM, Events and Delegation",
+      "level": "intermediate",
+      "summary": "Querying and updating the DOM efficiently, the three phases of event propagation, and event delegation.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Querying and updating the DOM",
+          "body": "The DOM is a tree of node objects that the browser builds from HTML. JavaScript reads and changes it through the `document` API.\n\n- `querySelector` returns the first match or null; `querySelectorAll` returns a **static** NodeList (a snapshot).\n- `getElementsByClassName` and `getElementsByTagName` return a **live** HTMLCollection that updates as the DOM changes.\n- `element.closest(selector)` walks up from an element to the nearest matching ancestor (including itself).\n\nWriting content:\n\n- `textContent` sets plain text and is safe for user data.\n- `innerHTML` parses HTML. Never put untrusted strings into it; that is a classic XSS hole.\n- `innerText` is layout-aware (respects CSS visibility) and therefore slower because it can force layout.\n\nTo add many nodes, build them in a `DocumentFragment` or use `append(...nodes)` so the live DOM is touched once.",
+          "code": {
+            "lang": "js",
+            "source": "const list = document.querySelector(\"#todo\");\nconst frag = document.createDocumentFragment();\nfor (const text of [\"Write tests\", \"Ship\"]) {\n  const li = document.createElement(\"li\");\n  li.textContent = text;          // safe, no HTML parsing\n  frag.append(li);\n}\nlist.append(frag);                // one insertion into the live DOM"
+          }
+        },
+        {
+          "heading": "Avoiding layout thrashing",
+          "body": "Reading layout properties (`offsetHeight`, `getBoundingClientRect()`, `scrollTop`, `getComputedStyle`) forces the browser to compute layout if there are pending style changes. If you alternate writes and reads in a loop, each read forces a synchronous layout. This is **layout thrashing** (forced synchronous layout).\n\nFix it by batching: do all reads first, then all writes, or schedule writes with `requestAnimationFrame`. Animate `transform` and `opacity` instead of `top` or `width` where possible, since they can skip layout.",
+          "code": {
+            "lang": "js",
+            "source": "// Bad: read, write, read, write... forces layout every iteration\nfor (const el of items) {\n  el.style.width = el.parentElement.offsetWidth / 2 + \"px\";\n}\n\n// Good: batch reads, then batch writes\nconst widths = items.map((el) => el.parentElement.offsetWidth);\nitems.forEach((el, i) => { el.style.width = widths[i] / 2 + \"px\"; });"
+          }
+        },
+        {
+          "heading": "Event propagation: capture, target, bubble",
+          "body": "When an event fires on an element, it travels in three phases:\n\n- **Capture**: from `window` down through ancestors to the target's parent.\n- **Target**: at the element where the event happened.\n- **Bubble**: back up from the target to `window`.\n\n`addEventListener(type, fn)` listens in the bubble phase by default. Pass `{ capture: true }` (or `true`) to listen during capture.\n\nInside a listener:\n\n- `event.target` is the element where the event originated (for a click, the innermost element clicked).\n- `event.currentTarget` is the element whose listener is running now.\n- `event.stopPropagation()` stops the event moving to other elements; other listeners on the current element still run.\n- `event.stopImmediatePropagation()` also stops the remaining listeners on the current element.\n- `event.preventDefault()` cancels the browser's default action (following a link, submitting a form). It does not stop propagation.\n\nSome events do not bubble: `focus`, `blur`, `mouseenter`, `mouseleave`. Use `focusin`/`focusout` or `mouseover`/`mouseout` when you need bubbling versions.",
+          "code": {
+            "lang": "js",
+            "source": "outer.addEventListener(\"click\", () => console.log(\"outer capture\"), { capture: true });\nouter.addEventListener(\"click\", () => console.log(\"outer bubble\"));\ninner.addEventListener(\"click\", (e) => {\n  console.log(\"inner\", e.target === inner, e.currentTarget === inner);\n});\n// Clicking inner logs:\n// outer capture\n// inner true true\n// outer bubble"
+          }
+        },
+        {
+          "heading": "Event delegation",
+          "body": "Instead of attaching a listener to every child, attach one to a common ancestor and use `event.target` to work out which child was involved. This works because most events bubble.\n\nBenefits:\n\n- one listener instead of hundreds, so less memory and setup time\n- elements added later are handled automatically\n- no need to remove listeners when children are removed\n\nUse `event.target.closest(selector)` because the click may land on a nested element (an icon inside a button). Check that the match is inside the container you delegated from.",
+          "code": {
+            "lang": "js",
+            "source": "document.querySelector(\"#todo\").addEventListener(\"click\", (event) => {\n  const button = event.target.closest(\"button[data-action]\");\n  if (!button || !event.currentTarget.contains(button)) return;\n\n  const id = button.closest(\"li\").dataset.id;\n  if (button.dataset.action === \"delete\") removeTodo(id);\n  if (button.dataset.action === \"toggle\") toggleTodo(id);\n});"
+          }
+        },
+        {
+          "heading": "Listener options and cleanup",
+          "body": "`addEventListener` accepts an options object:\n\n- `once: true` removes the listener after the first call.\n- `passive: true` promises you will not call `preventDefault`. Browsers can then scroll without waiting for your handler. Chrome and Firefox default `touchstart`, `touchmove` and `wheel` listeners on window, document and body to passive.\n- `signal`: an `AbortSignal`. Calling `controller.abort()` removes every listener registered with that signal, which is the cleanest teardown for components.\n\n`removeEventListener` only works with the **same function reference** (and same capture flag). Passing a new inline arrow does nothing.\n\nCustom events: `el.dispatchEvent(new CustomEvent(\"cart:add\", { detail: item, bubbles: true }))`. `dispatchEvent` runs listeners synchronously before it returns.",
+          "code": {
+            "lang": "js",
+            "source": "const controller = new AbortController();\nwindow.addEventListener(\"resize\", onResize, { signal: controller.signal });\nwindow.addEventListener(\"scroll\", onScroll, { passive: true, signal: controller.signal });\n\n// later, e.g. when a component unmounts\ncontroller.abort(); // removes both listeners\n\n// This does NOT remove anything: different function object\nel.addEventListener(\"click\", () => save());\nel.removeEventListener(\"click\", () => save());"
+          }
+        }
+      ],
+      "keyPoints": [
+        "`querySelectorAll` is a static snapshot; `getElementsBy*` collections are live.",
+        "Use `textContent` for untrusted data; `innerHTML` with user input causes XSS.",
+        "Batch DOM reads and writes to avoid forced synchronous layout.",
+        "Events go capture, target, bubble; listeners default to the bubble phase.",
+        "`target` is where the event started; `currentTarget` is the element whose listener is running.",
+        "`preventDefault` cancels the default action; `stopPropagation` stops travel. They are independent.",
+        "Delegation uses one ancestor listener plus `closest()` and handles dynamic children.",
+        "Clean up with `AbortController` signals or the same function reference."
+      ],
+      "questions": [
+        {
+          "id": "javascript-06-q01",
+          "type": "mcq",
+          "prompt": "The user clicks the inner element. What is the log order?",
+          "code": "outer.addEventListener(\"click\", () => log(\"outer capture\"), true);\nouter.addEventListener(\"click\", () => log(\"outer bubble\"));\ninner.addEventListener(\"click\", () => log(\"inner\"));",
+          "options": [
+            "inner, outer bubble, outer capture",
+            "outer capture, inner, outer bubble",
+            "outer capture, outer bubble, inner",
+            "inner, outer capture, outer bubble"
+          ],
+          "answer": 1,
+          "explanation": "Capture listeners on ancestors run on the way down, before the target. Then the target's listeners run, then bubble listeners on the way up."
+        },
+        {
+          "id": "javascript-06-q02",
+          "type": "mcq",
+          "prompt": "A `<ul>` has a click listener. The user clicks a `<span>` inside an `<li>` in that list. Inside the listener, what are target and currentTarget?",
+          "options": [
+            "target: ul, currentTarget: span",
+            "target: li, currentTarget: ul",
+            "target: span, currentTarget: ul",
+            "Both are the span"
+          ],
+          "answer": 2,
+          "explanation": "`target` is the deepest element where the click happened (the span). `currentTarget` is the element the running listener is attached to (the ul)."
+        },
+        {
+          "id": "javascript-06-q03",
+          "type": "mcq",
+          "prompt": "The page starts with two .item elements. What is logged?",
+          "code": "const live = document.getElementsByClassName(\"item\");\nconst snapshot = document.querySelectorAll(\".item\");\nconst div = document.createElement(\"div\");\ndiv.className = \"item\";\ndocument.body.append(div);\nconsole.log(live.length, snapshot.length);",
+          "options": [
+            "2 2",
+            "3 3",
+            "3 2",
+            "2 3"
+          ],
+          "answer": 2,
+          "explanation": "`getElementsByClassName` returns a live HTMLCollection that reflects the new element. `querySelectorAll` returns a static NodeList captured at call time."
+        },
+        {
+          "id": "javascript-06-q04",
+          "type": "mcq",
+          "prompt": "The inner listener calls stopPropagation. Which logs appear when inner is clicked?",
+          "code": "inner.addEventListener(\"click\", (e) => { e.stopPropagation(); log(\"inner A\"); });\ninner.addEventListener(\"click\", () => log(\"inner B\"));\nouter.addEventListener(\"click\", () => log(\"outer\"));",
+          "options": [
+            "inner A only",
+            "inner A, inner B",
+            "inner A, inner B, outer",
+            "inner A, outer"
+          ],
+          "answer": 1,
+          "explanation": "stopPropagation stops the event from reaching other elements, so outer's bubble listener never runs. Remaining listeners on the same element still run; only stopImmediatePropagation would skip inner B."
+        },
+        {
+          "id": "javascript-06-q05",
+          "type": "mcq",
+          "prompt": "Why does clicking still call save twice after this code?",
+          "code": "btn.addEventListener(\"click\", () => save());\nbtn.removeEventListener(\"click\", () => save());\nbtn.addEventListener(\"click\", () => save());",
+          "options": [
+            "removeEventListener only works for capture listeners",
+            "Each arrow is a different function object, so nothing is removed",
+            "Listeners cannot be removed once fired",
+            "addEventListener always registers duplicates"
+          ],
+          "answer": 1,
+          "explanation": "removeEventListener matches by function reference (and capture flag). The second arrow is a new function, so it matches nothing. Keep a named reference or use an AbortSignal."
+        },
+        {
+          "id": "javascript-06-q06",
+          "type": "mcq",
+          "prompt": "You need a form-wide handler that reacts when any input inside it gains focus. Which event should the form listen for?",
+          "options": [
+            "focus",
+            "focusin",
+            "blur",
+            "change"
+          ],
+          "answer": 1,
+          "explanation": "focus does not bubble, so a listener on the form would not see focus on its inputs (unless using capture). focusin is the bubbling equivalent."
+        },
+        {
+          "id": "javascript-06-q07",
+          "type": "mcq",
+          "prompt": "What is the main risk of this code?",
+          "code": "commentBox.innerHTML = userComment;",
+          "options": [
+            "It is slow because of reflow",
+            "Cross-site scripting: user input is parsed as HTML",
+            "It throws if comment is empty",
+            "It leaks memory"
+          ],
+          "answer": 1,
+          "explanation": "innerHTML parses the string as HTML, so input like `<img src=x onerror=alert(1)>` runs script. Use textContent, or sanitize (for example with DOMPurify) when HTML is required."
+        },
+        {
+          "id": "javascript-06-q08",
+          "type": "truefalse",
+          "prompt": "Calling `event.preventDefault()` also stops the event from bubbling.",
+          "answer": false,
+          "explanation": "preventDefault only cancels the browser's default action. Propagation is controlled separately with stopPropagation."
+        },
+        {
+          "id": "javascript-06-q09",
+          "type": "truefalse",
+          "prompt": "`element.dispatchEvent(event)` runs the matching listeners synchronously before it returns.",
+          "answer": true,
+          "explanation": "Unlike native user events, which are dispatched from tasks, a manual dispatchEvent call invokes listeners immediately, nested inside the calling code."
+        },
+        {
+          "id": "javascript-06-q10",
+          "type": "multi",
+          "prompt": "Select all that apply: benefits of event delegation",
+          "options": [
+            "Fewer listeners and less memory",
+            "Works for elements added after setup",
+            "Works for events that do not bubble, like focus, without changes",
+            "No need to remove listeners from removed children",
+            "Guarantees target is the element you care about"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Delegation depends on bubbling, so non-bubbling events need capture or their bubbling equivalents. `event.target` may be a nested descendant, which is why you use closest()."
+        },
+        {
+          "id": "javascript-06-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: call `event.___()` to stop the browser from following a link or submitting a form.",
+          "accept": [
+            "preventDefault",
+            "preventDefault()",
+            "event.preventDefault()"
+          ],
+          "explanation": "preventDefault cancels the default action for cancelable events. It is ignored inside passive listeners."
+        },
+        {
+          "id": "javascript-06-q12",
+          "type": "interview",
+          "prompt": "Explain event bubbling and capturing. When would you use capture?",
+          "answer": "- Events travel down from window to the target's parent (capture), run at the target, then travel back up (bubble). Listeners are bubble-phase by default.\n- Bubbling is what makes delegation possible: a click on a button can be handled on its container.\n- Capture is useful when an ancestor needs to see the event before descendants can stop it: global click-outside detection for menus, analytics, or intercepting events inside third-party widgets that call stopPropagation.\n- It is also a way to handle non-bubbling events like focus and blur on a container.\n- I'd mention target vs currentTarget, and that stopPropagation in capture on an ancestor prevents the target from ever receiving the event.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-06-q13",
+          "type": "interview",
+          "prompt": "Implement event delegation for a list where items are added dynamically, with a delete button in each item.",
+          "answer": "- Attach one click listener on the stable container (the `ul`), not on each button.\n- In the handler, find the actual control with `const btn = e.target.closest(\"[data-action='delete']\")`, because the click may hit an icon inside the button.\n- Guard: return if btn is null or not inside the container (`e.currentTarget.contains(btn)`).\n- Get the item id from a data attribute on the item (`btn.closest(\"li\").dataset.id`) and call the delete logic.\n- New items need no extra wiring. When the whole list is torn down, remove the single listener or abort its AbortSignal.\n- I'd note keyboard accessibility: use real `<button>` elements so Enter and Space generate click events.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-06-q14",
+          "type": "interview",
+          "prompt": "What is layout thrashing and how do you avoid it?",
+          "answer": "- Browsers batch style and layout work. Reading a geometric property (offsetWidth, getBoundingClientRect, scrollTop, getComputedStyle) when styles are dirty forces the browser to run layout synchronously.\n- Interleaving writes and reads in a loop forces a layout per iteration, which can turn a 1 ms update into hundreds of milliseconds and cause jank.\n- Avoid it by batching all reads, then all writes; deferring writes to requestAnimationFrame; caching measurements; and using ResizeObserver or IntersectionObserver instead of polling geometry.\n- Prefer animating transform and opacity, which can run on the compositor without layout.\n- To find it, the Chrome DevTools Performance panel flags \"Forced reflow\" warnings with the offending call stack.",
+          "level": "advanced"
+        },
+        {
+          "id": "javascript-06-q15",
+          "type": "interview",
+          "prompt": "How do you make sure event listeners do not leak when a component is destroyed?",
+          "answer": "- Track every listener you add to long-lived targets (window, document, a shared element). Listeners on elements you remove are collected with the elements, but listeners on window keep their closures (and everything they reference) alive.\n- The simplest pattern is an AbortController per component: pass `{ signal }` to every addEventListener and call `abort()` on teardown.\n- Otherwise keep the exact function reference and call removeEventListener with the same capture flag.\n- In React, return a cleanup function from useEffect that removes the listener.\n- Also clear timers, observers (`observer.disconnect()`) and subscriptions, which leak in the same way. Heap snapshots in DevTools show detached DOM nodes and growing listener counts when something is missed.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Introduction to the DOM",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction"
+        },
+        {
+          "title": "MDN: EventTarget.addEventListener()",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener"
+        },
+        {
+          "title": "web.dev: Avoid large, complex layouts and layout thrashing",
+          "url": "https://web.dev/articles/avoid-large-complex-layouts-and-layout-thrashing"
+        }
+      ]
+    },
+    {
+      "id": "javascript-07-event-loop-async",
+      "title": "Event Loop, Promises and async/await",
+      "level": "advanced",
+      "summary": "How tasks, microtasks and rendering are scheduled, and how promises and async/await behave on top of that.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "One thread, many queues",
+          "body": "JavaScript runs your code on a single thread with one **call stack**. Long-running work like timers, network requests and I/O is handled by the host (the browser or Node), which queues a callback when the work is done.\n\nThe **event loop** is the host's scheduler. In the browser, simplified:\n\n- Take the oldest **task** (also called a macrotask) from a task queue and run it to completion. Tasks include running a script, a `setTimeout` / `setInterval` callback, a user event, a `MessageChannel` message.\n- Run **all** queued **microtasks** until the microtask queue is empty, including microtasks queued by other microtasks. Microtasks come from promise reactions (`then`, `catch`, `finally`, `await` continuations), `queueMicrotask` and `MutationObserver`.\n- If it is time to render (usually around 60 times a second): run `requestAnimationFrame` callbacks, recalculate style and layout, and paint.\n- Repeat.\n\nNothing interrupts running code. A loop that takes 2 seconds blocks clicks, rendering and timers for 2 seconds."
+        },
+        {
+          "heading": "Predicting output order",
+          "body": "To predict output, run the synchronous code first, then drain microtasks, then take the next task.\n\n- `setTimeout(fn, 0)` queues a task. It runs after the current script and after all microtasks, and browsers clamp nested timers to at least 4 ms.\n- The **executor** passed to `new Promise(executor)` runs synchronously. Only the `then` callbacks are async.\n- Each `then` in a chain queues the next callback only when the previous one settles, so two independent chains interleave.\n- Microtasks queued by a task run before the next task, so a promise created inside a timer callback runs before the next timer.\n\nBecause microtasks drain completely, an endless chain of microtasks starves rendering and timers just like an infinite loop.",
+          "code": {
+            "lang": "js",
+            "source": "console.log(\"1 sync\");\nsetTimeout(() => console.log(\"5 timeout\"), 0);\nPromise.resolve()\n  .then(() => console.log(\"3 micro A\"))\n  .then(() => console.log(\"4 micro B\"));\nqueueMicrotask(() => console.log(\"3b micro C\"));\nconsole.log(\"2 sync\");\n// 1 sync, 2 sync, 3 micro A, 3b micro C, 4 micro B, 5 timeout"
+          }
+        },
+        {
+          "heading": "Promises",
+          "body": "A promise represents a future value. It starts **pending** and settles once, either **fulfilled** with a value or **rejected** with a reason. Settling is permanent.\n\n- `then(onFulfilled, onRejected)` always returns a **new** promise, resolved with whatever the callback returns. Returning a promise (or any thenable) makes the chain wait for it.\n- Throwing inside a callback rejects the returned promise. A rejection skips `then` callbacks until a `catch` (or a then with onRejected) handles it. After `catch` returns normally, the chain is fulfilled again.\n- `finally` runs on both outcomes and passes the original result through.\n\nCombinators:\n\n- `Promise.all`: fulfills with all values in order, or rejects as soon as any input rejects (the others keep running, their results are ignored).\n- `Promise.allSettled`: waits for all and never rejects; gives `{ status, value | reason }` objects.\n- `Promise.race`: settles like the first input to settle.\n- `Promise.any`: fulfills with the first fulfillment; rejects with an `AggregateError` only if all reject.\n- `Promise.withResolvers()` (ES2024) returns `{ promise, resolve, reject }` for cases where you resolve from outside.",
+          "code": {
+            "lang": "js",
+            "source": "fetchUser()\n  .then((user) => fetchOrders(user.id))   // returning a promise flattens it\n  .then((orders) => orders.length)\n  .catch((err) => {                       // catches errors from any step above\n    console.error(err);\n    return 0;                             // chain continues as fulfilled\n  })\n  .finally(() => hideSpinner());\n\nconst results = await Promise.allSettled([fetchA(), fetchB()]);\nconst ok = results.filter((r) => r.status === \"fulfilled\").map((r) => r.value);"
+          }
+        },
+        {
+          "heading": "async/await",
+          "body": "An `async` function always returns a promise. `return x` fulfills it, `throw e` rejects it.\n\n`await expr` pauses the function, and its continuation resumes as a microtask once the awaited value settles. Even `await` on a non-promise yields, so code after the first `await` always runs after the current synchronous code. Everything before the first `await` runs synchronously when the function is called.\n\nErrors from awaited promises are thrown at the `await`, so ordinary `try/catch/finally` works.\n\nWatch out for:\n\n- **Accidental serialization**: `await a(); await b();` runs them one after another. If they are independent, start both and `await Promise.all([a(), b()])`.\n- **forEach does not wait**: `arr.forEach(async x => await save(x))` fires all callbacks and returns immediately. Use `for...of` with `await` for sequential, or `Promise.all(arr.map(...))` for parallel.\n- **Unhandled rejections**: a rejected promise nobody handles triggers `unhandledrejection` in browsers and, by default since Node 15, crashes the Node process.\n- Top-level `await` is allowed in ES modules.",
+          "code": {
+            "lang": "js",
+            "source": "async function loadDashboard(id) {\n  console.log(\"runs synchronously when called\");\n  try {\n    const [user, stats] = await Promise.all([getUser(id), getStats(id)]); // parallel\n    return { user, stats };\n  } catch (err) {\n    throw new Error(\"dashboard failed\", { cause: err });\n  }\n}\n\n// Sequential when order matters\nfor (const file of files) {\n  await upload(file);\n}"
+          }
+        },
+        {
+          "heading": "Node.js differences",
+          "body": "Node uses libuv and runs its loop in phases (timers, pending callbacks, poll for I/O, check, close). Key points for interviews:\n\n- `process.nextTick` callbacks run before promise microtasks, after the current operation finishes.\n- `setImmediate` runs in the check phase, right after I/O polling. Inside an I/O callback, `setImmediate` always fires before a `setTimeout(fn, 0)`; from the main module their order is not guaranteed.\n- Since Node 11, microtasks are drained between each individual timer or immediate callback, matching browser behavior.\n- CPU-heavy work blocks every request on the process. Offload it with `worker_threads` or split it up.",
+          "code": {
+            "lang": "js",
+            "source": "// In Node\nsetTimeout(() => console.log(\"timeout\"), 0);\nsetImmediate(() => console.log(\"immediate\"));\nPromise.resolve().then(() => console.log(\"promise\"));\nprocess.nextTick(() => console.log(\"nextTick\"));\n// nextTick, promise, then timeout/immediate in either order"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Run sync code, drain all microtasks, maybe render, then take the next task.",
+        "Promise reactions, `await` continuations and `queueMicrotask` are microtasks; timers and events are tasks.",
+        "The Promise executor runs synchronously; only reactions are async.",
+        "`then` returns a new promise; throwing rejects it and `catch` recovers the chain.",
+        "`all` fails fast, `allSettled` never rejects, `race` takes the first settle, `any` the first success.",
+        "Code before the first `await` runs synchronously; everything after runs as a microtask.",
+        "Independent awaits should run in parallel with `Promise.all`; `forEach` ignores returned promises.",
+        "In Node, `process.nextTick` runs before promise microtasks."
+      ],
+      "questions": [
+        {
+          "id": "javascript-07-q01",
+          "type": "mcq",
+          "prompt": "What is the output order?",
+          "code": "console.log(1);\nsetTimeout(() => console.log(2), 0);\nPromise.resolve().then(() => console.log(3));\nconsole.log(4);",
+          "options": [
+            "1 2 3 4",
+            "1 4 3 2",
+            "1 4 2 3",
+            "1 3 4 2"
+          ],
+          "answer": 1,
+          "explanation": "Sync logs run first (1, 4). Then the microtask queue is drained (3). The timeout is a task, so it runs last (2)."
+        },
+        {
+          "id": "javascript-07-q02",
+          "type": "mcq",
+          "prompt": "What is the output order?",
+          "code": "console.log(\"s\");\nsetTimeout(() => console.log(\"t\"), 0);\nnew Promise((resolve) => {\n  console.log(\"p\");\n  resolve();\n}).then(() => console.log(\"then\"));\nconsole.log(\"e\");",
+          "options": [
+            "s e p then t",
+            "s p e then t",
+            "s p e t then",
+            "p s e then t"
+          ],
+          "answer": 1,
+          "explanation": "The Promise executor runs synchronously, so \"p\" prints between \"s\" and \"e\". The then callback is a microtask and runs before the timer task."
+        },
+        {
+          "id": "javascript-07-q03",
+          "type": "mcq",
+          "prompt": "What is the output order?",
+          "code": "async function a() {\n  console.log(\"a1\");\n  await null;\n  console.log(\"a2\");\n}\nconsole.log(\"s\");\na();\nconsole.log(\"e\");",
+          "options": [
+            "s a1 a2 e",
+            "s e a1 a2",
+            "s a1 e a2",
+            "a1 s e a2"
+          ],
+          "answer": 2,
+          "explanation": "Calling an async function runs its body synchronously until the first await, so a1 prints immediately. await null still yields; the rest of the function resumes as a microtask after the synchronous \"e\"."
+        },
+        {
+          "id": "javascript-07-q04",
+          "type": "mcq",
+          "prompt": "What is the output order?",
+          "code": "Promise.resolve().then(() => console.log(\"p1\")).then(() => console.log(\"p2\"));\nPromise.resolve().then(() => console.log(\"p3\")).then(() => console.log(\"p4\"));",
+          "options": [
+            "p1 p2 p3 p4",
+            "p1 p3 p2 p4",
+            "p3 p4 p1 p2",
+            "p1 p3 p4 p2"
+          ],
+          "answer": 1,
+          "explanation": "Both first callbacks are queued immediately. Each second callback is only queued after its first one runs, so the chains interleave."
+        },
+        {
+          "id": "javascript-07-q05",
+          "type": "mcq",
+          "prompt": "What is the output order?",
+          "code": "setTimeout(() => {\n  console.log(\"t1\");\n  Promise.resolve().then(() => console.log(\"m1\"));\n}, 0);\nsetTimeout(() => console.log(\"t2\"), 0);",
+          "options": [
+            "t1 t2 m1",
+            "t1 m1 t2",
+            "m1 t1 t2",
+            "t2 t1 m1"
+          ],
+          "answer": 1,
+          "explanation": "After each task the microtask queue is drained. The promise created inside the first timer runs before the second timer task. Node 11+ behaves the same."
+        },
+        {
+          "id": "javascript-07-q06",
+          "type": "mcq",
+          "prompt": "What is logged?",
+          "code": "Promise.reject(new Error(\"x\"))\n  .then(() => console.log(\"a\"))\n  .catch(() => console.log(\"b\"))\n  .then(() => console.log(\"c\"));",
+          "options": [
+            "a c",
+            "b c",
+            "b",
+            "a b c"
+          ],
+          "answer": 1,
+          "explanation": "The rejection skips the then callback, the catch handles it and returns normally, so the chain is fulfilled again and the final then runs."
+        },
+        {
+          "id": "javascript-07-q07",
+          "type": "mcq",
+          "prompt": "What is the output order?",
+          "code": "async function run() {\n  [1, 2].forEach(async (n) => {\n    await null;\n    console.log(n);\n  });\n  console.log(\"done\");\n}\nrun();",
+          "options": [
+            "1 2 done",
+            "done 1 2",
+            "1 done 2",
+            "done only"
+          ],
+          "answer": 1,
+          "explanation": "forEach ignores the promises returned by async callbacks. Each callback pauses at its await, forEach returns, \"done\" logs, then the continuations run as microtasks."
+        },
+        {
+          "id": "javascript-07-q08",
+          "type": "truefalse",
+          "prompt": "`await` on a value that is not a promise continues synchronously without yielding.",
+          "answer": false,
+          "explanation": "await wraps the value in a resolved promise and always resumes in a later microtask, so other synchronous code runs first."
+        },
+        {
+          "id": "javascript-07-q09",
+          "type": "truefalse",
+          "prompt": "If one promise passed to `Promise.all` rejects, `Promise.all` rejects immediately without waiting for the others to settle.",
+          "answer": true,
+          "explanation": "Promise.all fails fast with the first rejection reason. The other operations keep running; their results are just ignored. Use allSettled to wait for all."
+        },
+        {
+          "id": "javascript-07-q10",
+          "type": "multi",
+          "prompt": "Select all that apply: which of these schedule a microtask?",
+          "options": [
+            "`promise.then(cb)`",
+            "`queueMicrotask(cb)`",
+            "A MutationObserver callback",
+            "`setTimeout(cb, 0)`",
+            "`requestAnimationFrame(cb)`",
+            "Code after `await` in an async function"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            5
+          ],
+          "explanation": "Promise reactions, await continuations, queueMicrotask and MutationObserver use the microtask queue. setTimeout queues a task, and rAF callbacks run in the rendering step before paint."
+        },
+        {
+          "id": "javascript-07-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: `Promise.___` waits for every input to settle and never rejects, returning status objects.",
+          "accept": [
+            "allSettled",
+            "Promise.allSettled",
+            "allSettled()"
+          ],
+          "explanation": "allSettled returns `{ status: \"fulfilled\", value }` or `{ status: \"rejected\", reason }` for each input, in input order."
+        },
+        {
+          "id": "javascript-07-q12",
+          "type": "interview",
+          "prompt": "Explain the JavaScript event loop, including microtasks vs macrotasks.",
+          "answer": "- JS executes on one thread with a call stack. Async work is done by the host, which queues callbacks.\n- The loop takes one task (script, timer, event, message), runs it to completion, then drains the microtask queue completely (promise reactions, await continuations, queueMicrotask, MutationObserver), including microtasks added during draining.\n- Then, if a frame is due, it runs requestAnimationFrame callbacks, style, layout and paint, then picks the next task.\n- Consequences: promise callbacks always beat setTimeout 0; long sync work or endless microtasks block rendering and input; rAF is the right place for visual updates.\n- For Node I'd add libuv phases, process.nextTick running before promises, and setImmediate in the check phase.\n- I'd usually walk through a small output puzzle to show the rules.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-07-q13",
+          "type": "interview",
+          "prompt": "You have three independent API calls in an async function written as three sequential awaits. What is wrong and how do you fix it? What about error handling?",
+          "answer": "- Sequential awaits serialize the requests: total time is the sum of the three latencies instead of the slowest one.\n- Start them together and await once: `const [a, b, c] = await Promise.all([getA(), getB(), getC()])`.\n- With Promise.all, the first rejection rejects the whole thing; if partial results are useful, use Promise.allSettled and handle each status.\n- Wrap in try/catch at the level where you can do something useful (show an error state, retry), and add cause when rethrowing.\n- For many calls I would limit concurrency (a small pool or p-limit) to avoid overwhelming the server, and pass an AbortSignal so callers can cancel.\n- A subtle bug to avoid: creating promises early but awaiting them one by one with a try/catch around only the first, which leaves later rejections unhandled.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-07-q14",
+          "type": "interview",
+          "prompt": "Implement a function that runs async tasks with a concurrency limit.",
+          "answer": "- Signature: `async function runWithLimit(tasks, limit)` where tasks are functions returning promises; results must keep input order.\n- Keep a shared index. Start `limit` workers; each worker loops: take the next index, `await tasks[i]()`, store the result at `results[i]`, and repeat until the index passes the end.\n- `await Promise.all(workers)` and return results.\n- Code sketch: `let next = 0; const results = []; async function worker() { while (next < tasks.length) { const i = next++; results[i] = await tasks[i](); } } await Promise.all(Array.from({ length: Math.min(limit, tasks.length) }, worker)); return results;`\n- Because JS is single-threaded, `next++` cannot race between workers.\n- Decide on error policy: this version rejects on the first error (like Promise.all); an allSettled variant would catch per task and store status objects.",
+          "level": "advanced"
+        },
+        {
+          "id": "javascript-07-q15",
+          "type": "interview",
+          "prompt": "What happens to an unhandled promise rejection in the browser and in Node, and how do you prevent them?",
+          "answer": "- A rejection with no handler attached by the end of the microtask checkpoint is reported as unhandled.\n- Browsers fire an `unhandledrejection` event on window and log an error; the page keeps running. If a handler is attached later, `rejectionhandled` fires.\n- Node, since version 15, defaults to `--unhandled-rejections=throw`: the process exits with an error unless a `process.on(\"unhandledRejection\")` handler exists.\n- Prevention: always return or await promises so errors propagate to a caller that catches them; end fire-and-forget chains with `.catch`; avoid async callbacks in places that ignore the returned promise (forEach, event emitters) without their own try/catch.\n- Have a global handler for logging and monitoring, not as primary error handling.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: The event loop (execution model)",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop"
+        },
+        {
+          "title": "MDN: Using microtasks",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide"
+        },
+        {
+          "title": "MDN: Using promises",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises"
+        }
+      ]
+    },
+    {
+      "id": "javascript-08-modules-iterators-generators",
+      "title": "ES Modules, Iterators and Generators",
+      "level": "advanced",
+      "summary": "How ES modules load and bind, how they differ from CommonJS, and the iteration protocol behind for...of and generators.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "ES module basics",
+          "body": "An ES module is a file with its own top-level scope that shares values through `export` and `import`.\n\n- Named exports: `export const a = 1`, imported with `import { a } from \"./x.js\"`. A module can have many.\n- Default export: `export default fn`, imported with any name: `import anything from \"./x.js\"`. At most one per module.\n- Namespace import: `import * as utils from \"./utils.js\"`.\n- Re-export: `export { a } from \"./x.js\"`, `export * from \"./y.js\"`.\n\nModules are always in strict mode, have `this` = undefined at top level, and support top-level `await`. In browsers, `<script type=\"module\">` is deferred by default and module specifiers must be URLs or mapped through an import map.\n\nA module is evaluated **once** per realm, no matter how many modules import it. Every importer shares the same instance, which is why a module-level variable works as a singleton.",
+          "code": {
+            "lang": "js",
+            "source": "// math.js\nexport const PI = 3.14159;\nexport function area(r) { return PI * r * r; }\nexport default function circle(r) { return { r, area: area(r) }; }\n\n// app.js\nimport circle, { area, PI as pi } from \"./math.js\";\nimport * as math from \"./math.js\";\nconsole.log(area(2), pi, math.PI, circle(1));"
+          }
+        },
+        {
+          "heading": "Static structure, live bindings and dynamic import",
+          "body": "`import` and `export` declarations are **static**: they must be at the top level, with string-literal specifiers. The engine parses the whole module graph, links imports to exports, and only then evaluates code. Import declarations are therefore hoisted: imported modules run before any code in the importing module.\n\nThat static shape is what lets bundlers do **tree shaking**: they can see which exports are never imported and drop them.\n\nImports are **live, read-only bindings**, not copies. If the exporting module changes an exported `let`, importers see the new value. Assigning to an import throws a TypeError.\n\nFor loading on demand, `import(\"./x.js\")` (dynamic import) returns a promise for the module namespace. Bundlers turn it into a separate chunk, which is how route-based code splitting works.",
+          "code": {
+            "lang": "js",
+            "source": "// counter.js\nexport let count = 0;\nexport function increment() { count++; }\n\n// main.js\nimport { count, increment } from \"./counter.js\";\nincrement();\nconsole.log(count);       // 1: live binding\n// count = 10;            // TypeError: Assignment to constant variable\n\nbutton.addEventListener(\"click\", async () => {\n  const { openEditor } = await import(\"./editor.js\"); // loaded on demand\n  openEditor();\n});"
+          }
+        },
+        {
+          "heading": "ES modules vs CommonJS",
+          "body": "CommonJS (`require` / `module.exports`) is Node's original module system.\n\n- **Loading**: CJS is synchronous and dynamic; `require` can appear anywhere with any expression. ESM is parsed statically and can load asynchronously.\n- **Bindings**: `require` returns the `module.exports` object at that moment; destructured values are copies. ESM imports are live bindings.\n- **Scope extras**: CJS has `__dirname`, `__filename`, `require`; ESM uses `import.meta.url`, `import.meta.dirname` and `import.meta.filename` (Node 20.11+).\n- **Interop**: ESM can `import` CJS (the exports object becomes the default import). Recent Node versions (22.12+ and 20.19+) can also `require()` an ES module as long as it has no top-level await.\n- In Node, a file is ESM if it ends in `.mjs`, or ends in `.js` with `\"type\": \"module\"` in the nearest package.json.\n\n**Circular dependencies** work in both systems but can expose uninitialized values: in ESM, touching a `let`/`const` import from a module that has not finished evaluating throws a TDZ ReferenceError."
+        },
+        {
+          "heading": "The iteration protocol",
+          "body": "An object is **iterable** if it has a `[Symbol.iterator]()` method that returns an **iterator**: an object with a `next()` method returning `{ value, done }`.\n\nIterables include arrays, strings, Maps, Sets, NodeLists, arguments and generators. Plain objects are not; use `Object.entries(obj)` to iterate them.\n\nConsumers of the protocol: `for...of`, spread `[...x]`, array destructuring, `Array.from`, `new Map(iterable)`, `Promise.all(iterable)`, `yield*`.\n\nWhen a consumer stops early (`break`, destructuring fewer items, an exception), it calls the iterator's optional `return()` method so it can clean up.\n\nES2025 added **iterator helpers**: `Iterator.prototype.map`, `filter`, `take`, `drop`, `flatMap`, `reduce`, `toArray` and friends, which work lazily on any iterator (e.g. `map.keys().filter(...)`).",
+          "code": {
+            "lang": "js",
+            "source": "class Range {\n  constructor(start, end) { this.start = start; this.end = end; }\n  [Symbol.iterator]() {\n    let current = this.start;\n    const end = this.end;\n    return {\n      next: () => current <= end\n        ? { value: current++, done: false }\n        : { value: undefined, done: true },\n    };\n  }\n}\nconsole.log([...new Range(1, 4)]);   // [1, 2, 3, 4]\nfor (const n of new Range(1, 2)) console.log(n);"
+          }
+        },
+        {
+          "heading": "Generators",
+          "body": "A generator function (`function*`) returns a generator object, which is both an iterator and an iterable. Its body does not run until you call `next()`. Each `yield` pauses the function and hands out a value; the next `next()` resumes right after it.\n\n- `next(value)` sends a value back in: it becomes the result of the paused `yield` expression. The argument to the first `next()` is ignored because no yield is waiting.\n- A `return` value appears as `{ value, done: true }` but is **ignored** by for...of and spread.\n- `yield* other` delegates to another iterable.\n- Generators are lazy, so infinite sequences are fine as long as the consumer stops.\n\n**Async generators** (`async function*`) yield promises and are consumed with `for await...of`, which fits paginated APIs and streams.",
+          "code": {
+            "lang": "js",
+            "source": "function* idGenerator(prefix) {\n  let i = 1;\n  while (true) {\n    const reset = yield `${prefix}-${i++}`;\n    if (reset) i = 1;\n  }\n}\nconst ids = idGenerator(\"user\");\nids.next().value;      // \"user-1\"\nids.next().value;      // \"user-2\"\nids.next(true).value;  // \"user-1\" (reset sent in)\n\nasync function* pages(url) {\n  while (url) {\n    const res = await fetch(url);\n    const body = await res.json();\n    yield body.items;\n    url = body.nextPage;\n  }\n}\n// for await (const items of pages(\"/api/orders\")) render(items);"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Each module has its own scope, is strict, and is evaluated once and shared by all importers.",
+        "Imports are hoisted, static, live, read-only bindings.",
+        "Static structure enables tree shaking; `import()` enables lazy loading and code splitting.",
+        "CJS is synchronous and copies values out of `module.exports`; ESM links live bindings.",
+        "Iterables expose `[Symbol.iterator]()` returning an iterator with `next()` -> `{ value, done }`.",
+        "Plain objects are not iterable; use `Object.entries`.",
+        "Generators pause at `yield`, accept values through `next(arg)`, and are lazy.",
+        "for...of and spread ignore a generator's return value."
+      ],
+      "questions": [
+        {
+          "id": "javascript-08-q01",
+          "type": "mcq",
+          "prompt": "main.js imports from counter.js as shown. What does main.js log?",
+          "code": "// counter.js\nexport let count = 0;\nexport function inc() { count++; }\n\n// main.js\nimport { count, inc } from \"./counter.js\";\ninc();\nconsole.log(count);",
+          "options": [
+            "0",
+            "1",
+            "undefined",
+            "TypeError"
+          ],
+          "answer": 1,
+          "explanation": "ES module imports are live bindings to the exporting module's variable. After `inc()` updates `count`, the importer sees 1. A destructured CommonJS require would have copied 0."
+        },
+        {
+          "id": "javascript-08-q02",
+          "type": "mcq",
+          "prompt": "a.js contains only `console.log(\"a\")`. In what order do the logs appear when main.js runs?",
+          "code": "// main.js\nconsole.log(\"main\");\nimport \"./a.js\";",
+          "options": [
+            "main, a",
+            "a, main",
+            "Only main",
+            "It depends on network speed"
+          ],
+          "answer": 1,
+          "explanation": "Import declarations are hoisted. The whole graph is linked and dependencies are evaluated before the importing module's body runs."
+        },
+        {
+          "id": "javascript-08-q03",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "function* g() {\n  const x = yield 1;\n  yield x * 2;\n}\nconst it = g();\nconsole.log(it.next().value, it.next(5).value, it.next().done);",
+          "options": [
+            "1 5 false",
+            "1 10 true",
+            "1 10 false",
+            "undefined 10 true"
+          ],
+          "answer": 1,
+          "explanation": "The first next() runs to `yield 1`. `next(5)` resumes with x = 5 and pauses at `yield 10`. The third next() runs off the end, returning `{ value: undefined, done: true }`."
+        },
+        {
+          "id": "javascript-08-q04",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "function* nums() {\n  yield 1;\n  yield 2;\n  return 3;\n}\nconsole.log([...nums()]);",
+          "options": [
+            "[1, 2, 3]",
+            "[1, 2]",
+            "[3]",
+            "[1, 2, undefined]"
+          ],
+          "answer": 1,
+          "explanation": "Spread (like for...of) stops when it sees `done: true` and discards that final value, so the returned 3 is not included."
+        },
+        {
+          "id": "javascript-08-q05",
+          "type": "mcq",
+          "prompt": "What happens?",
+          "code": "function* naturals() {\n  let n = 0;\n  while (true) yield n++;\n}\nconst [a, b, c] = naturals();\nconsole.log(a, b, c);",
+          "options": [
+            "Logs 0 1 2",
+            "Infinite loop",
+            "TypeError: not iterable",
+            "Logs undefined x3"
+          ],
+          "answer": 0,
+          "explanation": "Generators are lazy. Destructuring pulls only three values and then calls the iterator's return(), so the infinite loop never runs past the third yield."
+        },
+        {
+          "id": "javascript-08-q06",
+          "type": "mcq",
+          "prompt": "What happens?",
+          "code": "const obj = { a: 1, b: 2 };\nfor (const x of obj) console.log(x);",
+          "options": [
+            "Logs a and b",
+            "Logs 1 and 2",
+            "TypeError: obj is not iterable",
+            "Logs nothing"
+          ],
+          "answer": 2,
+          "explanation": "Plain objects do not implement Symbol.iterator. Use `for (const [k, v] of Object.entries(obj))` or for...in for keys."
+        },
+        {
+          "id": "javascript-08-q07",
+          "type": "mcq",
+          "prompt": "Why can bundlers tree-shake ES modules but not reliably tree-shake CommonJS?",
+          "options": [
+            "ESM files are smaller",
+            "ESM imports and exports are static declarations that can be analyzed without running code",
+            "CommonJS does not support functions",
+            "Tree shaking is done by the browser"
+          ],
+          "answer": 1,
+          "explanation": "With ESM, the set of imports and exports is known from the syntax alone. require can be called conditionally with computed paths and module.exports can be mutated at runtime, so tools cannot safely prove code is unused."
+        },
+        {
+          "id": "javascript-08-q08",
+          "type": "truefalse",
+          "prompt": "A module imported by five different modules is evaluated five times.",
+          "answer": false,
+          "explanation": "Modules are singletons per realm: evaluated once, cached in the module map, and every importer gets the same bindings."
+        },
+        {
+          "id": "javascript-08-q09",
+          "type": "truefalse",
+          "prompt": "Code inside an ES module runs in strict mode even without \"use strict\".",
+          "answer": true,
+          "explanation": "Module code is always strict, which is also why top-level this is undefined in modules."
+        },
+        {
+          "id": "javascript-08-q10",
+          "type": "multi",
+          "prompt": "Select all that apply: which use the iteration protocol (Symbol.iterator)?",
+          "options": [
+            "`for...of`",
+            "Spread into an array `[...x]`",
+            "`for...in`",
+            "Array destructuring `const [a] = x`",
+            "`Array.from(x)`",
+            "`JSON.stringify(x)`"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "explanation": "for...in enumerates string keys of an object and its prototype chain, and JSON.stringify serializes properties. Neither calls Symbol.iterator."
+        },
+        {
+          "id": "javascript-08-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: an object is iterable if it implements a method keyed by ___.",
+          "accept": [
+            "Symbol.iterator",
+            "[Symbol.iterator]",
+            "@@iterator"
+          ],
+          "explanation": "`[Symbol.iterator]()` must return an iterator object with a next() method."
+        },
+        {
+          "id": "javascript-08-q12",
+          "type": "interview",
+          "prompt": "Compare ES modules and CommonJS.",
+          "answer": "- Syntax: `import/export` vs `require/module.exports`.\n- Loading: ESM is statically analyzed and linked before execution, can load asynchronously and supports top-level await. CJS executes synchronously as require is called, and require can be dynamic.\n- Bindings: ESM imports are live read-only bindings. CJS gives you the exports object; destructured values are snapshots.\n- Tooling: static ESM enables tree shaking and better IDE analysis.\n- Environment: ESM is the standard and runs natively in browsers; CJS is Node-specific. In Node, ESM is selected by .mjs or \"type\": \"module\". ESM lacks __dirname but has import.meta.dirname and import.meta.url.\n- Interop: ESM can import CJS; modern Node can require synchronous ESM. For libraries I would publish ESM (optionally dual with an exports map) and be careful about dual-package hazards where two copies of a module get loaded.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-08-q13",
+          "type": "interview",
+          "prompt": "What are generators and when would you actually use one?",
+          "answer": "- A generator function returns an iterator whose body runs lazily: each next() runs to the next yield and pauses, keeping local state.\n- Uses: custom iterables for data structures (trees, ranges) without writing next() by hand; lazy or infinite sequences where you only compute what is consumed; pipelines that process large data item by item without building arrays.\n- Two-way communication through next(value) enabled coroutine libraries like co and redux-saga, which yield effects and let a runner resume them. async/await is essentially built-in sugar for that pattern.\n- Async generators with for await...of fit paginated APIs and streams: yield each page as it arrives, and consumers can stop early, which triggers cleanup via return().\n- I'd mention that for most app code, arrays and async/await are clearer; generators earn their place for laziness and custom iteration.",
+          "level": "advanced"
+        },
+        {
+          "id": "javascript-08-q14",
+          "type": "interview",
+          "prompt": "How does dynamic import() support code splitting, and what should you watch out for?",
+          "answer": "- `import(specifier)` returns a promise for the module namespace and can be called anywhere, with computed specifiers.\n- Bundlers (Vite, webpack, Rollup) treat each dynamic import as a split point and emit a separate chunk loaded on demand. Frameworks use it for route-level splitting, and React.lazy wraps it for components.\n- Benefits: smaller initial bundle, faster first load, rarely used features (editors, charts) cost nothing until used.\n- Watch out for: waterfalls (chunk A loads chunk B which loads C), so preload or prefetch likely next chunks; loading states and error handling for failed chunk loads, especially after a deploy changes chunk hashes; and fully dynamic specifiers, which bundlers cannot analyze, so keep them static or use a known pattern.",
+          "level": "advanced"
+        },
+        {
+          "id": "javascript-08-q15",
+          "type": "interview",
+          "prompt": "How would you make a custom data structure (for example a linked list) work with for...of and spread?",
+          "answer": "- Implement `[Symbol.iterator]()` on the class. The simplest way is a generator method: `*[Symbol.iterator]() { let node = this.head; while (node) { yield node.value; node = node.next; } }`.\n- That gives for...of, spread, destructuring, Array.from and new Set(list) for free.\n- Each call returns a fresh iterator, so the list can be iterated multiple times or in nested loops.\n- If iteration holds resources, implement return() (generators get it automatically with try/finally) so early break cleans up.\n- I might also add helpers like `values()` or `entries()` to match built-in collections, and note that ES2025 iterator helpers then work on it via `Iterator.from(list)`.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: JavaScript modules",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules"
+        },
+        {
+          "title": "MDN: Iterators and generators",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators"
+        },
+        {
+          "title": "Node.js docs: Modules: ECMAScript modules",
+          "url": "https://nodejs.org/api/esm.html"
+        }
+      ]
+    },
+    {
+      "id": "javascript-09-memory-utilities-puzzles",
+      "title": "Memory, Utilities and Output Puzzles",
+      "level": "advanced",
+      "summary": "Garbage collection and leaks, weak references, debounce and throttle, deep copying, and classic output-prediction puzzles.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Garbage collection and reachability",
+          "body": "JavaScript manages memory automatically. Engines use **mark-and-sweep** style collection (V8 adds generational and incremental/concurrent tricks): starting from **roots** (globals, the current call stack, active closures), the collector marks everything reachable, then frees the rest.\n\nThe rule to remember: **an object stays alive as long as something reachable references it**. Circular references are not a problem by themselves; two objects that only point at each other are unreachable and get collected. (That was a problem for old reference-counting collectors, not modern engines.)\n\nA **memory leak** in JS means you keep an unintended reference, so the collector is not allowed to free the memory."
+        },
+        {
+          "heading": "Common leaks and how to find them",
+          "body": "Typical causes:\n\n- **Forgotten listeners and timers**: a `setInterval` or a listener on `window` that closes over a component keeps the component and everything it references alive.\n- **Detached DOM nodes**: removed from the document but still referenced from a JS variable, array or cache.\n- **Unbounded caches**: a `Map` used as a cache keyed by objects or ids that never evicts.\n- **Closures** that capture large objects when only a small piece is needed.\n- **Accidental globals** in sloppy mode (assigning to an undeclared variable).\n\nTo diagnose: in Chrome DevTools, take a heap snapshot, perform the action several times, take another, and compare. Look for growing object counts, \"Detached\" DOM trees and the retainers path that shows who is holding the object. The Performance monitor shows JS heap and listener counts over time."
+        },
+        {
+          "heading": "WeakMap, WeakSet and WeakRef",
+          "body": "Weak collections hold their keys **weakly**: an entry does not keep its key alive. When the key object becomes unreachable elsewhere, the entry disappears.\n\n- `WeakMap` is ideal for attaching metadata or caching results per object (per DOM node, per request object) without leaking.\n- Keys must be objects (or non-registered symbols since ES2023). Using a string throws a TypeError.\n- They are not iterable and have no `size`, because their contents depend on when GC runs.\n- `WeakRef` and `FinalizationRegistry` give lower-level control, but GC timing is unpredictable, so do not use them for program logic.",
+          "code": {
+            "lang": "js",
+            "source": "const metadata = new WeakMap();\n\nfunction track(el) {\n  metadata.set(el, { clicks: 0 });   // entry dies with the element\n}\n\nconst cache = new WeakMap();\nfunction expensive(obj) {\n  if (!cache.has(obj)) cache.set(obj, compute(obj));\n  return cache.get(obj);\n}\n// new WeakMap().set(\"id\", 1); // TypeError: Invalid value used as weak map key"
+          }
+        },
+        {
+          "heading": "Debounce and throttle",
+          "body": "Both limit how often a function runs in response to rapid events.\n\n- **Debounce**: wait until events stop for N ms, then run once. Use it for search-as-you-type, auto-save, validating input, recalculating after window resize ends.\n- **Throttle**: run at most once every N ms while events keep coming. Use it for scroll position tracking, drag handlers, infinite-scroll checks, rate-limiting API calls.\n\nProduction versions (lodash) also support leading/trailing options, `cancel()` and `flush()`, and preserve `this` and arguments.",
+          "code": {
+            "lang": "js",
+            "source": "function debounce(fn, wait) {\n  let timer;\n  function debounced(...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), wait);\n  }\n  debounced.cancel = () => clearTimeout(timer);\n  return debounced;\n}\n\nfunction throttle(fn, interval) {\n  let last = 0;\n  let timer = null;\n  return function (...args) {\n    const now = Date.now();\n    const remaining = interval - (now - last);\n    if (remaining <= 0) {\n      clearTimeout(timer);\n      timer = null;\n      last = now;\n      fn.apply(this, args);\n    } else if (!timer) {             // trailing call with the latest args\n      timer = setTimeout(() => {\n        last = Date.now();\n        timer = null;\n        fn.apply(this, args);\n      }, remaining);\n    }\n  };\n}\n\ninput.addEventListener(\"input\", debounce((e) => search(e.target.value), 300));\nwindow.addEventListener(\"scroll\", throttle(updateProgressBar, 100), { passive: true });"
+          }
+        },
+        {
+          "heading": "Shallow copy, deep copy and structuredClone",
+          "body": "- **Shallow copy** (`{ ...obj }`, `Object.assign`, `[...arr]`, `arr.slice()`) copies top-level properties. Nested objects are still shared.\n- **JSON round-trip** (`JSON.parse(JSON.stringify(x))`) is a lossy deep copy: it drops `undefined`, functions and symbols, turns Dates into strings, NaN and Infinity into null, Maps and Sets into `{}`, and throws on circular references.\n- **structuredClone(x)** is the built-in deep copy (all modern browsers and Node 17+). It handles Date, RegExp, Map, Set, ArrayBuffer and typed arrays, Error objects and circular references. It throws a `DataCloneError` on functions and DOM nodes, and it does not preserve prototypes: class instances come back as plain objects, and getters are flattened to values.\n\nA hand-written deep clone needs a `WeakMap` of already-copied objects to handle cycles.",
+          "code": {
+            "lang": "js",
+            "source": "const original = { when: new Date(0), tags: new Set([\"a\"]), nested: { n: 1 } };\noriginal.self = original;\n\nconst shallow = { ...original };\nshallow.nested.n = 2;\nconsole.log(original.nested.n);          // 2: shared\n\nconst deep = structuredClone(original);\nconsole.log(deep.when instanceof Date);  // true\nconsole.log(deep.self === deep);         // true: cycle preserved\n\nfunction deepClone(value, seen = new WeakMap()) {\n  if (value === null || typeof value !== \"object\") return value;\n  if (seen.has(value)) return seen.get(value);\n  const copy = Array.isArray(value) ? [] : Object.create(Object.getPrototypeOf(value));\n  seen.set(value, copy);\n  for (const key of Reflect.ownKeys(value)) copy[key] = deepClone(value[key], seen);\n  return copy;\n}"
+          }
+        },
+        {
+          "heading": "Classic output puzzles",
+          "body": "Interviewers like short snippets that test whether you know the rules rather than intuition. A few that come up often:\n\n- `[\"1\", \"2\", \"3\"].map(parseInt)` is `[1, NaN, NaN]`. map passes `(value, index)`, so the calls are `parseInt(\"1\", 0)` (radix 0 means default, 1), `parseInt(\"2\", 1)` (invalid radix, NaN) and `parseInt(\"3\", 2)` (3 is not a binary digit, NaN).\n- `[10, 9, 1].sort()` is `[1, 10, 9]` because the default comparator compares strings. Use `sort((a, b) => a - b)`, or `toSorted` to avoid mutating.\n- `0.1 + 0.2 === 0.3` is false (floating point).\n- `typeof typeof 1` is `\"string\"`.\n- `[...\"hello\"].length` is 5, but `\"😀\".length` is 2 because length counts UTF-16 code units. (Spread counts code points.)\n\nThe method for any puzzle: identify which rule applies (coercion, hoisting, this, event loop, closures), apply it step by step, and say the reasoning out loud.",
+          "code": {
+            "lang": "js",
+            "source": "console.log([\"1\", \"2\", \"3\"].map(parseInt)); // [1, NaN, NaN]\nconsole.log([10, 9, 1].sort());              // [1, 10, 9]\nconsole.log([10, 9, 1].toSorted((a, b) => a - b)); // [1, 9, 10]\nconsole.log(typeof typeof 1);                // \"string\""
+          }
+        }
+      ],
+      "keyPoints": [
+        "Objects live while reachable from roots; cycles alone do not leak.",
+        "Leaks come from forgotten listeners/timers, detached DOM, unbounded caches and oversized closures.",
+        "Use heap snapshot comparisons and retainer paths in DevTools to find leaks.",
+        "WeakMap keys are held weakly; it is not iterable and keys must be objects.",
+        "Debounce waits for quiet; throttle caps the rate.",
+        "Spread and Object.assign are shallow; JSON round-tripping is lossy.",
+        "`structuredClone` handles cycles, Dates, Maps and Sets but not functions, DOM nodes or prototypes.",
+        "Default `sort` compares strings; `map(parseInt)` passes the index as radix."
+      ],
+      "questions": [
+        {
+          "id": "javascript-09-q01",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "console.log([\"1\", \"2\", \"3\"].map(parseInt));",
+          "options": [
+            "[1, 2, 3]",
+            "[1, NaN, NaN]",
+            "[NaN, NaN, NaN]",
+            "[1, NaN, 3]"
+          ],
+          "answer": 1,
+          "explanation": "map calls parseInt(value, index). parseInt(\"1\", 0) uses the default radix (1); radix 1 is invalid (NaN); \"3\" is not a valid base-2 digit (NaN)."
+        },
+        {
+          "id": "javascript-09-q02",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "console.log([10, 9, 1].sort());",
+          "options": [
+            "[1, 9, 10]",
+            "[10, 9, 1]",
+            "[1, 10, 9]",
+            "[9, 10, 1]"
+          ],
+          "answer": 2,
+          "explanation": "Without a comparator, sort converts elements to strings and compares UTF-16 code units. \"10\" sorts before \"9\" because \"1\" < \"9\"."
+        },
+        {
+          "id": "javascript-09-q03",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "const src = { d: new Date(0), u: undefined, n: NaN };\nconst copy = JSON.parse(JSON.stringify(src));\nconsole.log(typeof copy.d, \"u\" in copy, copy.n);",
+          "options": [
+            "\"object\" true NaN",
+            "\"string\" false null",
+            "\"string\" true undefined",
+            "\"object\" false null"
+          ],
+          "answer": 1,
+          "explanation": "JSON.stringify turns the Date into an ISO string, drops properties whose value is undefined, and serializes NaN as null."
+        },
+        {
+          "id": "javascript-09-q04",
+          "type": "mcq",
+          "prompt": "What does this log?",
+          "code": "const a = { inner: { n: 1 } };\nconst b = { ...a };\nb.inner.n = 2;\nconsole.log(a.inner.n);",
+          "options": [
+            "1",
+            "2",
+            "undefined",
+            "TypeError"
+          ],
+          "answer": 1,
+          "explanation": "Object spread copies only the top level. `b.inner` references the same object as `a.inner`, so the mutation is visible through a."
+        },
+        {
+          "id": "javascript-09-q05",
+          "type": "mcq",
+          "prompt": "What happens?",
+          "code": "structuredClone({ name: \"a\", greet() { return \"hi\"; } });",
+          "options": [
+            "Returns a copy with the method",
+            "Returns a copy without the method",
+            "Throws a DataCloneError",
+            "Returns the same object"
+          ],
+          "answer": 2,
+          "explanation": "The structured clone algorithm cannot serialize functions, so structuredClone throws a DataCloneError. Methods defined on a class prototype are simply lost, but own function-valued properties cause the throw."
+        },
+        {
+          "id": "javascript-09-q06",
+          "type": "mcq",
+          "prompt": "A search box should call the API only after the user stops typing for 300 ms. A progress bar should update at most every 100 ms while scrolling. Which tools fit?",
+          "options": [
+            "Throttle search, debounce scroll",
+            "Debounce search, throttle scroll",
+            "Debounce both",
+            "Throttle both"
+          ],
+          "answer": 1,
+          "explanation": "Debounce waits for a pause, which is what you want for typing. Throttle runs regularly during continuous events, so the progress bar keeps updating while scrolling."
+        },
+        {
+          "id": "javascript-09-q07",
+          "type": "mcq",
+          "prompt": "What happens?",
+          "code": "const wm = new WeakMap();\nwm.set(\"user-1\", { visits: 3 });",
+          "options": [
+            "Sets the entry",
+            "Returns undefined",
+            "TypeError: Invalid value used as weak map key",
+            "Silently ignores the call"
+          ],
+          "answer": 2,
+          "explanation": "WeakMap keys must be objects (or non-registered symbols). Primitives like strings cannot be held weakly, so set throws."
+        },
+        {
+          "id": "javascript-09-q08",
+          "type": "truefalse",
+          "prompt": "Two objects that reference each other but are unreachable from any root cause a memory leak in modern JavaScript engines.",
+          "answer": false,
+          "explanation": "Mark-and-sweep collectors only keep objects reachable from roots. An isolated cycle is unreachable, so it is collected."
+        },
+        {
+          "id": "javascript-09-q09",
+          "type": "truefalse",
+          "prompt": "`structuredClone` preserves the prototype of class instances, so methods still work on the copy.",
+          "answer": false,
+          "explanation": "The structured clone algorithm produces plain objects for class instances. Only specific built-ins (Date, Map, Set, RegExp, Error, typed arrays and so on) keep their types."
+        },
+        {
+          "id": "javascript-09-q10",
+          "type": "multi",
+          "prompt": "Select all that apply: which commonly cause memory leaks in single-page apps?",
+          "options": [
+            "A `setInterval` that is never cleared after a component unmounts",
+            "A `window` resize listener that is never removed",
+            "Two objects referencing each other after both are unused",
+            "A module-level Map cache keyed by request id that never evicts",
+            "A removed DOM node still stored in an array"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "explanation": "Uncleared timers, global listeners, unbounded caches and detached DOM nodes all keep references alive. Unreachable cycles are collected."
+        },
+        {
+          "id": "javascript-09-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: the built-in global function ___ performs a deep copy that supports Map, Set, Date and circular references.",
+          "accept": [
+            "structuredClone",
+            "structuredClone()",
+            "window.structuredClone",
+            "globalThis.structuredClone"
+          ],
+          "explanation": "structuredClone uses the same algorithm as postMessage and IndexedDB to deep copy supported values."
+        },
+        {
+          "id": "javascript-09-q12",
+          "type": "interview",
+          "prompt": "Implement debounce. Then explain how you would add a leading option and cancel.",
+          "answer": "- Core: keep a timer id in a closure. Each call clears the previous timer and sets a new one; when it fires, call `fn.apply(this, args)` with the latest arguments and this.\n- `function debounce(fn, wait) { let t; return function (...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), wait); }; }`\n- Leading: if no timer is pending, call fn immediately, then start the timer; calls during the wait only reset the timer and do not fire again (optionally a trailing call if more calls came in).\n- cancel: attach `debounced.cancel = () => { clearTimeout(t); t = undefined; }`; flush runs the pending call immediately.\n- In React, create the debounced function once (useMemo or useRef) and cancel it in an effect cleanup, otherwise each render makes a new debouncer and the debounce never takes effect.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-09-q13",
+          "type": "interview",
+          "prompt": "How would you deep clone an object? Compare the options.",
+          "answer": "- Shallow copies (spread, Object.assign, slice) are enough when nested data is immutable or you replace nested objects rather than mutate them.\n- JSON.parse(JSON.stringify(x)) is quick for plain JSON data but loses undefined, functions, symbols, Dates (become strings), Map/Set, NaN/Infinity (become null) and throws on cycles.\n- structuredClone is my default for data: built in, handles cycles, Dates, Maps, Sets, typed arrays and Errors. It throws on functions and DOM nodes and drops prototypes, getters and property descriptors.\n- For class instances or custom needs, write a recursive clone with a WeakMap of visited objects for cycles, Object.create(Object.getPrototypeOf(v)) to keep prototypes, Reflect.ownKeys to include symbol keys, and special cases for Date, Map, Set and RegExp.\n- Often the better answer is immutable updates (spread at each level, or Immer) so you never need a full deep clone.",
+          "level": "intermediate"
+        },
+        {
+          "id": "javascript-09-q14",
+          "type": "interview",
+          "prompt": "Users report that a single-page app gets slower the longer it stays open. How do you investigate a possible memory leak?",
+          "answer": "- Reproduce with a repeatable action (open and close a modal, navigate between two routes) and watch the JS heap in the Performance monitor or with a Performance recording with memory enabled. A sawtooth that keeps rising after GC suggests a leak.\n- Take a heap snapshot, repeat the action several times, force GC, take another snapshot, and use the Comparison view to see which constructors keep growing. Filter for \"Detached\" to find DOM nodes kept by JS.\n- Follow the Retainers path to see what holds the object: usually a listener on window or document, an interval, a subscription, a global store or a cache.\n- Fix by removing listeners and timers on teardown (AbortController, effect cleanups), bounding caches (LRU or WeakMap) and avoiding closures that capture large data.\n- Verify with the same snapshot comparison, and add a regression check if the scenario is critical.",
+          "level": "advanced"
+        },
+        {
+          "id": "javascript-09-q15",
+          "type": "interview",
+          "prompt": "When would you use a WeakMap instead of a Map?",
+          "answer": "- When the key is an object whose lifetime you do not control and you want to attach data to it without extending that lifetime: metadata per DOM node, caching computed results per input object, private data per class instance (the pre-#private pattern).\n- With a Map, the cache entry keeps the key reachable, so the object and its data are never collected until you delete it. With a WeakMap the entry vanishes when the key becomes unreachable.\n- Trade-offs: keys must be objects (or non-registered symbols), there is no iteration, size or clear, and you cannot know when entries disappear.\n- If I need to enumerate entries, need primitive keys, or want explicit eviction policies, I use a Map with LRU or TTL instead.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Memory management",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Memory_management"
+        },
+        {
+          "title": "MDN: structuredClone()",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone"
+        },
+        {
+          "title": "Chrome DevTools: Fix memory problems",
+          "url": "https://developer.chrome.com/docs/devtools/memory-problems"
+        }
+      ]
+    }
+  ]
+}

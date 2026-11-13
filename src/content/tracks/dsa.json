@@ -1,0 +1,2188 @@
+{
+  "id": "dsa",
+  "title": "Data Structures and Algorithms",
+  "area": "fundamentals",
+  "order": 4,
+  "icon": "DSA",
+  "color": "#db2777",
+  "description": "The patterns behind coding interviews: complexity analysis, two pointers, sliding window, hashing, stacks, trees, graphs, dynamic programming and more, with TypeScript templates you can reuse.",
+  "chapters": [
+    {
+      "id": "dsa-01-big-o",
+      "title": "Big-O and Complexity Analysis",
+      "level": "beginner",
+      "summary": "Measure how time and memory grow with input size so you can compare solutions before writing them.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "What Big-O measures",
+          "body": "Big-O describes how the cost of an algorithm grows as the input size `n` grows. It ignores constant factors and lower-order terms because, for large `n`, the dominant term decides everything: `3n^2 + 50n + 7` is `O(n^2)`.\n\nStrictly, Big-O is an upper bound, Big-Omega is a lower bound and Big-Theta is a tight bound. In interviews people say 'Big-O' and mean the tight worst-case bound unless they say otherwise.\n\n- **Worst case**: the guarantee you usually quote.\n- **Average case**: what you expect on random input (hash map lookup is O(1) average, O(n) worst).\n- **Amortized**: the average cost per operation over a sequence (pushing to a dynamic array is O(1) amortized even though an occasional resize is O(n))."
+        },
+        {
+          "heading": "The common classes, fastest to slowest",
+          "body": "- `O(1)` constant: index into an array, push/pop at the end, Map get/set (average).\n- `O(log n)` logarithmic: binary search, balanced BST operations, heap push/pop. Each step halves the remaining work.\n- `O(n)` linear: a single pass over the input.\n- `O(n log n)`: efficient comparison sorts (merge sort, heap sort, `Array.prototype.sort`), building something with n heap pushes.\n- `O(n^2)` quadratic: all pairs, nested loops over the same input.\n- `O(2^n)` exponential: all subsets, naive recursive Fibonacci.\n- `O(n!)` factorial: all permutations.\n\nRule of thumb for interviews: about 10^8 simple operations per second. With `n = 10^5`, O(n^2) = 10^10 is too slow, O(n log n) is fine. Input constraints often hint at the expected complexity: `n <= 20` suggests exponential/backtracking, `n <= 10^5` suggests O(n log n) or better."
+        },
+        {
+          "heading": "Counting operations in code",
+          "body": "Sequential blocks add, nested blocks multiply. A loop that halves or doubles its counter is logarithmic. With two different inputs keep both variables: iterating `a` then `b` is `O(a + b)`, nesting them is `O(a * b)`. Do not collapse them into `n`.\n\nWatch for hidden costs inside loops: `arr.includes`, `arr.indexOf`, `arr.shift()`, `str.slice`, spreading `[...arr]` and string concatenation in a loop are each O(n), so calling them inside an O(n) loop gives O(n^2).",
+          "code": {
+            "lang": "typescript",
+            "source": "// O(n): one pass\nfunction sum(nums: number[]): number {\n  let total = 0;\n  for (const x of nums) total += x;\n  return total;\n}\n\n// O(n^2): nested loops over the same input\nfunction hasDuplicateSlow(nums: number[]): boolean {\n  for (let i = 0; i < nums.length; i++)\n    for (let j = i + 1; j < nums.length; j++)\n      if (nums[i] === nums[j]) return true;\n  return false;\n}\n\n// O(n) time, O(n) extra space: trade memory for speed\nfunction hasDuplicate(nums: number[]): boolean {\n  const seen = new Set<number>();\n  for (const x of nums) {\n    if (seen.has(x)) return true;\n    seen.add(x);\n  }\n  return false;\n}\n\n// O(log n): the counter doubles each step\nfunction countDoublings(n: number): number {\n  let steps = 0;\n  for (let i = 1; i < n; i *= 2) steps++;\n  return steps;\n}"
+          }
+        },
+        {
+          "heading": "Recursion and space complexity",
+          "body": "For recursion, think in terms of the recursion tree: total work = number of calls x work per call. Naive Fibonacci makes about `2^n` calls, so it is `O(2^n)`. Binary search recursion makes `log n` calls of O(1) work each.\n\nSpace complexity counts extra memory: data structures you allocate **plus the call stack**. A recursive DFS on a tree uses O(h) stack space where h is the height, which is O(n) for a skewed tree. Many interviewers expect you to mention this.\n\nThe Master Theorem gives quick answers for divide and conquer: `T(n) = 2T(n/2) + O(n)` (merge sort) is O(n log n); `T(n) = T(n/2) + O(1)` (binary search) is O(log n).",
+          "code": {
+            "lang": "typescript",
+            "source": "// O(2^n) time, O(n) stack space\nfunction fib(n: number): number {\n  return n < 2 ? n : fib(n - 1) + fib(n - 2);\n}\n\n// O(n) time, O(n) space with memoization\nfunction fibMemo(n: number, memo = new Map<number, number>()): number {\n  if (n < 2) return n;\n  if (memo.has(n)) return memo.get(n)!;\n  const v = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);\n  memo.set(n, v);\n  return v;\n}"
+          }
+        },
+        {
+          "heading": "JavaScript built-in costs worth memorizing",
+          "body": "- `arr.push`, `arr.pop`: O(1) amortized. `arr.shift`, `arr.unshift`, `arr.splice` in the middle: O(n) because elements move.\n- `arr.includes`, `indexOf`, `find`, `filter`, `map`, `slice`, `concat`, spread: O(n).\n- `arr.sort()`: O(n log n) (V8 uses TimSort, which is stable). The default comparator sorts as strings, so pass `(a, b) => a - b` for numbers.\n- `Map`/`Set` `get`, `set`, `has`, `delete`: O(1) average.\n- Strings are immutable: `s += c` in a loop can be O(n^2) in theory; build an array and `join('')` to be safe.\n- `Object.keys(obj)`: O(k) for k keys.\n\nNeed a queue? Do not use `shift()` on a large array in a BFS; use a head index pointer or a deque."
+        }
+      ],
+      "keyPoints": [
+        "Big-O drops constants and lower-order terms and describes growth for large n.",
+        "Sequential steps add, nested steps multiply; keep separate variables for separate inputs (O(a + b), O(a * b)).",
+        "Halving or doubling per step means O(log n).",
+        "Space complexity includes the recursion call stack, not just allocated arrays.",
+        "Amortized O(1) (array push) is different from average-case O(1) (hash lookup).",
+        "Hidden O(n) calls like shift, includes, slice and spread inside loops create O(n^2).",
+        "Use constraints to guess the target: n up to 10^5 usually means O(n log n) or O(n)."
+      ],
+      "questions": [
+        {
+          "id": "dsa-01-q01",
+          "type": "mcq",
+          "prompt": "What is the time complexity of this function?",
+          "code": "function f(n: number) {\n  let count = 0;\n  for (let i = 0; i < n; i++)\n    for (let j = i; j < n; j++) count++;\n  return count;\n}",
+          "options": [
+            "O(n)",
+            "O(n log n)",
+            "O(n^2)",
+            "O(2^n)"
+          ],
+          "answer": 2,
+          "explanation": "The inner loop runs n, n-1, ..., 1 times, which sums to n(n+1)/2. Dropping constants gives O(n^2). Starting j at i halves the work but does not change the growth class."
+        },
+        {
+          "id": "dsa-01-q02",
+          "type": "mcq",
+          "prompt": "What is the time complexity of this loop?",
+          "code": "let i = n;\nwhile (i > 1) {\n  i = Math.floor(i / 2);\n}",
+          "options": [
+            "O(1)",
+            "O(log n)",
+            "O(n)",
+            "O(sqrt n)"
+          ],
+          "answer": 1,
+          "explanation": "Each iteration halves i, so it reaches 1 after about log2(n) iterations."
+        },
+        {
+          "id": "dsa-01-q03",
+          "type": "mcq",
+          "prompt": "You loop over array `a` (length A) and then, separately, over array `b` (length B). What is the complexity?",
+          "options": [
+            "O(A * B)",
+            "O(A + B)",
+            "O(max(A, B)^2)",
+            "O(n)"
+          ],
+          "answer": 1,
+          "explanation": "Sequential loops add. Keep both variables because the inputs are independent; writing O(n) hides which input dominates."
+        },
+        {
+          "id": "dsa-01-q04",
+          "type": "mcq",
+          "prompt": "What is the complexity of this code for an array of length n?",
+          "code": "const result: number[] = [];\nfor (const x of arr) {\n  if (!result.includes(x)) result.push(x);\n}",
+          "options": [
+            "O(n)",
+            "O(n log n)",
+            "O(n^2)",
+            "O(1)"
+          ],
+          "answer": 2,
+          "explanation": "`includes` scans `result`, which can grow to n elements, so each iteration is O(n) and the loop is O(n^2). Using a Set brings it to O(n)."
+        },
+        {
+          "id": "dsa-01-q05",
+          "type": "mcq",
+          "prompt": "A recursive DFS visits every node of a binary tree with n nodes. What is the worst-case extra space?",
+          "options": [
+            "O(1)",
+            "O(log n)",
+            "O(n)",
+            "O(n log n)"
+          ],
+          "answer": 2,
+          "explanation": "The call stack holds one frame per level. A balanced tree has height log n, but a skewed tree (a linked list shape) has height n, so the worst case is O(n)."
+        },
+        {
+          "id": "dsa-01-q06",
+          "type": "mcq",
+          "prompt": "Given n up to 200,000, which complexity is the most realistic target?",
+          "options": [
+            "O(n^2)",
+            "O(n log n)",
+            "O(2^n)",
+            "O(n^3)"
+          ],
+          "answer": 1,
+          "explanation": "n^2 is 4 * 10^10 operations, far too slow. n log n is about 3.5 million operations, which runs in milliseconds."
+        },
+        {
+          "id": "dsa-01-q07",
+          "type": "truefalse",
+          "prompt": "Pushing to the end of a JavaScript array is O(1) amortized even though occasionally the engine must copy the whole backing store.",
+          "answer": true,
+          "explanation": "Capacity grows geometrically, so the total cost of n pushes is O(n), giving O(1) per push on average across the sequence. That is what amortized means."
+        },
+        {
+          "id": "dsa-01-q08",
+          "type": "truefalse",
+          "prompt": "O(2n + 100) and O(n) describe different complexity classes.",
+          "answer": false,
+          "explanation": "Constants and lower-order terms are dropped. Both are O(n). Constants matter for real performance but not for the growth class."
+        },
+        {
+          "id": "dsa-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which operations are O(n) on a JavaScript array of length n?",
+          "options": [
+            "arr.pop()",
+            "arr.shift()",
+            "arr.includes(x)",
+            "arr[i]",
+            "[...arr]"
+          ],
+          "answers": [
+            1,
+            2,
+            4
+          ],
+          "explanation": "`shift` moves every remaining element down, `includes` may scan everything and spreading copies all elements. `pop` and index access are O(1)."
+        },
+        {
+          "id": "dsa-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: merge sort's recurrence T(n) = 2T(n/2) + O(n) solves to O(___).",
+          "accept": [
+            "n log n",
+            "nlogn",
+            "n log(n)",
+            "n*log n",
+            "n * log n",
+            "n logn"
+          ],
+          "explanation": "There are log n levels of recursion and each level does O(n) total merging work."
+        },
+        {
+          "id": "dsa-01-q11",
+          "type": "interview",
+          "prompt": "Explain the difference between worst-case, average-case and amortized complexity, with an example of each.",
+          "answer": "- Worst case is the upper bound for any input of size n. Example: quicksort with a bad pivot on sorted input is O(n^2).\n- Average case is the expected cost over a distribution of inputs. Example: hash map lookup is O(1) on average because keys spread across buckets, but O(n) worst case if everything collides.\n- Amortized is a guarantee over a sequence of operations, with no probability involved. Example: dynamic array push. Most pushes are O(1); a resize copies n elements, but because capacity doubles, n pushes cost O(n) total, so each is O(1) amortized.\nThe key distinction: amortized is a worst-case guarantee on the total; average case depends on input randomness.",
+          "level": "beginner"
+        },
+        {
+          "id": "dsa-01-q12",
+          "type": "interview",
+          "prompt": "Given an array of n integers, return true if any value appears at least twice. Give two approaches and compare their trade-offs.",
+          "answer": "- Brute force: compare every pair. O(n^2) time, O(1) space.\n- Sort first, then check adjacent elements. O(n log n) time, O(1) to O(n) extra space depending on the sort, and it mutates or copies the input.\n- Hash set: iterate, return true if the value is already in the set, otherwise add it. O(n) time, O(n) space.\nI would pick the hash set by default. If memory is tight or the input is already sorted, the sort-based approach is a good trade. In JavaScript, `new Set(nums).size !== nums.length` is a one-liner with the same O(n) cost but no early exit.",
+          "level": "beginner"
+        },
+        {
+          "id": "dsa-01-q13",
+          "type": "interview",
+          "prompt": "Your teammate's code calls `arr.shift()` inside a loop that processes a queue of 100,000 items and it is slow. Explain why and how to fix it.",
+          "answer": "`shift` removes index 0, so the engine must move every other element down one slot. That is O(n) per call, making the loop O(n^2), roughly 5 * 10^9 element moves for 100k items. Fixes:\n- Keep a `head` index and read `queue[head++]` instead of shifting; O(1) per dequeue. Optionally compact the array occasionally.\n- Use a proper deque (ring buffer) or a linked-list queue.\n- If order does not matter, use `pop` from the end.\nThis is a common BFS pitfall in JavaScript interviews; mentioning it shows you know the real cost of built-ins.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-01-q14",
+          "type": "interview",
+          "prompt": "What is the time and space complexity of generating all subsets of an array of n elements, and why can it not be improved?",
+          "answer": "There are 2^n subsets, and each subset takes up to O(n) to copy into the output, so time is O(n * 2^n). Output space is also O(n * 2^n); auxiliary space (recursion stack and current path) is O(n). It cannot be improved asymptotically because the output itself has that size: any algorithm must at least write every subset. This is an output-sensitive lower bound, and it is why problems with n <= 20 often signal that an exponential solution is expected.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Big-O Cheat Sheet",
+          "url": "https://www.bigocheatsheet.com/"
+        },
+        {
+          "title": "Big O notation (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Big_O_notation"
+        },
+        {
+          "title": "MDN: Array reference",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array"
+        }
+      ]
+    },
+    {
+      "id": "dsa-02-arrays-two-pointers",
+      "title": "Arrays, Strings and Two Pointers",
+      "level": "beginner",
+      "summary": "Use two indexes moving through an array or string to replace nested loops with a single linear pass.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Arrays and strings in JavaScript",
+          "body": "Arrays give O(1) index access and O(1) amortized push/pop at the end. Inserting or deleting anywhere else shifts elements and costs O(n).\n\nStrings are immutable. `s[i]` is O(1), but any 'modification' creates a new string. When building output character by character, push into an array and `join('')` at the end. To mutate characters in place (reverse, swap), convert with `s.split('')` or `Array.from(s)` first.\n\nUseful string tools: `s.charCodeAt(i) - 97` maps 'a'..'z' to 0..25, which lets you use a fixed `number[26]` counter instead of a Map. Remember that `split('')` breaks emoji and other surrogate pairs; `Array.from(s)` keeps them whole."
+        },
+        {
+          "heading": "Pattern 1: opposite-direction pointers",
+          "body": "Start one pointer at each end and move them toward each other. This works when the array is **sorted** or when the problem is symmetric (palindromes, reversing). Each step discards at least one candidate, so the total work is O(n).\n\nWhy it works for pair-sum on a sorted array: if `a[l] + a[r]` is too small, no pair using `a[l]` with anything left of `r` can be large enough, so `l` can safely move right. That argument is what you should say out loud in an interview.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Two Sum II: sorted input, return 1-based indexes. O(n) time, O(1) space.\nfunction twoSumSorted(nums: number[], target: number): [number, number] | null {\n  let l = 0, r = nums.length - 1;\n  while (l < r) {\n    const s = nums[l] + nums[r];\n    if (s === target) return [l + 1, r + 1];\n    if (s < target) l++;\n    else r--;\n  }\n  return null;\n}\n\n// Valid palindrome ignoring non-alphanumerics and case.\nfunction isPalindrome(s: string): boolean {\n  const ok = (c: string) => /[a-z0-9]/i.test(c);\n  let l = 0, r = s.length - 1;\n  while (l < r) {\n    while (l < r && !ok(s[l])) l++;\n    while (l < r && !ok(s[r])) r--;\n    if (s[l].toLowerCase() !== s[r].toLowerCase()) return false;\n    l++; r--;\n  }\n  return true;\n}"
+          }
+        },
+        {
+          "heading": "Pattern 2: same-direction (read/write) pointers",
+          "body": "A fast `read` pointer scans every element and a slow `write` pointer marks where the next kept element goes. This filters or compacts an array **in place** in O(n) time and O(1) space.\n\nClassic uses: remove duplicates from a sorted array, move zeros to the end, remove all instances of a value. The invariant: everything before `write` is the finished answer.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Remove duplicates from a sorted array in place; return the new length.\nfunction removeDuplicates(nums: number[]): number {\n  if (nums.length === 0) return 0;\n  let write = 1;\n  for (let read = 1; read < nums.length; read++) {\n    if (nums[read] !== nums[write - 1]) nums[write++] = nums[read];\n  }\n  return write;\n}\n\n// Move zeros to the end, keeping the order of non-zeros.\nfunction moveZeroes(nums: number[]): void {\n  let write = 0;\n  for (let read = 0; read < nums.length; read++) {\n    if (nums[read] !== 0) {\n      [nums[write], nums[read]] = [nums[read], nums[write]];\n      write++;\n    }\n  }\n}"
+          }
+        },
+        {
+          "heading": "Three Sum: sort plus two pointers",
+          "body": "Many 'find k elements' problems reduce to sorting and then running two pointers inside a loop. For 3Sum you fix `i` and run pair-sum on the rest, giving O(n^2) instead of O(n^3).\n\nThe tricky part is skipping duplicates so the output has unique triplets: skip `i` when it equals the previous value, and after finding a match, advance `l` past equal values.",
+          "code": {
+            "lang": "typescript",
+            "source": "function threeSum(nums: number[]): number[][] {\n  const a = [...nums].sort((x, y) => x - y);\n  const res: number[][] = [];\n  for (let i = 0; i < a.length - 2; i++) {\n    if (a[i] > 0) break;                  // sorted: no way to reach 0\n    if (i > 0 && a[i] === a[i - 1]) continue;\n    let l = i + 1, r = a.length - 1;\n    while (l < r) {\n      const s = a[i] + a[l] + a[r];\n      if (s === 0) {\n        res.push([a[i], a[l], a[r]]);\n        l++; r--;\n        while (l < r && a[l] === a[l - 1]) l++;\n      } else if (s < 0) l++;\n      else r--;\n    }\n  }\n  return res;\n}"
+          }
+        },
+        {
+          "heading": "Prefix sums and other array tricks",
+          "body": "A **prefix sum** array `pre[i] = a[0] + ... + a[i-1]` answers any range sum `a[l..r]` as `pre[r + 1] - pre[l]` in O(1) after O(n) setup. Combined with a hash map it solves 'count subarrays summing to k' (see the hashing chapter).\n\nOther in-place tricks:\n- Reverse a subarray with two pointers; rotating an array by k = reverse all, reverse first k, reverse the rest.\n- Dutch national flag (sort 0s, 1s, 2s) uses three pointers in one pass.\n- When asked for O(1) extra space, consider using the input array itself as storage (for example marking indexes negative)."
+        }
+      ],
+      "keyPoints": [
+        "Opposite-end pointers need sorted or symmetric input; each step safely discards a candidate.",
+        "Read/write pointers compact an array in place in O(n) time, O(1) space.",
+        "Sort + two pointers turns k-sum problems from O(n^k) into O(n^(k-1)).",
+        "Strings are immutable in JS: build with an array and join.",
+        "Prefix sums give O(1) range-sum queries after O(n) preprocessing.",
+        "Always pass a numeric comparator to sort: (a, b) => a - b."
+      ],
+      "questions": [
+        {
+          "id": "dsa-02-q01",
+          "type": "mcq",
+          "prompt": "Two pointers from both ends find a pair with a given sum in O(n). What property of the input makes this correct?",
+          "options": [
+            "The array has no duplicates",
+            "The array is sorted",
+            "The array length is even",
+            "All numbers are positive"
+          ],
+          "answer": 1,
+          "explanation": "Sorting guarantees that moving the left pointer increases the sum and moving the right pointer decreases it, so each move discards candidates that cannot work."
+        },
+        {
+          "id": "dsa-02-q02",
+          "type": "mcq",
+          "prompt": "What does this print?",
+          "code": "console.log([10, 9, 1, 100].sort());",
+          "options": [
+            "[1, 9, 10, 100]",
+            "[1, 10, 100, 9]",
+            "[100, 10, 9, 1]",
+            "[10, 9, 1, 100]"
+          ],
+          "answer": 1,
+          "explanation": "Without a comparator, `sort` converts values to strings and compares UTF-16 code units, so '10' and '100' come before '9'. Use `sort((a, b) => a - b)`."
+        },
+        {
+          "id": "dsa-02-q03",
+          "type": "mcq",
+          "prompt": "What is the time complexity of 3Sum using sort plus two pointers?",
+          "options": [
+            "O(n log n)",
+            "O(n^2)",
+            "O(n^3)",
+            "O(n^2 log n)"
+          ],
+          "answer": 1,
+          "explanation": "Sorting is O(n log n), then for each of n fixed elements the two-pointer scan is O(n). O(n^2) dominates."
+        },
+        {
+          "id": "dsa-02-q04",
+          "type": "mcq",
+          "prompt": "After `removeDuplicates([1,1,2,3,3])` with read/write pointers, what is returned?",
+          "code": "function removeDuplicates(nums: number[]): number {\n  let write = 1;\n  for (let read = 1; read < nums.length; read++)\n    if (nums[read] !== nums[write - 1]) nums[write++] = nums[read];\n  return write;\n}",
+          "options": [
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "answer": 1,
+          "explanation": "Unique values are 1, 2, 3. They end up in nums[0..2] and write ends at 3."
+        },
+        {
+          "id": "dsa-02-q05",
+          "type": "mcq",
+          "prompt": "With prefix sums `pre` where pre[0] = 0 and pre[i+1] = pre[i] + a[i], how do you get the sum of a[l..r] inclusive?",
+          "options": [
+            "pre[r] - pre[l]",
+            "pre[r + 1] - pre[l]",
+            "pre[r + 1] - pre[l + 1]",
+            "pre[r] - pre[l - 1]"
+          ],
+          "answer": 1,
+          "explanation": "pre[r + 1] holds a[0..r] and pre[l] holds a[0..l-1]; subtracting leaves a[l..r]. The extra leading 0 avoids the l = 0 edge case."
+        },
+        {
+          "id": "dsa-02-q06",
+          "type": "mcq",
+          "prompt": "Container With Most Water: two pointers at the ends, area = min(h[l], h[r]) * (r - l). Which pointer should move?",
+          "options": [
+            "Always the left one",
+            "The one with the taller line",
+            "The one with the shorter line",
+            "Both at once"
+          ],
+          "answer": 2,
+          "explanation": "The area is limited by the shorter line. Moving the taller one can only shrink width without raising the limiting height, so it can never help. Moving the shorter one is the only move that could find a larger area."
+        },
+        {
+          "id": "dsa-02-q07",
+          "type": "truefalse",
+          "prompt": "Building a string with `s += char` inside a loop is the recommended way to construct large strings in interview solutions because strings are mutable in JavaScript.",
+          "answer": false,
+          "explanation": "JavaScript strings are immutable. Engines optimize concatenation with ropes, but the safe, clearly O(n) approach is pushing parts into an array and calling join('') once."
+        },
+        {
+          "id": "dsa-02-q08",
+          "type": "truefalse",
+          "prompt": "Rotating an array right by k can be done in place by reversing the whole array, then reversing the first k elements, then reversing the remaining elements.",
+          "answer": true,
+          "explanation": "Reversing all puts the last k elements at the front but backwards; the two partial reversals fix their order. Use k = k % n first. O(n) time, O(1) space."
+        },
+        {
+          "id": "dsa-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which problems are naturally solved with two pointers?",
+          "options": [
+            "Valid palindrome",
+            "Merge two sorted arrays",
+            "Remove duplicates from a sorted array",
+            "Find the shortest path in a graph",
+            "Trapping rain water"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Palindromes and trapping rain water use opposite-end pointers, merging uses one pointer per array, and dedup uses read/write pointers. Shortest path needs BFS or Dijkstra."
+        },
+        {
+          "id": "dsa-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: to map a lowercase letter `c` to an index 0-25 you write `c.___(0) - 97`.",
+          "accept": [
+            "charCodeAt",
+            "codePointAt"
+          ],
+          "explanation": "'a' has code 97, so subtracting 97 maps 'a'..'z' to 0..25, letting you use a fixed-size array counter."
+        },
+        {
+          "id": "dsa-02-q11",
+          "type": "interview",
+          "prompt": "Trapping Rain Water: given heights, compute how much water is trapped after rain. Give an O(n) time, O(1) space solution.",
+          "answer": "Water above index i is min(maxLeft, maxRight) - h[i]. Use two pointers l and r with running maxima leftMax and rightMax. At each step, move the side with the smaller height: if h[l] < h[r], then the left side is the bottleneck, because there is a wall at least h[r] on the right. Update leftMax = max(leftMax, h[l]) and add leftMax - h[l], then l++. Otherwise do the mirror on the right. Each index is processed once: O(n) time, O(1) space. Alternatives: precompute leftMax/rightMax arrays (O(n) space) or a monotonic stack.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-02-q12",
+          "type": "interview",
+          "prompt": "3Sum: find all unique triplets that sum to zero. Walk through your approach and how you avoid duplicate triplets.",
+          "answer": "Sort the array (O(n log n)). For each index i: if a[i] > 0 break, since all later values are positive; if a[i] equals a[i-1] skip it to avoid duplicate triplets starting with the same value. Then run two pointers l = i + 1, r = n - 1: if the sum is below zero move l right, above zero move r left. On a match record it, move both, and skip over equal values at l. Total O(n^2) time and O(1) extra space excluding output and sort. A hash set approach also gives O(n^2) but dedup is messier.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-02-q13",
+          "type": "interview",
+          "prompt": "Merge two sorted arrays nums1 (length m + n, with n trailing empty slots) and nums2 (length n) in place into nums1.",
+          "answer": "Fill from the back so you never overwrite unread values. Pointers i = m - 1, j = n - 1, k = m + n - 1. While j >= 0: if i >= 0 and nums1[i] > nums2[j], write nums1[k--] = nums1[i--]; otherwise nums1[k--] = nums2[j--]. When nums2 is exhausted, the remaining nums1 values are already in place. O(m + n) time, O(1) extra space. The key insight is that the empty space is at the end, so merging largest-first is safe.",
+          "level": "beginner"
+        },
+        {
+          "id": "dsa-02-q14",
+          "type": "interview",
+          "prompt": "Sort an array containing only 0s, 1s and 2s in a single pass with O(1) extra space (Dutch National Flag).",
+          "answer": "Keep three pointers: low (next slot for 0), mid (current), high (next slot for 2). While mid <= high: if a[mid] is 0, swap with a[low], then low++ and mid++; if it is 1, mid++; if it is 2, swap with a[high] and high-- but do not advance mid, because the swapped-in value has not been examined yet. Invariant: [0, low) are 0s, [low, mid) are 1s, (high, end] are 2s. O(n) time, O(1) space. Counting sort (two passes) is the simpler alternative if one pass is not required.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "LeetCode: Two Sum II - Input Array Is Sorted",
+          "url": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/"
+        },
+        {
+          "title": "LeetCode: 3Sum",
+          "url": "https://leetcode.com/problems/3sum/"
+        },
+        {
+          "title": "MDN: Array.prototype.sort",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort"
+        }
+      ]
+    },
+    {
+      "id": "dsa-03-hashing-sliding-window",
+      "title": "Hash Maps and Sliding Window",
+      "level": "beginner",
+      "summary": "Trade memory for speed with hash maps, and scan contiguous subarrays in linear time with a sliding window.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Hash maps and sets",
+          "body": "A hash map stores key/value pairs with O(1) average `get`, `set`, `has` and `delete`. In JavaScript use `Map` and `Set` rather than plain objects: any value can be a key, insertion order is preserved, `size` is O(1) and there are no prototype key collisions like `'constructor'`.\n\nGotchas:\n- Keys are compared by SameValueZero, so two different arrays `[1,2]` are different keys. Encode composite keys as strings: `${r},${c}` or `r * cols + c`.\n- Worst case is O(n) per operation if many keys collide; interviewers rarely push on this, but mention it if asked.\n- Iterating a Map is O(n).\n\nThe core idea: whenever a brute force asks 'have I seen X before?' or 'how many times did X appear?', a hash map answers in O(1)."
+        },
+        {
+          "heading": "Complement lookup and frequency counting",
+          "body": "**Complement lookup** (Two Sum): as you scan, ask whether `target - x` was already seen. Store value -> index. One pass, O(n).\n\n**Frequency counting**: build counts of characters or values, then compare. Anagram checks, top-k frequent elements and 'first unique character' all start here. For lowercase letters a `number[26]` array is faster than a Map.\n\n**Grouping**: compute a canonical key per item and bucket by it. Group anagrams uses the sorted word (or a 26-count signature) as the key.",
+          "code": {
+            "lang": "typescript",
+            "source": "function twoSum(nums: number[], target: number): [number, number] | null {\n  const seen = new Map<number, number>(); // value -> index\n  for (let i = 0; i < nums.length; i++) {\n    const need = target - nums[i];\n    if (seen.has(need)) return [seen.get(need)!, i];\n    seen.set(nums[i], i);\n  }\n  return null;\n}\n\nfunction groupAnagrams(words: string[]): string[][] {\n  const groups = new Map<string, string[]>();\n  for (const w of words) {\n    const count = new Array(26).fill(0);\n    for (const ch of w) count[ch.charCodeAt(0) - 97]++;\n    const key = count.join('#');            // O(k) key instead of O(k log k) sort\n    if (!groups.has(key)) groups.set(key, []);\n    groups.get(key)!.push(w);\n  }\n  return [...groups.values()];\n}"
+          }
+        },
+        {
+          "heading": "Prefix sum + hash map",
+          "body": "To count subarrays with sum exactly `k` (including negative numbers), keep a running prefix sum and a map from prefix sum -> number of times seen. A subarray ending at `i` sums to `k` exactly when some earlier prefix equals `prefix - k`.\n\nSeed the map with `{0: 1}` so subarrays starting at index 0 are counted. This pattern also solves 'longest subarray with sum k' (store first index instead of count) and 'subarray sum divisible by k' (key by `prefix mod k`, normalized to be non-negative).",
+          "code": {
+            "lang": "typescript",
+            "source": "function subarraySum(nums: number[], k: number): number {\n  const freq = new Map<number, number>([[0, 1]]);\n  let prefix = 0, count = 0;\n  for (const x of nums) {\n    prefix += x;\n    count += freq.get(prefix - k) ?? 0;\n    freq.set(prefix, (freq.get(prefix) ?? 0) + 1);\n  }\n  return count;\n}"
+          }
+        },
+        {
+          "heading": "Sliding window: fixed and variable size",
+          "body": "A sliding window maintains a contiguous range `[left, right]` and updates its state incrementally instead of recomputing from scratch.\n\n- **Fixed size k**: add the new right element, remove the element that falls out on the left. Max sum of k consecutive elements becomes O(n).\n- **Variable size**: expand `right` every step; while the window is invalid, shrink from `left`. Record the answer when valid. Each index enters and leaves at most once, so it is O(n) even with the inner while loop.\n\nVariable windows require **monotonic validity**: shrinking a window must never make an invalid window 'more invalid'. That is why 'subarray sum equals k' with negative numbers needs prefix sums instead of a window.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Template: longest window satisfying a condition\nfunction longestSubstringWithoutRepeat(s: string): number {\n  const lastSeen = new Map<string, number>();\n  let left = 0, best = 0;\n  for (let right = 0; right < s.length; right++) {\n    const c = s[right];\n    if (lastSeen.has(c) && lastSeen.get(c)! >= left) {\n      left = lastSeen.get(c)! + 1;   // jump past the previous copy\n    }\n    lastSeen.set(c, right);\n    best = Math.max(best, right - left + 1);\n  }\n  return best;\n}\n\n// Template: shortest window with sum >= target (positive numbers)\nfunction minSubArrayLen(target: number, nums: number[]): number {\n  let left = 0, sum = 0, best = Infinity;\n  for (let right = 0; right < nums.length; right++) {\n    sum += nums[right];\n    while (sum >= target) {\n      best = Math.min(best, right - left + 1);\n      sum -= nums[left++];\n    }\n  }\n  return best === Infinity ? 0 : best;\n}"
+          }
+        },
+        {
+          "heading": "Window with counts: minimum window substring",
+          "body": "When the window must 'cover' a multiset of characters, track `need` counts and a `missing` counter (or `formed` count of satisfied characters). Expand right, decrementing needs; when everything is covered, shrink left as far as possible while still covering, recording the best window.\n\nThis is the hardest common sliding-window problem. State it as: expand to become valid, contract to become minimal. Total O(|s| + |t|)."
+        }
+      ],
+      "keyPoints": [
+        "Use Map/Set, not plain objects, for hashing in interviews; encode composite keys as strings or numbers.",
+        "Two Sum pattern: look up the complement before inserting the current value.",
+        "Prefix sum + hash map counts subarrays with sum k, even with negative numbers; seed with {0: 1}.",
+        "Sliding window works for contiguous ranges where validity is monotonic as the window shrinks.",
+        "Each element enters and leaves the window once, so the nested while loop is still O(n).",
+        "Fixed windows add one element and remove one; variable windows expand right and shrink left while invalid."
+      ],
+      "questions": [
+        {
+          "id": "dsa-03-q01",
+          "type": "mcq",
+          "prompt": "What does this print?",
+          "code": "const m = new Map();\nm.set([1, 2], 'a');\nconsole.log(m.get([1, 2]));",
+          "options": [
+            "'a'",
+            "undefined",
+            "null",
+            "It throws"
+          ],
+          "answer": 1,
+          "explanation": "Map compares object keys by reference. The second [1, 2] is a new array, so the lookup misses. Use a string key like '1,2' for coordinates."
+        },
+        {
+          "id": "dsa-03-q02",
+          "type": "mcq",
+          "prompt": "Longest substring without repeating characters with a sliding window: what is the time complexity for a string of length n?",
+          "options": [
+            "O(n^2)",
+            "O(n log n)",
+            "O(n)",
+            "O(n * 26)"
+          ],
+          "answer": 2,
+          "explanation": "The right pointer moves n times and the left pointer only moves forward, so total work is linear."
+        },
+        {
+          "id": "dsa-03-q03",
+          "type": "mcq",
+          "prompt": "Why is `{0: 1}` seeded in the prefix-sum hash map when counting subarrays with sum k?",
+          "options": [
+            "To avoid division by zero",
+            "To count subarrays that start at index 0",
+            "To handle negative numbers",
+            "To make the map non-empty for iteration"
+          ],
+          "answer": 1,
+          "explanation": "If the prefix sum itself equals k, the subarray from index 0 qualifies, which requires an 'earlier prefix' of 0. The seed represents the empty prefix."
+        },
+        {
+          "id": "dsa-03-q04",
+          "type": "mcq",
+          "prompt": "Which problem cannot be solved with a plain variable sliding window because validity is not monotonic?",
+          "options": [
+            "Smallest subarray with sum >= target, all positive numbers",
+            "Longest substring with at most k distinct characters",
+            "Count of subarrays with sum exactly k when numbers can be negative",
+            "Max sum of any window of size k"
+          ],
+          "answer": 2,
+          "explanation": "With negatives, shrinking or growing a window can move the sum either way, so you cannot decide which pointer to move. Use prefix sums with a hash map."
+        },
+        {
+          "id": "dsa-03-q05",
+          "type": "mcq",
+          "prompt": "What is the cleanest key for grouping anagrams in O(k) per word (k = word length)?",
+          "options": [
+            "The word sorted alphabetically",
+            "A 26-letter count signature joined into a string",
+            "The sum of character codes",
+            "The first and last letters"
+          ],
+          "answer": 1,
+          "explanation": "Sorting costs O(k log k). A count signature is O(k) and unique per anagram class. The sum of codes collides for non-anagrams ('ad' and 'bc')."
+        },
+        {
+          "id": "dsa-03-q06",
+          "type": "mcq",
+          "prompt": "In a fixed-size window of size k moving one step right, which update keeps the sum correct?",
+          "options": [
+            "sum += a[right]",
+            "sum += a[right] - a[right - k]",
+            "sum = a[right] - a[left]",
+            "sum -= a[right - k]"
+          ],
+          "answer": 1,
+          "explanation": "One element enters (a[right]) and one leaves (a[right - k]). Each step is O(1), so the whole scan is O(n)."
+        },
+        {
+          "id": "dsa-03-q07",
+          "type": "truefalse",
+          "prompt": "A Map lookup in JavaScript is O(1) on average but can degrade to O(n) when many keys collide.",
+          "answer": true,
+          "explanation": "Hash tables are constant time in expectation. Adversarial or pathological collisions put many keys in one bucket, making operations linear."
+        },
+        {
+          "id": "dsa-03-q08",
+          "type": "truefalse",
+          "prompt": "A plain object `{}` is always a safe replacement for Map when keys are arbitrary user strings.",
+          "answer": false,
+          "explanation": "Plain objects inherit from Object.prototype, so keys like '__proto__' or 'constructor' cause surprises, and keys are always converted to strings. Map avoids both issues."
+        },
+        {
+          "id": "dsa-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which problems fit the sliding window pattern?",
+          "options": [
+            "Longest substring with at most k distinct characters",
+            "Minimum window substring",
+            "Maximum average subarray of length k",
+            "Two Sum on an unsorted array",
+            "Permutation in string (find an anagram of p inside s)"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "All but Two Sum involve contiguous ranges. Two Sum pairs arbitrary positions, so it uses a hash map."
+        },
+        {
+          "id": "dsa-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in Two Sum, before inserting nums[i] you check whether the map contains target ___ nums[i].",
+          "accept": [
+            "-",
+            "minus"
+          ],
+          "explanation": "The complement target - nums[i] is the value that, paired with nums[i], reaches the target. Checking before inserting prevents pairing an element with itself."
+        },
+        {
+          "id": "dsa-03-q11",
+          "type": "interview",
+          "prompt": "Minimum Window Substring: given strings s and t, find the smallest substring of s containing every character of t (with multiplicity).",
+          "answer": "Count characters of t into a need map and set missing = t.length. Expand right over s: if need[c] > 0, decrement missing; always decrement need[c] (it can go negative, meaning surplus). When missing == 0 the window is valid: shrink left while the left char is surplus (need[s[left]] < 0, increment it and move left). Record the window if it is smaller than the best, then remove s[left] (increment need, and since it becomes positive, missing++) and move left to look for the next valid window. Each pointer moves at most |s| times: O(|s| + |t|) time, O(charset) space.",
+          "level": "advanced"
+        },
+        {
+          "id": "dsa-03-q12",
+          "type": "interview",
+          "prompt": "Top K Frequent Elements: return the k most frequent values in an array. Aim for better than O(n log n).",
+          "answer": "Count frequencies with a Map: O(n). Then either:\n- Bucket sort: create buckets indexed by frequency (0..n), put each value in bucket[count], and walk from the highest bucket collecting values until you have k. O(n) time, O(n) space.\n- Min-heap of size k keyed by frequency: O(n log k).\n- Quickselect on the unique values: O(n) average.\nSorting the unique values by count is O(u log u) and is fine as a first answer. I would present bucket sort because it is linear and simple.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-03-q13",
+          "type": "interview",
+          "prompt": "Longest Consecutive Sequence: given an unsorted array, find the length of the longest run of consecutive integers in O(n).",
+          "answer": "Put all numbers in a Set. For each number x, only start counting if x - 1 is not in the set (x is the start of a run). Then walk x + 1, x + 2, ... while present and track the length. Each number is visited at most twice (once in the outer loop, once while extending a run), so it is O(n) time and O(n) space. Sorting gives O(n log n), which does not meet the requirement.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-03-q14",
+          "type": "interview",
+          "prompt": "Longest substring with at most K distinct characters. Explain the window invariant and complexity.",
+          "answer": "Maintain a Map of character counts in the window [left, right]. Expand right, incrementing the count. While the map size exceeds k, decrement s[left]'s count, delete it when it hits 0, and move left forward. After the while loop the window is valid, so update best = max(best, right - left + 1). Invariant: after shrinking, the window has at most k distinct characters. Validity is monotonic (removing characters never increases distinct count), which is what makes the window correct. O(n) time, O(k) space.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Map",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map"
+        },
+        {
+          "title": "LeetCode: Longest Substring Without Repeating Characters",
+          "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
+        },
+        {
+          "title": "LeetCode: Subarray Sum Equals K",
+          "url": "https://leetcode.com/problems/subarray-sum-equals-k/"
+        }
+      ]
+    },
+    {
+      "id": "dsa-04-stacks-queues-linked-lists",
+      "title": "Stacks, Queues, Monotonic Stacks and Linked Lists",
+      "level": "intermediate",
+      "summary": "Use LIFO and FIFO structures, monotonic stacks for next-greater problems, and pointer manipulation on linked lists.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Stacks and queues",
+          "body": "A **stack** is last-in-first-out. In JavaScript a plain array with `push` and `pop` is an O(1) stack. Use stacks for matching brackets, undo, evaluating expressions, iterative DFS and anything where the most recent unfinished item must be resolved first.\n\nA **queue** is first-in-first-out, used for BFS and scheduling. Arrays with `shift()` are O(n) per dequeue, so use a head index or a small queue class. A **deque** supports both ends in O(1) and powers the sliding window maximum.",
+          "code": {
+            "lang": "typescript",
+            "source": "function isValid(s: string): boolean {\n  const pairs: Record<string, string> = { ')': '(', ']': '[', '}': '{' };\n  const stack: string[] = [];\n  for (const c of s) {\n    if (c in pairs) {\n      if (stack.pop() !== pairs[c]) return false;\n    } else stack.push(c);\n  }\n  return stack.length === 0;\n}\n\nclass Queue<T> {\n  private items: T[] = [];\n  private head = 0;\n  push(x: T) { this.items.push(x); }\n  shift(): T | undefined {\n    if (this.head >= this.items.length) return undefined;\n    const x = this.items[this.head++];\n    if (this.head > 1024 && this.head * 2 > this.items.length) {\n      this.items = this.items.slice(this.head); // occasional compaction\n      this.head = 0;\n    }\n    return x;\n  }\n  get size() { return this.items.length - this.head; }\n}"
+          }
+        },
+        {
+          "heading": "Monotonic stack: next greater element",
+          "body": "A monotonic stack keeps its elements in increasing or decreasing order. When a new element breaks the order, you pop elements, and the new element is the **answer** for each popped one (their next greater or next smaller element).\n\nEach index is pushed and popped at most once, so it is O(n) despite the nested while. Store **indexes**, not values, so you can compute distances (Daily Temperatures) or widths (Largest Rectangle in Histogram).\n\n- Next greater element: keep a decreasing stack, pop while current > top.\n- Next smaller element: keep an increasing stack, pop while current < top.\n- Circular arrays: iterate 2n times using `i % n`.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Daily Temperatures: days until a warmer temperature\nfunction dailyTemperatures(t: number[]): number[] {\n  const res = new Array(t.length).fill(0);\n  const stack: number[] = []; // indexes, temperatures decreasing\n  for (let i = 0; i < t.length; i++) {\n    while (stack.length && t[i] > t[stack[stack.length - 1]]) {\n      const j = stack.pop()!;\n      res[j] = i - j;\n    }\n    stack.push(i);\n  }\n  return res;\n}"
+          }
+        },
+        {
+          "heading": "Monotonic deque: sliding window maximum",
+          "body": "To get the max of every window of size k in O(n), keep a deque of indexes whose values are decreasing. For each new index: pop from the back while the back value is <= the new value (they can never be the max again), push the new index, and pop from the front if it fell out of the window. The front is always the current max.\n\nA heap gives O(n log n); the deque gives O(n) because each index is added and removed once."
+        },
+        {
+          "heading": "Linked lists: the pointer toolkit",
+          "body": "Linked list problems test careful pointer handling. Tools that solve most of them:\n\n- **Dummy head**: a fake node before the head removes edge cases when the head itself changes (merging, deleting).\n- **Iterative reversal** with `prev`, `curr`, `next`.\n- **Fast and slow pointers**: slow moves 1, fast moves 2. They meet inside a cycle (Floyd's algorithm); when fast reaches the end, slow is at the middle.\n- **Gap of n**: move one pointer n steps ahead, then move both; when the leader hits the end, the follower is at the n-th node from the end.\n\nAlways draw the pointers before writing code and check: empty list, one node, two nodes.",
+          "code": {
+            "lang": "typescript",
+            "source": "class ListNode {\n  constructor(public val: number, public next: ListNode | null = null) {}\n}\n\nfunction reverseList(head: ListNode | null): ListNode | null {\n  let prev: ListNode | null = null, curr = head;\n  while (curr) {\n    const next = curr.next;\n    curr.next = prev;\n    prev = curr;\n    curr = next;\n  }\n  return prev;\n}\n\nfunction hasCycle(head: ListNode | null): boolean {\n  let slow = head, fast = head;\n  while (fast && fast.next) {\n    slow = slow!.next;\n    fast = fast.next.next;\n    if (slow === fast) return true;\n  }\n  return false;\n}\n\nfunction mergeTwoLists(a: ListNode | null, b: ListNode | null): ListNode | null {\n  const dummy = new ListNode(0);\n  let tail = dummy;\n  while (a && b) {\n    if (a.val <= b.val) { tail.next = a; a = a.next; }\n    else { tail.next = b; b = b.next; }\n    tail = tail.next;\n  }\n  tail.next = a ?? b;\n  return dummy.next;\n}"
+          }
+        },
+        {
+          "heading": "Design problems: min stack and LRU cache",
+          "body": "**Min stack**: store pairs `[value, minSoFar]` so `getMin` is O(1).\n\n**LRU cache** is a classic: O(1) `get` and `put` with eviction of the least recently used key. The textbook answer is a hash map from key to node plus a doubly linked list ordered by recency. In JavaScript you can exploit that `Map` preserves insertion order: on access, delete and re-insert the key; to evict, remove `map.keys().next().value`. Mention both: the Map trick is idiomatic, the list version shows you understand the mechanics."
+        }
+      ],
+      "keyPoints": [
+        "Array push/pop is an O(1) stack; use a head index instead of shift for queues.",
+        "Monotonic stacks answer next greater/smaller element in O(n); store indexes.",
+        "A monotonic deque gives sliding window maximum in O(n).",
+        "A dummy head node removes special cases when the head can change.",
+        "Fast/slow pointers find the middle and detect cycles in O(1) space.",
+        "LRU cache = hash map + doubly linked list (or an insertion-ordered Map in JS)."
+      ],
+      "questions": [
+        {
+          "id": "dsa-04-q01",
+          "type": "mcq",
+          "prompt": "The monotonic stack solution to Daily Temperatures has a while loop inside a for loop. What is its time complexity?",
+          "options": [
+            "O(n^2)",
+            "O(n log n)",
+            "O(n)",
+            "O(n * k)"
+          ],
+          "answer": 2,
+          "explanation": "Each index is pushed once and popped at most once, so the total number of while iterations across the whole run is at most n."
+        },
+        {
+          "id": "dsa-04-q02",
+          "type": "mcq",
+          "prompt": "To find the NEXT GREATER element for every index, which stack order do you maintain while scanning left to right?",
+          "options": [
+            "Increasing from bottom to top",
+            "Decreasing from bottom to top",
+            "Sorted by index only",
+            "No ordering is needed"
+          ],
+          "answer": 1,
+          "explanation": "Elements waiting for a greater value form a decreasing sequence. A larger new value pops all smaller tops and becomes their answer."
+        },
+        {
+          "id": "dsa-04-q03",
+          "type": "mcq",
+          "prompt": "What does this return for the list 1 -> 2 -> 3 -> 4 -> 5?",
+          "code": "function f(head: ListNode | null) {\n  let slow = head, fast = head;\n  while (fast && fast.next) {\n    slow = slow!.next;\n    fast = fast.next.next;\n  }\n  return slow?.val;\n}",
+          "options": [
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "answer": 1,
+          "explanation": "Slow moves one step per two fast steps, so it stops at the middle node, 3. For even lengths this variant returns the second middle."
+        },
+        {
+          "id": "dsa-04-q04",
+          "type": "mcq",
+          "prompt": "Why is a dummy (sentinel) node useful when deleting nodes from a linked list?",
+          "options": [
+            "It speeds up traversal",
+            "It makes deleting the head the same as deleting any other node",
+            "It prevents cycles",
+            "It reduces memory usage"
+          ],
+          "answer": 1,
+          "explanation": "With a node before the head, every real node has a predecessor, so you never need a special branch for 'the head changed'. Return dummy.next."
+        },
+        {
+          "id": "dsa-04-q05",
+          "type": "mcq",
+          "prompt": "Which structure gives the maximum of each sliding window of size k in O(n) total?",
+          "options": [
+            "Max-heap",
+            "Monotonic decreasing deque of indexes",
+            "Sorted array",
+            "Hash map of counts"
+          ],
+          "answer": 1,
+          "explanation": "The deque discards values that can never be a future maximum, and each index enters and leaves once. A heap works but costs O(n log n)."
+        },
+        {
+          "id": "dsa-04-q06",
+          "type": "mcq",
+          "prompt": "Evaluating Reverse Polish Notation ['2','1','+','3','*'] with a stack gives:",
+          "options": [
+            "5",
+            "6",
+            "9",
+            "7"
+          ],
+          "answer": 2,
+          "explanation": "Push 2, 1; '+' pops them and pushes 3; push 3; '*' pops 3 and 3 and pushes 9."
+        },
+        {
+          "id": "dsa-04-q07",
+          "type": "truefalse",
+          "prompt": "Floyd's cycle detection uses O(n) extra memory to remember visited nodes.",
+          "answer": false,
+          "explanation": "Floyd's algorithm uses only two pointers, so O(1) space. A visited Set is the O(n) memory alternative."
+        },
+        {
+          "id": "dsa-04-q08",
+          "type": "truefalse",
+          "prompt": "A JavaScript Map preserves insertion order, which can be used to implement an LRU cache by deleting and re-inserting a key on access.",
+          "answer": true,
+          "explanation": "Map iteration follows insertion order. Re-inserting moves the key to the end (most recent), and the first key from map.keys() is the least recently used."
+        },
+        {
+          "id": "dsa-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: problems commonly solved with a monotonic stack.",
+          "options": [
+            "Largest Rectangle in Histogram",
+            "Next Greater Element",
+            "Valid Parentheses",
+            "Stock Span",
+            "Reverse a linked list"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Histogram, next greater and stock span all look for the nearest larger or smaller element. Valid Parentheses uses a plain stack, and reversal is pointer work."
+        },
+        {
+          "id": "dsa-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a stack follows ___ order (give the four-letter acronym).",
+          "accept": [
+            "LIFO",
+            "last in first out",
+            "last-in-first-out",
+            "last in, first out"
+          ],
+          "explanation": "The most recently pushed item is the first one popped. Queues are FIFO."
+        },
+        {
+          "id": "dsa-04-q11",
+          "type": "interview",
+          "prompt": "Design an LRU Cache with O(1) get and put.",
+          "answer": "Use a hash map from key to node and a doubly linked list ordered by recency, with dummy head and tail nodes. get(key): if missing return -1; otherwise unlink the node, move it to the front and return its value. put(key, value): if the key exists, update the value and move it to the front; otherwise create a node, add it to the front and to the map; if size exceeds capacity, remove the node before the tail (least recently used) from both list and map. All operations are O(1): the map finds nodes, the doubly linked list removes them without traversal. In JavaScript an insertion-ordered Map gives the same behavior with delete + set on access and map.keys().next().value for eviction.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-04-q12",
+          "type": "interview",
+          "prompt": "Largest Rectangle in Histogram: find the area of the largest rectangle in an array of bar heights.",
+          "answer": "Use an increasing monotonic stack of indexes. Iterate i from 0 to n (treat height[n] as 0 to flush the stack). While the current height is lower than the height at the stack top, pop index j: the bar at j is the limiting height, its right boundary is i, and its left boundary is the new stack top (or -1 if empty). Area = height[j] * (i - left - 1). Track the max. Each index is pushed and popped once: O(n) time, O(n) space. Brute force (expand from each bar) is O(n^2).",
+          "level": "advanced"
+        },
+        {
+          "id": "dsa-04-q13",
+          "type": "interview",
+          "prompt": "Linked List Cycle II: return the node where a cycle begins, using O(1) space. Why does the algorithm work?",
+          "answer": "Run fast/slow pointers until they meet. Then reset one pointer to the head and move both one step at a time; where they meet is the cycle start. Proof sketch: let the distance from head to cycle start be a, from start to meeting point b, cycle length c. Slow traveled a + b, fast traveled 2(a + b), and the difference a + b is a multiple of c. So a = kc - b, meaning walking a steps from the meeting point lands exactly on the cycle start, which is also a steps from the head. O(n) time, O(1) space.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-04-q14",
+          "type": "interview",
+          "prompt": "Reverse Nodes in k-Group: reverse a linked list k nodes at a time, leaving a final group of fewer than k nodes unchanged.",
+          "answer": "Use a dummy node and a pointer groupPrev. Loop: from groupPrev, walk k nodes to find kth; if fewer than k remain, stop. Let groupNext = kth.next. Reverse the k nodes using the standard prev/curr loop but initialize prev = groupNext so the reversed group links to the rest. Then the old first node of the group (groupPrev.next before reversal) becomes the new tail: set groupPrev.next = kth, and move groupPrev to that old first node. O(n) time, O(1) space. Draw the pointers for k = 2 and k = 3 before coding.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "LeetCode: Daily Temperatures",
+          "url": "https://leetcode.com/problems/daily-temperatures/"
+        },
+        {
+          "title": "LeetCode: LRU Cache",
+          "url": "https://leetcode.com/problems/lru-cache/"
+        },
+        {
+          "title": "Cycle detection (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Cycle_detection"
+        }
+      ]
+    },
+    {
+      "id": "dsa-05-binary-search-sorting",
+      "title": "Binary Search and Sorting",
+      "level": "intermediate",
+      "summary": "Halve the search space with a reliable binary search template, including binary search on the answer, and know how the main sorting algorithms behave.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "One binary search template to rule them all",
+          "body": "Most binary search bugs come from mixing templates. A reliable form is: find the **first index where a condition becomes true**, given the condition is false...false, true...true over the range (monotonic).\n\nUse a half-open search `lo = 0, hi = n` and loop `while (lo < hi)`. If the middle satisfies the condition, the answer is at mid or left of it (`hi = mid`); otherwise it is right of mid (`lo = mid + 1`). The loop ends with `lo === hi` pointing to the first true index, or `n` if none.\n\nCompute the middle as `lo + ((hi - lo) >> 1)`. In JavaScript numbers do not overflow at 2^31, but the habit matters in Java/C++ and interviewers notice it. Note `>> 1` only works for values below 2^31; use `Math.floor` for larger ranges.",
+          "code": {
+            "lang": "typescript",
+            "source": "// First index i in [lo, hi) where ok(i) is true; returns hi if none.\nfunction lowerBound(lo: number, hi: number, ok: (i: number) => boolean): number {\n  while (lo < hi) {\n    const mid = lo + Math.floor((hi - lo) / 2);\n    if (ok(mid)) hi = mid;\n    else lo = mid + 1;\n  }\n  return lo;\n}\n\n// Exact search on a sorted array\nfunction search(nums: number[], target: number): number {\n  const i = lowerBound(0, nums.length, (k) => nums[k] >= target);\n  return i < nums.length && nums[i] === target ? i : -1;\n}\n\n// First and last position of target\nfunction searchRange(nums: number[], t: number): [number, number] {\n  const first = lowerBound(0, nums.length, (k) => nums[k] >= t);\n  if (first === nums.length || nums[first] !== t) return [-1, -1];\n  const last = lowerBound(0, nums.length, (k) => nums[k] > t) - 1;\n  return [first, last];\n}"
+          }
+        },
+        {
+          "heading": "Binary search on the answer",
+          "body": "Binary search is not just for sorted arrays. If you can ask 'is answer X feasible?' and feasibility is monotonic (if X works then X + 1 works), binary search over X.\n\nExamples: Koko Eating Bananas (minimum speed to finish in h hours), Capacity To Ship Packages Within D Days, Split Array Largest Sum, minimum time to complete trips. Complexity is O(log(range) * cost of the feasibility check).\n\nRecipe: define the range `[lo, hi]` of possible answers, write `feasible(x)` greedily in O(n), then find the first feasible x.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Koko: minimum integer speed k so all piles are eaten within h hours\nfunction minEatingSpeed(piles: number[], h: number): number {\n  const hoursAt = (k: number) => piles.reduce((s, p) => s + Math.ceil(p / k), 0);\n  let lo = 1, hi = Math.max(...piles);\n  while (lo < hi) {\n    const mid = lo + Math.floor((hi - lo) / 2);\n    if (hoursAt(mid) <= h) hi = mid;   // feasible: try slower\n    else lo = mid + 1;\n  }\n  return lo;\n}"
+          }
+        },
+        {
+          "heading": "Rotated arrays and other variants",
+          "body": "In a sorted array rotated at an unknown pivot (e.g. `[4,5,6,7,0,1,2]`), at least one half around `mid` is always sorted. Compare `nums[lo]` with `nums[mid]` to find the sorted half, check whether the target lies inside it, and discard the other half.\n\nTo find the minimum of a rotated array, compare `nums[mid]` with `nums[hi]`: if `nums[mid] > nums[hi]` the minimum is to the right of mid, otherwise at mid or to its left.\n\nOther variants: peak element (move toward the larger neighbor), search a 2D matrix (treat it as a flattened array with `row = Math.floor(i / cols)`, `col = i % cols`), and the median of two sorted arrays (binary search on the partition, O(log min(m, n)))."
+        },
+        {
+          "heading": "Sorting algorithms you should be able to explain",
+          "body": "- **Merge sort**: split in half, sort each, merge. O(n log n) always, O(n) extra space, stable. Good for linked lists and external sorting.\n- **Quicksort**: partition around a pivot, recurse. O(n log n) average, O(n^2) worst (bad pivots), O(log n) stack, not stable, very fast in practice. Random pivots make the worst case unlikely.\n- **Heap sort**: O(n log n) worst case, O(1) extra space, not stable.\n- **Counting / radix / bucket sort**: not comparison-based, O(n + k) when values lie in a small range.\n- **Insertion sort**: O(n^2), but O(n) on nearly sorted data, and used for small runs inside hybrid sorts.\n\nComparison sorts cannot beat O(n log n) in the worst case (decision-tree lower bound). JavaScript's `Array.prototype.sort` is required to be stable since ES2019; V8 implements TimSort.",
+          "code": {
+            "lang": "typescript",
+            "source": "function mergeSort(a: number[]): number[] {\n  if (a.length <= 1) return a;\n  const mid = a.length >> 1;\n  const left = mergeSort(a.slice(0, mid));\n  const right = mergeSort(a.slice(mid));\n  const out: number[] = [];\n  let i = 0, j = 0;\n  while (i < left.length && j < right.length)\n    out.push(left[i] <= right[j] ? left[i++] : right[j++]); // <= keeps it stable\n  while (i < left.length) out.push(left[i++]);\n  while (j < right.length) out.push(right[j++]);\n  return out;\n}"
+          }
+        },
+        {
+          "heading": "Quickselect for k-th element",
+          "body": "To find the k-th smallest element you do not need a full sort. Quickselect partitions like quicksort but recurses into only one side, giving O(n) average time and O(n^2) worst. With a random pivot the worst case is very unlikely. Alternatives: a heap of size k (O(n log k)), or sorting (O(n log n)). Interviewers often accept the heap answer and ask for quickselect as a follow-up."
+        }
+      ],
+      "keyPoints": [
+        "Use one template: first index where a monotonic condition becomes true, with lo < hi, hi = mid, lo = mid + 1.",
+        "Binary search on the answer works whenever feasibility is monotonic.",
+        "In a rotated sorted array, one half around mid is always sorted.",
+        "Merge sort is stable with O(n) space; quicksort is in place but O(n^2) worst case.",
+        "Comparison sorting has an Omega(n log n) lower bound; counting/radix sort beat it for small integer ranges.",
+        "Array.prototype.sort is stable (ES2019+); always pass a numeric comparator.",
+        "Quickselect finds the k-th element in O(n) average."
+      ],
+      "questions": [
+        {
+          "id": "dsa-05-q01",
+          "type": "mcq",
+          "prompt": "Using the lowerBound template on [1, 2, 2, 2, 5] with condition nums[i] >= 2, what index is returned?",
+          "code": "let lo = 0, hi = nums.length;\nwhile (lo < hi) {\n  const mid = lo + Math.floor((hi - lo) / 2);\n  if (nums[mid] >= 2) hi = mid; else lo = mid + 1;\n}\nreturn lo;",
+          "options": [
+            "0",
+            "1",
+            "3",
+            "4"
+          ],
+          "answer": 1,
+          "explanation": "The template finds the first index where the condition is true. nums[1] is the first 2."
+        },
+        {
+          "id": "dsa-05-q02",
+          "type": "mcq",
+          "prompt": "Which property is required for 'binary search on the answer'?",
+          "options": [
+            "The input array is sorted",
+            "Feasibility is monotonic in the answer",
+            "The answer is an integer below 2^31",
+            "The input has no duplicates"
+          ],
+          "answer": 1,
+          "explanation": "If 'x is feasible' implies 'x + 1 is feasible' (or the reverse), the feasibility predicate is false...true and the first true can be found by binary search, regardless of input order."
+        },
+        {
+          "id": "dsa-05-q03",
+          "type": "mcq",
+          "prompt": "What is the worst-case time of quicksort with a fixed first-element pivot on already sorted input?",
+          "options": [
+            "O(n)",
+            "O(n log n)",
+            "O(n^2)",
+            "O(log n)"
+          ],
+          "answer": 2,
+          "explanation": "Each partition removes only the pivot, producing n levels of O(n) work. Random or median-of-three pivots avoid this pattern."
+        },
+        {
+          "id": "dsa-05-q04",
+          "type": "mcq",
+          "prompt": "Which sort is stable and guarantees O(n log n) in the worst case?",
+          "options": [
+            "Quicksort",
+            "Heap sort",
+            "Merge sort",
+            "Selection sort"
+          ],
+          "answer": 2,
+          "explanation": "Merge sort keeps equal elements in order when merging with <= and is always O(n log n). Heap sort is O(n log n) but not stable; quicksort is neither guaranteed."
+        },
+        {
+          "id": "dsa-05-q05",
+          "type": "mcq",
+          "prompt": "Find Minimum in Rotated Sorted Array: if nums[mid] > nums[hi], where is the minimum?",
+          "options": [
+            "At mid",
+            "Strictly right of mid",
+            "Left of mid",
+            "At hi"
+          ],
+          "answer": 1,
+          "explanation": "nums[mid] > nums[hi] means the drop (rotation point) lies between mid and hi, so the minimum is in (mid, hi]. Set lo = mid + 1."
+        },
+        {
+          "id": "dsa-05-q06",
+          "type": "mcq",
+          "prompt": "Capacity to Ship Packages Within D Days with n packages and total weight W. What is the complexity of binary search on capacity?",
+          "options": [
+            "O(n log n)",
+            "O(n log W)",
+            "O(W)",
+            "O(n * W)"
+          ],
+          "answer": 1,
+          "explanation": "The capacity range is [max weight, W], so there are O(log W) iterations, each running an O(n) greedy feasibility check."
+        },
+        {
+          "id": "dsa-05-q07",
+          "type": "truefalse",
+          "prompt": "No comparison-based sorting algorithm can sort n arbitrary elements in less than O(n log n) comparisons in the worst case.",
+          "answer": true,
+          "explanation": "There are n! possible orderings and each comparison has two outcomes, so the decision tree needs depth at least log2(n!), which is Theta(n log n)."
+        },
+        {
+          "id": "dsa-05-q08",
+          "type": "truefalse",
+          "prompt": "Array.prototype.sort in modern JavaScript engines is not guaranteed to be stable.",
+          "answer": false,
+          "explanation": "Since ES2019 the specification requires sort to be stable, and all major engines comply."
+        },
+        {
+          "id": "dsa-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which problems are solved with binary search on the answer?",
+          "options": [
+            "Koko Eating Bananas",
+            "Split Array Largest Sum",
+            "Capacity To Ship Packages Within D Days",
+            "Valid Anagram",
+            "Minimum number of days to make m bouquets"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Each has a monotonic feasibility check over a numeric answer range. Valid Anagram is a counting problem."
+        },
+        {
+          "id": "dsa-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the selection algorithm that finds the k-th smallest element in O(n) average time by partitioning is called ___.",
+          "accept": [
+            "quickselect",
+            "quick select",
+            "hoare's selection",
+            "hoare selection"
+          ],
+          "explanation": "Quickselect partitions like quicksort but recurses into only the side containing k, so the expected work is n + n/2 + n/4 + ... = O(n)."
+        },
+        {
+          "id": "dsa-05-q11",
+          "type": "interview",
+          "prompt": "Search in Rotated Sorted Array: find a target in a rotated sorted array of distinct values in O(log n).",
+          "answer": "Standard binary search with lo, hi inclusive. At each mid, if nums[mid] equals the target, return mid. Otherwise one half is sorted: if nums[lo] <= nums[mid], the left half is sorted; if target is in [nums[lo], nums[mid]) search left (hi = mid - 1), else search right. If the right half is sorted (nums[mid] < nums[lo]), check whether target is in (nums[mid], nums[hi]]; if yes lo = mid + 1, else hi = mid - 1. O(log n) time, O(1) space. With duplicates, when nums[lo] == nums[mid] == nums[hi] you cannot decide, so shrink both ends, which degrades to O(n) worst case.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-05-q12",
+          "type": "interview",
+          "prompt": "Kth Largest Element in an Array: give at least two approaches and their complexities.",
+          "answer": "- Sort descending and index k - 1: O(n log n), simplest.\n- Min-heap of size k: push each element, pop when size exceeds k; the top is the answer. O(n log k) time, O(k) space; good for streams.\n- Quickselect: partition around a random pivot; the k-th largest is at index n - k in sorted order, so recurse only into the side containing that index. O(n) average, O(n^2) worst, O(1) extra space with in-place partitioning. Three-way partitioning helps with many duplicates.\nI would mention the heap for streaming data and quickselect when asked for the optimal average time.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-05-q13",
+          "type": "interview",
+          "prompt": "Median of Two Sorted Arrays in O(log(min(m, n))). Describe the idea.",
+          "answer": "Binary search the cut position i in the smaller array A; the cut in B is j = (m + n + 1) / 2 - i, so the left side holds half of all elements. A valid partition has A[i-1] <= B[j] and B[j-1] <= A[i] (use -Infinity and +Infinity for out-of-range). If A[i-1] > B[j], move the cut in A left; otherwise if B[j-1] > A[i], move it right. When valid, the median is max(A[i-1], B[j-1]) for odd total length, or the average of that and min(A[i], B[j]) for even. Searching the smaller array keeps j in range and gives O(log min(m, n)).",
+          "level": "advanced"
+        },
+        {
+          "id": "dsa-05-q14",
+          "type": "interview",
+          "prompt": "Explain why merge sort is preferred for sorting a linked list and quicksort is often preferred for arrays.",
+          "answer": "Merge sort only needs sequential access; merging two linked lists is O(1) extra space because you relink nodes, and splitting uses fast/slow pointers. It is stable and O(n log n) worst case. Quicksort needs random access for efficient partitioning, which linked lists lack. On arrays, quicksort is in place, cache friendly and has small constants, so it is usually faster than merge sort, which needs an O(n) buffer. Production libraries use hybrids: introsort (quicksort that falls back to heap sort) in C++ and TimSort (merge + insertion sort, stable) in V8, Python and Java objects.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Binary search algorithm (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Binary_search_algorithm"
+        },
+        {
+          "title": "LeetCode: Search in Rotated Sorted Array",
+          "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
+        },
+        {
+          "title": "LeetCode: Koko Eating Bananas",
+          "url": "https://leetcode.com/problems/koko-eating-bananas/"
+        }
+      ]
+    },
+    {
+      "id": "dsa-06-recursion-backtracking",
+      "title": "Recursion and Backtracking",
+      "level": "intermediate",
+      "summary": "Think recursively with base cases and trust, then explore choice trees with the choose-explore-unchoose backtracking template.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Thinking recursively",
+          "body": "A recursive function solves a problem by solving smaller instances of the same problem. Every recursive function needs:\n\n- A **base case** that returns without recursing.\n- A **recursive case** that makes progress toward the base case.\n- **Trust**: assume the recursive call returns the correct answer for the smaller input, and only reason about how to combine it.\n\nCost = number of calls x work per call. Space = maximum recursion depth (plus whatever you allocate). JavaScript engines do not perform tail-call optimization in practice (only Safari implements it), and the default stack holds roughly 10,000 frames, so recursion over 10^5-deep structures can throw `RangeError: Maximum call stack size exceeded`. Convert to an explicit stack when depth can be large.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Power in O(log n) by halving the exponent\nfunction pow(x: number, n: number): number {\n  if (n === 0) return 1;\n  if (n < 0) return 1 / pow(x, -n);\n  const half = pow(x, Math.floor(n / 2));\n  return n % 2 === 0 ? half * half : half * half * x;\n}"
+          }
+        },
+        {
+          "heading": "The backtracking template",
+          "body": "Backtracking explores a tree of choices depth-first. At each node you **choose** an option, **explore** recursively, then **unchoose** (undo) it so the next option starts from a clean state. Prune branches as soon as they cannot lead to a valid answer.\n\nAsk three questions for every problem:\n- What is the current **path** (partial solution)?\n- What are the **choices** at this step?\n- When is the path **complete** (record it) or **dead** (prune)?\n\nWhen recording a result, push a **copy** (`[...path]`), because `path` keeps mutating afterwards. Forgetting this is the most common backtracking bug in JavaScript.",
+          "code": {
+            "lang": "typescript",
+            "source": "function backtrackTemplate<T>(choices: T[]): T[][] {\n  const res: T[][] = [];\n  const path: T[] = [];\n  function dfs(start: number) {\n    res.push([...path]);                 // record (copy!) - here: every node is a result\n    for (let i = start; i < choices.length; i++) {\n      path.push(choices[i]);             // choose\n      dfs(i + 1);                        // explore\n      path.pop();                        // unchoose\n    }\n  }\n  dfs(0);\n  return res;                            // this instance generates all subsets\n}"
+          }
+        },
+        {
+          "heading": "Subsets, combinations and permutations",
+          "body": "These three shapes cover most backtracking questions:\n\n- **Subsets**: every node is an answer; loop from `start` so each element is used once and order does not matter. 2^n results.\n- **Combinations / combination sum**: record only when the target size or sum is reached. Pass `i` (reuse allowed) or `i + 1` (no reuse) to the next call.\n- **Permutations**: order matters, so loop over all indexes and skip used ones with a `used` boolean array. n! results.\n\n**Duplicates in input**: sort first, then skip `nums[i]` if it equals `nums[i - 1]` at the same depth (`i > start` for subsets/combinations, `!used[i - 1]` for permutations).",
+          "code": {
+            "lang": "typescript",
+            "source": "function permute(nums: number[]): number[][] {\n  const res: number[][] = [], path: number[] = [];\n  const used = new Array(nums.length).fill(false);\n  function dfs() {\n    if (path.length === nums.length) { res.push([...path]); return; }\n    for (let i = 0; i < nums.length; i++) {\n      if (used[i]) continue;\n      used[i] = true; path.push(nums[i]);\n      dfs();\n      used[i] = false; path.pop();\n    }\n  }\n  dfs();\n  return res;\n}\n\nfunction combinationSum(cands: number[], target: number): number[][] {\n  const res: number[][] = [], path: number[] = [];\n  cands.sort((a, b) => a - b);\n  function dfs(start: number, remain: number) {\n    if (remain === 0) { res.push([...path]); return; }\n    for (let i = start; i < cands.length; i++) {\n      if (cands[i] > remain) break;      // prune: sorted, so the rest are too big\n      path.push(cands[i]);\n      dfs(i, remain - cands[i]);         // i, not i + 1: reuse allowed\n      path.pop();\n    }\n  }\n  dfs(0, target);\n  return res;\n}"
+          }
+        },
+        {
+          "heading": "Grid and constraint backtracking",
+          "body": "Board problems (Word Search, N-Queens, Sudoku) use the same template on a grid. Mark a cell visited before exploring neighbors and unmark it afterwards, often by temporarily overwriting the cell (`board[r][c] = '#'`).\n\nN-Queens prunes with three sets: used columns, used `r - c` diagonals and used `r + c` anti-diagonals, which makes each validity check O(1).\n\nPruning is what makes backtracking practical: sorting candidates and breaking early, checking constraints before recursing, and stopping once a single answer is found when only one is needed (return a boolean up the stack)."
+        },
+        {
+          "heading": "From recursion to memoization",
+          "body": "If the recursion tree contains **repeated subproblems** with the same arguments, cache the results. That turns exponential recursion into dynamic programming (covered later). Backtracking problems that enumerate all solutions cannot be memoized away because the output itself is exponential; problems that only count or optimize often can.\n\nQuick test: are the function arguments small enough to use as a cache key, and does the result depend only on those arguments (not on a mutable path)? If yes, memoize."
+        }
+      ],
+      "keyPoints": [
+        "Every recursion needs a base case, progress toward it, and trust in the recursive call.",
+        "Recursion space is O(depth); JS has no practical tail-call optimization, so deep inputs need an explicit stack.",
+        "Backtracking = choose, explore, unchoose, with pruning.",
+        "Push a copy of the path when recording results.",
+        "Subsets and combinations loop from start; permutations loop over everything with a used array.",
+        "Sort and skip equal neighbors at the same depth to avoid duplicate results.",
+        "If subproblems repeat and results depend only on arguments, memoize."
+      ],
+      "questions": [
+        {
+          "id": "dsa-06-q01",
+          "type": "mcq",
+          "prompt": "What does this print?",
+          "code": "const res: number[][] = [], path: number[] = [];\nfunction dfs(i: number) {\n  if (i === 2) { res.push(path); return; }\n  path.push(i); dfs(i + 1); path.pop();\n}\ndfs(0);\nconsole.log(JSON.stringify(res));",
+          "options": [
+            "[[0,1]]",
+            "[[]]",
+            "[[0],[1]]",
+            "[]"
+          ],
+          "answer": 1,
+          "explanation": "res stores a reference to the same path array, which is emptied by the pops before printing. Push [...path] to store a snapshot."
+        },
+        {
+          "id": "dsa-06-q02",
+          "type": "mcq",
+          "prompt": "How many results does generating all permutations of n distinct elements produce?",
+          "options": [
+            "2^n",
+            "n^2",
+            "n!",
+            "n^n"
+          ],
+          "answer": 2,
+          "explanation": "n choices for the first slot, n - 1 for the second, and so on. Total time is O(n * n!) including copying each permutation."
+        },
+        {
+          "id": "dsa-06-q03",
+          "type": "mcq",
+          "prompt": "In Combination Sum (each candidate may be reused), what is passed as the start index to the recursive call after choosing candidates[i]?",
+          "options": [
+            "0",
+            "i",
+            "i + 1",
+            "start + 1"
+          ],
+          "answer": 1,
+          "explanation": "Passing i allows the same candidate again while still preventing earlier candidates, which would create permutations of the same combination."
+        },
+        {
+          "id": "dsa-06-q04",
+          "type": "mcq",
+          "prompt": "For Subsets II (input may contain duplicates, sorted), which skip condition avoids duplicate subsets?",
+          "options": [
+            "if (nums[i] === nums[i - 1]) continue",
+            "if (i > start && nums[i] === nums[i - 1]) continue",
+            "if (used[i]) continue",
+            "if (path.includes(nums[i])) continue"
+          ],
+          "answer": 1,
+          "explanation": "Skip a duplicate only when it is not the first choice at this depth (i > start). Without i > start you would also block valid subsets like [2, 2]."
+        },
+        {
+          "id": "dsa-06-q05",
+          "type": "mcq",
+          "prompt": "In N-Queens, which pair of keys identifies a queen's two diagonals so checks are O(1)?",
+          "options": [
+            "r * c and r / c",
+            "r - c and r + c",
+            "r % c and c % r",
+            "r and c"
+          ],
+          "answer": 1,
+          "explanation": "All cells on a top-left to bottom-right diagonal share r - c, and all cells on an anti-diagonal share r + c."
+        },
+        {
+          "id": "dsa-06-q06",
+          "type": "mcq",
+          "prompt": "What is the time complexity of the recursive pow(x, n) that computes half = pow(x, n / 2) once and squares it?",
+          "options": [
+            "O(n)",
+            "O(log n)",
+            "O(n log n)",
+            "O(1)"
+          ],
+          "answer": 1,
+          "explanation": "The exponent halves on each call, so there are about log2(n) calls. Calling pow(x, n/2) twice instead of storing it would make it O(n)."
+        },
+        {
+          "id": "dsa-06-q07",
+          "type": "truefalse",
+          "prompt": "Most JavaScript engines, including V8, perform tail-call optimization, so deep tail recursion is safe.",
+          "answer": false,
+          "explanation": "Although ES2015 specified proper tail calls, only Safari's JavaScriptCore ships them. V8 and SpiderMonkey do not, so deep recursion can overflow the stack."
+        },
+        {
+          "id": "dsa-06-q08",
+          "type": "truefalse",
+          "prompt": "In Word Search, temporarily overwriting the current cell (for example with '#') and restoring it afterwards prevents reusing the same cell within one path.",
+          "answer": true,
+          "explanation": "It marks the cell visited for the current path only, and restoring it on the way back lets other paths use it. It saves a separate visited matrix."
+        },
+        {
+          "id": "dsa-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are effective pruning techniques in backtracking?",
+          "options": [
+            "Sorting candidates and breaking when one exceeds the remaining target",
+            "Checking constraints before recursing rather than after building a full solution",
+            "Returning early once one valid solution is found if only one is needed",
+            "Copying the whole board at every recursive call",
+            "Using sets for O(1) constraint checks"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Each of these reduces explored branches or per-node cost. Copying the board at every call adds work and memory; mutate and undo instead."
+        },
+        {
+          "id": "dsa-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the three steps of the backtracking template are choose, explore and ___.",
+          "accept": [
+            "unchoose",
+            "undo",
+            "un-choose",
+            "backtrack",
+            "revert"
+          ],
+          "explanation": "Undoing the choice restores shared state so sibling branches start clean."
+        },
+        {
+          "id": "dsa-06-q11",
+          "type": "interview",
+          "prompt": "Generate Parentheses: produce all valid combinations of n pairs of parentheses.",
+          "answer": "Backtrack with counts open and close. At each step: if open < n, add '(' and recurse; if close < open, add ')' and recurse. When the string length is 2n, record it. These two rules guarantee validity, so no post-filtering is needed. The number of results is the n-th Catalan number, about 4^n / (n^1.5), and each takes O(n) to build, so time is O(4^n / sqrt(n)). Space is O(n) for recursion depth excluding output.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-06-q12",
+          "type": "interview",
+          "prompt": "Word Search: does a word exist in a grid of letters, moving horizontally or vertically without reusing cells?",
+          "answer": "For each cell matching word[0], run DFS(r, c, k): if k == word.length return true; if out of bounds or board[r][c] != word[k] return false. Mark the cell (save it and set '#'), recurse into the 4 neighbors with k + 1, restore the cell, and return true if any neighbor succeeded. Time O(R * C * 3^L) where L is word length (3 because you never step back into the cell you came from), space O(L) for recursion. Optimizations: return early on success, check that the board has enough of each letter, and start from whichever end of the word has the rarer letter.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-06-q13",
+          "type": "interview",
+          "prompt": "N-Queens: return all ways to place n queens on an n x n board so none attack each other.",
+          "answer": "Place one queen per row, recursing row by row. Maintain three sets: cols, diag (r - c) and antiDiag (r + c). For row r, try each column c not blocked by any set; add to sets, record the column in a placement array, recurse to r + 1, then remove. When r == n, convert the placement into board strings and record it. Placing per row removes row conflicts by construction and the sets make each check O(1). Time is O(n!) in the worst case (pruning makes it much less in practice), space O(n). Bitmasks can replace the sets for speed.",
+          "level": "advanced"
+        },
+        {
+          "id": "dsa-06-q14",
+          "type": "interview",
+          "prompt": "Letter Combinations of a Phone Number: given digits 2-9, return all letter strings they could represent.",
+          "answer": "Map each digit to its letters ('2' -> 'abc', ..., '7' -> 'pqrs', '9' -> 'wxyz'). Backtrack over index i: if i == digits.length, record the current string; otherwise for each letter of digits[i], append it, recurse to i + 1, remove it. Handle empty input by returning []. Time O(4^n * n) since 7 and 9 have four letters and each result costs O(n) to build; space O(n) recursion depth. An iterative BFS that extends a list of prefixes digit by digit works equally well.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "LeetCode: Subsets",
+          "url": "https://leetcode.com/problems/subsets/"
+        },
+        {
+          "title": "LeetCode: Permutations",
+          "url": "https://leetcode.com/problems/permutations/"
+        },
+        {
+          "title": "Backtracking (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Backtracking"
+        }
+      ]
+    },
+    {
+      "id": "dsa-07-trees-bst-tries",
+      "title": "Trees, BSTs, Traversals and Tries",
+      "level": "intermediate",
+      "summary": "Traverse binary trees with DFS and BFS, use BST ordering, and build tries for prefix queries.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Binary tree basics and DFS traversals",
+          "body": "A binary tree node has a value and up to two children. Height is the longest root-to-leaf path; a balanced tree has height O(log n), a skewed one O(n).\n\nThree depth-first orders:\n- **Preorder** (node, left, right): copy or serialize a tree.\n- **Inorder** (left, node, right): visits a BST in sorted order.\n- **Postorder** (left, right, node): compute something from children first (height, subtree sums, deleting a tree).\n\nMost tree problems are 'postorder with a return value': each call returns information about its subtree, and the parent combines it. Decide what each call returns, then write the combine step.",
+          "code": {
+            "lang": "typescript",
+            "source": "class TreeNode {\n  constructor(\n    public val: number,\n    public left: TreeNode | null = null,\n    public right: TreeNode | null = null,\n  ) {}\n}\n\nfunction maxDepth(root: TreeNode | null): number {\n  if (!root) return 0;\n  return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));\n}\n\n// Iterative inorder with an explicit stack (avoids deep recursion)\nfunction inorder(root: TreeNode | null): number[] {\n  const out: number[] = [], stack: TreeNode[] = [];\n  let cur = root;\n  while (cur || stack.length) {\n    while (cur) { stack.push(cur); cur = cur.left; }\n    cur = stack.pop()!;\n    out.push(cur.val);\n    cur = cur.right;\n  }\n  return out;\n}"
+          }
+        },
+        {
+          "heading": "BFS: level order traversal",
+          "body": "Breadth-first search with a queue visits the tree level by level. Snapshot the queue size at the start of each level to group nodes by depth. Use it for level order output, right side view, minimum depth (stop at the first leaf), zigzag order and connecting next pointers.\n\nBFS uses O(w) memory where w is the maximum width (up to n/2 for a full tree); DFS uses O(h).",
+          "code": {
+            "lang": "typescript",
+            "source": "function levelOrder(root: TreeNode | null): number[][] {\n  if (!root) return [];\n  const res: number[][] = [];\n  let level: TreeNode[] = [root];\n  while (level.length) {\n    res.push(level.map((n) => n.val));\n    const next: TreeNode[] = [];\n    for (const n of level) {\n      if (n.left) next.push(n.left);\n      if (n.right) next.push(n.right);\n    }\n    level = next;   // swapping arrays avoids O(n) shift()\n  }\n  return res;\n}"
+          }
+        },
+        {
+          "heading": "Returning more than one value: diameter and max path sum",
+          "body": "Some answers do not pass through the root, so the recursive function returns one thing to its parent while updating a global best on the side.\n\n**Diameter**: each call returns its height; at each node the longest path through it is `leftHeight + rightHeight`, compared against a running best.\n\n**Binary Tree Maximum Path Sum**: each call returns the best downward path starting at the node (`val + max(0, left, right)`), while the best path through the node is `val + max(0, left) + max(0, right)`. Clamping negative children to 0 means 'do not take that branch'.",
+          "code": {
+            "lang": "typescript",
+            "source": "function maxPathSum(root: TreeNode | null): number {\n  let best = -Infinity;\n  function gain(node: TreeNode | null): number {\n    if (!node) return 0;\n    const l = Math.max(0, gain(node.left));\n    const r = Math.max(0, gain(node.right));\n    best = Math.max(best, node.val + l + r);  // path bending at node\n    return node.val + Math.max(l, r);         // path continuing upward\n  }\n  gain(root);\n  return best;\n}"
+          }
+        },
+        {
+          "heading": "Binary search trees",
+          "body": "In a BST, every key in the left subtree is smaller than the node and every key in the right subtree is larger. Search, insert and delete are O(h): O(log n) when balanced (AVL, red-black trees) and O(n) when skewed.\n\nCommon pitfalls and tricks:\n- **Validating** a BST requires checking against bounds inherited from ancestors, not just the direct children. Pass `(min, max)` down, or check that the inorder traversal is strictly increasing.\n- **Kth smallest**: inorder traversal, stop at the k-th node.\n- **Lowest common ancestor** in a BST: walk from the root; if both values are smaller go left, both larger go right, otherwise the current node is the LCA.\n- JavaScript has no built-in balanced BST or sorted set; mention that you would use a library or a different structure (heap, sorted array with binary search) when you need ordered operations."
+        },
+        {
+          "heading": "Tries for prefix problems",
+          "body": "A trie (prefix tree) stores strings character by character; each node has children keyed by character and an `end` flag. Insert and search cost O(L) for a word of length L, independent of how many words are stored. Prefix queries ('does any word start with...', autocomplete) are where tries beat hash sets.\n\nTries also power Word Search II (search many words in a grid at once by walking the trie during DFS) and XOR maximization (binary tries over bits). Memory can be large: up to total characters x alphabet size with array children; `Map` children save space for sparse alphabets.",
+          "code": {
+            "lang": "typescript",
+            "source": "class TrieNode {\n  children = new Map<string, TrieNode>();\n  end = false;\n}\n\nclass Trie {\n  private root = new TrieNode();\n  insert(word: string): void {\n    let node = this.root;\n    for (const ch of word) {\n      if (!node.children.has(ch)) node.children.set(ch, new TrieNode());\n      node = node.children.get(ch)!;\n    }\n    node.end = true;\n  }\n  private walk(s: string): TrieNode | null {\n    let node = this.root;\n    for (const ch of s) {\n      const next = node.children.get(ch);\n      if (!next) return null;\n      node = next;\n    }\n    return node;\n  }\n  search(word: string): boolean { return this.walk(word)?.end ?? false; }\n  startsWith(prefix: string): boolean { return this.walk(prefix) !== null; }\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Decide what each recursive call returns about its subtree, then write the combine step.",
+        "Inorder traversal of a BST yields sorted order.",
+        "BFS with per-level batches handles level order, right side view and minimum depth.",
+        "Validate a BST with min/max bounds from ancestors, not only direct children.",
+        "Keep a global best when the answer may not pass through the root (diameter, max path sum).",
+        "BST operations are O(h): O(log n) balanced, O(n) skewed.",
+        "Tries give O(L) insert, search and prefix queries."
+      ],
+      "questions": [
+        {
+          "id": "dsa-07-q01",
+          "type": "mcq",
+          "prompt": "Which traversal of a binary search tree outputs keys in sorted order?",
+          "options": [
+            "Preorder",
+            "Inorder",
+            "Postorder",
+            "Level order"
+          ],
+          "answer": 1,
+          "explanation": "Inorder visits the left subtree (smaller keys), then the node, then the right subtree (larger keys)."
+        },
+        {
+          "id": "dsa-07-q02",
+          "type": "mcq",
+          "prompt": "Why is this BST validation wrong?",
+          "code": "function isValid(n: TreeNode | null): boolean {\n  if (!n) return true;\n  if (n.left && n.left.val >= n.val) return false;\n  if (n.right && n.right.val <= n.val) return false;\n  return isValid(n.left) && isValid(n.right);\n}",
+          "options": [
+            "It does not handle null",
+            "It only compares with direct children, so a deep node can violate an ancestor's bound",
+            "It should use preorder",
+            "It is correct"
+          ],
+          "answer": 1,
+          "explanation": "Tree 5 -> left 3 -> right 6 passes every parent-child check but 6 is in 5's left subtree. Pass (min, max) bounds down the recursion."
+        },
+        {
+          "id": "dsa-07-q03",
+          "type": "mcq",
+          "prompt": "What is the worst-case time to search a key in an unbalanced BST with n nodes?",
+          "options": [
+            "O(1)",
+            "O(log n)",
+            "O(n)",
+            "O(n log n)"
+          ],
+          "answer": 2,
+          "explanation": "Inserting sorted keys creates a chain of height n. Self-balancing trees like AVL or red-black keep height O(log n)."
+        },
+        {
+          "id": "dsa-07-q04",
+          "type": "mcq",
+          "prompt": "In Binary Tree Maximum Path Sum, what should the recursive helper return to its parent?",
+          "options": [
+            "The best path anywhere in the subtree",
+            "node.val + left gain + right gain",
+            "node.val + max(left gain, right gain) with negative gains clamped to 0",
+            "The subtree's total sum"
+          ],
+          "answer": 2,
+          "explanation": "A path going up to the parent can only continue through one child. The two-sided sum is only used to update the global best."
+        },
+        {
+          "id": "dsa-07-q05",
+          "type": "mcq",
+          "prompt": "Which traversal is the natural choice to delete (free) every node of a tree?",
+          "options": [
+            "Preorder",
+            "Inorder",
+            "Postorder",
+            "Any, it does not matter"
+          ],
+          "answer": 2,
+          "explanation": "Postorder processes children before the parent, so you never lose access to children by deleting the parent first."
+        },
+        {
+          "id": "dsa-07-q06",
+          "type": "mcq",
+          "prompt": "You need 'does any stored word start with prefix p?' over 100,000 words, many times. Which structure fits best?",
+          "options": [
+            "Array of words with includes",
+            "Set of words",
+            "Trie",
+            "Sorted array scanned linearly"
+          ],
+          "answer": 2,
+          "explanation": "A trie answers prefix queries in O(|p|). A Set only answers exact matches. A sorted array with binary search also works in O(|p| log n), but a linear scan is O(n)."
+        },
+        {
+          "id": "dsa-07-q07",
+          "type": "truefalse",
+          "prompt": "BFS on a tree uses memory proportional to the tree's maximum width, while recursive DFS uses memory proportional to its height.",
+          "answer": true,
+          "explanation": "BFS holds one level at a time in the queue; DFS holds one root-to-node path on the stack."
+        },
+        {
+          "id": "dsa-07-q08",
+          "type": "truefalse",
+          "prompt": "A complete binary tree with n nodes always has height O(n).",
+          "answer": false,
+          "explanation": "A complete tree fills every level except possibly the last, so its height is floor(log2 n). That is why heaps are stored as complete trees."
+        },
+        {
+          "id": "dsa-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which problems are naturally solved with BFS level order traversal?",
+          "options": [
+            "Binary Tree Right Side View",
+            "Minimum depth of a binary tree",
+            "Zigzag level order traversal",
+            "Validate BST",
+            "Average of levels"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "These all work level by level. Validate BST is a DFS with bounds or an inorder check."
+        },
+        {
+          "id": "dsa-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the traversal order left, node, right is called ___ traversal.",
+          "accept": [
+            "inorder",
+            "in-order",
+            "in order"
+          ],
+          "explanation": "Inorder places the node between its subtrees, which yields sorted output for a BST."
+        },
+        {
+          "id": "dsa-07-q11",
+          "type": "interview",
+          "prompt": "Lowest Common Ancestor of a binary tree (not a BST): given nodes p and q, find their LCA.",
+          "answer": "Recursive postorder: lca(node) returns null if node is null; returns node if node is p or q. Otherwise compute left = lca(node.left) and right = lca(node.right). If both are non-null, p and q are in different subtrees, so node is the LCA. Otherwise return whichever is non-null. This works because the first node where the two searches meet from different sides is the deepest common ancestor. O(n) time, O(h) space. For a BST, use ordering instead: walk down until p and q split, O(h).",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-07-q12",
+          "type": "interview",
+          "prompt": "Serialize and Deserialize a Binary Tree.",
+          "answer": "Serialize with preorder DFS, writing each value and a marker such as '#' for null, joined by commas: [1,2,#,#,3,4,#,#,5,#,#]. Deserialize by reading tokens with an index pointer: read a token; if '#', return null; otherwise create a node, then recursively build its left and right children. The null markers make the preorder sequence unambiguous, so no inorder sequence is needed. Both directions are O(n) time and space. BFS level order with null markers also works and avoids deep recursion for skewed trees.",
+          "level": "advanced"
+        },
+        {
+          "id": "dsa-07-q13",
+          "type": "interview",
+          "prompt": "Construct a binary tree from its preorder and inorder traversals (unique values).",
+          "answer": "The first preorder element is the root. Its position in the inorder array splits it into left subtree (elements before) and right subtree (after). Recursively build left from the next leftSize preorder elements and right from the rest. Precompute a Map from value to inorder index so each split is O(1), and use a moving preorder index instead of slicing arrays. O(n) time, O(n) space. Slicing arrays at each level makes it O(n^2) in the worst case, which is worth mentioning as the naive version.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-07-q14",
+          "type": "interview",
+          "prompt": "Word Search II: find all words from a dictionary that appear in a letter grid.",
+          "answer": "Insert all words into a trie, storing the full word at its terminal node. DFS from every cell, walking the trie in parallel: move to the child for the current letter; if there is none, stop that branch immediately. When reaching a node with a stored word, add it to results and clear it to avoid duplicates. Mark cells visited during the path and restore afterwards. Optimization: prune trie leaves once their words are found so later searches stop earlier. Complexity is about O(R * C * 4 * 3^(L-1)) in the worst case for max word length L, but sharing prefixes makes it far faster than searching each word separately.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "LeetCode: Binary Tree Level Order Traversal",
+          "url": "https://leetcode.com/problems/binary-tree-level-order-traversal/"
+        },
+        {
+          "title": "LeetCode: Implement Trie (Prefix Tree)",
+          "url": "https://leetcode.com/problems/implement-trie-prefix-tree/"
+        },
+        {
+          "title": "Trie (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Trie"
+        }
+      ]
+    },
+    {
+      "id": "dsa-08-heaps-greedy-intervals",
+      "title": "Heaps, Greedy Algorithms and Intervals",
+      "level": "intermediate",
+      "summary": "Use priority queues for top-k and scheduling problems, prove greedy choices, and handle interval merging and overlap.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Heaps and priority queues",
+          "body": "A binary heap is a complete binary tree stored in an array where each parent is <= its children (min-heap). For index `i`, children are `2i + 1` and `2i + 2`, the parent is `(i - 1) >> 1`.\n\n- `peek`: O(1)\n- `push` (sift up) and `pop` (sift down): O(log n)\n- `heapify` an existing array: O(n), not O(n log n), because most nodes are near the bottom and sift down only a little.\n\nJavaScript has no built-in heap. In interviews either write a small one (below) or state that you would use a library such as `@datastructures-js/priority-queue` (available on LeetCode). Sorting the array every time you insert is O(n log n) per operation and a red flag.",
+          "code": {
+            "lang": "typescript",
+            "source": "class MinHeap<T> {\n  private a: T[] = [];\n  constructor(private less: (x: T, y: T) => boolean) {}\n  get size() { return this.a.length; }\n  peek(): T | undefined { return this.a[0]; }\n  push(x: T): void {\n    const a = this.a;\n    a.push(x);\n    let i = a.length - 1;\n    while (i > 0) {\n      const p = (i - 1) >> 1;\n      if (!this.less(a[i], a[p])) break;\n      [a[i], a[p]] = [a[p], a[i]];\n      i = p;\n    }\n  }\n  pop(): T | undefined {\n    const a = this.a;\n    if (a.length === 0) return undefined;\n    const top = a[0];\n    const last = a.pop()!;\n    if (a.length) {\n      a[0] = last;\n      let i = 0;\n      for (;;) {\n        const l = 2 * i + 1, r = l + 1;\n        let m = i;\n        if (l < a.length && this.less(a[l], a[m])) m = l;\n        if (r < a.length && this.less(a[r], a[m])) m = r;\n        if (m === i) break;\n        [a[i], a[m]] = [a[m], a[i]];\n        i = m;\n      }\n    }\n    return top;\n  }\n}\n// Max-heap: new MinHeap<number>((x, y) => x > y)"
+          }
+        },
+        {
+          "heading": "Heap patterns: top-k, k-way merge, two heaps",
+          "body": "- **Top k largest**: keep a **min**-heap of size k; pop whenever it exceeds k. The heap top is the k-th largest. O(n log k).\n- **K-way merge** (merge k sorted lists, k-th smallest in a sorted matrix): push the head of each list, repeatedly pop the smallest and push its successor. O(N log k).\n- **Two heaps** (median of a data stream): a max-heap for the lower half and a min-heap for the upper half, rebalanced so sizes differ by at most one. The median is read from the tops in O(1); insert is O(log n).\n- **Scheduling**: the earliest-ending or highest-priority task is always the heap top (meeting rooms, task scheduler, CPU scheduling).\n- **Dijkstra** uses a min-heap of (distance, node), covered in the graphs chapter."
+        },
+        {
+          "heading": "Greedy algorithms",
+          "body": "A greedy algorithm makes the locally best choice at each step and never revisits it. It is correct only when the problem has the **greedy choice property** (some optimal solution starts with the greedy choice) and **optimal substructure**. The usual proof is an **exchange argument**: take any optimal solution, swap in the greedy choice, and show it is no worse.\n\nClassic greedy problems:\n- **Jump Game**: track the farthest reachable index.\n- **Gas Station**: if total gas >= total cost a solution exists; restart the candidate start after any point where the tank goes negative.\n- **Activity selection / non-overlapping intervals**: sort by **end** time and take each interval that starts after the last chosen end.\n- **Assign cookies, boats to save people**: sort and match with two pointers.\n\nWhen greedy fails (coin change with coins [1, 3, 4] and amount 6: greedy picks 4+1+1, optimal is 3+3), switch to dynamic programming.",
+          "code": {
+            "lang": "typescript",
+            "source": "function canJump(nums: number[]): boolean {\n  let farthest = 0;\n  for (let i = 0; i < nums.length; i++) {\n    if (i > farthest) return false;          // cannot even reach i\n    farthest = Math.max(farthest, i + nums[i]);\n  }\n  return true;\n}"
+          }
+        },
+        {
+          "heading": "Interval problems",
+          "body": "Almost every interval problem starts by **sorting**: by start time for merging and inserting, by end time for maximizing non-overlapping selections.\n\n- **Merge intervals**: sort by start; if the next start <= current end, extend the end with `max`; otherwise start a new interval.\n- **Insert interval** into a sorted list: copy those ending before it, merge the overlapping ones, copy the rest. O(n).\n- **Non-overlapping intervals** (minimum removals): sort by end, greedily keep compatible ones; removals = n - kept.\n- **Meeting Rooms II** (minimum rooms): sort by start and keep a min-heap of end times; or sweep line with sorted starts and ends.\n\nDecide upfront whether touching intervals like [1,2] and [2,3] overlap; the problem statement usually says, and it changes `<` versus `<=`.",
+          "code": {
+            "lang": "typescript",
+            "source": "function merge(intervals: number[][]): number[][] {\n  const sorted = [...intervals].sort((a, b) => a[0] - b[0]);\n  const res: number[][] = [];\n  for (const [s, e] of sorted) {\n    const last = res[res.length - 1];\n    if (last && s <= last[1]) last[1] = Math.max(last[1], e);\n    else res.push([s, e]);\n  }\n  return res;\n}\n\n// Minimum meeting rooms via sweep line\nfunction minMeetingRooms(iv: number[][]): number {\n  const starts = iv.map((x) => x[0]).sort((a, b) => a - b);\n  const ends = iv.map((x) => x[1]).sort((a, b) => a - b);\n  let rooms = 0, best = 0, j = 0;\n  for (let i = 0; i < starts.length; i++) {\n    while (j < ends.length && ends[j] <= starts[i]) { j++; rooms--; }\n    rooms++;\n    best = Math.max(best, rooms);\n  }\n  return best;\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Heap push/pop are O(log n), peek O(1), heapify O(n); JS has no built-in heap.",
+        "Top-k largest uses a min-heap of size k: O(n log k).",
+        "Two heaps (max-heap low half, min-heap high half) give a running median.",
+        "Greedy needs a proof, usually an exchange argument; if a counterexample exists, use DP.",
+        "Sort intervals by start to merge, by end to maximize non-overlapping picks.",
+        "Meeting Rooms II = maximum number of simultaneously active intervals (heap of ends or sweep line)."
+      ],
+      "questions": [
+        {
+          "id": "dsa-08-q01",
+          "type": "mcq",
+          "prompt": "To find the k largest elements of an array of n numbers, which heap and size give O(n log k)?",
+          "options": [
+            "Max-heap of size n",
+            "Min-heap of size k",
+            "Max-heap of size k",
+            "Min-heap of size n"
+          ],
+          "answer": 1,
+          "explanation": "A min-heap of size k keeps the k largest seen so far, with the smallest of them on top to be evicted when a larger element arrives."
+        },
+        {
+          "id": "dsa-08-q02",
+          "type": "mcq",
+          "prompt": "What is the time complexity of building a binary heap from an unsorted array with bottom-up heapify?",
+          "options": [
+            "O(log n)",
+            "O(n)",
+            "O(n log n)",
+            "O(n^2)"
+          ],
+          "answer": 1,
+          "explanation": "Half the nodes are leaves (no work), a quarter sift down one level, and so on. The sum n/4 * 1 + n/8 * 2 + ... converges to O(n)."
+        },
+        {
+          "id": "dsa-08-q03",
+          "type": "mcq",
+          "prompt": "In an array-backed binary heap, what is the parent index of node i?",
+          "options": [
+            "i / 2",
+            "(i - 1) >> 1",
+            "2i + 1",
+            "i - 1"
+          ],
+          "answer": 1,
+          "explanation": "With 0-based indexing, children of p are 2p + 1 and 2p + 2, so the parent of i is floor((i - 1) / 2)."
+        },
+        {
+          "id": "dsa-08-q04",
+          "type": "mcq",
+          "prompt": "Merging intervals [[1,3],[2,6],[8,10],[15,18]] gives:",
+          "options": [
+            "[[1,6],[8,10],[15,18]]",
+            "[[1,3],[2,6],[8,18]]",
+            "[[1,10],[15,18]]",
+            "[[1,18]]"
+          ],
+          "answer": 0,
+          "explanation": "[1,3] and [2,6] overlap (2 <= 3) and merge to [1,6]. The others do not overlap."
+        },
+        {
+          "id": "dsa-08-q05",
+          "type": "mcq",
+          "prompt": "To select the maximum number of non-overlapping intervals greedily, sort by:",
+          "options": [
+            "Start time ascending",
+            "End time ascending",
+            "Length ascending",
+            "Start time descending"
+          ],
+          "answer": 1,
+          "explanation": "Picking the interval that ends earliest leaves the most room for the rest. An exchange argument shows some optimal solution starts with it. Sorting by length fails on simple counterexamples."
+        },
+        {
+          "id": "dsa-08-q06",
+          "type": "mcq",
+          "prompt": "Merge k sorted linked lists with N total nodes using a min-heap. What is the time complexity?",
+          "options": [
+            "O(N k)",
+            "O(N log k)",
+            "O(N log N)",
+            "O(k log N)"
+          ],
+          "answer": 1,
+          "explanation": "The heap never holds more than k nodes, and each of the N nodes is pushed and popped once at O(log k) each."
+        },
+        {
+          "id": "dsa-08-q07",
+          "type": "truefalse",
+          "prompt": "The greedy algorithm (always take the largest coin that fits) gives the minimum number of coins for every coin system.",
+          "answer": false,
+          "explanation": "With coins [1, 3, 4] and amount 6, greedy gives 4 + 1 + 1 (3 coins) but 3 + 3 uses 2. Greedy is only optimal for canonical systems like [1, 5, 10, 25]; in general use DP."
+        },
+        {
+          "id": "dsa-08-q08",
+          "type": "truefalse",
+          "prompt": "JavaScript does not ship a built-in priority queue class.",
+          "answer": true,
+          "explanation": "There is no PriorityQueue in the language or standard library, so you implement a binary heap or use a library."
+        },
+        {
+          "id": "dsa-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: problems typically solved with a heap.",
+          "options": [
+            "Find Median from Data Stream",
+            "Merge k Sorted Lists",
+            "Task Scheduler / meeting rooms",
+            "Valid Parentheses",
+            "K Closest Points to Origin"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "All but Valid Parentheses need repeated access to the smallest or largest item. Parentheses matching uses a stack."
+        },
+        {
+          "id": "dsa-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the standard technique for proving a greedy algorithm correct is the ___ argument.",
+          "accept": [
+            "exchange",
+            "exchange argument",
+            "swap",
+            "swapping"
+          ],
+          "explanation": "Show that any optimal solution can be transformed, by exchanging one choice for the greedy one, without getting worse."
+        },
+        {
+          "id": "dsa-08-q11",
+          "type": "interview",
+          "prompt": "Find Median from Data Stream: support addNum and findMedian efficiently.",
+          "answer": "Keep two heaps: lo, a max-heap holding the smaller half, and hi, a min-heap holding the larger half. addNum: push into lo, then move lo's top to hi (keeps ordering), then if hi has more elements than lo, move hi's top back to lo. So lo has the same size as hi or one more. findMedian: if sizes differ, return lo's top; otherwise the average of both tops. addNum is O(log n), findMedian O(1), space O(n). Follow-up: if all values are in 0..100, use a count array and walk it in O(100).",
+          "level": "advanced"
+        },
+        {
+          "id": "dsa-08-q12",
+          "type": "interview",
+          "prompt": "Meeting Rooms II: given meeting intervals, find the minimum number of conference rooms required.",
+          "answer": "Sort meetings by start. Keep a min-heap of end times of meetings currently using rooms. For each meeting, if the earliest end <= this start, pop it (that room frees up). Push this meeting's end. The answer is the maximum heap size (which equals the final size since we only pop when reusing). O(n log n) time, O(n) space. Equivalent sweep line: sort starts and ends separately and walk them with two pointers, incrementing on a start and decrementing on an end; the peak count is the answer.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-08-q13",
+          "type": "interview",
+          "prompt": "Gas Station: given gas[i] and cost[i] around a circular route, return the starting station that allows a full loop, or -1.",
+          "answer": "If sum(gas) < sum(cost) return -1, because no start can work. Otherwise a solution exists and is unique by the problem guarantee. Walk once with tank = 0 and start = 0: add gas[i] - cost[i]; if tank goes negative, no station from start..i can be the start (each would arrive at i+1 with even less fuel), so set start = i + 1 and tank = 0. Return start. O(n) time, O(1) space. The key insight is the skip argument that eliminates a whole block of candidates at once.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-08-q14",
+          "type": "interview",
+          "prompt": "Task Scheduler: given tasks (letters) and a cooldown n between identical tasks, find the minimum time to finish all tasks.",
+          "answer": "Count frequencies. Let maxF be the highest frequency and countMax the number of tasks with that frequency. The most frequent task forms maxF - 1 full frames of length n + 1, plus a final partial frame of size countMax: time = (maxF - 1) * (n + 1) + countMax. If there are enough other tasks to fill all idle slots, there is no idling and the answer is tasks.length. So return max(tasks.length, formula). O(N) time, O(1) space for 26 letters. A simulation with a max-heap and a cooldown queue also works in O(N log 26) and generalizes better if the interviewer changes the rules.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "LeetCode: Merge Intervals",
+          "url": "https://leetcode.com/problems/merge-intervals/"
+        },
+        {
+          "title": "LeetCode: Find Median from Data Stream",
+          "url": "https://leetcode.com/problems/find-median-from-data-stream/"
+        },
+        {
+          "title": "Heap (data structure) (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Heap_(data_structure)"
+        }
+      ]
+    },
+    {
+      "id": "dsa-09-graphs",
+      "title": "Graphs: BFS, DFS, Topological Sort, Dijkstra and Union-Find",
+      "level": "advanced",
+      "summary": "Model problems as graphs and pick the right traversal: BFS for unweighted shortest paths, DFS for exploration, Kahn's algorithm for ordering, Dijkstra for weighted paths and union-find for connectivity.",
+      "estMinutes": 50,
+      "lesson": [
+        {
+          "heading": "Representing graphs",
+          "body": "A graph is vertices plus edges, directed or undirected, weighted or not. In interviews the graph is often hidden: a grid (cells are nodes, 4 neighbors are edges), word ladders (words differing by one letter), course prerequisites, or states of a puzzle.\n\n- **Adjacency list** (`Map<number, number[]>` or `number[][]`): O(V + E) space, the default choice.\n- **Adjacency matrix**: O(V^2) space, O(1) edge lookup, good for dense graphs.\n- **Edge list**: handy for Kruskal and union-find.\n\nBFS and DFS over an adjacency list cost O(V + E). On a grid that is O(R * C). Always track visited nodes in graphs (unlike trees) because cycles would otherwise loop forever.",
+          "code": {
+            "lang": "typescript",
+            "source": "function buildGraph(n: number, edges: [number, number][], directed = false): number[][] {\n  const g: number[][] = Array.from({ length: n }, () => []);\n  for (const [u, v] of edges) {\n    g[u].push(v);\n    if (!directed) g[v].push(u);\n  }\n  return g;\n}\n\nconst DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]];"
+          }
+        },
+        {
+          "heading": "DFS and BFS templates",
+          "body": "**DFS** goes deep first; use it for connected components, flood fill, cycle detection, path existence and anything recursive. **BFS** explores in layers and finds the **shortest path in an unweighted graph**, because the first time BFS reaches a node is via the fewest edges.\n\nMark nodes visited **when you enqueue them**, not when you dequeue them; otherwise the same node can be enqueued many times. Multi-source BFS (start with all sources in the queue at distance 0) solves 'rotting oranges' and 'distance to nearest X' in one pass.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Number of islands with iterative DFS (no recursion depth issues)\nfunction numIslands(grid: string[][]): number {\n  const R = grid.length, C = grid[0].length;\n  let count = 0;\n  for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) {\n    if (grid[r][c] !== '1') continue;\n    count++;\n    const stack: [number, number][] = [[r, c]];\n    grid[r][c] = '0';\n    while (stack.length) {\n      const [x, y] = stack.pop()!;\n      for (const [dx, dy] of DIRS) {\n        const nx = x + dx, ny = y + dy;\n        if (nx >= 0 && ny >= 0 && nx < R && ny < C && grid[nx][ny] === '1') {\n          grid[nx][ny] = '0';\n          stack.push([nx, ny]);\n        }\n      }\n    }\n  }\n  return count;\n}\n\n// BFS shortest path (unweighted); returns distance array\nfunction bfs(g: number[][], src: number): number[] {\n  const dist = new Array(g.length).fill(-1);\n  dist[src] = 0;\n  let frontier = [src];\n  while (frontier.length) {\n    const next: number[] = [];\n    for (const u of frontier)\n      for (const v of g[u])\n        if (dist[v] === -1) { dist[v] = dist[u] + 1; next.push(v); }\n    frontier = next;\n  }\n  return dist;\n}"
+          }
+        },
+        {
+          "heading": "Topological sort and cycle detection",
+          "body": "A topological order lists the nodes of a **directed acyclic graph** so every edge goes from earlier to later. It answers 'in what order can I take courses / build packages / run tasks?'.\n\n**Kahn's algorithm**: compute in-degrees, enqueue all nodes with in-degree 0, repeatedly pop a node, append it to the order and decrement its neighbors' in-degrees, enqueuing any that reach 0. If the order has fewer than V nodes, the graph has a **cycle**.\n\nThe DFS alternative uses three colors (unvisited, visiting, done): reaching a 'visiting' node means a back edge, which is a cycle; the reverse of the postorder is a topological order. For undirected graphs, detect cycles with DFS that ignores the parent edge, or with union-find.",
+          "code": {
+            "lang": "typescript",
+            "source": "function topoSort(n: number, edges: [number, number][]): number[] | null {\n  const g: number[][] = Array.from({ length: n }, () => []);\n  const indeg = new Array(n).fill(0);\n  for (const [u, v] of edges) { g[u].push(v); indeg[v]++; }\n  const queue: number[] = [];\n  for (let i = 0; i < n; i++) if (indeg[i] === 0) queue.push(i);\n  const order: number[] = [];\n  for (let h = 0; h < queue.length; h++) {   // head index instead of shift()\n    const u = queue[h];\n    order.push(u);\n    for (const v of g[u]) if (--indeg[v] === 0) queue.push(v);\n  }\n  return order.length === n ? order : null;   // null => cycle\n}"
+          }
+        },
+        {
+          "heading": "Weighted shortest paths: Dijkstra and friends",
+          "body": "**Dijkstra** finds shortest paths from one source when all edge weights are **non-negative**. Pop the node with the smallest tentative distance from a min-heap, skip it if the popped distance is stale, and relax its edges. O((V + E) log V) with a binary heap.\n\nRelated algorithms:\n- **0-1 BFS**: weights only 0 or 1; use a deque (push 0-edges to the front). O(V + E).\n- **Bellman-Ford**: handles negative weights and detects negative cycles; O(V * E). Also solves 'cheapest flights within k stops' by limiting rounds to k + 1.\n- **Floyd-Warshall**: all pairs, O(V^3), fine for V up to a few hundred.\n- **Minimum spanning tree**: Kruskal (sort edges + union-find) or Prim (heap).",
+          "code": {
+            "lang": "typescript",
+            "source": "// Uses the MinHeap class from the heaps chapter\nfunction dijkstra(g: [number, number][][], src: number): number[] {\n  const dist = new Array(g.length).fill(Infinity);\n  dist[src] = 0;\n  const pq = new MinHeap<[number, number]>((a, b) => a[0] < b[0]); // [dist, node]\n  pq.push([0, src]);\n  while (pq.size) {\n    const [d, u] = pq.pop()!;\n    if (d > dist[u]) continue;                 // stale entry\n    for (const [v, w] of g[u]) {\n      if (d + w < dist[v]) {\n        dist[v] = d + w;\n        pq.push([dist[v], v]);\n      }\n    }\n  }\n  return dist;\n}"
+          }
+        },
+        {
+          "heading": "Union-Find (disjoint set union)",
+          "body": "Union-find tracks which elements are in the same group. `find(x)` returns the group representative; `union(a, b)` merges groups. With **path compression** and **union by rank/size**, each operation runs in O(alpha(n)) amortized, where alpha is the inverse Ackermann function and is at most 4 for any practical n.\n\nUse it for: number of connected components with edges arriving over time, detecting a cycle in an undirected graph (union of two nodes already connected), Kruskal's MST, Redundant Connection, Accounts Merge and grid problems where cells join dynamically (Number of Islands II).",
+          "code": {
+            "lang": "typescript",
+            "source": "class DSU {\n  parent: number[];\n  size: number[];\n  components: number;\n  constructor(n: number) {\n    this.parent = Array.from({ length: n }, (_, i) => i);\n    this.size = new Array(n).fill(1);\n    this.components = n;\n  }\n  find(x: number): number {\n    while (this.parent[x] !== x) {\n      this.parent[x] = this.parent[this.parent[x]]; // path halving\n      x = this.parent[x];\n    }\n    return x;\n  }\n  union(a: number, b: number): boolean {\n    let ra = this.find(a), rb = this.find(b);\n    if (ra === rb) return false;                 // already connected => cycle edge\n    if (this.size[ra] < this.size[rb]) [ra, rb] = [rb, ra];\n    this.parent[rb] = ra;\n    this.size[ra] += this.size[rb];\n    this.components--;\n    return true;\n  }\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Adjacency lists are the default; BFS and DFS cost O(V + E).",
+        "BFS gives shortest paths in unweighted graphs; mark visited when enqueuing.",
+        "Kahn's algorithm produces a topological order and detects cycles when the order is short.",
+        "Dijkstra needs non-negative weights: O((V + E) log V) with a heap; skip stale entries.",
+        "Use Bellman-Ford for negative weights or a limited number of edges.",
+        "Union-find with path compression and union by size is nearly O(1) per operation.",
+        "Grids are graphs: cells are nodes and the 4 neighbors are edges."
+      ],
+      "questions": [
+        {
+          "id": "dsa-09-q01",
+          "type": "mcq",
+          "prompt": "Which algorithm finds the shortest path (fewest edges) between two nodes in an unweighted graph most efficiently?",
+          "options": [
+            "DFS",
+            "BFS",
+            "Dijkstra",
+            "Floyd-Warshall"
+          ],
+          "answer": 1,
+          "explanation": "BFS explores in order of distance, so the first time a node is reached is via a shortest path, in O(V + E). Dijkstra works but adds a log factor for no benefit."
+        },
+        {
+          "id": "dsa-09-q02",
+          "type": "mcq",
+          "prompt": "Why can Dijkstra's algorithm give wrong answers with negative edge weights?",
+          "options": [
+            "The heap cannot store negative numbers",
+            "It finalizes a node when popped, assuming no later path can be shorter, which negative edges can violate",
+            "It visits nodes in DFS order",
+            "It only works on trees"
+          ],
+          "answer": 1,
+          "explanation": "Dijkstra's correctness relies on distances only growing along a path. A negative edge discovered later could reduce an already finalized distance. Use Bellman-Ford."
+        },
+        {
+          "id": "dsa-09-q03",
+          "type": "mcq",
+          "prompt": "Kahn's algorithm finishes with an order containing fewer than V nodes. What does that mean?",
+          "options": [
+            "The graph is disconnected",
+            "The graph contains a cycle",
+            "The graph is a tree",
+            "There was a bug in in-degree counting"
+          ],
+          "answer": 1,
+          "explanation": "Nodes on a cycle never reach in-degree 0, so they are never enqueued. Disconnected DAGs still produce a full order."
+        },
+        {
+          "id": "dsa-09-q04",
+          "type": "mcq",
+          "prompt": "What is the time complexity of Dijkstra with a binary heap on V vertices and E edges?",
+          "options": [
+            "O(V^2)",
+            "O(V + E)",
+            "O((V + E) log V)",
+            "O(V * E)"
+          ],
+          "answer": 2,
+          "explanation": "Each edge relaxation may push to the heap (O(log V)), and each node is popped at least once. The array-based version without a heap is O(V^2), which is better only for very dense graphs."
+        },
+        {
+          "id": "dsa-09-q05",
+          "type": "mcq",
+          "prompt": "In BFS, what goes wrong if you mark nodes visited when you dequeue them instead of when you enqueue them?",
+          "options": [
+            "BFS becomes DFS",
+            "Nodes can be enqueued multiple times, wasting time and memory",
+            "Distances become negative",
+            "Nothing, both are equivalent"
+          ],
+          "answer": 1,
+          "explanation": "Several neighbors can enqueue the same unvisited node before it is dequeued. Results stay correct, but on dense graphs the queue can grow toward O(E) and slow down a lot."
+        },
+        {
+          "id": "dsa-09-q06",
+          "type": "mcq",
+          "prompt": "Rotting Oranges: all rotten oranges spread to neighbors each minute. What is the best approach?",
+          "options": [
+            "DFS from each rotten orange separately",
+            "Multi-source BFS starting with all rotten oranges in the queue",
+            "Dijkstra from the top-left cell",
+            "Union-find over fresh oranges"
+          ],
+          "answer": 1,
+          "explanation": "Starting BFS from all sources at time 0 processes the grid layer by layer exactly as rot spreads, in O(R * C). Running BFS per source repeats work."
+        },
+        {
+          "id": "dsa-09-q07",
+          "type": "truefalse",
+          "prompt": "With path compression and union by rank, union-find operations are O(alpha(n)) amortized, which is effectively constant.",
+          "answer": true,
+          "explanation": "The inverse Ackermann function alpha(n) is below 5 for any n that fits in the universe, so operations are effectively O(1)."
+        },
+        {
+          "id": "dsa-09-q08",
+          "type": "truefalse",
+          "prompt": "A topological order exists for any directed graph.",
+          "answer": false,
+          "explanation": "Only directed acyclic graphs have a topological order. In a cycle every node needs to come before another node in the cycle, which is impossible."
+        },
+        {
+          "id": "dsa-09-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which problems are naturally solved with union-find?",
+          "options": [
+            "Redundant Connection (find the edge that creates a cycle)",
+            "Number of connected components",
+            "Accounts Merge",
+            "Shortest path with weighted edges",
+            "Kruskal's minimum spanning tree"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Union-find answers 'are these connected?' and merges groups. Weighted shortest paths need Dijkstra or Bellman-Ford."
+        },
+        {
+          "id": "dsa-09-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the BFS-based topological sort that repeatedly removes nodes with in-degree zero is called ___'s algorithm.",
+          "accept": [
+            "Kahn",
+            "Kahn's",
+            "kahns"
+          ],
+          "explanation": "Arthur Kahn published it in 1962. It doubles as a cycle detector for directed graphs."
+        },
+        {
+          "id": "dsa-09-q11",
+          "type": "interview",
+          "prompt": "Course Schedule II: given numCourses and prerequisite pairs [a, b] (take b before a), return a valid order or an empty array if impossible.",
+          "answer": "Build a directed graph with edges b -> a and count in-degrees. Kahn's algorithm: enqueue all courses with in-degree 0; pop one, append to the order, decrement in-degree of its dependents and enqueue any that reach 0. If the order length equals numCourses, return it; otherwise a cycle exists, return []. O(V + E) time and space. The DFS alternative uses three states and detects a cycle when it reaches a node currently on the recursion stack; reverse postorder is the answer.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-09-q12",
+          "type": "interview",
+          "prompt": "Network Delay Time: a signal starts at node k in a weighted directed graph. How long until all nodes receive it?",
+          "answer": "This is single-source shortest paths with non-negative weights, so use Dijkstra from k. Build an adjacency list, keep dist initialized to Infinity, push [0, k] into a min-heap, pop the smallest, skip stale entries, relax outgoing edges. The answer is the maximum of all distances, or -1 if any node is still Infinity (unreachable). O((V + E) log V) time, O(V + E) space. For tiny V, Bellman-Ford O(V * E) is also acceptable and simpler to write without a heap.",
+          "level": "advanced"
+        },
+        {
+          "id": "dsa-09-q13",
+          "type": "interview",
+          "prompt": "Word Ladder: find the length of the shortest transformation from beginWord to endWord, changing one letter at a time, with every intermediate word in a dictionary.",
+          "answer": "Model words as nodes and one-letter differences as edges; the shortest transformation is a BFS shortest path. To find neighbors efficiently, either try all 26 letters at each position and check a Set (O(L * 26) per word), or precompute wildcard buckets like 'h*t' -> [hot, hit]. BFS from beginWord, removing words from the set when enqueued to mark visited, and return the level when endWord is reached. Time O(N * L * 26) with the letter approach (plus O(L) to build each string). Bidirectional BFS from both ends cuts the explored space dramatically.",
+          "level": "advanced"
+        },
+        {
+          "id": "dsa-09-q14",
+          "type": "interview",
+          "prompt": "Clone Graph: deep-copy an undirected connected graph given a reference to one node.",
+          "answer": "Traverse with BFS or DFS while keeping a Map from original node to its clone. When visiting a node, create its clone if missing; for each neighbor, create the neighbor's clone if not in the map (and schedule it for traversal), then push the neighbor's clone into the current clone's neighbors list. The map both prevents infinite loops on cycles and ensures each node is cloned exactly once. O(V + E) time and O(V) space. Mention that recursive DFS can overflow the stack on large graphs, so BFS is the safer default in JavaScript.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "CP-Algorithms: Dijkstra",
+          "url": "https://cp-algorithms.com/graph/dijkstra.html"
+        },
+        {
+          "title": "CP-Algorithms: Disjoint Set Union",
+          "url": "https://cp-algorithms.com/data_structures/disjoint_set_union.html"
+        },
+        {
+          "title": "Topological sorting (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Topological_sorting"
+        }
+      ]
+    },
+    {
+      "id": "dsa-10-dynamic-programming",
+      "title": "Dynamic Programming Patterns",
+      "level": "advanced",
+      "summary": "Recognize overlapping subproblems, define a state and recurrence, and implement it top-down with memoization or bottom-up with tabulation.",
+      "estMinutes": 55,
+      "lesson": [
+        {
+          "heading": "When and how DP applies",
+          "body": "Dynamic programming solves problems with **optimal substructure** (the best answer is built from best answers to subproblems) and **overlapping subproblems** (the same subproblem appears many times). Signals: 'count the number of ways', 'minimum/maximum cost', 'is it possible', on sequences, grids or capacities, where greedy has counterexamples.\n\nA four-step recipe that works in interviews:\n- **State**: what does `dp[i]` (or `dp[i][j]`) mean, in one sentence?\n- **Transition**: how is a state computed from smaller states?\n- **Base cases**: the smallest states you know directly.\n- **Answer**: which state (or max over states) is the result?\n\nComplexity = number of states x work per transition."
+        },
+        {
+          "heading": "Top-down vs bottom-up",
+          "body": "**Top-down (memoization)**: write the natural recursion and cache results by arguments. Easy to derive, computes only reachable states, but uses the call stack (risky in JS beyond about 10^4 depth).\n\n**Bottom-up (tabulation)**: fill a table in dependency order with loops. No recursion, easier to **space-optimize**: when `dp[i]` depends only on the previous row or the last two values, keep just those.\n\nA good interview flow: state the recurrence, code memoized recursion, then convert to bottom-up and reduce space if asked.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Climbing stairs / Fibonacci shape: dp[i] = dp[i-1] + dp[i-2]\nfunction climbStairs(n: number): number {\n  let a = 1, b = 1;                 // ways to reach step 0 and step 1\n  for (let i = 2; i <= n; i++) [a, b] = [b, a + b];\n  return b;\n}\n\n// House Robber: dp[i] = max(dp[i-1], dp[i-2] + nums[i])\nfunction rob(nums: number[]): number {\n  let prev2 = 0, prev1 = 0;\n  for (const x of nums) [prev2, prev1] = [prev1, Math.max(prev1, prev2 + x)];\n  return prev1;\n}\n\n// Top-down template with memo keyed by state\nfunction minPathCost(grid: number[][]): number {\n  const R = grid.length, C = grid[0].length;\n  const memo = new Map<number, number>();\n  function f(r: number, c: number): number {\n    if (r === R - 1 && c === C - 1) return grid[r][c];\n    if (r >= R || c >= C) return Infinity;\n    const key = r * C + c;\n    if (memo.has(key)) return memo.get(key)!;\n    const v = grid[r][c] + Math.min(f(r + 1, c), f(r, c + 1));\n    memo.set(key, v);\n    return v;\n  }\n  return f(0, 0);\n}"
+          }
+        },
+        {
+          "heading": "Knapsack and coin change",
+          "body": "**0/1 knapsack** (each item once): `dp[c]` = best value with capacity c. Iterate items, and for each item iterate capacity **downward** so the item is not reused in the same pass. Subset Sum and Partition Equal Subset Sum are boolean versions.\n\n**Unbounded knapsack** (items reusable): iterate capacity **upward**. Coin Change (fewest coins) and Coin Change II (number of combinations) are unbounded.\n\nLoop order matters for counting: coins in the outer loop counts **combinations** (1+2 and 2+1 counted once); amount in the outer loop counts **permutations** (Combination Sum IV).\n\nComplexity is O(n * capacity), which is pseudo-polynomial: fine for capacities up to about 10^4 or 10^5.",
+          "code": {
+            "lang": "typescript",
+            "source": "// Fewest coins to make amount (unbounded)\nfunction coinChange(coins: number[], amount: number): number {\n  const dp = new Array(amount + 1).fill(Infinity);\n  dp[0] = 0;\n  for (let a = 1; a <= amount; a++)\n    for (const c of coins)\n      if (c <= a && dp[a - c] + 1 < dp[a]) dp[a] = dp[a - c] + 1;\n  return dp[amount] === Infinity ? -1 : dp[amount];\n}\n\n// Partition Equal Subset Sum (0/1 knapsack, boolean)\nfunction canPartition(nums: number[]): boolean {\n  const total = nums.reduce((a, b) => a + b, 0);\n  if (total % 2) return false;\n  const target = total / 2;\n  const dp = new Array(target + 1).fill(false);\n  dp[0] = true;\n  for (const x of nums)\n    for (let c = target; c >= x; c--)      // downward: each item used once\n      dp[c] = dp[c] || dp[c - x];\n  return dp[target];\n}"
+          }
+        },
+        {
+          "heading": "Sequences: LIS, LCS and edit distance",
+          "body": "**Longest Increasing Subsequence**: `dp[i]` = LIS ending at i, `dp[i] = 1 + max(dp[j])` for j < i with smaller value: O(n^2). The O(n log n) version keeps `tails[k]` = smallest tail of an increasing subsequence of length k + 1 and binary-searches each element's position.\n\n**Two-string DP** uses `dp[i][j]` over prefixes `a[0..i)` and `b[0..j)`:\n- **LCS**: if characters match, `dp[i-1][j-1] + 1`, else `max(dp[i-1][j], dp[i][j-1])`.\n- **Edit distance**: if match, `dp[i-1][j-1]`, else `1 + min(insert, delete, replace)`.\n\nBoth are O(m * n) time and can be reduced to O(min(m, n)) space with two rows.",
+          "code": {
+            "lang": "typescript",
+            "source": "function lengthOfLIS(nums: number[]): number {\n  const tails: number[] = [];\n  for (const x of nums) {\n    let lo = 0, hi = tails.length;\n    while (lo < hi) {                      // first tail >= x\n      const mid = (lo + hi) >> 1;\n      if (tails[mid] >= x) hi = mid; else lo = mid + 1;\n    }\n    tails[lo] = x;                         // replace or append\n  }\n  return tails.length;\n}\n\nfunction minDistance(a: string, b: string): number {\n  const m = a.length, n = b.length;\n  let prev = Array.from({ length: n + 1 }, (_, j) => j);\n  for (let i = 1; i <= m; i++) {\n    const cur = [i];\n    for (let j = 1; j <= n; j++) {\n      cur[j] = a[i - 1] === b[j - 1]\n        ? prev[j - 1]\n        : 1 + Math.min(prev[j], cur[j - 1], prev[j - 1]); // delete, insert, replace\n    }\n    prev = cur;\n  }\n  return prev[n];\n}"
+          }
+        },
+        {
+          "heading": "More DP shapes to recognize",
+          "body": "- **Grid paths**: `dp[r][c]` from top and left (Unique Paths, Minimum Path Sum).\n- **Word Break / string segmentation**: `dp[i]` = can the prefix of length i be segmented; check every dictionary word ending at i.\n- **Interval DP**: `dp[l][r]` over subarrays, filled by increasing length (Burst Balloons, Palindromic Substrings, matrix chain).\n- **State machine DP**: stock problems with states like holding / not holding / cooldown.\n- **Kadane's algorithm** (max subarray) is DP with O(1) state: `cur = max(x, cur + x)`.\n- **Bitmask DP**: `dp[mask]` over subsets for n <= 20 (Traveling Salesman, assignment).\n\nIf you cannot find the state, write the brute-force recursion first and look at which arguments change; those arguments are your state."
+        }
+      ],
+      "keyPoints": [
+        "DP needs optimal substructure and overlapping subproblems.",
+        "Define the state in one sentence, then the transition, base cases and final answer.",
+        "Complexity = number of states x cost per transition.",
+        "Top-down memoization is easy to derive; bottom-up avoids recursion and enables space optimization.",
+        "0/1 knapsack iterates capacity downward; unbounded knapsack iterates upward.",
+        "Coins in the outer loop count combinations; amount in the outer loop counts permutations.",
+        "LIS has an O(n log n) solution using patience sorting tails and binary search.",
+        "If stuck, write the brute-force recursion; its changing arguments are the DP state."
+      ],
+      "questions": [
+        {
+          "id": "dsa-10-q01",
+          "type": "mcq",
+          "prompt": "Which two properties must a problem have for dynamic programming to help?",
+          "options": [
+            "Sorted input and unique values",
+            "Optimal substructure and overlapping subproblems",
+            "Greedy choice property and a heap",
+            "Acyclic graph and non-negative weights"
+          ],
+          "answer": 1,
+          "explanation": "Optimal substructure lets you build answers from subanswers; overlap means caching saves repeated work. Without overlap, plain divide and conquer is enough."
+        },
+        {
+          "id": "dsa-10-q02",
+          "type": "mcq",
+          "prompt": "What does this return for coins [1, 2, 5] and amount 11?",
+          "code": "const dp = new Array(amount + 1).fill(Infinity);\ndp[0] = 0;\nfor (let a = 1; a <= amount; a++)\n  for (const c of coins)\n    if (c <= a) dp[a] = Math.min(dp[a], dp[a - c] + 1);\nreturn dp[amount];",
+          "options": [
+            "2",
+            "3",
+            "4",
+            "11"
+          ],
+          "answer": 1,
+          "explanation": "5 + 5 + 1 = 11 uses 3 coins, and no 2-coin combination reaches 11."
+        },
+        {
+          "id": "dsa-10-q03",
+          "type": "mcq",
+          "prompt": "In 1-D 0/1 knapsack, why must the capacity loop run from high to low?",
+          "options": [
+            "It is faster",
+            "So dp[c - w] still holds the value from before this item, preventing reuse of the same item",
+            "To handle negative weights",
+            "To sort the items"
+          ],
+          "answer": 1,
+          "explanation": "Going upward would read dp[c - w] that was already updated with the current item, allowing it multiple times, which is the unbounded knapsack."
+        },
+        {
+          "id": "dsa-10-q04",
+          "type": "mcq",
+          "prompt": "What is the time complexity of edit distance between strings of length m and n?",
+          "options": [
+            "O(m + n)",
+            "O(m * n)",
+            "O(2^(m + n))",
+            "O((m + n) log(m + n))"
+          ],
+          "answer": 1,
+          "explanation": "There are (m + 1)(n + 1) states and each transition is O(1)."
+        },
+        {
+          "id": "dsa-10-q05",
+          "type": "mcq",
+          "prompt": "After running the tails-based LIS on [10, 9, 2, 5, 3, 7, 101, 18], what is tails.length?",
+          "options": [
+            "3",
+            "4",
+            "5",
+            "8"
+          ],
+          "answer": 1,
+          "explanation": "One LIS is 2, 3, 7, 18 (length 4). The tails array ends as [2, 3, 7, 18]; note that tails is not necessarily an actual subsequence in general, only its length is meaningful."
+        },
+        {
+          "id": "dsa-10-q06",
+          "type": "mcq",
+          "prompt": "Kadane's algorithm for maximum subarray sum uses which update?",
+          "options": [
+            "cur = cur + x",
+            "cur = Math.max(x, cur + x); best = Math.max(best, cur)",
+            "cur = Math.max(cur, x)",
+            "best = best + Math.max(0, x)"
+          ],
+          "answer": 1,
+          "explanation": "At each element either extend the previous subarray or start fresh at x, whichever is larger. Tracking best handles all-negative arrays when best starts at -Infinity or nums[0]."
+        },
+        {
+          "id": "dsa-10-q07",
+          "type": "truefalse",
+          "prompt": "In Coin Change II (count combinations), putting the coins loop outside the amount loop counts each combination exactly once regardless of order.",
+          "answer": true,
+          "explanation": "Processing coins one at a time means each combination is built in a fixed coin order. Swapping the loops counts ordered sequences (permutations) instead."
+        },
+        {
+          "id": "dsa-10-q08",
+          "type": "truefalse",
+          "prompt": "A knapsack DP that runs in O(n * W) is a polynomial-time algorithm in the input size.",
+          "answer": false,
+          "explanation": "It is pseudo-polynomial: W is a numeric value encoded in log W bits, so O(n * W) is exponential in the number of bits. Knapsack is NP-hard in general."
+        },
+        {
+          "id": "dsa-10-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which problems are typically solved with dynamic programming?",
+          "options": [
+            "Longest Common Subsequence",
+            "Word Break",
+            "Unique Paths in a grid",
+            "Merge Intervals",
+            "House Robber"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "These have overlapping subproblems over prefixes or cells. Merge Intervals is a sort plus linear scan."
+        },
+        {
+          "id": "dsa-10-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: caching the results of a recursive function by its arguments is called ___.",
+          "accept": [
+            "memoization",
+            "memoisation",
+            "memoizing",
+            "memo"
+          ],
+          "explanation": "Memoization is top-down DP: compute each state once on demand and reuse it."
+        },
+        {
+          "id": "dsa-10-q11",
+          "type": "interview",
+          "prompt": "Word Break: given a string s and a dictionary, can s be segmented into dictionary words?",
+          "answer": "dp[i] = true if the prefix s[0..i) can be segmented. dp[0] = true. For each i from 1 to n, for each j < i (or each word w that ends at i), if dp[j] and s.slice(j, i) is in the word Set, set dp[i] = true and break. Answer dp[n]. With the j loop it is O(n^2) substring checks, each O(n) to hash, so O(n^3) worst case; bound j by the max word length to make it O(n * L^2). A trie avoids slicing. Memoized DFS over start index is equivalent. Word Break II (return all sentences) needs backtracking with memo and is exponential in output.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-10-q12",
+          "type": "interview",
+          "prompt": "Longest Common Subsequence of two strings: define the DP and give the complexity.",
+          "answer": "dp[i][j] = LCS length of a[0..i) and b[0..j). Base: dp[0][*] = dp[*][0] = 0. If a[i-1] == b[j-1], dp[i][j] = dp[i-1][j-1] + 1; otherwise max(dp[i-1][j], dp[i][j-1]). Answer dp[m][n]. O(m * n) time, O(m * n) space, reducible to O(min(m, n)) with two rows (or one row plus a saved diagonal). To reconstruct the subsequence, keep the full table and walk back from (m, n). Related: edit distance, shortest common supersequence and diff tools use the same table.",
+          "level": "intermediate"
+        },
+        {
+          "id": "dsa-10-q13",
+          "type": "interview",
+          "prompt": "Best Time to Buy and Sell Stock with Cooldown: unlimited transactions, but after selling you must wait one day before buying again.",
+          "answer": "State machine DP with three states per day: hold (own a stock), sold (just sold today) and rest (no stock, free to buy). Transitions: hold = max(hold, rest - price); sold = hold + price (using the previous hold); rest = max(rest, previous sold). Initialize hold = -Infinity, sold = 0, rest = 0, update with temporaries each day, and return max(sold, rest). O(n) time, O(1) space. The same framework covers the transaction-fee and k-transactions variants by adding a fee or a transaction-count dimension.",
+          "level": "advanced"
+        },
+        {
+          "id": "dsa-10-q14",
+          "type": "interview",
+          "prompt": "Burst Balloons: burst balloons to maximize coins, where bursting i earns nums[left] * nums[i] * nums[right] with its current neighbors.",
+          "answer": "Pad nums with 1 at both ends. The trick is to think about which balloon k is burst LAST in the open interval (l, r): when k bursts last, its neighbors are exactly l and r, and the two sides are independent subproblems. dp[l][r] = max over l < k < r of dp[l][k] + dp[k][r] + nums[l] * nums[k] * nums[r]. Fill by increasing interval length. Answer dp[0][n+1]. O(n^3) time, O(n^2) space. Choosing the first balloon to burst does not work because the neighbors change; choosing the last one makes subproblems independent, which is the general insight for interval DP.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "LeetCode: Coin Change",
+          "url": "https://leetcode.com/problems/coin-change/"
+        },
+        {
+          "title": "LeetCode: Longest Increasing Subsequence",
+          "url": "https://leetcode.com/problems/longest-increasing-subsequence/"
+        },
+        {
+          "title": "Dynamic programming (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Dynamic_programming"
+        }
+      ]
+    }
+  ]
+}

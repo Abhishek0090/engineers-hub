@@ -1,0 +1,101 @@
+# Software Engineers Hub
+
+Chapter-wise full stack study and interview prep, Duolingo style. Pick a goal, study a chapter,
+practice it as a quiz, keep your streak, and review your mistakes until they stick.
+
+Built with Next.js 16 (App Router), React 19 and TypeScript. Content is static JSON today and
+switches to MongoDB with one environment variable.
+
+## Documentation
+
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): how it is built
+- [docs/CURRICULUM.md](docs/CURRICULUM.md): what it covers (generated from the content)
+- [docs/CONTENT-GUIDE.md](docs/CONTENT-GUIDE.md): how to add or change content
+
+## Run it
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:3000. Static logins:
+
+| Username | Password | Role |
+| --- | --- | --- |
+| `abhishek` | `hub@2026` | admin |
+| `demo` | `demo1234` | learner |
+
+## Pages
+
+| Route | What it is |
+| --- | --- |
+| `/` | Landing page with goals, how it works and the full curriculum |
+| `/login` | Static login (signed, HttpOnly session cookie) |
+| `/learn` | Dashboard: goal picker, streak, XP, daily goal, continue card, track list |
+| `/learn/[track]` | Chapter path for one track, grouped Beginner, Intermediate, Advanced |
+| `/learn/[track]/[chapter]` | Study page: lesson sections, code, key points, links to docs |
+| `/learn/[track]/[chapter]/practice` | Practice session: quiz, interview questions, XP, results |
+| `/interview` | Searchable interview bank with model answers, plus 5-question mock rounds |
+| `/review` | Every question you got wrong, until you answer it right |
+| `/profile` | Stats, activity heatmap, daily goal, reset |
+
+## Content
+
+All study material is JSON in [src/content](src/content):
+
+- `tracks/<id>.json`: one file per track (chapters, lessons, key points, questions)
+- `goals.json`: learning goals and the ordered track list for each
+- `users.json`: static users (passwords are scrypt hashes)
+
+Question types: `mcq`, `truefalse`, `multi` (select all), `fill` (fill the blank) and `interview`
+(model answer, self-graded). Lesson text supports paragraphs, `- ` bullets, `` `code` `` and `**bold**`.
+
+After editing content, run:
+
+```bash
+npm run validate
+```
+
+It checks the schema, unique ids, answer indexes and typography. To add a user, hash a password with
+`npm run hash-password -- "new-password"` and add an entry to `users.json`.
+
+## Switch to MongoDB
+
+The app reads data through one interface, [src/lib/data/repository.ts](src/lib/data/repository.ts),
+with two implementations: `json-repository.ts` and `mongo-repository.ts`.
+
+```bash
+cp .env.example .env.local   # Windows: copy .env.example .env.local
+npm run db:up                # MongoDB 8 in Docker (docker-compose.yml)
+npm run db:seed              # copies tracks, goals and users into MongoDB
+```
+
+Set `DATA_SOURCE=mongo` in `.env.local` and restart. Collections: `tracks`, `goals`, `users`,
+`progress`. In MongoDB mode, progress (XP, streak, mistakes) is saved per user through
+`/api/progress`; in JSON mode it stays in the browser's localStorage.
+
+Optional database UI: `docker compose --profile tools up -d mongo-express`, then http://localhost:8081.
+
+## Share to another laptop
+
+```bash
+npm run share
+```
+
+Writes `share/setup-software-engineers-hub.mjs` (new machine), `share/sync-software-engineers-hub.mjs`
+(update an existing copy) and `share/HOW-TO-SETUP.md`. Each script holds the whole project compressed
+and verifies every file after writing.
+
+## Scripts
+
+| Command | Does |
+| --- | --- |
+| `npm run dev` | Dev server |
+| `npm run build` / `npm start` | Production build and server |
+| `npm run lint` / `npm run typecheck` | ESLint / TypeScript |
+| `npm run validate` | Check content JSON |
+| `npm run db:up` / `npm run db:seed` | Start MongoDB / load content into it |
+| `npm run hash-password -- "pw"` | Password hash for a user |
+| `npm run docs` | Regenerate docs/CURRICULUM.md from the content |
+| `npm run share` | Refresh docs, then build the setup and sync scripts |

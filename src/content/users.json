@@ -1,0 +1,16 @@
+[
+  {
+    "id": "u_abhishek",
+    "username": "abhishek",
+    "name": "Abhishek Pal",
+    "role": "admin",
+    "passwordHash": "scrypt$49597baf84699a7ba6363371469430fc$9387cd7ddfce7086567f6260a770de7ab0c768229e8c8e97ae28d6f33b27efe0235aae042bd1ce48764425f675d11070b49ce08da4e03b2c4c4dfb210d3f747e"
+  },
+  {
+    "id": "u_demo",
+    "username": "demo",
+    "name": "Demo Learner",
+    "role": "learner",
+    "passwordHash": "scrypt$adc915bcd26546d9f1200acd9c65140b$e98982de7bc5edfcb6d4319f9b252fac65ebb5a9c8341310ddd11a1a388607418672fddae3c3188f9fb15998a2cdf5800eec829809022b2b0e944188f4e3c934"
+  }
+]

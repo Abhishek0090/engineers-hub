@@ -1,0 +1,1946 @@
+{
+  "id": "git-cli",
+  "title": "Git and the Command Line",
+  "area": "fundamentals",
+  "order": 2,
+  "icon": "GIT",
+  "color": "#f43f5e",
+  "description": "Use the shell and Git the way senior engineers do: from pipes and permissions to rebasing, recovering lost work and understanding what Git stores under the hood.",
+  "chapters": [
+    {
+      "id": "git-cli-01-shell-basics",
+      "title": "Shell Basics: Navigation, Pipes and Text Search",
+      "level": "beginner",
+      "summary": "Move around the filesystem, combine small commands with pipes and redirection, and find files and text fast with find and grep.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "The shell, the prompt and paths",
+          "body": "A shell (bash, zsh, fish, PowerShell) reads a command line, expands it, and starts programs. On macOS the default is zsh; most Linux servers and CI runners use bash. Commands follow the shape `command -flags arguments`.\n\nEvery process has a **current working directory**. Paths starting with `/` are absolute; everything else is relative to the current directory. `.` is the current directory, `..` is the parent and `~` expands to your home directory.\n\n- `pwd` prints the working directory\n- `ls -la` lists all files, including hidden dotfiles, with permissions and sizes\n- `cd -` jumps back to the previous directory\n- `mkdir -p a/b/c` creates nested directories without failing if they exist\n- `rm -rf dir` deletes recursively with no confirmation and no trash can, so double-check the path",
+          "code": {
+            "lang": "bash",
+            "source": "pwd                     # /home/ana/projects\ncd ~/projects/api       # absolute via home\ncd ../web               # sibling directory\nls -la                  # long listing incl. dotfiles\nmkdir -p src/utils      # create nested dirs\ncp -r src backup        # copy a directory\nmv old.txt new.txt      # rename or move\ncat package.json        # print a file\nless server.log         # page through a big file (q to quit)"
+          }
+        },
+        {
+          "heading": "Streams, redirection and pipes",
+          "body": "Every process gets three standard streams: stdin (0), stdout (1) and stderr (2). Redirection connects them to files; pipes connect one program's stdout to the next program's stdin. This is the Unix philosophy: small tools that each do one thing, combined with `|`.\n\n- `>` writes stdout to a file, truncating it; `>>` appends\n- `2>` redirects stderr; `2>&1` sends stderr wherever stdout currently goes\n- `<` feeds a file to stdin\n- `|` pipes stdout only, so errors still print to the terminal unless you redirect them\n- `/dev/null` discards anything written to it\n\nOrder matters: `cmd > out.log 2>&1` captures both streams, but `cmd 2>&1 > out.log` sends stderr to the terminal because stderr was duplicated before stdout moved.",
+          "code": {
+            "lang": "bash",
+            "source": "npm test > test.log 2>&1        # both streams to a file\nnpm run build 2> errors.txt      # only errors\ncurl -s https://api.example.com/users | jq '.[0].name'\ncat access.log | grep ' 500 ' | wc -l     # count 500 responses\nhistory | grep docker | tail -5\nsort names.txt | uniq -c | sort -rn | head  # most frequent lines"
+          }
+        },
+        {
+          "heading": "Searching text with grep",
+          "body": "`grep` prints lines matching a pattern. It is the fastest way to answer questions like \"where is this function used?\" or \"which log lines mention this user?\". Many developers use `rg` (ripgrep), which is faster and respects `.gitignore` by default, but grep is installed everywhere, including minimal Docker images.\n\n- `-r` recursive, `-n` line numbers, `-i` case-insensitive\n- `-l` print only file names, `-c` count matches\n- `-v` invert (lines that do NOT match)\n- `-E` extended regex (`|`, `+`, `?` without backslashes)\n- `-w` match whole words, `--include='*.ts'` restrict to file patterns\n- `-A 3`, `-B 3`, `-C 3` show lines after, before or around each match\n\nQuote patterns with single quotes so the shell does not expand `*`, `$` or spaces before grep sees them.",
+          "code": {
+            "lang": "bash",
+            "source": "grep -rn 'useEffect' src/                 # every usage with line numbers\ngrep -rl --include='*.ts' 'TODO' .         # files containing TODO\ngrep -E 'ERROR|FATAL' app.log | grep -v healthcheck\ngrep -C 2 'NullPointer' server.log        # 2 lines of context\nrg 'fetchUser\\(' -t ts                    # ripgrep equivalent"
+          }
+        },
+        {
+          "heading": "Finding files with find and acting on them",
+          "body": "`find` walks a directory tree and filters by name, type, size, modification time and more. Its first argument is where to start; expressions follow.\n\n- `-name '*.log'` matches the file name (case-sensitive), `-iname` ignores case\n- `-type f` files, `-type d` directories\n- `-mtime -1` modified in the last 24 hours, `-size +10M` bigger than 10 MB\n- `-not -path '*/node_modules/*'` excludes paths\n- `-delete` or `-exec cmd {} +` act on results\n\n`xargs` turns stdin lines into arguments for another command. Use `find ... -print0 | xargs -0` so file names with spaces do not break into separate arguments.",
+          "code": {
+            "lang": "bash",
+            "source": "find . -name '*.test.ts' -not -path '*/node_modules/*'\nfind /var/log -type f -size +100M          # big log files\nfind . -name '*.tmp' -mtime +7 -delete      # delete week-old temp files\nfind src -name '*.js' -exec wc -l {} +      # line counts\nfind . -name '*.png' -print0 | xargs -0 du -h | sort -h | tail"
+          }
+        },
+        {
+          "heading": "Globs, quoting and command chaining",
+          "body": "The shell expands globs before the program runs: `*.js` becomes a list of matching names. If nothing matches, bash passes the literal `*.js` while zsh errors by default. Quoting controls expansion:\n\n- Single quotes `'...'` are literal: no variables, no globs\n- Double quotes `\"...\"` expand `$VAR` and `$(cmd)` but keep spaces together, so always quote variables: `rm \"$file\"`\n- Backslash escapes one character\n\nChaining operators decide what runs next based on the exit code (0 means success):\n\n- `a && b` runs b only if a succeeded\n- `a || b` runs b only if a failed\n- `a ; b` runs b regardless\n- `$(cmd)` substitutes a command's output into another command",
+          "code": {
+            "lang": "bash",
+            "source": "npm ci && npm test && npm run build    # stop at first failure\nmkdir logs 2>/dev/null || echo 'already exists'\necho \"Branch: $(git branch --show-current)\"\nfor f in *.md; do echo \"$f\"; done\necho $?                                # exit code of last command"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Every process has stdin (0), stdout (1) and stderr (2); pipes connect stdout to the next command's stdin.",
+        "`>` truncates, `>>` appends, and `cmd > file 2>&1` captures both output streams in one file.",
+        "grep searches content (-r, -n, -i, -l, -v, -E); find searches the file tree by name, type, size and time.",
+        "Use `-print0 | xargs -0` or `-exec ... {} +` so file names with spaces are handled safely.",
+        "Single quotes are literal, double quotes expand variables; always quote variables that hold paths.",
+        "`&&` continues only on success (exit code 0), `||` runs on failure.",
+        "`rm -rf` has no undo; check paths and variables before running it."
+      ],
+      "questions": [
+        {
+          "id": "git-cli-01-q01",
+          "type": "mcq",
+          "prompt": "Which command writes both stdout and stderr of `npm test` into test.log?",
+          "options": [
+            "npm test 2>&1 > test.log",
+            "npm test > test.log 2>&1",
+            "npm test | test.log",
+            "npm test >> 2 test.log"
+          ],
+          "answer": 1,
+          "explanation": "Redirections are processed left to right. `> test.log` first points stdout at the file, then `2>&1` duplicates stderr to where stdout now points. In the reversed order, stderr is duplicated to the terminal before stdout moves."
+        },
+        {
+          "id": "git-cli-01-q02",
+          "type": "mcq",
+          "prompt": "You want only the names of TypeScript files under src/ that contain the string `fetchUser`. Which command fits?",
+          "options": [
+            "grep -c fetchUser src/*.ts",
+            "grep -rl --include='*.ts' 'fetchUser' src/",
+            "find src -name fetchUser",
+            "grep -v fetchUser -r src/"
+          ],
+          "answer": 1,
+          "explanation": "`-r` recurses, `-l` prints only file names and `--include` limits the search to .ts files. `find -name` matches file names, not content, and `-v` inverts the match."
+        },
+        {
+          "id": "git-cli-01-q03",
+          "type": "mcq",
+          "prompt": "What does `cat access.log | grep ' 500 ' | wc -l` output?",
+          "options": [
+            "The lines of access.log containing ' 500 '",
+            "The number of lines containing ' 500 '",
+            "The number of words in access.log",
+            "The 500th line of access.log"
+          ],
+          "answer": 1,
+          "explanation": "grep filters matching lines and `wc -l` counts the lines it receives on stdin, so the result is a count of matching lines."
+        },
+        {
+          "id": "git-cli-01-q04",
+          "type": "mcq",
+          "prompt": "What happens with `npm ci && npm test` if `npm ci` exits with code 1?",
+          "options": [
+            "npm test runs anyway",
+            "npm test does not run",
+            "The shell retries npm ci",
+            "npm test runs with a warning"
+          ],
+          "answer": 1,
+          "explanation": "`&&` runs the right-hand command only when the left one exits with 0. A non-zero exit code short-circuits the chain, which is why CI scripts chain steps with &&."
+        },
+        {
+          "id": "git-cli-01-q05",
+          "type": "mcq",
+          "prompt": "Why is `find . -name '*.png' -print0 | xargs -0 rm` safer than `find . -name '*.png' | xargs rm`?",
+          "options": [
+            "It runs faster",
+            "It handles file names containing spaces or newlines correctly",
+            "It asks for confirmation before deleting",
+            "It skips hidden files"
+          ],
+          "answer": 1,
+          "explanation": "By default xargs splits input on whitespace, so `my photo.png` becomes two arguments. `-print0` separates names with a NUL byte and `xargs -0` splits only on NUL, which cannot appear in file names."
+        },
+        {
+          "id": "git-cli-01-q06",
+          "type": "mcq",
+          "prompt": "Given `name=world`, what does `echo '$name'` print?",
+          "options": [
+            "world",
+            "$name",
+            "an empty line",
+            "an error"
+          ],
+          "answer": 1,
+          "explanation": "Single quotes disable all expansion, so the literal text `$name` is printed. Double quotes (`\"$name\"`) would print `world`."
+        },
+        {
+          "id": "git-cli-01-q07",
+          "type": "truefalse",
+          "prompt": "A pipe (`|`) passes both stdout and stderr of the left command to the right command.",
+          "answer": false,
+          "explanation": "A plain pipe only connects stdout. Error output still goes to the terminal unless you add `2>&1` before the pipe (or use `|&` in bash)."
+        },
+        {
+          "id": "git-cli-01-q08",
+          "type": "truefalse",
+          "prompt": "In bash, an exit code of 0 means the command succeeded.",
+          "answer": true,
+          "explanation": "By convention 0 is success and any non-zero value (1-255) signals an error. `$?` holds the exit code of the last command, and `&&`/`||` branch on it."
+        },
+        {
+          "id": "git-cli-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which grep flags are matched correctly with their meaning?",
+          "options": [
+            "-i: case-insensitive",
+            "-v: verbose output",
+            "-n: show line numbers",
+            "-l: print only names of matching files",
+            "-c: color output"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "-v inverts the match (prints non-matching lines), and -c prints a count of matching lines. Color is controlled by --color."
+        },
+        {
+          "id": "git-cli-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the operator ___ appends output to a file instead of overwriting it.",
+          "accept": [
+            ">>",
+            "1>>"
+          ],
+          "explanation": "`>` truncates the target file first, while `>>` opens it in append mode, which is what you want for log files."
+        },
+        {
+          "id": "git-cli-01-q11",
+          "type": "interview",
+          "prompt": "A production log is 5 GB. How would you find the 10 most frequent error messages from the command line?",
+          "answer": "- Avoid opening it in an editor; stream it with tools that read line by line.\n- Filter first: `grep 'ERROR' app.log` so later steps process less data.\n- Normalize the message, for example cut off timestamps with `cut -d' ' -f4-` or `sed` to strip IDs, so identical errors group together.\n- Count and rank: `sort | uniq -c | sort -rn | head -10`. `uniq -c` only counts adjacent duplicates, which is why the first sort is required.\n- Full pipeline: `grep ERROR app.log | cut -d' ' -f4- | sort | uniq -c | sort -rn | head -10`.\n- If the log is compressed, use `zgrep` or `zcat file.gz | ...`; for live logs, `tail -f app.log | grep ERROR`.",
+          "level": "beginner"
+        },
+        {
+          "id": "git-cli-01-q12",
+          "type": "interview",
+          "prompt": "Explain the difference between stdout and stderr and why programs keep them separate.",
+          "answer": "stdout (file descriptor 1) carries a program's normal output, stderr (file descriptor 2) carries diagnostics and errors. Keeping them separate lets you pipe or save the real data while errors still reach the person at the terminal, for example `curl url > data.json` still shows connection errors on screen. It also lets tools treat them differently: CI systems often highlight stderr, and you can send errors to a separate file with `2> errors.log`. When you want everything in one place you merge them with `2>&1`. A well-behaved CLI writes machine-readable output to stdout, human messages to stderr, and signals failure with a non-zero exit code.",
+          "level": "beginner"
+        },
+        {
+          "id": "git-cli-01-q13",
+          "type": "interview",
+          "prompt": "How would you find and delete all `.tmp` files older than 7 days under a directory, safely?",
+          "answer": "First run the search without deleting, to see what would be affected: `find /data -type f -name '*.tmp' -mtime +7`. `-type f` keeps directories out, `-name` is quoted so the shell does not expand the glob, and `-mtime +7` means modified more than 7 days ago. Once the list looks right, add `-delete` (or `-exec rm {} +`). I would avoid `find | xargs rm` without `-print0`/`-0` because file names with spaces split into wrong arguments. For a scheduled cleanup I would put this in a cron job or systemd timer and log the count of deleted files.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "GNU Bash Reference Manual",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html"
+        },
+        {
+          "title": "GNU grep manual",
+          "url": "https://www.gnu.org/software/grep/manual/grep.html"
+        },
+        {
+          "title": "The Art of Command Line",
+          "url": "https://github.com/jlevy/the-art-of-command-line"
+        }
+      ]
+    },
+    {
+      "id": "git-cli-02-git-basics",
+      "title": "Git Basics: The Three Areas and Everyday Commands",
+      "level": "beginner",
+      "summary": "Understand the working tree, staging area and repository, and use status, add, commit, diff, log, restore and .gitignore with confidence.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Snapshots, not diffs",
+          "body": "Git is a distributed version control system. Every clone holds the full history, so most commands (log, diff, commit, branch) run locally without a network.\n\nA commit is a **snapshot** of the whole project at a point in time, plus metadata: author, committer, timestamp, message and a pointer to its parent commit(s). Git computes diffs on demand by comparing snapshots. Unchanged files are not copied; the new snapshot points at the same stored content.\n\nEach commit is identified by a hash of its content (SHA-1 by default, SHA-256 supported in newer repositories). Change anything, even one character in the message, and you get a different hash. That is why rewriting history changes commit IDs.",
+          "code": {
+            "lang": "bash",
+            "source": "git config --global user.name \"Ana Lima\"\ngit config --global user.email \"ana@example.com\"\ngit config --global init.defaultBranch main\n\ngit init my-app        # new repository\ngit clone https://github.com/org/repo.git   # copy an existing one"
+          }
+        },
+        {
+          "heading": "Working tree, index and repository",
+          "body": "Git has three areas, and most confusion disappears once you track which one a command touches:\n\n- **Working tree**: the files on disk that you edit\n- **Index (staging area)**: the proposed next commit; `git add` copies the current content of a file here\n- **Repository**: the committed history stored in `.git`\n\n`git add` stages a snapshot of the file at that moment. If you edit the file again after adding, `git status` shows it as both staged and modified, and the commit will contain the staged version, not your latest edit.\n\nStaging lets you build focused commits from a messy working tree. `git add -p` walks through each hunk and asks whether to stage it.",
+          "code": {
+            "lang": "bash",
+            "source": "git status                 # what changed, what is staged\ngit add src/api.ts         # stage one file\ngit add -p                 # stage hunk by hunk\ngit commit -m \"Add retry to user API client\"\ngit commit -am \"Fix typo\"  # stage tracked files + commit (skips new files)"
+          }
+        },
+        {
+          "heading": "Seeing changes: diff and log",
+          "body": "`git diff` has three common forms, matching the three areas:\n\n- `git diff` working tree vs index (unstaged changes)\n- `git diff --staged` (alias `--cached`) index vs last commit (what you are about to commit)\n- `git diff main..feature` or `git diff HEAD~3` between commits\n\n`git log` shows history. Useful options: `--oneline`, `--graph --all` for a branch picture, `-p` to include patches, `--author`, `--since=2.weeks`, `-- path` to restrict to a file, and `-S 'text'` (the pickaxe) to find commits that added or removed a string.\n\n`git show <commit>` prints one commit with its diff. `HEAD` is the commit you have checked out; `HEAD~1` is its parent and `HEAD~3` three generations back.",
+          "code": {
+            "lang": "bash",
+            "source": "git diff                   # unstaged\ngit diff --staged          # staged, about to be committed\ngit log --oneline --graph --all -20\ngit log -p -- src/auth.ts  # history of one file with patches\ngit log -S 'API_KEY'       # commits that added/removed API_KEY\ngit show HEAD~1"
+          }
+        },
+        {
+          "heading": "Undoing local changes with restore",
+          "body": "Since Git 2.23, `git restore` and `git switch` split the overloaded `git checkout` into clearer commands.\n\n- `git restore file` discards unstaged changes in the working tree (destructive, the edits are gone)\n- `git restore --staged file` unstages, keeping your edits in the working tree\n- `git restore --source=HEAD~2 file` brings back an older version of a file\n- `git commit --amend` replaces the last commit with a new one (new hash); only do this before pushing or on your own branch\n\n`git rm --cached file` stops tracking a file without deleting it from disk, which is how you fix a committed `.env` or `node_modules` (and then add it to `.gitignore`). If a secret was pushed, removing it in a new commit is not enough: it is still in history, so rotate the secret.",
+          "code": {
+            "lang": "bash",
+            "source": "git restore src/app.ts            # throw away edits\ngit restore --staged src/app.ts   # unstage, keep edits\ngit rm --cached .env              # stop tracking, keep file\necho \".env\" >> .gitignore\ngit commit --amend --no-edit      # add staged changes to last commit"
+          }
+        },
+        {
+          "heading": ".gitignore and what not to commit",
+          "body": "`.gitignore` lists patterns of untracked files Git should ignore. It does not affect files that are already tracked; untrack them first with `git rm --cached`.\n\n- `node_modules/` a trailing slash matches only directories\n- `*.log` any file ending in .log, in any directory\n- `/build` a leading slash anchors to the directory of the .gitignore\n- `!keep.log` negates an earlier pattern\n- `**/temp` matches temp at any depth\n\nTypical ignores: dependencies, build output, coverage reports, `.env*` files with secrets, editor folders and OS files like `.DS_Store`. Commit lockfiles (`package-lock.json`, `pnpm-lock.yaml`) so every machine installs the same versions. `git check-ignore -v path` tells you which rule ignores a file.",
+          "code": {
+            "lang": "text",
+            "source": "# dependencies and build output\nnode_modules/\ndist/\n.next/\ncoverage/\n\n# secrets\n.env\n.env.*\n!.env.example\n\n# noise\n*.log\n.DS_Store"
+          }
+        }
+      ],
+      "keyPoints": [
+        "A commit is a full snapshot plus metadata and parent pointer(s), identified by a content hash.",
+        "Three areas: working tree (your files), index (next commit), repository (history in .git).",
+        "`git diff` shows unstaged changes; `git diff --staged` shows what will be committed.",
+        "`git restore file` discards edits; `git restore --staged file` only unstages.",
+        "Amending or rewriting a commit creates a new hash, so avoid it on shared history.",
+        ".gitignore only affects untracked files; use `git rm --cached` to stop tracking a committed file.",
+        "Commit lockfiles; never commit secrets, and rotate any secret that reached a remote."
+      ],
+      "questions": [
+        {
+          "id": "git-cli-02-q01",
+          "type": "mcq",
+          "prompt": "You edited `app.ts`, ran `git add app.ts`, then edited it again. What does `git commit` (without -a) include?",
+          "options": [
+            "Both edits",
+            "Only the first edit (the version staged by git add)",
+            "Only the second edit",
+            "Nothing, because the file has unstaged changes"
+          ],
+          "answer": 1,
+          "explanation": "`git add` copies the file's content into the index at that moment. The commit is built from the index, so the later edit stays in the working tree until you add it again."
+        },
+        {
+          "id": "git-cli-02-q02",
+          "type": "mcq",
+          "prompt": "Which command shows the changes that are staged and will go into the next commit?",
+          "options": [
+            "git diff",
+            "git diff --staged",
+            "git log -p",
+            "git status -s"
+          ],
+          "answer": 1,
+          "explanation": "`git diff` compares the working tree to the index (unstaged changes). `git diff --staged` (or `--cached`) compares the index to HEAD, which is exactly the next commit's change."
+        },
+        {
+          "id": "git-cli-02-q03",
+          "type": "mcq",
+          "prompt": "You accidentally committed `.env` two commits ago and have not pushed. Adding `.env` to .gitignore now will:",
+          "options": [
+            "Remove it from history",
+            "Stop Git from tracking it immediately",
+            "Do nothing for the already tracked file",
+            "Delete the file from disk"
+          ],
+          "answer": 2,
+          "explanation": ".gitignore only applies to untracked files. You must run `git rm --cached .env` to stop tracking it, and rewrite the two commits (for example with interactive rebase) if it must not exist in history."
+        },
+        {
+          "id": "git-cli-02-q04",
+          "type": "mcq",
+          "prompt": "Which command unstages `config.ts` while keeping your edits in the working tree?",
+          "options": [
+            "git restore config.ts",
+            "git restore --staged config.ts",
+            "git rm config.ts",
+            "git reset --hard config.ts"
+          ],
+          "answer": 1,
+          "explanation": "`--staged` restores the index entry from HEAD, leaving the working tree alone. Plain `git restore` overwrites the working tree copy and loses your edits."
+        },
+        {
+          "id": "git-cli-02-q05",
+          "type": "mcq",
+          "prompt": "Which `git log` option finds commits that added or removed the string `featureFlagX`?",
+          "options": [
+            "--grep featureFlagX",
+            "-S featureFlagX",
+            "--author featureFlagX",
+            "--follow featureFlagX"
+          ],
+          "answer": 1,
+          "explanation": "`-S` (the pickaxe) finds commits where the number of occurrences of the string changed. `--grep` searches commit messages, not code."
+        },
+        {
+          "id": "git-cli-02-q06",
+          "type": "mcq",
+          "prompt": "What does `HEAD~2` refer to?",
+          "options": [
+            "The second branch",
+            "The grandparent of the current commit",
+            "Two commits after HEAD",
+            "The second remote"
+          ],
+          "answer": 1,
+          "explanation": "`~n` walks back n generations following first parents. `HEAD~1` is the parent and `HEAD~2` the grandparent."
+        },
+        {
+          "id": "git-cli-02-q07",
+          "type": "truefalse",
+          "prompt": "Git stores each commit as a list of line diffs against the previous commit.",
+          "answer": false,
+          "explanation": "Git's model is snapshots: each commit points to a tree describing the full project. Identical files are shared by hash. Packfiles use delta compression internally for storage, but that is an optimization, not the data model."
+        },
+        {
+          "id": "git-cli-02-q08",
+          "type": "truefalse",
+          "prompt": "`git commit --amend` changes the hash of the last commit.",
+          "answer": true,
+          "explanation": "Amending creates a brand new commit object with different content or metadata, so it gets a new hash. Anyone who already pulled the old commit now has diverging history."
+        },
+        {
+          "id": "git-cli-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which files should normally be committed in a Node.js project?",
+          "options": [
+            "package-lock.json",
+            "node_modules/",
+            ".env with production secrets",
+            ".env.example with placeholder values",
+            "dist/ build output (for a deployed web app)"
+          ],
+          "answers": [
+            0,
+            3
+          ],
+          "explanation": "Lockfiles make installs reproducible and .env.example documents required variables. node_modules and build output are generated, and real secrets must never be committed."
+        },
+        {
+          "id": "git-cli-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `git ___ -p` lets you stage changes hunk by hunk.",
+          "accept": [
+            "add",
+            "git add"
+          ],
+          "explanation": "`git add -p` (patch mode) shows each change hunk and asks y/n/s(plit)/e(dit), so you can split unrelated edits into separate commits."
+        },
+        {
+          "id": "git-cli-02-q11",
+          "type": "interview",
+          "prompt": "Explain the staging area. Why does Git have it when other VCSs commit directly?",
+          "answer": "The staging area (index) is the draft of the next commit. `git add` copies file content into it and `git commit` turns it into a snapshot. It exists so you can shape commits deliberately: if you fixed a bug and also refactored something unrelated, you stage and commit them separately, even hunk by hunk with `git add -p`. That produces small, reviewable, revertable commits and makes tools like bisect more useful. It also lets you review exactly what you are committing with `git diff --staged`. The index also caches file metadata, which is why `git status` is fast on large repos.",
+          "level": "beginner"
+        },
+        {
+          "id": "git-cli-02-q12",
+          "type": "interview",
+          "prompt": "A teammate pushed an AWS key to the main branch an hour ago. What do you do?",
+          "answer": "- Treat the key as compromised immediately: revoke or rotate it in AWS first, because bots scan public repos within minutes and even private repos are cloned to many machines.\n- Check CloudTrail or billing for misuse during the exposure window.\n- Remove the secret from the code and load it from an environment variable or a secrets manager.\n- Decide whether to purge history with `git filter-repo` or BFG. That requires a force push and every clone re-syncing, so it is coordinated, but it matters less than rotation because the old key is already dead.\n- Prevent recurrence: add the file to .gitignore, enable secret scanning and push protection (GitHub), and add a pre-commit hook like gitleaks.",
+          "level": "beginner"
+        },
+        {
+          "id": "git-cli-02-q13",
+          "type": "interview",
+          "prompt": "What makes a good commit and a good commit message?",
+          "answer": "A good commit is atomic: one logical change that builds and passes tests on its own, so it can be reviewed, reverted or cherry-picked independently. Formatting changes and behavior changes go in separate commits. The message has a short imperative subject line around 50 characters (\"Add retry to payment client\"), a blank line, then a body explaining why the change was made and any trade-offs, since the diff already shows what changed. Reference the ticket or issue. Many teams also use Conventional Commits prefixes like `feat:` or `fix:` so changelogs and version bumps can be generated automatically.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Pro Git: Git Basics",
+          "url": "https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository"
+        },
+        {
+          "title": "git-restore documentation",
+          "url": "https://git-scm.com/docs/git-restore"
+        },
+        {
+          "title": "gitignore documentation",
+          "url": "https://git-scm.com/docs/gitignore"
+        }
+      ]
+    },
+    {
+      "id": "git-cli-03-branches-remotes",
+      "title": "Branches and Remotes",
+      "level": "beginner",
+      "summary": "Create and switch branches, understand what a branch really is, and sync with remotes using fetch, pull and push.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "A branch is just a movable pointer",
+          "body": "A branch is a tiny file containing a commit hash. When you commit on a branch, Git writes the new commit and moves the branch pointer to it. Creating a branch is instant and costs a few bytes, which is why Git encourages short-lived feature branches.\n\n`HEAD` tells Git which branch you are on. Normally HEAD points to a branch name (for example `ref: refs/heads/main`), and that branch points to a commit. If you check out a commit directly, HEAD points straight at the commit: this is **detached HEAD**. New commits made there belong to no branch and become hard to find once you switch away, so create a branch with `git switch -c name` if you want to keep them.",
+          "code": {
+            "lang": "bash",
+            "source": "git branch                    # list local branches\ngit switch -c feature/login   # create and switch\ngit switch main               # switch back\ngit switch -                  # previous branch\ngit branch -d feature/login   # delete (refuses if unmerged)\ngit branch -D feature/login   # force delete\ngit switch --detach v1.2.0    # look at a tag, detached HEAD"
+          }
+        },
+        {
+          "heading": "Remotes and remote-tracking branches",
+          "body": "A remote is a named URL of another copy of the repository; `origin` is the default name given by `git clone`. Git keeps **remote-tracking branches** like `origin/main`: read-only local bookmarks of where the remote's branches were the last time you talked to it.\n\n- `git fetch` downloads new commits and updates `origin/*`, never touching your working tree or local branches\n- `git pull` is `git fetch` followed by integrating `origin/<branch>` into the current branch (a merge by default, or a rebase with `--rebase` or `pull.rebase=true`)\n- `git push` uploads your commits and moves the remote branch, but only if it is a fast-forward\n\nYour local `main` and `origin/main` are different refs. `git status` compares them and reports \"ahead 2, behind 1\" using the upstream (tracking) configuration.",
+          "code": {
+            "lang": "bash",
+            "source": "git remote -v                     # list remotes\ngit fetch origin                  # update origin/* only\ngit log --oneline main..origin/main   # commits you don't have yet\ngit pull --rebase                 # fetch + rebase local commits on top\ngit push -u origin feature/login  # push and set upstream\ngit branch -vv                    # show upstream and ahead/behind"
+          }
+        },
+        {
+          "heading": "Fast-forward, rejected pushes and force pushing",
+          "body": "A push is accepted if the remote branch's current commit is an ancestor of what you push (a fast-forward). If someone pushed first, your push is rejected with \"non-fast-forward\": fetch, integrate their commits (merge or rebase), then push again.\n\n`git push --force` overwrites the remote branch with yours, discarding commits you never saw. Prefer `git push --force-with-lease`: it only overwrites if the remote is still where your `origin/<branch>` says it is, so you do not clobber a teammate's push. Protected branches on GitHub or GitLab usually block force pushes to main entirely.\n\nRule of thumb: rewriting and force pushing your own feature branch is normal; rewriting shared branches is not.",
+          "code": {
+            "lang": "bash",
+            "source": "git push\n# ! [rejected] main -> main (non-fast-forward)\ngit pull --rebase && git push\n\n# after rebasing your own PR branch\ngit push --force-with-lease"
+          }
+        },
+        {
+          "heading": "Tags and releases",
+          "body": "Tags name specific commits, usually releases. Unlike branches they do not move.\n\n- Lightweight tag: just a name for a commit (`git tag v1.0.0`)\n- Annotated tag: a full object with tagger, date, message and optional signature (`git tag -a v1.0.0 -m \"Release 1.0.0\"`); use these for releases\n\nTags are not pushed by default: use `git push origin v1.0.0` or `git push --tags`. Semantic versioning (MAJOR.MINOR.PATCH) is the common naming scheme: bump MAJOR for breaking changes, MINOR for backwards-compatible features and PATCH for fixes.",
+          "code": {
+            "lang": "bash",
+            "source": "git tag -a v2.3.0 -m \"Release 2.3.0\"\ngit push origin v2.3.0\ngit tag --list 'v2.*'\ngit describe --tags      # e.g. v2.3.0-4-g1a2b3c4 (4 commits after tag)"
+          }
+        },
+        {
+          "heading": "Keeping a feature branch up to date",
+          "body": "While you work, main moves on. Integrate it regularly so conflicts stay small:\n\n- `git fetch` then `git rebase origin/main` replays your commits on top of the latest main and keeps history linear\n- or `git merge origin/main` brings main into your branch with a merge commit, which never rewrites history\n\nEither is fine on a personal branch; team convention decides. Short-lived branches (a day or two) avoid most pain. `git stash` temporarily shelves uncommitted work when you need to switch branches quickly: `git stash push -m \"wip\"`, then `git stash pop` to reapply and drop it.",
+          "code": {
+            "lang": "bash",
+            "source": "git stash push -m \"wip login form\"\ngit switch main && git pull\ngit switch feature/login\ngit rebase main          # or: git merge main\ngit stash pop\ngit stash list"
+          }
+        }
+      ],
+      "keyPoints": [
+        "A branch is a pointer to a commit; committing moves the current branch forward.",
+        "HEAD normally points to a branch; detached HEAD points directly at a commit.",
+        "`git fetch` only updates remote-tracking branches like origin/main; `git pull` fetches and then merges or rebases.",
+        "Pushes must be fast-forwards unless forced; prefer `--force-with-lease` over `--force`.",
+        "Use annotated tags for releases and push them explicitly.",
+        "Integrate main into feature branches often and keep branches short-lived.",
+        "`git stash` shelves uncommitted changes; `stash pop` reapplies and removes the entry."
+      ],
+      "questions": [
+        {
+          "id": "git-cli-03-q01",
+          "type": "mcq",
+          "prompt": "What does `git fetch origin` change?",
+          "options": [
+            "Your working tree files",
+            "Your local main branch",
+            "Remote-tracking branches such as origin/main",
+            "The remote repository"
+          ],
+          "answer": 2,
+          "explanation": "fetch downloads objects and updates `origin/*` refs. It never modifies your local branches or files, which makes it always safe to run."
+        },
+        {
+          "id": "git-cli-03-q02",
+          "type": "mcq",
+          "prompt": "Your push is rejected as non-fast-forward. What is the usual correct fix on a shared branch?",
+          "options": [
+            "git push --force",
+            "git pull --rebase (or pull) and then push",
+            "Delete the remote branch",
+            "git reset --hard origin/main and push"
+          ],
+          "answer": 1,
+          "explanation": "Someone else pushed commits you do not have. Integrate them first, then push. Force pushing would delete their work, and reset --hard would delete yours."
+        },
+        {
+          "id": "git-cli-03-q03",
+          "type": "mcq",
+          "prompt": "Why is `--force-with-lease` safer than `--force`?",
+          "options": [
+            "It asks for confirmation",
+            "It only overwrites the remote if it still matches your last fetched origin/<branch>",
+            "It creates a backup branch on the remote",
+            "It only works on protected branches"
+          ],
+          "answer": 1,
+          "explanation": "The lease is the expected remote value. If a teammate pushed since your last fetch, the push fails instead of silently discarding their commits."
+        },
+        {
+          "id": "git-cli-03-q04",
+          "type": "mcq",
+          "prompt": "You checked out a commit by hash and made two commits. What state are you in?",
+          "options": [
+            "Merge conflict",
+            "Detached HEAD",
+            "Rebase in progress",
+            "Bare repository"
+          ],
+          "answer": 1,
+          "explanation": "HEAD points directly at a commit rather than a branch. Run `git switch -c new-branch` to keep the commits; otherwise they become reachable only through the reflog."
+        },
+        {
+          "id": "git-cli-03-q05",
+          "type": "mcq",
+          "prompt": "By default, `git pull` is equivalent to:",
+          "options": [
+            "git fetch + git merge of the upstream branch",
+            "git fetch + git reset --hard",
+            "git clone",
+            "git push in reverse"
+          ],
+          "answer": 0,
+          "explanation": "pull fetches and then integrates the upstream into the current branch. The default integration is merge; `--rebase` or the `pull.rebase` config switches it to rebase."
+        },
+        {
+          "id": "git-cli-03-q06",
+          "type": "mcq",
+          "prompt": "Which command lists the commits on origin/main that your local main does not have?",
+          "options": [
+            "git log origin/main..main",
+            "git log main..origin/main",
+            "git diff main",
+            "git status --remote"
+          ],
+          "answer": 1,
+          "explanation": "`A..B` means commits reachable from B but not from A. So `main..origin/main` shows what the remote has that you do not."
+        },
+        {
+          "id": "git-cli-03-q07",
+          "type": "truefalse",
+          "prompt": "`git push` pushes all of your local tags by default.",
+          "answer": false,
+          "explanation": "Tags must be pushed explicitly with `git push origin <tag>` or `git push --tags` (or `--follow-tags` for annotated tags reachable from pushed commits)."
+        },
+        {
+          "id": "git-cli-03-q08",
+          "type": "truefalse",
+          "prompt": "Creating a new branch in Git copies all files in the project.",
+          "answer": false,
+          "explanation": "A branch is a reference file holding one commit hash. Nothing is copied, which is why branching is instant even in huge repositories."
+        },
+        {
+          "id": "git-cli-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which commands are safe to run at any time without risking local work?",
+          "options": [
+            "git fetch",
+            "git status",
+            "git reset --hard",
+            "git log --all --graph",
+            "git clean -fd"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "fetch, status and log only read or update remote-tracking refs. reset --hard discards uncommitted changes and clean -fd deletes untracked files permanently."
+        },
+        {
+          "id": "git-cli-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `git push ___ origin feature/x` pushes the branch and sets it as the upstream for future pushes and pulls.",
+          "accept": [
+            "-u",
+            "--set-upstream"
+          ],
+          "explanation": "`-u` (`--set-upstream`) records origin/feature/x as the tracking branch, so plain `git push`, `git pull` and ahead/behind counts work afterwards."
+        },
+        {
+          "id": "git-cli-03-q11",
+          "type": "interview",
+          "prompt": "What is the difference between git fetch and git pull? Which do you prefer and why?",
+          "answer": "`git fetch` downloads new commits from the remote and updates remote-tracking refs like origin/main, without changing my branches or files. `git pull` does a fetch and then immediately integrates the upstream into my current branch, by merge by default or rebase if configured. I often fetch first and inspect with `git log main..origin/main` or `git diff`, so I know what is coming before integrating. For day-to-day work I set `pull.rebase=true` (or use `pull --ff-only`) so I do not create noisy \"Merge branch main of origin\" commits on my local branch. The key point is that fetch is always safe while pull can produce conflicts.",
+          "level": "beginner"
+        },
+        {
+          "id": "git-cli-03-q12",
+          "type": "interview",
+          "prompt": "What is detached HEAD, how do you get into it and how do you get out without losing work?",
+          "answer": "Detached HEAD means HEAD points directly to a commit instead of to a branch. You get there by checking out a commit hash, a tag or a remote-tracking branch (`git checkout v1.0`, `git switch --detach abc123`), and Git does it during a rebase or bisect. It is fine for looking around or running old code. If you commit there, the commits are not on any branch, so after switching away they are only reachable via the reflog and eventually garbage collected. To keep them, run `git switch -c my-branch` while still detached. If you already left, find the hash with `git reflog` and create a branch at it.",
+          "level": "beginner"
+        },
+        {
+          "id": "git-cli-03-q13",
+          "type": "interview",
+          "prompt": "How do you keep a long-running feature branch in sync with main, and what would you change about the process?",
+          "answer": "I fetch regularly and either rebase onto origin/main (linear history, but requires a force-with-lease push on my branch) or merge main into the branch (no rewriting, extra merge commits), following the team convention. Doing it daily keeps conflicts small and surfaces integration problems early. But a long-running branch is a smell: I would rather split the work into small PRs that merge to main quickly and hide incomplete features behind a feature flag. That is the core of trunk-based development and avoids the big-bang merge at the end, which is where most painful conflicts and regressions come from.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Pro Git: Branches in a Nutshell",
+          "url": "https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell"
+        },
+        {
+          "title": "Pro Git: Working with Remotes",
+          "url": "https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes"
+        },
+        {
+          "title": "git-push documentation",
+          "url": "https://git-scm.com/docs/git-push"
+        }
+      ]
+    },
+    {
+      "id": "git-cli-04-merge-rebase",
+      "title": "Merge vs Rebase and Resolving Conflicts",
+      "level": "intermediate",
+      "summary": "Know exactly what merge and rebase do to history, when to use each, and how to resolve conflicts calmly.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "What a merge does",
+          "body": "`git merge feature` (run on main) combines histories. Git finds the **merge base** (the best common ancestor), computes what changed on each side since then, and combines the changes.\n\n- **Fast-forward**: if main has no new commits since the branch started, Git just moves the main pointer forward. No merge commit is created.\n- **Three-way merge**: if both sides have new commits, Git creates a merge commit with two parents.\n\n`--no-ff` forces a merge commit even when a fast-forward is possible, keeping a visible record that a feature branch existed. `--ff-only` refuses to merge unless it can fast-forward, a safe default for `git pull`.\n\nMerging never rewrites existing commits, so it is always safe on shared branches.",
+          "code": {
+            "lang": "bash",
+            "source": "git switch main\ngit merge feature/search          # ff if possible, else merge commit\ngit merge --no-ff feature/search  # always create a merge commit\ngit merge --ff-only origin/main   # fail rather than create a merge commit\ngit merge-base main feature/search  # print the common ancestor"
+          }
+        },
+        {
+          "heading": "What a rebase does",
+          "body": "`git rebase main` (run on feature) takes each commit on your branch that is not on main, and replays it one by one on top of main's tip. The result looks as if you started the branch today.\n\nReplayed commits are **new commits** with new hashes, even if their changes are identical. The originals still exist (reachable via the reflog) until garbage collection.\n\nThe golden rule: **do not rebase commits that others have based work on**. If you rebase a shared branch and force push, teammates' local copies now contain the old commits, and their next pull duplicates or conflicts. Rebasing your own unpublished or personal PR branch is fine.",
+          "code": {
+            "lang": "text",
+            "source": "Before:            A---B---C  feature\n                  /\n         D---E---F---G  main\n\ngit rebase main:\n                          A'--B'--C'  feature\n                         /\n         D---E---F---G  main\n\ngit merge feature (on main):\n                  A---B---C\n                 /         \\\n         D---E---F---G------M  main"
+          }
+        },
+        {
+          "heading": "Choosing between merge, rebase and squash",
+          "body": "All three end up with the same code; they differ in history shape.\n\n- **Merge commit**: preserves true history and branch topology; history can get noisy with many small merges\n- **Rebase and fast-forward**: linear history that reads like a story and makes `git bisect` and `git log` simpler; rewrites commits\n- **Squash merge**: the whole PR becomes one commit on main; clean main history, but you lose the individual commits and the branch cannot be cleanly merged again\n\nA common setup: developers rebase their own branches onto main to stay current, and PRs land with squash or rebase merges for a linear main. Teams that value an audit trail of features choose merge commits. Consistency matters more than the choice.",
+          "code": {
+            "lang": "bash",
+            "source": "# squash locally (GitHub's \"Squash and merge\" does the same)\ngit switch main\ngit merge --squash feature/search\ngit commit -m \"feat(search): add fuzzy search\"\n\n# prefer linear pulls\ngit config --global pull.rebase true"
+          }
+        },
+        {
+          "heading": "Resolving conflicts",
+          "body": "A conflict happens when both sides changed the same lines (or one side edited a file the other deleted) since the merge base. Git stops, writes conflict markers into the file and lists it as unmerged in `git status`.\n\nThe process:\n\n- Read `git status` to see which files conflict and whether you are mid-merge or mid-rebase\n- Open each file, understand both intents, and write the correct combined code (often neither side verbatim)\n- Remove all markers, run the tests, then `git add` the file\n- Continue: `git merge --continue` or `git rebase --continue`\n- Bail out anytime with `git merge --abort` or `git rebase --abort`\n\nDuring a rebase, \"ours\" is the branch you are rebasing onto (main) and \"theirs\" is your commit being replayed, the opposite of a merge. Enable `merge.conflictStyle=zdiff3` to also see the base version, which makes the intent of each side much clearer.",
+          "code": {
+            "lang": "text",
+            "source": "<<<<<<< HEAD\nconst TIMEOUT = 5000;\n||||||| base\nconst TIMEOUT = 3000;\n=======\nconst TIMEOUT = 3000;\nconst RETRIES = 3;\n>>>>>>> feature/retry\n\n# HEAD raised the timeout, the branch added retries.\n# Correct resolution keeps both intents:\nconst TIMEOUT = 5000;\nconst RETRIES = 3;"
+          }
+        },
+        {
+          "heading": "Tools that make conflicts less painful",
+          "body": "- `git checkout --ours file` or `--theirs file` takes one side wholesale (remember the inversion during rebase)\n- `git mergetool` opens a configured visual merge tool; VS Code has a built-in 3-way merge editor\n- `git rerere` (reuse recorded resolution), enabled with `git config --global rerere.enabled true`, remembers how you resolved a conflict and reapplies it automatically when the same conflict appears again, which helps with repeated rebases\n- `git log --merge -p` shows the commits on both sides that touched the conflicting files\n- `git diff` during a conflict shows a combined diff of the unresolved parts\n\nPrevention beats tools: small PRs, frequent integration, and separating mass reformatting (like a Prettier run) into its own commit merged quickly.",
+          "code": {
+            "lang": "bash",
+            "source": "git config --global merge.conflictStyle zdiff3\ngit config --global rerere.enabled true\ngit status                      # list unmerged paths\ngit checkout --theirs package-lock.json && npm install && git add package-lock.json\ngit rebase --continue"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Merge combines histories via the merge base; it fast-forwards when possible and never rewrites commits.",
+        "Rebase replays your commits onto a new base, creating new commits with new hashes.",
+        "Never rebase commits that others have already pulled and built on.",
+        "Squash merge turns a PR into one commit on main; rebase merge keeps commits but linearizes them.",
+        "Resolve conflicts by understanding both intents, then `git add` and `--continue`, or `--abort` to start over.",
+        "During a rebase, ours/theirs are inverted compared with a merge.",
+        "zdiff3 conflict style and rerere make conflicts easier to understand and repeat."
+      ],
+      "questions": [
+        {
+          "id": "git-cli-04-q01",
+          "type": "mcq",
+          "prompt": "main has no new commits since feature branched off. What does `git merge feature` on main do by default?",
+          "options": [
+            "Creates a merge commit",
+            "Fast-forwards main to feature's tip",
+            "Rebases feature",
+            "Fails with a conflict"
+          ],
+          "answer": 1,
+          "explanation": "When the current branch is an ancestor of the merged branch, Git just moves the pointer. Use `--no-ff` if you want a merge commit anyway."
+        },
+        {
+          "id": "git-cli-04-q02",
+          "type": "mcq",
+          "prompt": "After `git rebase main` on a feature branch with 3 commits, what is true about those 3 commits?",
+          "options": [
+            "They keep their hashes",
+            "They are replaced by 3 new commits with new hashes",
+            "They are squashed into one",
+            "They are deleted permanently"
+          ],
+          "answer": 1,
+          "explanation": "Rebase creates new commits because the parent pointer changes, and a commit's hash covers its parent. The originals stay reachable in the reflog for a while."
+        },
+        {
+          "id": "git-cli-04-q03",
+          "type": "mcq",
+          "prompt": "During `git rebase main`, you run `git checkout --ours app.ts`. Whose version do you get?",
+          "options": [
+            "Your feature commit's version",
+            "main's version (the base you are rebasing onto)",
+            "The merge base version",
+            "An empty file"
+          ],
+          "answer": 1,
+          "explanation": "Rebase works by checking out main and applying your commits onto it, so HEAD (ours) is the upstream side and theirs is the commit being replayed. This is the reverse of a merge."
+        },
+        {
+          "id": "git-cli-04-q04",
+          "type": "mcq",
+          "prompt": "Which statement about squash merging a PR is correct?",
+          "options": [
+            "It keeps every commit but rewrites messages",
+            "It lands the whole PR as a single new commit on the target branch",
+            "It creates a merge commit with two parents",
+            "It requires a force push to main"
+          ],
+          "answer": 1,
+          "explanation": "Squash merge applies the combined diff as one new commit with a single parent. The branch's individual commits are not part of main's history."
+        },
+        {
+          "id": "git-cli-04-q05",
+          "type": "mcq",
+          "prompt": "You are halfway through a messy rebase and want to return to exactly where you started. What do you run?",
+          "options": [
+            "git rebase --skip",
+            "git rebase --abort",
+            "git reset --soft HEAD",
+            "git merge --abort"
+          ],
+          "answer": 1,
+          "explanation": "`--abort` restores the branch to its pre-rebase state. `--skip` drops the current commit, which loses work."
+        },
+        {
+          "id": "git-cli-04-q06",
+          "type": "mcq",
+          "prompt": "What does enabling `rerere` do?",
+          "options": [
+            "Rebases automatically on pull",
+            "Records conflict resolutions and reapplies them when the same conflict reappears",
+            "Removes merge commits from history",
+            "Retries failed pushes"
+          ],
+          "answer": 1,
+          "explanation": "rerere stands for reuse recorded resolution. It is useful when you rebase the same branch repeatedly or test-merge long-running branches."
+        },
+        {
+          "id": "git-cli-04-q07",
+          "type": "truefalse",
+          "prompt": "Merging main into your feature branch rewrites the commits already on the feature branch.",
+          "answer": false,
+          "explanation": "Merge only adds a new merge commit; existing commits are untouched. That is why merging is safe on shared branches."
+        },
+        {
+          "id": "git-cli-04-q08",
+          "type": "truefalse",
+          "prompt": "A merge conflict can occur even if the two branches changed different files.",
+          "answer": true,
+          "explanation": "Most conflicts are overlapping line edits, but a modify/delete or rename conflict (one side edits a file the other deleted or renamed) also stops the merge. Separate files with unrelated edits merge cleanly."
+        },
+        {
+          "id": "git-cli-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good reasons to prefer rebasing a personal feature branch onto main before opening a PR?",
+          "options": [
+            "Linear history that is easier to read and bisect",
+            "It is the only way to resolve conflicts",
+            "Reviewers see your commits on top of current main",
+            "It preserves the original commit hashes",
+            "It avoids noisy merge commits from main into the branch"
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "explanation": "Rebase gives a linear history based on the latest main. Conflicts can be resolved during merges too, and rebase changes hashes rather than preserving them."
+        },
+        {
+          "id": "git-cli-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `git merge ___` refuses to create a merge commit and fails unless the merge can fast-forward.",
+          "accept": [
+            "--ff-only",
+            "ff-only"
+          ],
+          "explanation": "`--ff-only` guarantees you never create an accidental merge commit; setting `pull.ff=only` applies it to every pull."
+        },
+        {
+          "id": "git-cli-04-q11",
+          "type": "interview",
+          "prompt": "Merge vs rebase: explain the difference and when you would use each.",
+          "answer": "Both integrate changes from one branch into another; they differ in history. Merge finds the common ancestor and creates a merge commit with two parents (or fast-forwards), preserving exactly what happened and never rewriting commits, so it is safe on shared branches. Rebase replays my commits on top of another branch, creating new commits and a linear history, which is easier to read, review and bisect. The rule is never to rebase commits other people have based work on, because it forces them to reconcile duplicated history. In practice I rebase my own feature branch onto main to stay current and clean up commits before review, and merge (or squash/rebase-merge via the PR tool) into main according to team convention.",
+          "level": "intermediate"
+        },
+        {
+          "id": "git-cli-04-q12",
+          "type": "interview",
+          "prompt": "Walk me through how you resolve a nasty merge conflict.",
+          "answer": "- Check `git status` to see the conflicting files and whether I am in a merge or rebase.\n- Understand intent before editing: `git log --merge -p file` or the PR descriptions tell me why each side changed the code. The zdiff3 style shows the base, so I can see what each side changed.\n- Write a resolution that preserves both intents, which is often neither side verbatim. For generated files like lockfiles I take one side and regenerate (`npm install`).\n- Remove all markers, build and run the tests before `git add` and `--continue`.\n- If it gets confusing, `--abort` and retry, or talk to the author of the other change.\n- Afterwards, reduce future conflicts with smaller PRs and more frequent integration.",
+          "level": "intermediate"
+        },
+        {
+          "id": "git-cli-04-q13",
+          "type": "interview",
+          "prompt": "A teammate rebased the shared `develop` branch and force pushed. Now your pull shows many duplicate commits. What happened and how do you fix it?",
+          "answer": "The rebase replaced develop's commits with new copies with different hashes. My local develop still has the old ones, so a normal pull merges old and new versions, duplicating them. If I have no local work on develop, I fetch and run `git reset --hard origin/develop`. If I have local commits on top of the old develop, I use `git rebase --onto origin/develop <old-develop-tip> my-branch` (or a plain `git pull --rebase`, which uses the fork point to skip already-upstream commits) to move only my commits onto the new history. Then I would raise it with the team: protect shared branches against force pushes and keep rebasing to personal branches.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Pro Git: Rebasing",
+          "url": "https://git-scm.com/book/en/v2/Git-Branching-Rebasing"
+        },
+        {
+          "title": "Pro Git: Basic Branching and Merging",
+          "url": "https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging"
+        },
+        {
+          "title": "git-rerere documentation",
+          "url": "https://git-scm.com/docs/git-rerere"
+        }
+      ]
+    },
+    {
+      "id": "git-cli-05-rewriting-history",
+      "title": "Rewriting History: Interactive Rebase, Reset, Revert and Cherry-pick",
+      "level": "intermediate",
+      "summary": "Clean up commits before review, undo changes safely on shared branches, and move individual commits between branches.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Interactive rebase",
+          "body": "`git rebase -i <base>` opens a todo list of the commits after `<base>`, oldest first. You edit the action word in front of each commit and save:\n\n- `pick` keep the commit\n- `reword` keep it but edit the message\n- `edit` stop after applying it so you can amend or split it\n- `squash` combine with the previous commit and merge the messages\n- `fixup` combine with the previous commit and discard this message\n- `drop` remove the commit\n- reorder lines to reorder commits\n\nThis is how you turn \"wip\", \"fix typo\", \"address review\" into a few meaningful commits before merging. Use it on your own branch before others depend on it, then push with `--force-with-lease`.",
+          "code": {
+            "lang": "text",
+            "source": "$ git rebase -i origin/main\n\npick 1a2b3c4 feat: add search endpoint\nfixup 5d6e7f8 fix typo\npick 9a8b7c6 feat: add search UI\nsquash 3c2b1a0 address review comments\ndrop 7f7f7f7 debug logging\n\n# save and close; Git replays the commits with your instructions"
+          }
+        },
+        {
+          "heading": "Fixup commits and autosquash",
+          "body": "When a review comment needs a change to an earlier commit, create a fixup commit that targets it, and let Git place it automatically:\n\n- `git commit --fixup=<sha>` creates a commit titled `fixup! <original subject>`\n- `git rebase -i --autosquash origin/main` moves each fixup right after its target and marks it `fixup`\n- `git config --global rebase.autoSquash true` makes this the default\n\nTo split a commit: mark it `edit`, then when the rebase stops run `git reset HEAD~` (the changes return to the working tree unstaged), stage and commit the pieces separately and `git rebase --continue`.",
+          "code": {
+            "lang": "bash",
+            "source": "git log --oneline -3\n# 9a8b7c6 feat: add search UI\n# 1a2b3c4 feat: add search endpoint\n\n# reviewer found a bug in the endpoint commit\ngit add src/search.ts\ngit commit --fixup=1a2b3c4\ngit rebase -i --autosquash origin/main\ngit push --force-with-lease"
+          }
+        },
+        {
+          "heading": "Reset: moving the branch pointer",
+          "body": "`git reset <commit>` moves the current branch pointer to `<commit>`. The mode decides what happens to the index and working tree:\n\n- `--soft` moves the branch only; the undone commits' changes stay staged. Great for squashing the last N commits into one.\n- `--mixed` (default) moves the branch and resets the index; the changes remain in the working tree, unstaged.\n- `--hard` moves the branch and overwrites index and working tree. Uncommitted changes are lost for good; committed ones are recoverable from the reflog.\n\nReset rewrites the branch, so it is for local or personal history. `git reset --hard origin/main` is the standard way to make a local branch exactly match the remote.",
+          "code": {
+            "lang": "bash",
+            "source": "git reset --soft HEAD~3        # squash last 3 commits:\ngit commit -m \"feat: add search\"\n\ngit reset HEAD~1               # undo last commit, keep changes unstaged\ngit reset --hard origin/main   # discard everything, match remote"
+          }
+        },
+        {
+          "heading": "Revert: undoing on shared branches",
+          "body": "`git revert <commit>` creates a **new** commit that applies the inverse of the given commit. History is not rewritten, so it is the correct way to undo something already on main or deployed.\n\n- Revert a range: `git revert A..B` creates one revert per commit (add `--no-commit` to combine them)\n- Revert a merge commit: you must choose which parent is the mainline, usually `-m 1` (the branch that was merged into)\n- Gotcha: after reverting a merge, merging the same branch again will not bring those changes back, because Git sees them as already merged. To re-land, revert the revert.\n\nIn an incident, revert first and fix forward later: it is fast, reviewable and safe.",
+          "code": {
+            "lang": "bash",
+            "source": "git revert 4f5e6d7                # undo one commit with a new commit\ngit revert -m 1 8a9b0c1           # undo a merged PR (merge commit)\ngit revert --no-commit HEAD~3..HEAD && git commit -m \"Revert search feature\""
+          }
+        },
+        {
+          "heading": "Cherry-pick",
+          "body": "`git cherry-pick <sha>` applies the change introduced by one commit onto the current branch as a new commit. Typical uses:\n\n- backport a fix from main to a release branch (`release/2.3`)\n- rescue one good commit from an abandoned branch\n\nUse `-x` to append \"(cherry picked from commit ...)\" to the message so the link is traceable. Conflicts are resolved like any other, then `git cherry-pick --continue`. Overusing cherry-pick between long-lived branches creates duplicate commits with different hashes and makes later merges confusing; prefer merging the fix forward when branches will be merged anyway.",
+          "code": {
+            "lang": "bash",
+            "source": "git switch release/2.3\ngit cherry-pick -x 4f5e6d7         # backport hotfix\ngit cherry-pick A^..C               # range A through C inclusive\ngit cherry-pick --abort             # give up on a conflicted pick"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Interactive rebase can reorder, reword, squash, fixup, edit and drop commits on your own branch.",
+        "`commit --fixup` plus `rebase -i --autosquash` is the cleanest way to address review comments on earlier commits.",
+        "reset --soft keeps changes staged, --mixed keeps them unstaged, --hard discards them.",
+        "revert creates a new inverse commit and is the safe way to undo shared or deployed history.",
+        "Reverting a merge needs `-m 1`; re-landing that branch later requires reverting the revert.",
+        "cherry-pick copies one commit's change as a new commit; use -x for traceability when backporting.",
+        "After rewriting a pushed personal branch, push with --force-with-lease."
+      ],
+      "questions": [
+        {
+          "id": "git-cli-05-q01",
+          "type": "mcq",
+          "prompt": "A bad commit is already on main and deployed. What is the safest way to undo it?",
+          "options": [
+            "git reset --hard HEAD~1 && git push --force",
+            "git revert <sha> and push",
+            "git rebase -i and drop it",
+            "Delete the main branch and recreate it"
+          ],
+          "answer": 1,
+          "explanation": "revert adds a new commit that undoes the change without rewriting history, so nobody's clone breaks and the undo itself is reviewable."
+        },
+        {
+          "id": "git-cli-05-q02",
+          "type": "mcq",
+          "prompt": "Which reset mode moves the branch back but leaves the undone changes staged?",
+          "options": [
+            "--hard",
+            "--mixed",
+            "--soft",
+            "--keep"
+          ],
+          "answer": 2,
+          "explanation": "--soft only moves the branch pointer, so the index still holds the content of the old tip and everything appears staged."
+        },
+        {
+          "id": "git-cli-05-q03",
+          "type": "mcq",
+          "prompt": "In an interactive rebase todo list, which command merges a commit into the previous one and discards its message?",
+          "options": [
+            "squash",
+            "fixup",
+            "reword",
+            "drop"
+          ],
+          "answer": 1,
+          "explanation": "fixup combines the change into the previous commit and keeps only the previous commit's message. squash combines and lets you edit the merged messages."
+        },
+        {
+          "id": "git-cli-05-q04",
+          "type": "mcq",
+          "prompt": "You need a hotfix that is already on main in the release/2.3 branch. Which command fits?",
+          "options": [
+            "git merge main into release/2.3",
+            "git cherry-pick -x <hotfix-sha> on release/2.3",
+            "git rebase release/2.3",
+            "git revert <hotfix-sha>"
+          ],
+          "answer": 1,
+          "explanation": "Merging main would bring every unreleased feature into the release branch. cherry-pick copies only the fix, and -x records where it came from."
+        },
+        {
+          "id": "git-cli-05-q05",
+          "type": "mcq",
+          "prompt": "You reverted a merged PR on main. Later the bug is fixed on the same branch and you merge it again, but the original changes are missing. Why?",
+          "options": [
+            "Git deletes reverted branches",
+            "Git considers the original commits already merged, and the revert commit still undoes them",
+            "Merges ignore reverted files",
+            "You must use squash merges"
+          ],
+          "answer": 1,
+          "explanation": "The original commits are ancestors of main, so merging only brings in new commits. Revert the revert commit first to bring the original changes back, then merge the fix."
+        },
+        {
+          "id": "git-cli-05-q06",
+          "type": "mcq",
+          "prompt": "What does `git commit --fixup=abc123` produce?",
+          "options": [
+            "An amended abc123",
+            "A new commit titled 'fixup! <subject of abc123>'",
+            "A revert of abc123",
+            "A tag on abc123"
+          ],
+          "answer": 1,
+          "explanation": "The fixup commit is a normal commit with a special subject. `git rebase -i --autosquash` then moves it after abc123 and marks it as fixup."
+        },
+        {
+          "id": "git-cli-05-q07",
+          "type": "truefalse",
+          "prompt": "`git reset --hard` can permanently lose uncommitted changes.",
+          "answer": true,
+          "explanation": "Uncommitted edits are not stored in any commit, so after --hard overwrites the working tree there is nothing in the reflog to recover them from. Committed work is recoverable."
+        },
+        {
+          "id": "git-cli-05-q08",
+          "type": "truefalse",
+          "prompt": "`git revert` removes the target commit from the branch's history.",
+          "answer": false,
+          "explanation": "The original commit remains in history; revert adds a new commit containing the inverse change."
+        },
+        {
+          "id": "git-cli-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which commands rewrite existing commits on the current branch?",
+          "options": [
+            "git commit --amend",
+            "git revert HEAD",
+            "git rebase -i HEAD~4",
+            "git reset --soft HEAD~2 followed by a commit",
+            "git cherry-pick <sha>"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "amend, interactive rebase and reset-then-commit replace existing commits. revert and cherry-pick only add new commits on top."
+        },
+        {
+          "id": "git-cli-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: to revert a merge commit you must pass ___ 1 to choose the mainline parent.",
+          "accept": [
+            "-m",
+            "--mainline"
+          ],
+          "explanation": "A merge commit has two parents, so Git needs to know which side to keep. Parent 1 is the branch that was merged into, usually main."
+        },
+        {
+          "id": "git-cli-05-q11",
+          "type": "interview",
+          "prompt": "Explain git reset --soft, --mixed and --hard, and give a use case for each.",
+          "answer": "All three move the current branch pointer to the given commit; they differ in what they do to the index and working tree. --soft touches neither, so the changes from the undone commits appear staged; I use it to squash my last few commits into one with `reset --soft HEAD~3` and a new commit. --mixed, the default, also resets the index but leaves files alone, so changes are unstaged; useful to undo a commit and re-stage it differently, or to split a commit during an interactive rebase. --hard resets index and working tree to match the commit; I use it to throw away experiments or match the remote with `reset --hard origin/main`. Uncommitted work is unrecoverable after --hard, but committed work can still be found with the reflog.",
+          "level": "intermediate"
+        },
+        {
+          "id": "git-cli-05-q12",
+          "type": "interview",
+          "prompt": "Revert vs reset: when do you use which?",
+          "answer": "reset rewrites history by moving the branch pointer backwards, so it is only appropriate for commits that have not been shared, or a personal branch where a force push is acceptable. revert creates a new commit that undoes a previous one, leaving history intact, so it is the right tool for main, release branches and anything deployed. Revert is also auditable: the log shows what was undone and why. A special case is merge commits: revert needs `-m 1`, and re-landing the branch later requires reverting the revert. During an incident I revert the offending PR immediately, then fix forward in a normal PR.",
+          "level": "intermediate"
+        },
+        {
+          "id": "git-cli-05-q13",
+          "type": "interview",
+          "prompt": "Your PR has 14 commits like 'wip', 'fix', 'oops'. The reviewer asks you to clean it up. How?",
+          "answer": "I run `git fetch` and `git rebase -i origin/main` to see only my commits. Then I reorder lines to group related changes, mark noise commits as fixup into the commit they belong to, reword messages to explain why, and drop debugging commits. If one commit mixes unrelated work I mark it edit, `git reset HEAD~` and recommit it in pieces with `git add -p`. I run the tests at the end (or `git rebase -i --exec 'npm test'` to test every commit) and push with `--force-with-lease`. Going forward I use `commit --fixup` with autosquash during review so cleanup is automatic. If the team squash-merges anyway, I just make sure the PR title and description are good.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Pro Git: Rewriting History",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History"
+        },
+        {
+          "title": "Pro Git: Reset Demystified",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified"
+        },
+        {
+          "title": "git-revert documentation",
+          "url": "https://git-scm.com/docs/git-revert"
+        }
+      ]
+    },
+    {
+      "id": "git-cli-06-shell-power-tools",
+      "title": "Shell Power Tools: Permissions, Processes, Env Vars, SSH and npm Scripts",
+      "level": "intermediate",
+      "summary": "Read and change file permissions, manage processes and ports, configure environment variables, use SSH keys and write reliable npm scripts.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "File permissions and ownership",
+          "body": "`ls -l` shows a permission string like `-rwxr-xr--`. The first character is the type (`-` file, `d` directory, `l` symlink), then three triplets for **user** (owner), **group** and **others**. Each triplet is read (r=4), write (w=2) and execute (x=1).\n\n- `chmod 755 deploy.sh` means rwx for the owner, r-x for group and others: typical for scripts and directories\n- `chmod 644 config.json` means rw for the owner, read-only for the rest: typical for files\n- `chmod 600 ~/.ssh/id_ed25519` means only the owner can read or write; SSH refuses private keys with looser permissions\n- `chmod +x script.sh` adds execute for everyone\n- `chown user:group file` changes ownership (usually needs sudo)\n\nOn a directory, x means you can enter it and r means you can list it. Avoid `chmod 777`: it lets any user modify the file, which is a security hole, and it usually hides the real ownership problem.",
+          "code": {
+            "lang": "bash",
+            "source": "ls -l deploy.sh\n# -rw-r--r-- 1 ana staff 512 Mar 3 deploy.sh\nchmod +x deploy.sh && ./deploy.sh\nchmod 600 ~/.ssh/id_ed25519\nsudo chown -R www-data:www-data /var/www/app\n\n# script needs a shebang to run directly\nhead -1 deploy.sh   # #!/usr/bin/env bash"
+          }
+        },
+        {
+          "heading": "Processes, signals and ports",
+          "body": "Every running program is a process with a PID. Tools to inspect and control them:\n\n- `ps aux | grep node` lists processes; `top` or `htop` shows live CPU and memory\n- `kill <pid>` sends SIGTERM (15): a polite request to shut down, which a server can catch to finish requests and close connections\n- `kill -9 <pid>` sends SIGKILL: the kernel ends the process immediately with no cleanup; use only when SIGTERM fails\n- Ctrl+C sends SIGINT to the foreground process; Ctrl+Z suspends it, `bg` resumes it in the background, `fg` brings it back\n- `cmd &` starts in the background; `nohup cmd &` keeps it running after you log out\n\n\"Port 3000 already in use\" is common: find the owner with `lsof -i :3000` (macOS/Linux) or `ss -ltnp` (Linux), then kill that PID.",
+          "code": {
+            "lang": "bash",
+            "source": "lsof -i :3000                # who is listening on 3000\nkill 48213                   # SIGTERM, graceful\nkill -9 48213                # SIGKILL, last resort\nnpx kill-port 3000           # cross-platform helper\n\n# Node: handle SIGTERM for graceful shutdown (containers send it)\n# process.on('SIGTERM', () => server.close(() => process.exit(0)));"
+          }
+        },
+        {
+          "heading": "Environment variables and PATH",
+          "body": "Environment variables are key-value strings a process inherits from its parent. They configure programs without code changes (12-factor style): `NODE_ENV`, `DATABASE_URL`, `PORT`.\n\n- `export NAME=value` sets a variable for the current shell and its children; without `export` it is a shell-only variable\n- `NAME=value cmd` sets it for one command only\n- `env` or `printenv` lists the environment; `echo $NAME` prints one\n- Child processes cannot change their parent's environment, which is why a script that exports variables needs to be sourced: `source ./env.sh`\n- Persist settings in `~/.bashrc` or `~/.zshrc`\n\n`PATH` is a colon-separated list of directories searched for commands. `which node` or `command -v node` shows which binary wins. npm scripts prepend `node_modules/.bin` to PATH, which is why you can run `vitest` in a script without a global install.\n\nIn Node, `.env` files are loaded by libraries such as dotenv, or natively with `node --env-file=.env app.js` (Node 20.6+).",
+          "code": {
+            "lang": "bash",
+            "source": "export DATABASE_URL=postgres://localhost:5432/app\nNODE_ENV=production node server.js     # one-off\necho $PATH | tr ':' '\\n'               # one dir per line\ncommand -v node                         # /usr/local/bin/node\nnode --env-file=.env server.js"
+          }
+        },
+        {
+          "heading": "SSH keys and remote access",
+          "body": "SSH authenticates with a key pair: the private key stays on your machine, the public key is added to the server's `~/.ssh/authorized_keys` or to GitHub/GitLab.\n\n- Generate a modern key: `ssh-keygen -t ed25519 -C \"you@example.com\"`, protected with a passphrase\n- `ssh-agent` holds the decrypted key so you type the passphrase once per session\n- `ssh -T git@github.com` tests GitHub authentication\n- `~/.ssh/config` defines host aliases, users, keys and jump hosts\n- `scp` and `rsync -avz` copy files over SSH; `ssh -L 5433:localhost:5432 bastion` forwards a local port to a remote database\n\nNever share or commit a private key. The first connection to a host asks you to verify its fingerprint; a later \"REMOTE HOST IDENTIFICATION HAS CHANGED\" warning can mean a rebuilt server or a man-in-the-middle, so verify before removing the old entry.",
+          "code": {
+            "lang": "text",
+            "source": "# ~/.ssh/config\nHost github.com\n  User git\n  IdentityFile ~/.ssh/id_ed25519\n  AddKeysToAgent yes\n\nHost prod-db\n  HostName 10.0.3.15\n  User deploy\n  ProxyJump bastion.example.com\n\n# usage\n# ssh prod-db\n# ssh -L 5433:localhost:5432 prod-db   # then connect to localhost:5433"
+          }
+        },
+        {
+          "heading": "npm scripts as the project's command line",
+          "body": "The `scripts` field in package.json is the team's shared set of commands. `npm run <name>` executes the script in a shell with `node_modules/.bin` on PATH.\n\n- `pre<name>` and `post<name>` scripts run automatically before and after `<name>`\n- `npm test`, `npm start` work without `run`\n- Pass extra arguments after `--`: `npm test -- --watch`\n- `&&` runs sequentially and stops on failure; for parallel tasks use a tool like `concurrently` or `npm-run-all2`, because `&` behaves differently across shells and Windows\n- `npx <pkg>` runs a package binary without installing it globally\n- `npm ci` installs exactly what the lockfile says and deletes node_modules first: use it in CI\n\nKeep scripts cross-platform: `rm -rf` and `VAR=x cmd` do not work in Windows cmd, so use packages like `rimraf` and `cross-env` or Node scripts.",
+          "code": {
+            "lang": "json",
+            "source": "{\n  \"scripts\": {\n    \"dev\": \"next dev\",\n    \"build\": \"next build\",\n    \"lint\": \"eslint .\",\n    \"typecheck\": \"tsc --noEmit\",\n    \"test\": \"vitest run\",\n    \"test:watch\": \"vitest\",\n    \"check\": \"npm run lint && npm run typecheck && npm test\",\n    \"prebuild\": \"npm run check\"\n  }\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Permissions are r=4, w=2, x=1 for user, group and others; 755 for scripts and dirs, 644 for files, 600 for private keys.",
+        "SIGTERM allows graceful shutdown; SIGKILL (-9) cannot be caught and skips cleanup.",
+        "`lsof -i :PORT` finds the process holding a port.",
+        "Exported env vars are inherited by child processes; children cannot modify the parent's environment.",
+        "PATH decides which binary runs; npm scripts add node_modules/.bin to it.",
+        "Use ed25519 SSH keys with a passphrase and ssh-agent; configure hosts in ~/.ssh/config.",
+        "Use `npm ci` in CI, pass extra args with `--`, and keep scripts cross-platform."
+      ],
+      "questions": [
+        {
+          "id": "git-cli-06-q01",
+          "type": "mcq",
+          "prompt": "What permissions does `chmod 640 secrets.txt` grant?",
+          "options": [
+            "Owner rw, group r, others none",
+            "Owner rwx, group r, others none",
+            "Owner r, group rw, others none",
+            "Everyone read and write"
+          ],
+          "answer": 0,
+          "explanation": "6 = 4+2 (rw) for the owner, 4 (r) for the group and 0 for others."
+        },
+        {
+          "id": "git-cli-06-q02",
+          "type": "mcq",
+          "prompt": "A Node server is stuck on port 3000. Which command first identifies the process?",
+          "options": [
+            "kill -9 3000",
+            "lsof -i :3000",
+            "chmod 3000",
+            "ps 3000"
+          ],
+          "answer": 1,
+          "explanation": "lsof -i :3000 lists processes with open sockets on that port, including the PID. `kill -9 3000` would target PID 3000, not port 3000."
+        },
+        {
+          "id": "git-cli-06-q03",
+          "type": "mcq",
+          "prompt": "Why should a server process handle SIGTERM?",
+          "options": [
+            "To ignore shutdown requests",
+            "To finish in-flight requests and close connections before exiting",
+            "Because SIGKILL calls the SIGTERM handler",
+            "To restart itself automatically"
+          ],
+          "answer": 1,
+          "explanation": "Docker, Kubernetes and process managers send SIGTERM first and wait a grace period before SIGKILL. Handling it enables graceful shutdown without dropped requests."
+        },
+        {
+          "id": "git-cli-06-q04",
+          "type": "mcq",
+          "prompt": "You run `./setenv.sh`, which contains `export API_URL=...`. Afterwards `echo $API_URL` prints nothing. Why?",
+          "options": [
+            "export only works in zsh",
+            "The script ran in a child process whose environment is discarded when it exits",
+            "The file lacks execute permission",
+            "Variables must be lowercase"
+          ],
+          "answer": 1,
+          "explanation": "Executing a script starts a new shell. Use `source ./setenv.sh` (or `. ./setenv.sh`) to run it in the current shell."
+        },
+        {
+          "id": "git-cli-06-q05",
+          "type": "mcq",
+          "prompt": "How do you pass `--watch` to the command behind `npm test`?",
+          "options": [
+            "npm test --watch",
+            "npm test -- --watch",
+            "npm --watch test",
+            "npm run watch test"
+          ],
+          "answer": 1,
+          "explanation": "Arguments after `--` are forwarded to the script's command. Without it, npm treats `--watch` as its own config flag."
+        },
+        {
+          "id": "git-cli-06-q06",
+          "type": "mcq",
+          "prompt": "SSH refuses to use your private key with the message 'UNPROTECTED PRIVATE KEY FILE'. What fixes it?",
+          "options": [
+            "chmod 777 ~/.ssh/id_ed25519",
+            "chmod 600 ~/.ssh/id_ed25519",
+            "Regenerate the public key",
+            "Add the key to known_hosts"
+          ],
+          "answer": 1,
+          "explanation": "SSH requires private keys to be readable only by the owner. 600 gives the owner read/write and nobody else access."
+        },
+        {
+          "id": "git-cli-06-q07",
+          "type": "truefalse",
+          "prompt": "A process can catch and handle SIGKILL to run cleanup code.",
+          "answer": false,
+          "explanation": "SIGKILL (9) and SIGSTOP cannot be caught, blocked or ignored. The kernel terminates the process immediately, which is why it is the last resort."
+        },
+        {
+          "id": "git-cli-06-q08",
+          "type": "truefalse",
+          "prompt": "Inside an npm script you can call binaries from local devDependencies (such as eslint) without npx or a global install.",
+          "answer": true,
+          "explanation": "npm prepends node_modules/.bin to PATH when running scripts, so locally installed binaries resolve directly."
+        },
+        {
+          "id": "git-cli-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which practices are correct for CI pipelines in Node projects?",
+          "options": [
+            "Use npm ci instead of npm install",
+            "Commit the lockfile",
+            "Store secrets in package.json scripts",
+            "Chain checks with && so the job fails on the first error",
+            "Run chmod 777 on the workspace"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "npm ci with a committed lockfile gives reproducible installs and && propagates failures. Secrets belong in the CI secret store, and 777 permissions are never the right fix."
+        },
+        {
+          "id": "git-cli-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `ssh-keygen -t ___` generates a modern elliptic-curve key that is recommended over RSA.",
+          "accept": [
+            "ed25519"
+          ],
+          "explanation": "Ed25519 keys are short, fast and secure, and are supported by GitHub, GitLab and current OpenSSH."
+        },
+        {
+          "id": "git-cli-06-q11",
+          "type": "interview",
+          "prompt": "How do environment variables work, and how should an application manage configuration and secrets across environments?",
+          "answer": "Environment variables are key-value strings in a process's environment, inherited by child processes at start; a child cannot change its parent's environment. Following 12-factor, the same build artifact runs everywhere and reads config (database URL, API base URL, feature flags) from the environment. Locally I use a git-ignored `.env` and commit a `.env.example` documenting required keys. In CI and production, values come from the platform's secret store (GitHub Actions secrets, Vercel or AWS Secrets Manager), never from the repo. I validate config at startup (for example with zod) so a missing variable fails fast. In frontend frameworks, only explicitly public prefixed variables (like `NEXT_PUBLIC_`) are inlined into the client bundle, so secrets must never use that prefix.",
+          "level": "intermediate"
+        },
+        {
+          "id": "git-cli-06-q12",
+          "type": "interview",
+          "prompt": "Explain the difference between SIGTERM, SIGINT and SIGKILL, and how you would implement graceful shutdown in a Node service.",
+          "answer": "SIGINT is what Ctrl+C sends to the foreground process. SIGTERM is the standard termination request sent by `kill`, Docker and Kubernetes. Both can be caught. SIGKILL cannot be caught: the kernel stops the process immediately, with no cleanup. For graceful shutdown I register `process.on('SIGTERM', ...)` that stops accepting new connections with `server.close()`, lets in-flight requests finish, closes database pools and queue consumers, then exits with 0. I add a timeout that forces exit before the orchestrator's grace period (30 seconds by default in Kubernetes) runs out, and in Kubernetes I fail the readiness probe first so the load balancer stops routing traffic.",
+          "level": "intermediate"
+        },
+        {
+          "id": "git-cli-06-q13",
+          "type": "interview",
+          "prompt": "A deploy script works on your Mac but fails in CI with 'Permission denied'. How do you debug it?",
+          "answer": "- Check the execute bit: `ls -l deploy.sh`. Git tracks the executable flag, so if it was committed without +x, CI checks it out non-executable. Fix with `git update-index --chmod=+x deploy.sh` or `chmod +x` and commit (on Windows the first is needed).\n- Check the shebang line exists and points to an available interpreter (`#!/usr/bin/env bash`); CI images might lack bash.\n- Check line endings: CRLF from Windows editors makes `/usr/bin/env bash\\r` fail; `.gitattributes` with `*.sh text eol=lf` fixes it.\n- Check which user CI runs as and the ownership of target directories.\n- Reproduce locally in the same container image to confirm.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "npm scripts documentation",
+          "url": "https://docs.npmjs.com/cli/using-npm/scripts"
+        },
+        {
+          "title": "GitHub Docs: Generating a new SSH key",
+          "url": "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
+        },
+        {
+          "title": "The Twelve-Factor App: Config",
+          "url": "https://12factor.net/config"
+        }
+      ]
+    },
+    {
+      "id": "git-cli-07-workflows-prs",
+      "title": "Team Workflows, Conventional Commits and Code Review",
+      "level": "intermediate",
+      "summary": "Compare trunk-based development and GitFlow, write Conventional Commits, and run pull requests and code reviews that keep quality high without slowing the team.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Trunk-based development",
+          "body": "In trunk-based development everyone integrates small changes into one main branch (the trunk) at least daily. Feature branches, if used, live for hours or a couple of days.\n\n- Incomplete features ship dark behind **feature flags**, so merging is decoupled from releasing\n- CI runs on every PR and on main; main must always be releasable\n- Releases are cut from main, often continuously deployed\n- Merge conflicts stay small because nobody diverges for long\n\nThe DORA research (Accelerate, State of DevOps reports) associates trunk-based development with higher deployment frequency and lower change failure rates. It requires good automated tests and the discipline to split work into small, safe increments.",
+          "code": {
+            "lang": "ts",
+            "source": "// Ship code dark, release by flipping a flag\nif (flags.isEnabled('new-checkout', user)) {\n  return <NewCheckout />;\n}\nreturn <LegacyCheckout />;"
+          }
+        },
+        {
+          "heading": "GitFlow and release branches",
+          "body": "GitFlow (Vincent Driessen, 2010) uses long-lived `main` and `develop` branches plus `feature/*`, `release/*` and `hotfix/*` branches. Features merge into develop; a release branch stabilizes a version and merges into both main (tagged) and develop; hotfixes branch from main.\n\nIt fits software with explicit versioned releases and several supported versions in the field: mobile apps, desktop software, on-premise products, libraries. For continuously deployed web apps it adds overhead and long-lived divergence; Driessen himself later noted it is not the best fit for continuous delivery.\n\nMiddle grounds are common: **GitHub flow** (branch from main, open PR, merge, deploy) and trunk-based with short-lived **release branches** for backporting fixes to a shipped version.",
+          "code": {
+            "lang": "text",
+            "source": "GitFlow\n  main      o-----------o---------o   (tags: v1.0, v1.1)\n  hotfix         \\--h--/|\n  release           r---r\n  develop   o--o--o--o--o--o\n  feature    \\-f-f-/\n\nGitHub flow\n  main      o----o----o----o   (deploy after each merge)\n  feature    \\-a-b-/ \\-c-/"
+          }
+        },
+        {
+          "heading": "Conventional Commits and semantic versioning",
+          "body": "Conventional Commits is a spec for commit messages: `type(scope)!: description`, optional body and footers.\n\n- `feat:` a new feature (maps to a MINOR version bump)\n- `fix:` a bug fix (PATCH)\n- `feat!:` or a `BREAKING CHANGE:` footer signals a breaking change (MAJOR)\n- Other common types: `docs`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `style`\n\nBecause messages are machine-readable, tools like semantic-release, release-please and changesets can bump versions and generate changelogs automatically. commitlint with a commit-msg hook (via husky or lefthook) enforces the format. Teams that squash-merge often only enforce the format on PR titles, since the title becomes the commit on main.",
+          "code": {
+            "lang": "text",
+            "source": "feat(auth): add passkey login\n\nUsers can register a passkey from account settings.\nFalls back to password login on unsupported browsers.\n\nCloses #482\n\n---\nfix(cart): prevent negative quantities\n\nrefactor(api)!: rename /users/:id/profile to /profiles/:id\n\nBREAKING CHANGE: the old route returns 410 Gone."
+          }
+        },
+        {
+          "heading": "Writing pull requests that get reviewed fast",
+          "body": "The biggest lever for review speed is **size**. Small PRs (a few hundred lines at most) get faster and more thorough reviews; large ones get skimmed.\n\nA good PR:\n\n- does one thing; refactors and behavior changes go in separate PRs\n- has a title that states the outcome and a description covering why, what changed, how it was tested, and screenshots or recordings for UI\n- links the ticket and calls out risky areas or open questions for the reviewer\n- passes CI before requesting review; use draft PRs to share early work\n- is self-reviewed first: read your own diff in the PR UI, which catches leftover logs and typos\n\nStacked PRs (a chain of small dependent PRs) let you keep moving while earlier parts are reviewed.",
+          "code": {
+            "lang": "text",
+            "source": "## Why\nCheckout fails for carts with >50 items (timeout in tax service).\n\n## What\n- Batch tax lookups in groups of 20\n- Add retry with backoff on 503\n\n## How tested\n- Unit tests for batching edge cases (0, 1, 20, 21, 51 items)\n- Manually checked out a 120-item cart on staging\n\n## Risk\nTax service rate limit: 100 req/s. Batching reduces calls 20x."
+          }
+        },
+        {
+          "heading": "Giving good code reviews",
+          "body": "Code review exists to catch defects, share knowledge and keep the codebase consistent. Google's engineering practices put it simply: approve once the change improves the overall code health, even if it is not perfect.\n\n- Review in priority order: correctness and security, design and architecture, tests, readability, then style (which should be automated by linters and formatters)\n- Respond within one business day; slow reviews are a major source of lost throughput\n- Comment on the code, not the person; ask questions (\"what happens if items is empty?\")\n- Label severity: prefix optional comments with `nit:` and separate blocking issues clearly\n- Explain why and suggest alternatives, using suggestion blocks where possible\n- Praise good solutions too\n\nAs an author, do not take comments personally, reply to every comment, and move long debates to a quick call, then record the outcome in the PR.",
+          "code": {
+            "lang": "text",
+            "source": "Blocking: this query runs inside the loop, so a 100-item order\nmakes 100 DB calls. Could we fetch all products with one\nWHERE id IN (...) before the loop?\n\nnit: `data` -> `invoices` would make the intent clearer.\n\nQuestion: is it intentional that admins skip the rate limit?\n\nNice: the table-driven tests make the edge cases very clear."
+          }
+        }
+      ],
+      "keyPoints": [
+        "Trunk-based development: small changes merged to main daily, feature flags for unfinished work, main always releasable.",
+        "GitFlow suits versioned releases with multiple supported versions; it is heavy for continuously deployed apps.",
+        "Conventional Commits (feat, fix, feat!/BREAKING CHANGE) map to semver bumps and enable automated changelogs.",
+        "PR size is the main driver of review speed and quality.",
+        "A PR description covers why, what, how it was tested, and risks.",
+        "Review for correctness, design and tests first; automate style with linters and formatters.",
+        "Approve when the change improves code health; label nits as non-blocking."
+      ],
+      "questions": [
+        {
+          "id": "git-cli-07-q01",
+          "type": "mcq",
+          "prompt": "With Conventional Commits and semantic-release, which commit triggers a MAJOR version bump?",
+          "options": [
+            "fix: handle null user",
+            "feat: add dark mode",
+            "feat!: drop Node 18 support",
+            "chore: update deps"
+          ],
+          "answer": 2,
+          "explanation": "The `!` after the type (or a `BREAKING CHANGE:` footer) marks a breaking change, which maps to MAJOR. feat maps to MINOR and fix to PATCH."
+        },
+        {
+          "id": "git-cli-07-q02",
+          "type": "mcq",
+          "prompt": "In trunk-based development, how do teams merge unfinished features without exposing them to users?",
+          "options": [
+            "Long-lived feature branches",
+            "Feature flags",
+            "Release branches for each feature",
+            "Squash merging"
+          ],
+          "answer": 1,
+          "explanation": "Feature flags separate deploying code from releasing a feature, so code can merge to main continuously while staying hidden."
+        },
+        {
+          "id": "git-cli-07-q03",
+          "type": "mcq",
+          "prompt": "Which project is the best fit for GitFlow?",
+          "options": [
+            "A SaaS web app deployed 20 times a day",
+            "A desktop app that supports v3 and v4 in parallel with scheduled releases",
+            "A personal blog",
+            "A prototype hackathon project"
+          ],
+          "answer": 1,
+          "explanation": "GitFlow's release and hotfix branches model explicit versions and maintenance of shipped releases. Continuous deployment works better with trunk-based or GitHub flow."
+        },
+        {
+          "id": "git-cli-07-q04",
+          "type": "mcq",
+          "prompt": "Which change most improves the speed and quality of code review?",
+          "options": [
+            "Requiring three approvers",
+            "Smaller, focused pull requests",
+            "Longer PR descriptions only",
+            "Reviewing only on Fridays"
+          ],
+          "answer": 1,
+          "explanation": "Reviewers can reason about a small diff completely and quickly. Large diffs get superficial reviews and wait longer in the queue."
+        },
+        {
+          "id": "git-cli-07-q05",
+          "type": "mcq",
+          "prompt": "A team squash-merges every PR. Where is the most useful place to enforce Conventional Commits?",
+          "options": [
+            "Every commit on the feature branch",
+            "The PR title, which becomes the squash commit message",
+            "Branch names",
+            "Tag names"
+          ],
+          "answer": 1,
+          "explanation": "Only the squash commit lands on main, and its message defaults to the PR title. Linting PR titles gives the changelog tooling what it needs without policing work-in-progress commits."
+        },
+        {
+          "id": "git-cli-07-q06",
+          "type": "mcq",
+          "prompt": "What should a reviewer focus on first?",
+          "options": [
+            "Variable naming and formatting",
+            "Correctness, security and design",
+            "Whether the author used their preferred library",
+            "Commit message style"
+          ],
+          "answer": 1,
+          "explanation": "Defects and design problems are expensive later; style should be enforced by tools. Spending review time on nits while missing a bug is the common failure."
+        },
+        {
+          "id": "git-cli-07-q07",
+          "type": "truefalse",
+          "prompt": "In trunk-based development, main should be kept in a releasable state at all times.",
+          "answer": true,
+          "explanation": "Because everyone integrates into main constantly and releases are cut from it, a broken main blocks the whole team. CI gates and fast reverts protect it."
+        },
+        {
+          "id": "git-cli-07-q08",
+          "type": "truefalse",
+          "prompt": "A good reviewer withholds approval until the code matches exactly how they would have written it.",
+          "answer": false,
+          "explanation": "The standard is whether the change improves overall code health. Personal preference is not a reason to block; mark such comments as nits or optional."
+        },
+        {
+          "id": "git-cli-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: what belongs in a strong PR description?",
+          "options": [
+            "Why the change is needed",
+            "How it was tested",
+            "Screenshots or recordings for UI changes",
+            "The full diff pasted again",
+            "Known risks or areas needing careful review"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "The description gives context the diff cannot: motivation, verification, visuals and risk. The diff is already in the PR."
+        },
+        {
+          "id": "git-cli-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in Conventional Commits, a footer starting with ___ signals a breaking change.",
+          "accept": [
+            "BREAKING CHANGE:",
+            "BREAKING CHANGE",
+            "BREAKING-CHANGE",
+            "BREAKING-CHANGE:"
+          ],
+          "explanation": "The spec accepts `BREAKING CHANGE:` (or the synonym `BREAKING-CHANGE:`) in the footer, or `!` after the type/scope."
+        },
+        {
+          "id": "git-cli-07-q11",
+          "type": "interview",
+          "prompt": "Compare trunk-based development and GitFlow. Which would you choose for a new web product?",
+          "answer": "GitFlow has long-lived main and develop branches plus feature, release and hotfix branches. It suits products with explicit versions and multiple maintained releases, but branches diverge for longer and merges get bigger. Trunk-based development has everyone merging small changes into main at least daily, with feature flags hiding unfinished work and main always releasable. For a continuously deployed web product I would choose trunk-based (or GitHub flow with short-lived branches): faster feedback, smaller conflicts, and research like DORA links it to better delivery performance. It requires investment in CI, automated tests and a feature flag system. If we later had to support shipped versions, I would add short-lived release branches with cherry-picked fixes rather than adopting full GitFlow.",
+          "level": "intermediate"
+        },
+        {
+          "id": "git-cli-07-q12",
+          "type": "interview",
+          "prompt": "How do you give feedback in code review, especially to a more senior engineer or on a contentious change?",
+          "answer": "I focus on the code and its effects, not the person, and phrase concerns as questions or observations with reasons: \"If two requests hit this at once, could we double-charge? A unique constraint on order_id would prevent it.\" I separate blocking issues from nits explicitly. Seniority does not change the bar: senior engineers make mistakes too, and most appreciate a well-reasoned catch. If a thread goes back and forth more than twice I suggest a short call, then summarize the decision in the PR so the reasoning is recorded. When there is a real design disagreement that should have been settled before coding, I propose a short design doc or bring in a tech lead rather than blocking indefinitely.",
+          "level": "intermediate"
+        },
+        {
+          "id": "git-cli-07-q13",
+          "type": "interview",
+          "prompt": "Your team's PRs wait two to three days for review. How would you fix it?",
+          "answer": "- Measure first: time to first review, PR size and review rounds, from the Git host's data.\n- Make PRs smaller: set an expectation (for example under 400 changed lines), use stacked PRs and feature flags.\n- Set a team norm: first response within one business day, and reviews take priority over starting new work, since unmerged code delivers no value.\n- Automate the trivial: formatters, linters, type checks and tests in CI so humans do not comment on style.\n- Use CODEOWNERS and auto-assignment so each PR has a clear reviewer instead of a diffusion of responsibility.\n- Revisit in a retro after a few weeks with the metrics.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Conventional Commits 1.0.0",
+          "url": "https://www.conventionalcommits.org/en/v1.0.0/"
+        },
+        {
+          "title": "Google Engineering Practices: Code Review",
+          "url": "https://google.github.io/eng-practices/review/"
+        },
+        {
+          "title": "Trunk Based Development",
+          "url": "https://trunkbaseddevelopment.com/"
+        }
+      ]
+    },
+    {
+      "id": "git-cli-08-internals",
+      "title": "Git Internals: Objects, Trees, Commits and Refs",
+      "level": "advanced",
+      "summary": "Learn how Git stores blobs, trees, commits and tags in a content-addressed object database, and how refs, HEAD and packfiles fit together.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "A content-addressed object database",
+          "body": "Under the porcelain commands, Git is a key-value store. Every piece of content is stored as an object whose key is the hash of its type, size and content. The same content always produces the same hash, so identical files are stored once, and any corruption is detectable because the hash would no longer match.\n\nThere are four object types:\n\n- **blob**: the content of a file (no file name, no permissions)\n- **tree**: a directory listing; each entry has a mode, a name and the hash of a blob or subtree\n- **commit**: a pointer to one root tree, zero or more parent commits, author, committer and message\n- **tag**: an annotated tag object pointing to another object, with tagger and message\n\nObjects live in `.git/objects`, either as individual zlib-compressed files (loose objects) or inside packfiles.",
+          "code": {
+            "lang": "bash",
+            "source": "echo 'hello' | git hash-object --stdin\n# ce013625030ba8dba906f756967f9e9ca394464a  (same on every machine)\n\ngit cat-file -t HEAD          # commit\ngit cat-file -p HEAD          # tree, parent, author, committer, message\ngit cat-file -p 'HEAD^{tree}' # entries: mode, type, hash, name\ngit count-objects -vH         # loose vs packed size"
+          }
+        },
+        {
+          "heading": "How a commit is built",
+          "body": "When you run `git commit`, Git writes a tree object for each directory from the index (reusing existing trees and blobs whose hashes did not change), then a commit object pointing at the root tree and the current HEAD commit as parent, and finally moves the current branch ref to the new commit's hash.\n\nBecause a commit includes its parent's hash, and the parent includes its own parent's, each commit hash cryptographically covers the entire history before it. Change one old commit and every descendant's hash changes, which is exactly what you see after a rebase.\n\nA merge commit simply has two (or more) parents. A root commit has none. Renames are not stored: Git detects them heuristically when diffing by comparing content similarity.",
+          "code": {
+            "lang": "text",
+            "source": "$ git cat-file -p HEAD\ntree 9c1f0a...\nparent 3b18e5...\nauthor Ana Lima <ana@example.com> 1767225600 +0000\ncommitter Ana Lima <ana@example.com> 1767225600 +0000\n\nfeat: add search\n\n$ git cat-file -p 9c1f0a\n100644 blob a1b2c3...    package.json\n040000 tree d4e5f6...    src\n100755 blob 0f9e8d...    deploy.sh"
+          }
+        },
+        {
+          "heading": "Refs, HEAD and the reflog",
+          "body": "Refs are human-readable names for hashes, stored as files under `.git/refs` or in `.git/packed-refs` (newer Git versions can also use the reftable format):\n\n- `refs/heads/main` local branches\n- `refs/remotes/origin/main` remote-tracking branches\n- `refs/tags/v1.0.0` tags\n\n`.git/HEAD` normally contains a symbolic ref like `ref: refs/heads/main`; in detached state it contains a hash.\n\nThe **reflog** records every position each ref and HEAD has held locally: commits, checkouts, resets, rebases, merges. It is local only (never pushed) and entries expire, by default 90 days for reachable entries and 30 days for unreachable ones. This is your safety net: commits are rarely truly lost while they are in the reflog.",
+          "code": {
+            "lang": "bash",
+            "source": "cat .git/HEAD                  # ref: refs/heads/main\ngit rev-parse main             # resolve a ref to a hash\ngit show-ref --heads --tags\ngit reflog -10                 # HEAD's history\ngit reflog show feature/login\n# a1b2c3d HEAD@{0}: rebase (finish): returning to refs/heads/feature/login\n# 9f8e7d6 HEAD@{5}: commit: add validation"
+          }
+        },
+        {
+          "heading": "Revision syntax",
+          "body": "Many commands accept revision expressions:\n\n- `HEAD~3` third ancestor following first parents; `HEAD^2` the second parent of a merge commit\n- `main@{yesterday}`, `HEAD@{2}` reflog-based positions\n- `A..B` commits reachable from B but not A (\"what is on B that A lacks\")\n- `A...B` symmetric difference: commits on either side but not both; in `git diff A...B` it means diff from the merge base to B, which is what a PR shows\n- `:/fix login` the most recent commit whose message matches\n- `HEAD:src/app.ts` a file's content at a commit\n\n`git rev-parse` resolves any of these to a hash, which is handy in scripts.",
+          "code": {
+            "lang": "bash",
+            "source": "git log --oneline main..feature     # what the PR adds\ngit diff main...feature             # PR-style diff from merge base\ngit show HEAD~2:package.json        # file as it was 2 commits ago\ngit log -1 HEAD^2                   # second parent of a merge\ngit rev-parse --short HEAD          # 7a3f9c1"
+          }
+        },
+        {
+          "heading": "Packfiles, garbage collection and large repos",
+          "body": "Loose objects are periodically compressed into **packfiles**, which store many objects with delta compression between similar versions. `git gc` (run automatically from time to time) packs objects and prunes unreachable ones that are older than the expiry window.\n\nAn object is unreachable when no ref, reflog entry or index entry points to it, directly or through ancestry. That is why a commit lost during a bad reset survives until its reflog entry expires and gc prunes it.\n\nFor very large repositories:\n\n- `git clone --depth 1` shallow clone (only recent history, common in CI)\n- `git clone --filter=blob:none` partial clone that fetches file contents on demand\n- `git sparse-checkout` checks out only some directories of a monorepo\n- Git LFS stores large binaries outside the object database, keeping pointer files in the repo\n- `git maintenance start` schedules background tasks such as commit-graph updates and prefetching",
+          "code": {
+            "lang": "bash",
+            "source": "git clone --filter=blob:none --sparse https://github.com/org/monorepo.git\ncd monorepo\ngit sparse-checkout set apps/web packages/ui\n\ngit gc --prune=now      # pack and prune now (careful: drops recoverable garbage)\ngit fsck --lost-found   # list dangling commits and blobs"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Git stores four object types: blob (content), tree (directory), commit (tree + parents + metadata) and tag.",
+        "Objects are addressed by the hash of their content, so identical content is stored once and corruption is detectable.",
+        "A commit's hash covers its parents, so changing history changes every descendant hash.",
+        "Branches and tags are refs pointing to hashes; HEAD points to a ref or directly to a commit.",
+        "The reflog is a local log of where refs have been and is the main tool for recovering lost commits.",
+        "`A..B` lists commits on B not on A; `git diff A...B` diffs from the merge base, like a PR.",
+        "Packfiles, gc, shallow/partial clones and sparse-checkout keep large repositories manageable."
+      ],
+      "questions": [
+        {
+          "id": "git-cli-08-q01",
+          "type": "mcq",
+          "prompt": "Which Git object stores a file's name?",
+          "options": [
+            "blob",
+            "tree",
+            "commit",
+            "None, names are stored in refs"
+          ],
+          "answer": 1,
+          "explanation": "A blob holds only content. The tree that contains it maps the name and mode to the blob's hash, which is why renaming a file creates a new tree but reuses the blob."
+        },
+        {
+          "id": "git-cli-08-q02",
+          "type": "mcq",
+          "prompt": "Two developers on different machines commit a file with identical content. What is true about the blob hashes?",
+          "options": [
+            "They differ because of timestamps",
+            "They are identical",
+            "They differ by author",
+            "Blobs have no hash"
+          ],
+          "answer": 1,
+          "explanation": "A blob hash depends only on type, size and content. Commits differ (author, time, parent), but the blob is the same object."
+        },
+        {
+          "id": "git-cli-08-q03",
+          "type": "mcq",
+          "prompt": "Why does editing the message of a commit 10 commits back change the hashes of the 9 newer commits?",
+          "options": [
+            "Git renumbers commits",
+            "Each commit's content includes its parent's hash",
+            "Git re-hashes the whole repository on every change",
+            "Messages are stored in trees"
+          ],
+          "answer": 1,
+          "explanation": "The edited commit gets a new hash, so its child's parent field changes, giving the child a new hash, and so on up the chain."
+        },
+        {
+          "id": "git-cli-08-q04",
+          "type": "mcq",
+          "prompt": "What does `.git/HEAD` usually contain when you are on the main branch?",
+          "options": [
+            "The hash of the latest commit",
+            "ref: refs/heads/main",
+            "The tree of the working directory",
+            "The remote URL"
+          ],
+          "answer": 1,
+          "explanation": "HEAD is a symbolic ref to the current branch. Only in detached HEAD state does it contain a raw hash."
+        },
+        {
+          "id": "git-cli-08-q05",
+          "type": "mcq",
+          "prompt": "Which command shows the diff a GitHub PR from feature into main displays?",
+          "options": [
+            "git diff main feature",
+            "git diff main...feature",
+            "git diff feature..main",
+            "git log main"
+          ],
+          "answer": 1,
+          "explanation": "Three dots in git diff compares the merge base of main and feature with feature, showing only the branch's changes, not changes made on main since branching."
+        },
+        {
+          "id": "git-cli-08-q06",
+          "type": "mcq",
+          "prompt": "What does `git clone --filter=blob:none` do?",
+          "options": [
+            "Clones without history",
+            "Clones commits and trees but downloads file contents on demand",
+            "Clones only binary files",
+            "Clones without a working tree"
+          ],
+          "answer": 1,
+          "explanation": "A blobless partial clone keeps full history metadata (useful for log and blame) but fetches blobs lazily when checked out or needed."
+        },
+        {
+          "id": "git-cli-08-q07",
+          "type": "truefalse",
+          "prompt": "The reflog is pushed to the remote so teammates can recover your lost commits.",
+          "answer": false,
+          "explanation": "The reflog is strictly local to each repository. A commit that only existed in your clone and was lost is only recoverable from your reflog."
+        },
+        {
+          "id": "git-cli-08-q08",
+          "type": "truefalse",
+          "prompt": "Git explicitly records file renames inside commit objects.",
+          "answer": false,
+          "explanation": "Commits store snapshots only. Rename detection happens at diff or log time by comparing content similarity (for example `git log --follow`)."
+        },
+        {
+          "id": "git-cli-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are Git object types?",
+          "options": [
+            "blob",
+            "tree",
+            "branch",
+            "commit",
+            "tag"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "explanation": "Branches are refs (files containing a hash), not objects. Annotated tags are real objects; lightweight tags are just refs."
+        },
+        {
+          "id": "git-cli-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `git cat-file ___ HEAD` pretty-prints the content of the commit object.",
+          "accept": [
+            "-p"
+          ],
+          "explanation": "`-p` pretty-prints any object; `-t` prints its type and `-s` its size."
+        },
+        {
+          "id": "git-cli-08-q11",
+          "type": "interview",
+          "prompt": "Explain how Git stores data internally. What happens when you run git commit?",
+          "answer": "Git is a content-addressed object store. Blobs hold file contents, trees hold directory listings mapping names and modes to blob or tree hashes, commits point to a root tree plus parent commits and metadata, and annotated tags point to other objects. Every object's ID is the hash of its content. On `git commit`, Git turns the index into tree objects (reusing unchanged blobs and subtrees by hash), writes a commit object with the root tree, the current HEAD commit as parent, author, committer and message, then updates the current branch ref to the new hash and logs it in the reflog. Because parents are part of the hash, a commit ID identifies the whole history behind it. Branches are just refs, which is why branching is cheap.",
+          "level": "advanced"
+        },
+        {
+          "id": "git-cli-08-q12",
+          "type": "interview",
+          "prompt": "What is the difference between a branch, a tag and HEAD at the implementation level?",
+          "answer": "All three are refs. A branch is a file under refs/heads containing a commit hash, and Git moves it automatically when you commit while it is checked out. A tag under refs/tags also holds a hash but never moves; a lightweight tag points straight at a commit, while an annotated tag points at a tag object containing the tagger, date, message and an optional signature. HEAD is a special symbolic ref naming the current branch (`ref: refs/heads/main`), or containing a raw hash when detached. Commands like commit, reset and merge work by updating whichever branch HEAD points to.",
+          "level": "advanced"
+        },
+        {
+          "id": "git-cli-08-q13",
+          "type": "interview",
+          "prompt": "Your monorepo takes 15 minutes to clone in CI and gigabytes on laptops. What Git features would you use?",
+          "answer": "- In CI, use shallow clones (`--depth 1`, the default in actions/checkout) unless the job needs history, such as changelog generation or affected-project detection, in which case fetch just enough depth or use a blobless clone.\n- On laptops, use partial clone (`--filter=blob:none`) plus sparse-checkout so developers only materialize the directories they work on.\n- Move large binaries (design files, test fixtures, videos) to Git LFS or out of the repo; check history for big blobs with `git rev-list --objects --all` and `git cat-file --batch-check`, and rewrite history with git filter-repo if needed, coordinated with the team.\n- Enable `git maintenance` (commit-graph, prefetch) and fsmonitor for faster status.\n- Cache dependencies separately in CI rather than committing them.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Pro Git: Git Objects",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-Git-Objects"
+        },
+        {
+          "title": "Pro Git: Git References",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-Git-References"
+        },
+        {
+          "title": "gitrevisions documentation",
+          "url": "https://git-scm.com/docs/gitrevisions"
+        }
+      ]
+    },
+    {
+      "id": "git-cli-09-debugging-recovery",
+      "title": "Recovery and Debugging: Reflog, Bisect, Blame, Worktrees and Hooks",
+      "level": "advanced",
+      "summary": "Recover lost commits and branches, find the commit that introduced a bug with bisect, trace code history, and automate checks with hooks.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Recovering lost work with the reflog",
+          "body": "Almost every \"I lost my work\" situation involving committed changes is recoverable, because Git does not delete commits immediately; it only moves refs. The reflog shows where HEAD and each branch pointed before.\n\n- After a bad `reset --hard`: `git reflog`, find the entry before the reset, `git reset --hard HEAD@{1}` (or the hash)\n- After a botched rebase: find `rebase (start)` in the reflog and reset to the entry just before it, or use `ORIG_HEAD`, which rebase, merge and reset set to the previous tip\n- Deleted branch: find its last commit in the reflog and `git branch name <hash>`\n- Dropped stash: `git fsck --unreachable | grep commit` lists candidates; stash commits have messages like \"WIP on main\"\n\nWhat cannot be recovered: changes that were never committed or staged. Staged-but-uncommitted content exists as blobs and can sometimes be found with `git fsck --lost-found`, but without file names.",
+          "code": {
+            "lang": "bash",
+            "source": "git reset --hard HEAD~3          # oops\ngit reflog\n# 1f2e3d4 HEAD@{0}: reset: moving to HEAD~3\n# 9a8b7c6 HEAD@{1}: commit: add payment webhook\ngit reset --hard HEAD@{1}        # back where we were\n\ngit branch -D feature/x          # oops\ngit reflog | grep feature/x\ngit branch feature/x 5c6d7e8     # recreated"
+          }
+        },
+        {
+          "heading": "Finding the culprit with git bisect",
+          "body": "`git bisect` performs a binary search through history to find the first bad commit. With 1,000 commits between a known good and known bad version, it needs about 10 tests (log2 of 1000).\n\n- `git bisect start`, `git bisect bad` (current commit), `git bisect good v2.1.0`\n- Git checks out a midpoint; test it and mark `good` or `bad`\n- Repeat until Git prints \"<hash> is the first bad commit\"\n- `git bisect skip` if a commit cannot be tested (for example it does not build)\n- `git bisect reset` returns to where you started\n\nAutomate it with `git bisect run <script>`: the script exits 0 for good, 1-127 (except 125) for bad, and 125 for skip. A failing test written for the bug makes a perfect bisect script. Bisect works best when every commit builds and passes tests, another reason for atomic commits and squash/rebase discipline.",
+          "code": {
+            "lang": "bash",
+            "source": "git bisect start\ngit bisect bad HEAD\ngit bisect good v2.1.0\n# Bisecting: 312 revisions left to test after this (roughly 8 steps)\n\ngit bisect run npx vitest run src/cart/total.test.ts\n# 4e5f6a7 is the first bad commit\ngit bisect reset"
+          }
+        },
+        {
+          "heading": "Tracing history: blame, log -L and pickaxe",
+          "body": "When code looks wrong, find out why it was written that way before changing it.\n\n- `git blame file` shows the last commit that touched each line; `-w` ignores whitespace changes and `-C` detects lines moved or copied from other files\n- `.git-blame-ignore-revs` lists bulk formatting commits to skip; configure it with `git config blame.ignoreRevsFile .git-blame-ignore-revs` (GitHub honors it automatically)\n- `git log -L 40,60:src/cart.ts` shows the evolution of a line range; `git log -L :calculateTotal:src/cart.ts` follows a function\n- `git log -S 'discountRate'` finds commits that added or removed a string; `-G 'regex'` matches changed lines by regex\n- `git log --follow file` continues history across renames\n\nBlame points to a commit; the commit message, PR and linked ticket explain the why. This is why good commit messages pay off.",
+          "code": {
+            "lang": "bash",
+            "source": "git blame -w -C -L 40,60 src/cart.ts\ngit log -L :calculateTotal:src/cart.ts\ngit log -S 'discountRate' --oneline\ngit log --follow --oneline -- src/utils/money.ts\necho 3f4a5b6c... >> .git-blame-ignore-revs   # prettier mass reformat"
+          }
+        },
+        {
+          "heading": "Worktrees and stash for context switching",
+          "body": "`git worktree` checks out another branch into a separate directory that shares the same repository. You can review a PR or fix a production bug without stashing or disturbing your current work, and both checkouts share objects, so it is cheap.\n\n- `git worktree add ../hotfix release/2.3`\n- `git worktree list`, `git worktree remove ../hotfix`\n- A branch can be checked out in only one worktree at a time\n\n`git stash` remains handy for quick switches: `stash push -m msg -- path` stashes specific paths, `-u` includes untracked files, `stash apply` keeps the entry while `pop` drops it, and `stash branch name` creates a branch from a stash when it no longer applies cleanly.",
+          "code": {
+            "lang": "bash",
+            "source": "git worktree add ../app-hotfix -b hotfix/login origin/main\ncd ../app-hotfix && npm ci && npm test\n# ...fix, commit, push...\ncd - && git worktree remove ../app-hotfix\n\ngit stash push -u -m \"half-done refactor\"\ngit stash list\ngit stash branch refactor-wip stash@{0}"
+          }
+        },
+        {
+          "heading": "Hooks and automated guardrails",
+          "body": "Git hooks are scripts in `.git/hooks` that run on events: `pre-commit`, `commit-msg`, `pre-push`, `post-checkout`, and on servers `pre-receive`. Because `.git/hooks` is not versioned, teams share hooks with tools like **husky** or **lefthook**, or with `git config core.hooksPath .githooks`.\n\nGood uses:\n\n- `pre-commit`: lint and format only the staged files (lint-staged), scan for secrets\n- `commit-msg`: validate Conventional Commits with commitlint\n- `pre-push`: run fast unit tests or type checks\n\nKeep hooks fast (a few seconds) or developers will bypass them with `--no-verify`. Client-side hooks are a convenience, not enforcement: anyone can skip them, so the real gate is CI plus branch protection (required status checks, required reviews, no force pushes on main).",
+          "code": {
+            "lang": "json",
+            "source": "{\n  \"scripts\": { \"prepare\": \"husky\" },\n  \"lint-staged\": {\n    \"*.{ts,tsx}\": [\"eslint --fix\", \"prettier --write\"],\n    \"*.{json,md,css}\": \"prettier --write\"\n  }\n}\n\n// .husky/pre-commit\n// npx lint-staged\n\n// .husky/commit-msg\n// npx --no -- commitlint --edit $1"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Committed work is almost always recoverable via the reflog or ORIG_HEAD until gc prunes it.",
+        "Uncommitted, unstaged changes are not stored by Git and cannot be recovered after reset --hard or restore.",
+        "git bisect binary-searches history; `bisect run` automates it with a test script (exit 0 good, 125 skip, other non-zero bad).",
+        "blame -w -C, log -L, log -S and --follow explain why code looks the way it does.",
+        ".git-blame-ignore-revs hides mass formatting commits from blame.",
+        "Worktrees give extra checkouts sharing one repository, ideal for hotfixes and reviews.",
+        "Client-side hooks (husky, lefthook) are convenience; CI and branch protection are the real enforcement."
+      ],
+      "questions": [
+        {
+          "id": "git-cli-09-q01",
+          "type": "mcq",
+          "prompt": "You ran `git reset --hard HEAD~2` and lost two commits. What is the fastest recovery?",
+          "options": [
+            "Clone the repo again",
+            "git reflog, then git reset --hard to the entry before the reset",
+            "git revert HEAD~2",
+            "git fsck --full"
+          ],
+          "answer": 1,
+          "explanation": "The reflog lists the previous HEAD position (often HEAD@{1}). Resetting back to it restores the branch with both commits."
+        },
+        {
+          "id": "git-cli-09-q02",
+          "type": "mcq",
+          "prompt": "About how many test steps does git bisect need to search 1,000 commits?",
+          "options": [
+            "About 10",
+            "About 100",
+            "About 500",
+            "1,000"
+          ],
+          "answer": 0,
+          "explanation": "Binary search halves the range each step; log2(1000) is just under 10."
+        },
+        {
+          "id": "git-cli-09-q03",
+          "type": "mcq",
+          "prompt": "In `git bisect run ./check.sh`, what should the script exit with when the current commit cannot be tested?",
+          "options": [
+            "0",
+            "1",
+            "125",
+            "255"
+          ],
+          "answer": 2,
+          "explanation": "125 tells bisect to skip the commit. 0 means good, other codes from 1 to 127 mean bad, and values above 127 abort the bisect."
+        },
+        {
+          "id": "git-cli-09-q04",
+          "type": "mcq",
+          "prompt": "A mass Prettier reformat makes `git blame` useless. What is the standard fix?",
+          "options": [
+            "Rewrite history to remove the formatting commit",
+            "List the commit in .git-blame-ignore-revs and configure blame.ignoreRevsFile",
+            "Use git blame -L",
+            "Disable Prettier"
+          ],
+          "answer": 1,
+          "explanation": "Blame skips the listed commits and attributes lines to the previous meaningful change. GitHub's blame view reads the file automatically."
+        },
+        {
+          "id": "git-cli-09-q05",
+          "type": "mcq",
+          "prompt": "You are mid-way through a big change and need to fix a production bug on another branch without touching your working directory. Which feature fits best?",
+          "options": [
+            "git worktree add",
+            "git clone into /tmp every time",
+            "git reset --hard",
+            "git cherry-pick"
+          ],
+          "answer": 0,
+          "explanation": "A worktree creates a second checkout of another branch in a different folder, sharing the same object database, so your current files are untouched."
+        },
+        {
+          "id": "git-cli-09-q06",
+          "type": "mcq",
+          "prompt": "Which command shows the history of a single function across commits?",
+          "options": [
+            "git blame -C",
+            "git log -L :funcName:path/to/file",
+            "git show funcName",
+            "git diff --function"
+          ],
+          "answer": 1,
+          "explanation": "`git log -L` with the `:funcname:file` form tracks the line range of that function through history and prints each change."
+        },
+        {
+          "id": "git-cli-09-q07",
+          "type": "truefalse",
+          "prompt": "A pre-commit hook installed with husky guarantees that no unlinted code reaches main.",
+          "answer": false,
+          "explanation": "Developers can bypass hooks with --no-verify, or never install them. Enforcement must happen in CI with required status checks on protected branches."
+        },
+        {
+          "id": "git-cli-09-q08",
+          "type": "truefalse",
+          "prompt": "After a rebase, ORIG_HEAD points to the branch tip as it was before the rebase.",
+          "answer": true,
+          "explanation": "Rebase, merge and reset record the previous tip in ORIG_HEAD, so `git reset --hard ORIG_HEAD` undoes the operation (until another such command overwrites it)."
+        },
+        {
+          "id": "git-cli-09-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which situations can usually be recovered with Git alone?",
+          "options": [
+            "A branch deleted with git branch -D yesterday",
+            "Commits lost after a bad interactive rebase",
+            "Edits never staged, discarded with git restore",
+            "A stash dropped by mistake",
+            "A file you deleted that was never added to Git"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Deleted branches and rewritten commits are in the reflog, and dropped stash commits are dangling objects findable with fsck. Content Git never stored cannot be recovered by Git."
+        },
+        {
+          "id": "git-cli-09-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `git bisect ___ npm test` automatically runs the test command at each step.",
+          "accept": [
+            "run"
+          ],
+          "explanation": "`bisect run` uses the command's exit code to mark each commit good, bad or skip until it finds the first bad commit."
+        },
+        {
+          "id": "git-cli-09-q11",
+          "type": "interview",
+          "prompt": "A regression appeared somewhere in the last 400 commits and nobody knows where. How do you find it?",
+          "answer": "I use git bisect. First I write the smallest reliable reproduction, ideally a failing automated test or script that exits non-zero when the bug is present. Then `git bisect start`, `git bisect bad HEAD`, `git bisect good <last known good tag>`. With `git bisect run ./repro.sh` Git binary-searches automatically, about 9 steps for 400 commits. Commits that do not build exit 125 to be skipped. When it reports the first bad commit, I read its diff and PR to understand the cause, run `git bisect reset`, and fix with a regression test. If the history has many broken intermediate commits, bisect gets noisy, which is an argument for atomic commits that each pass CI.",
+          "level": "advanced"
+        },
+        {
+          "id": "git-cli-09-q12",
+          "type": "interview",
+          "prompt": "A junior engineer says they force pushed and 'lost a week of work'. How do you help?",
+          "answer": "- Stay calm and stop further damage: no more gc, resets or pushes until we look.\n- If the work was committed on their machine, their local reflog has it: `git reflog show feature-branch` or `git reflog`, find the last good commit, and create a branch at it.\n- If they overwrote the remote with an older local copy, anyone who fetched recently has the old commits as `origin/branch` in their clone. GitHub's PR timeline also shows force-pushed commit hashes, and those commits often stay fetchable for a while.\n- Restore with `git push --force-with-lease` from the recovered branch.\n- Then prevent it: explain `--force-with-lease`, protect shared branches, and push work daily.",
+          "level": "intermediate"
+        },
+        {
+          "id": "git-cli-09-q13",
+          "type": "interview",
+          "prompt": "How would you set up Git hooks for a team, and what belongs in hooks versus CI?",
+          "answer": "I would version the hooks with husky or lefthook so they install automatically on `npm install`. pre-commit runs lint-staged (ESLint and Prettier on staged files only) and a secret scanner like gitleaks; commit-msg runs commitlint if we use Conventional Commits; pre-push might run type checks or affected unit tests. Hooks must stay fast, a few seconds, or people bypass them with --no-verify. Since hooks are optional and local, everything important is repeated in CI: full lint, type check, tests, build, security scans, with required status checks and reviews on protected branches. Hooks give fast feedback; CI is the gate.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "git-bisect documentation",
+          "url": "https://git-scm.com/docs/git-bisect"
+        },
+        {
+          "title": "git-reflog documentation",
+          "url": "https://git-scm.com/docs/git-reflog"
+        },
+        {
+          "title": "githooks documentation",
+          "url": "https://git-scm.com/docs/githooks"
+        }
+      ]
+    }
+  ]
+}
