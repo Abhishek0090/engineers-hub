@@ -8,6 +8,7 @@ import { currentStreak } from "@/lib/progress";
 
 import { FilledIcon, Icon, type IconName } from "./icons";
 import { Logo } from "./logo";
+import { clearOfflineCaches, InstallAppButton } from "./pwa";
 import { useProgress } from "./progress-provider";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -32,6 +33,7 @@ export function AppShell({ user, children }: { user: { name: string; username: s
   const active = (href: string) => (href === "/learn" ? pathname === "/learn" || pathname.startsWith("/learn/") : pathname.startsWith(href));
   const logout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
+    await clearOfflineCaches();
     router.replace("/");
     router.refresh();
   };
@@ -61,6 +63,7 @@ export function AppShell({ user, children }: { user: { name: string; username: s
             <p style={{ fontWeight: 600, fontSize: 14 }}>{user.name}</p>
             <p className="faint" style={{ fontSize: 13 }}>@{user.username}</p>
           </div>
+          <InstallAppButton />
           <button type="button" className="nav-item" onClick={logout} style={{ background: "none", width: "100%" }}>
             <Icon name="logout" size={22} /> Log out
           </button>

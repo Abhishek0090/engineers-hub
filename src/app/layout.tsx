@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 
+import { ServiceWorkerRegister } from "@/components/pwa";
 import { THEME_SCRIPT } from "@/components/theme-toggle";
 import { AUTHOR, SITE_DESCRIPTION, SITE_NAME } from "@/lib/catalog";
 
@@ -16,11 +17,19 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   authors: [{ name: AUTHOR }],
   creator: AUTHOR,
+  // Installed app (PWA): the manifest is src/app/manifest.ts, the service worker public/sw.js.
+  appleWebApp: { capable: true, title: SITE_NAME, statusBarStyle: "black-translucent" },
+  icons: {
+    icon: [{ url: "/pwa-icon/192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/pwa-icon/apple-180.png", sizes: "180x180", type: "image/png" }],
+  },
+  formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: "#0b0d17" },
     { media: "(prefers-color-scheme: light)", color: "#f6f6fb" },
@@ -33,7 +42,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <ServiceWorkerRegister />
+      </body>
     </html>
   );
 }

@@ -92,6 +92,15 @@ Set `DATA_SOURCE=mongo` in `.env.local` and restart. Collections: `tracks`, `goa
 
 Optional database UI: `docker compose --profile tools up -d mongo-express`, then http://localhost:8081.
 
+## Install as an app
+
+StudyHub is a PWA. On a production server over HTTPS (or `localhost` after `npm run build && npm start`):
+
+- **Chrome, Edge, Android:** use **Install app** in the sidebar, or the install icon in the address bar.
+- **iPhone, iPad:** in Safari tap Share, then **Add to Home Screen**.
+
+Pages you have opened work offline. Logging out clears them from the device.
+
 ## Share to another laptop
 
 ```bash

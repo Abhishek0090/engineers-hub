@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { FilledIcon, Icon } from "@/components/icons";
 import { useProgress } from "@/components/progress-provider";
+import { clearOfflineCaches, InstallAppButton } from "@/components/pwa";
 import { programConfig, progressProgram } from "@/lib/catalog";
 import { currentStreak, dayKey, levelFromXp, trackStats } from "@/lib/progress";
 import type { Goal, TrackSummary } from "@/lib/types";
@@ -54,6 +55,7 @@ export function ProfileView({
 
   const logout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
+    await clearOfflineCaches();
     router.replace("/");
     router.refresh();
   };
@@ -148,6 +150,7 @@ export function ProfileView({
               Reset progress
             </button>
           </div>
+          <InstallAppButton className="btn btn-ghost" />
           <button type="button" className="btn btn-bad" onClick={logout}>
             <Icon name="logout" size={18} /> Log out
           </button>

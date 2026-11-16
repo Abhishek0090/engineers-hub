@@ -233,6 +233,21 @@ chapter practice, review and mock interviews.
 | `npm run validate` | Content schema, unique ids, answer indexes, no smart quotes or invisible characters |
 | `npm run build` | Production build |
 
+## Installable app (PWA)
+
+| Piece | File | Notes |
+| --- | --- | --- |
+| Manifest | `src/app/manifest.ts` | Served at `/manifest.webmanifest`; name from `site.json`, starts at `/learn`, standalone, shortcuts to Learn, Review and the question bank |
+| Icons | `src/app/pwa-icon/[file]/route.tsx` | 192, 512, maskable 512 and Apple 180 PNGs, rendered from `src/lib/brand-icon.ts` with `next/og` and prerendered at build time |
+| Service worker | `public/sw.js` | Hashed assets cache first; pages network first with the last cached copy as fallback, else `/offline`; API and RSC requests never cached |
+| Registration and install | `src/components/pwa.tsx` | Registers the worker in production only; "Install app" button (native prompt on Chrome, Edge and Android, instructions on iOS); logout clears all caches |
+| Headers | `next.config.ts` | `/sw.js` is never cached (`no-cache, no-store`), plus `nosniff`, `DENY` framing and a referrer policy on every route |
+
+Offline: any lesson, track or practice page opened once works without a connection. In JSON mode
+progress is in localStorage, so practice works offline too. Bump `VERSION` in `sw.js` to drop old
+caches. Install needs HTTPS (or `localhost`); test with `npm run build && npm start`, since the
+worker is not registered by `next dev`.
+
 ## Sharing the project
 
 `npm run share` runs `scripts/build-docs.mjs` (refreshing [CURRICULUM.md](CURRICULUM.md)) and then
