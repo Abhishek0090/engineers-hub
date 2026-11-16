@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { FilledIcon, Icon } from "@/components/icons";
 import { useProgress } from "@/components/progress-provider";
-import { AREAS, GOAL_ICONS, levelLabel } from "@/lib/catalog";
+import { AREAS, GOAL_ICONS, goalProgram, levelLabel, programConfig, programOfId, PROGRAMS } from "@/lib/catalog";
 import { currentStreak, dayKey, levelFromXp, MASTERY_SCORE, trackStats } from "@/lib/progress";
 import type { Area, Goal, TrackSummary } from "@/lib/types";
 
@@ -13,6 +13,25 @@ const tc = (color: string) => ({ ["--tc" as string]: color });
 
 
 function GoalPicker({ goals, current, onPick }: { goals: Goal[]; current: string | null; onPick: (g: Goal) => void }) {
+  const groups = PROGRAMS.map((p) => ({ ...p, goals: goals.filter((g) => goalProgram(g) === p.id) })).filter((p) => p.goals.length);
+  return (
+    <div className="stack" style={{ gap: 28 }}>
+      {groups.map((p) => (
+        <section key={p.id} className="stack" style={{ gap: 12 }}>
+          {groups.length > 1 ? (
+            <div>
+              <h2 style={{ fontSize: 20, fontWeight: 700 }}>{p.label}</h2>
+              <p className="faint" style={{ fontSize: 14, fontWeight: 600 }}>{p.blurb}</p>
+            </div>
+          ) : null}
+          <GoalGrid goals={p.goals} current={current} onPick={onPick} />
+        </section>
+      ))}
+    </div>
+  );
+}
+
+function GoalGrid({ goals, current, onPick }: { goals: Goal[]; current: string | null; onPick: (g: Goal) => void }) {
   return (
     <div className="grid grid-3">
       {goals.map((g) => (
@@ -60,11 +79,14 @@ export function Dashboard({ tracks, goals, firstName }: { tracks: TrackSummary[]
   const [areaFilter, setAreaFilter] = useState<Area | "all">("all");
 
   const goal = goals.find((g) => g.id === progress.goalId) ?? null;
+  const program = goal ? goalProgram(goal) : programConfig(null).id;
+  const terms = programConfig(program).terms;
+  const programTracks = tracks.filter((t) => t.program === program);
   const byId = new Map(tracks.map((t) => [t.id, t]));
   const goalTracks = goal ? goal.trackIds.map((id) => byId.get(id)).filter((t): t is TrackSummary => !!t) : [];
 
   const continueWith = (() => {
-    for (const t of goal ? goalTracks : tracks) {
+    for (const t of goal ? goalTracks : programTracks) {
       const s = trackStats(t, progress);
       if (s.next) return { track: t, chapter: s.next };
     }
@@ -72,17 +94,22 @@ export function Dashboard({ tracks, goals, firstName }: { tracks: TrackSummary[]
   })();
 
   const pickGoal = (g: Goal) => {
-    update((p) => ({ ...p, goalId: g.id, dailyGoalXp: g.dailyGoalXp, updatedAt: new Date().toISOString() }));
+    update((p) => ({ ...p, goalId: g.id, program: goalProgram(g), dailyGoalXp: g.dailyGoalXp, updatedAt: new Date().toISOString() }));
     setChangingGoal(false);
+    setAreaFilter("all");
   };
 
+  const programMistakes = progress.mistakes.filter((id) => programOfId(id) === program).length;
   const today = progress.history[dayKey()] ?? 0;
   const dailyPct = Math.min(100, Math.round((today / progress.dailyGoalXp) * 100));
   const streak = currentStreak(progress);
   const lvl = levelFromXp(progress.xp);
-  const mastered = Object.values(progress.chapters).filter((c) => c.attempts > 0 && c.bestScore >= MASTERY_SCORE).length;
-  const totalChapters = tracks.reduce((n, t) => n + t.chapters.length, 0);
-  const shownTracks = tracks.filter((t) => areaFilter === "all" || t.area === areaFilter);
+  const programChapters = new Set(programTracks.flatMap((t) => t.chapters.map((c) => c.id)));
+  const mastered = Object.entries(progress.chapters).filter(
+    ([id, c]) => programChapters.has(id) && c.attempts > 0 && c.bestScore >= MASTERY_SCORE,
+  ).length;
+  const totalChapters = programChapters.size;
+  const shownTracks = programTracks.filter((t) => areaFilter === "all" || t.area === areaFilter);
 
   if (!ready) return <div className="container page" />;
 
@@ -157,10 +184,15 @@ export function Dashboard({ tracks, goals, firstName }: { tracks: TrackSummary[]
                 </Link>
               </div>
             </div>
+          ) : goalTracks.length === 0 ? (
+            <div className="card">
+              <h2 style={{ fontWeight: 700 }}>Content for this goal is on its way.</h2>
+              <p className="muted">None of its tracks are published yet. Pick another goal for now; your progress stays.</p>
+            </div>
           ) : (
             <div className="card">
               <h2 style={{ fontWeight: 700 }}>Every chapter in this goal is mastered.</h2>
-              <p className="muted">Pick another goal or run mock interviews from the question bank.</p>
+              <p className="muted">{terms.doneText}</p>
             </div>
           )}
 
@@ -193,7 +225,7 @@ export function Dashboard({ tracks, goals, firstName }: { tracks: TrackSummary[]
             <h2 style={{ fontSize: 20, fontWeight: 700 }}>All tracks</h2>
             <div className="chip-row" role="group" aria-label="Filter by area">
               <button type="button" className="chip" aria-pressed={areaFilter === "all"} onClick={() => setAreaFilter("all")}>All</button>
-              {AREAS.filter((a) => tracks.some((t) => t.area === a.id)).map((a) => (
+              {AREAS.filter((a) => programTracks.some((t) => t.area === a.id)).map((a) => (
                 <button key={a.id} type="button" className="chip" aria-pressed={areaFilter === a.id} onClick={() => setAreaFilter(a.id)}>
                   {a.label}
                 </button>
@@ -234,17 +266,17 @@ export function Dashboard({ tracks, goals, firstName }: { tracks: TrackSummary[]
             <p className="faint" style={{ fontSize: 13, fontWeight: 700 }}>{lvl.span - lvl.into} XP to level {lvl.level + 1}</p>
           </div>
           <Link href="/review" className="card card-link row">
-            <Icon name="refresh" size={26} style={{ color: progress.mistakes.length ? "var(--bad)" : "var(--text-3)" }} />
+            <Icon name="refresh" size={26} style={{ color: programMistakes ? "var(--bad)" : "var(--text-3)" }} />
             <div className="grow">
               <h3 style={{ fontWeight: 700, fontSize: 16 }}>Review mistakes</h3>
-              <p className="faint" style={{ fontSize: 13, fontWeight: 700 }}>{progress.mistakes.length} questions waiting</p>
+              <p className="faint" style={{ fontSize: 13, fontWeight: 700 }}>{programMistakes} questions waiting</p>
             </div>
           </Link>
           <Link href="/interview" className="card card-link row">
             <Icon name="mic" size={26} style={{ color: "var(--brand)" }} />
             <div className="grow">
-              <h3 style={{ fontWeight: 700, fontSize: 16 }}>Interview bank</h3>
-              <p className="faint" style={{ fontSize: 13, fontWeight: 700 }}>Search questions, run a mock round</p>
+              <h3 style={{ fontWeight: 700, fontSize: 16 }}>{terms.bank}</h3>
+              <p className="faint" style={{ fontSize: 13, fontWeight: 700 }}>{terms.bankHint}</p>
             </div>
           </Link>
         </aside>

@@ -1,0 +1,2170 @@
+{
+  "id": "ca-fin-afm",
+  "title": "Advanced Financial Management (Final P2)",
+  "area": "ca-final",
+  "order": 121,
+  "icon": "AFM",
+  "color": "#047857",
+  "description": "CA Final Paper 2 (ICAI new scheme, May 2027 onward): capital budgeting under risk, security and corporate valuation, portfolio management, derivatives, forex and interest rate risk, and mergers and startup finance, with exam-style numericals.",
+  "chapters": [
+    {
+      "id": "ca-fin-afm-01-policy-risk",
+      "title": "Financial Policy, Corporate Strategy and Risk Management",
+      "level": "beginner",
+      "summary": "How financial policy supports corporate strategy, how growth is limited by financing, and how risk is classified, managed and measured with Value at Risk.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Financial policy and corporate strategy",
+          "body": "Corporate strategy decides where the firm competes and how it grows. Financial policy decides how that strategy is funded and how the returns are shared. The two cannot be framed separately: a growth strategy that the balance sheet cannot carry fails, and a financial policy that ignores strategy builds idle cash or excess debt.\n\nFinance supports strategy through three linked decisions:\n\n| Decision | Question it answers | Link to strategy |\n| --- | --- | --- |\n| Investment | Which projects and assets do we fund? | Turns strategic choices (new plant, acquisition, market entry) into capital budgets |\n| Financing | Debt or equity, and in what mix? | Sets the cost of capital and the risk the firm can carry while it grows |\n| Dividend | How much profit do we pay out? | Retained earnings are the cheapest internal fund for growth |\n\nStrategic financial planning works at the corporate level (portfolio of businesses, capital allocation), business level (funding for each unit's competitive plan) and functional level (working capital, treasury, budgets). Liquidity and solvency are the constraints on all three."
+        },
+        {
+          "heading": "Sustainable growth rate",
+          "body": "The sustainable growth rate (SGR) is the fastest rate at which sales and assets can grow without issuing fresh equity and without changing the debt-equity ratio, asset turnover or profit margin.\n\n**SGR = ROE x b**, where b is the retention ratio (1 - payout ratio).\n\nWorked example: ROE is 20% and the company pays out 30% of earnings.\n\n| Step | Working | Result |\n| --- | --- | --- |\n| Retention ratio b | 1 - 0.30 | 0.70 |\n| SGR | 20% x 0.70 | 14% |\n\nIf the strategy demands 20% growth, management must close the 6% gap by raising ROE (better margins or turnover), retaining more, borrowing more, or issuing equity. That is the practical meeting point of strategy and financial policy."
+        },
+        {
+          "heading": "Types of risk and the risk management process",
+          "body": "Risks a business faces:\n\n- **Strategic risk**: wrong choices of market, product or business model; competitor moves; technology change.\n- **Compliance (regulatory) risk**: penalties and losses from breaching laws and regulations.\n- **Operational risk**: failure of people, processes, systems or external events (fraud, IT outage, plant breakdown).\n- **Financial risk**: market risk (interest rate, currency, commodity, equity price), credit risk (counterparty default) and liquidity risk.\n- **Knowledge risk**: loss of key know-how or intellectual property, poor use of information.\n\nThe risk management process:\n\n| Step | What happens |\n| --- | --- |\n| Identify | List risks by source and business unit (risk register) |\n| Assess | Measure likelihood and impact; quantify where possible (VaR, sensitivity, scenarios) |\n| Respond | Avoid, reduce, transfer (insurance, hedging, outsourcing) or retain |\n| Monitor and report | Limits, key risk indicators, board reporting, periodic review |"
+        },
+        {
+          "heading": "Value at Risk (VaR)",
+          "body": "VaR is the maximum loss a position is expected to suffer over a given horizon at a given confidence level, under normal market conditions. A 1-day 99% VaR of ₹10 lakh means: on 99 days out of 100 the loss should not exceed ₹10 lakh; on 1 day in 100 it may.\n\n**VaR = Z x daily sigma x square root of N x position value**\n\n- Z for one-tailed confidence: 95% = 1.65, 99% = 2.33.\n- N = holding period in days. Risk grows with the square root of time, not with time.\n- Annual sigma converts to daily sigma by dividing by the square root of trading days (state the days you use, commonly 250 or 252).\n\nWorked example: equity portfolio ₹5,00,00,000, daily sigma 1.5%, 99% confidence.\n\n| Particulars | Working | ₹ |\n| --- | --- | --- |\n| 1-day VaR | 2.33 x 0.015 x 5,00,00,000 | 17,47,500 |\n| 10-day VaR | 17,47,500 x square root of 10 | 55,26,080 |"
+        },
+        {
+          "heading": "Exam tips and common mistakes",
+          "body": "- Using 1.96 for 95%: 1.96 is the two-tailed value. VaR looks only at the loss tail, so use 1.65 (and 2.33 for 99%).\n- Multiplying daily VaR by N instead of the square root of N.\n- Mixing annual and daily volatility. Convert first, then apply the formula.\n- Reading VaR as the worst possible loss. It says nothing about how large the loss is on the bad days beyond the cut-off; supplement it with stress tests and expected shortfall.\n- In theory answers on strategy, always tie each financial decision back to a strategic objective and to the constraints (liquidity, cost of capital, risk appetite)."
+        }
+      ],
+      "keyPoints": [
+        "Three finance decisions (investment, financing, dividend) must be aligned with corporate strategy; liquidity and solvency constrain all three.",
+        "Sustainable growth rate = ROE x retention ratio; growth above SGR needs more leverage, higher ROE, lower payout or new equity.",
+        "Risk categories: strategic, compliance, operational, financial (market, credit, liquidity) and knowledge risk.",
+        "Risk responses: avoid, reduce, transfer, retain; then monitor against limits.",
+        "VaR = Z x daily sigma x square root of N x value; Z = 1.65 (95%) and 2.33 (99%), one-tailed.",
+        "VaR assumes normal markets and does not measure the size of tail losses beyond the cut-off."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-afm-01-policy-risk-case1",
+          "title": "Case: Kaveri Capital Ltd treasury",
+          "body": "Kaveri Capital Ltd, an NBFC, reports market risk to its board every week. Its treasury holds two positions:\n\n| Position | Market value (₹) | Daily volatility (sigma) |\n| --- | --- | --- |\n| Listed equity portfolio | 8,00,00,000 | 1.25% |\n| Long USD deposit (INR value) | 2,00,00,000 | 0.60% |\n\nThe board uses one-tailed Z values of 1.65 (95%) and 2.33 (99%) and assumes returns are normally distributed and independent across days. Use 3.1623 as the square root of 10 where needed."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-afm-01-policy-risk-q01",
+          "type": "mcq",
+          "prompt": "Which of the following is NOT one of the three core financial decisions that link financial policy with corporate strategy?",
+          "options": [
+            "Investment decision",
+            "Financing decision",
+            "Dividend decision",
+            "Advertising media decision"
+          ],
+          "answer": 3,
+          "explanation": "Investment, financing and dividend decisions are the three core finance decisions. Choice of advertising media is a marketing decision; finance only funds it through the budget."
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q02",
+          "type": "mcq",
+          "prompt": "A company has ROE of 18% and a dividend payout ratio of 40%. Its sustainable growth rate is:",
+          "options": [
+            "7.2%",
+            "10.8%",
+            "18.0%",
+            "25.2%"
+          ],
+          "answer": 1,
+          "explanation": "SGR = ROE x retention ratio = 18% x (1 - 0.40) = 18% x 0.60 = 10.8%. 7.2% wrongly uses the payout ratio."
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q03",
+          "type": "mcq",
+          "prompt": "Kaveri's 1-day 95% VaR on the equity portfolio works out to ₹16,50,000. What does this figure mean?",
+          "options": [
+            "The portfolio cannot lose more than ₹16,50,000 in a day",
+            "There is a 5% probability that the 1-day loss will exceed ₹16,50,000 under normal market conditions",
+            "The expected (average) daily loss is ₹16,50,000",
+            "There is a 95% probability that the portfolio will lose ₹16,50,000 tomorrow"
+          ],
+          "answer": 1,
+          "explanation": "VaR is a threshold: at 95% confidence, losses exceed it on about 5 days in 100. It is not the maximum possible loss and not the expected loss.",
+          "caseId": "ca-fin-afm-01-policy-risk-case1"
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q04",
+          "type": "mcq",
+          "prompt": "A bank loses money because a software glitch in its payment system duplicated customer transfers. This is an example of:",
+          "options": [
+            "Strategic risk",
+            "Operational risk",
+            "Credit risk",
+            "Market risk"
+          ],
+          "answer": 1,
+          "explanation": "Operational risk arises from failed internal processes, people or systems, or from external events. The loss did not come from a strategic choice, a borrower default or a price movement."
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q05",
+          "type": "mcq",
+          "prompt": "If Kaveri wanted the 1-day VaR of the equity portfolio at 99% instead of 95%, by what factor would the 95% figure be multiplied?",
+          "options": [
+            "2.33 / 1.65 = 1.412",
+            "1.65 / 2.33 = 0.708",
+            "Square root of 2.33",
+            "No change, confidence does not affect VaR"
+          ],
+          "answer": 0,
+          "explanation": "VaR is proportional to Z. Moving from 95% (Z = 1.65) to 99% (Z = 2.33) scales VaR by 2.33 / 1.65 = 1.412.",
+          "caseId": "ca-fin-afm-01-policy-risk-case1"
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q06",
+          "type": "truefalse",
+          "prompt": "VaR at 99% confidence tells a firm the maximum loss it can ever suffer on the position.",
+          "answer": false,
+          "explanation": "VaR is a loss threshold at a confidence level under normal market conditions. Losses beyond VaR occur 1% of the time at 99% and VaR says nothing about their size, which is why stress testing and expected shortfall are used alongside it."
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q07",
+          "type": "truefalse",
+          "prompt": "A company whose planned growth exceeds its sustainable growth rate must change at least one of: profitability, asset turnover, leverage, payout, or raise fresh equity.",
+          "answer": true,
+          "explanation": "SGR assumes constant margin, turnover, leverage and payout with no new equity. Growing faster is only possible if one of these assumptions is relaxed."
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q08",
+          "type": "multi",
+          "prompt": "Which of the following are valid responses to an identified risk? (Select all that apply)",
+          "options": [
+            "Avoid the activity that creates the risk",
+            "Reduce the risk through controls",
+            "Transfer the risk through insurance or derivatives",
+            "Retain the risk within the firm's risk appetite",
+            "Leave the risk unrecorded so it does not appear in board reports"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "The four accepted responses are avoid, reduce, transfer and retain. Not recording a risk is a governance failure, not a response."
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: under VaR, risk over N days is obtained by multiplying 1-day VaR by the square root of ___.",
+          "accept": [
+            "N",
+            "time",
+            "the number of days",
+            "number of days",
+            "days"
+          ],
+          "explanation": "With independent daily returns, variance adds over time, so standard deviation (and VaR) grows with the square root of the number of days."
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q10",
+          "type": "numeric",
+          "prompt": "Compute the 1-day VaR of the equity portfolio at 95% confidence. Round to the nearest rupee.",
+          "answer": 1650000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Working | ₹ |\n| --- | --- | --- |\n| 1-day 95% VaR | 1.65 x 0.0125 x 8,00,00,000 | 16,50,000 |",
+          "caseId": "ca-fin-afm-01-policy-risk-case1"
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q11",
+          "type": "numeric",
+          "prompt": "Compute the 10-day VaR of the equity portfolio at 99% confidence. Round to the nearest rupee.",
+          "answer": 7368159,
+          "tolerance": 100,
+          "unit": "₹",
+          "explanation": "| Particulars | Working | ₹ |\n| --- | --- | --- |\n| 1-day 99% VaR | 2.33 x 0.0125 x 8,00,00,000 | 23,30,000 |\n| 10-day 99% VaR | 23,30,000 x 3.1623 | 73,68,159 |\n\nA small difference from using the exact square root of 10 is accepted.",
+          "caseId": "ca-fin-afm-01-policy-risk-case1"
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q12",
+          "type": "numeric",
+          "prompt": "Compute the 1-day VaR of the USD deposit at 99% confidence. Round to the nearest rupee.",
+          "answer": 279600,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Working | ₹ |\n| --- | --- | --- |\n| 1-day 99% VaR | 2.33 x 0.006 x 2,00,00,000 | 2,79,600 |",
+          "caseId": "ca-fin-afm-01-policy-risk-case1"
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q13",
+          "type": "numeric",
+          "prompt": "Sahyadri Foods Ltd earns ROE of 16% and pays out 35% of its earnings as dividend. Compute its sustainable growth rate as a % to 2 decimals.",
+          "answer": 10.4,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "| Step | Working | Result |\n| --- | --- | --- |\n| Retention ratio | 1 - 0.35 | 0.65 |\n| SGR | 16% x 0.65 | 10.40% |"
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q14",
+          "type": "practical",
+          "prompt": "Bharat Alloys Ltd holds a listed equity portfolio. Compute (a) daily volatility, (b) 1-day VaR and (c) 10-day VaR, all at 95% confidence, and (d) state two limitations of the figure for the board.",
+          "data": "Portfolio value ₹12,00,00,000. Annual volatility 24%. Assume 250 trading days in a year, Z (95%) = 1.65 and normally distributed, independent daily returns.",
+          "answer": "| Step | Working | Result |\n| --- | --- | --- |\n| (a) Daily sigma | 24% / square root of 250 (15.8114) | 1.5179% |\n| (b) 1-day VaR | 1.65 x 0.015179 x 12,00,00,000 | ₹30,05,429 |\n| (c) 10-day VaR | 30,05,429 x square root of 10 | ₹95,04,000 |\n\n(d) Limitations:\n\n- It assumes normal distribution; real returns have fat tails, so extreme losses are more frequent than the model predicts.\n- It does not measure the size of losses beyond the VaR cut-off, so it must be supplemented with stress testing and expected shortfall.\n- Historical volatility may not hold in a crisis, and correlations change.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q15",
+          "type": "interview",
+          "prompt": "Explain the interface between financial policy and corporate strategy. How does strategic financial planning ensure the two stay aligned?",
+          "answer": "- Corporate strategy sets the direction (markets, products, growth targets); financial policy decides how it is funded and how returns are distributed.\n- Investment decisions convert strategic choices into capital projects; financing decisions set the debt-equity mix and cost of capital; dividend decisions decide how much profit is retained for growth.\n- The sustainable growth rate (ROE x retention) shows whether the strategy is financially feasible; if planned growth exceeds it, leverage, payout, margins or new equity must change.\n- Strategic financial planning works at corporate, business-unit and functional levels and builds liquidity, solvency and risk appetite into plans.\n- A strong answer closes by noting that the two are interdependent: strategy without funding fails, and funding without strategy destroys value.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-01-policy-risk-q16",
+          "type": "interview",
+          "prompt": "What is Value at Risk? Explain its computation and its main limitations.",
+          "answer": "- VaR is the maximum expected loss on a position over a given horizon at a given confidence level, under normal market conditions.\n- Computation (parametric): VaR = Z x daily standard deviation x square root of holding period x position value, with one-tailed Z of 1.65 at 95% and 2.33 at 99%.\n- Uses: setting trading limits, capital allocation, reporting market risk to the board in one rupee figure.\n- Limitations: assumes normal returns and stable volatility and correlations; ignores the size of tail losses; results depend on the data window and method (historical, parametric, Monte Carlo); can give false comfort in a crisis.\n- It is therefore used with stress tests, scenario analysis and expected shortfall."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: CA Final study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Reserve Bank of India: official website",
+          "url": "https://www.rbi.org.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-afm-02-capital-budgeting",
+      "title": "Advanced Capital Budgeting Decisions",
+      "level": "intermediate",
+      "summary": "Handling risk and constraints in project appraisal: risk-adjusted discount rate, certainty equivalents, sensitivity, inflation, real options and capital rationing.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Risk-adjusted discount rate (RADR)",
+          "body": "Basic NPV treats cash flows as certain. In practice riskier projects should earn more. RADR raises the discount rate for risk:\n\n**RADR = risk-free rate + risk premium** (or the project's CAPM rate: Rf + beta x (Rm - Rf)).\n\nThe project is accepted if NPV at the RADR is positive. RADR is easy to use and intuitive, but it assumes risk grows every year at a constant compound rate, because the same higher rate is applied to every year's cash flow. The premium chosen is also subjective."
+        },
+        {
+          "heading": "Certainty equivalent (CE) approach",
+          "body": "The CE approach adjusts the cash flows, not the rate. Each risky cash flow is multiplied by a certainty-equivalent coefficient (alpha, between 0 and 1): the certain amount management would accept in place of the risky amount. The certain flows are discounted at the **risk-free rate**, because the risk has already been removed.\n\nWorked example: outlay ₹10,00,000, risk-free rate 7%.\n\n| Year | Cash flow (₹) | Alpha | Certain CF (₹) | DF @ 7% | PV (₹) |\n| --- | --- | --- | --- | --- | --- |\n| 1 | 4,00,000 | 0.9 | 3,60,000 | 0.9346 | 3,36,456 |\n| 2 | 4,00,000 | 0.8 | 3,20,000 | 0.8734 | 2,79,488 |\n| 3 | 4,00,000 | 0.7 | 2,80,000 | 0.8163 | 2,28,564 |\n|  |  |  |  | Less: outlay | (10,00,000) |\n|  |  |  |  | **NPV** | **(1,55,492)** |\n\nNPV is negative, so the project is rejected once risk is removed from the cash flows.\n\nCE is theoretically better than RADR because it lets risk differ year by year, but the coefficients are subjective."
+        },
+        {
+          "heading": "Sensitivity, scenario analysis and inflation",
+          "body": "**Sensitivity analysis** changes one variable at a time and asks how far it can move before NPV falls to zero:\n\n| Variable | Margin of safety (sensitivity %) |\n| --- | --- |\n| Initial outlay | NPV / initial outlay |\n| Annual cash inflow (or selling price, volume) | NPV / PV of the inflows affected |\n| Project life | Find the life at which PV of inflows = outlay |\n| Discount rate | IRR - current rate (compare with the rate) |\n\nThe smaller the %, the more sensitive (riskier) the project to that variable. **Scenario analysis** changes several variables together (best, base, worst case).\n\n**Inflation**: discount nominal cash flows at the nominal rate, or real cash flows at the real rate, never a mix. Fisher relation: (1 + nominal) = (1 + real) x (1 + inflation)."
+        },
+        {
+          "heading": "Real options and capital rationing",
+          "body": "Static NPV ignores management's flexibility. **Real options** value that flexibility:\n\n- **Option to expand** (a call): invest more if demand is strong.\n- **Option to abandon** (a put): sell assets for salvage if the project fails.\n- **Option to delay / timing option** (a call): wait for information before committing.\n- **Option to switch** inputs, outputs or processes.\n\n**Expanded NPV = static NPV + value of the real option.** A project with negative static NPV can still be worth taking if the option is valuable.\n\n**Capital rationing**: when funds are limited, choose the set of projects that maximises total NPV within the budget.\n\n- Divisible projects: rank by profitability index (PI = PV of inflows / outlay) and fund in that order, taking a fraction of the last one.\n- Indivisible projects: test feasible combinations and choose the one with the highest total NPV. PI ranking may not give the best answer and unused funds earn only their own return."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Discounting certainty-equivalent cash flows at the RADR: this double-counts risk. Use the risk-free rate.\n- In sensitivity, dividing NPV by the wrong base (use the PV of the variable being tested, not its undiscounted total).\n- Mixing real cash flows with a nominal discount rate.\n- Ranking indivisible projects by PI and stopping without checking combinations.\n- Forgetting that a real option is valued in addition to the static NPV, not instead of it."
+        }
+      ],
+      "keyPoints": [
+        "RADR = Rf + risk premium; same higher rate every year implies risk rising at a compound rate.",
+        "CE approach: alpha x risky CF, discounted at the risk-free rate.",
+        "Sensitivity % = NPV / PV of the variable tested; lower % = more sensitive.",
+        "Fisher: (1 + nominal) = (1 + real)(1 + inflation); match nominal with nominal, real with real.",
+        "Real options (expand, abandon, delay, switch): expanded NPV = static NPV + option value.",
+        "Capital rationing: divisible projects by PI; indivisible projects by the combination with highest total NPV."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-case1",
+          "title": "Case: Vindhya Cements Ltd grinding unit",
+          "body": "Vindhya Cements Ltd is appraising a new grinding unit. The initial outlay is ₹60,00,000. Expected cash inflows and the certainty-equivalent coefficients estimated by the risk team are:\n\n| Year | Expected cash inflow (₹) | CE coefficient |\n| --- | --- | --- |\n| 1 | 22,00,000 | 0.95 |\n| 2 | 24,00,000 | 0.85 |\n| 3 | 20,00,000 | 0.75 |\n| 4 | 18,00,000 | 0.65 |\n\nThe risk-free rate is 6% and the risk-adjusted discount rate for cement projects is 14%. Use discount factors rounded to 4 decimals.\n\n| Year | DF @ 6% | DF @ 14% |\n| --- | --- | --- |\n| 1 | 0.9434 | 0.8772 |\n| 2 | 0.8900 | 0.7695 |\n| 3 | 0.8396 | 0.6750 |\n| 4 | 0.7921 | 0.5921 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q01",
+          "type": "numeric",
+          "prompt": "Compute the NPV of the grinding unit using the risk-adjusted discount rate. Round to the nearest rupee.",
+          "answer": 192420,
+          "tolerance": 5,
+          "unit": "₹",
+          "explanation": "| Year | Cash flow (₹) | DF @ 14% | PV (₹) |\n| --- | --- | --- | --- |\n| 1 | 22,00,000 | 0.8772 | 19,29,840 |\n| 2 | 24,00,000 | 0.7695 | 18,46,800 |\n| 3 | 20,00,000 | 0.6750 | 13,50,000 |\n| 4 | 18,00,000 | 0.5921 | 10,65,780 |\n|  |  | PV of inflows | 61,92,420 |\n|  |  | Less: outlay | (60,00,000) |\n|  |  | **NPV** | **1,92,420** |",
+          "caseId": "ca-fin-afm-02-capital-budgeting-case1"
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q02",
+          "type": "numeric",
+          "prompt": "Compute the NPV of the grinding unit using the certainty-equivalent approach. Round to the nearest rupee.",
+          "answer": -26537,
+          "tolerance": 5,
+          "unit": "₹",
+          "explanation": "| Year | Cash flow (₹) | Alpha | Certain CF (₹) | DF @ 6% | PV (₹) |\n| --- | --- | --- | --- | --- | --- |\n| 1 | 22,00,000 | 0.95 | 20,90,000 | 0.9434 | 19,71,706 |\n| 2 | 24,00,000 | 0.85 | 20,40,000 | 0.8900 | 18,15,600 |\n| 3 | 20,00,000 | 0.75 | 15,00,000 | 0.8396 | 12,59,400 |\n| 4 | 18,00,000 | 0.65 | 11,70,000 | 0.7921 | 9,26,757 |\n|  |  |  |  | Less: outlay | (60,00,000) |\n|  |  |  |  | **NPV** | **(26,537)** |\n\nCertain cash flows are discounted at the risk-free rate, not the RADR.",
+          "caseId": "ca-fin-afm-02-capital-budgeting-case1"
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q03",
+          "type": "numeric",
+          "prompt": "Using the RADR NPV, by what percentage can the initial outlay increase before the project's NPV becomes zero? Answer as a % to 2 decimals.",
+          "answer": 3.21,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "Sensitivity of outlay = NPV / outlay = 1,92,420 / 60,00,000 = 3.21%. If the outlay rises by more than this, NPV turns negative.",
+          "caseId": "ca-fin-afm-02-capital-budgeting-case1"
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q04",
+          "type": "mcq",
+          "prompt": "Based on both methods, what should Vindhya Cements conclude?",
+          "options": [
+            "Accept: NPV is positive under both RADR and CE",
+            "Reject: NPV is negative under both methods",
+            "Accept under RADR only; CE gives a negative NPV",
+            "Accept under CE only; RADR gives a negative NPV"
+          ],
+          "answer": 2,
+          "explanation": "RADR NPV = ₹1,92,420 (positive) but CE NPV = -₹26,537 (negative). The CE coefficients fall steeply in later years, so management's own risk view is harsher than the flat 14% premium. The project is marginal: under RADR it adds only about 3% of the outlay, and under CE it destroys value. Management should rely on the method that best reflects its risk view and test sensitivity before committing.",
+          "caseId": "ca-fin-afm-02-capital-budgeting-case1"
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q05",
+          "type": "mcq",
+          "prompt": "Under the certainty-equivalent approach, the certainty-equivalent cash flows are discounted at:",
+          "options": [
+            "The risk-adjusted discount rate",
+            "The risk-free rate",
+            "The company's WACC",
+            "The internal rate of return"
+          ],
+          "answer": 1,
+          "explanation": "The CE coefficient has already removed the risk from the cash flow, so the time value of money alone is applied through the risk-free rate. Using a risk-adjusted rate would count risk twice."
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q06",
+          "type": "mcq",
+          "prompt": "A mining company can sell its equipment for a fixed salvage value if ore prices collapse after year 2. This flexibility is best described as:",
+          "options": [
+            "An option to expand, similar to a call",
+            "An option to abandon, similar to a put",
+            "An option to delay, similar to a call",
+            "A forward contract"
+          ],
+          "answer": 1,
+          "explanation": "The right (not obligation) to exit and receive a fixed salvage value protects the downside, which is the payoff of a put option."
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q07",
+          "type": "mcq",
+          "prompt": "Using a single RADR for all years of a project implicitly assumes that:",
+          "options": [
+            "Risk is constant in absolute terms every year",
+            "Risk increases with time at a compound rate",
+            "Risk decreases with time",
+            "The project has no systematic risk"
+          ],
+          "answer": 1,
+          "explanation": "The risk premium is compounded through (1 + RADR)^t, so distant cash flows are penalised more and more. That is reasonable only if risk really grows with time."
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q08",
+          "type": "truefalse",
+          "prompt": "If a project's static NPV is negative, it must always be rejected even if it carries a valuable option to expand.",
+          "answer": false,
+          "explanation": "Expanded NPV = static NPV + value of real options. A valuable expansion option can make the total positive, so the project may be worth accepting."
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q09",
+          "type": "truefalse",
+          "prompt": "Under capital rationing with indivisible projects, ranking by profitability index always gives the combination with the highest total NPV.",
+          "answer": false,
+          "explanation": "With indivisible projects, PI ranking can leave funds idle. The correct approach is to test feasible combinations and pick the one with the highest total NPV."
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q10",
+          "type": "multi",
+          "prompt": "Which of the following are examples of real options embedded in capital projects? (Select all that apply)",
+          "options": [
+            "Building a plant on extra land so capacity can be doubled later",
+            "A lease that can be terminated early by paying a fixed fee",
+            "Waiting one year for a regulatory decision before investing",
+            "A boiler that can run on either coal or gas",
+            "A fixed-rate term loan with no prepayment option"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Expansion, abandonment (early exit), timing (delay) and switching (input flexibility) are real options. A fixed-rate loan with no prepayment right gives no flexibility."
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: in capital rationing with divisible projects, projects are ranked by the ___ index.",
+          "accept": [
+            "profitability",
+            "profitability index",
+            "PI"
+          ],
+          "explanation": "PI = PV of inflows / outlay measures NPV generated per rupee of scarce capital, so it is the correct ranking tool when projects can be taken in fractions."
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q12",
+          "type": "numeric",
+          "prompt": "A project's cash flows are estimated in real terms. The real required return is 8% and expected inflation is 5% a year. Compute the nominal discount rate as a % to 2 decimals.",
+          "answer": 13.4,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "(1 + nominal) = 1.08 x 1.05 = 1.1340, so nominal rate = 13.40%. Simply adding (13%) ignores the cross term 0.08 x 0.05."
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q13",
+          "type": "practical",
+          "prompt": "Ganga Infra Ltd has a capital budget of ₹110 lakh. Select the optimal projects and compute the total NPV if (a) projects are divisible and (b) projects are indivisible.",
+          "data": "| Project | Outlay (₹ lakh) | NPV (₹ lakh) |\n| --- | --- | --- |\n| P | 40 | 12.00 |\n| Q | 25 | 10.00 |\n| R | 30 | 7.50 |\n| S | 20 | 3.00 |\n| T | 35 | 12.25 |",
+          "answer": "Profitability index = (Outlay + NPV) / Outlay:\n\n| Project | PI | Rank |\n| --- | --- | --- |\n| P | 1.3000 | 3 |\n| Q | 1.4000 | 1 |\n| R | 1.2500 | 4 |\n| S | 1.1500 | 5 |\n| T | 1.3500 | 2 |\n\n**(a) Divisible projects** (fund in order of PI):\n\n| Project | PI | Outlay used (₹ lakh) | Portion | NPV (₹ lakh) |\n| --- | --- | --- | --- | --- |\n| Q | 1.40 | 25.00 | Full | 10.00 |\n| T | 1.35 | 35.00 | Full | 12.25 |\n| P | 1.30 | 40.00 | Full | 12.00 |\n| R | 1.25 | 10.00 | 33.33% | 2.50 |\n| **Total** |  | 110 |  | **36.75** |\n\n**(b) Indivisible projects**: test feasible combinations within ₹110 lakh.\n\n| Combination | Outlay (₹ lakh) | NPV (₹ lakh) |\n| --- | --- | --- |\n| P + Q + T | 100 | 34.25 |\n| Q + R + S + T | 110 | 32.75 |\n| P + R + T | 105 | 31.75 |\n| P + Q + R | 95 | 29.50 |\n\nBest combination: P + Q + T, outlay ₹100 lakh, total NPV **₹34.25 lakh**. ₹10 lakh is left uninvested.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q14",
+          "type": "interview",
+          "prompt": "Compare the risk-adjusted discount rate and certainty-equivalent approaches for handling risk in capital budgeting.",
+          "answer": "- RADR adjusts the denominator: risky cash flows are discounted at Rf + risk premium. CE adjusts the numerator: cash flows are scaled down by alpha and discounted at Rf.\n- RADR is simple and widely understood, but assumes risk compounds over time and the premium is subjective.\n- CE allows a different risk adjustment for each year and separates time value from risk, so it is theoretically superior.\n- CE coefficients are subjective and hard to estimate consistently across projects.\n- Both should give the same decision if alpha_t = ((1 + Rf) / (1 + RADR))^t; using CE flows with a RADR double-counts risk.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-02-capital-budgeting-q15",
+          "type": "interview",
+          "prompt": "What are real options? Explain why traditional NPV may undervalue a project that contains them.",
+          "answer": "- A real option is the right, not the obligation, to take a business decision later: expand, abandon, delay or switch.\n- Static NPV assumes a fixed plan committed today and ignores management's ability to react to new information.\n- Flexibility cuts off downside (abandon = put) or captures upside (expand, delay = calls), so it has positive value.\n- Expanded NPV = static NPV + option value; options are worth more when uncertainty is high and the decision window is long.\n- Real options can be valued with decision trees, the binomial model or Black-Scholes by analogy (asset value as S, investment as X)."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: CA Final study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-afm-03-security-valuation",
+      "title": "Security Analysis and Valuation: Bonds and Equity",
+      "level": "intermediate",
+      "summary": "Fundamental and technical analysis, bond pricing, YTM, duration and convexity, and equity valuation with dividend discount, FCFE and FCFF models.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Security analysis: fundamental, technical and market efficiency",
+          "body": "**Fundamental analysis** estimates intrinsic value top-down through Economy, Industry and Company (EIC) analysis: GDP, inflation, interest rates; industry life cycle and competition; company earnings, balance sheet strength and management.\n\n**Technical analysis** studies price and volume patterns (Dow theory, support and resistance, moving averages, head-and-shoulders) assuming history repeats.\n\n**Efficient Market Hypothesis**:\n\n| Form | Prices reflect | What cannot earn abnormal returns |\n| --- | --- | --- |\n| Weak | All past prices and volumes | Technical analysis |\n| Semi-strong | All public information | Fundamental analysis of public data |\n| Strong | All information, public and private | Even insider information |"
+        },
+        {
+          "heading": "Bond valuation and yield to maturity",
+          "body": "**Bond price** = PV of coupons + PV of redemption value, discounted at the required yield.\n\n**YTM** is the discount rate that equates PV of all cash flows to the market price (found by trial and interpolation). Exam shortcut:\n\n**Approximate YTM = [C + (F - P) / n] / [(F + P) / 2]**\n\nwhere C = annual coupon, F = redemption value, P = price, n = years to maturity.\n\n- Price below face value (discount bond): YTM > coupon rate.\n- Price above face value (premium bond): YTM < coupon rate.\n- **Current yield** = annual coupon / current price; it ignores the gain or loss on redemption."
+        },
+        {
+          "heading": "Duration and convexity",
+          "body": "**Macaulay duration** is the weighted average time to receive the bond's cash flows, with weights = PV of each flow / price. **Modified duration (MD)** = Macaulay duration / (1 + YTM) and gives the % price change for a 1% change in yield:\n\n**% change in price = -MD x change in yield (in %)**\n\nWorked example: 3-year, 10% annual coupon bond, face ₹1,000, YTM 12%.\n\n| Year | Cash flow (₹) | DF @ 12% | PV (₹) | t x PV |\n| --- | --- | --- | --- | --- |\n| 1 | 100 | 0.8929 | 89.29 | 89.29 |\n| 2 | 100 | 0.7972 | 79.72 | 159.44 |\n| 3 | 1,100 | 0.7118 | 782.98 | 2348.94 |\n| Total |  |  | 951.99 | 2597.67 |\n\nMacaulay duration = 2597.67 / 951.99 = 2.7287 years. MD = 2.7287 / 1.12 = 2.4363.\n\nDuration is longer for longer maturity, lower coupon and lower yield. A zero-coupon bond's duration equals its maturity.\n\n**Convexity**: the price-yield curve is curved, so MD overstates the fall and understates the rise in price. The convexity adjustment (+1/2 x convexity x (change in yield)^2) is always positive for a plain bond, so higher convexity is desirable."
+        },
+        {
+          "heading": "Equity valuation: DDM, FCFE and FCFF",
+          "body": "**Constant growth (Gordon) model**: P0 = D1 / (Ke - g), with D1 = D0 x (1 + g). Valid only when Ke > g.\n\n**Multi-stage model**: discount each dividend in the high-growth phase, then add the PV of the terminal price Pn = D(n+1) / (Ke - g).\n\n**Free cash flow models**:\n\n| Model | Cash flow | Discount at | Gives |\n| --- | --- | --- | --- |\n| FCFF | EBIT (1 - t) + depreciation - capex - increase in working capital | WACC | Value of firm; less debt = value of equity |\n| FCFE | Net profit + depreciation - capex - increase in working capital + net new borrowing | Cost of equity (Ke) | Value of equity directly |\n\nWith constant growth, value = next year's free cash flow / (discount rate - g)."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using D0 instead of D1 in the Gordon model.\n- Discounting FCFE at WACC or FCFF at Ke. Match the cash flow to its claimants.\n- Forgetting to deduct debt (and add surplus cash, if given) to move from firm value to equity value.\n- Using the coupon rate instead of YTM to discount bond cash flows.\n- Treating modified duration as exact for large yield changes: add the convexity adjustment.\n- In approximate YTM, putting the price change as (P - F): a discount bond must add to the coupon, not reduce it."
+        }
+      ],
+      "keyPoints": [
+        "Approximate YTM = [C + (F - P)/n] / [(F + P)/2]; discount bond: YTM > coupon.",
+        "Macaulay duration = sum of (t x PV) / price; MD = D / (1 + y); % change in price = -MD x change in yield.",
+        "Convexity adjustment is positive: MD overstates price falls and understates price rises.",
+        "Gordon: P0 = D1 / (Ke - g), needs Ke > g.",
+        "FCFF = EBIT(1 - t) + dep - capex - increase in WC, at WACC; FCFE adds net borrowing, at Ke.",
+        "EMH: weak (past prices), semi-strong (public info), strong (all info)."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-afm-03-security-valuation-case1",
+          "title": "Case: Aravali Power Ltd bonds",
+          "body": "Neha, a fund manager, is reviewing a bond issued by Aravali Power Ltd:\n\n| Particulars | Detail |\n| --- | --- |\n| Face value and redemption value | ₹1,000 (redeemable at par) |\n| Coupon | 9% p.a., paid annually |\n| Remaining maturity | 4 years |\n| Current market price | ₹968 |\n\nFor duration analysis she assumes a yield of 10%, with discount factors rounded to 4 decimals:\n\n| Year | 1 | 2 | 3 | 4 |\n| --- | --- | --- | --- | --- |\n| DF @ 10% | 0.9091 | 0.8264 | 0.7513 | 0.6830 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-afm-03-security-valuation-q01",
+          "type": "numeric",
+          "prompt": "Compute the approximate YTM of the Aravali bond using the shortcut formula. Answer as a % to 2 decimals.",
+          "answer": 9.96,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "| Step | Working | Result |\n| --- | --- | --- |\n| Annual coupon | 9% x 1,000 | 90 |\n| Discount amortised per year | (1,000 - 968) / 4 | 8 |\n| Average investment | (1,000 + 968) / 2 | 984 |\n| Approx. YTM | (90 + 8) / 984 | 9.96% |",
+          "caseId": "ca-fin-afm-03-security-valuation-case1"
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q02",
+          "type": "numeric",
+          "prompt": "Compute the Macaulay duration of the Aravali bond at a 10% yield. Answer in years to 4 decimals.",
+          "answer": 3.523,
+          "tolerance": 0.002,
+          "unit": "years",
+          "explanation": "| Year | Cash flow (₹) | DF @ 10% | PV (₹) | t x PV |\n| --- | --- | --- | --- | --- |\n| 1 | 90 | 0.9091 | 81.82 | 81.82 |\n| 2 | 90 | 0.8264 | 74.38 | 148.75 |\n| 3 | 90 | 0.7513 | 67.62 | 202.85 |\n| 4 | 1,090 | 0.6830 | 744.47 | 2977.88 |\n| Total |  |  | 968.28 | 3411.30 |\n\nMacaulay duration = 3411.30 / 968.28 = 3.5230 years.",
+          "caseId": "ca-fin-afm-03-security-valuation-case1"
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q03",
+          "type": "numeric",
+          "prompt": "Using modified duration (based on the 10% yield), estimate the % change in the bond's price if yields rise by 50 basis points. Answer as a % to 2 decimals (negative for a fall).",
+          "answer": -1.6,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "MD = 3.5230 / 1.10 = 3.2028. % change = -3.2028 x 0.50 = -1.60%. Convexity would make the actual fall slightly smaller.",
+          "caseId": "ca-fin-afm-03-security-valuation-case1"
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q04",
+          "type": "mcq",
+          "prompt": "What is the current yield of the Aravali bond, and how does it compare with its YTM?",
+          "options": [
+            "9.30%, lower than YTM because the bond trades at a discount",
+            "9.30%, higher than YTM because the bond trades at a discount",
+            "9.00%, equal to YTM",
+            "9.30%, equal to YTM because coupons are annual"
+          ],
+          "answer": 0,
+          "explanation": "Current yield = 90 / 968 = 9.30%. It ignores the ₹32 gain on redemption, so for a discount bond it is below YTM (about 9.96%), which in turn is above the 9% coupon.",
+          "caseId": "ca-fin-afm-03-security-valuation-case1"
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q05",
+          "type": "mcq",
+          "prompt": "Which bond will have the highest Macaulay duration? All have the same YTM.",
+          "options": [
+            "5-year, 12% coupon",
+            "5-year, 6% coupon",
+            "10-year, 12% coupon",
+            "10-year zero-coupon bond"
+          ],
+          "answer": 3,
+          "explanation": "Duration rises with maturity and falls with coupon. A zero-coupon bond's duration equals its maturity (10 years), longer than any coupon bond of the same or shorter maturity."
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q06",
+          "type": "mcq",
+          "prompt": "A share has just paid a dividend of ₹6. Dividends are expected to grow at 8% forever and the required return is 14%. Its value is:",
+          "options": [
+            "₹100.00",
+            "₹108.00",
+            "₹42.86",
+            "₹77.14"
+          ],
+          "answer": 1,
+          "explanation": "D1 = 6 x 1.08 = 6.48. P0 = 6.48 / (0.14 - 0.08) = ₹108.00. ₹100 wrongly uses D0."
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q07",
+          "type": "mcq",
+          "prompt": "Under the semi-strong form of market efficiency, which analysis cannot consistently earn abnormal returns?",
+          "options": [
+            "Analysis based on insider (non-public) information only",
+            "Fundamental analysis of published financial statements",
+            "None, semi-strong form allows all analysis to earn abnormal returns",
+            "Only analysis of foreign markets"
+          ],
+          "answer": 1,
+          "explanation": "Semi-strong efficiency means prices already reflect all public information, including published accounts and past prices. Only private (insider) information could give an edge, which is ruled out only in the strong form."
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q08",
+          "type": "truefalse",
+          "prompt": "Free cash flow to equity should be discounted at the weighted average cost of capital to obtain the value of equity.",
+          "answer": false,
+          "explanation": "FCFE belongs only to shareholders, so it is discounted at the cost of equity. WACC is used for FCFF, which belongs to all capital providers."
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q09",
+          "type": "truefalse",
+          "prompt": "For the same change in yield, a bond with higher convexity gains more in price when yields fall and loses less when yields rise.",
+          "answer": true,
+          "explanation": "The convexity term is positive and squared in yield change, so it adds to the price in both directions. Investors prefer more convexity, other things equal."
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q10",
+          "type": "multi",
+          "prompt": "Which items are deducted from EBIT(1 - t) plus depreciation when computing FCFF? (Select all that apply)",
+          "options": [
+            "Capital expenditure",
+            "Increase in net working capital",
+            "Interest paid (net of tax)",
+            "Repayment of debt",
+            "Dividends paid"
+          ],
+          "answers": [
+            0,
+            1
+          ],
+          "explanation": "FCFF is cash available to all capital providers before any financing flows, so only capex and the increase in working capital are deducted. Interest, debt repayment and dividends are payments to the providers themselves."
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: Macaulay duration divided by (1 + YTM) is called ___ duration.",
+          "accept": [
+            "modified",
+            "modified duration"
+          ],
+          "explanation": "Modified duration converts Macaulay duration into a direct measure of price sensitivity: % price change = -MD x change in yield."
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q12",
+          "type": "numeric",
+          "prompt": "Shivalik Paints Ltd paid a dividend of ₹4 per share this year. Dividends are expected to grow at 7% forever. Investors require 12%. Compute the intrinsic value per share to 2 decimals.",
+          "answer": 85.6,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "D1 = 4 x 1.07 = 4.28. P0 = 4.28 / (0.12 - 0.07) = ₹85.60."
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q13",
+          "type": "practical",
+          "prompt": "Value the equity of Konkan Logistics Ltd per share using the FCFF approach.",
+          "data": "| Particulars (current year) | ₹ crore |\n| --- | --- |\n| EBIT | 200 |\n| Depreciation | 40 |\n| Capital expenditure | 60 |\n| Increase in working capital | 10 |\n| Market value of debt | 300 |\n\nTax rate 25%. All free cash flows will grow at 5% a year forever. WACC is 11%. Number of equity shares: 10 crore.",
+          "answer": "| Particulars | ₹ crore |\n| --- | --- |\n| EBIT (1 - 0.25) | 150.00 |\n| Add: Depreciation | 40.00 |\n| Less: Capex | (60.00) |\n| Less: Increase in WC | (10.00) |\n| FCFF (current year) | 120.00 |\n| FCFF next year (x 1.05) | 126.00 |\n| Value of firm = 126 / (0.11 - 0.05) | 2100.00 |\n| Less: Debt | (300.00) |\n| **Value of equity** | **1800.00** |\n| Number of shares (crore) | 10.00 |\n| **Value per share (₹)** | **180.00** |",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q14",
+          "type": "practical",
+          "prompt": "Value a share of Nilgiri Biotech Ltd using a two-stage dividend discount model.",
+          "data": "Dividend just paid ₹5. Dividends will grow at 20% for the next 3 years and at 6% a year thereafter. Required return 13%. Use discount factors rounded to 4 decimals.",
+          "answer": "| Year | Dividend (₹) | DF @ 13% | PV (₹) |\n| --- | --- | --- | --- |\n| 1 | 6.0000 | 0.8850 | 5.3100 |\n| 2 | 7.2000 | 0.7831 | 5.6383 |\n| 3 | 8.6400 | 0.6931 | 5.9884 |\n| 3 (terminal price) | 130.8343 | 0.6931 | 90.6812 |\n| **Value of share** |  |  | **107.62** |\n\nTerminal price at end of year 3: P3 = D4 / (Ke - g) = (8.6400 x 1.06) / (0.13 - 0.06) = 9.1584 / 0.07 = ₹130.8343. Intrinsic value about ₹107.62."
+        },
+        {
+          "id": "ca-fin-afm-03-security-valuation-q15",
+          "type": "interview",
+          "prompt": "Explain Macaulay duration and modified duration. Why do bond portfolio managers also look at convexity?",
+          "answer": "- Macaulay duration is the weighted average time to receive a bond's cash flows, weights being PV of each flow / price; it is measured in years.\n- Modified duration = Macaulay duration / (1 + YTM) and measures price sensitivity: % change in price = -MD x change in yield.\n- Duration rises with maturity and falls with coupon and yield; a zero-coupon bond's duration equals its maturity.\n- Duration is a linear (tangent) approximation; the true price-yield relation is convex, so MD overstates price falls and understates price rises for large yield changes.\n- Convexity measures this curvature; adding 1/2 x convexity x (change in yield)^2 improves the estimate, and higher convexity is preferred.\n- Managers use duration matching to immunise portfolios against interest rate changes.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: CA Final study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "SEBI: official website",
+          "url": "https://www.sebi.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-afm-04-portfolio",
+      "title": "Portfolio Management",
+      "level": "intermediate",
+      "summary": "Risk and return of securities and portfolios, diversification, CAPM, beta and the SML, APT, and fund evaluation with Sharpe, Treynor and Jensen measures.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Risk, return and diversification",
+          "body": "Expected return of a security = sum of (probability x return). Risk = standard deviation of returns.\n\n**Two-asset portfolio**:\n\n- Return: Rp = wA RA + wB RB\n- Variance: wA^2 sA^2 + wB^2 sB^2 + 2 wA wB rho sA sB (where rho sA sB = covariance)\n- Minimum variance weight of A: wA = (sB^2 - Cov) / (sA^2 + sB^2 - 2 Cov)\n\nThe lower the correlation, the larger the risk reduction. At rho = -1 risk can be eliminated completely.\n\nTotal risk = **systematic risk** (market-wide: interest rates, inflation, GDP; cannot be diversified; measured by beta) + **unsystematic risk** (company-specific: strikes, management, product failure; diversified away as the number of securities grows)."
+        },
+        {
+          "heading": "CAPM, beta and the Security Market Line",
+          "body": "Since only systematic risk is priced, required return depends on beta:\n\n**E(R) = Rf + beta x (Rm - Rf)**\n\n- Beta = Cov(i, m) / Var(m) = rho(i, m) x s(i) / s(m). Beta of the market = 1.\n- Portfolio beta = weighted average of security betas.\n- **SML** plots required return against beta. A security whose expected return lies **above** the SML is **undervalued** (buy); below the SML is **overvalued** (sell).\n\n**Arbitrage Pricing Theory (APT)** uses several macro factors instead of one market factor:\n\nE(R) = Rf + b1 x lambda1 + b2 x lambda2 + ..., where b = sensitivity to a factor and lambda = risk premium for that factor."
+        },
+        {
+          "heading": "Evaluating portfolio performance",
+          "body": "| Measure | Formula | Risk used | Best for |\n| --- | --- | --- | --- |\n| Sharpe | (Rp - Rf) / sp | Total risk (SD) | An investor holding only this fund |\n| Treynor | (Rp - Rf) / beta p | Systematic risk | A fund that is one part of a diversified portfolio |\n| Jensen's alpha | Rp - [Rf + beta p (Rm - Rf)] | Systematic risk | Measuring excess return over CAPM in % |\n\nWorked example: a fund earned 14% with SD 16% and beta 1.1. Rf = 6%, Rm = 12%.\n\n| Measure | Working | Result |\n| --- | --- | --- |\n| Sharpe | (14 - 6) / 16 | 0.5000 |\n| Treynor | (14 - 6) / 1.1 | 7.2727 |\n| Jensen | 14 - [6 + 1.1 x (12 - 6)] | 1.40% |\n\nA positive alpha means the manager beat the return CAPM required for the beta taken."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Taking portfolio SD as the weighted average of SDs: that holds only when rho = +1.\n- Forgetting the 2 in the covariance term of portfolio variance.\n- Using total risk (SD) in Treynor or beta in Sharpe.\n- Reading an expected return above the SML as overvalued. Higher expected return than required means the price is too low today: undervalued.\n- Mixing % and decimals inside one formula (keep both returns and SD in % or both in decimals)."
+        }
+      ],
+      "keyPoints": [
+        "Portfolio variance = wA^2 sA^2 + wB^2 sB^2 + 2 wA wB Cov(A, B); Cov = rho sA sB.",
+        "Minimum variance wA = (sB^2 - Cov) / (sA^2 + sB^2 - 2Cov).",
+        "CAPM: E(R) = Rf + beta (Rm - Rf); beta = Cov(i, m) / Var(m).",
+        "Above SML = undervalued (buy); below SML = overvalued (sell).",
+        "Sharpe uses SD, Treynor uses beta, Jensen's alpha = actual - CAPM return.",
+        "APT: E(R) = Rf + sum of (factor beta x factor premium)."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-afm-04-portfolio-case1",
+          "title": "Case: Ruby Wealth Advisors fund review",
+          "body": "Ruby Wealth Advisors is choosing an equity fund for two clients: Mr Kapoor, who will put all his savings into one fund, and the Iyer family trust, which already holds a well-diversified portfolio. Last year's data:\n\n| Fund | Return (%) | Standard deviation (%) | Beta |\n| --- | --- | --- | --- |\n| X | 15.0 | 18 | 1.2 |\n| Y | 13.5 | 14 | 0.9 |\n| Z | 17.5 | 24 | 1.4 |\n\nRisk-free rate 6%. Market return 13%."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-afm-04-portfolio-q01",
+          "type": "numeric",
+          "prompt": "Compute the Sharpe ratio of Fund Y. Answer to 4 decimals.",
+          "answer": 0.5357,
+          "tolerance": 0.0005,
+          "explanation": "Sharpe = (13.5 - 6) / 14 = 7.5 / 14 = 0.5357.",
+          "caseId": "ca-fin-afm-04-portfolio-case1"
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q02",
+          "type": "numeric",
+          "prompt": "Compute Jensen's alpha for Fund Z. Answer as a % to 2 decimals.",
+          "answer": 1.7,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "CAPM return = 6 + 1.4 x (13 - 6) = 6 + 9.8 = 15.8%. Alpha = 17.5 - 15.8 = 1.70%.\n\nAll funds: X = 0.60%, Y = 1.20%, Z = 1.70%.",
+          "caseId": "ca-fin-afm-04-portfolio-case1"
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q03",
+          "type": "mcq",
+          "prompt": "Rank the three funds by the Treynor measure (best first).",
+          "options": [
+            "Y > Z > X",
+            "Z > X > Y",
+            "X > Y > Z",
+            "Z > Y > X"
+          ],
+          "answer": 0,
+          "explanation": "Treynor = (R - Rf) / beta: X = 9.0 / 1.2 = 7.5000; Y = 7.5 / 0.9 = 8.3333; Z = 11.5 / 1.4 = 8.2143. Ranking: Y > Z > X.",
+          "caseId": "ca-fin-afm-04-portfolio-case1"
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q04",
+          "type": "mcq",
+          "prompt": "Which fund should Ruby recommend to Mr Kapoor, who will hold only one fund?",
+          "options": [
+            "Fund X",
+            "Fund Y",
+            "Fund Z",
+            "Any fund, since all have positive alpha"
+          ],
+          "answer": 1,
+          "explanation": "An undiversified investor bears total risk, so the Sharpe ratio is the right test: X = 0.5000, Y = 0.5357, Z = 0.4792. Fund Y gives the most excess return per unit of total risk. For the diversified trust, Treynor (or alpha) is the better guide.",
+          "caseId": "ca-fin-afm-04-portfolio-case1"
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q05",
+          "type": "mcq",
+          "prompt": "Under APT, a share has a sensitivity of 1.2 to the inflation factor (premium 4%) and 0.5 to the GDP factor (premium 2%). The risk-free rate is 6%. The expected return is:",
+          "options": [
+            "10.8%",
+            "11.8%",
+            "12.0%",
+            "7.7%"
+          ],
+          "answer": 1,
+          "explanation": "E(R) = 6 + 1.2 x 4 + 0.5 x 2 = 6 + 4.8 + 1.0 = 11.8%."
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q06",
+          "type": "mcq",
+          "prompt": "A share has a beta of 1.1. CAPM requires 14.8% from it, but analysts expect it to return 17%. The share is:",
+          "options": [
+            "Overvalued: sell",
+            "Undervalued: buy",
+            "Correctly priced",
+            "Cannot be judged without its standard deviation"
+          ],
+          "answer": 1,
+          "explanation": "Its expected return lies above the SML: investors are being paid more than the risk requires, which means today's price is too low. Buying pushes the price up until the return falls back to 14.8%."
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q07",
+          "type": "mcq",
+          "prompt": "Which risk can be reduced by adding more securities to a portfolio?",
+          "options": [
+            "Interest rate risk",
+            "Inflation risk",
+            "Risk of a strike at one company",
+            "Market risk"
+          ],
+          "answer": 2,
+          "explanation": "A strike at one firm is unsystematic (company-specific) risk and is diversified away. Interest rate, inflation and market risk are systematic and remain however many shares are held."
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q08",
+          "type": "truefalse",
+          "prompt": "The standard deviation of a two-security portfolio equals the weighted average of the two standard deviations only when the correlation is +1.",
+          "answer": true,
+          "explanation": "With rho = +1 the variance formula becomes a perfect square, (wA sA + wB sB)^2. Any correlation below +1 gives a lower SD, which is the benefit of diversification."
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q09",
+          "type": "truefalse",
+          "prompt": "A fund with a higher Sharpe ratio will always have a higher Treynor ratio as well.",
+          "answer": false,
+          "explanation": "Sharpe uses total risk and Treynor uses beta. In the Ruby case Fund X beats Fund Z on Sharpe (0.5000 vs 0.4792) but Fund Z beats Fund X on Treynor (8.2143 vs 7.5000), because Z carries more unsystematic risk relative to its beta."
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q10",
+          "type": "multi",
+          "prompt": "Which statements about beta are correct? (Select all that apply)",
+          "options": [
+            "Beta of the market portfolio is 1",
+            "Beta = Covariance(i, m) / Variance(m)",
+            "Portfolio beta is the weighted average of the betas of its securities",
+            "Beta measures total risk of a security",
+            "A share with beta 0.8 is expected to move 0.8% for a 1% move in the market"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Beta measures systematic risk only, not total risk (that is the SD). The other statements are standard properties of beta."
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: the line that plots required return against beta under CAPM is called the security ___ line.",
+          "accept": [
+            "market",
+            "market line",
+            "SML"
+          ],
+          "explanation": "The Security Market Line: E(R) = Rf + beta (Rm - Rf). Securities plotting above it are undervalued; below it, overvalued."
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q12",
+          "type": "numeric",
+          "prompt": "A portfolio holds 60% in share A (SD 20%) and 40% in share B (SD 12%). The correlation between them is 0.3. Compute the portfolio standard deviation as a % to 2 decimals.",
+          "answer": 14.2,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "| Term | Working | Value |\n| --- | --- | --- |\n| wA^2 sA^2 | 0.36 x 400 | 144.00 |\n| wB^2 sB^2 | 0.16 x 144 | 23.04 |\n| 2 wA wB rho sA sB | 2 x 0.6 x 0.4 x 0.3 x 20 x 12 | 34.56 |\n| Variance |  | 201.60 |\n| **SD** | square root | **14.20%** |"
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q13",
+          "type": "numeric",
+          "prompt": "The risk-free rate is 7%, the market return is 14% and a share's beta is 1.3. Compute the required return under CAPM as a % to 2 decimals.",
+          "answer": 16.1,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "E(R) = 7 + 1.3 x (14 - 7) = 7 + 9.1 = 16.10%."
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q14",
+          "type": "practical",
+          "prompt": "For shares A and B, compute (a) the covariance, (b) the minimum variance portfolio weights, and (c) the return and standard deviation of that portfolio.",
+          "data": "| Share | Expected return (%) | SD (%) |\n| --- | --- | --- |\n| A | 18 | 25 |\n| B | 12 | 15 |\n\nCorrelation between A and B = 0.2. Round weights to 4 decimals.",
+          "answer": "| Step | Working | Result |\n| --- | --- | --- |\n| (a) Covariance | 0.2 x 25 x 15 | 75.00 |\n| (b) wA | (225 - 75) / (625 + 225 - 2 x 75) = 150 / 700 | 0.2143 |\n| wB | 1 - 0.2143 | 0.7857 |\n| (c) Return | 0.2143 x 18 + 0.7857 x 12 | 13.29% |\n| Variance | 0.2143^2 x 625 + 0.7857^2 x 225 + 2 x 0.2143 x 0.7857 x 75 | 192.8571 |\n| SD | square root | 13.89% |\n\nThe minimum variance portfolio's SD (13.89%) is below that of B alone (15%), showing the benefit of low correlation.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q15",
+          "type": "interview",
+          "prompt": "Compare the Sharpe, Treynor and Jensen measures of portfolio performance. When is each most appropriate?",
+          "answer": "- Sharpe = (Rp - Rf) / SD: reward per unit of total risk; appropriate when the fund is the investor's whole (undiversified) portfolio.\n- Treynor = (Rp - Rf) / beta: reward per unit of systematic risk; appropriate when the fund is one part of a well-diversified portfolio.\n- Jensen's alpha = Rp - [Rf + beta (Rm - Rf)]: excess return over CAPM in % terms; positive alpha shows superior selection.\n- Rankings can differ when funds carry different unsystematic risk; a well-diversified fund ranks similarly on both.\n- All three depend on CAPM assumptions and on the market index chosen as benchmark.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-04-portfolio-q16",
+          "type": "interview",
+          "prompt": "State the assumptions of CAPM and its main limitations.",
+          "answer": "- Investors are rational, risk-averse and diversify; they decide on expected return and SD over a single period.\n- Unlimited borrowing and lending at the risk-free rate.\n- No taxes or transaction costs; securities are divisible; markets are perfect and information is free.\n- Homogeneous expectations: all investors see the same inputs.\n- Limitations: the true market portfolio cannot be observed; betas estimated from history are unstable; the risk-free rate and market premium are hard to estimate; empirical tests show other factors (size, value) also explain returns, which led to APT and multi-factor models."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: CA Final study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "SEBI: official website",
+          "url": "https://www.sebi.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-afm-05-securitisation-mf",
+      "title": "Securitisation and Mutual Funds",
+      "level": "intermediate",
+      "summary": "How securitisation converts loan pools into tradable securities, how mutual funds are structured, and how to compute NAV and fund returns.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Securitisation: concept and process",
+          "body": "Securitisation converts illiquid, cash-generating assets (home loans, vehicle loans, credit card or lease receivables) into marketable securities.\n\nProcess:\n\n| Step | What happens |\n| --- | --- |\n| 1. Pooling | The originator (bank or NBFC) selects a pool of similar receivables |\n| 2. Transfer | The pool is sold by true sale to a Special Purpose Vehicle (SPV), which is bankruptcy-remote from the originator |\n| 3. Issue | The SPV issues securities (pass-through certificates) to investors and pays the originator |\n| 4. Credit enhancement and rating | Over-collateralisation, cash collateral, subordinated tranches or guarantees; a credit rating agency rates the securities |\n| 5. Servicing | A servicer (often the originator) collects instalments and passes them to the SPV, which pays investors |\n\nOther parties: trustee (protects investors' interest), structurer/arranger, credit enhancer."
+        },
+        {
+          "heading": "Securitisation instruments, benefits and problems",
+          "body": "- **Pass-through certificates (PTC)**: collections from the pool pass straight to investors, pro rata. Investors bear prepayment risk.\n- **Pay-through securities (PTS)**: the SPV reshapes the cash flows into tranches with different maturities and priorities, so it can issue securities that do not mirror the pool.\n- **Stripped securities**: interest-only (IO) and principal-only (PO) strips.\n\nBenefits to the originator: liquidity without new borrowing, lower cost of funds than its own rating permits, transfer of credit risk, better capital adequacy. Benefits to investors: rated, diversified, asset-backed instruments with a yield pick-up.\n\nProblems: complex structures, prepayment and reinvestment risk, thin secondary market, and moral hazard if originators lend carelessly because they plan to sell the loans."
+        },
+        {
+          "heading": "Mutual funds: structure and types",
+          "body": "An Indian mutual fund is set up as a trust. The **sponsor** establishes it, **trustees** protect unitholders, the **Asset Management Company (AMC)** manages the money, and a **custodian** holds the securities. All are regulated by SEBI.\n\n| Basis | Types |\n| --- | --- |\n| Structure | Open-ended (buy and redeem any day at NAV), closed-ended (fixed maturity, listed), interval |\n| Assets | Equity, debt, hybrid, money market, solution-oriented |\n| Style | Active, index fund, Exchange Traded Fund (ETF), fund of funds |\n| Plan | Direct (bought from the AMC, lower expense ratio) and Regular (through a distributor, includes commission) |\n\nEntry loads have not been permitted in India since 2009; exit loads may apply on early redemption. Exam problems may still give a load, so apply what the question states."
+        },
+        {
+          "heading": "NAV and return computations",
+          "body": "**NAV per unit = (Market value of investments + cash + accrued income + receivables - liabilities) / units outstanding**\n\nLiabilities include amounts payable for securities bought, expenses payable and distributions declared but unpaid.\n\n**Holding period return = (NAV1 - NAV0 + income distributed + capital gains distributed) / NAV0**\n\nWorked example: opening NAV ₹15.00, closing NAV ₹16.20, income distribution ₹0.75 and capital gains distribution ₹0.30 per unit.\n\n| Particulars | ₹ per unit |\n| --- | --- |\n| Change in NAV (16.20 - 15.00) | 1.20 |\n| Add: Distributions (0.75 + 0.30) | 1.05 |\n| Total gain | 2.25 |\n| **Return = 2.25 / 15.00** | **15.00%** |\n\nIf distributions are reinvested, compute the extra units (distribution / ex-distribution NAV) and value all units at the closing NAV.\n\nRedemption price with an exit load = NAV x (1 - exit load %)."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Forgetting to deduct payables (for securities bought, expenses) when computing NAV.\n- Leaving out distributions when computing return: they are part of the investor's gain.\n- Applying an exit load to the purchase price instead of the redemption price.\n- Confusing PTCs (cash passes straight through) with pay-through securities (SPV restructures cash flows).\n- Saying securitisation removes all risk: credit enhancement only absorbs losses up to a limit."
+        }
+      ],
+      "keyPoints": [
+        "Securitisation: originator -> true sale to SPV -> SPV issues PTCs -> servicer collects -> investors paid.",
+        "Credit enhancement: over-collateralisation, cash collateral, subordination, guarantees.",
+        "PTC: pro-rata pass-through, investor bears prepayment risk; PTS: SPV restructures cash flows into tranches.",
+        "NAV = (investments + cash + accrued income + receivables - liabilities) / units.",
+        "Return = (NAV1 - NAV0 + distributions) / NAV0.",
+        "Direct plans have lower expense ratios than regular plans; no entry load in India since 2009."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-case1",
+          "title": "Case: Saraswati Bluechip Fund",
+          "body": "Saraswati AMC manages an open-ended equity scheme. Its position on 31 March:\n\n| Particulars | ₹ crore |\n| --- | --- |\n| Equity shares at market value | 185.00 |\n| Government securities at market value | 40.00 |\n| Cash and bank balance | 6.50 |\n| Accrued interest on securities | 1.20 |\n| Receivable for shares sold | 2.30 |\n| Payable for shares purchased | 4.50 |\n| Expenses payable | 0.50 |\n\nUnits outstanding: 12 crore (face value ₹10).\n\nOver the next year the scheme distributes ₹1.20 per unit as income and ₹0.60 per unit as capital gains. NAV at the end of that year is ₹20.10. The scheme charges an exit load of 1% on redemptions."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q01",
+          "type": "numeric",
+          "prompt": "Compute the NAV per unit of the scheme on 31 March. Round to 2 decimals.",
+          "answer": 19.17,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ crore |\n| --- | --- |\n| Equity shares | 185.00 |\n| Government securities | 40.00 |\n| Cash and bank | 6.50 |\n| Accrued interest | 1.20 |\n| Receivable for shares sold | 2.30 |\n| Less: Payable for shares purchased | (4.50) |\n| Less: Expenses payable | (0.50) |\n| Net assets | 230.00 |\n| Units (crore) | 12.00 |\n| **NAV per unit** | **19.17** |",
+          "caseId": "ca-fin-afm-05-securitisation-mf-case1"
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q02",
+          "type": "numeric",
+          "prompt": "Using the 31 March NAV rounded to 2 decimals, compute the return earned by a unitholder over the following year. Answer as a % to 2 decimals.",
+          "answer": 14.24,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "Return = (20.10 - 19.17 + 1.20 + 0.60) / 19.17 = 2.73 / 19.17 = 14.24%.",
+          "caseId": "ca-fin-afm-05-securitisation-mf-case1"
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q03",
+          "type": "mcq",
+          "prompt": "An investor redeems 10,000 units at the year-end NAV. How much does she receive?",
+          "options": [
+            "₹1,98,990",
+            "₹2,01,000",
+            "₹2,03,010",
+            "₹1,89,783"
+          ],
+          "answer": 0,
+          "explanation": "Redemption price = 20.10 x (1 - 0.01) = 19.899. Amount = 10,000 x 19.899 = ₹1,98,990. The load reduces the redemption price; it is not added.",
+          "caseId": "ca-fin-afm-05-securitisation-mf-case1"
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q04",
+          "type": "mcq",
+          "prompt": "In computing Saraswati's NAV, how is the ₹4.50 crore payable for shares purchased treated?",
+          "options": [
+            "Deducted, because the shares are already included at market value but not yet paid for",
+            "Ignored, because it is a trading timing difference",
+            "Added, because the shares will be received",
+            "Deducted from units outstanding"
+          ],
+          "answer": 0,
+          "explanation": "The purchased shares are already in the ₹185 crore equity figure. The unpaid price is a liability of the scheme, so it reduces net assets.",
+          "caseId": "ca-fin-afm-05-securitisation-mf-case1"
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q05",
+          "type": "mcq",
+          "prompt": "In a securitisation transaction, the entity that buys the pool of receivables and issues securities to investors is the:",
+          "options": [
+            "Originator",
+            "Special Purpose Vehicle",
+            "Servicer",
+            "Credit rating agency"
+          ],
+          "answer": 1,
+          "explanation": "The SPV acquires the assets by true sale and issues pass-through or pay-through securities. Keeping the assets in a separate bankruptcy-remote entity protects investors if the originator fails."
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q06",
+          "type": "mcq",
+          "prompt": "Which feature distinguishes pay-through securities from pass-through certificates?",
+          "options": [
+            "Pay-through securities are unsecured",
+            "The SPV restructures pool cash flows into tranches with different maturities and priorities",
+            "Pay-through securities are issued directly by the originator",
+            "Pay-through securities carry no prepayment risk at all"
+          ],
+          "answer": 1,
+          "explanation": "In a PTC, collections pass straight to investors pro rata. In pay-through structures, the SPV reshapes the cash flows, so the securities need not mirror the pool's maturity profile."
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q07",
+          "type": "mcq",
+          "prompt": "A bank transfers a loan pool of ₹120 crore to an SPV, which issues securities of only ₹100 crore. This credit enhancement is called:",
+          "options": [
+            "Cash collateral",
+            "Over-collateralisation",
+            "Third-party guarantee",
+            "Letter of credit"
+          ],
+          "answer": 1,
+          "explanation": "The pool exceeds the securities issued by ₹20 crore, so the first ₹20 crore of defaults is absorbed by the excess collateral before investors lose anything."
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q08",
+          "type": "truefalse",
+          "prompt": "The transfer of receivables to the SPV is structured as a true sale so that the assets are protected from the originator's creditors if the originator becomes insolvent.",
+          "answer": true,
+          "explanation": "True sale makes the SPV bankruptcy-remote: the pool belongs to the SPV and its investors, not to the originator's estate."
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q09",
+          "type": "truefalse",
+          "prompt": "The direct plan of a mutual fund scheme has a higher expense ratio than the regular plan of the same scheme.",
+          "answer": false,
+          "explanation": "The regular plan includes distributor commission in its expenses. The direct plan has no commission, so its expense ratio is lower and its NAV grows slightly faster."
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q10",
+          "type": "multi",
+          "prompt": "Which of the following are parties to a typical securitisation transaction? (Select all that apply)",
+          "options": [
+            "Originator",
+            "Special Purpose Vehicle",
+            "Servicer",
+            "Credit rating agency",
+            "Registrar of Companies as guarantor"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Originator, SPV, servicer, rating agency, trustee and credit enhancer are the usual parties. The Registrar of Companies has no role as guarantor."
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: the per-unit value of a mutual fund scheme's net assets is called its ___.",
+          "accept": [
+            "NAV",
+            "net asset value"
+          ],
+          "explanation": "NAV = net assets / units outstanding. Investors in open-ended schemes buy and redeem at NAV (less any exit load)."
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q12",
+          "type": "numeric",
+          "prompt": "Ravi bought 1,000 units of a fund at ₹20.00. During the year the fund paid a distribution of ₹1.50 per unit, which he reinvested at the ex-distribution NAV of ₹24.00. Year-end NAV is ₹25.20. Compute his holding period return as a % to 2 decimals.",
+          "answer": 33.88,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "| Step | Working | Result |\n| --- | --- | --- |\n| Distribution received | 1,000 x 1.50 | ₹1,500 |\n| Units from reinvestment | 1,500 / 24.00 | 62.5 |\n| Total units | 1,000 + 62.5 | 1062.5 |\n| Year-end value | 1062.5 x 25.20 | ₹26,775 |\n| Return | (26,775 - 20,000) / 20,000 | 33.88% |"
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q13",
+          "type": "practical",
+          "prompt": "Compute the NAV per unit of Godavari Growth Fund at the end of its first year and the return earned by an investor who subscribed at the launch.",
+          "data": "The fund raised ₹50 crore by issuing 5 crore units at ₹10 each. It invested ₹48 crore in equity shares and kept ₹2 crore in cash.\n\nDuring the year (₹ crore): dividends received 1.20; interest on cash 0.10; recurring expenses paid 0.75. At year-end it paid an income distribution of ₹0.40 per unit. Market value of equity shares at year-end: ₹54.60 crore. There are no outstanding liabilities.",
+          "answer": "| Cash account | ₹ crore |\n| --- | --- |\n| Opening cash | 2.00 |\n| Add: Dividends received | 1.20 |\n| Add: Interest | 0.10 |\n| Less: Expenses | (0.75) |\n| Less: Distribution (0.40 x 5 crore units) | (2.00) |\n| Closing cash | 0.55 |\n\n| NAV computation | ₹ crore |\n| --- | --- |\n| Equity shares at market value | 54.60 |\n| Cash | 0.55 |\n| Net assets | 55.15 |\n| Units (crore) | 5.00 |\n| **NAV per unit (₹)** | **11.03** |\n\nReturn to investor = (11.03 - 10.00 + 0.40) / 10.00 = **14.30%**.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q14",
+          "type": "interview",
+          "prompt": "Explain the process of securitisation and its benefits to the originator and to investors.",
+          "answer": "- The originator pools homogeneous receivables and sells them by true sale to a bankruptcy-remote SPV.\n- The SPV issues pass-through or pay-through securities to investors and pays the originator from the proceeds.\n- Credit enhancement (over-collateralisation, cash collateral, subordination) and a credit rating make the securities marketable; a servicer collects instalments and a trustee protects investors.\n- Originator benefits: immediate liquidity, cheaper funding than its own rating allows, off-loading of credit risk, improved capital adequacy and balance sheet ratios.\n- Investor benefits: rated, asset-backed, diversified instruments with better yield than comparable bonds.\n- Risks remain: prepayment, default beyond the enhancement, complexity and a thin secondary market.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-05-securitisation-mf-q15",
+          "type": "interview",
+          "prompt": "Distinguish between an index fund and an Exchange Traded Fund (ETF).",
+          "answer": "- Both are passive: they replicate an index and have low expense ratios.\n- Index fund units are bought from and redeemed with the AMC at the day's closing NAV; ETF units are listed and trade on the exchange throughout the day at market prices.\n- ETF investors need a demat and trading account and pay brokerage; index fund investors do not.\n- ETF prices can trade at a small premium or discount to NAV (kept close by authorised participants through creation and redemption); index funds always transact at NAV.\n- Index funds allow systematic investment plans easily; ETFs offer intraday liquidity and usually a slightly lower expense ratio."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: CA Final study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "SEBI: official website",
+          "url": "https://www.sebi.gov.in/"
+        },
+        {
+          "title": "AMFI: Association of Mutual Funds in India",
+          "url": "https://www.amfiindia.com/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-afm-06-derivatives",
+      "title": "Derivatives Analysis and Valuation",
+      "level": "advanced",
+      "summary": "Pricing futures by cost of carry, option payoffs and put-call parity, arbitrage, and option valuation with the binomial and Black-Scholes models.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Forwards and futures: pricing by cost of carry",
+          "body": "A futures contract is a standardised, exchange-traded forward, with daily mark-to-market settlement through margins (initial and maintenance margin).\n\n**Fair futures price** (continuous compounding, as ICAI usually requires):\n\n- No income: F = S x e^(rt)\n- Known cash dividend: F = (S - PV of dividends) x e^(rt)\n- Continuous dividend yield y: F = S x e^((r - y)t)\n\nWorked example: share ₹1,000, r = 10% p.a., 6-month futures, dividend ₹20 expected in 2 months.\n\n| Step | Working | ₹ |\n| --- | --- | --- |\n| PV of dividend | 20 x e^(-0.10 x 2/12) | 19.67 |\n| Adjusted spot | 1,000 - 19.67 | 980.33 |\n| Fair futures price | 980.33 x e^(0.10 x 0.5) | 1030.59 |\n\n**Arbitrage**: if actual futures > fair price, do cash-and-carry (borrow, buy spot, sell futures). If actual futures < fair price, do reverse cash-and-carry (short spot, invest, buy futures)."
+        },
+        {
+          "heading": "Options: payoffs, moneyness and put-call parity",
+          "body": "| Position | Payoff at expiry | Maximum loss |\n| --- | --- | --- |\n| Long call | max(S - K, 0) - premium | Premium |\n| Short call | premium - max(S - K, 0) | Unlimited |\n| Long put | max(K - S, 0) - premium | Premium |\n| Short put | premium - max(K - S, 0) | K - premium |\n\nA call is in the money when S > K; a put when S < K. Option premium = intrinsic value + time value. A **straddle** (buy call and put at the same strike) profits from a large move either way; a **strangle** uses different strikes and is cheaper.\n\n**Put-call parity** (European options, no dividend):\n\n**C + K x e^(-rt) = P + S**\n\nIf the left side is cheaper, buy the call and invest PV(K); sell the put and short the share. If the right side is cheaper, do the reverse. The difference is the riskless arbitrage profit today."
+        },
+        {
+          "heading": "Binomial model",
+          "body": "In one period the share moves up to S x u or down to S x d.\n\n- Risk-neutral probability: p = (R - d) / (u - d), where R = 1 + r for the period (or e^(rt) with continuous compounding).\n- Option value = [p x Cu + (1 - p) x Cd] / R.\n- Delta (hedge ratio) = (Cu - Cd) / (Su - Sd): number of shares that hedge one option.\n\nWorked example: S = 100, u = 1.2, d = 0.85, K = 105, r = 6% per period (simple).\n\n| Step | Working | Result |\n| --- | --- | --- |\n| Cu | max(120 - 105, 0) | 15.00 |\n| Cd | max(85 - 105, 0) | 0.00 |\n| p | (1.06 - 0.85) / (1.20 - 0.85) | 0.6000 |\n| Call value | (0.60 x 15 + 0.40 x 0) / 1.06 | 8.4906 |\n\nMulti-period trees work backwards from expiry one node at a time."
+        },
+        {
+          "heading": "Black-Scholes model",
+          "body": "For a European call on a non-dividend share:\n\n**C = S x N(d1) - K x e^(-rt) x N(d2)**\n\n- d1 = [ln(S/K) + (r + sigma^2/2) t] / (sigma x square root of t)\n- d2 = d1 - sigma x square root of t\n- N(.) = cumulative standard normal probability (from the table)\n- Put value from put-call parity: P = C + K e^(-rt) - S\n\nAssumptions: European exercise, lognormal prices, constant volatility and interest rate, no dividends, no transaction costs, continuous trading.\n\nEffect of inputs on a call: higher S, sigma, r or time to expiry raise the value; a higher K lowers it. For a put, S, K and r work in the opposite direction."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using simple interest when the question says continuous compounding (or the reverse). Read the instruction.\n- Forgetting to deduct the PV of dividends before compounding the spot price.\n- Writing put-call parity as C + S = P + K: the strike must be discounted and the share sits with the put.\n- In the binomial model, using the actual probability instead of the risk-neutral p.\n- Reading N(d2) from the table for a negative d2 without using N(-x) = 1 - N(x).\n- Ignoring the premium when computing net profit from an option strategy."
+        }
+      ],
+      "keyPoints": [
+        "Fair futures price = (S - PV of dividends) x e^(rt); futures above fair price -> cash-and-carry arbitrage.",
+        "Put-call parity: C + K e^(-rt) = P + S (European, no dividend).",
+        "Binomial: p = (R - d)/(u - d); value = [p Cu + (1 - p) Cd]/R; delta = (Cu - Cd)/(Su - Sd).",
+        "Black-Scholes: C = S N(d1) - K e^(-rt) N(d2); d2 = d1 - sigma root t.",
+        "Call value rises with S, sigma, r and time; falls with K.",
+        "Option buyer's maximum loss = premium; call writer's loss is unlimited."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-afm-06-derivatives-case1",
+          "title": "Case: Pragati Motors Ltd derivatives desk",
+          "body": "Arjun runs the derivatives desk of a broking firm. On 1 January he observes the following for Pragati Motors Ltd shares (no dividend expected in the next 3 months):\n\n| Particulars | Value |\n| --- | --- |\n| Spot price | ₹800 |\n| 3-month futures price | ₹830 |\n| 3-month European call, strike ₹800 | ₹45 |\n| 3-month European put, strike ₹800 | ₹30 |\n| Risk-free rate (continuous compounding) | 9% p.a. |\n\nUse e^(0.0225) = 1.0228 and e^(-0.0225) = 0.9778. Arjun can borrow and lend at the risk-free rate and can short sell the share."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-afm-06-derivatives-q01",
+          "type": "numeric",
+          "prompt": "Compute the fair price of the 3-month futures contract. Round to 2 decimals.",
+          "answer": 818.24,
+          "tolerance": 0.05,
+          "unit": "₹",
+          "explanation": "Fair price = 800 x e^(0.09 x 0.25) = 800 x 1.0228 = ₹818.24.",
+          "caseId": "ca-fin-afm-06-derivatives-case1"
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q02",
+          "type": "mcq",
+          "prompt": "What arbitrage should Arjun undertake with the futures?",
+          "options": [
+            "Borrow, buy the share in the spot market and sell futures",
+            "Short sell the share, invest the proceeds and buy futures",
+            "Buy futures and buy the share",
+            "No arbitrage is possible"
+          ],
+          "answer": 0,
+          "explanation": "Actual futures (₹830) exceed the fair price (about ₹818.20), so futures are overpriced. Sell the expensive futures and create a synthetic long futures by borrowing to buy spot: cash-and-carry.",
+          "caseId": "ca-fin-afm-06-derivatives-case1"
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q03",
+          "type": "numeric",
+          "prompt": "Compute the arbitrage profit per share at the expiry of the futures. Round to 2 decimals.",
+          "answer": 11.76,
+          "tolerance": 0.05,
+          "unit": "₹",
+          "explanation": "| At expiry | ₹ |\n| --- | --- |\n| Deliver share against futures, receive | 830.00 |\n| Repay borrowing: 800 x 1.0228 | (818.24) |\n| **Riskless profit** | **11.76** |",
+          "caseId": "ca-fin-afm-06-derivatives-case1"
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q04",
+          "type": "mcq",
+          "prompt": "Test put-call parity on Arjun's options. Which strategy earns a riskless profit today?",
+          "options": [
+            "Buy the call, invest PV of ₹800, sell the put and short sell the share",
+            "Sell the call, borrow PV of ₹800, buy the put and buy the share",
+            "Buy both the call and the put",
+            "Parity holds exactly, so no arbitrage exists"
+          ],
+          "answer": 0,
+          "explanation": "C + K e^(-rt) = 45 + 800 x 0.9778 = 827.24. P + S = 30 + 800 = 830.00. The call side is cheaper by about ₹2.76: buy it (call + invest PV of strike) and sell the dear side (sell put, short share).",
+          "caseId": "ca-fin-afm-06-derivatives-case1"
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q05",
+          "type": "mcq",
+          "prompt": "An investor buys a call (strike ₹500, premium ₹20) and a put (strike ₹500, premium ₹15) on the same share and expiry. At what share prices at expiry does he break even?",
+          "options": [
+            "₹465 and ₹535",
+            "₹480 and ₹515",
+            "₹485 and ₹520",
+            "₹500 only"
+          ],
+          "answer": 0,
+          "explanation": "This is a long straddle costing 20 + 15 = ₹35. It breaks even when the share moves ₹35 either way: 500 - 35 = ₹465 and 500 + 35 = ₹535."
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q06",
+          "type": "mcq",
+          "prompt": "A put option with strike ₹250 trades at ₹18 when the share price is ₹240. Its time value is:",
+          "options": [
+            "₹18",
+            "₹10",
+            "₹8",
+            "₹0"
+          ],
+          "answer": 2,
+          "explanation": "Intrinsic value of the put = max(250 - 240, 0) = ₹10. Time value = premium - intrinsic value = 18 - 10 = ₹8."
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q07",
+          "type": "truefalse",
+          "prompt": "Futures contracts are settled daily through mark-to-market, while forward contracts are generally settled only at maturity.",
+          "answer": true,
+          "explanation": "Exchange-traded futures have daily mark-to-market with margins, which removes counterparty risk. Forwards are private OTC contracts usually settled once at maturity."
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q08",
+          "type": "truefalse",
+          "prompt": "Under the Black-Scholes model, a rise in the volatility of the share lowers the value of a call option.",
+          "answer": false,
+          "explanation": "Higher volatility raises the chance of a large favourable move while the downside is capped at the premium, so both call and put values rise with volatility."
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q09",
+          "type": "multi",
+          "prompt": "Which changes, taken one at a time, increase the value of a European call on a non-dividend share? (Select all that apply)",
+          "options": [
+            "Rise in the share price",
+            "Rise in volatility",
+            "Rise in the risk-free rate",
+            "Rise in the strike price",
+            "Fall in the share price"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Call value rises with S, volatility and the risk-free rate (the strike is paid later, so its PV falls). A higher strike or lower share price reduces the intrinsic value."
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in the binomial model, (Cu - Cd) / (Su - Sd), the number of shares needed to hedge one option, is called the option's ___.",
+          "accept": [
+            "delta",
+            "hedge ratio",
+            "delta or hedge ratio"
+          ],
+          "explanation": "Delta is the hedge ratio. Holding delta shares against one short call creates a riskless position, which is the basis of the binomial valuation."
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q11",
+          "type": "numeric",
+          "prompt": "A share trades at ₹100. In one year it will be either ₹120 or ₹85. The risk-free rate is 6% p.a. (annual compounding). Compute the value of a 1-year European call with a strike of ₹105 using the binomial model. Round to 2 decimals.",
+          "answer": 8.49,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "| Step | Working | Result |\n| --- | --- | --- |\n| u, d | 120/100, 85/100 | 1.20, 0.85 |\n| p | (1.06 - 0.85) / (1.20 - 0.85) | 0.60 |\n| Cu, Cd | max(120 - 105, 0), max(85 - 105, 0) | 15, 0 |\n| Call | (0.60 x 15 + 0.40 x 0) / 1.06 | 8.4906 |"
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q12",
+          "type": "numeric",
+          "prompt": "Compute d1 under the Black-Scholes model for a call with S = ₹120, K = ₹115, risk-free rate 8% p.a. (continuous), volatility 30% and 6 months to expiry. Round to 4 decimals.",
+          "answer": 0.4953,
+          "tolerance": 0.002,
+          "explanation": "| Step | Working | Result |\n| --- | --- | --- |\n| ln(S/K) | ln(120/115) | 0.0426 |\n| (r + sigma^2/2) t | (0.08 + 0.045) x 0.5 | 0.0625 |\n| sigma root t | 0.30 x 0.7071 | 0.2121 |\n| d1 | (0.0426 + 0.0625) / 0.2121 | 0.4953 |"
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q13",
+          "type": "practical",
+          "prompt": "Value a 6-month European call and put on Sutlej Chemicals Ltd shares using Black-Scholes and put-call parity.",
+          "data": "S = ₹120, K = ₹115, r = 8% p.a. continuous, sigma = 30%, t = 0.5 year. No dividends.\n\nUse: d1 = 0.4953, d2 = 0.2831, N(d1) = 0.6898, N(d2) = 0.6114, e^(-0.04) = 0.9608.",
+          "answer": "| Step | Working | ₹ |\n| --- | --- | --- |\n| d2 check | 0.4953 - 0.30 x 0.7071 | 0.2831 |\n| PV of strike | 115 x 0.9608 | 110.4920 |\n| S x N(d1) | 120 x 0.6898 | 82.7760 |\n| PV(K) x N(d2) | 110.4920 x 0.6114 | 67.5548 |\n| **Call value** | difference | **15.22** |\n| **Put value** | C + PV(K) - S = 15.22 + 110.49 - 120 | **5.71** |\n\nThe call is in the money (S > K) so most of its value is intrinsic; the put's value is entirely time value.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q14",
+          "type": "interview",
+          "prompt": "Explain the cost of carry model for pricing futures and how arbitrage keeps futures prices close to their fair value.",
+          "answer": "- The fair futures price equals the spot price plus the cost of carrying the asset to expiry (interest) minus income from it (dividends): F = (S - PV of D) e^(rt).\n- If F is above fair value, arbitrageurs borrow, buy spot and sell futures (cash-and-carry), locking in F minus the carrying cost.\n- If F is below fair value, they short spot, invest the proceeds and buy futures (reverse cash-and-carry).\n- Their buying and selling pushes the futures back to fair value.\n- The band is widened in practice by transaction costs, different borrowing and lending rates, short-selling restrictions and margin requirements.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-06-derivatives-q15",
+          "type": "interview",
+          "prompt": "State the assumptions of the Black-Scholes option pricing model and its limitations.",
+          "answer": "- European option exercised only at expiry; underlying pays no dividend during the life.\n- Share prices follow a lognormal distribution (continuous random walk) with constant volatility.\n- Risk-free rate is known and constant; borrowing and lending at that rate is unlimited.\n- No taxes or transaction costs; continuous trading and short selling allowed.\n- Limitations: volatility is not constant (volatility smile), dividends and American exercise need adjustment, and markets jump rather than move continuously; the binomial model handles American options and dividends more flexibly."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: CA Final study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "NSE: derivatives products",
+          "url": "https://www.nseindia.com/"
+        },
+        {
+          "title": "SEBI: official website",
+          "url": "https://www.sebi.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-afm-07-forex-risk",
+      "title": "Foreign Exchange Exposure and Risk Management",
+      "level": "advanced",
+      "summary": "Exchange rate quotes, forward premiums, interest rate and purchasing power parity, types of exposure, and hedging with forwards, money market hedges and options.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Exchange rate quotations",
+          "body": "- **Direct quote**: home currency per unit of foreign currency (₹83.40/USD). **Indirect quote**: foreign currency per unit of home currency (USD 0.0120/₹).\n- A two-way quote shows **bid** (the rate at which the bank buys the base currency) and **ask/offer** (the rate at which it sells). The customer always gets the worse rate: an importer buying USD pays the ask; an exporter selling USD receives the bid.\n- **Cross rates**: ₹/GBP bid = ₹/USD bid x USD/GBP bid; ₹/GBP ask = ₹/USD ask x USD/GBP ask.\n- **Forward premium or discount (annualised %)** = (Forward - Spot) / Spot x 12 / months x 100. If the forward is above spot in a direct quote, the foreign currency is at a premium."
+        },
+        {
+          "heading": "Parity conditions",
+          "body": "| Theory | Relation | Use |\n| --- | --- | --- |\n| Interest rate parity (IRP) | F / S = (1 + r home x t) / (1 + r foreign x t) | Fair forward rate; tests for covered interest arbitrage |\n| Purchasing power parity (PPP) | Expected S1 = S0 x (1 + inflation home) / (1 + inflation foreign) | Long-run expected spot rate |\n| International Fisher effect | Expected change in spot = interest rate differential | Expected spot from interest rates |\n\n**Covered interest arbitrage**: if the actual forward premium on a currency is higher than IRP implies, borrow home currency, convert at spot, invest abroad and sell the foreign proceeds forward. If it is lower, do the reverse. The currency with the higher interest rate should trade at a forward discount."
+        },
+        {
+          "heading": "Types of exposure",
+          "body": "| Exposure | What is at risk | Example |\n| --- | --- | --- |\n| Transaction | Cash value of contracted foreign currency receivables and payables | An import payable of USD 5 lakh due in 90 days |\n| Translation (accounting) | Reported values when foreign subsidiaries' accounts are consolidated | Fall in rupee value of a UK subsidiary's net assets |\n| Economic (operating) | PV of future operating cash flows and competitive position | A domestic producer losing share to cheaper imports after the rupee appreciates |"
+        },
+        {
+          "heading": "Hedging techniques",
+          "body": "External techniques: forward contracts, money market hedge, currency futures, currency options, swaps. Internal techniques: invoicing in home currency, leading and lagging, netting, matching, asset-liability management.\n\n**Money market hedge for a receivable**: borrow foreign currency now (PV of the receivable), convert at spot, invest in rupees; the receivable repays the loan.\n\nWorked example: receivable USD 2,00,000 in 6 months, spot ₹83.00, USD borrowing 5% p.a., ₹ deposit 7% p.a.\n\n| Step | Working | Result |\n| --- | --- | --- |\n| Borrow USD now | 2,00,000 / 1.025 | USD 1,95,121.95 |\n| Convert at spot | x 83.00 | ₹1,61,95,121.95 |\n| Invest in ₹ for 6 months | x 1.035 | ₹1,67,61,951.22 |\n\nThe effective locked-in rate is ₹83.8098/USD; compare it with the forward bid.\n\nFor a **payable**, reverse the steps: borrow rupees, buy the PV of the foreign amount at spot ask, deposit it abroad. With an **option**, the cost per unit = min(strike, spot) + premium (carried forward at the borrowing rate), giving protection with upside."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using the bid when the firm buys foreign currency (use ask) or the ask when it sells (use bid).\n- Using annual interest rates without adjusting for the period (3 months = rate / 4).\n- In a money market hedge for a payable, borrowing the full foreign amount instead of its present value.\n- Ignoring the time value of the option premium paid upfront.\n- Calling translation exposure a cash loss: it affects reported numbers, not cash flows directly."
+        }
+      ],
+      "keyPoints": [
+        "Importer buys foreign currency at ask; exporter sells at bid.",
+        "Annualised premium = (F - S)/S x 12/months x 100.",
+        "IRP: F = S x (1 + r home t)/(1 + r foreign t); higher-interest currency trades at a forward discount.",
+        "Exposures: transaction (contracted cash flows), translation (consolidation), economic (future competitiveness).",
+        "Money market hedge: payable = borrow home, buy PV of foreign at spot, deposit abroad; receivable = borrow foreign PV, convert, invest home.",
+        "Option hedge cost = min(strike, spot) + premium with interest on premium."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-afm-07-forex-risk-case1",
+          "title": "Case: Deccan Machines Ltd import payable",
+          "body": "Deccan Machines Ltd has imported equipment and must pay USD 5,00,000 in 3 months. The treasury has these quotes:\n\n| Particulars | Bid | Ask |\n| --- | --- | --- |\n| Spot ₹/USD | 83.40 | 83.60 |\n| 3-month forward ₹/USD | 84.20 | 84.45 |\n\n| Money market (p.a.) | Deposit | Borrowing |\n| --- | --- | --- |\n| Rupee | 8% | 10% |\n| US dollar | 4% | 6% |\n\nA 3-month call option on USD with a strike of ₹84.00 costs ₹0.50 per USD, payable now and financed by rupee borrowing. The treasury expects the spot rate in 3 months to be ₹84.60/USD."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-afm-07-forex-risk-q01",
+          "type": "numeric",
+          "prompt": "Compute the rupee cost of the payable if Deccan hedges with a forward contract. Round to the nearest rupee.",
+          "answer": 42225000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "An importer buys USD, so the forward ask applies: 5,00,000 x 84.45 = ₹4,22,25,000.",
+          "caseId": "ca-fin-afm-07-forex-risk-case1"
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q02",
+          "type": "numeric",
+          "prompt": "Compute the rupee cost of the payable at the end of 3 months under a money market hedge. Round to the nearest rupee.",
+          "answer": 42420792,
+          "tolerance": 2,
+          "unit": "₹",
+          "explanation": "| Step | Working | Result |\n| --- | --- | --- |\n| USD to deposit now (PV) | 5,00,000 / (1 + 0.04/4) | USD 4,95,049.50 |\n| Rupees needed at spot ask | x 83.60 | ₹4,13,86,138.61 |\n| Repay rupee loan after 3 months | x (1 + 0.10/4) | ₹4,24,20,792 |",
+          "caseId": "ca-fin-afm-07-forex-risk-case1"
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q03",
+          "type": "mcq",
+          "prompt": "What is the expected rupee cost of the payable if Deccan buys the call option and the spot rate turns out as expected?",
+          "options": [
+            "₹4,22,56,250",
+            "₹4,22,50,000",
+            "₹4,25,56,250",
+            "₹4,20,00,000"
+          ],
+          "answer": 0,
+          "explanation": "Spot ₹84.60 exceeds the strike, so the option is exercised at ₹84.00. Premium with interest = 0.50 x 1.025 = ₹0.5125. Effective rate = 84.5125; cost = 5,00,000 x 84.5125 = ₹4,22,56,250.",
+          "caseId": "ca-fin-afm-07-forex-risk-case1"
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q04",
+          "type": "mcq",
+          "prompt": "Which alternative should Deccan choose on the basis of expected cost?",
+          "options": [
+            "Forward contract",
+            "Money market hedge",
+            "Call option",
+            "Remain unhedged"
+          ],
+          "answer": 0,
+          "explanation": "Costs: forward ₹4,22,25,000, money market ₹4,24,20,792, option ₹4,22,56,250, unhedged (expected) ₹4,23,00,000. The forward is cheapest. The option costs a little more but would let Deccan benefit if the rupee strengthens.",
+          "caseId": "ca-fin-afm-07-forex-risk-case1"
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q05",
+          "type": "mcq",
+          "prompt": "Spot ₹/USD is 83.20/83.30 and USD/GBP is 1.2600/1.2700. The ₹/GBP cross rate is:",
+          "options": [
+            "₹104.8320 / ₹105.7910",
+            "₹105.6640 / ₹104.9580",
+            "₹65.5118 / ₹66.1111",
+            "₹105.00 / ₹105.50"
+          ],
+          "answer": 0,
+          "explanation": "Bid x bid and ask x ask: 83.20 x 1.26 = 104.8320 and 83.30 x 1.27 = 105.7910. The bank buys GBP cheap and sells it dear, so the bid must be the lower figure."
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q06",
+          "type": "mcq",
+          "prompt": "An Indian company with no foreign transactions loses market share because the rupee appreciates and imports become cheaper. This is:",
+          "options": [
+            "Transaction exposure",
+            "Translation exposure",
+            "Economic exposure",
+            "No exposure, since it has no foreign currency items"
+          ],
+          "answer": 2,
+          "explanation": "Economic (operating) exposure affects future cash flows and competitive position even for a purely domestic firm. It has no contracted foreign currency items (transaction) or foreign subsidiaries (translation)."
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q07",
+          "type": "truefalse",
+          "prompt": "Under interest rate parity, the currency with the higher interest rate trades at a forward discount.",
+          "answer": true,
+          "explanation": "IRP makes the forward rate offset the interest differential; otherwise investors would earn a riskless gain by investing in the high-rate currency and selling it forward."
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q08",
+          "type": "truefalse",
+          "prompt": "An exporter with a USD receivable who hedges using the money market should borrow the full USD amount of the receivable today.",
+          "answer": false,
+          "explanation": "He should borrow the present value of the receivable, so that principal plus interest at maturity exactly equals the amount receivable."
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q09",
+          "type": "multi",
+          "prompt": "Which of the following are internal techniques for managing foreign exchange exposure? (Select all that apply)",
+          "options": [
+            "Leading and lagging payments",
+            "Netting of intra-group receivables and payables",
+            "Invoicing in home currency",
+            "Buying a currency option from a bank",
+            "Entering into a currency futures contract"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Internal techniques use the firm's own arrangements. Options and futures are external, market-based instruments."
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: an importer buying USD from a bank is quoted the ___ rate.",
+          "accept": [
+            "ask",
+            "offer",
+            "selling",
+            "ask or offer"
+          ],
+          "explanation": "The bank sells USD at its ask (offer) rate, the higher side of the quote."
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q11",
+          "type": "numeric",
+          "prompt": "Spot ₹/USD is ₹83.00 and the 6-month forward is ₹84.66. Compute the annualised forward premium on USD as a % to 2 decimals.",
+          "answer": 4,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "(84.66 - 83.00) / 83.00 x 12/6 x 100 = 4.00%."
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q12",
+          "type": "numeric",
+          "prompt": "Spot ₹/USD is ₹83.50. Rupee interest is 7% p.a. and dollar interest is 4.5% p.a. Compute the 6-month forward rate under interest rate parity, to 4 decimals.",
+          "answer": 84.5208,
+          "tolerance": 0.002,
+          "unit": "₹",
+          "explanation": "F = 83.50 x (1 + 0.07/2) / (1 + 0.045/2) = 83.50 x 1.035 / 1.0225 = ₹84.5208."
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q13",
+          "type": "practical",
+          "prompt": "Check whether covered interest arbitrage is possible and compute the profit, using a borrowing limit of ₹83,00,000 or its USD equivalent.",
+          "data": "Spot ₹/USD 83.00; 3-month forward ₹/USD 83.90. Interest rates: rupee 8% p.a., USD 5% p.a. (same for borrowing and lending). Ignore spreads and transaction costs.",
+          "answer": "IRP forward = 83.00 x (1.02 / 1.0125) = ₹83.6148. The actual forward (₹83.90) is higher, so USD is overpriced forward: borrow rupees, invest in USD and sell USD forward.\n\n| Step | Working | ₹ / USD |\n| --- | --- | --- |\n| Borrow ₹ at 8% for 3 months |  | ₹83,00,000 |\n| Convert at spot | 83,00,000 / 83 | USD 1,00,000 |\n| Invest USD at 5% for 3 months | 1,00,000 x 1.0125 | USD 1,01,250 |\n| Sell USD forward | 1,01,250 x 83.90 | ₹84,94,875 |\n| Repay rupee loan | 83,00,000 x 1.02 | (₹84,66,000) |\n| **Arbitrage profit** |  | **₹28,875** |",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-07-forex-risk-q14",
+          "type": "interview",
+          "prompt": "Explain transaction, translation and economic exposure. Which hedging tools suit each?",
+          "answer": "- Transaction exposure: change in the rupee value of contracted foreign currency cash flows (receivables, payables, loans). Hedged with forwards, futures, options, money market hedges, leading/lagging and netting.\n- Translation exposure: change in reported values when foreign subsidiaries' statements are consolidated; it is an accounting effect. Managed by balance sheet hedging (matching foreign assets with foreign liabilities).\n- Economic exposure: change in the PV of future operating cash flows due to unexpected exchange rate changes; affects even domestic firms. Managed through strategy: diversifying production and sourcing, pricing flexibility, long-term financing in matching currencies.\n- A strong answer gives an example of each and notes that economic exposure is the hardest to hedge.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: CA Final study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Reserve Bank of India: official website",
+          "url": "https://www.rbi.org.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-afm-08-international-interest-rate",
+      "title": "International Financial Management and Interest Rate Risk Management",
+      "level": "advanced",
+      "summary": "Appraising overseas projects, raising funds through ADRs, GDRs and other international instruments, and managing interest rate risk with FRAs, swaps, caps and floors.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "International capital budgeting",
+          "body": "Overseas projects add currency risk, country (political) risk, remittance restrictions and different tax regimes. Two consistent methods:\n\n| Method | Steps |\n| --- | --- |\n| Home currency approach | Forecast foreign currency cash flows, convert at expected spot rates (from IRP or PPP), discount at the home required return |\n| Foreign currency approach | Discount foreign cash flows at the foreign-currency equivalent rate, then convert the NPV at today's spot rate |\n\nWith parity holding, both give the same NPV. Foreign-equivalent rate = (1 + home rate) x (1 + foreign interest) / (1 + home interest) - 1.\n\n**Parent vs project perspective**: the parent values only the cash it can actually remit (after withholding tax, blocked funds and transfer pricing effects). A project that looks good locally can be unattractive to the parent."
+        },
+        {
+          "heading": "International sources of finance",
+          "body": "- **ADR (American Depository Receipt)**: a receipt issued by a US depository bank representing shares of a non-US company held by a custodian in the home country; traded in the US in USD.\n- **GDR (Global Depository Receipt)**: similar, issued and traded in more than one market (usually Europe: London, Luxembourg).\n- **IDR (Indian Depository Receipt)**: issued in India by a foreign company.\n- Each receipt represents a fixed number of underlying shares (the conversion ratio). ADR price in ₹ / ratio should be close to the home share price; differences create arbitrage.\n- Debt: External Commercial Borrowings (ECB), Euro bonds, Foreign Currency Convertible Bonds (FCCB), rupee-denominated bonds issued abroad (masala bonds).\n\nDepository receipts let a company raise foreign equity without listing its shares directly abroad, widen its investor base and gain visibility; the cost is listing and compliance expense and exposure to foreign market sentiment."
+        },
+        {
+          "heading": "Forward rate agreements (FRA)",
+          "body": "An FRA locks an interest rate for a future period on a notional principal. A **3 x 6 FRA** fixes the rate for a 3-month period starting in 3 months. A borrower buys an FRA to protect against rising rates; a lender sells one.\n\nAt the start of the period it is cash-settled on the difference:\n\n**Settlement = [(Reference rate - FRA rate) x Notional x days / 365] / (1 + Reference rate x days / 365)**\n\nThe division discounts the interest difference, which relates to the end of the period, back to the settlement date. If the reference rate is above the FRA rate, the FRA buyer receives; if below, the buyer pays. Use 360 days where the question or market convention (for example USD rates) says so."
+        },
+        {
+          "heading": "Interest rate swaps, caps, floors and collars",
+          "body": "A **plain vanilla swap** exchanges fixed-rate payments for floating-rate payments on a notional principal; only the net amount changes hands.\n\n**Comparative advantage swap**: if two firms have different credit spreads in the fixed and floating markets, each borrows where its advantage is greater and they swap. Total gain = difference in fixed spreads - difference in floating spreads, shared as agreed (less any bank fee).\n\n| Instrument | Protects | Payoff |\n| --- | --- | --- |\n| Cap | Borrower against rates rising above the cap rate | Pays (Reference - cap) x notional when reference > cap |\n| Floor | Lender against rates falling below the floor rate | Pays (floor - Reference) x notional when reference < floor |\n| Collar | Borrower: buy cap, sell floor | Premium from floor reduces cost of cap; rate stays within a band |"
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Converting all future foreign cash flows at today's spot rate instead of expected future rates.\n- Discounting rupee cash flows at a foreign interest rate (or the reverse).\n- In FRAs, forgetting to discount the settlement to the start of the period.\n- In swap design, computing total gain as the sum instead of the difference of the spread differences.\n- Ignoring withholding taxes and remittance limits when valuing from the parent's perspective."
+        }
+      ],
+      "keyPoints": [
+        "Overseas NPV: convert foreign cash flows at expected spot rates (IRP/PPP) and discount at the home rate.",
+        "Foreign-equivalent rate = (1 + home k)(1 + foreign r)/(1 + home r) - 1; both methods give the same NPV.",
+        "ADR = US-traded receipt; GDR = traded in several markets (often Europe); IDR = issued in India by a foreign firm.",
+        "FRA settlement = (reference - FRA rate) x notional x days/365, discounted at the reference rate.",
+        "Swap gain = difference in fixed spreads - difference in floating spreads.",
+        "Cap protects borrowers, floor protects lenders, collar = buy cap + sell floor."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-case1",
+          "title": "Case: Himalaya Pharma Ltd US plant",
+          "body": "Himalaya Pharma Ltd plans a formulation plant in the US. Cost: USD 10 million, payable now. Expected net cash flows (fully remittable, after all taxes):\n\n| Year | 1 | 2 | 3 |\n| --- | --- | --- | --- |\n| Cash flow (USD million) | 4 | 5 | 6 |\n\nThe plant has no value after year 3. Spot rate ₹83/USD. Risk-free rates: rupee 8% p.a., USD 4% p.a. Himalaya's required return on rupee cash flows is 14%. Expected future spot rates follow interest rate parity. Round exchange rates and discount factors to 4 decimals."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q01",
+          "type": "numeric",
+          "prompt": "Compute the expected spot rate (₹/USD) at the end of year 2 under interest rate parity. Round to 4 decimals.",
+          "answer": 89.5074,
+          "tolerance": 0.001,
+          "unit": "₹",
+          "explanation": "S2 = 83 x (1.08 / 1.04)^2 = ₹89.5074.",
+          "caseId": "ca-fin-afm-08-international-interest-rate-case1"
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q02",
+          "type": "numeric",
+          "prompt": "Compute the NPV of the US plant in rupees. Answer in ₹ crore to 2 decimals.",
+          "answer": 19.33,
+          "tolerance": 0.05,
+          "unit": "₹ crore",
+          "explanation": "| Year | USD million | Expected ₹/USD | ₹ million | DF @ 14% | PV (₹ million) |\n| --- | --- | --- | --- | --- | --- |\n| 1 | 4 | 86.1923 | 344.7692 | 0.8772 | 302.4315 |\n| 2 | 5 | 89.5074 | 447.5370 | 0.7695 | 344.3797 |\n| 3 | 6 | 92.9500 | 557.7000 | 0.6750 | 376.4475 |\n|  |  |  |  | PV of inflows | 1023.2588 |\n| 0 | (10) | 83.0000 | (830.0000) | 1.0000 | (830.0000) |\n|  |  |  |  | **NPV** | **193.2588** |\n\nNPV = ₹193.26 million = ₹19.33 crore (1 crore = 10 million).",
+          "caseId": "ca-fin-afm-08-international-interest-rate-case1"
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q03",
+          "type": "mcq",
+          "prompt": "If Himalaya instead discounts the USD cash flows directly, which discount rate keeps the result consistent with the rupee approach?",
+          "options": [
+            "9.78%",
+            "14.00%",
+            "10.00%",
+            "18.00%"
+          ],
+          "answer": 0,
+          "explanation": "Foreign-equivalent rate = 1.14 x 1.04 / 1.08 - 1 = 9.78%. Discounting USD flows at this rate and converting the NPV at ₹83 gives the same answer. 10% (14 - 4) is only an approximation.",
+          "caseId": "ca-fin-afm-08-international-interest-rate-case1"
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q04",
+          "type": "mcq",
+          "prompt": "From the parent's perspective, which factor would reduce the project's value even if the plant's local NPV is unchanged?",
+          "options": [
+            "A US rule restricting remittance of profits for the first three years",
+            "A higher selling price in the US market",
+            "A fall in the plant's construction cost",
+            "Appreciation of the USD against the rupee"
+          ],
+          "answer": 0,
+          "explanation": "The parent values only cash it can bring home. Blocked funds delay remittance and lower the parent's NPV; the other options raise value.",
+          "caseId": "ca-fin-afm-08-international-interest-rate-case1"
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q05",
+          "type": "mcq",
+          "prompt": "A depository receipt issued by a foreign company to investors in India is called a/an:",
+          "options": [
+            "ADR",
+            "GDR",
+            "IDR",
+            "FCCB"
+          ],
+          "answer": 2,
+          "explanation": "An Indian Depository Receipt (IDR) lets a foreign company raise money from Indian investors. ADRs trade in the US; GDRs in several markets; FCCBs are convertible bonds."
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q06",
+          "type": "mcq",
+          "prompt": "A company with floating-rate borrowings wants protection if rates rise but wants to benefit if rates fall. It should:",
+          "options": [
+            "Buy an interest rate cap",
+            "Sell an interest rate floor",
+            "Enter a pay-floating, receive-fixed swap",
+            "Sell an FRA"
+          ],
+          "answer": 0,
+          "explanation": "A cap pays out when rates exceed the cap rate and costs only a premium otherwise, so the borrower keeps the benefit of falling rates. A pay-fixed swap or bought FRA would lock the rate and give up that benefit."
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q07",
+          "type": "truefalse",
+          "prompt": "The buyer of an FRA receives a settlement payment when the reference rate at settlement is above the agreed FRA rate.",
+          "answer": true,
+          "explanation": "The FRA buyer is protected against rising rates: it effectively pays the FRA rate, so it is compensated when the market rate turns out higher."
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q08",
+          "type": "truefalse",
+          "prompt": "If interest rate parity holds, discounting rupee-converted cash flows at the rupee rate and discounting USD cash flows at the foreign-equivalent rate give different NPVs.",
+          "answer": false,
+          "explanation": "Under parity the two methods are algebraically identical; differences in an exam answer come only from rounding."
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q09",
+          "type": "multi",
+          "prompt": "Which of the following are sources of international finance for an Indian company? (Select all that apply)",
+          "options": [
+            "Global Depository Receipts",
+            "External Commercial Borrowings",
+            "Foreign Currency Convertible Bonds",
+            "Rupee-denominated bonds issued abroad",
+            "Indian Depository Receipts issued by the company itself"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "IDRs are issued in India by foreign companies, not by Indian companies. The rest are routes for Indian companies to raise funds abroad."
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a forward rate agreement covering a 3-month period that starts 3 months from today is called a 3 x ___ FRA.",
+          "accept": [
+            "6"
+          ],
+          "explanation": "The notation is start month x end month: 3 x 6 means the period runs from month 3 to month 6."
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q11",
+          "type": "numeric",
+          "prompt": "Vidarbha Steel Ltd bought a 3 x 6 FRA at 7.50% on a notional ₹10 crore. On the settlement date the 3-month reference rate is 8.20%. The period is 90 days on a 365-day basis. Compute the settlement amount received by Vidarbha, to the nearest rupee.",
+          "answer": 169182,
+          "tolerance": 2,
+          "unit": "₹",
+          "explanation": "| Step | Working | ₹ |\n| --- | --- | --- |\n| Interest difference | (8.20% - 7.50%) x 10,00,00,000 x 90/365 | 1,72,602.74 |\n| Discount factor | 1 + 0.082 x 90/365 | 1.020219 |\n| **Settlement** | difference / discount factor | **1,69,182** |"
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q12",
+          "type": "numeric",
+          "prompt": "An Indian company's ADR trades at USD 24.60 in New York. One ADR represents 2 equity shares. The exchange rate is ₹83.20/USD. Compute the equivalent rupee price per underlying share, to 2 decimals.",
+          "answer": 1023.36,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "ADR in rupees = 24.60 x 83.20 = ₹2046.72. Per share = 2046.72 / 2 = ₹1023.36. If the share trades well below this in India, arbitrageurs buy shares, convert them into ADRs and sell in the US."
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q13",
+          "type": "practical",
+          "prompt": "Design an interest rate swap that benefits both companies equally and show each company's effective cost.",
+          "data": "| Company | Fixed rate available | Floating rate available | Wants |\n| --- | --- | --- | --- |\n| Alpha Ltd (AAA) | 7.0% | MIBOR + 0.5% | Floating |\n| Beta Ltd (A) | 8.5% | MIBOR + 1.2% | Fixed |\n\nNo intermediary is involved.",
+          "answer": "| Step | Working | Result |\n| --- | --- | --- |\n| Difference in fixed rates | 8.5% - 7.0% | 1.5% |\n| Difference in floating rates | (MIBOR + 1.2%) - (MIBOR + 0.5%) | 0.7% |\n| Total gain from swap | 1.5% - 0.7% | 0.8% |\n| Gain to each | 0.8% / 2 | 0.4% |\n\nAlpha has a bigger advantage in fixed (1.5%), so Alpha borrows fixed at 7.0% and Beta borrows floating at MIBOR + 1.2%. Under the swap Alpha pays MIBOR to Beta and Beta pays 6.9% fixed to Alpha.\n\n| Flows | Alpha Ltd | Beta Ltd |\n| --- | --- | --- |\n| Pays to lender | 7.0% | MIBOR + 1.2% |\n| Pays under swap | MIBOR | 6.9% |\n| Receives under swap | (6.9%) | (MIBOR) |\n| **Net cost** | **MIBOR + 0.1%** | **8.1%** |\n| Cost without swap | MIBOR + 0.5% | 8.5% |\n| Saving | 0.4% | 0.4% |",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q14",
+          "type": "mcq",
+          "prompt": "Under a swap on a notional ₹50 crore, Kosi Power Ltd pays fixed at 6.80% p.a. and receives 6-month MIBOR. For a half-year in which MIBOR is set at 7.25% p.a., what is the net settlement for that half-year (simple half-year basis)?",
+          "options": [
+            "Kosi receives ₹11,25,000",
+            "Kosi pays ₹11,25,000",
+            "Kosi receives ₹22,50,000",
+            "Kosi receives ₹1,81,25,000"
+          ],
+          "answer": 0,
+          "explanation": "Net = (7.25% - 6.80%) x 50,00,00,000 x 1/2 = ₹11,25,000. Only the net difference is exchanged; the notional never changes hands."
+        },
+        {
+          "id": "ca-fin-afm-08-international-interest-rate-q15",
+          "type": "interview",
+          "prompt": "How does international capital budgeting differ from domestic capital budgeting? Explain the parent versus project perspective.",
+          "answer": "- Cash flows arise in foreign currency, so expected exchange rates (from IRP or PPP) are needed to convert them, or a foreign-equivalent discount rate is used.\n- Additional risks: exchange rate risk, political and country risk, expropriation, and blocked funds; these are reflected through cash flow adjustments or a higher discount rate.\n- Taxes in two countries, withholding taxes on dividends and royalties, and double taxation relief affect the remittable amount.\n- Project perspective values all cash flows generated by the subsidiary; parent perspective values only what can be remitted to the parent after taxes and restrictions, including royalties and fees.\n- The parent perspective is the correct basis for the investment decision, since shareholders of the parent own only remittable cash.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: CA Final study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Reserve Bank of India: official website",
+          "url": "https://www.rbi.org.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-afm-09-corporate-valuation",
+      "title": "Corporate Valuation",
+      "level": "advanced",
+      "summary": "Valuing a business with asset, earnings, discounted cash flow and relative approaches, moving from enterprise value to equity value, and measuring value creation with EVA and MVA.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Approaches to valuation",
+          "body": "| Approach | Method | Suits |\n| --- | --- | --- |\n| Asset-based | Net assets at book, replacement or realisable (liquidation) value | Asset-heavy firms, holding companies, liquidation |\n| Earnings-based | Future maintainable profit / capitalisation rate | Stable, profitable businesses |\n| Cash flow (DCF) | PV of FCFF at WACC (or FCFE at Ke) plus terminal value | Going concerns with forecastable cash flows |\n| Relative (market) | Peer multiples: P/E, EV/EBITDA, EV/Sales, P/B | Quick checks, listed peers available |\n\nNo method is right for every case. Valuers often use more than one and reconcile the results."
+        },
+        {
+          "heading": "DCF valuation and terminal value",
+          "body": "Steps for an FCFF-based valuation:\n\n- Forecast FCFF for the explicit period (usually 3-10 years).\n- Terminal value at the end of the explicit period: **TV = FCFF(n+1) / (WACC - g)**.\n- Discount the explicit cash flows and the TV at WACC: this is the **enterprise (firm) value** from operations.\n- Add non-operating assets (surplus cash, investments), deduct debt and preference capital to get **equity value**; divide by shares.\n\nThe terminal value is often 60-80% of the total, so the long-term growth rate must be realistic (not above long-run nominal GDP growth) and below WACC."
+        },
+        {
+          "heading": "Enterprise value and relative valuation",
+          "body": "**Enterprise value (EV) = market value of equity + debt + preference capital + minority interest - cash and cash equivalents.**\n\nWorked example (₹ crore):\n\n| Particulars | ₹ crore |\n| --- | --- |\n| Market capitalisation | 1,200 |\n| Add: Debt | 350 |\n| Add: Preference capital | 50 |\n| Less: Cash and equivalents | (100) |\n| **Enterprise value** | **1,500** |\n\nEquity multiples (P/E, P/B) are applied to equity measures (EPS, book value). Enterprise multiples (EV/EBITDA, EV/Sales) are applied to pre-interest measures and give EV, from which net debt is deducted. EV/EBITDA is preferred when peers have different leverage or depreciation policies."
+        },
+        {
+          "heading": "Economic Value Added and Market Value Added",
+          "body": "**EVA = NOPAT - (WACC x capital employed)**, where NOPAT = EBIT x (1 - tax rate). A positive EVA means the business earned more than the cost of all the capital it used.\n\n**MVA = market value of the firm (equity + debt) - capital employed.** MVA is the market's view of the PV of all future EVAs.\n\nEVA is used for performance measurement and incentive pay, because it charges managers for the capital they tie up. Adjustments are often made to accounting figures (capitalising R&D, removing non-recurring items)."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using FCFF(n) instead of FCFF(n+1) in the terminal value formula.\n- Discounting the terminal value for n+1 years: it is a value at the end of year n, so discount for n years.\n- Forgetting to add surplus cash or to deduct debt when moving from enterprise to equity value.\n- Applying EV/EBITDA to get equity value directly.\n- Deducting interest when computing NOPAT for EVA: interest is covered by the capital charge."
+        }
+      ],
+      "keyPoints": [
+        "Approaches: asset-based, earnings capitalisation, DCF, relative multiples.",
+        "TV = FCFF(n+1)/(WACC - g), discounted for n years.",
+        "Equity value = enterprise value + surplus cash - debt - preference capital.",
+        "EV = market cap + debt + preference + minority - cash.",
+        "EVA = NOPAT - WACC x capital employed; MVA = market value - capital employed.",
+        "Use equity multiples with equity measures and EV multiples with pre-interest measures."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-case1",
+          "title": "Case: Tapti Retail Ltd valuation",
+          "body": "Ojas Capital is advising a private equity fund on a stake in Tapti Retail Ltd. The forecast free cash flows to the firm are:\n\n| Year | 1 | 2 | 3 |\n| --- | --- | --- | --- |\n| FCFF (₹ crore) | 120 | 140 | 160 |\n\nAfter year 3, FCFF will grow at 5% a year forever. WACC is 12%. Tapti has debt of ₹400 crore and surplus cash of ₹60 crore. It has 20 crore equity shares. Use discount factors: year 1 = 0.8929, year 2 = 0.7972, year 3 = 0.7118."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q01",
+          "type": "numeric",
+          "prompt": "Compute the terminal value of Tapti at the end of year 3, in ₹ crore.",
+          "answer": 2400,
+          "tolerance": 0.5,
+          "unit": "₹ crore",
+          "explanation": "TV = FCFF4 / (WACC - g) = (160 x 1.05) / (0.12 - 0.05) = 168 / 0.07 = ₹2,400 crore.",
+          "caseId": "ca-fin-afm-09-corporate-valuation-case1"
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q02",
+          "type": "numeric",
+          "prompt": "Compute the value per equity share of Tapti. Round to 2 decimals.",
+          "answer": 85.05,
+          "tolerance": 0.05,
+          "unit": "₹",
+          "explanation": "| Particulars | Working | ₹ crore |\n| --- | --- | --- |\n| PV of FCFF year 1 | 120 x 0.8929 | 107.1480 |\n| PV of FCFF year 2 | 140 x 0.7972 | 111.6080 |\n| PV of FCFF year 3 | 160 x 0.7118 | 113.8880 |\n| PV of terminal value | 2,400 x 0.7118 | 1708.3200 |\n| Enterprise value |  | 2040.9640 |\n| Less: Debt |  | (400.00) |\n| Add: Surplus cash |  | 60.00 |\n| Equity value |  | 1700.9640 |\n| **Per share** | / 20 crore shares | **₹85.05** |",
+          "caseId": "ca-fin-afm-09-corporate-valuation-case1"
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q03",
+          "type": "mcq",
+          "prompt": "Tapti's shares are being offered to the fund at ₹80 each. Based on the DCF value, the offer price is:",
+          "options": [
+            "Below intrinsic value: attractive",
+            "Above intrinsic value: unattractive",
+            "Equal to intrinsic value",
+            "Not comparable, because DCF gives enterprise value only"
+          ],
+          "answer": 0,
+          "explanation": "Intrinsic value is about ₹85.05 per share, above the ₹80 offer, so the offer is attractive (a margin of safety exists). Equity value already adjusts for debt and cash, so the comparison is valid.",
+          "caseId": "ca-fin-afm-09-corporate-valuation-case1"
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q04",
+          "type": "mcq",
+          "prompt": "What share of Tapti's enterprise value comes from the terminal value?",
+          "options": [
+            "About 84%",
+            "About 25%",
+            "About 50%",
+            "About 100%"
+          ],
+          "answer": 0,
+          "explanation": "PV of TV = ₹1708.32 crore out of EV ₹2040.96 crore = 83.7%. This is why the long-term growth and WACC assumptions need the most scrutiny.",
+          "caseId": "ca-fin-afm-09-corporate-valuation-case1"
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q05",
+          "type": "mcq",
+          "prompt": "A company's future maintainable profit after tax is ₹50 crore and the normal capitalisation rate for the industry is 12.5%. Its value under the earnings capitalisation method is:",
+          "options": [
+            "₹62.5 crore",
+            "₹400 crore",
+            "₹625 crore",
+            "₹40 crore"
+          ],
+          "answer": 1,
+          "explanation": "Value = maintainable profit / capitalisation rate = 50 / 0.125 = ₹400 crore."
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q06",
+          "type": "mcq",
+          "prompt": "Which item is deducted when computing enterprise value from market capitalisation?",
+          "options": [
+            "Debt",
+            "Preference capital",
+            "Cash and cash equivalents",
+            "Minority interest"
+          ],
+          "answer": 2,
+          "explanation": "EV = market cap + debt + preference + minority interest - cash. Cash is deducted because an acquirer of the whole firm effectively gets it back."
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q07",
+          "type": "truefalse",
+          "prompt": "A company with positive accounting profit always has a positive EVA.",
+          "answer": false,
+          "explanation": "Accounting profit ignores the cost of equity. If NOPAT is less than WACC x capital employed, EVA is negative even though the company reports a profit."
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q08",
+          "type": "truefalse",
+          "prompt": "EV/EBITDA is less affected than P/E by differences in capital structure between the company and its peers.",
+          "answer": true,
+          "explanation": "EBITDA is before interest and EV includes debt, so leverage differences largely cancel out. P/E uses earnings after interest and is distorted by leverage."
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q09",
+          "type": "multi",
+          "prompt": "Which of the following are correct pairings of a multiple with the value it produces? (Select all that apply)",
+          "options": [
+            "P/E x EPS gives value per share",
+            "EV/EBITDA x EBITDA gives enterprise value",
+            "P/B x book value per share gives value per share",
+            "EV/Sales x sales gives equity value directly",
+            "P/E x EBITDA gives enterprise value"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Equity multiples applied to equity measures give equity value; EV multiples applied to pre-interest measures give EV, from which net debt must be deducted. EV/Sales gives EV, not equity value; P/E cannot be applied to EBITDA."
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: market value of the firm minus capital employed is called ___ (abbreviation).",
+          "accept": [
+            "MVA",
+            "market value added"
+          ],
+          "explanation": "MVA measures the value the market believes management has added over the capital invested; it equals the PV of expected future EVAs."
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q11",
+          "type": "numeric",
+          "prompt": "A listed peer group trades at 9x EV/EBITDA. Godavari Foods Ltd has EBITDA of ₹150 crore, debt of ₹300 crore, cash of ₹50 crore and 10 crore shares. Compute its value per share using this multiple.",
+          "answer": 110,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ crore |\n| --- | --- |\n| EV = 9 x 150 | 1,350 |\n| Less: Debt | (300) |\n| Add: Cash | 50 |\n| Equity value | 1,100 |\n| **Per share (/ 10 crore)** | **₹110.00** |"
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q12",
+          "type": "numeric",
+          "prompt": "A division has NOPAT of ₹84 crore, capital employed of ₹600 crore and a WACC of 11%. Compute its EVA in ₹ crore.",
+          "answer": 18,
+          "tolerance": 0.01,
+          "unit": "₹ crore",
+          "explanation": "Capital charge = 600 x 11% = ₹66 crore. EVA = 84 - 66 = ₹18.00 crore."
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q13",
+          "type": "practical",
+          "prompt": "Compute (a) WACC, (b) NOPAT, (c) EVA and (d) MVA of Mahanadi Cables Ltd and comment.",
+          "data": "| Particulars | ₹ crore |\n| --- | --- |\n| EBIT | 300 |\n| Equity capital employed (book) | 900 |\n| Debt (book = market) | 600 |\n| Market capitalisation | 1,400 |\n\nTax rate 25%. Cost of equity 15%. Pre-tax cost of debt 10%. Use book value weights for WACC.",
+          "answer": "| Step | Working | Result |\n| --- | --- | --- |\n| Capital employed | 900 + 600 | ₹1,500 crore |\n| (a) WACC | (900/1,500 x 15%) + (600/1,500 x 10% x 0.75) | 12.00% |\n| (b) NOPAT | 300 x (1 - 0.25) | ₹225.00 crore |\n| Capital charge | 1,500 x 12.00% | ₹180.00 crore |\n| (c) **EVA** | 225.00 - 180.00 | **₹45.00 crore** |\n| (d) **MVA** | (1,400 + 600) - 1,500 | **₹500.00 crore** |\n\nPositive EVA shows the company earned more than its cost of capital this year. Positive MVA shows the market expects it to keep creating value.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q14",
+          "type": "interview",
+          "prompt": "Explain the DCF approach to corporate valuation and the role of terminal value.",
+          "answer": "- Value = PV of expected free cash flows; FCFF is discounted at WACC to give enterprise value (FCFE at Ke gives equity value directly).\n- Forecast FCFF = EBIT(1 - t) + depreciation - capex - increase in working capital for an explicit period.\n- Terminal value captures cash flows after the explicit period, usually by the Gordon growth formula FCFF(n+1)/(WACC - g) or an exit multiple.\n- TV often forms most of the value, so g must be sustainable and below WACC; small changes in g or WACC move the value sharply, so sensitivity analysis is essential.\n- Equity value = EV + non-operating assets - debt - preference capital - minority interest; divide by shares for value per share.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-09-corporate-valuation-q15",
+          "type": "interview",
+          "prompt": "What is Economic Value Added? Why is it preferred to accounting profit for measuring performance?",
+          "answer": "- EVA = NOPAT - WACC x capital employed: profit left after charging for all capital, debt and equity.\n- Accounting profit charges only interest, not the cost of equity, so a profitable firm can still destroy value.\n- EVA makes managers accountable for capital used: they create value by raising returns, investing only where return exceeds WACC, or releasing unproductive capital.\n- It links to MVA (PV of future EVAs) and so to shareholder wealth, and is used in incentive schemes.\n- Limitations: accounting adjustments are subjective, it is a single-period measure and can discourage long-gestation investments."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: CA Final study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: official website",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-afm-10-mergers-startup",
+      "title": "Mergers, Acquisitions, Corporate Restructuring and Startup Finance",
+      "level": "advanced",
+      "summary": "Types of combinations and restructuring, swap ratios and post-merger EPS and price, synergy and cost of acquisition, and how startups are financed and valued.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Mergers, acquisitions and restructuring",
+          "body": "| Form | Meaning |\n| --- | --- |\n| Horizontal merger | Firms in the same line of business (economies of scale, market share) |\n| Vertical merger | Firms at different stages of the same value chain (supplier or customer) |\n| Conglomerate merger | Unrelated businesses (diversification) |\n| Congeneric merger | Related but not identical businesses sharing technology or customers |\n| Reverse merger | A smaller or loss-making firm absorbs a larger or profitable one, or an unlisted company merges into a listed shell |\n\nRestructuring also includes **demerger** (spin-off of a division into a new company owned by the same shareholders), **divestiture / slump sale** (sale of a business for a lump sum), **buy-back**, **leveraged buy-out (LBO)** and **management buy-out (MBO)**, and **equity carve-out** (IPO of a minority stake in a subsidiary).\n\nThe rationale is **synergy**: value of combined firm > sum of stand-alone values, from cost savings, revenue gains, tax benefits or a lower cost of capital."
+        },
+        {
+          "heading": "Swap ratio and post-merger EPS",
+          "body": "**Swap (exchange) ratio** = shares of the acquirer issued for each share of the target. Bases: EPS, market price, book value, intrinsic (DCF) value, or a weighted mix.\n\n- Swap ratio (basis X) = target's X per share / acquirer's X per share\n- Post-merger EPS = (EA + EB + synergy earnings) / (NA + NB x swap ratio)\n- Target shareholders' equivalent EPS = post-merger EPS x swap ratio\n- Maximum swap ratio with no dilution of acquirer's EPS: shares issued = (EA + EB) / EPS of A - NA\n- Post-merger market price = post-merger P/E x post-merger EPS\n\nWorked example: A earns ₹40 crore on 8 crore shares (EPS ₹5); B earns ₹12 crore on 4 crore shares (EPS ₹3). EPS-based swap ratio = 3/5 = 0.6.\n\n| Particulars | Working | Result |\n| --- | --- | --- |\n| Shares issued to B | 4 x 0.6 | 2.4 crore |\n| Post-merger EPS | (40 + 12) / (8 + 2.4) | ₹5.00 |\n\nWith an EPS-based ratio and no synergy, neither side's EPS changes. Any other basis transfers EPS from one group of shareholders to the other."
+        },
+        {
+          "heading": "Synergy, cost of acquisition and NPV to the acquirer",
+          "body": "- **Synergy** = V(AB) - [V(A) + V(B)]\n- **Cost of acquisition** = cash paid, or (shares issued x post-merger share price) when paid in shares\n- **Premium** = cost - V(B)\n- **NPV to acquirer** = synergy - premium = [V(B) + synergy] - cost\n\nWhen payment is in shares, target shareholders share in the synergy (and any overpayment), so the true cost depends on the post-merger price, not the pre-merger price."
+        },
+        {
+          "heading": "Startup finance",
+          "body": "| Stage | Typical source |\n| --- | --- |\n| Idea / pre-seed | Bootstrapping (founders' savings), friends and family, grants, incubators |\n| Seed | Angel investors, angel networks, accelerators, crowdfunding |\n| Early stage (Series A, B) | Venture capital funds |\n| Growth / pre-IPO | Later-stage VC, private equity, venture debt |\n| Exit | IPO, strategic sale, secondary sale to another fund |\n\n**VC method of valuation**: estimate exit (terminal) value in year n, then:\n\n- Post-money value today = exit value / (1 + target return)^n\n- Required ownership = investment / post-money value\n- Pre-money value = post-money value - investment\n\nA **pitch deck** covers the problem, solution, market size, business model, traction, competition, team, financials and the ask (amount and use of funds). Investors also negotiate terms such as liquidation preference, anti-dilution protection, board seats and vesting of founders' shares."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Inverting the swap ratio: it is target's value per share / acquirer's value per share.\n- Using the pre-merger price of the acquirer to value shares issued; the cost depends on the post-merger price.\n- Forgetting to add synergy earnings to combined earnings when the question gives them.\n- Confusing pre-money and post-money value in the VC method.\n- Assuming the post-merger P/E equals the acquirer's P/E unless the question says so."
+        }
+      ],
+      "keyPoints": [
+        "Swap ratio = target value per share / acquirer value per share (EPS, MPS, book or intrinsic basis).",
+        "Post-merger EPS = (EA + EB + synergy) / (NA + NB x ER); target's equivalent EPS = post-merger EPS x ER.",
+        "Maximum ER without EPS dilution: shares issued = (EA + EB)/EPS(A) - NA.",
+        "NPV to acquirer = V(B) + synergy - cost of acquisition; share-based cost uses post-merger price.",
+        "Restructuring: demerger, slump sale, buy-back, LBO, MBO, equity carve-out.",
+        "VC method: post-money = exit value/(1 + r)^n; ownership = investment/post-money; pre-money = post - investment."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-afm-10-mergers-startup-case1",
+          "title": "Case: Amber Ltd acquires Bharat Ltd",
+          "body": "Amber Ltd, a listed paints company, has agreed to absorb Bharat Ltd, a smaller listed competitor. Pre-merger data:\n\n| Particulars | Amber Ltd | Bharat Ltd |\n| --- | --- | --- |\n| Earnings after tax (₹ crore) | 60 | 15 |\n| Number of equity shares (crore) | 10 | 5 |\n| Market price per share (₹) | 120 | 45 |\n\nThe boards propose a share exchange based on market prices. No synergy in earnings is expected in the first year. Analysts expect the merged company to trade at a P/E of 18."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q01",
+          "type": "mcq",
+          "prompt": "What swap ratio results from the market price basis?",
+          "options": [
+            "0.375 Amber share for each Bharat share",
+            "0.500 Amber share for each Bharat share",
+            "2.667 Amber shares for each Bharat share",
+            "0.750 Amber share for each Bharat share"
+          ],
+          "answer": 0,
+          "explanation": "Swap ratio = 45 / 120 = 0.375. Amber issues 5 x 0.375 = 1.875 crore shares. 0.500 is the EPS-based ratio (3/6); 2.667 inverts the ratio.",
+          "caseId": "ca-fin-afm-10-mergers-startup-case1"
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q02",
+          "type": "numeric",
+          "prompt": "Compute Amber's EPS after the merger. Round to 2 decimals.",
+          "answer": 6.32,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "| Particulars | Working | Result |\n| --- | --- | --- |\n| Combined earnings | 60 + 15 | ₹75 crore |\n| Shares after merger | 10 + 5 x 0.375 | 11.875 crore |\n| **Post-merger EPS** | 75 / 11.875 | **₹6.32** |",
+          "caseId": "ca-fin-afm-10-mergers-startup-case1"
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q03",
+          "type": "numeric",
+          "prompt": "Compute the maximum swap ratio Amber can offer without diluting its pre-merger EPS. Round to 2 decimals.",
+          "answer": 0.5,
+          "tolerance": 0.01,
+          "explanation": "Amber's EPS = 60/10 = ₹6. To keep EPS at ₹6 on ₹75 crore earnings, total shares can be 75/6 = 12.5 crore, so at most 2.5 crore new shares for 5 crore Bharat shares: ratio = 0.50.",
+          "caseId": "ca-fin-afm-10-mergers-startup-case1"
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q04",
+          "type": "mcq",
+          "prompt": "What happens to the EPS of Bharat's shareholders on an equivalent basis?",
+          "options": [
+            "Falls from ₹3.00 to ₹2.37",
+            "Rises from ₹3.00 to ₹6.32",
+            "Stays at ₹3.00",
+            "Falls from ₹3.00 to ₹3.16"
+          ],
+          "answer": 0,
+          "explanation": "Equivalent EPS = 6.3158 x 0.375 = ₹2.37. Bharat's P/E (15) is below Amber's (20), so a market-price ratio gives Bharat fewer shares than an EPS ratio would; Amber's EPS rises and Bharat's equivalent EPS falls.",
+          "caseId": "ca-fin-afm-10-mergers-startup-case1"
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q05",
+          "type": "mcq",
+          "prompt": "If the merged company trades at a P/E of 18, what is the expected market price of an Amber share after the merger?",
+          "options": [
+            "₹113.68",
+            "₹126.32",
+            "₹120.00",
+            "₹94.74"
+          ],
+          "answer": 0,
+          "explanation": "Price = P/E x EPS = 18 x 6.3158 = ₹113.68. This is below Amber's ₹120 pre-merger price: the market is not rewarding the EPS rise because the combined P/E falls.",
+          "caseId": "ca-fin-afm-10-mergers-startup-case1"
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q06",
+          "type": "mcq",
+          "prompt": "A company transfers its cement division to a new company, and the shareholders of the original company receive shares of the new company in proportion to their holdings. This is a:",
+          "options": [
+            "Slump sale",
+            "Demerger (spin-off)",
+            "Leveraged buy-out",
+            "Reverse merger"
+          ],
+          "answer": 1,
+          "explanation": "In a demerger the division moves to a resulting company and the same shareholders get its shares. In a slump sale the business is sold for a lump-sum consideration paid to the company."
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q07",
+          "type": "truefalse",
+          "prompt": "When the swap ratio is based on EPS and there is no synergy, the EPS of both groups of shareholders is unchanged after the merger.",
+          "answer": true,
+          "explanation": "An EPS-based ratio issues shares exactly in proportion to earnings contributed, so post-merger EPS equals the acquirer's EPS and the target's equivalent EPS equals its old EPS."
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q08",
+          "type": "truefalse",
+          "prompt": "In the VC method, pre-money valuation equals post-money valuation plus the amount invested.",
+          "answer": false,
+          "explanation": "Post-money = pre-money + investment. Pre-money is therefore post-money minus the investment."
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q09",
+          "type": "multi",
+          "prompt": "Which of the following are sources of synergy in a merger? (Select all that apply)",
+          "options": [
+            "Economies of scale in production and distribution",
+            "Cross-selling to each other's customers",
+            "Use of accumulated tax losses of one firm against profits of the other, where permitted",
+            "Lower combined cost of capital from greater size and stability",
+            "Higher EPS created only by issuing shares at a high P/E"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Operating, revenue, tax and financial synergies create real value. EPS 'bootstrapping' from P/E differences does not add cash flows, so it is not true synergy."
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: acquisition of a company largely funded by debt secured on the target's own assets and cash flows is called a ___ buy-out.",
+          "accept": [
+            "leveraged",
+            "LBO",
+            "leveraged buy-out"
+          ],
+          "explanation": "In an LBO the target's cash flows service the acquisition debt; high leverage magnifies equity returns and risk."
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q11",
+          "type": "numeric",
+          "prompt": "A VC fund is asked to invest ₹10 crore in Kshitij Robotics Pvt Ltd. It expects the company to be worth ₹200 crore at exit in 5 years and targets a return of 40% p.a. Compute the percentage stake the fund should require. Answer as a % to 2 decimals.",
+          "answer": 26.89,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "| Step | Working | Result |\n| --- | --- | --- |\n| Post-money value | 200 / (1.40)^5 = 200 / 5.37824 | ₹37.1869 crore |\n| Required stake | 10 / 37.1869 | 26.89% |\n| Pre-money value | 37.1869 - 10 | ₹27.1869 crore |"
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q12",
+          "type": "practical",
+          "prompt": "Evaluate the acquisition of Tara Ltd by Sitara Ltd under (a) payment in shares and (b) payment in cash.",
+          "data": "| Particulars | Sitara Ltd | Tara Ltd |\n| --- | --- | --- |\n| Number of shares (crore) | 20 | 5 |\n| Market price per share (₹) | 25 | 20 |\n\nThe merger is expected to create synergy of ₹40 crore. Option (a): Sitara issues 5 crore new shares (1 for 1). Option (b): Sitara pays ₹125 crore in cash.",
+          "answer": "| Particulars | ₹ crore |\n| --- | --- |\n| Value of Sitara (20 x 25) | 500 |\n| Value of Tara (5 x 20) | 100 |\n| Synergy | 40 |\n| Value of combined firm (before payment) | 640 |\n\n**(a) Payment in shares**\n\n| Step | Working | Result |\n| --- | --- | --- |\n| Shares after merger | 20 + 5 | 25 crore |\n| Post-merger price | 640 / 25 | ₹25.60 |\n| Cost of acquisition | 5 x 25.60 | ₹128.00 crore |\n| NPV to Sitara | (100 + 40) - 128.00 | ₹12.00 crore |\n| Gain to Tara's shareholders | 128.00 - 100 | ₹28.00 crore |\n\n**(b) Payment in cash**\n\n| Step | Working | Result |\n| --- | --- | --- |\n| Cost of acquisition |  | ₹125.00 crore |\n| NPV to Sitara | (100 + 40) - 125.00 | ₹15.00 crore |\n| Gain to Tara's shareholders | 125.00 - 100 | ₹25.00 crore |\n\nCash gives Sitara the higher NPV (₹15.00 crore vs ₹12.00 crore) because in a share deal Tara's shareholders receive 20% of the combined firm, including a share of the synergy. In both cases total gain = ₹40 crore. A share deal is still preferable if Sitara is unsure about the synergy, since Tara's holders then share that risk.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q13",
+          "type": "interview",
+          "prompt": "Explain the bases on which a swap ratio can be determined and the limitations of each.",
+          "answer": "- EPS basis: ratio of EPS; ignores growth, quality of earnings and market perception, and differing accounting policies.\n- Market price basis: reflects investor expectations, but prices can be volatile, manipulated or thinly traded.\n- Book value (net asset) basis: objective, but historical costs ignore earning power and intangibles.\n- Intrinsic value (DCF) basis: theoretically the best because it uses future cash flows, but depends heavily on assumptions.\n- In practice a weighted average of several bases is negotiated, supported by a registered valuer's report and a fairness opinion; the swap ratio decides how synergy is shared between the two groups of shareholders.",
+          "top": true
+        },
+        {
+          "id": "ca-fin-afm-10-mergers-startup-q14",
+          "type": "interview",
+          "prompt": "Describe the sources of finance available to a startup at different stages and how a venture capitalist values a startup.",
+          "answer": "- Pre-seed: bootstrapping, friends and family, government grants and incubators.\n- Seed: angel investors and angel networks, accelerators, crowdfunding.\n- Early and growth stages: venture capital (Series A, B, C), venture debt, private equity; exits through IPO, strategic sale or secondary sale.\n- VC method: estimate exit value in year n (often a multiple of expected earnings or revenue), discount at a high target return (30-60%) to get post-money value, required ownership = investment / post-money, pre-money = post-money - investment.\n- High target returns reflect the high failure rate; term sheets add protection through liquidation preference, anti-dilution clauses, board seats and founder vesting."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: CA Final study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Startup India (DPIIT)",
+          "url": "https://www.startupindia.gov.in/"
+        },
+        {
+          "title": "SEBI: official website",
+          "url": "https://www.sebi.gov.in/"
+        }
+      ]
+    }
+  ]
+}

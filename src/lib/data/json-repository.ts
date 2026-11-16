@@ -5,7 +5,7 @@ import { join } from "node:path";
 
 import type { Goal, Track, UserRecord } from "@/lib/types";
 
-import { byOrder, interviewItems, locateQuestions, summarizeTrack } from "./derive";
+import { byOrder, expandTrack, interviewItems, locateQuestions, summarizeTrack } from "./derive";
 import type { Repository } from "./repository";
 
 const CONTENT_DIR = join(process.cwd(), "src", "content");
@@ -17,7 +17,7 @@ async function readJson<T>(file: string): Promise<T> {
 async function loadTracks(): Promise<Track[]> {
   const files = (await readdir(join(CONTENT_DIR, "tracks"))).filter((f) => f.endsWith(".json"));
   const tracks = await Promise.all(files.map((f) => readJson<Track>(join("tracks", f))));
-  return tracks.sort(byOrder);
+  return tracks.map(expandTrack).sort(byOrder);
 }
 
 export async function createJsonRepository(): Promise<Repository> {

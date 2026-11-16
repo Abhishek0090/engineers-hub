@@ -1,10 +1,36 @@
-# How Software Engineers Hub is built
+# How StudyHub is built
 
 This document explains the moving parts: the stack, the folders, how a request flows, how login and
 progress work, and how the data layer switches from static JSON to MongoDB.
 
 For what the app teaches, see [CURRICULUM.md](CURRICULUM.md). For adding or editing lessons and
 questions, see [CONTENT-GUIDE.md](CONTENT-GUIDE.md).
+
+## Programs
+
+The app holds separate curricula on one engine. Today: **software engineering** and **CA (ICAI)
+exam prep**. Programs, their areas and their wording live in
+[src/content/site.json](../src/content/site.json), together with the site name; the app, the
+validator and the docs generator all read that file, so adding a program needs no code change.
+
+- A track's program follows from its `area` (`programOf()` in [src/lib/catalog.ts](../src/lib/catalog.ts)).
+- Goals carry `program` (default: `defaultProgram`).
+- Every program except the default has an `idPrefix` (`ca-`); track, goal and question ids of that
+  program start with it, so `programOfId()` can place any id (used to split the mistakes list).
+- `expandTrack()` stamps `program` on every question at load time.
+- Picking a goal stores `progress.program`; `progressProgram()` reads it (older progress falls back
+  to the goal id prefix).
+
+| Where | What follows the current program |
+| --- | --- |
+| Sidebar | Logo subtitle, question bank label (`terms.nav`: Interview / Theory), review badge count |
+| Dashboard | Goal picker grouped by program; continue card, "All tracks", area chips, mastered count and mistakes count use the goal's program. A goal with no published tracks says so. |
+| Question bank and rounds | Opens on the goal's program (switchable); rounds stay inside one program |
+| Review | Only the current program's mistakes; the other program's wait until you switch goal |
+| Profile | Track progress of the current program |
+| Track, chapter, player | Wording from `terms` (most asked / most examined, interview / theory question). Chapters with `applicableFor`, `lawAsOf` or `draft` show a notice. |
+
+XP, streak and history are shared across programs.
 
 ## Stack
 
@@ -101,7 +127,9 @@ interface Repository {
 | `mongo` | `mongo-repository.ts` | `tracks` collection | `users` collection | `progress` collection, one document per user |
 
 Shared logic (track summaries, the interview list, the "most asked" selection) lives in
-`derive.ts`, so both implementations return identical shapes.
+`derive.ts`, so both implementations return identical shapes. Both also run `expandTrack()` on
+load: questions with a `caseId` get the case's `caseTitle` and `caseBody` copied in, so the
+practice player and the review queue can show a case without looking up its chapter.
 
 In development the JSON repository re-reads files on every request, so content edits show up on
 refresh. In production it caches them for the life of the server process.
@@ -168,13 +196,18 @@ Rules live in [src/lib/progress.ts](../src/lib/progress.ts) as pure functions:
 [src/components/practice-player.tsx](../src/components/practice-player.tsx) runs every session:
 chapter practice, review and mock interviews.
 
-- **Modes:** full set, quick round (8 quiz + 2 interview), quiz only, interview only.
+- **Modes:** full set, quick round (8 quiz + 2 self-rated), quiz only, interview (or written) only.
+  Self-rated means `interview` and `practical` (`isSelfRated()` in `types.ts`).
 - **Shuffling:** questions and answer options are shuffled when the session starts. It happens in the
   browser after mount, so server and client HTML match. Options containing "all of the above" and
   similar keep their order.
 - **Grading:** `mcq`, `truefalse` and `multi` compare indexes. `fill` compares normalized text against
-  the `accept` list. `interview` reveals the model answer and the learner rates it (Missed, Partly,
-  Nailed it).
+  the `accept` list. `numeric` parses the input (Indian digit grouping, `₹`, `Rs.`, `%` and
+  bracketed negatives are accepted) and passes within `tolerance` (default 0.1% of the answer).
+  `interview` and `practical` reveal the model answer or solution and the learner rates it
+  (Missed, Partly, Nailed it).
+- **Problem data:** `data` renders under the prompt; a case (`caseBody`) renders above it in a
+  collapsible block that is open while answering.
 - **Keyboard:** 1-6 picks an option, Enter checks and continues.
 - **End of session:** `recordSession()` adds XP, updates the chapter score, adds wrong answers to
   `mistakes` and removes the ones answered right.

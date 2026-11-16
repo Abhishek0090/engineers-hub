@@ -1,0 +1,2488 @@
+{
+  "id": "ca-f-quant",
+  "title": "Quantitative Aptitude (Foundation P3)",
+  "area": "ca-foundation",
+  "order": 102,
+  "icon": "QA",
+  "color": "#0891b2",
+  "description": "Business mathematics, logical reasoning and statistics for CA Foundation Paper 3 under the ICAI new scheme (attempts from May 2027). Objective-paper practice with MCQs and numeric drills.",
+  "chapters": [
+    {
+      "id": "ca-f-quant-01-ratio-indices-logs",
+      "title": "Ratio, Proportion, Indices and Logarithms",
+      "level": "beginner",
+      "summary": "Compare quantities with ratios and proportions, simplify powers with the laws of indices and use logarithms to handle products and large powers.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Ratio and its types",
+          "body": "A **ratio** compares two quantities of the same kind: a : b = a/b. Multiplying or dividing both terms by the same non-zero number does not change it, so 12 : 18 = 2 : 3.\n\n| Type | Of a : b | Example (for 3 : 5) |\n| --- | --- | --- |\n| Duplicate ratio | a² : b² | 9 : 25 |\n| Triplicate ratio | a³ : b³ | 27 : 125 |\n| Sub-duplicate ratio | √a : √b | √3 : √5 |\n| Sub-triplicate ratio | ∛a : ∛b | ∛3 : ∛5 |\n| Inverse (reciprocal) ratio | b : a | 5 : 3 |\n| Compound ratio of a : b and c : d | ac : bd | - |\n\nA ratio a : b with a > b is a ratio of **greater inequality**; with a < b it is a ratio of **lesser inequality**. Adding the same positive number to both terms moves a ratio towards 1.\n\n**Combining ratios.** If a : b = 3 : 4 and b : c = 6 : 7, make the common term equal: a : b = 9 : 12 and b : c = 12 : 14, so a : b : c = 9 : 12 : 14."
+        },
+        {
+          "heading": "Proportion",
+          "body": "Four quantities a, b, c, d are in **proportion** when a : b = c : d, written a : b :: c : d. Then **ad = bc** (product of extremes = product of means).\n\n- **Fourth proportional** to a, b, c is d = bc/a.\n- **Third proportional** to a and b is c where a : b = b : c, so c = b²/a.\n- **Mean proportional** between a and b is √(ab).\n- a, b, c are in **continued proportion** when a : b = b : c, so b² = ac.\n\nProperties used in MCQs, if a/b = c/d:\n\n- Invertendo: b/a = d/c. Alternendo: a/c = b/d.\n- Componendo: (a + b)/b = (c + d)/d. Dividendo: (a - b)/b = (c - d)/d.\n- Componendo and dividendo: (a + b)/(a - b) = (c + d)/(c - d).\n\n**Dividing an amount in a ratio of fractions.** To divide ₹ 7,800 in the ratio 1/2 : 1/3 : 1/4, multiply by the LCM 12 to get 6 : 4 : 3 (total 13). Shares are ₹ 3,600, ₹ 2,400 and ₹ 1,800."
+        },
+        {
+          "heading": "Laws of indices",
+          "body": "For a > 0 and real m, n:\n\n| Law | Rule |\n| --- | --- |\n| Product | aᵐ × aⁿ = aᵐ⁺ⁿ |\n| Quotient | aᵐ ÷ aⁿ = aᵐ⁻ⁿ |\n| Power | (aᵐ)ⁿ = aᵐⁿ |\n| Product to a power | (ab)ⁿ = aⁿbⁿ |\n| Zero index | a⁰ = 1 |\n| Negative index | a⁻ⁿ = 1/aⁿ |\n| Fractional index | a^(p/q) = q-th root of aᵖ |\n\n**Typical ICAI-style simplification:** (xᵃ/xᵇ)^(a+b) × (xᵇ/xᶜ)^(b+c) × (xᶜ/xᵃ)^(c+a). The exponent is (a - b)(a + b) + (b - c)(b + c) + (c - a)(c + a) = a² - b² + b² - c² + c² - a² = 0, so the value is x⁰ = 1.\n\n**Equal-power trick:** if 2ˣ = 3ʸ = 6⁻ᶻ = k, then 2 = k^(1/x), 3 = k^(1/y), 6 = k^(-1/z). Since 2 × 3 = 6, 1/x + 1/y = -1/z, so 1/x + 1/y + 1/z = 0."
+        },
+        {
+          "heading": "Logarithms",
+          "body": "If aˣ = N (a > 0, a ≠ 1, N > 0), then **logₐ N = x**. Common logs use base 10; natural logs use base e.\n\n| Rule | Statement |\n| --- | --- |\n| Product | logₐ(mn) = logₐ m + logₐ n |\n| Quotient | logₐ(m/n) = logₐ m - logₐ n |\n| Power | logₐ(mⁿ) = n logₐ m |\n| Base change | logₐ m = log_b m / log_b a |\n| Special values | logₐ 1 = 0, logₐ a = 1 |\n| Reciprocal | logₐ b × log_b a = 1 |\n\n**Worked example.** Given log 2 = 0.30103 and log 3 = 0.47712, find log 72. Since 72 = 2³ × 3², log 72 = 3(0.30103) + 2(0.47712) = 0.90309 + 0.95424 = 1.85733.\n\n**Number of digits.** log(2⁵⁰) = 50 × 0.30103 = 15.0515. The characteristic is 15, so 2⁵⁰ has 15 + 1 = **16 digits**."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- log(m + n) is NOT log m + log n; there is no rule for the log of a sum.\n- (a + b)² is not a² + b²; indices distribute over products, not sums.\n- When combining a : b and b : c, equalise the common term b before writing a : b : c.\n- The mean proportional between a and b is √(ab), not (a + b)/2.\n- In MCQs, test options by substituting simple values (x = 1, a = 2) when algebra gets long."
+        }
+      ],
+      "keyPoints": [
+        "a : b :: c : d means ad = bc; fourth proportional = bc/a; third proportional = b²/a; mean proportional = √(ab).",
+        "Duplicate a² : b², sub-duplicate √a : √b, triplicate a³ : b³, compound of a : b and c : d is ac : bd.",
+        "aᵐ × aⁿ = aᵐ⁺ⁿ, (aᵐ)ⁿ = aᵐⁿ, a⁰ = 1, a⁻ⁿ = 1/aⁿ.",
+        "log(mn) = log m + log n, log(m/n) = log m - log n, log mⁿ = n log m.",
+        "Change of base: logₐ m = log m / log a; logₐ b × log_b a = 1.",
+        "Digits in N = characteristic of log N + 1 (for N ≥ 1)."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q01",
+          "type": "mcq",
+          "prompt": "If a : b = 3 : 4 and b : c = 6 : 7, then a : b : c is:",
+          "options": [
+            "9 : 12 : 14",
+            "3 : 4 : 7",
+            "6 : 8 : 7",
+            "3 : 6 : 7"
+          ],
+          "answer": 0,
+          "explanation": "Make b equal in both ratios. a : b = 9 : 12 and b : c = 12 : 14, so a : b : c = 9 : 12 : 14. Writing 3 : 4 : 7 or 6 : 8 : 7 ignores that b has different values in the two given ratios."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q02",
+          "type": "mcq",
+          "prompt": "The sub-duplicate ratio of 49 : 64 is:",
+          "options": [
+            "7 : 8",
+            "2401 : 4096",
+            "64 : 49",
+            "8 : 7"
+          ],
+          "answer": 0,
+          "explanation": "Sub-duplicate ratio takes square roots of both terms: √49 : √64 = 7 : 8. 2401 : 4096 is the duplicate ratio."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q03",
+          "type": "mcq",
+          "prompt": "The fourth proportional to 4, 9 and 12 is:",
+          "options": [
+            "27",
+            "16",
+            "36",
+            "18"
+          ],
+          "answer": 0,
+          "explanation": "4 : 9 :: 12 : d, so 4d = 9 × 12 = 108 and d = 27."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q04",
+          "type": "mcq",
+          "prompt": "The mean proportional between 9 and 16 is:",
+          "options": [
+            "12",
+            "12.5",
+            "144",
+            "25"
+          ],
+          "answer": 0,
+          "explanation": "Mean proportional = √(9 × 16) = √144 = 12. 12.5 is the arithmetic mean, a common trap."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q05",
+          "type": "mcq",
+          "prompt": "If 2ˣ = 3ʸ = 6⁻ᶻ, then 1/x + 1/y + 1/z equals:",
+          "options": [
+            "0",
+            "1",
+            "-1",
+            "6"
+          ],
+          "answer": 0,
+          "explanation": "Let each equal k. Then 2 = k^(1/x), 3 = k^(1/y), 6 = k^(-1/z). Since 2 × 3 = 6, k^(1/x + 1/y) = k^(-1/z), so 1/x + 1/y = -1/z and the sum is 0."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q06",
+          "type": "mcq",
+          "prompt": "Given log 2 = 0.30103 and log 3 = 0.47712, the value of log 72 is:",
+          "options": [
+            "1.85733",
+            "1.77815",
+            "1.95424",
+            "0.85733"
+          ],
+          "answer": 0,
+          "explanation": "72 = 2³ × 3². log 72 = 3(0.30103) + 2(0.47712) = 0.90309 + 0.95424 = 1.85733."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q07",
+          "type": "mcq",
+          "prompt": "log₂ 0.125 equals:",
+          "options": [
+            "-3",
+            "3",
+            "-1/3",
+            "1/8"
+          ],
+          "answer": 0,
+          "explanation": "0.125 = 1/8 = 2⁻³, so log₂ 0.125 = -3."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q08",
+          "type": "truefalse",
+          "prompt": "log(m + n) = log m + log n for all positive m and n.",
+          "answer": false,
+          "explanation": "The product rule is log(mn) = log m + log n. There is no rule that splits the log of a sum. For example, log(1 + 1) = log 2 ≈ 0.301, but log 1 + log 1 = 0."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q09",
+          "type": "multi",
+          "prompt": "Which of the following are correct? (Select all that apply.)",
+          "options": [
+            "logₐ a = 1",
+            "logₐ 1 = 0",
+            "logₐ b × log_b a = 1",
+            "log(m/n) = log m / log n"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "The first three are standard results. The quotient rule is log(m/n) = log m - log n, not a division of logs."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the inverse ratio of 5 : 7 is ___ (write in the form a:b).",
+          "accept": [
+            "7:5",
+            "7 : 5"
+          ],
+          "explanation": "The inverse (reciprocal) ratio of a : b is b : a, so 5 : 7 becomes 7 : 5."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q11",
+          "type": "numeric",
+          "prompt": "₹ 7,800 is divided among A, B and C in the ratio 1/2 : 1/3 : 1/4. Find A's share in ₹.",
+          "answer": 3600,
+          "tolerance": 0,
+          "unit": "₹",
+          "explanation": "Multiply each term by the LCM 12: 6 : 4 : 3, total 13 parts.\n\n| Person | Parts | Share (₹) |\n| --- | --- | --- |\n| A | 6 | 7,800 × 6/13 = 3,600 |\n| B | 4 | 2,400 |\n| C | 3 | 1,800 |"
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q12",
+          "type": "numeric",
+          "prompt": "Two numbers are in the ratio 5 : 7. If 6 is added to each, the ratio becomes 7 : 9. Find the smaller number.",
+          "answer": 15,
+          "tolerance": 0,
+          "explanation": "Let the numbers be 5k and 7k. (5k + 6)/(7k + 6) = 7/9 gives 45k + 54 = 49k + 42, so 4k = 12 and k = 3. The numbers are 15 and 21; the smaller is 15."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q13",
+          "type": "numeric",
+          "prompt": "Given log 2 = 0.30103, find the number of digits in 2⁵⁰.",
+          "answer": 16,
+          "tolerance": 0,
+          "explanation": "log 2⁵⁰ = 50 × 0.30103 = 15.0515. The characteristic is 15, so the number of digits is 15 + 1 = 16."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q14",
+          "type": "numeric",
+          "prompt": "If x = 3^(1/3) + 3^(-1/3), find the value of 3x³ - 9x.",
+          "answer": 10,
+          "tolerance": 0,
+          "explanation": "Cube both sides using (a + b)³ = a³ + b³ + 3ab(a + b), with ab = 3^(1/3) × 3^(-1/3) = 1:\n\nx³ = 3 + 1/3 + 3x, so x³ - 3x = 10/3.\n\nThen 3x³ - 9x = 3(x³ - 3x) = 3 × 10/3 = 10."
+        },
+        {
+          "id": "ca-f-quant-01-ratio-indices-logs-q15",
+          "type": "interview",
+          "prompt": "Explain how logarithms help find the number of digits in a large power such as 3⁴⁰, and how a negative characteristic is handled.",
+          "top": true,
+          "answer": "- Take common logs: log 3⁴⁰ = 40 log 3 = 40 × 0.47712 = 19.0848.\n- The integer part (characteristic) is 19 and the decimal part (mantissa) is 0.0848.\n- For a number ≥ 1, digits = characteristic + 1, so 3⁴⁰ has 20 digits.\n- For a number between 0 and 1 the characteristic is negative. If log N = -2.3, write it as -3 + 0.7 (bar 3 . 7); a characteristic of -3 means 2 zeros immediately after the decimal point.\n- Rules used: power rule log mⁿ = n log m, and the fact that the mantissa is always kept positive."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-02-equations-matrices",
+      "title": "Equations and Matrices",
+      "level": "beginner",
+      "summary": "Solve linear, simultaneous, quadratic and simple cubic equations, and work with basic matrix operations and determinants.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Linear and simultaneous equations",
+          "body": "A **linear equation** in one variable has the form ax + b = 0, with one root x = -b/a. Word problems (ages, digits, fractions, costs) become linear equations once you name the unknown carefully.\n\n**Simultaneous equations** in two variables are solved by elimination, substitution or cross-multiplication.\n\nExample: 2x + 3y = 13 and 5x - 2y = 4. Multiply the first by 2 and the second by 3: 4x + 6y = 26 and 15x - 6y = 12. Adding, 19x = 38, so x = 2 and y = 3.\n\n**Cross-multiplication** for a₁x + b₁y + c₁ = 0 and a₂x + b₂y + c₂ = 0:\n\nx/(b₁c₂ - b₂c₁) = y/(c₁a₂ - c₂a₁) = 1/(a₁b₂ - a₂b₁).\n\nIn the exam, substituting each option into both equations is often the fastest route."
+        },
+        {
+          "heading": "Quadratic and cubic equations",
+          "body": "For ax² + bx + c = 0 (a ≠ 0), roots are x = [-b ± √(b² - 4ac)]/2a.\n\n| Discriminant D = b² - 4ac | Nature of roots |\n| --- | --- |\n| D > 0 and a perfect square (rational a, b, c) | Real, unequal, rational |\n| D > 0, not a perfect square | Real, unequal, irrational (occur in conjugate pairs) |\n| D = 0 | Real and equal |\n| D < 0 | Imaginary (complex conjugates) |\n\n**Sum and product:** α + β = -b/a and αβ = c/a. The equation with roots α and β is x² - (α + β)x + αβ = 0.\n\nUseful identities: α² + β² = (α + β)² - 2αβ; (α - β)² = (α + β)² - 4αβ.\n\n**Cubic equations** such as x³ - 6x² + 11x - 6 = 0: try small integers. x = 1 gives 1 - 6 + 11 - 6 = 0, so (x - 1) is a factor and the roots are 1, 2 and 3. For ax³ + bx² + cx + d = 0, the sum of roots is -b/a and the product is -d/a."
+        },
+        {
+          "heading": "Matrices",
+          "body": "A **matrix** is a rectangular array of numbers with m rows and n columns (order m × n).\n\n| Type | Meaning |\n| --- | --- |\n| Row / column matrix | One row / one column |\n| Square matrix | m = n |\n| Diagonal matrix | Square, all non-diagonal elements zero |\n| Scalar / identity matrix | Diagonal with equal elements / with all diagonal elements 1 |\n| Null (zero) matrix | All elements zero |\n| Transpose A' | Rows and columns interchanged |\n| Symmetric / skew-symmetric | A' = A / A' = -A |\n\n**Addition** needs the same order. **Multiplication** AB needs columns of A = rows of B; an m × n matrix times an n × p matrix gives m × p. Matrix multiplication is generally **not commutative** (AB ≠ BA), but it is associative.\n\nExample: A = [1 2; 3 4], B = [0 1; 1 0]. AB = [1×0 + 2×1, 1×1 + 2×0; 3×0 + 4×1, 3×1 + 4×0] = [2 1; 4 3]."
+        },
+        {
+          "heading": "Determinants and inverse",
+          "body": "For a 2 × 2 matrix [a b; c d], the determinant is **ad - bc**.\n\nFor a 3 × 3 matrix, expand along the first row:\n\n|A| = a₁₁(a₂₂a₃₃ - a₂₃a₃₂) - a₁₂(a₂₁a₃₃ - a₂₃a₃₁) + a₁₃(a₂₁a₃₂ - a₂₂a₃₁).\n\nExample: [1 2 3; 0 1 4; 5 6 0] gives 1(0 - 24) - 2(0 - 20) + 3(0 - 5) = -24 + 40 - 15 = 1.\n\n- A matrix with |A| = 0 is **singular** and has no inverse.\n- Inverse of [a b; c d] = (1/(ad - bc)) × [d -b; -c a].\n- (AB)' = B'A' and (AB)⁻¹ = B⁻¹A⁻¹.\n- Interchanging two rows changes the sign of the determinant; two identical rows make it zero."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using α + β = b/a instead of -b/a.\n- Multiplying matrices element by element. Use row-by-column products.\n- Forgetting the alternating minus sign on the middle term when expanding a 3 × 3 determinant.\n- In age problems, adding the years to only one person's age.\n- Assuming AB = BA. Check order compatibility first: a 2 × 3 matrix times a 2 × 3 matrix is not defined."
+        }
+      ],
+      "keyPoints": [
+        "Roots of ax² + bx + c = 0: [-b ± √(b² - 4ac)]/2a; D = b² - 4ac decides the nature of roots.",
+        "α + β = -b/a, αβ = c/a; equation with given roots: x² - (sum)x + product = 0.",
+        "α² + β² = (α + β)² - 2αβ.",
+        "Product AB exists when columns of A = rows of B; AB is usually not equal to BA.",
+        "|a b; c d| = ad - bc; |A| = 0 means singular, no inverse.",
+        "Inverse of 2 × 2: swap a and d, change signs of b and c, divide by the determinant."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-02-equations-matrices-q01",
+          "type": "mcq",
+          "prompt": "If α and β are the roots of 2x² - 6x + 3 = 0, the value of α² + β² is:",
+          "options": [
+            "6",
+            "9",
+            "3",
+            "12"
+          ],
+          "answer": 0,
+          "explanation": "α + β = 6/2 = 3 and αβ = 3/2. α² + β² = (α + β)² - 2αβ = 9 - 3 = 6."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q02",
+          "type": "mcq",
+          "prompt": "The roots of x² + 4x + 5 = 0 are:",
+          "options": [
+            "Imaginary",
+            "Real and equal",
+            "Real, unequal and rational",
+            "Real, unequal and irrational"
+          ],
+          "answer": 0,
+          "explanation": "D = 4² - 4(1)(5) = 16 - 20 = -4 < 0, so the roots are imaginary (complex conjugates -2 ± i)."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q03",
+          "type": "mcq",
+          "prompt": "The quadratic equation whose roots are 2 + √3 and 2 - √3 is:",
+          "options": [
+            "x² - 4x + 1 = 0",
+            "x² + 4x + 1 = 0",
+            "x² - 4x - 1 = 0",
+            "x² - 2x + 1 = 0"
+          ],
+          "answer": 0,
+          "explanation": "Sum = 4 and product = 4 - 3 = 1. The equation is x² - 4x + 1 = 0."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q04",
+          "type": "mcq",
+          "prompt": "The roots of x³ - 6x² + 11x - 6 = 0 are:",
+          "options": [
+            "1, 2, 3",
+            "-1, -2, -3",
+            "1, -2, 3",
+            "2, 3, 6"
+          ],
+          "answer": 0,
+          "explanation": "x = 1 gives 1 - 6 + 11 - 6 = 0. Dividing by (x - 1) leaves x² - 5x + 6 = (x - 2)(x - 3). Check: the sum of roots 1 + 2 + 3 = 6 = -(-6)/1."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q05",
+          "type": "mcq",
+          "prompt": "If A = [1 2; 3 4] and B = [0 1; 1 0], then AB equals:",
+          "options": [
+            "[2 1; 4 3]",
+            "[3 4; 1 2]",
+            "[0 2; 3 0]",
+            "[1 2; 3 4]"
+          ],
+          "answer": 0,
+          "explanation": "Row 1 of A with columns of B: (0 + 2, 1 + 0) = (2, 1). Row 2: (0 + 4, 3 + 0) = (4, 3). Note BA = [3 4; 1 2], which swaps rows instead, showing AB ≠ BA."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q06",
+          "type": "mcq",
+          "prompt": "The inverse of the matrix [2 1; 5 3] is:",
+          "options": [
+            "[3 -1; -5 2]",
+            "[-3 1; 5 -2]",
+            "[3 1; 5 2]",
+            "[2 -5; -1 3]"
+          ],
+          "answer": 0,
+          "explanation": "Determinant = 2×3 - 1×5 = 1. Inverse = (1/1)[3 -1; -5 2]. Check: [2 1; 5 3][3 -1; -5 2] = [1 0; 0 1]."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q07",
+          "type": "truefalse",
+          "prompt": "If the discriminant of a quadratic equation is zero, its roots are real and equal.",
+          "answer": true,
+          "explanation": "With D = 0, both roots equal -b/2a."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q08",
+          "type": "truefalse",
+          "prompt": "Matrix multiplication is commutative, so AB = BA whenever both products exist.",
+          "answer": false,
+          "explanation": "In general AB ≠ BA. Commutativity holds only in special cases, such as when one matrix is the identity or a scalar matrix."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q09",
+          "type": "multi",
+          "prompt": "Which statements about matrices are correct? (Select all that apply.)",
+          "options": [
+            "(AB)' = B'A'",
+            "A singular matrix has determinant zero",
+            "A 2 × 3 matrix can be multiplied by a 3 × 4 matrix, giving a 2 × 4 matrix",
+            "A + B is defined for any two matrices"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "The transpose of a product reverses the order, singular means |A| = 0, and (2 × 3)(3 × 4) gives 2 × 4. Addition needs the same order, so the last statement is false."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the transpose of a row matrix is a ___ matrix.",
+          "accept": [
+            "column"
+          ],
+          "explanation": "Transposing interchanges rows and columns, so a 1 × n row matrix becomes an n × 1 column matrix."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q11",
+          "type": "numeric",
+          "prompt": "Solve 2x + 3y = 13 and 5x - 2y = 4. Find the value of y.",
+          "answer": 3,
+          "tolerance": 0,
+          "explanation": "Multiply the first equation by 2 and the second by 3: 4x + 6y = 26 and 15x - 6y = 12. Adding: 19x = 38, so x = 2. Then 3y = 13 - 4 = 9, so y = 3. Check: 5(2) - 2(3) = 4."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q12",
+          "type": "numeric",
+          "prompt": "Find the value of the determinant [1 2 3; 0 1 4; 5 6 0].",
+          "answer": 1,
+          "tolerance": 0,
+          "explanation": "Expand along row 1:\n\n| Term | Working | Value |\n| --- | --- | --- |\n| +1 × (1×0 - 4×6) | 1 × (-24) | -24 |\n| -2 × (0×0 - 4×5) | -2 × (-20) | +40 |\n| +3 × (0×6 - 1×5) | 3 × (-5) | -15 |\n| **Determinant** | | **1** |"
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q13",
+          "type": "numeric",
+          "prompt": "The sum of a positive number and its reciprocal is 10/3. Find the larger of the two possible values of the number.",
+          "answer": 3,
+          "tolerance": 0,
+          "explanation": "x + 1/x = 10/3 gives 3x² - 10x + 3 = 0, so (3x - 1)(x - 3) = 0 and x = 3 or 1/3. The larger value is 3."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q14",
+          "type": "numeric",
+          "prompt": "A's present age is three times B's present age. After 10 years, A's age will be twice B's age. Find B's present age in years.",
+          "answer": 10,
+          "tolerance": 0,
+          "unit": "years",
+          "explanation": "Let B = b, A = 3b. After 10 years: 3b + 10 = 2(b + 10), so b = 10. A is 30 now; after 10 years A is 40 and B is 20, and 40 = 2 × 20."
+        },
+        {
+          "id": "ca-f-quant-02-equations-matrices-q15",
+          "type": "interview",
+          "prompt": "Explain how the sum and product of roots let you answer quadratic MCQs without solving the equation.",
+          "answer": "- For ax² + bx + c = 0, α + β = -b/a and αβ = c/a.\n- Symmetric expressions are rewritten in these: α² + β² = (α + β)² - 2αβ, 1/α + 1/β = (α + β)/αβ, α³ + β³ = (α + β)³ - 3αβ(α + β).\n- To form an equation from given roots, use x² - (sum)x + product = 0; irrational and complex roots come in conjugate pairs, so one root gives the other.\n- The discriminant b² - 4ac tells the nature of roots without computing them.\n- This avoids square roots and saves time in a 1-mark MCQ."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-03-linear-inequalities",
+      "title": "Linear Inequalities",
+      "level": "beginner",
+      "summary": "Solve linear inequalities in one and two variables, graph the feasible region and optimise a linear objective at its corner points.",
+      "estMinutes": 35,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Inequalities in one variable",
+          "body": "A **linear inequality** uses <, >, ≤ or ≥ instead of =. Solve it like an equation with one extra rule:\n\n- Adding or subtracting the same number on both sides keeps the sign.\n- Multiplying or dividing by a **positive** number keeps the sign.\n- Multiplying or dividing by a **negative** number **reverses** the sign.\n\nExamples:\n\n- 3x - 5 < 7 gives 3x < 12, so x < 4.\n- -2x > 6 gives x < -3 (sign reversed).\n- 5x - 3 ≤ 3x + 9 gives 2x ≤ 12, so x ≤ 6. With x > 2 as well, the integer solutions are 3, 4, 5 and 6."
+        },
+        {
+          "heading": "Graphing inequalities in two variables",
+          "body": "To graph ax + by ≤ c:\n\n- Draw the line ax + by = c (solid for ≤ or ≥, dashed for < or >).\n- Test a point not on the line, usually the origin (0, 0).\n- If the test point satisfies the inequality, shade its side; otherwise shade the other side.\n\nFor x + y ≤ 6, the origin gives 0 ≤ 6 (true), so the region lies towards the origin. For x + y ≥ 6, the region lies away from the origin.\n\nThe **feasible region** is the common region that satisfies all constraints, including the non-negativity constraints x ≥ 0, y ≥ 0 that put it in the first quadrant. A feasible region can be bounded (a closed polygon) or unbounded."
+        },
+        {
+          "heading": "Optimising with corner points",
+          "body": "A linear objective Z = px + qy attains its maximum or minimum over a bounded feasible region at a **corner (vertex) point**.\n\nWorked example: maximise Z = 5x + 4y subject to 6x + 4y ≤ 24, x + 2y ≤ 6, x ≥ 0, y ≥ 0.\n\nIntersection of 6x + 4y = 24 and x + 2y = 6: doubling the second gives 2x + 4y = 12; subtracting, 4x = 12, so x = 3 and y = 1.5.\n\n| Corner point | Z = 5x + 4y |\n| --- | --- |\n| (0, 0) | 0 |\n| (4, 0) | 20 |\n| (3, 1.5) | 21 |\n| (0, 3) | 12 |\n\nMaximum Z = **21 at (3, 1.5)**. Note (6, 0) and (0, 6) are intercepts of individual lines but violate the other constraint, so they are not corners of the feasible region.\n\nFor a minimisation with ≥ constraints the region is often unbounded; the minimum still occurs at a corner point when it exists."
+        },
+        {
+          "heading": "Exam technique and common mistakes",
+          "body": "- In MCQs that ask which point lies in the region, substitute each option into every constraint.\n- Forgetting to reverse the sign when dividing by a negative number is the most common error.\n- List only corners of the common region; intercepts that violate another constraint are not feasible.\n- \"At least\" means ≥ and \"at most\" or \"not more than\" means ≤.\n- When two corners give the same optimal Z, every point on the segment joining them is optimal (multiple optimal solutions)."
+        }
+      ],
+      "keyPoints": [
+        "Multiplying or dividing an inequality by a negative number reverses its sign.",
+        "Test the origin to decide which side of the boundary line to shade.",
+        "Feasible region = common region of all constraints, including x ≥ 0 and y ≥ 0.",
+        "Optimum of a linear objective lies at a corner point of the feasible region.",
+        "Solid line for ≤ or ≥; dashed line for strict < or >."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q01",
+          "type": "mcq",
+          "prompt": "The solution of 3x - 5 < 7 is:",
+          "options": [
+            "x < 4",
+            "x > 4",
+            "x < 2/3",
+            "x ≤ 4"
+          ],
+          "answer": 0,
+          "explanation": "3x < 12, so x < 4. The inequality is strict, so x ≤ 4 is wrong."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q02",
+          "type": "mcq",
+          "prompt": "If -2x > 6, then:",
+          "options": [
+            "x < -3",
+            "x > -3",
+            "x > 3",
+            "x < 3"
+          ],
+          "answer": 0,
+          "explanation": "Dividing both sides by -2 reverses the sign: x < -3."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q03",
+          "type": "mcq",
+          "prompt": "Which point satisfies both 2x + 3y ≤ 12 and x - y ≥ 1?",
+          "options": [
+            "(1, 0)",
+            "(0, 0)",
+            "(5, 1)",
+            "(2, 3)"
+          ],
+          "answer": 0,
+          "explanation": "(1, 0): 2 ≤ 12 and 1 ≥ 1, both true. (0, 0) fails x - y ≥ 1. (5, 1) gives 13 > 12. (2, 3) gives x - y = -1."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q04",
+          "type": "mcq",
+          "prompt": "The region represented by x + y ≥ 6, x ≥ 0, y ≥ 0 is:",
+          "options": [
+            "In the first quadrant, on the side of the line away from the origin",
+            "In the first quadrant, on the side of the line containing the origin",
+            "The entire first quadrant",
+            "Only the line x + y = 6"
+          ],
+          "answer": 0,
+          "explanation": "The origin gives 0 ≥ 6, which is false, so the region lies on the far side of the line, restricted to the first quadrant. It is unbounded."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q05",
+          "type": "mcq",
+          "prompt": "Maximise Z = 3x + 2y subject to x + y ≤ 4, x + 3y ≤ 6, x ≥ 0, y ≥ 0. The maximum value of Z is:",
+          "options": [
+            "12",
+            "11",
+            "4",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "Corners: (0, 0), (4, 0), (3, 1) [intersection of x + y = 4 and x + 3y = 6] and (0, 2). Z values: 0, 12, 11, 4. Maximum is 12 at (4, 0)."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q06",
+          "type": "mcq",
+          "prompt": "A manufacturer makes x chairs and y tables. Each chair needs 2 hours and each table 3 hours of carpentry, with at most 60 hours available. The carpentry constraint is:",
+          "options": [
+            "2x + 3y ≤ 60",
+            "2x + 3y ≥ 60",
+            "3x + 2y ≤ 60",
+            "x + y ≤ 60"
+          ],
+          "answer": 0,
+          "explanation": "Hours used = 2x + 3y, and 'at most 60 hours available' means ≤ 60."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q07",
+          "type": "truefalse",
+          "prompt": "Dividing both sides of an inequality by a negative number reverses the direction of the inequality.",
+          "answer": true,
+          "explanation": "For example, 4 > 2, but dividing by -2 gives -2 < -1."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q08",
+          "type": "multi",
+          "prompt": "Which statements about the feasible region of a linear programming problem are correct? (Select all that apply.)",
+          "options": [
+            "It satisfies all constraints simultaneously",
+            "The optimal value of a linear objective occurs at a corner point when it exists",
+            "It must always be bounded",
+            "Non-negativity constraints keep it in the first quadrant"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "A feasible region can be unbounded (for example with ≥ constraints), so 'must always be bounded' is false. The other three are standard properties."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: the common region satisfying all the constraints, including non-negativity, is called the ___ region.",
+          "accept": [
+            "feasible"
+          ],
+          "explanation": "Every point in the feasible region is a feasible solution; the optimum is searched among its corner points."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q10",
+          "type": "numeric",
+          "prompt": "Maximise Z = 5x + 4y subject to 6x + 4y ≤ 24, x + 2y ≤ 6, x ≥ 0, y ≥ 0. Find the maximum value of Z.",
+          "answer": 21,
+          "tolerance": 0,
+          "explanation": "Intersection: 6x + 4y = 24 and 2x + 4y = 12 give 4x = 12, x = 3, y = 1.5.\n\n| Corner | Z |\n| --- | --- |\n| (0, 0) | 0 |\n| (4, 0) | 20 |\n| (3, 1.5) | 21 |\n| (0, 3) | 12 |\n\nMaximum Z = 21."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q11",
+          "type": "numeric",
+          "prompt": "Minimise Z = 2x + 3y subject to x + y ≥ 5, x + 3y ≥ 9, x ≥ 0, y ≥ 0. Find the minimum value of Z.",
+          "answer": 12,
+          "tolerance": 0,
+          "explanation": "The region is unbounded, away from the origin. Corners: (9, 0) on x + 3y = 9, (0, 5) on x + y = 5, and the intersection x + y = 5, x + 3y = 9, giving 2y = 4, y = 2, x = 3.\n\n| Corner | Z = 2x + 3y |\n| --- | --- |\n| (9, 0) | 18 |\n| (3, 2) | 12 |\n| (0, 5) | 15 |\n\nMinimum Z = 12 at (3, 2). Since Z has positive coefficients, it cannot fall lower anywhere in the unbounded region."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q12",
+          "type": "numeric",
+          "prompt": "How many integers x satisfy both 5x - 3 ≤ 3x + 9 and x > 2?",
+          "answer": 4,
+          "tolerance": 0,
+          "explanation": "5x - 3 ≤ 3x + 9 gives x ≤ 6. With x > 2, the integers are 3, 4, 5 and 6: four values."
+        },
+        {
+          "id": "ca-f-quant-03-linear-inequalities-q13",
+          "type": "interview",
+          "prompt": "Describe the corner-point method for solving a two-variable linear programming problem graphically.",
+          "top": true,
+          "answer": "- Formulate: define decision variables, write the objective Z and all constraints, including x ≥ 0, y ≥ 0.\n- Draw each constraint as a line using its intercepts and shade the side given by testing the origin.\n- Identify the feasible region common to all constraints.\n- Find its corner points: axis intercepts that satisfy all constraints, and intersections of pairs of boundary lines solved simultaneously.\n- Evaluate Z at every corner and pick the highest (maximisation) or lowest (minimisation).\n- For an unbounded region, confirm the optimum by checking Z cannot improve further in the open direction."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-04-mathematics-of-finance",
+      "title": "Mathematics of Finance",
+      "level": "intermediate",
+      "summary": "Compute simple and compound interest, effective rates, annuities, sinking funds, loan EMIs and net present value.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Simple and compound interest",
+          "body": "**Simple interest:** SI = PRT/100, amount A = P + SI. Interest is earned on the principal only.\n\n**Compound interest:** A = P(1 + i)ⁿ, where i is the rate per conversion period and n is the number of periods.\n\n| Compounding | i | n |\n| --- | --- | --- |\n| Annual | r/100 | t |\n| Half-yearly | r/200 | 2t |\n| Quarterly | r/400 | 4t |\n| Monthly | r/1200 | 12t |\n\nExample: ₹ 50,000 at 10% p.a. compounded half-yearly for 2 years: A = 50,000 × (1.05)⁴ = ₹ 60,775.31, so CI = ₹ 10,775.31.\n\n**Difference between CI and SI** on P at r% for 2 years = P(r/100)². For ₹ 20,000 at 5%: 20,000 × 0.0025 = ₹ 50.\n\n**Doubling rules:** under SI, money doubles when RT = 100 (12.5% for 8 years). Under CI, if money doubles in 5 years it becomes 4 times in 10 years and 8 times in 15 years."
+        },
+        {
+          "heading": "Effective rate and growth rates",
+          "body": "The **effective annual rate** converts a nominal rate compounded m times a year into an equivalent annual rate:\n\nE = (1 + r/m)ᵐ - 1.\n\nFor 12% compounded quarterly: (1.03)⁴ - 1 = 0.125509, so E = **12.55%**. The effective rate exceeds the nominal rate whenever compounding is more frequent than annual.\n\n**CAGR** (compound annual growth rate) = (Final/Initial)^(1/n) - 1. An investment of ₹ 1,00,000 that grows to ₹ 1,61,051 in 5 years has CAGR (1.61051)^(1/5) - 1 = 10%.\n\n**Depreciation** on the reducing balance method uses the same structure: Value after n years = P(1 - i)ⁿ."
+        },
+        {
+          "heading": "Annuities and sinking fund",
+          "body": "An **annuity** is a series of equal payments at equal intervals. In an **ordinary annuity (annuity regular)** payments are at the end of each period; in an **annuity due** they are at the beginning.\n\n| Measure | Formula (ordinary annuity) |\n| --- | --- |\n| Future value | A × [(1 + i)ⁿ - 1]/i |\n| Present value | A × [1 - (1 + i)⁻ⁿ]/i |\n| Annuity due | Ordinary value × (1 + i) |\n| Perpetuity (PV) | A/i |\n| Loan EMI | P × i(1 + i)ⁿ/[(1 + i)ⁿ - 1] |\n\nExamples:\n\n- PV of ₹ 10,000 a year for 5 years at 10%: 10,000 × 3.79079 = ₹ 37,907.87.\n- FV of ₹ 5,000 a year for 4 years at 8%: 5,000 × 4.50611 = ₹ 22,530.56.\n\nA **sinking fund** is built by equal periodic deposits to repay a known amount later. Annual deposit = Target × i/[(1 + i)ⁿ - 1]. To accumulate ₹ 5,00,000 in 5 years at 6%: 5,00,000 × 0.06/0.338226 = ₹ 88,698.20."
+        },
+        {
+          "heading": "Net present value",
+          "body": "**NPV** = Present value of cash inflows - Present value of outflows. Accept a project if NPV > 0.\n\nExample: outlay ₹ 1,00,000; inflows ₹ 40,000, ₹ 50,000 and ₹ 30,000 at the end of years 1 to 3; discount rate 10%.\n\n| Year | Cash flow (₹) | PV factor at 10% | PV (₹) |\n| --- | --- | --- | --- |\n| 1 | 40,000 | 0.909091 | 36,363.64 |\n| 2 | 50,000 | 0.826446 | 41,322.31 |\n| 3 | 30,000 | 0.751315 | 22,539.44 |\n| | | Total PV | 1,00,225.39 |\n| 0 | (1,00,000) | 1 | (1,00,000.00) |\n| | | **NPV** | **225.39** |\n\nNPV is positive, so the project earns slightly more than 10%. **IRR** is the rate at which NPV = 0. **Nominal vs real rate:** (1 + nominal) = (1 + real)(1 + inflation)."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using the annual rate with quarterly periods. Always convert both i and n.\n- Mixing up ordinary annuity and annuity due. Payments \"at the beginning\" mean multiply by (1 + i).\n- Taking CI = A. Compound interest is A - P.\n- Using a sinking fund formula (future value) where a loan EMI (present value) is needed, or the other way round.\n- Rounding PV factors to 3 decimals early; carry 5-6 decimals to match the options."
+        }
+      ],
+      "keyPoints": [
+        "SI = PRT/100; CI: A = P(1 + i)ⁿ with i and n per conversion period.",
+        "CI - SI for 2 years = P(r/100)².",
+        "Effective rate E = (1 + r/m)ᵐ - 1.",
+        "FV annuity = A[(1 + i)ⁿ - 1]/i; PV annuity = A[1 - (1 + i)⁻ⁿ]/i; annuity due = ordinary × (1 + i).",
+        "Sinking fund deposit = Target × i/[(1 + i)ⁿ - 1]; perpetuity PV = A/i.",
+        "EMI = P × i(1 + i)ⁿ/[(1 + i)ⁿ - 1]; NPV = PV inflows - PV outflows."
+      ],
+      "cases": [
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-case1",
+          "title": "Case: Meera's home-improvement loan",
+          "body": "Meera takes a loan of ₹ 5,00,000 from a bank at 9% p.a. compounded monthly. She repays it in equal monthly instalments (EMIs) at the end of each month over 5 years.\n\n| Item | Value |\n| --- | --- |\n| Principal | ₹ 5,00,000 |\n| Nominal rate | 9% p.a., compounded monthly |\n| Rate per month | 0.75% |\n| Number of instalments | 60 |\n| (1.0075)⁶⁰ | 1.565681 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q01",
+          "type": "numeric",
+          "caseId": "ca-f-quant-04-mathematics-of-finance-case1",
+          "prompt": "Compute Meera's monthly EMI. Round to the nearest rupee.",
+          "answer": 10379,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "EMI = P × i(1 + i)ⁿ/[(1 + i)ⁿ - 1] with P = 5,00,000, i = 0.0075, n = 60.\n\n| Step | Value |\n| --- | --- |\n| (1.0075)⁶⁰ | 1.565681 |\n| i(1 + i)ⁿ | 0.011743 |\n| (1 + i)ⁿ - 1 | 0.565681 |\n| EMI = 5,00,000 × 0.011743/0.565681 | ₹ 10,379.18 |\n\nEMI ≈ ₹ 10,379."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q02",
+          "type": "numeric",
+          "caseId": "ca-f-quant-04-mathematics-of-finance-case1",
+          "prompt": "Taking the EMI as ₹ 10,379.18, compute the total interest Meera pays over the loan term. Round to the nearest rupee.",
+          "answer": 122751,
+          "tolerance": 2,
+          "unit": "₹",
+          "explanation": "Total paid = 10,379.18 × 60 = ₹ 6,22,750.80. Interest = 6,22,750.80 - 5,00,000 = ₹ 1,22,750.80, about ₹ 1,22,751."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q03",
+          "type": "numeric",
+          "caseId": "ca-f-quant-04-mathematics-of-finance-case1",
+          "prompt": "Compute the effective annual rate of interest on Meera's loan, as a % to 2 decimals.",
+          "answer": 9.38,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "E = (1.0075)¹² - 1 = 1.093807 - 1 = 0.093807, or 9.38%. Monthly compounding makes the effective rate higher than the nominal 9%."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q04",
+          "type": "mcq",
+          "caseId": "ca-f-quant-04-mathematics-of-finance-case1",
+          "prompt": "Meera's stream of EMIs is best described as:",
+          "options": [
+            "An ordinary annuity (annuity regular)",
+            "An annuity due",
+            "A perpetuity",
+            "A sinking fund"
+          ],
+          "answer": 0,
+          "explanation": "Equal payments at the END of each period form an ordinary annuity, and the loan equals the present value of that annuity. An annuity due has payments at the beginning; a perpetuity never ends; a sinking fund accumulates towards a future value."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q05",
+          "type": "mcq",
+          "prompt": "The simple interest on ₹ 25,000 at 8% p.a. for 3 years is:",
+          "options": [
+            "₹ 6,000",
+            "₹ 6,492.80",
+            "₹ 2,000",
+            "₹ 31,000"
+          ],
+          "answer": 0,
+          "explanation": "SI = 25,000 × 8 × 3/100 = ₹ 6,000. ₹ 6,492.80 is the compound interest, a common distractor."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q06",
+          "type": "mcq",
+          "prompt": "The effective rate of interest equivalent to a nominal rate of 12% p.a. compounded quarterly is:",
+          "options": [
+            "12.55%",
+            "12.00%",
+            "12.36%",
+            "12.68%"
+          ],
+          "answer": 0,
+          "explanation": "E = (1 + 0.12/4)⁴ - 1 = (1.03)⁴ - 1 = 0.125509 = 12.55%. 12.36% is the half-yearly figure and 12.68% the monthly one."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q07",
+          "type": "mcq",
+          "prompt": "The difference between compound and simple interest on ₹ 20,000 for 2 years at 5% p.a. (compounded annually) is:",
+          "options": [
+            "₹ 50",
+            "₹ 100",
+            "₹ 25",
+            "₹ 2,050"
+          ],
+          "answer": 0,
+          "explanation": "For 2 years, CI - SI = P(r/100)² = 20,000 × (0.05)² = ₹ 50. Check: CI = 20,000 × 1.1025 - 20,000 = 2,050; SI = 2,000."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q08",
+          "type": "mcq",
+          "prompt": "A sum of money doubles itself in 5 years at compound interest. In how many years will it become 8 times?",
+          "options": [
+            "15 years",
+            "20 years",
+            "40 years",
+            "10 years"
+          ],
+          "answer": 0,
+          "explanation": "(1 + i)⁵ = 2, so (1 + i)¹⁵ = 2³ = 8. It takes 15 years."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q09",
+          "type": "mcq",
+          "prompt": "The present value of a perpetuity of ₹ 6,000 per year at 8% p.a. is:",
+          "options": [
+            "₹ 75,000",
+            "₹ 48,000",
+            "₹ 4,80,000",
+            "₹ 7,500"
+          ],
+          "answer": 0,
+          "explanation": "PV of perpetuity = A/i = 6,000/0.08 = ₹ 75,000."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q10",
+          "type": "truefalse",
+          "prompt": "The present value of an annuity due equals the present value of the corresponding ordinary annuity multiplied by (1 + i).",
+          "answer": true,
+          "explanation": "Each payment in an annuity due comes one period earlier, so it is discounted one period less. Example: ₹ 10,000 for 5 years at 10% gives 37,907.87 ordinary and 37,907.87 × 1.1 = ₹ 41,698.65 due."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q11",
+          "type": "multi",
+          "prompt": "Which of the following increase the future value of an ordinary annuity, other things remaining the same? (Select all that apply.)",
+          "options": [
+            "A higher interest rate",
+            "A larger number of payments",
+            "A larger periodic payment",
+            "Making payments at the end rather than the beginning of each period"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Higher i, more periods and a larger payment all raise FV. Moving payments from the beginning to the end lowers FV, because each payment earns interest for one period less."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: a fund created by equal periodic deposits to repay a known liability at a future date is called a ___ fund.",
+          "accept": [
+            "sinking"
+          ],
+          "explanation": "The sinking fund deposit is Target × i/[(1 + i)ⁿ - 1]; it uses the future value of an annuity."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q13",
+          "type": "numeric",
+          "prompt": "Find the compound interest on ₹ 50,000 for 2 years at 10% p.a. compounded half-yearly. Round to 2 decimals.",
+          "answer": 10775.31,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "i = 5% per half year, n = 4. A = 50,000 × (1.05)⁴ = 50,000 × 1.21550625 = ₹ 60,775.31. CI = 60,775.31 - 50,000 = ₹ 10,775.31."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q14",
+          "type": "numeric",
+          "prompt": "A company must repay ₹ 5,00,000 at the end of 5 years. It sets up a sinking fund with equal deposits at the end of each year earning 6% p.a. compound interest. Find the annual deposit to the nearest rupee.",
+          "answer": 88698,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Deposit = Target × i/[(1 + i)ⁿ - 1].\n\n| Step | Value |\n| --- | --- |\n| (1.06)⁵ | 1.338226 |\n| (1.06)⁵ - 1 | 0.338226 |\n| 5,00,000 × 0.06/0.338226 | ₹ 88,698.20 |\n\nAnnual deposit ≈ ₹ 88,698."
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q15",
+          "type": "numeric",
+          "prompt": "A project costs ₹ 1,00,000 today and returns ₹ 40,000, ₹ 50,000 and ₹ 30,000 at the end of years 1, 2 and 3. Find its NPV at 10%, rounded to 2 decimals.",
+          "answer": 225.39,
+          "tolerance": 0.05,
+          "unit": "₹",
+          "explanation": "| Year | Cash flow (₹) | PV at 10% (₹) |\n| --- | --- | --- |\n| 1 | 40,000 | 36,363.64 |\n| 2 | 50,000 | 41,322.31 |\n| 3 | 30,000 | 22,539.44 |\n| Total PV | | 1,00,225.39 |\n| Less: outlay | | (1,00,000.00) |\n| **NPV** | | **225.39** |"
+        },
+        {
+          "id": "ca-f-quant-04-mathematics-of-finance-q16",
+          "type": "interview",
+          "prompt": "Explain when to use the present value of an annuity and when to use the future value of an annuity, with one business example of each.",
+          "top": true,
+          "answer": "- Present value of an annuity, A[1 - (1 + i)⁻ⁿ]/i, gives today's worth of a stream of future payments. Use it for loan EMIs (the loan equals the PV of the EMIs), lease valuation, and comparing an instalment price with a cash price.\n- Future value of an annuity, A[(1 + i)ⁿ - 1]/i, gives the accumulated amount at the end. Use it for recurring deposits, provident fund style savings and sinking funds to repay debentures.\n- Both formulas assume payments at period end; for payments at the start (annuity due), multiply by (1 + i).\n- Convert i and n to the payment period (monthly payments need a monthly rate)."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-05-permutations-combinations",
+      "title": "Permutations and Combinations",
+      "level": "intermediate",
+      "summary": "Count arrangements and selections with the fundamental principle, nPr, nCr, repeated items, circular arrangements and restrictions.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Fundamental principle and factorials",
+          "body": "**Multiplication principle:** if one task can be done in m ways and, after it, a second in n ways, both together can be done in m × n ways. **Addition principle:** if the tasks are alternatives (either/or), there are m + n ways.\n\nn! = n × (n - 1) × ... × 2 × 1, with 0! = 1.\n\n- **Permutation** = arrangement, order matters: ⁿPᵣ = n!/(n - r)!.\n- **Combination** = selection, order does not matter: ⁿCᵣ = n!/[r!(n - r)!].\n- ⁿPᵣ = ⁿCᵣ × r!.\n\nExamples: ⁸P₃ = 8 × 7 × 6 = 336; ¹⁰C₄ = 210.\n\nAsk \"does swapping two chosen items create a new outcome?\" If yes, it is a permutation."
+        },
+        {
+          "heading": "Arrangements with conditions",
+          "body": "| Situation | Count |\n| --- | --- |\n| n items, p alike of one kind, q alike of another | n!/(p! q!) |\n| n items in a row with repetition allowed, r places | nʳ |\n| n distinct items around a circle | (n - 1)! |\n| Necklace or garland (clockwise = anticlockwise) | (n - 1)!/2 |\n| Particular items always together | Treat the group as one unit, then multiply by internal arrangements |\n| Particular items never together | Total - (always together) |\n\nWorked examples:\n\n- Letters of ACCOUNT (7 letters, C twice): 7!/2! = 2,520.\n- Letters of SUCCESS (S three times, C twice): 7!/(3! 2!) = 420.\n- DAUGHTER with vowels A, U, E together: 5 consonants + 1 vowel block = 6 units, 6! × 3! = 720 × 6 = 4,320.\n- 4-digit numbers from 1 to 6 without repetition: ⁶P₄ = 360. Even ones: last digit from {2, 4, 6} in 3 ways, the rest ⁵P₃ = 60, total 180."
+        },
+        {
+          "heading": "Selections",
+          "body": "Key results:\n\n- ⁿCᵣ = ⁿCₙ₋ᵣ. If ⁿCₓ = ⁿCᵧ with x ≠ y, then x + y = n.\n- ⁿCᵣ + ⁿCᵣ₋₁ = ⁿ⁺¹Cᵣ.\n- Total selections of at least one from n distinct items: 2ⁿ - 1.\n\nGeometry results:\n\n| Quantity | Formula |\n| --- | --- |\n| Lines through n points (no three collinear) | ⁿC₂ |\n| Triangles from n points, m of them collinear | ⁿC₃ - ᵐC₃ |\n| Diagonals of an n-sided polygon | ⁿC₂ - n |\n| Handshakes among n people | ⁿC₂ |\n\n**\"At least\" problems.** A committee of 4 from 5 men and 4 women with at least 2 women: (2W, 2M) + (3W, 1M) + (4W) = ⁴C₂ × ⁵C₂ + ⁴C₃ × ⁵C₁ + ⁴C₄ = 60 + 20 + 1 = 81."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using ⁿPᵣ for committees or teams; selections use ⁿCᵣ.\n- Forgetting to divide by p! for repeated letters.\n- Using n! for a circular arrangement instead of (n - 1)!.\n- In \"at least\" questions, choosing the minimum first and then \"any\" from the rest; this double counts. Split into exact cases or use total minus complement.\n- In digit problems, letting 0 occupy the first place."
+        }
+      ],
+      "keyPoints": [
+        "ⁿPᵣ = n!/(n - r)!; ⁿCᵣ = n!/[r!(n - r)!]; ⁿPᵣ = r! × ⁿCᵣ; 0! = 1.",
+        "Arrangements with repeats: n!/(p! q! ...).",
+        "Circular: (n - 1)!; necklace: (n - 1)!/2.",
+        "ⁿCₓ = ⁿCᵧ means x = y or x + y = n.",
+        "Diagonals = ⁿC₂ - n; triangles with m collinear points = ⁿC₃ - ᵐC₃.",
+        "Always together: treat as one unit and multiply by internal arrangements; never together = total - together."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q01",
+          "type": "mcq",
+          "prompt": "The number of ways the letters of the word ACCOUNT can be arranged is:",
+          "options": [
+            "2,520",
+            "5,040",
+            "1,260",
+            "720"
+          ],
+          "answer": 0,
+          "explanation": "7 letters with C repeated twice: 7!/2! = 5,040/2 = 2,520."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q02",
+          "type": "mcq",
+          "prompt": "In how many ways can 5 people sit around a circular table?",
+          "options": [
+            "24",
+            "120",
+            "12",
+            "60"
+          ],
+          "answer": 0,
+          "explanation": "Circular arrangements of n distinct people = (n - 1)! = 4! = 24."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q03",
+          "type": "mcq",
+          "prompt": "A committee of 3 men and 2 women is to be formed from 6 men and 5 women. The number of ways is:",
+          "options": [
+            "200",
+            "462",
+            "30",
+            "2,400"
+          ],
+          "answer": 0,
+          "explanation": "⁶C₃ × ⁵C₂ = 20 × 10 = 200. 462 is ¹¹C₅, which ignores the gender split."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q04",
+          "type": "mcq",
+          "prompt": "If ⁿC₈ = ⁿC₁₂, then n equals:",
+          "options": [
+            "20",
+            "4",
+            "96",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "ⁿCₓ = ⁿCᵧ with x ≠ y means x + y = n, so n = 8 + 12 = 20."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q05",
+          "type": "mcq",
+          "prompt": "The number of diagonals of a decagon (10-sided polygon) is:",
+          "options": [
+            "35",
+            "45",
+            "90",
+            "40"
+          ],
+          "answer": 0,
+          "explanation": "Lines joining any two vertices = ¹⁰C₂ = 45; subtract the 10 sides: 45 - 10 = 35."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q06",
+          "type": "mcq",
+          "prompt": "How many arrangements of the word DAUGHTER have all the vowels together?",
+          "options": [
+            "4,320",
+            "720",
+            "40,320",
+            "2,160"
+          ],
+          "answer": 0,
+          "explanation": "Vowels A, U, E form one block. Units = 5 consonants + 1 block = 6, arranged in 6! = 720 ways; the vowels arrange among themselves in 3! = 6 ways. Total 4,320."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q07",
+          "type": "truefalse",
+          "prompt": "ⁿPᵣ = r! × ⁿCᵣ for all valid n and r.",
+          "answer": true,
+          "explanation": "Each selection of r items can be arranged in r! orders, so arrangements = selections × r!."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q08",
+          "type": "multi",
+          "prompt": "Which of these situations call for combinations rather than permutations? (Select all that apply.)",
+          "options": [
+            "Choosing 3 members for a committee",
+            "Choosing 4 questions to attempt out of 6",
+            "Forming 3-digit numbers from given digits",
+            "Counting handshakes among 15 people"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Committees, question choices and handshakes are selections where order does not matter. Forming numbers is an arrangement: 123 and 321 differ."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: the value of 0! is ___.",
+          "accept": [
+            "1",
+            "one"
+          ],
+          "explanation": "0! is defined as 1 so that formulas such as ⁿCₙ = n!/(n! 0!) = 1 hold."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q10",
+          "type": "numeric",
+          "prompt": "How many 4-digit even numbers can be formed using the digits 1, 2, 3, 4, 5 and 6 without repetition?",
+          "answer": 180,
+          "tolerance": 0,
+          "explanation": "Units place must be 2, 4 or 6: 3 ways. The remaining 3 places are filled from the other 5 digits: ⁵P₃ = 60. Total = 3 × 60 = 180."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q11",
+          "type": "numeric",
+          "prompt": "Find the number of triangles that can be formed from 12 points in a plane, of which exactly 5 are collinear.",
+          "answer": 210,
+          "tolerance": 0,
+          "explanation": "All triples: ¹²C₃ = 220. The 5 collinear points give ⁵C₃ = 10 triples that do not form triangles. Answer 220 - 10 = 210."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q12",
+          "type": "numeric",
+          "prompt": "Find the number of distinct arrangements of the letters of the word SUCCESS.",
+          "answer": 420,
+          "tolerance": 0,
+          "explanation": "7 letters: S three times, C twice, U and E once. 7!/(3! × 2!) = 5,040/12 = 420."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q13",
+          "type": "numeric",
+          "prompt": "A committee of 4 is to be chosen from 5 men and 4 women so that it has at least 2 women. In how many ways can this be done?",
+          "answer": 81,
+          "tolerance": 0,
+          "explanation": "| Case | Ways |\n| --- | --- |\n| 2 women, 2 men | ⁴C₂ × ⁵C₂ = 6 × 10 = 60 |\n| 3 women, 1 man | ⁴C₃ × ⁵C₁ = 4 × 5 = 20 |\n| 4 women | ⁴C₄ = 1 |\n| **Total** | **81** |\n\nCheck by complement: ⁹C₄ = 126; with 0 women ⁵C₄ = 5, with 1 woman ⁴C₁ × ⁵C₃ = 40; 126 - 45 = 81."
+        },
+        {
+          "id": "ca-f-quant-05-permutations-combinations-q14",
+          "type": "interview",
+          "prompt": "How do you decide whether a counting problem needs a permutation or a combination, and how do you handle 'together' and 'not together' restrictions?",
+          "top": true,
+          "answer": "- Ask whether order changes the outcome. Arrangements, seating, numbers, words and ranks are permutations (ⁿPᵣ); committees, teams, selections of questions and handshakes are combinations (ⁿCᵣ).\n- Many problems need both: select with ⁿCᵣ, then arrange the chosen items with r!.\n- Items always together: bundle them as one unit, arrange the units, then multiply by the arrangements inside the bundle.\n- Items never together: total arrangements minus arrangements with them together; for no two of a group adjacent, place the others first and choose gaps for the group.\n- Repeated identical items: divide by the factorial of each repeat count. Circular arrangements: fix one person, giving (n - 1)!."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-06-sequence-series",
+      "title": "Sequence and Series: AP and GP",
+      "level": "beginner",
+      "summary": "Find terms and sums of arithmetic and geometric progressions, infinite GPs, means and the standard sums of natural numbers.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Arithmetic progression (AP)",
+          "body": "An **AP** has a constant difference d between consecutive terms: a, a + d, a + 2d, ...\n\n| Quantity | Formula |\n| --- | --- |\n| n-th term | tₙ = a + (n - 1)d |\n| Sum of n terms | Sₙ = n/2 [2a + (n - 1)d] = n/2 (a + l) |\n| Arithmetic mean of a and b | (a + b)/2 |\n| Number of terms from a to l | (l - a)/d + 1 |\n\nExamples:\n\n- 10th term of 3, 7, 11, ...: 3 + 9 × 4 = 39.\n- Sum of 20 terms of 2, 5, 8, ...: 20/2 × (4 + 19 × 3) = 10 × 61 = 610.\n- Natural numbers between 100 and 200 divisible by 7: 105, 112, ..., 196. n = (196 - 105)/7 + 1 = 14; sum = 14/2 × (105 + 196) = 2,107.\n\n**Three numbers in AP:** take a - d, a, a + d. If the sum is 15 and product 80, then a = 5 and 25 - d² = 16, so d = ±3: the numbers are 2, 5, 8.\n\nTo insert 3 AMs between 3 and 19: 19 = 3 + 4d, so d = 4 and the means are 7, 11, 15."
+        },
+        {
+          "heading": "Geometric progression (GP)",
+          "body": "A **GP** has a constant ratio r: a, ar, ar², ...\n\n| Quantity | Formula |\n| --- | --- |\n| n-th term | tₙ = arⁿ⁻¹ |\n| Sum of n terms (r ≠ 1) | Sₙ = a(rⁿ - 1)/(r - 1) = a(1 - rⁿ)/(1 - r) |\n| Sum to infinity (abs r < 1) | S∞ = a/(1 - r) |\n| Geometric mean of a and b | √(ab) |\n\nExamples:\n\n- 6th term of 2, 6, 18, ...: 2 × 3⁵ = 486.\n- Sum of 8 terms of 3, 6, 12, ...: 3(2⁸ - 1)/(2 - 1) = 765.\n- 8 + 4 + 2 + ... to infinity: 8/(1 - 1/2) = 16.\n- 0.444... = 4/10 + 4/100 + ... = (4/10)/(1 - 1/10) = 4/9.\n\n**Three numbers in GP:** take a/r, a, ar; the product is a³."
+        },
+        {
+          "heading": "Standard sums and means",
+          "body": "| Series | Sum |\n| --- | --- |\n| 1 + 2 + ... + n | n(n + 1)/2 |\n| 1² + 2² + ... + n² | n(n + 1)(2n + 1)/6 |\n| 1³ + 2³ + ... + n³ | [n(n + 1)/2]² |\n| First n odd numbers | n² |\n\nSo 1 + 2 + ... + 100 = 5,050, 1² + ... + 10² = 385 and 1³ + ... + 10³ = 3,025.\n\nFor two positive numbers, **AM ≥ GM ≥ HM** and GM² = AM × HM. For 4 and 16: AM = 10, GM = 8, HM = 2 × 4 × 16/20 = 6.4, and 8² = 10 × 6.4."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using n instead of (n - 1) in the n-th term.\n- Applying S∞ when abs(r) ≥ 1; the series then has no finite sum.\n- Rejecting a valid second root. For 24 + 21 + 18 + ... = 78, n² - 17n + 52 = 0 gives n = 4 or 13. Both work, because terms after the 9th are negative and cancel back to 78.\n- Confusing the number of terms with the last term when counting multiples."
+        }
+      ],
+      "keyPoints": [
+        "AP: tₙ = a + (n - 1)d; Sₙ = n/2[2a + (n - 1)d] = n/2(a + l).",
+        "GP: tₙ = arⁿ⁻¹; Sₙ = a(rⁿ - 1)/(r - 1); S∞ = a/(1 - r) for abs r < 1.",
+        "Σn = n(n + 1)/2; Σn² = n(n + 1)(2n + 1)/6; Σn³ = [n(n + 1)/2]².",
+        "Three terms: AP as a - d, a, a + d; GP as a/r, a, ar.",
+        "AM ≥ GM ≥ HM; for two numbers GM² = AM × HM."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-06-sequence-series-q01",
+          "type": "mcq",
+          "prompt": "The 10th term of the AP 3, 7, 11, ... is:",
+          "options": [
+            "39",
+            "43",
+            "35",
+            "40"
+          ],
+          "answer": 0,
+          "explanation": "t₁₀ = a + 9d = 3 + 9 × 4 = 39."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q02",
+          "type": "mcq",
+          "prompt": "The 6th term of the GP 2, 6, 18, ... is:",
+          "options": [
+            "486",
+            "1,458",
+            "162",
+            "729"
+          ],
+          "answer": 0,
+          "explanation": "t₆ = ar⁵ = 2 × 3⁵ = 2 × 243 = 486."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q03",
+          "type": "mcq",
+          "prompt": "The sum to infinity of 8 + 4 + 2 + 1 + ... is:",
+          "options": [
+            "16",
+            "15",
+            "32",
+            "Not finite"
+          ],
+          "answer": 0,
+          "explanation": "a = 8, r = 1/2. S∞ = 8/(1 - 1/2) = 16."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q04",
+          "type": "mcq",
+          "prompt": "The recurring decimal 0.444... expressed as a fraction is:",
+          "options": [
+            "4/9",
+            "4/10",
+            "44/100",
+            "2/5"
+          ],
+          "answer": 0,
+          "explanation": "0.444... is a GP with a = 0.4 and r = 0.1, so the sum is 0.4/0.9 = 4/9."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q05",
+          "type": "mcq",
+          "prompt": "Three numbers in AP have sum 15 and product 80. The largest number is:",
+          "options": [
+            "8",
+            "10",
+            "7",
+            "6"
+          ],
+          "answer": 0,
+          "explanation": "Take a - d, a, a + d. 3a = 15, so a = 5. (5 - d)(5)(5 + d) = 80 gives 25 - d² = 16, d = ±3. Numbers: 2, 5, 8; the largest is 8."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q06",
+          "type": "mcq",
+          "prompt": "How many terms of the AP 24, 21, 18, ... must be taken so that the sum is 78?",
+          "options": [
+            "4 or 13",
+            "4 only",
+            "13 only",
+            "6 or 9"
+          ],
+          "answer": 0,
+          "explanation": "n/2 [48 - 3(n - 1)] = 78 gives n² - 17n + 52 = 0, so n = 4 or 13. Both are valid: the terms from the 10th onwards are negative, and terms 5 to 13 sum to zero."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q07",
+          "type": "truefalse",
+          "prompt": "The sum of the first n odd natural numbers is n².",
+          "answer": true,
+          "explanation": "1 + 3 + 5 + ... is an AP with a = 1, d = 2. Sₙ = n/2 [2 + 2(n - 1)] = n²."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q08",
+          "type": "multi",
+          "prompt": "Which statements are correct for two positive unequal numbers? (Select all that apply.)",
+          "options": [
+            "AM > GM",
+            "GM > HM",
+            "GM² = AM × HM",
+            "HM > AM"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "AM ≥ GM ≥ HM with equality only when the numbers are equal, and for two numbers GM² = AM × HM. HM is the smallest of the three, so HM > AM is false."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: the sum of the cubes of the first 10 natural numbers is ___.",
+          "accept": [
+            "3025",
+            "3,025"
+          ],
+          "explanation": "Σn³ = [n(n + 1)/2]² = (55)² = 3,025."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q10",
+          "type": "numeric",
+          "prompt": "Find the sum of the first 20 terms of the AP 2, 5, 8, ...",
+          "answer": 610,
+          "tolerance": 0,
+          "explanation": "S₂₀ = 20/2 × [2 × 2 + 19 × 3] = 10 × (4 + 57) = 610."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q11",
+          "type": "numeric",
+          "prompt": "How many terms are there in the AP 7, 11, 15, ..., 139?",
+          "answer": 34,
+          "tolerance": 0,
+          "explanation": "n = (l - a)/d + 1 = (139 - 7)/4 + 1 = 33 + 1 = 34."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q12",
+          "type": "numeric",
+          "prompt": "Find the sum of the first 8 terms of the GP 3, 6, 12, ...",
+          "answer": 765,
+          "tolerance": 0,
+          "explanation": "S₈ = a(r⁸ - 1)/(r - 1) = 3 × (256 - 1)/1 = 765."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q13",
+          "type": "numeric",
+          "prompt": "Find the sum of all natural numbers between 100 and 200 that are divisible by 7.",
+          "answer": 2107,
+          "tolerance": 0,
+          "explanation": "First multiple 105, last 196. n = (196 - 105)/7 + 1 = 14. Sum = 14/2 × (105 + 196) = 7 × 301 = 2,107."
+        },
+        {
+          "id": "ca-f-quant-06-sequence-series-q14",
+          "type": "interview",
+          "prompt": "How would you decide whether a given series is an AP or a GP, and which sum formula applies?",
+          "answer": "- Compute differences of consecutive terms. A constant difference means an AP; use tₙ = a + (n - 1)d and Sₙ = n/2[2a + (n - 1)d].\n- Compute ratios of consecutive terms. A constant ratio means a GP; use tₙ = arⁿ⁻¹ and Sₙ = a(rⁿ - 1)/(r - 1).\n- For a GP with abs(r) < 1 and an infinite number of terms, use S∞ = a/(1 - r); recurring decimals are solved this way.\n- If neither is constant, check for standard forms such as n², n³ or n(n + 1) and use Σn, Σn², Σn³.\n- In word problems (savings rising by a fixed rupee amount, a population growing by a fixed %), the fixed amount signals an AP and the fixed % a GP."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-07-sets-relations-functions",
+      "title": "Sets, Relations and Functions",
+      "level": "beginner",
+      "summary": "Use set operations and Venn diagrams to count, classify relations and work with domain, range, composition and inverse of functions.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Sets and operations",
+          "body": "A **set** is a well-defined collection of distinct objects. It can be written in roster form {1, 2, 3} or set-builder form {x : x is a natural number, x ≤ 3}.\n\n| Term | Meaning |\n| --- | --- |\n| Empty set ∅ | No elements |\n| Subset A ⊆ B | Every element of A is in B |\n| Power set P(A) | Set of all subsets of A; has 2ⁿ elements |\n| Union A ∪ B | Elements in A or B or both |\n| Intersection A ∩ B | Elements in both |\n| Difference A - B | In A but not in B |\n| Complement A' | In the universal set but not in A |\n| Cartesian product A × B | All ordered pairs (a, b); n(A × B) = n(A) × n(B) |\n\nA set with n elements has 2ⁿ subsets and 2ⁿ - 1 proper subsets.\n\n**De Morgan's laws:** (A ∪ B)' = A' ∩ B' and (A ∩ B)' = A' ∪ B'."
+        },
+        {
+          "heading": "Counting with Venn diagrams",
+          "body": "- n(A ∪ B) = n(A) + n(B) - n(A ∩ B)\n- n(A ∪ B ∪ C) = n(A) + n(B) + n(C) - n(A ∩ B) - n(B ∩ C) - n(A ∩ C) + n(A ∩ B ∩ C)\n- Only A = n(A) - n(A ∩ B) (two sets)\n- Neither = Total - n(A ∪ B)\n\nWorked example: in a class of 50, 30 study Maths, 25 study Statistics and 10 study both.\n\n| Group | Count |\n| --- | --- |\n| Only Maths | 30 - 10 = 20 |\n| Only Statistics | 25 - 10 = 15 |\n| Both | 10 |\n| At least one | 30 + 25 - 10 = 45 |\n| Neither | 50 - 45 = 5 |"
+        },
+        {
+          "heading": "Relations",
+          "body": "A **relation** R from A to B is any subset of A × B. If n(A) = m and n(B) = n, the number of relations from A to B is 2ᵐⁿ.\n\nOn a set A, a relation is:\n\n- **Reflexive** if (a, a) ∈ R for every a in A.\n- **Symmetric** if (a, b) ∈ R implies (b, a) ∈ R.\n- **Transitive** if (a, b) and (b, c) in R imply (a, c) ∈ R.\n- **Equivalence** if it is reflexive, symmetric and transitive.\n\nExamples: \"is equal to\" is an equivalence relation. \"is less than\" on numbers is transitive but neither reflexive nor symmetric. \"is a brother of\" on a set of men and women is not symmetric (A may be B's brother while B is A's sister).\n\nThe **domain** of R is the set of first elements; the **range** is the set of second elements."
+        },
+        {
+          "heading": "Functions",
+          "body": "A **function** f : A → B assigns each element of A exactly one element of B.\n\n- **One-one (injective):** different inputs give different outputs.\n- **Onto (surjective):** every element of B is an image.\n- **Bijective:** one-one and onto; only these have an inverse.\n- **Composition:** (f o g)(x) = f(g(x)).\n\nExample: f(x) = 2x + 3 and g(x) = x². (f o g)(2) = f(4) = 11, while (g o f)(2) = g(7) = 49, so composition is not commutative.\n\n**Inverse:** write y = f(x) and solve for x. For f(x) = (2x + 1)/3: 3y = 2x + 1, x = (3y - 1)/2, so f⁻¹(x) = (3x - 1)/2.\n\nDomain of f(x) = 1/(x - 2) is all real numbers except 2."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Forgetting to add back n(A ∩ B ∩ C) in the three-set formula.\n- Reporting n(A) as \"only A\".\n- Treating ∅ and {∅} as the same; {∅} has one element.\n- Computing f(g(x)) when g(f(x)) was asked; (f o g) applies g first."
+        }
+      ],
+      "keyPoints": [
+        "n(A ∪ B) = n(A) + n(B) - n(A ∩ B); add back the triple intersection for three sets.",
+        "A set of n elements has 2ⁿ subsets; n(A × B) = n(A) × n(B).",
+        "Relations from A to B: 2^(mn).",
+        "Equivalence = reflexive + symmetric + transitive.",
+        "(f o g)(x) = f(g(x)); only bijections have inverses.",
+        "De Morgan: (A ∪ B)' = A' ∩ B'; (A ∩ B)' = A' ∪ B'."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q01",
+          "type": "mcq",
+          "prompt": "If A = {1, 2, 3} and B = {2, 3, 4}, then A - B is:",
+          "options": [
+            "{1}",
+            "{4}",
+            "{2, 3}",
+            "{1, 4}"
+          ],
+          "answer": 0,
+          "explanation": "A - B contains elements of A not in B: only 1. {1, 4} is the symmetric difference."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q02",
+          "type": "mcq",
+          "prompt": "The number of proper subsets of a set with 4 elements is:",
+          "options": [
+            "15",
+            "16",
+            "8",
+            "14"
+          ],
+          "answer": 0,
+          "explanation": "Total subsets = 2⁴ = 16. Excluding the set itself, 15 are proper subsets."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q03",
+          "type": "mcq",
+          "prompt": "If n(A) = 2 and n(B) = 3, the number of relations from A to B is:",
+          "options": [
+            "64",
+            "6",
+            "32",
+            "8"
+          ],
+          "answer": 0,
+          "explanation": "n(A × B) = 6, and every subset of A × B is a relation: 2⁶ = 64."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q04",
+          "type": "mcq",
+          "prompt": "If f(x) = 2x + 3 and g(x) = x², then (g o f)(2) equals:",
+          "options": [
+            "49",
+            "11",
+            "19",
+            "14"
+          ],
+          "answer": 0,
+          "explanation": "(g o f)(2) = g(f(2)) = g(7) = 49. (f o g)(2) = f(4) = 11 is the reverse order."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q05",
+          "type": "mcq",
+          "prompt": "The inverse of f(x) = (2x + 1)/3 is:",
+          "options": [
+            "(3x - 1)/2",
+            "(3x + 1)/2",
+            "3/(2x + 1)",
+            "(2x - 1)/3"
+          ],
+          "answer": 0,
+          "explanation": "y = (2x + 1)/3 gives 3y - 1 = 2x, so x = (3y - 1)/2 and f⁻¹(x) = (3x - 1)/2. Check: f(f⁻¹(5)) = f(7) = 15/3 = 5."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q06",
+          "type": "mcq",
+          "prompt": "The relation 'is less than' on the set of natural numbers is:",
+          "options": [
+            "Transitive only",
+            "Reflexive and transitive",
+            "Symmetric only",
+            "An equivalence relation"
+          ],
+          "answer": 0,
+          "explanation": "a < b and b < c give a < c (transitive). a < a is false (not reflexive), and a < b does not give b < a (not symmetric)."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q07",
+          "type": "truefalse",
+          "prompt": "The power set of the empty set has exactly one element.",
+          "answer": true,
+          "explanation": "P(∅) = {∅}, which has 2⁰ = 1 element: the empty set itself."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q08",
+          "type": "multi",
+          "prompt": "Which of the following are equivalence relations? (Select all that apply.)",
+          "options": [
+            "'is equal to' on real numbers",
+            "'has the same PAN as' on a set of taxpayer records",
+            "'is parallel to or coincident with' on lines in a plane",
+            "'is the father of' on a set of people"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "The first three are reflexive, symmetric and transitive. 'is the father of' fails all three properties."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: a function that is both one-one and onto is called a ___ function.",
+          "accept": [
+            "bijective",
+            "bijection",
+            "one-one onto"
+          ],
+          "explanation": "Only bijective functions have an inverse function."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q10",
+          "type": "numeric",
+          "prompt": "In a survey of 100 people, 60 drink tea, 45 drink coffee and 25 drink both. How many drink neither?",
+          "answer": 20,
+          "tolerance": 0,
+          "explanation": "n(T ∪ C) = 60 + 45 - 25 = 80. Neither = 100 - 80 = 20."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q11",
+          "type": "numeric",
+          "prompt": "In a class of 50 students, 30 study Maths, 25 study Statistics and 10 study both. How many study only Maths?",
+          "answer": 20,
+          "tolerance": 0,
+          "explanation": "Only Maths = n(M) - n(M ∩ S) = 30 - 10 = 20."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q12",
+          "type": "numeric",
+          "prompt": "n(A) = 40, n(B) = 35, n(C) = 30, n(A ∩ B) = 12, n(B ∩ C) = 10, n(A ∩ C) = 8 and n(A ∩ B ∩ C) = 5. Find n(A ∪ B ∪ C).",
+          "answer": 80,
+          "tolerance": 0,
+          "explanation": "| Step | Value |\n| --- | --- |\n| n(A) + n(B) + n(C) | 105 |\n| Less: pairwise intersections (12 + 10 + 8) | (30) |\n| Add: triple intersection | 5 |\n| **n(A ∪ B ∪ C)** | **80** |"
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q13",
+          "type": "numeric",
+          "prompt": "If A has 3 elements and B has 4 elements, how many elements does A × B have?",
+          "answer": 12,
+          "tolerance": 0,
+          "explanation": "n(A × B) = n(A) × n(B) = 3 × 4 = 12 ordered pairs."
+        },
+        {
+          "id": "ca-f-quant-07-sets-relations-functions-q14",
+          "type": "interview",
+          "prompt": "Explain the three properties that make a relation an equivalence relation, with one example and one non-example.",
+          "answer": "- Reflexive: every element is related to itself, (a, a) ∈ R for all a.\n- Symmetric: whenever (a, b) ∈ R, (b, a) ∈ R.\n- Transitive: whenever (a, b) and (b, c) ∈ R, (a, c) ∈ R.\n- Example: \"has the same remainder on division by 5\" on integers satisfies all three, so it is an equivalence relation and splits integers into 5 classes.\n- Non-example: \"is less than\" is transitive but neither reflexive nor symmetric.\n- In MCQs, test each property on a small set like {1, 2, 3} and look for one counter-example."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-08-calculus",
+      "title": "Basics of Differential and Integral Calculus",
+      "level": "intermediate",
+      "summary": "Differentiate standard functions, apply derivatives to marginal analysis and maxima-minima, and integrate to recover totals and evaluate definite integrals.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Standard derivatives and rules",
+          "body": "The derivative dy/dx measures the rate of change of y with respect to x.\n\n| Function | Derivative |\n| --- | --- |\n| xⁿ | nxⁿ⁻¹ |\n| constant k | 0 |\n| eˣ | eˣ |\n| aˣ | aˣ log a |\n| log x (natural) | 1/x |\n\n| Rule | Statement |\n| --- | --- |\n| Sum | (u ± v)' = u' ± v' |\n| Product | (uv)' = uv' + vu' |\n| Quotient | (u/v)' = (vu' - uv')/v² |\n| Chain | dy/dx = dy/du × du/dx |\n\nExamples:\n\n- d/dx (x³ + 2x² - 5x) = 3x² + 4x - 5.\n- d/dx (eˣ log x) = eˣ (log x + 1/x) by the product rule.\n- d/dx [x/(x + 1)] = [(x + 1) - x]/(x + 1)² = 1/(x + 1)².\n- d/dx (2x + 3)⁵ = 5(2x + 3)⁴ × 2 = 10(2x + 3)⁴ by the chain rule.\n- d/dx log(x² + 1) = 2x/(x² + 1)."
+        },
+        {
+          "heading": "Implicit functions, second derivative and maxima-minima",
+          "body": "**Implicit differentiation:** differentiate both sides with respect to x, treating y as a function of x. From x² + y² = 25: 2x + 2y dy/dx = 0, so dy/dx = -x/y. At (3, 4), dy/dx = -0.75.\n\n**Maxima and minima:**\n\n- Set f'(x) = 0 to find stationary points.\n- If f''(x) < 0 at that point, it is a local maximum; if f''(x) > 0, a local minimum.\n\nExample: y = x³ - 6x² + 9x + 1. y' = 3x² - 12x + 9 = 3(x - 1)(x - 3), so x = 1 or 3. y'' = 6x - 12: at x = 1, y'' = -6 (maximum, y = 5); at x = 3, y'' = 6 (minimum, y = 1)."
+        },
+        {
+          "heading": "Business applications",
+          "body": "| Concept | Meaning |\n| --- | --- |\n| Marginal cost (MC) | dC/dx |\n| Marginal revenue (MR) | dR/dx, where R = price × quantity |\n| Profit | P = R - C; maximised where MR = MC and P'' < 0 |\n| Average cost | C/x |\n\nExample: P(x) = -2x² + 80x - 300. P'(x) = -4x + 80 = 0 gives x = 20; P'' = -4 < 0, so profit is maximum at 20 units: P(20) = -800 + 1,600 - 300 = ₹ 500.\n\nExample: C(x) = 0.5x² + 20x + 500. MC = x + 20; at x = 10, MC = ₹ 30.\n\nExample: demand p = 100 - 2x, so R = 100x - 2x² and MR = 100 - 4x; at x = 10, MR = 60."
+        },
+        {
+          "heading": "Integration",
+          "body": "Integration reverses differentiation.\n\n| Integral | Result |\n| --- | --- |\n| ∫xⁿ dx (n ≠ -1) | xⁿ⁺¹/(n + 1) + c |\n| ∫1/x dx | log x + c |\n| ∫eˣ dx | eˣ + c |\n| ∫eᵃˣ dx | eᵃˣ/a + c |\n| ∫aˣ dx | aˣ/log a + c |\n\n**By parts:** ∫u v dx = u∫v dx - ∫[u' ∫v dx] dx. So ∫x eˣ dx = x eˣ - eˣ + c = eˣ(x - 1) + c.\n\n**Definite integral:** ∫ from a to b of f(x) dx = F(b) - F(a). ∫ from 0 to 2 of (x² + 1) dx = [x³/3 + x] from 0 to 2 = 8/3 + 2 = 14/3 ≈ 4.67.\n\n**Total cost from marginal cost:** if MC = 3x² - 2x + 5 and fixed cost is ₹ 100, then C(x) = x³ - x² + 5x + 100. At x = 4, C = 64 - 16 + 20 + 100 = ₹ 168. The constant of integration is the fixed cost."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Forgetting the inner derivative in the chain rule (the \"× 2\" in (2x + 3)⁵).\n- Writing the quotient rule numerator as uv' - vu' (sign reversed).\n- Dropping the constant c, or ignoring fixed cost when recovering total cost.\n- Stopping at f'(x) = 0 without checking the second derivative to tell maximum from minimum.\n- Using ∫xⁿ dx = xⁿ⁺¹/(n + 1) for n = -1; that case gives log x."
+        }
+      ],
+      "keyPoints": [
+        "d/dx xⁿ = nxⁿ⁻¹; d/dx eˣ = eˣ; d/dx log x = 1/x.",
+        "Product (uv)' = uv' + vu'; quotient (u/v)' = (vu' - uv')/v²; chain rule multiplies by the inner derivative.",
+        "Maximum: f' = 0 and f'' < 0; minimum: f' = 0 and f'' > 0.",
+        "MC = dC/dx, MR = dR/dx; profit is maximum where MR = MC.",
+        "∫xⁿ dx = xⁿ⁺¹/(n + 1) + c; ∫1/x dx = log x + c; ∫eᵃˣ dx = eᵃˣ/a + c.",
+        "Total cost = ∫MC dx + fixed cost."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-08-calculus-q01",
+          "type": "mcq",
+          "prompt": "If y = eˣ log x, then dy/dx is:",
+          "options": [
+            "eˣ (log x + 1/x)",
+            "eˣ/x",
+            "eˣ log x",
+            "eˣ + 1/x"
+          ],
+          "answer": 0,
+          "explanation": "Product rule: eˣ × (1/x) + log x × eˣ = eˣ(log x + 1/x)."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q02",
+          "type": "mcq",
+          "prompt": "The derivative of x/(x + 1) with respect to x is:",
+          "options": [
+            "1/(x + 1)²",
+            "-1/(x + 1)²",
+            "x/(x + 1)²",
+            "1/(x + 1)"
+          ],
+          "answer": 0,
+          "explanation": "Quotient rule: [(x + 1)(1) - x(1)]/(x + 1)² = 1/(x + 1)²."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q03",
+          "type": "mcq",
+          "prompt": "If y = (2x + 3)⁵, then dy/dx is:",
+          "options": [
+            "10(2x + 3)⁴",
+            "5(2x + 3)⁴",
+            "10(2x + 3)⁵",
+            "(2x + 3)⁴"
+          ],
+          "answer": 0,
+          "explanation": "Chain rule: 5(2x + 3)⁴ × d/dx(2x + 3) = 5(2x + 3)⁴ × 2 = 10(2x + 3)⁴."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q04",
+          "type": "mcq",
+          "prompt": "For y = x³ - 6x² + 9x + 1, the local maximum value of y is:",
+          "options": [
+            "5",
+            "1",
+            "3",
+            "9"
+          ],
+          "answer": 0,
+          "explanation": "y' = 3(x - 1)(x - 3) = 0 at x = 1, 3. y'' = 6x - 12 is negative at x = 1, so the maximum is y(1) = 1 - 6 + 9 + 1 = 5. y(3) = 1 is the minimum."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q05",
+          "type": "mcq",
+          "prompt": "∫ x eˣ dx equals:",
+          "options": [
+            "eˣ(x - 1) + c",
+            "eˣ(x + 1) + c",
+            "x²eˣ/2 + c",
+            "xeˣ + c"
+          ],
+          "answer": 0,
+          "explanation": "By parts with u = x, v = eˣ: x eˣ - ∫eˣ dx = x eˣ - eˣ + c = eˣ(x - 1) + c. Check: d/dx [eˣ(x - 1)] = eˣ(x - 1) + eˣ = x eˣ."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q06",
+          "type": "mcq",
+          "prompt": "∫ e²ˣ dx equals:",
+          "options": [
+            "e²ˣ/2 + c",
+            "2e²ˣ + c",
+            "e²ˣ + c",
+            "e²ˣ⁺¹/(2x + 1) + c"
+          ],
+          "answer": 0,
+          "explanation": "∫eᵃˣ dx = eᵃˣ/a + c with a = 2."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q07",
+          "type": "truefalse",
+          "prompt": "At a stationary point where the second derivative is positive, the function has a local maximum.",
+          "answer": false,
+          "explanation": "A positive second derivative means the curve is concave upward there, giving a local minimum. A negative second derivative gives a maximum."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q08",
+          "type": "multi",
+          "prompt": "Which of the following are correct? (Select all that apply.)",
+          "options": [
+            "d/dx log(x² + 1) = 2x/(x² + 1)",
+            "∫ 1/x dx = log x + c",
+            "d/dx aˣ = aˣ log a",
+            "∫ x⁻¹ dx = x⁰/0 + c"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "The first uses the chain rule, the second and third are standard results. The power rule for integration fails for n = -1, which is why ∫1/x dx = log x + c."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: if total cost is C(x), the derivative dC/dx is called the ___ cost.",
+          "accept": [
+            "marginal"
+          ],
+          "explanation": "Marginal cost is the approximate cost of producing one more unit."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q10",
+          "type": "numeric",
+          "prompt": "A firm's profit function is P(x) = -2x² + 80x - 300 (in ₹). Find the maximum profit in ₹.",
+          "answer": 500,
+          "tolerance": 0,
+          "unit": "₹",
+          "explanation": "P'(x) = -4x + 80 = 0 gives x = 20. P''(x) = -4 < 0, so this is a maximum. P(20) = -2(400) + 1,600 - 300 = ₹ 500."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q11",
+          "type": "numeric",
+          "prompt": "The marginal cost of a product is MC = 3x² - 2x + 5 and fixed cost is ₹ 100. Find the total cost of producing 4 units in ₹.",
+          "answer": 168,
+          "tolerance": 0,
+          "unit": "₹",
+          "explanation": "C(x) = ∫MC dx = x³ - x² + 5x + k, with k = fixed cost = 100. C(4) = 64 - 16 + 20 + 100 = ₹ 168."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q12",
+          "type": "numeric",
+          "prompt": "Evaluate the definite integral of (x² + 1) from x = 0 to x = 2. Round to 2 decimals.",
+          "answer": 4.67,
+          "tolerance": 0.01,
+          "explanation": "[x³/3 + x] from 0 to 2 = (8/3 + 2) - 0 = 14/3 = 4.67."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q13",
+          "type": "numeric",
+          "prompt": "If x² + y² = 25, find dy/dx at the point (3, 4). Give the answer to 2 decimals.",
+          "answer": -0.75,
+          "tolerance": 0.001,
+          "explanation": "Differentiating implicitly: 2x + 2y dy/dx = 0, so dy/dx = -x/y = -3/4 = -0.75."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q14",
+          "type": "numeric",
+          "prompt": "Total cost is C(x) = 0.5x² + 20x + 500 (in ₹). Find the marginal cost at x = 10 units, in ₹.",
+          "answer": 30,
+          "tolerance": 0,
+          "unit": "₹",
+          "explanation": "MC = dC/dx = x + 20. At x = 10, MC = ₹ 30."
+        },
+        {
+          "id": "ca-f-quant-08-calculus-q15",
+          "type": "interview",
+          "prompt": "Explain how to find the output that maximises profit using calculus, given cost and demand functions.",
+          "top": true,
+          "answer": "- Write revenue R(x) = price × quantity using the demand function, and profit P(x) = R(x) - C(x).\n- First-order condition: P'(x) = 0, which is the same as MR = MC.\n- Second-order condition: P''(x) < 0 confirms a maximum (equivalently, the slope of MC exceeds the slope of MR).\n- Substitute the optimal x back into P(x) for maximum profit and into the demand function for the price.\n- Example: P = -2x² + 80x - 300 gives x = 20 and P = ₹ 500."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-09-reasoning-series-coding-direction",
+      "title": "Logical Reasoning: Number Series, Coding-Decoding, Odd Man Out and Direction Sense",
+      "level": "beginner",
+      "summary": "Spot patterns in number and letter series, crack letter and number codes, find the odd one out and track movement and direction.",
+      "estMinutes": 35,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Number and letter series",
+          "body": "Find the rule by testing, in order:\n\n- **Differences:** 2, 6, 12, 20, 30 has differences 4, 6, 8, 10, so the next is 30 + 12 = 42 (also n(n + 1)).\n- **Ratios or ×k ± c:** 5, 11, 23, 47, 95 follows ×2 + 1, so the next is 191. 3, 7, 15, 31, 63 follows ×2 + 1 as well (2ⁿ - 1), next 127.\n- **Squares, cubes, primes:** 4, 9, 25, 49, 121 are squares of primes 2, 3, 5, 7, 11; next 13² = 169.\n- **Alternating series:** two interleaved patterns in odd and even positions.\n\n**Wrong term:** in 2, 5, 10, 17, 26, 38, 50 the rule is n² + 1 (2, 5, 10, 17, 26, 37, 50), so 38 is wrong.\n\n**Letter series:** convert letters to positions. Keep this table handy:\n\n| A | B | C | D | E | F | G | H | I | J | K | L | M |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 |\n\nN to Z are 14 to 26 (a quick check: the reverse position of a letter is 27 minus its position). A, C, F, J, O are 1, 3, 6, 10, 15 (gaps 2, 3, 4, 5), so the next is 21 = U."
+        },
+        {
+          "heading": "Coding-decoding",
+          "body": "Common coding patterns:\n\n| Pattern | Example |\n| --- | --- |\n| Shift each letter by a fixed number | LEDGER becomes MFEHFS (+1) |\n| Reverse the word | AUDIT becomes TIDUA |\n| Letter to position value | BOOK = 2 + 15 + 15 + 11 = 43 |\n| Opposite letter (A↔Z, B↔Y) | Position p becomes 27 - p |\n| Word substitution | If \"red\" means \"blue\", the colour of the sky is \"red\" |\n\nMethod: write the word and its code letter by letter, find the shift or rule for each position, check it on every letter, then apply it to the new word. In substitution codes, answer with the code word, not the real word."
+        },
+        {
+          "heading": "Odd man out",
+          "body": "All items but one share a property. Check, in this order:\n\n- Primes or composites: 3, 5, 7, 9, 11, 13: 9 is not prime.\n- Squares or cubes: 27, 64, 125, 144, 216: 144 is not a perfect cube.\n- Even or odd, divisibility, digit sums.\n- Letter pairs by gap: BD, FH, JL, MP, RT. Gaps are 2 except M (13) to P (16), which is 3, so MP is odd.\n- Word groups: category (all are assets except one), or letter structure."
+        },
+        {
+          "heading": "Direction sense",
+          "body": "Set up a compass: North up, East right. Right turn = clockwise 90°, left turn = anticlockwise 90°.\n\nWorked example: Ravi walks 5 km north, turns right and walks 3 km, turns right again and walks 9 km.\n\n| Leg | Direction | Position (x, y) |\n| --- | --- | --- |\n| Start | - | (0, 0) |\n| 5 km | North | (0, 5) |\n| 3 km | East | (3, 5) |\n| 9 km | South | (3, -4) |\n\nDistance from start = √(3² + 4²) = 5 km, towards the south-east.\n\n**Shadows:** in the morning the sun is in the east, so shadows fall to the west; in the evening shadows fall to the east. At noon there is practically no shadow.\n\n**Common mistakes:** turning \"right\" relative to the page instead of the person's current direction; adding distances instead of using Pythagoras; forgetting that a 45° turn gives NE, NW, SE or SW."
+        }
+      ],
+      "keyPoints": [
+        "Series: check differences, then ratios (×k ± c), then squares, cubes and primes, then alternating patterns.",
+        "Letter positions: A = 1 ... Z = 26; opposite letter = 27 - position.",
+        "Coding: verify the rule on every letter before applying it.",
+        "Right turn = 90° clockwise; left turn = 90° anticlockwise, relative to the current facing direction.",
+        "Shortest distance = √(net east-west² + net north-south²).",
+        "Morning shadows fall west; evening shadows fall east."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q01",
+          "type": "mcq",
+          "prompt": "Find the next term: 2, 6, 12, 20, 30, ?",
+          "options": [
+            "42",
+            "40",
+            "36",
+            "44"
+          ],
+          "answer": 0,
+          "explanation": "Differences are 4, 6, 8, 10, so the next difference is 12: 30 + 12 = 42. The terms are also n(n + 1)."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q02",
+          "type": "mcq",
+          "prompt": "Find the next term: 4, 9, 25, 49, 121, ?",
+          "options": [
+            "169",
+            "144",
+            "196",
+            "225"
+          ],
+          "answer": 0,
+          "explanation": "The terms are squares of consecutive primes: 2², 3², 5², 7², 11². Next is 13² = 169."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q03",
+          "type": "mcq",
+          "prompt": "Find the wrong term in the series 2, 5, 10, 17, 26, 38, 50.",
+          "options": [
+            "38",
+            "26",
+            "17",
+            "50"
+          ],
+          "answer": 0,
+          "explanation": "The rule is n² + 1: 2, 5, 10, 17, 26, 37, 50. So 38 should be 37."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q04",
+          "type": "mcq",
+          "prompt": "Find the next letter: A, C, F, J, O, ?",
+          "options": [
+            "U",
+            "T",
+            "V",
+            "S"
+          ],
+          "answer": 0,
+          "explanation": "Positions 1, 3, 6, 10, 15 increase by 2, 3, 4, 5. Next is 15 + 6 = 21, which is U."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q05",
+          "type": "mcq",
+          "prompt": "If LEDGER is coded as MFEHFS, how is ASSETS coded?",
+          "options": [
+            "BTTFUT",
+            "BTTFTU",
+            "ZRRDSR",
+            "BSSFUT"
+          ],
+          "answer": 0,
+          "explanation": "Each letter moves one place forward: A→B, S→T, S→T, E→F, T→U, S→T, giving BTTFUT."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q06",
+          "type": "mcq",
+          "prompt": "Find the odd one out: BD, FH, JL, MP, RT",
+          "options": [
+            "MP",
+            "BD",
+            "JL",
+            "RT"
+          ],
+          "answer": 0,
+          "explanation": "In BD (2, 4), FH (6, 8), JL (10, 12) and RT (18, 20) the gap is 2. MP (13, 16) has a gap of 3."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q07",
+          "type": "mcq",
+          "prompt": "Ravi walks 5 km north, turns right and walks 3 km, then turns right and walks 9 km. How far and in which direction is he from the starting point?",
+          "options": [
+            "5 km south-east",
+            "5 km north-east",
+            "17 km south",
+            "7 km south-west"
+          ],
+          "answer": 0,
+          "explanation": "Net position: 3 km east and 5 - 9 = 4 km south. Distance = √(9 + 16) = 5 km, towards the south-east."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q08",
+          "type": "mcq",
+          "prompt": "A man faces north. He turns 90° clockwise, then 180° anticlockwise, then 45° clockwise. Which direction does he face now?",
+          "options": [
+            "North-west",
+            "North-east",
+            "South-west",
+            "South-east"
+          ],
+          "answer": 0,
+          "explanation": "North → 90° clockwise → East → 180° anticlockwise → West → 45° clockwise → North-west."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q09",
+          "type": "truefalse",
+          "prompt": "Early in the morning, a person whose shadow falls to his right is facing south.",
+          "answer": true,
+          "explanation": "In the morning the sun is in the east, so shadows fall west. If west is on his right, he is facing south."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q10",
+          "type": "multi",
+          "prompt": "Which of these numbers would be the odd one out in a group of perfect cubes? (Select all that apply.)",
+          "options": [
+            "144",
+            "100",
+            "125",
+            "216"
+          ],
+          "answers": [
+            0,
+            1
+          ],
+          "explanation": "125 = 5³ and 216 = 6³ are cubes. 144 = 12² and 100 = 10² are squares but not cubes."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: if each letter's alphabet position is added, BOOK = 43. Then CASH = ___.",
+          "accept": [
+            "31"
+          ],
+          "explanation": "C = 3, A = 1, S = 19, H = 8; 3 + 1 + 19 + 8 = 31. (Check BOOK: 2 + 15 + 15 + 11 = 43.)"
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q12",
+          "type": "numeric",
+          "prompt": "Find the next term: 5, 11, 23, 47, 95, ?",
+          "answer": 191,
+          "tolerance": 0,
+          "explanation": "Each term = previous × 2 + 1: 95 × 2 + 1 = 191."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q13",
+          "type": "numeric",
+          "prompt": "Priya walks 10 m east, turns left and walks 6 m, then turns left and walks 18 m. How far (in metres) is she from her starting point?",
+          "answer": 10,
+          "tolerance": 0,
+          "unit": "m",
+          "explanation": "East 10, then left (north) 6, then left (west) 18. Net: 8 m west and 6 m north. Distance = √(64 + 36) = 10 m, towards the north-west."
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q14",
+          "type": "numeric",
+          "prompt": "In a certain code, each letter is replaced by its alphabet position and the numbers are added, so TAX = 45. Find the code for AUDIT.",
+          "answer": 55,
+          "tolerance": 0,
+          "explanation": "A = 1, U = 21, D = 4, I = 9, T = 20. Sum = 55. (Check TAX: 20 + 1 + 24 = 45.)"
+        },
+        {
+          "id": "ca-f-quant-09-reasoning-series-coding-direction-q15",
+          "type": "interview",
+          "prompt": "Describe a quick, reliable method for solving direction sense problems in the exam.",
+          "answer": "- Draw a small compass first: North up, East right, and mark the start as (0, 0).\n- Track the current facing direction after every turn; right = 90° clockwise, left = 90° anticlockwise from where the person faces, not from the page.\n- Keep running totals of east-west and north-south displacement.\n- Shortest distance = √(x² + y²); the direction comes from the signs (for example +x and -y is south-east).\n- For shadow questions, fix the sun first: east in the morning, west in the evening, so shadows point the opposite way."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-10-reasoning-seating-blood-syllogism",
+      "title": "Logical Reasoning: Seating Arrangements, Blood Relations and Syllogisms",
+      "level": "intermediate",
+      "summary": "Solve linear and circular seating puzzles, trace family relationships and test syllogism conclusions with Venn diagrams.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Seating arrangements",
+          "body": "**Linear (row) arrangements.** Number the seats 1 to n from left to right. If people face north (the top of the page), their left is your left as you read the page. If they face south, left and right flip.\n\n**Circular arrangements, facing the centre:** a person's **left is clockwise** and **right is anticlockwise**. If they face outward, this reverses.\n\nMethod:\n\n- Place the most definite clue first (fixed positions, \"opposite\", \"extreme end\").\n- Then add \"immediately next to\" clues, then negative clues (\"not adjacent\").\n- When two placements remain possible, draw both and eliminate with later clues.\n\nWorked example (row facing north): C is in the middle of five seats, A is immediately left of C, B is at the extreme right, and E is not next to A.\n\n| Seat | 1 | 2 | 3 | 4 | 5 |\n| --- | --- | --- | --- | --- | --- |\n| Person | D | A | C | E | B |\n\nE cannot be in seat 1 (next to A), so E takes seat 4 and D takes seat 1.\n\n**Ranking in a row:** position from left + position from right = total + 1. In a row of 40, the 12th from the left is 40 - 12 + 1 = 29th from the right."
+        },
+        {
+          "heading": "Blood relations",
+          "body": "Draw a family tree: males as squares or \"+\", females as circles or \"-\", marriage with a double line and generations stacked vertically.\n\n| Phrase | Relation |\n| --- | --- |\n| Father's or mother's father | Grandfather |\n| Father's brother | Uncle (paternal) |\n| Mother's brother | Uncle (maternal) |\n| Brother's or sister's son | Nephew |\n| Brother's or sister's daughter | Niece |\n| Wife's or husband's brother; sister's husband | Brother-in-law |\n| Son's wife | Daughter-in-law |\n\nDecode long chains from the end that names the speaker. \"Her mother is the only daughter of my mother\" (Rahul speaking): the only daughter of Rahul's mother is Rahul's sister, so the woman is Rahul's **niece**.\n\n**Coded relations:** if A + B means A is the mother of B, and A - B means A is the brother of B, then P + Q - R means P is the mother of Q and Q is R's brother, so P is the **mother of R**. Gender of R stays unknown."
+        },
+        {
+          "heading": "Syllogisms",
+          "body": "A syllogism gives two or more statements (assumed true even if they contradict real life) and asks which conclusions **must** follow.\n\n| Statement | Valid immediate inference |\n| --- | --- |\n| All A are B | Some A are B; Some B are A |\n| No A is B | No B is A |\n| Some A are B | Some B are A |\n| Some A are not B | Nothing by conversion |\n\n**Venn diagram method:** draw the least restrictive diagram that satisfies all statements. A conclusion follows only if it is true in every possible diagram.\n\nExample: All accountants are graduates. Some graduates are auditors.\n\n- I: Some accountants are auditors. The auditors may overlap only the graduates outside the accountants circle, so I does not necessarily follow.\n- II: Some auditors are graduates. This is the converse of statement 2, so it follows.\n\n**Combination rules:** All + All = All (All A are B, All B are C, so All A are C). All + No = No (All C are A, No A is B, so No C is B). Some + All = Some (Some A are B, All B are C, so Some A are C). All + Some gives no definite conclusion."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using real-world knowledge in syllogisms instead of the given statements.\n- Converting \"All A are B\" into \"All B are A\".\n- Assuming gender from a name in blood relations; only use stated words such as son, brother, he.\n- Forgetting that left and right reverse for people facing south or facing away from the centre.\n- In ranking, using total = left + right instead of left + right - 1."
+        }
+      ],
+      "keyPoints": [
+        "Facing the centre of a circle: left = clockwise, right = anticlockwise.",
+        "Row ranking: left position + right position = total + 1.",
+        "Draw a family tree with gender and generation; decode from the speaker outward.",
+        "All A are B converts to Some B are A; Some A are B converts to Some B are A; No A is B converts to No B is A.",
+        "All + All = All; All + No = No; Some + All = Some; All + Some = no definite conclusion.",
+        "A conclusion follows only if it holds in every possible Venn diagram."
+      ],
+      "cases": [
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-case1",
+          "title": "Case: Lunch table at an audit firm",
+          "body": "Six articled assistants P, Q, R, S, T and U sit around a circular table, all facing the centre.\n\n- P sits opposite S.\n- Q sits to the immediate right of P.\n- R sits between Q and S.\n- T is not an immediate neighbour of P."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q01",
+          "type": "mcq",
+          "caseId": "ca-f-quant-10-reasoning-seating-blood-syllogism-case1",
+          "prompt": "Who sits to the immediate left of P?",
+          "options": [
+            "U",
+            "Q",
+            "T",
+            "R"
+          ],
+          "answer": 0,
+          "explanation": "Number seats clockwise from P = 1. Facing the centre, right is anticlockwise, so Q is in seat 6. S is opposite P in seat 4, so R (between Q and S) is in seat 5. Seats 2 and 3 remain; seat 2 is next to P, so T takes seat 3 and U seat 2. P's left is clockwise: seat 2, U."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q02",
+          "type": "mcq",
+          "caseId": "ca-f-quant-10-reasoning-seating-blood-syllogism-case1",
+          "prompt": "Who sits opposite Q?",
+          "options": [
+            "T",
+            "U",
+            "R",
+            "S"
+          ],
+          "answer": 0,
+          "explanation": "Q is in seat 6; the opposite seat is 3, occupied by T."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q03",
+          "type": "mcq",
+          "caseId": "ca-f-quant-10-reasoning-seating-blood-syllogism-case1",
+          "prompt": "Who sits to the immediate left of S?",
+          "options": [
+            "R",
+            "T",
+            "Q",
+            "U"
+          ],
+          "answer": 0,
+          "explanation": "S is in seat 4. Left is clockwise, which is seat 5: R."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q04",
+          "type": "truefalse",
+          "caseId": "ca-f-quant-10-reasoning-seating-blood-syllogism-case1",
+          "prompt": "R and U sit opposite each other.",
+          "answer": true,
+          "explanation": "R is in seat 5 and U in seat 2; seats 2 and 5 are three places apart in a six-seat circle, so they are opposite."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q05",
+          "type": "mcq",
+          "prompt": "Pointing to a photograph, Amit says, 'He is the son of the only son of my grandfather.' The man in the photograph is Amit's:",
+          "options": [
+            "Brother",
+            "Father",
+            "Cousin",
+            "Uncle"
+          ],
+          "answer": 0,
+          "explanation": "The only son of Amit's (paternal) grandfather is Amit's father. The father's son, other than Amit himself, is Amit's brother."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q06",
+          "type": "mcq",
+          "prompt": "A is B's sister. C is B's mother. D is C's father. E is D's mother. How is A related to D?",
+          "options": [
+            "Granddaughter",
+            "Daughter",
+            "Grandmother",
+            "Niece"
+          ],
+          "answer": 0,
+          "explanation": "C is the mother of both A and B. D is C's father, so D is A's grandfather and A (a female) is D's granddaughter."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q07",
+          "type": "mcq",
+          "prompt": "If A + B means A is the mother of B and A - B means A is the brother of B, then P + Q - R means:",
+          "options": [
+            "P is the mother of R",
+            "P is the sister of R",
+            "R is the brother of P",
+            "P is the aunt of R"
+          ],
+          "answer": 0,
+          "explanation": "P + Q: P is Q's mother. Q - R: Q is R's brother, so Q and R share a mother. P is therefore R's mother."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q08",
+          "type": "mcq",
+          "prompt": "Statements: All accountants are graduates. Some graduates are auditors. Conclusions: I. Some accountants are auditors. II. Some auditors are graduates.",
+          "options": [
+            "Only II follows",
+            "Only I follows",
+            "Both follow",
+            "Neither follows"
+          ],
+          "answer": 0,
+          "explanation": "II is the converse of 'Some graduates are auditors', so it follows. The auditors could overlap only the graduates who are not accountants, so I does not necessarily follow."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q09",
+          "type": "multi",
+          "prompt": "Statements: All pens are books. Some books are tables. Which conclusions definitely follow? (Select all that apply.)",
+          "options": [
+            "Some tables are books",
+            "Some books are pens",
+            "Some pens are tables",
+            "All books are pens"
+          ],
+          "answers": [
+            0,
+            1
+          ],
+          "explanation": "Some tables are books is the converse of statement 2. Some books are pens is the converse of statement 1. All + Some gives no definite link between pens and tables, and All A are B never converts to All B are A."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a man says, 'He is my father's only son's son.' The person referred to is the man's ___.",
+          "accept": [
+            "son"
+          ],
+          "explanation": "The father's only son is the speaker himself; the speaker's son is his son."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q11",
+          "type": "numeric",
+          "prompt": "In a row of 40 students, Ravi is 12th from the left end. What is his position from the right end?",
+          "answer": 29,
+          "tolerance": 0,
+          "explanation": "Position from right = total - position from left + 1 = 40 - 12 + 1 = 29."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q12",
+          "type": "numeric",
+          "prompt": "In a row of 50 students, P is 10th from the left and Q is 15th from the right. How many students sit between P and Q?",
+          "answer": 25,
+          "tolerance": 0,
+          "explanation": "Q from the left = 50 - 15 + 1 = 36. Students between seats 10 and 36 = 36 - 10 - 1 = 25."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q13",
+          "type": "numeric",
+          "prompt": "In a row, A is 15th from the left and B is 20th from the right. When they interchange positions, A becomes 25th from the left. How many students are in the row?",
+          "answer": 44,
+          "tolerance": 0,
+          "explanation": "After interchanging, A occupies B's old seat, which is 25th from the left and 20th from the right. Total = 25 + 20 - 1 = 44."
+        },
+        {
+          "id": "ca-f-quant-10-reasoning-seating-blood-syllogism-q14",
+          "type": "interview",
+          "prompt": "Explain how to test syllogism conclusions using Venn diagrams, and why real-world knowledge must be ignored.",
+          "top": true,
+          "answer": "- Treat each statement as true, even if it is absurd (All cats are tables).\n- Draw the statements with the least overlap they permit: \"All A are B\" puts A inside B; \"No A is B\" keeps them apart; \"Some A are B\" needs a partial overlap.\n- Where a statement allows more than one picture, draw the alternatives.\n- A conclusion follows only if it is true in every valid picture; if any picture contradicts it, it does not follow.\n- Use quick rules: All + All = All, All + No = No, Some + All = Some, All + Some and Some + Some give no definite conclusion.\n- Watch for either-or pairs: when two conclusions are complementary (Some A are B / No A is B) and neither follows individually, \"either I or II follows\"."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-11-statistics-central-tendency-dispersion",
+      "title": "Statistics: Description of Data, Central Tendency and Dispersion",
+      "level": "intermediate",
+      "summary": "Classify and present data, compute mean, median, mode and other averages, and measure spread with range, quartile deviation, mean deviation, standard deviation and CV.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Collection and presentation of data",
+          "body": "- **Primary data** is collected first-hand for the purpose at hand; **secondary data** is taken from existing sources.\n- **Attribute** (qualitative) vs **variable** (quantitative); a variable is **discrete** (counts) or **continuous** (measurements).\n- A **frequency distribution** groups observations into classes. Class mark = (lower + upper limit)/2; class width = upper - lower boundary.\n\n| Diagram | Best used for |\n| --- | --- |\n| Histogram | Grouped frequency; locating the mode graphically |\n| Frequency polygon | Comparing distributions |\n| Ogive (cumulative frequency curve) | Locating median and quartiles graphically |\n| Pie chart | Shares of a whole; angle = (part/total) × 360° |\n| Bar diagram | Comparing categories |\n\nFor an expense that is 25% of the total, the pie-chart angle is 0.25 × 360° = 90°."
+        },
+        {
+          "heading": "Measures of central tendency",
+          "body": "| Measure | Ungrouped | Grouped |\n| --- | --- | --- |\n| Arithmetic mean | Σx/n | Σfx/N |\n| Median | Middle value of the ordered data | L + [(N/2 - cf)/f] × h |\n| Mode | Most frequent value | L + [(f₁ - f₀)/(2f₁ - f₀ - f₂)] × h |\n| Geometric mean | (x₁ x₂ ... xₙ)^(1/n) | antilog [Σf log x/N] |\n| Harmonic mean | n/Σ(1/x) | N/Σ(f/x) |\n\nL = lower boundary of the median or modal class, cf = cumulative frequency before it, f (or f₁) = its frequency, f₀ and f₂ = frequencies of the classes before and after, h = class width.\n\n- **Combined mean** = (n₁x̄₁ + n₂x̄₂)/(n₁ + n₂).\n- **Empirical relation** for a moderately skewed distribution: Mode = 3 Median - 2 Mean.\n- For any two positive numbers, AM ≥ GM ≥ HM and GM² = AM × HM.\n- The sum of deviations from the mean is zero; the sum of absolute deviations is least from the median; the sum of squared deviations is least from the mean."
+        },
+        {
+          "heading": "Measures of dispersion",
+          "body": "| Measure | Formula | Relative measure |\n| --- | --- | --- |\n| Range | L - S | (L - S)/(L + S) |\n| Quartile deviation | (Q₃ - Q₁)/2 | (Q₃ - Q₁)/(Q₃ + Q₁) |\n| Mean deviation | Σabs(x - A)/n, A = mean or median | MD/A |\n| Standard deviation | √[Σ(x - x̄)²/n] | CV = (σ/x̄) × 100 |\n\n**Change of origin and scale:** if y = a + bx, then ȳ = a + bx̄ and σᵧ = abs(b) × σₓ. Dispersion is unaffected by change of origin but affected by change of scale.\n\n**Combined SD:** σ = √{[n₁(σ₁² + d₁²) + n₂(σ₂² + d₂²)]/(n₁ + n₂)}, where dᵢ = x̄ᵢ - combined mean.\n\nExample: 4, 8, 6, 10, 12 has mean 8 and squared deviations 16, 0, 4, 4, 16 (total 40), so variance = 8, σ = 2.83 and CV = 35.36%. The series with the lower CV is more consistent.\n\nFor a normal distribution, QD ≈ (2/3)σ and MD ≈ (4/5)σ."
+        },
+        {
+          "heading": "Worked grouped example",
+          "body": "| Class | f | x | fx | cf |\n| --- | --- | --- | --- | --- |\n| 0-10 | 5 | 5 | 25 | 5 |\n| 10-20 | 8 | 15 | 120 | 13 |\n| 20-30 | 15 | 25 | 375 | 28 |\n| 30-40 | 10 | 35 | 350 | 38 |\n| 40-50 | 2 | 45 | 90 | 40 |\n| Total | 40 | | 960 | |\n\n- Mean = 960/40 = 24.\n- Median: N/2 = 20 lies in 20-30. Median = 20 + [(20 - 13)/15] × 10 = 24.67.\n- Mode: modal class 20-30, f₁ = 15, f₀ = 8, f₂ = 10. Mode = 20 + [7/(30 - 18)] × 10 = 25.83.\n- Σf(x - 24)² = 4,560, so variance = 114 and σ = 10.68."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using class limits instead of class boundaries for inclusive classes (10-19, 20-29); convert to 9.5-19.5 first.\n- Forgetting to sort data before taking the median.\n- Using N/2 + 1 in the grouped median formula; the formula uses N/2.\n- Adding a constant to all observations and changing the SD; only scale changes the SD.\n- Comparing variability with SD when means differ widely; use CV."
+        }
+      ],
+      "keyPoints": [
+        "Mean = Σfx/N; Median = L + [(N/2 - cf)/f] × h; Mode = L + [(f₁ - f₀)/(2f₁ - f₀ - f₂)] × h.",
+        "Mode = 3 Median - 2 Mean (moderately skewed data).",
+        "Combined mean = (n₁x̄₁ + n₂x̄₂)/(n₁ + n₂).",
+        "SD = √[Σ(x - x̄)²/n]; CV = σ/x̄ × 100; lower CV means more consistent.",
+        "If y = a + bx: ȳ = a + bx̄, σᵧ = abs(b)σₓ.",
+        "Coefficient of QD = (Q₃ - Q₁)/(Q₃ + Q₁); coefficient of range = (L - S)/(L + S).",
+        "Ogive locates the median; histogram locates the mode."
+      ],
+      "cases": [
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-case1",
+          "title": "Case: Weekly overtime hours at Kumar Textiles",
+          "body": "The HR team of Kumar Textiles recorded the weekly overtime hours of 40 workers:\n\n| Overtime hours | 0-10 | 10-20 | 20-30 | 30-40 | 40-50 |\n| --- | --- | --- | --- | --- | --- |\n| Number of workers | 5 | 8 | 15 | 10 | 2 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q01",
+          "type": "numeric",
+          "caseId": "ca-f-quant-11-statistics-central-tendency-dispersion-case1",
+          "prompt": "Compute the arithmetic mean overtime hours.",
+          "answer": 24,
+          "tolerance": 0.01,
+          "unit": "hours",
+          "explanation": "| Class | f | Mid x | fx |\n| --- | --- | --- | --- |\n| 0-10 | 5 | 5 | 25 |\n| 10-20 | 8 | 15 | 120 |\n| 20-30 | 15 | 25 | 375 |\n| 30-40 | 10 | 35 | 350 |\n| 40-50 | 2 | 45 | 90 |\n| Total | 40 | | 960 |\n\nMean = 960/40 = 24 hours."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q02",
+          "type": "numeric",
+          "caseId": "ca-f-quant-11-statistics-central-tendency-dispersion-case1",
+          "prompt": "Compute the median overtime hours, to 2 decimals.",
+          "answer": 24.67,
+          "tolerance": 0.01,
+          "unit": "hours",
+          "explanation": "Cumulative frequencies: 5, 13, 28, 38, 40. N/2 = 20 falls in 20-30. Median = 20 + [(20 - 13)/15] × 10 = 20 + 4.67 = 24.67 hours."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q03",
+          "type": "mcq",
+          "caseId": "ca-f-quant-11-statistics-central-tendency-dispersion-case1",
+          "prompt": "The mode of the distribution is closest to:",
+          "options": [
+            "25.83 hours",
+            "24.67 hours",
+            "25.00 hours",
+            "23.50 hours"
+          ],
+          "answer": 0,
+          "explanation": "Modal class 20-30 with f₁ = 15, f₀ = 8, f₂ = 10. Mode = 20 + [(15 - 8)/(30 - 8 - 10)] × 10 = 20 + 70/12 = 25.83 hours."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q04",
+          "type": "numeric",
+          "caseId": "ca-f-quant-11-statistics-central-tendency-dispersion-case1",
+          "prompt": "Compute the standard deviation of overtime hours, to 2 decimals.",
+          "answer": 10.68,
+          "tolerance": 0.01,
+          "unit": "hours",
+          "explanation": "| x | f | x - 24 | f(x - 24)² |\n| --- | --- | --- | --- |\n| 5 | 5 | -19 | 1,805 |\n| 15 | 8 | -9 | 648 |\n| 25 | 15 | 1 | 15 |\n| 35 | 10 | 11 | 1,210 |\n| 45 | 2 | 21 | 882 |\n| Total | 40 | | 4,560 |\n\nVariance = 4,560/40 = 114; σ = √114 = 10.68 hours."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q05",
+          "type": "mcq",
+          "prompt": "The mean of 40 observations is 50 and the mean of another 60 observations is 60. The combined mean is:",
+          "options": [
+            "56",
+            "55",
+            "54",
+            "58"
+          ],
+          "answer": 0,
+          "explanation": "Combined mean = (40 × 50 + 60 × 60)/100 = (2,000 + 3,600)/100 = 56. 55 is the simple average, which ignores group sizes."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q06",
+          "type": "mcq",
+          "prompt": "In a moderately skewed distribution, the mean is 40 and the median is 38. The mode is approximately:",
+          "options": [
+            "34",
+            "42",
+            "36",
+            "39"
+          ],
+          "answer": 0,
+          "explanation": "Mode = 3 Median - 2 Mean = 114 - 80 = 34."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q07",
+          "type": "mcq",
+          "prompt": "If y = 3x + 5, and x has mean 10 and standard deviation 4, then the mean and SD of y are:",
+          "options": [
+            "35 and 12",
+            "35 and 17",
+            "30 and 12",
+            "35 and 4"
+          ],
+          "answer": 0,
+          "explanation": "ȳ = 3 × 10 + 5 = 35. σᵧ = abs(3) × 4 = 12. Adding 5 shifts the mean but not the SD."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q08",
+          "type": "mcq",
+          "prompt": "The mean deviation about the mean of 2, 4, 6, 8, 10 is:",
+          "options": [
+            "2.4",
+            "2.83",
+            "3",
+            "6"
+          ],
+          "answer": 0,
+          "explanation": "Mean = 6. Absolute deviations: 4, 2, 0, 2, 4, total 12. MD = 12/5 = 2.4. 2.83 is the SD."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q09",
+          "type": "mcq",
+          "prompt": "Which graph is used to locate the median of a grouped frequency distribution?",
+          "options": [
+            "Ogive",
+            "Histogram",
+            "Pie chart",
+            "Bar diagram"
+          ],
+          "answer": 0,
+          "explanation": "The ogive (cumulative frequency curve) gives the value against N/2 on the cumulative axis. The histogram is used to locate the mode."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q10",
+          "type": "truefalse",
+          "prompt": "Standard deviation is unaffected by a change of origin but is affected by a change of scale.",
+          "answer": true,
+          "explanation": "Adding a constant shifts every value equally, leaving deviations unchanged. Multiplying by b multiplies the SD by abs(b)."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q11",
+          "type": "multi",
+          "prompt": "Which of the following are relative (unit-free) measures of dispersion? (Select all that apply.)",
+          "options": [
+            "Coefficient of variation",
+            "Coefficient of quartile deviation",
+            "Coefficient of range",
+            "Standard deviation"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Coefficients are ratios and have no units, so they compare series measured in different units. Standard deviation is in the same units as the data."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: the harmonic mean of 4 and 6 is ___ (give the decimal value).",
+          "accept": [
+            "4.8"
+          ],
+          "explanation": "HM = 2ab/(a + b) = 2 × 4 × 6/10 = 4.8. Check: AM = 5, GM = √24 = 4.899, and GM² = 24 = 5 × 4.8."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q13",
+          "type": "numeric",
+          "prompt": "Find the coefficient of variation of 4, 8, 6, 10, 12, as a % to 2 decimals.",
+          "answer": 35.36,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "Mean = 40/5 = 8.\n\n| x | x - 8 | (x - 8)² |\n| --- | --- | --- |\n| 4 | -4 | 16 |\n| 8 | 0 | 0 |\n| 6 | -2 | 4 |\n| 10 | 2 | 4 |\n| 12 | 4 | 16 |\n| Total | 0 | 40 |\n\nVariance = 40/5 = 8, σ = 2.8284. CV = 2.8284/8 × 100 = 35.36%."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q14",
+          "type": "numeric",
+          "prompt": "Group A has 40 items with mean 50 and SD 6; group B has 60 items with mean 60 and SD 8. Find the combined standard deviation, to 2 decimals.",
+          "answer": 8.76,
+          "tolerance": 0.01,
+          "explanation": "Combined mean = 56. d₁ = 50 - 56 = -6, d₂ = 60 - 56 = 4.\n\n| Group | n | σ² + d² | n(σ² + d²) |\n| --- | --- | --- | --- |\n| A | 40 | 36 + 36 = 72 | 2,880 |\n| B | 60 | 64 + 16 = 80 | 4,800 |\n| Total | 100 | | 7,680 |\n\nσ = √(7,680/100) = √76.8 = 8.76."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q15",
+          "type": "numeric",
+          "prompt": "For a distribution, Q₁ = 20 and Q₃ = 40. Find the coefficient of quartile deviation, to 4 decimals.",
+          "answer": 0.3333,
+          "tolerance": 0.0001,
+          "explanation": "Coefficient of QD = (Q₃ - Q₁)/(Q₃ + Q₁) = 20/60 = 0.3333. The quartile deviation itself is (40 - 20)/2 = 10."
+        },
+        {
+          "id": "ca-f-quant-11-statistics-central-tendency-dispersion-q16",
+          "type": "interview",
+          "prompt": "Compare mean, median and mode: when is each the most suitable average?",
+          "top": true,
+          "answer": "- Mean uses every observation and suits further algebra (combined mean, SD), but extreme values distort it. Use it for symmetric data such as marks or heights.\n- Median depends only on position, so it resists outliers and works with open-ended classes. Use it for skewed data such as incomes or property prices.\n- Mode is the most frequent value; it suits qualitative data and questions like the most common shoe size, but can be ill-defined or multiple.\n- In a symmetric distribution all three coincide; in a moderately skewed one, Mode ≈ 3 Median - 2 Mean.\n- Graphically, the median comes from an ogive and the mode from a histogram."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-quant-12-probability-distributions-correlation-index",
+      "title": "Probability, Theoretical Distributions, Correlation and Regression, Index Numbers",
+      "level": "advanced",
+      "summary": "Apply probability rules and expectation, use binomial, Poisson and normal distributions, measure correlation, fit regression lines and construct index numbers.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Probability and expectation",
+          "body": "P(A) = favourable outcomes/total equally likely outcomes, so 0 ≤ P(A) ≤ 1.\n\n| Rule | Formula |\n| --- | --- |\n| Addition | P(A ∪ B) = P(A) + P(B) - P(A ∩ B) |\n| Complement | P(A') = 1 - P(A) |\n| Conditional | P(A/B) = P(A ∩ B)/P(B) |\n| Independence | P(A ∩ B) = P(A) × P(B) |\n| Expectation | E(X) = Σ x p(x) |\n| Variance | V(X) = E(X²) - [E(X)]² |\n\nExamples:\n\n- Two dice, sum 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) = 6/36 = 1/6.\n- At least one head in 3 tosses = 1 - (1/2)³ = 7/8.\n- King or heart from a pack of 52: 4/52 + 13/52 - 1/52 = 16/52 = 4/13.\n- X = 1, 2, 3 with probabilities 0.2, 0.5, 0.3: E(X) = 0.2 + 1.0 + 0.9 = 2.1; E(X²) = 0.2 + 2.0 + 2.7 = 4.9; V(X) = 4.9 - 4.41 = 0.49.\n\nMutually exclusive events cannot occur together (P(A ∩ B) = 0); independent events do not affect each other's probability. Do not confuse the two."
+        },
+        {
+          "heading": "Theoretical distributions",
+          "body": "| Distribution | P(X = x) | Mean | Variance | Notes |\n| --- | --- | --- | --- | --- |\n| Binomial | ⁿCₓ pˣ qⁿ⁻ˣ | np | npq | Fixed n trials, two outcomes; variance < mean |\n| Poisson | e⁻ᵐ mˣ/x! | m | m | Rare events, n large, p small; mean = variance |\n| Normal | Bell-shaped, continuous | μ | σ² | Symmetric; mean = median = mode |\n\nExamples:\n\n- Binomial with n = 5, p = 0.4: P(X = 2) = 10 × 0.16 × 0.216 = 0.3456.\n- Binomial with mean 4 and variance 3: q = 3/4, p = 1/4, n = 16.\n- Poisson with m = 2: P(X = 0) = e⁻² = 0.1353; P(X ≤ 1) = 3e⁻² = 0.4060.\n\n**Normal distribution:** z = (X - μ)/σ. Areas: μ ± σ covers 68.27%, μ ± 2σ covers 95.45%, μ ± 3σ covers 99.73%. With μ = 50 and σ = 10, P(X > 70) = P(z > 2) = 0.5 - 0.4772 = 0.0228. QD ≈ 0.6745σ and MD ≈ 0.7979σ (about 2/3 σ and 4/5 σ). Quartiles are μ ± 0.6745σ."
+        },
+        {
+          "heading": "Correlation and regression",
+          "body": "**Karl Pearson's coefficient:** r = Σ(x - x̄)(y - ȳ)/√[Σ(x - x̄)² Σ(y - ȳ)²], with -1 ≤ r ≤ 1. It is unaffected by change of origin and scale (except sign when one scale factor is negative).\n\n**Spearman's rank correlation:** R = 1 - 6Σd²/[n(n² - 1)]. With n = 5 and Σd² = 8: R = 1 - 48/120 = 0.6.\n\n**Regression:**\n\n- y on x: y - ȳ = byx (x - x̄), with byx = r σy/σx.\n- x on y: x - x̄ = bxy (y - ȳ), with bxy = r σx/σy.\n- r = ±√(byx × bxy), taking the common sign of the coefficients. byx = 0.8 and bxy = 0.45 give r = 0.6.\n- Both lines pass through (x̄, ȳ), so solving the two regression equations gives the means. x + 2y = 5 and 2x + 3y = 8 give x̄ = 1, ȳ = 2.\n- Both coefficients cannot exceed 1 together, since their product r² ≤ 1.\n- **Probable error** of r = 0.6745 (1 - r²)/√n."
+        },
+        {
+          "heading": "Index numbers",
+          "body": "| Index | Price formula (× 100) |\n| --- | --- |\n| Laspeyres | Σp₁q₀/Σp₀q₀ (base-year quantities) |\n| Paasche | Σp₁q₁/Σp₀q₁ (current-year quantities) |\n| Fisher's ideal | √(Laspeyres × Paasche) |\n| Simple aggregative | Σp₁/Σp₀ |\n\n**Tests:** Fisher's index satisfies both the **time reversal test** (P₀₁ × P₁₀ = 1) and the **factor reversal test** (P₀₁ × Q₀₁ = Σp₁q₁/Σp₀q₀), which is why it is called ideal. Laspeyres and Paasche satisfy neither. The **circular test** is met by the simple aggregative index and a fixed-weight aggregative index, not by Fisher's.\n\n**Uses:** deflating (real wage = money wage/CPI × 100), splicing two series, and shifting the base (new index = old index/old index of new base year × 100). A money wage of ₹ 30,000 with CPI 150 is a real wage of ₹ 20,000."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Adding probabilities of overlapping events without subtracting the intersection.\n- Using npq as the binomial SD; the SD is √(npq).\n- Reading a normal table as tail area when it gives area from the mean to z.\n- Giving r the wrong sign: it takes the sign of byx and bxy.\n- Swapping q₀ and q₁ between Laspeyres and Paasche."
+        }
+      ],
+      "keyPoints": [
+        "P(A ∪ B) = P(A) + P(B) - P(A ∩ B); independent means P(A ∩ B) = P(A)P(B).",
+        "Binomial: mean np, variance npq; Poisson: mean = variance = m; normal: mean = median = mode.",
+        "Normal areas: μ ± σ = 68.27%, μ ± 2σ = 95.45%, μ ± 3σ = 99.73%.",
+        "Spearman R = 1 - 6Σd²/[n(n² - 1)]; r = ±√(byx × bxy).",
+        "Regression lines intersect at (x̄, ȳ).",
+        "Laspeyres uses q₀, Paasche q₁; Fisher = √(L × P) satisfies time reversal and factor reversal tests.",
+        "Real wage = money wage/price index × 100."
+      ],
+      "cases": [
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-case1",
+          "title": "Case: Price index for a canteen basket",
+          "body": "A company canteen tracks prices (₹ per unit) and quantities of two items for the base year 0 and current year 1:\n\n| Item | p₀ | q₀ | p₁ | q₁ |\n| --- | --- | --- | --- | --- |\n| Rice | 10 | 5 | 12 | 6 |\n| Pulses | 8 | 10 | 10 | 8 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q01",
+          "type": "numeric",
+          "caseId": "ca-f-quant-12-probability-distributions-correlation-index-case1",
+          "prompt": "Compute Laspeyres' price index, to 2 decimals.",
+          "answer": 123.08,
+          "tolerance": 0.01,
+          "explanation": "| Item | p₁q₀ | p₀q₀ |\n| --- | --- | --- |\n| Rice | 60 | 50 |\n| Pulses | 100 | 80 |\n| Total | 160 | 130 |\n\nLaspeyres = 160/130 × 100 = 123.08."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q02",
+          "type": "numeric",
+          "caseId": "ca-f-quant-12-probability-distributions-correlation-index-case1",
+          "prompt": "Compute Paasche's price index, to 2 decimals.",
+          "answer": 122.58,
+          "tolerance": 0.01,
+          "explanation": "| Item | p₁q₁ | p₀q₁ |\n| --- | --- | --- |\n| Rice | 72 | 60 |\n| Pulses | 80 | 64 |\n| Total | 152 | 124 |\n\nPaasche = 152/124 × 100 = 122.58."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q03",
+          "type": "numeric",
+          "caseId": "ca-f-quant-12-probability-distributions-correlation-index-case1",
+          "prompt": "Compute Fisher's ideal price index, to 2 decimals.",
+          "answer": 122.83,
+          "tolerance": 0.01,
+          "explanation": "Fisher = √(123.0769 × 122.5806) = 122.83. It lies between the Laspeyres and Paasche values."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q04",
+          "type": "mcq",
+          "prompt": "A card is drawn from a well-shuffled pack of 52. The probability that it is a king or a heart is:",
+          "options": [
+            "4/13",
+            "17/52",
+            "1/52",
+            "1/4"
+          ],
+          "answer": 0,
+          "explanation": "P(K) + P(H) - P(K and H) = 4/52 + 13/52 - 1/52 = 16/52 = 4/13. 17/52 forgets to remove the king of hearts counted twice."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q05",
+          "type": "mcq",
+          "prompt": "P(A) = 0.5, P(B) = 0.4 and P(A ∩ B) = 0.2. Which statement is correct?",
+          "options": [
+            "A and B are independent",
+            "A and B are mutually exclusive",
+            "P(A/B) = 0.4",
+            "P(A ∪ B) = 0.9"
+          ],
+          "answer": 0,
+          "explanation": "P(A) × P(B) = 0.2 = P(A ∩ B), so they are independent. P(A/B) = 0.2/0.4 = 0.5, P(A ∪ B) = 0.7, and they are not mutually exclusive because the intersection is non-zero."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q06",
+          "type": "mcq",
+          "prompt": "A binomial distribution has mean 4 and variance 3. The number of trials n is:",
+          "options": [
+            "16",
+            "12",
+            "8",
+            "7"
+          ],
+          "answer": 0,
+          "explanation": "q = variance/mean = 3/4, so p = 1/4 and n = mean/p = 4/(1/4) = 16."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q07",
+          "type": "mcq",
+          "prompt": "The two regression lines are x + 2y = 5 and 2x + 3y = 8. The means of x and y are:",
+          "options": [
+            "x̄ = 1, ȳ = 2",
+            "x̄ = 2, ȳ = 1",
+            "x̄ = 3, ȳ = 1",
+            "x̄ = 1, ȳ = 3"
+          ],
+          "answer": 0,
+          "explanation": "Both lines pass through (x̄, ȳ). From the first, x = 5 - 2y; substituting: 10 - 4y + 3y = 8, so y = 2 and x = 1."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q08",
+          "type": "mcq",
+          "prompt": "If byx = 0.8 and bxy = 0.45, the coefficient of correlation r is:",
+          "options": [
+            "0.6",
+            "0.36",
+            "-0.6",
+            "1.25"
+          ],
+          "answer": 0,
+          "explanation": "r = √(0.8 × 0.45) = √0.36 = 0.6, positive because both regression coefficients are positive."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q09",
+          "type": "truefalse",
+          "prompt": "In a Poisson distribution, the mean and the variance are equal.",
+          "answer": true,
+          "explanation": "Both equal the parameter m. In a binomial distribution the variance npq is less than the mean np."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q10",
+          "type": "multi",
+          "prompt": "Which statements about the normal distribution are correct? (Select all that apply.)",
+          "options": [
+            "Mean, median and mode are equal",
+            "About 68.27% of values lie within μ ± σ",
+            "The curve is symmetric about the mean",
+            "Its variance always equals its mean"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "The normal curve is symmetric and bell-shaped, so the three averages coincide, and μ ± σ covers 68.27%. Mean = variance is a property of the Poisson distribution."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: in Spearman's rank correlation with n = 5 and Σd² = 8, R = ___ (decimal).",
+          "accept": [
+            "0.6",
+            ".6"
+          ],
+          "explanation": "R = 1 - 6 × 8/[5(25 - 1)] = 1 - 48/120 = 0.6."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q12",
+          "type": "numeric",
+          "prompt": "X follows a binomial distribution with n = 5 and p = 0.4. Find P(X = 2), to 4 decimals.",
+          "answer": 0.3456,
+          "tolerance": 0.0001,
+          "explanation": "P(X = 2) = ⁵C₂ (0.4)² (0.6)³ = 10 × 0.16 × 0.216 = 0.3456."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q13",
+          "type": "numeric",
+          "prompt": "X follows a Poisson distribution with mean 2. Find P(X ≤ 1), to 4 decimals (take e⁻² = 0.1353).",
+          "answer": 0.406,
+          "tolerance": 0.0002,
+          "explanation": "P(0) + P(1) = e⁻² + 2e⁻² = 3e⁻² = 3 × 0.1353 = 0.4059 (0.4060 with the unrounded e⁻² = 0.135335)."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q14",
+          "type": "numeric",
+          "prompt": "Find Karl Pearson's coefficient of correlation for x: 1, 2, 3, 4, 5 and y: 2, 4, 5, 4, 5. Round to 4 decimals.",
+          "answer": 0.7746,
+          "tolerance": 0.0001,
+          "explanation": "x̄ = 3, ȳ = 4.\n\n| x - 3 | y - 4 | product | (x - 3)² | (y - 4)² |\n| --- | --- | --- | --- | --- |\n| -2 | -2 | 4 | 4 | 4 |\n| -1 | 0 | 0 | 1 | 0 |\n| 0 | 1 | 0 | 0 | 1 |\n| 1 | 0 | 0 | 1 | 0 |\n| 2 | 1 | 2 | 4 | 1 |\n| Total | | 6 | 10 | 6 |\n\nr = 6/√(10 × 6) = 6/√60 = 0.7746."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q15",
+          "type": "numeric",
+          "prompt": "Marks are normally distributed with mean 50 and SD 10. Find the probability that a student scores above 70, to 4 decimals (area from 0 to z = 2 is 0.4772).",
+          "answer": 0.0228,
+          "tolerance": 0.0001,
+          "explanation": "z = (70 - 50)/10 = 2. P(z > 2) = 0.5 - 0.4772 = 0.0228."
+        },
+        {
+          "id": "ca-f-quant-12-probability-distributions-correlation-index-q16",
+          "type": "interview",
+          "prompt": "Explain why Fisher's index is called the ideal index, and how the time reversal and factor reversal tests are applied.",
+          "top": true,
+          "answer": "- Fisher's index is the geometric mean of Laspeyres (base-year quantity weights) and Paasche (current-year quantity weights), so it balances the upward bias of Laspeyres and the downward bias of Paasche.\n- Time reversal test: the index from year 0 to 1 multiplied by the index from year 1 to 0 should equal 1 (ignoring the factor 100). Fisher passes; Laspeyres and Paasche do not.\n- Factor reversal test: price index × quantity index should equal the value ratio Σp₁q₁/Σp₀q₀. Fisher passes because the square roots combine to the value ratio.\n- Fisher does not satisfy the circular test, and it needs quantity data for both years, which is its practical drawback."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Foundation study material",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import { PracticePlayer, type PracticeItem } from "@/components/practice-player";
 import { useProgress } from "@/components/progress-provider";
+import { programOfId, progressProgram } from "@/lib/catalog";
 import type { LocatedQuestion } from "@/lib/types";
 
 const MAX = 15;
@@ -16,7 +17,8 @@ export default function ReviewSessionPage() {
   useEffect(() => {
     if (!ready || items) return;
     // Take the snapshot once; answering updates the mistakes list while the session runs.
-    const ids = progress.mistakes.slice(-MAX);
+    const program = progressProgram(progress);
+    const ids = progress.mistakes.filter((id) => programOfId(id) === program).slice(-MAX);
     if (!ids.length) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- nothing to fetch
       setItems([]);
@@ -26,7 +28,7 @@ export default function ReviewSessionPage() {
       .then((r) => r.json())
       .then((d: { questions: LocatedQuestion[] }) => setItems(d.questions.map((q) => ({ question: q.question, context: q.chapterTitle }))))
       .catch(() => setItems([]));
-  }, [ready, items, progress.mistakes]);
+  }, [ready, items, progress]);
 
   if (!items) return <div className="result">Loading your review...</div>;
   if (!items.length)

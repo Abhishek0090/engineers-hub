@@ -1,0 +1,2014 @@
+{
+  "id": "ca-i-fm",
+  "title": "Financial Management (Inter P6A)",
+  "area": "ca-inter",
+  "order": 116,
+  "icon": "FM",
+  "color": "#059669",
+  "description": "CA Intermediate Paper 6A (ICAI new scheme): the investment, financing, dividend and working capital decisions, with exam-format computations for cost of capital, leverage, capital structure, capital budgeting and working capital. For attempts from May 2027.",
+  "chapters": [
+    {
+      "id": "ca-i-fm-01-scope",
+      "title": "Scope and Objectives of Financial Management",
+      "level": "beginner",
+      "summary": "What financial management covers, the three finance decisions, wealth maximisation versus profit maximisation, the role of the finance manager and the agency problem.",
+      "estMinutes": 30,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Meaning and scope: the three finance decisions",
+          "body": "Financial management is the planning, organising, directing and controlling of a firm's financial resources so that funds are raised at the lowest cost and used where they earn the most. Every topic in this paper sits under one of three decisions:\n\n| Decision | Question it answers | Chapters in this paper |\n| --- | --- | --- |\n| **Investment decision** | Where should funds be invested (long-term assets and working capital)? | Capital budgeting, working capital management |\n| **Financing decision** | From which sources, and in what mix, should funds be raised? | Types of financing, cost of capital, capital structure, leverages |\n| **Dividend decision** | How much of the profit should be paid out and how much retained? | Dividend decision |\n\nThe three decisions are interdependent. A project accepted (investment) needs funds (financing), and retaining profits to fund it reduces the dividend (dividend decision). A good answer in the exam always shows this link.\n\nThe **traditional approach** saw finance only as raising funds for occasional events such as promotion, merger or reorganisation. The **modern approach** treats financial management as a continuous part of decision making: how much to raise, from where, and how to allocate it."
+        },
+        {
+          "heading": "Objectives: profit maximisation versus wealth maximisation",
+          "body": "**Profit maximisation** says the firm should choose actions that increase profit. It is simple, but it has three problems that ICAI expects you to state:\n\n- **Ambiguity**: \"profit\" can mean gross profit, PBT, PAT, EPS, short-term or long-term profit.\n- **Ignores timing (time value of money)**: ₹1 of profit next year is treated the same as ₹1 in five years.\n- **Ignores risk**: two projects with equal expected profit but very different risk look identical.\n\n**Wealth (value) maximisation** says the firm should maximise the present value of the shareholders' wealth, seen in the **market price of the equity share**. It uses cash flows, discounts them at a rate that reflects risk, and so captures both timing and risk. A decision with a positive **NPV** adds to wealth.\n\n| Basis | Profit maximisation | Wealth maximisation |\n| --- | --- | --- |\n| Measure | Accounting profit / EPS | Market value of share (PV of cash flows) |\n| Time value of money | Ignored | Considered (discounting) |\n| Risk | Ignored | Considered (risk-adjusted discount rate) |\n| Horizon | Often short term | Long term |\n| Status | Traditional, narrow objective | Accepted objective of modern FM |\n\nProfit is still useful: it is a measure of operating efficiency, and over the long run profits feed the cash flows that create value. The point is that profit is not the right **decision criterion**."
+        },
+        {
+          "heading": "Worked example: the two objectives can disagree",
+          "body": "Project A returns ₹11,00,000 at the end of year 3. Project B returns ₹3,50,000 at the end of each of years 1 to 3 (total ₹10,50,000). Both cost the same. Cost of capital 10%; PV factors at 10%: 0.909, 0.826, 0.751.\n\n| Project | Total profit (₹) | PV working | PV (₹) |\n| --- | --- | --- | --- |\n| A | 11,00,000 | 11,00,000 x 0.751 | 8,26,100 |\n| B | 10,50,000 | 3,50,000 x (0.909 + 0.826 + 0.751) = 3,50,000 x 2.486 | 8,70,100 |\n\nProfit maximisation picks A (higher total profit). Wealth maximisation picks **B**, because its cash comes in earlier and is worth ₹44,000 more today. This is the standard illustration of why timing matters."
+        },
+        {
+          "heading": "Role of the finance manager and the agency problem",
+          "body": "The finance manager (CFO) estimates fund requirements, chooses the capital structure, evaluates investments, manages working capital and cash, decides dividend policy with the board, handles banks and investors, and ensures compliance and risk management. The modern CFO is also a strategic partner in planning, mergers and performance measurement.\n\n**Finance vs accounting**: accounting records and reports what happened (accrual basis); finance uses that data to take decisions about the future (cash flow basis). Accounting is an input to finance.\n\n**Agency problem**: shareholders (principals) appoint managers (agents) who may pursue their own goals, such as perks, empire building, short-term profit for bonuses, or avoiding risky but valuable projects. The costs of this conflict are **agency costs**:\n\n- **Monitoring costs**: audit, board oversight, reporting.\n- **Bonding costs**: costs managers bear to assure owners, such as contracts that restrict their actions.\n- **Opportunity costs**: value lost because managers avoid good but risky projects.\n- **Structuring costs**: designing compensation that aligns interests.\n\nRemedies include performance-linked pay tied to share value (ESOPs, stock options), independent directors and audit committees, the threat of takeover, and clear disclosure."
+        },
+        {
+          "heading": "Common mistakes in the exam",
+          "body": "- Writing that profit maximisation and wealth maximisation always give the same answer. They differ whenever timing or risk differ.\n- Calling wealth maximisation \"maximising profit of the company\". It is the value of the **shareholders'** stake, seen in the share price.\n- Listing only two decisions. State all three (investment, financing, dividend) and show their interdependence; some texts add the liquidity (working capital) decision under investment.\n- Confusing agency cost with interest cost. Interest is the price of debt, not an agency cost."
+        }
+      ],
+      "keyPoints": [
+        "Three decisions: investment (where to invest), financing (where to raise funds and in what mix), dividend (pay out or retain). They are interdependent.",
+        "Profit maximisation fails on ambiguity, time value of money and risk.",
+        "Wealth maximisation = maximise the PV of shareholders' wealth, seen in the market price of the share; positive-NPV decisions add wealth.",
+        "Traditional approach: finance = raising funds for episodic events. Modern approach: raising and allocating funds as a continuous decision process.",
+        "Agency costs: monitoring, bonding, opportunity and structuring costs. Remedies: ESOPs, independent board oversight, takeover threat, disclosure.",
+        "Accounting records the past on an accrual basis; finance decides the future on a cash flow basis."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-fm-01-scope-case1",
+          "title": "Case: Kavya Textiles Ltd",
+          "body": "Kavya Textiles Ltd has ₹9,00,000 to invest and must choose one of two mutually exclusive projects with the same risk. Its cost of capital is 12%.\n\n| Year | Project X cash inflow (₹) | Project Y cash inflow (₹) |\n| --- | --- | --- |\n| 1 | 4,00,000 | Nil |\n| 2 | 4,00,000 | Nil |\n| 3 | 4,00,000 | 13,00,000 |\n\nPV factors at 12%: year 1 0.893, year 2 0.797, year 3 0.712.\n\nThe managing director earns an annual bonus of 2% of reported profit and has argued for Project Y \"because it gives ₹1,00,000 more profit\". The board is also debating whether to raise ₹20 crore for a new plant through debentures or a rights issue, and whether to cut the dividend payout from 40% to 25% to retain funds."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-fm-01-scope-q01",
+          "type": "numeric",
+          "caseId": "ca-i-fm-01-scope-case1",
+          "prompt": "Compute the NPV of Project X using the PV factors given. Round to the nearest rupee.",
+          "answer": 60800,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| PV of inflows: 4,00,000 x (0.893 + 0.797 + 0.712) = 4,00,000 x 2.402 | 9,60,800 |\n| Less: Outlay | (9,00,000) |\n| **NPV** | **60,800** |\n\nAn equal annual inflow is discounted with the sum of the PV factors (annuity factor)."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q02",
+          "type": "numeric",
+          "caseId": "ca-i-fm-01-scope-case1",
+          "prompt": "Compute the NPV of Project Y using the PV factors given. Round to the nearest rupee.",
+          "answer": 25600,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| PV of inflow: 13,00,000 x 0.712 | 9,25,600 |\n| Less: Outlay | (9,00,000) |\n| **NPV** | **25,600** |\n\nY has more total profit (₹13,00,000 vs ₹12,00,000) but a lower NPV because all its cash arrives in year 3."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q03",
+          "type": "mcq",
+          "caseId": "ca-i-fm-01-scope-case1",
+          "prompt": "Which project should the board choose, and which objective of financial management supports that choice?",
+          "options": [
+            "Project X, because wealth maximisation considers the timing of cash flows",
+            "Project Y, because profit maximisation gives the larger total profit",
+            "Project Y, because wealth maximisation favours the larger cash inflow",
+            "Either project, because both have a positive NPV and the same risk"
+          ],
+          "answer": 0,
+          "explanation": "X has the higher NPV (₹60,800 vs ₹25,600). Wealth maximisation discounts cash flows, so earlier inflows count for more. Mutually exclusive projects are ranked by NPV; both being positive does not make them equal."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q04",
+          "type": "mcq",
+          "caseId": "ca-i-fm-01-scope-case1",
+          "prompt": "The managing director's preference for Project Y is best described as:",
+          "options": [
+            "An agency problem caused by a bonus linked to reported profit",
+            "A financing decision based on the cost of capital",
+            "A correct application of wealth maximisation",
+            "A liquidity problem arising from working capital"
+          ],
+          "answer": 0,
+          "explanation": "The agent (MD) is paid on profit, so he prefers the project with more reported profit even though it creates less value for the principals (shareholders). Linking pay to share value, for example through ESOPs, is the usual remedy."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q05",
+          "type": "mcq",
+          "caseId": "ca-i-fm-01-scope-case1",
+          "prompt": "The board's choice between debentures and a rights issue for the ₹20 crore plant, and its choice to cut the payout to 25%, are respectively:",
+          "options": [
+            "A financing decision and a dividend decision",
+            "An investment decision and a financing decision",
+            "A dividend decision and an investment decision",
+            "A financing decision and an investment decision"
+          ],
+          "answer": 0,
+          "explanation": "Choosing the source and mix of funds is the financing decision. Deciding how much profit to distribute versus retain is the dividend decision. Building the plant itself is the investment decision."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q06",
+          "type": "mcq",
+          "prompt": "Which is NOT a valid criticism of profit maximisation as the objective of a firm?",
+          "options": [
+            "It ignores the time value of money",
+            "It ignores the risk of the expected returns",
+            "The term profit is vague and open to different meanings",
+            "It ignores the interests of equity shareholders by focusing on market value"
+          ],
+          "answer": 3,
+          "explanation": "The first three are the standard criticisms. Focusing on market value is a feature of wealth maximisation, and it serves equity shareholders, so the last statement is not a criticism of profit maximisation."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q07",
+          "type": "mcq",
+          "prompt": "Under wealth maximisation, the best single indicator of shareholders' wealth for a listed company is:",
+          "options": [
+            "Market price per equity share",
+            "Earnings per share",
+            "Book value per share",
+            "Total sales revenue"
+          ],
+          "answer": 0,
+          "explanation": "Wealth maximisation aims at the present value of the owners' stake, which the market reflects in the share price. EPS and book value are accounting figures that ignore timing and risk."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q08",
+          "type": "mcq",
+          "prompt": "The traditional approach to the finance function was mainly concerned with:",
+          "options": [
+            "Procurement of funds for episodic events such as promotion, expansion or merger",
+            "Allocation of funds among competing projects using NPV",
+            "Working capital management on a day-to-day basis",
+            "Designing the dividend policy to maximise share price"
+          ],
+          "answer": 0,
+          "explanation": "The traditional approach saw finance as raising funds, mostly for one-off events, from the viewpoint of outside lenders. Allocation and day-to-day decisions belong to the modern approach."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q09",
+          "type": "truefalse",
+          "prompt": "In the modern approach, the finance manager's job ends once the required funds have been raised.",
+          "answer": false,
+          "explanation": "The modern approach covers both raising funds and allocating them efficiently (investment, financing and dividend decisions) as a continuous process."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q10",
+          "type": "truefalse",
+          "prompt": "Monitoring costs, such as the cost of audit and board oversight of managers, are a form of agency cost.",
+          "answer": true,
+          "explanation": "Agency costs arise because owners must check that agents act in their interest. Monitoring, bonding, opportunity and structuring costs are the usual categories."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q11",
+          "type": "multi",
+          "prompt": "Select all items that are agency costs.",
+          "options": [
+            "Cost of an independent audit committee reviewing management",
+            "Cost of designing an ESOP to align managers with shareholders",
+            "Value lost when managers reject a risky but positive-NPV project",
+            "Interest paid to debenture holders",
+            "Depreciation on plant and machinery"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Monitoring (audit committee), structuring (ESOP design) and opportunity costs (rejected good projects) arise from the principal-agent conflict. Interest is the cost of debt finance and depreciation is an accounting allocation; neither is caused by the agency relationship."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: the decision about how much of the earnings to distribute and how much to retain is called the ___ decision.",
+          "accept": [
+            "dividend",
+            "dividend decision",
+            "dividend policy"
+          ],
+          "explanation": "The dividend decision splits profit between payout and retention. It is linked to the financing decision because retained earnings are an internal source of funds."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q13",
+          "type": "interview",
+          "top": true,
+          "prompt": "Distinguish between profit maximisation and wealth maximisation. Why is wealth maximisation regarded as the better objective?",
+          "answer": "- Profit maximisation aims at the largest accounting profit; wealth maximisation aims at the largest present value of shareholders' wealth, seen in the market price of the share.\n- Profit maximisation is ambiguous (which profit?), ignores the time value of money and ignores risk.\n- Wealth maximisation uses cash flows, discounts them at a risk-adjusted rate, and so considers timing and risk. Positive-NPV decisions increase wealth.\n- It takes a long-term view and serves the owners whose capital is at risk.\n- Conclusion: wealth maximisation is the accepted objective; profit remains a useful measure of efficiency but not the decision criterion."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q14",
+          "type": "interview",
+          "prompt": "What is the agency problem in a company? Explain the types of agency costs and how they can be reduced.",
+          "answer": "- Shareholders (principals) delegate decisions to managers (agents), whose interests may differ: perks, empire building, short-term profit for bonuses, excessive risk aversion.\n- Agency costs: monitoring costs (audit, board oversight), bonding costs (contracts restricting managers), opportunity costs (value lost from avoided good projects) and structuring costs (designing aligned compensation).\n- Remedies: pay linked to long-term share value (ESOPs, stock options), independent directors and audit committees, transparent disclosure, and the market for corporate control (takeover threat).\n- Fully removing the conflict is not possible; the aim is to reduce it at reasonable cost."
+        },
+        {
+          "id": "ca-i-fm-01-scope-q15",
+          "type": "interview",
+          "prompt": "Explain the role of the finance manager (CFO) in a modern company and distinguish finance from accounting.",
+          "answer": "- Role: estimate fund requirements, decide the capital structure and sources, evaluate investment proposals (capital budgeting), manage working capital and cash, recommend dividend policy, deal with banks and investors, manage financial risk and ensure compliance.\n- The modern CFO is a strategic partner in planning, mergers and performance measurement, not only a fund raiser.\n- Accounting records and reports past transactions on an accrual basis and gives data.\n- Finance uses that data to take future decisions on a cash flow basis, considering risk and return.\n- The two are closely linked: accounting output is the input for financial decisions."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Intermediate study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: official website",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-fm-02-financing",
+      "title": "Types of Financing",
+      "level": "beginner",
+      "summary": "Long, medium and short-term sources of finance, owned and borrowed funds, modern instruments, venture capital, lease and international sources, with rights issue and trade credit computations.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Classifying sources of finance",
+          "body": "ICAI classifies sources in three ways. Learn the table; exam MCQs often ask which category an item falls in.\n\n| Basis | Categories | Examples |\n| --- | --- | --- |\n| Period | Long term (over 5 years), medium term (1-5 years), short term (up to 1 year) | Equity, debentures; term loans, lease; trade credit, overdraft, CP |\n| Ownership | Owned (owners' funds), borrowed (loan funds) | Equity, retained earnings; debentures, bank loans, public deposits |\n| Source of generation | Internal, external | Retained earnings, depreciation provision; shares, loans, trade credit |\n\nThe right source matches the use: long-term assets with long-term funds, seasonal needs with short-term funds. Using short-term borrowing to buy plant creates refinancing and liquidity risk."
+        },
+        {
+          "heading": "Long and medium-term sources",
+          "body": "- **Equity shares**: permanent capital, no fixed charge, voting rights, highest cost (highest risk to investor), dilutes control.\n- **Preference shares**: fixed dividend, priority over equity on dividend and in winding up; cumulative, convertible, redeemable and participating variants. Dividend is not tax-deductible.\n- **Retained earnings**: internal source, no flotation cost, no dilution, but carries an **opportunity cost** (the return shareholders could earn elsewhere).\n- **Debentures / bonds**: fixed interest, tax-deductible, no dilution, but a fixed burden and often secured. Variants: convertible (fully or partly), non-convertible, **zero coupon bonds** (no periodic interest, issued at a discount, redeemed at face value), **deep discount bonds** (issued at a large discount, long maturity), floating rate bonds, callable and puttable bonds.\n- **Term loans** from banks and financial institutions: usually 3-10 years, secured, with covenants.\n- **Lease financing**: **finance lease** (long, non-cancellable, risks and rewards pass to lessee) vs **operating lease** (short, cancellable, lessor bears obsolescence risk). **Sale and leaseback**: the firm sells an asset it owns to a lessor and leases it back, raising cash while keeping use of the asset.\n- **Venture capital**: equity-type finance for new, high-risk ventures. Stages: seed, start-up, second round (early growth), later stage/expansion, mezzanine or bridge, and buyouts. Methods: equity, **conditional loan** (repaid as royalty on sales once the venture earns), **income note** (low interest plus royalty) and participating debentures.\n- **International sources**: external commercial borrowings (ECB, under RBI's ECB framework), **ADR/GDR** (depository receipts representing Indian shares, traded abroad), **FCCB** (foreign currency convertible bonds), **masala bonds** (rupee-denominated bonds issued outside India, so the foreign investor bears currency risk)."
+        },
+        {
+          "heading": "Short-term sources",
+          "body": "| Source | What it is | Exam point |\n| --- | --- | --- |\n| Trade credit | Supplier allows payment after a credit period | Free if no cash discount is offered; costly if a discount is forgone |\n| Bank finance | Cash credit, overdraft, bill discounting, working capital demand loan | Interest only on amount used (cash credit/overdraft) |\n| Commercial paper (CP) | Unsecured short-term promissory note issued at a discount by creditworthy companies | Money market instrument; cheaper than bank credit for strong borrowers |\n| Certificate of deposit (CD) | Negotiable time deposit issued by banks | Raises funds for banks, not companies |\n| Factoring | Sale of receivables to a factor who collects them, with or without recourse | Gives cash plus credit administration; with recourse means the client bears bad debts |\n| Inter-corporate deposits | Short-term deposits between companies | Unsecured, quick, rate depends on lender's view |\n| Advances from customers | Money received before supply | Common in made-to-order businesses |"
+        },
+        {
+          "heading": "Worked examples: rights issue and cost of forgoing a cash discount",
+          "body": "**Rights issue.** A company has 10,00,000 shares quoted at ₹150 (cum-rights). It offers 1 new share for every 4 held at ₹110.\n\n| Step | Working | Result |\n| --- | --- | --- |\n| Theoretical ex-rights price (TERP) | (10,00,000 x 150 + 2,50,000 x 110) / 12,50,000 | ₹142 |\n| Value of a right per existing share | 150 - 142, or (142 - 110) / 4 | ₹8 |\n\nFormula: **TERP = (N x Cum-rights price + S) / (N + 1)** where N = shares needed for one new share and S = subscription price. Value of right = (TERP - S) / N.\n\n**Cost of forgoing a cash discount.** Terms \"2/10, net 40\" mean 2% discount if paid in 10 days, otherwise full amount in 40 days. Not taking the discount means paying ₹2 extra on ₹98 for 30 more days:\n\n**Annualised cost = d / (100 - d) x 365 / (credit period - discount period)** = 2/98 x 365/30 = **24.83%**.\n\nIf the firm can borrow below this rate, it should borrow and take the discount."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Treating retained earnings as free. They have an opportunity cost equal to the shareholders' required return.\n- Using 100 instead of (100 - d) in the denominator of the cash discount formula. The buyer only pays 98 if it takes the discount.\n- Dividing the value of a right by (N + 1) instead of N.\n- Mixing up finance and operating leases: in a finance lease the lessee bears the risks and rewards of ownership.\n- Calling factoring a loan. It is a sale of receivables; with recourse, the bad debt risk stays with the seller."
+        }
+      ],
+      "keyPoints": [
+        "Classification: period (long/medium/short), ownership (owned/borrowed), source (internal/external).",
+        "TERP = (N x cum-rights price + subscription price) / (N + 1); value of right = (TERP - subscription price) / N.",
+        "Cost of forgoing cash discount = d/(100 - d) x 365/(credit days - discount days).",
+        "Zero coupon bond: no interest, issued at discount, redeemed at par. Deep discount bond: large discount, long tenure.",
+        "Venture capital methods: equity, conditional loan, income note, participating debentures.",
+        "Sale and leaseback raises cash from an owned asset while keeping its use.",
+        "Masala bond: rupee-denominated bond issued abroad; currency risk is on the investor."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-fm-02-financing-case1",
+          "title": "Case: Ranjan Auto Components Ltd",
+          "body": "Ranjan Auto Components Ltd needs funds for a new forging line and for working capital.\n\n- It has 40,00,000 equity shares of ₹10 each, quoted at ₹250 cum-rights.\n- The board proposes a rights issue of 1 new share for every 5 held, at ₹190 per share.\n- Its main steel supplier offers terms of **1.5/15, net 45**. The company now pays on day 45.\n- Its bank will extend the overdraft limit at 11% per annum. Assume a 365-day year.\n- Mr Dev holds 500 shares and is unsure whether to subscribe."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-fm-02-financing-q01",
+          "type": "numeric",
+          "caseId": "ca-i-fm-02-financing-case1",
+          "prompt": "Compute the theoretical ex-rights price per share (in ₹, to 2 decimals).",
+          "answer": 240,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "| Particulars | Shares | Value (₹) |\n| --- | --- | --- |\n| Existing shares at ₹250 | 40,00,000 | 1,00,00,00,000 |\n| Rights shares (1 for 5) at ₹190 | 8,00,000 | 15,20,00,000 |\n| **Total** | **48,00,000** | **1,15,20,00,000** |\n\nTERP = 1,15,20,00,000 / 48,00,000 = **₹240**. Short form: (5 x 250 + 190) / 6 = 240."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q02",
+          "type": "numeric",
+          "caseId": "ca-i-fm-02-financing-case1",
+          "prompt": "Compute the theoretical value of one right (that is, per existing share), in ₹ to 2 decimals.",
+          "answer": 10,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "Value of right = (TERP - subscription price) / N = (240 - 190) / 5 = **₹10**. Check: cum-rights price - TERP = 250 - 240 = ₹10."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q03",
+          "type": "numeric",
+          "caseId": "ca-i-fm-02-financing-case1",
+          "prompt": "Compute the annualised cost of not taking the supplier's cash discount, as a % to 2 decimals (365-day year).",
+          "answer": 18.53,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "Cost = d/(100 - d) x 365/(45 - 15) = 1.5/98.5 x 365/30 = 0.015228 x 12.1667 = **18.53%**."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q04",
+          "type": "mcq",
+          "caseId": "ca-i-fm-02-financing-case1",
+          "prompt": "What should the company do about the supplier's terms?",
+          "options": [
+            "Borrow on the overdraft at 11% and pay on day 15 to take the discount",
+            "Keep paying on day 45, since trade credit is free",
+            "Pay on day 15 only if the overdraft rate exceeds 18.53%",
+            "Pay on day 30 to split the benefit"
+          ],
+          "answer": 0,
+          "explanation": "Forgoing the discount costs about 18.53% a year, more than the 11% overdraft. Borrowing to take the discount saves money. Paying on day 30 gives up the discount and still pays early, the worst of both."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q05",
+          "type": "mcq",
+          "caseId": "ca-i-fm-02-financing-case1",
+          "prompt": "If Mr Dev neither subscribes nor sells his rights, his wealth (ignoring transaction costs) will:",
+          "options": [
+            "Fall by ₹5,000",
+            "Stay the same",
+            "Fall by ₹30,000",
+            "Rise by ₹5,000"
+          ],
+          "answer": 0,
+          "explanation": "Before: 500 x 250 = ₹1,25,000. After, ignoring the rights: 500 x 240 = ₹1,20,000. He loses ₹5,000, which equals 500 rights x ₹10. Subscribing or selling the rights would keep his wealth at ₹1,25,000."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q06",
+          "type": "mcq",
+          "prompt": "A bond that pays no periodic interest, is issued at a discount to face value and is redeemed at face value is a:",
+          "options": [
+            "Zero coupon bond",
+            "Floating rate bond",
+            "Callable bond",
+            "Convertible debenture"
+          ],
+          "answer": 0,
+          "explanation": "The investor's return is the difference between issue price and redemption value. A deep discount bond works similarly but usually has a very long tenure and a large discount."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q07",
+          "type": "mcq",
+          "prompt": "Under a sale and leaseback arrangement, the company:",
+          "options": [
+            "Sells an asset it owns to a lessor and takes it back on lease, keeping its use",
+            "Buys an asset from a lessor at the end of an operating lease",
+            "Leases an asset to a customer and later sells it",
+            "Sells its receivables to a factor and leases back the collection staff"
+          ],
+          "answer": 0,
+          "explanation": "Sale and leaseback turns an owned asset into cash while the firm keeps using it, paying lease rentals in return."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q08",
+          "type": "mcq",
+          "prompt": "In venture capital financing, a conditional loan is one that:",
+          "options": [
+            "Is repayable as a royalty on sales only after the venture starts earning, with no fixed interest",
+            "Carries a fixed coupon payable from the first year",
+            "Is converted into equity on a fixed date",
+            "Is secured by a charge on the promoters' personal assets"
+          ],
+          "answer": 0,
+          "explanation": "A conditional loan has no predetermined repayment or interest; the venture pays a royalty on sales once it generates revenue. An income note combines low interest with a royalty."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q09",
+          "type": "mcq",
+          "prompt": "Masala bonds are:",
+          "options": [
+            "Rupee-denominated bonds issued outside India, so the foreign investor bears the currency risk",
+            "Dollar-denominated bonds issued in India by foreign companies",
+            "Depository receipts representing Indian shares listed in the US",
+            "Convertible bonds denominated in foreign currency"
+          ],
+          "answer": 0,
+          "explanation": "Because principal and interest are in rupees, the issuer avoids exchange risk. Dollar convertible bonds are FCCBs; depository receipts are ADRs/GDRs."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q10",
+          "type": "truefalse",
+          "prompt": "Retained earnings have no cost to the company because no payment is made to anyone for using them.",
+          "answer": false,
+          "explanation": "Retained earnings belong to shareholders, who could have invested the dividend elsewhere. Their cost is this opportunity cost, broadly equal to the cost of equity."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q11",
+          "type": "multi",
+          "prompt": "Select all the short-term sources of finance.",
+          "options": [
+            "Trade credit",
+            "Commercial paper",
+            "Bank overdraft",
+            "Factoring of receivables",
+            "Equity shares",
+            "Term loans from financial institutions"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Trade credit, CP, overdraft and factoring all finance current assets for periods up to a year. Equity is permanent capital, and term loans are medium to long term."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: in a ___ lease, substantially all the risks and rewards of ownership pass to the lessee and the lease is usually non-cancellable.",
+          "accept": [
+            "finance",
+            "financial",
+            "finance lease",
+            "financial lease",
+            "capital"
+          ],
+          "explanation": "A finance (financial or capital) lease covers most of the asset's life. In an operating lease the lessor keeps the risks, the term is short and it is usually cancellable."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q13",
+          "type": "numeric",
+          "prompt": "A bank sanctions a one-year loan of ₹10,00,000 at 10% interest. Interest is deducted in advance, and the borrower must keep a compensating balance of 10% of the loan in a non-interest-bearing account. Compute the effective annual cost as a % to 2 decimals.",
+          "answer": 12.5,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| Loan sanctioned | 10,00,000 |\n| Less: Interest deducted in advance | (1,00,000) |\n| Less: Compensating balance | (1,00,000) |\n| **Usable funds** | **8,00,000** |\n\nEffective cost = 1,00,000 / 8,00,000 = **12.50%**. Both the discount and the idle balance reduce usable funds, so the effective rate exceeds the stated 10%."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q14",
+          "type": "practical",
+          "prompt": "Kiran Ltd's shares trade at ₹84 cum-rights. It offers 1 new share for every 3 held at ₹60. Ms Rao holds 600 shares. Compute the theoretical ex-rights price and the value of a right, and show Ms Rao's wealth if she (a) exercises her rights, (b) sells her rights, (c) does nothing. Ignore transaction costs.",
+          "answer": "**1. TERP** = (3 x 84 + 60) / 4 = 312 / 4 = **₹78**\n\n**2. Value of a right** (per existing share) = (78 - 60) / 3 = **₹6** (check: 84 - 78 = 6)\n\n**3. Ms Rao's position** (wealth before the issue = 600 x 84 = ₹50,400)\n\n| Option | Working | Wealth (₹) |\n| --- | --- | --- |\n| (a) Exercise | Buys 200 shares at ₹60 = ₹12,000. Holds 800 x 78 = 62,400, less cash paid 12,000 | 50,400 |\n| (b) Sell rights | 600 x 78 = 46,800 plus sale of 600 rights x ₹6 = 3,600 | 50,400 |\n| (c) Do nothing | 600 x 78 | 46,800 |\n\n**Conclusion**: exercising or selling keeps her wealth at ₹50,400. Doing nothing loses ₹3,600 (600 rights x ₹6), so a shareholder should never let rights lapse."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q15",
+          "type": "interview",
+          "top": true,
+          "prompt": "Compare equity shares, preference shares and debentures as sources of long-term finance from the company's point of view.",
+          "answer": "| Basis | Equity | Preference | Debentures |\n| --- | --- | --- | --- |\n| Return | Residual, variable dividend | Fixed dividend | Fixed interest |\n| Tax | Dividend not deductible | Dividend not deductible | Interest deductible, lowers cost |\n| Obligation | None | Only if profits and declared (cumulative arrears) | Legal obligation, default risk |\n| Control | Voting rights, dilution | Limited voting | No voting |\n| Repayment | Permanent | Usually redeemable | Redeemable, often secured |\n| Cost | Highest | Middle | Lowest (after tax) |\n\nEquity gives flexibility and no fixed burden; debt is cheapest and preserves control but adds financial risk. Preference shares sit in between."
+        },
+        {
+          "id": "ca-i-fm-02-financing-q16",
+          "type": "interview",
+          "prompt": "What is venture capital financing? Explain its stages and the methods used to provide it.",
+          "answer": "- Venture capital is long-term, mostly equity-type funding for new or young businesses with high growth potential and high risk; the investor often takes an active role in management.\n- Stages: seed money (idea and prototype), start-up, second-round or early growth, later stage/expansion, mezzanine or bridge finance before listing, and buyouts.\n- Methods: equity participation (usually a minority stake); conditional loan (no interest, royalty on sales once revenue starts); income note (low interest plus royalty); participating debentures (interest that varies with the venture's stage).\n- Exit routes include IPO, sale to a strategic buyer and buy-back by promoters."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Intermediate study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Reserve Bank of India",
+          "url": "https://rbi.org.in/"
+        },
+        {
+          "title": "Securities and Exchange Board of India",
+          "url": "https://www.sebi.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-fm-03-ratios",
+      "title": "Financial Analysis and Planning: Ratio Analysis",
+      "level": "intermediate",
+      "summary": "Liquidity, capital structure, coverage, activity, profitability and market ratios, DuPont analysis, preparing a balance sheet from ratios, and the limits of ratio analysis.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "What ratio analysis does and who uses it",
+          "body": "A ratio relates two figures from the financial statements so that firms of different sizes, or one firm across years, can be compared. Users read different ratios: short-term creditors and banks look at **liquidity**, long-term lenders at **solvency and coverage**, management at **activity** (efficiency), and investors at **profitability and market** ratios.\n\nA ratio means little alone. Compare it with the firm's past (trend analysis), with competitors or the industry (cross-sectional analysis), or with a budget."
+        },
+        {
+          "heading": "Formula sheet",
+          "body": "| Group | Ratio | Formula |\n| --- | --- | --- |\n| Liquidity | Current ratio | Current assets / Current liabilities |\n| Liquidity | Quick (acid test) ratio | Quick assets / Current liabilities; quick assets = CA - inventory - prepaid expenses |\n| Liquidity | Cash ratio | (Cash + marketable securities) / Current liabilities |\n| Capital structure | Debt-equity ratio | Long-term debt / Shareholders' funds |\n| Capital structure | Proprietary ratio | Shareholders' funds / Total assets |\n| Coverage | Interest coverage | EBIT / Interest |\n| Coverage | Debt service coverage (DSCR) | (PAT + non-cash charges + interest) / (Interest + principal instalment) |\n| Coverage | Preference dividend cover | PAT / Preference dividend |\n| Activity | Inventory turnover | Cost of goods sold / Average inventory |\n| Activity | Receivables turnover; collection period | Credit sales / Average receivables; 365 (or 12) / turnover |\n| Activity | Payables turnover; payment period | Credit purchases / Average payables; 365 / turnover |\n| Activity | Fixed asset turnover | Sales / Net fixed assets |\n| Profitability | GP ratio; net profit ratio | Gross profit / Sales; PAT / Sales |\n| Profitability | ROCE (pre-tax) | EBIT / Capital employed (shareholders' funds + long-term debt) |\n| Profitability | ROE | (PAT - Preference dividend) / Equity shareholders' funds |\n| Market | EPS; P/E ratio | (PAT - Pref. dividend) / No. of equity shares; Market price / EPS |\n| Market | Dividend payout; dividend yield | DPS / EPS; DPS / Market price |\n\nWhere opening and closing balances are both given, use the **average**. Where only closing is given, use closing and say so."
+        },
+        {
+          "heading": "DuPont analysis",
+          "body": "DuPont splits ROE into three drivers so you can see why it moved:\n\n**ROE = Net profit margin x Asset turnover x Equity multiplier**\n\n= (PAT / Sales) x (Sales / Total assets) x (Total assets / Equity)\n\n- Net profit margin shows operating and tax efficiency.\n- Asset turnover shows how well assets generate sales.\n- Equity multiplier shows financial leverage. A higher multiplier raises ROE but also risk.\n\nExample: margin 5%, asset turnover 2.4, equity multiplier 1.8 gives ROE = 0.05 x 2.4 x 1.8 = **21.6%**."
+        },
+        {
+          "heading": "Worked example: effect of transactions on the current ratio",
+          "body": "Current assets ₹6,00,000, current liabilities ₹3,00,000, so the current ratio is 2:1.\n\n| Transaction | CA (₹) | CL (₹) | New ratio | Effect |\n| --- | --- | --- | --- | --- |\n| Pay a creditor ₹1,00,000 in cash | 5,00,000 | 2,00,000 | 2.50 | Increases |\n| Buy inventory on credit ₹1,00,000 | 7,00,000 | 4,00,000 | 1.75 | Decreases |\n| Collect ₹1,00,000 from a debtor | 6,00,000 | 3,00,000 | 2.00 | No change |\n\nRule: when the ratio is above 1, an equal decrease in CA and CL raises it and an equal increase lowers it. When it is below 1 the effect reverses. Exchanges within current assets leave the current ratio unchanged but can change the quick ratio.\n\n**Preparing a balance sheet from ratios** is a regular exam question. Work in a fixed order: sales, then cost of goods sold, then inventory, debtors and fixed assets from turnover ratios, then current liabilities from (current ratio - quick ratio) = inventory / CL, then cash as the balancing current asset, then the capital side from debt-equity and reserve ratios. Finish by checking that the balance sheet totals agree."
+        },
+        {
+          "heading": "Limitations and common mistakes",
+          "body": "**Limitations**: ratios use historical, book values; different accounting policies (inventory method, depreciation) distort comparisons; inflation is ignored; window dressing can flatter year-end ratios; there is no single \"ideal\" ratio for all industries; and ratios show symptoms, not causes.\n\n**Common mistakes**:\n- Using sales instead of cost of goods sold for inventory turnover when the question gives COGS.\n- Including inventory or prepaid expenses in quick assets.\n- Taking total debt including current liabilities in the debt-equity ratio when the question defines it on long-term debt.\n- Using PAT for interest coverage. Interest is paid from EBIT, so use EBIT.\n- Forgetting to deduct preference dividend when computing EPS and ROE for equity."
+        }
+      ],
+      "keyPoints": [
+        "Quick assets = current assets - inventory - prepaid expenses.",
+        "Inventory turnover = COGS / average inventory; collection period = 365 / receivables turnover.",
+        "Interest coverage = EBIT / interest; DSCR = (PAT + non-cash charges + interest) / (interest + principal).",
+        "ROCE = EBIT / (shareholders' funds + long-term debt); ROE = (PAT - pref. dividend) / equity funds.",
+        "DuPont: ROE = net margin x asset turnover x equity multiplier.",
+        "Current ratio - quick ratio = inventory / current liabilities (when prepaid is nil): the key step in balance sheet construction.",
+        "Ratios use book values and past data; compare with trend and industry, never alone."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-fm-03-ratios-case1",
+          "title": "Case: Meera Pharma Ltd",
+          "body": "Extracts from the financial statements of Meera Pharma Ltd for the year ended 31 March 2027. All sales are on credit. Use closing balances and a 365-day year.\n\n| Liabilities | ₹ | Assets | ₹ |\n| --- | --- | --- | --- |\n| Equity share capital (₹10 each) | 20,00,000 | Fixed assets (net) | 30,00,000 |\n| Reserves and surplus | 7,00,000 | Inventory | 9,00,000 |\n| 10% Debentures | 16,00,000 | Trade receivables | 10,00,000 |\n| Trade payables | 10,00,000 | Cash and bank | 5,00,000 |\n| Other current liabilities | 3,00,000 | Prepaid expenses | 2,00,000 |\n| **Total** | **56,00,000** | **Total** | **56,00,000** |\n\n| Statement of profit and loss | ₹ |\n| --- | --- |\n| Sales | 80,00,000 |\n| Cost of goods sold | (56,00,000) |\n| Operating expenses | (14,40,000) |\n| EBIT | 9,60,000 |\n| Interest | (1,60,000) |\n| Profit before tax | 8,00,000 |\n| Tax at 25% | (2,00,000) |\n| **Profit after tax** | **6,00,000** |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-fm-03-ratios-q01",
+          "type": "mcq",
+          "caseId": "ca-i-fm-03-ratios-case1",
+          "prompt": "Meera Pharma's quick ratio (to 2 decimals) is:",
+          "options": [
+            "1.15",
+            "2.00",
+            "1.31",
+            "0.85"
+          ],
+          "answer": 0,
+          "explanation": "Quick assets = 26,00,000 - 9,00,000 inventory - 2,00,000 prepaid = 15,00,000. Current liabilities = 10,00,000 + 3,00,000 = 13,00,000. Quick ratio = 15/13 = **1.15**. 1.31 wrongly keeps prepaid expenses in quick assets; 2.00 is the current ratio."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q02",
+          "type": "numeric",
+          "caseId": "ca-i-fm-03-ratios-case1",
+          "prompt": "Compute the average collection period in days (365-day year, closing receivables), to 2 decimals.",
+          "answer": 45.63,
+          "tolerance": 0.02,
+          "unit": "days",
+          "explanation": "Receivables turnover = 80,00,000 / 10,00,000 = 8 times. Collection period = 365 / 8 = **45.63 days**."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q03",
+          "type": "numeric",
+          "caseId": "ca-i-fm-03-ratios-case1",
+          "prompt": "Compute the return on equity (PAT / equity shareholders' funds) as a % to 2 decimals.",
+          "answer": 22.22,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "Equity shareholders' funds = 20,00,000 + 7,00,000 = 27,00,000. ROE = 6,00,000 / 27,00,000 = **22.22%**. There is no preference capital, so nothing is deducted from PAT."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q04",
+          "type": "mcq",
+          "caseId": "ca-i-fm-03-ratios-case1",
+          "prompt": "Meera Pharma's interest coverage ratio is:",
+          "options": [
+            "6 times",
+            "5 times",
+            "3.75 times",
+            "4.75 times"
+          ],
+          "answer": 0,
+          "explanation": "Interest coverage = EBIT / interest = 9,60,000 / 1,60,000 = **6 times**. 5 times uses PBT, 3.75 uses PAT; both are wrong because interest is paid out of EBIT."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q05",
+          "type": "mcq",
+          "caseId": "ca-i-fm-03-ratios-case1",
+          "prompt": "If Meera Pharma pays ₹3,00,000 of trade payables from cash and bank, its current ratio will:",
+          "options": [
+            "Rise from 2.00 to 2.30",
+            "Fall from 2.00 to 1.70",
+            "Stay at 2.00",
+            "Rise from 2.00 to 2.60"
+          ],
+          "answer": 0,
+          "explanation": "CA falls to 23,00,000 and CL to 10,00,000, so the ratio becomes 2.30. With a ratio above 1, equal reductions in CA and CL raise the ratio."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q06",
+          "type": "mcq",
+          "prompt": "In DuPont analysis, return on equity equals:",
+          "options": [
+            "Net profit margin x total asset turnover x equity multiplier",
+            "Gross profit margin x inventory turnover x debt-equity ratio",
+            "Net profit margin x fixed asset turnover x current ratio",
+            "ROCE x (1 - tax rate)"
+          ],
+          "answer": 0,
+          "explanation": "(PAT/Sales) x (Sales/Total assets) x (Total assets/Equity) cancels to PAT/Equity. The equity multiplier captures financial leverage."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q07",
+          "type": "mcq",
+          "prompt": "Which ratio is most relevant to a long-term lender judging a company's solvency?",
+          "options": [
+            "Debt-equity ratio",
+            "Quick ratio",
+            "Inventory turnover ratio",
+            "Dividend yield"
+          ],
+          "answer": 0,
+          "explanation": "Debt-equity shows how much of the long-term funding is borrowed and so the cushion for lenders. Quick ratio is short-term liquidity, inventory turnover is efficiency and dividend yield is a market ratio."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q08",
+          "type": "truefalse",
+          "prompt": "A current ratio of 2:1 always indicates a sound liquidity position.",
+          "answer": false,
+          "explanation": "The ratio may be inflated by slow-moving inventory or doubtful debtors, and acceptable levels vary by industry. The quick ratio and the quality of current assets must also be checked."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q09",
+          "type": "multi",
+          "prompt": "Select all the activity (turnover) ratios.",
+          "options": [
+            "Inventory turnover",
+            "Receivables turnover",
+            "Fixed asset turnover",
+            "Payables turnover",
+            "Interest coverage ratio",
+            "Price-earnings ratio"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Activity ratios measure how efficiently assets and liabilities are managed. Interest coverage is a coverage (solvency) ratio and P/E is a market ratio."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: inventory turnover ratio = cost of goods sold / ___ inventory.",
+          "accept": [
+            "average",
+            "avg",
+            "average inventory"
+          ],
+          "explanation": "Average inventory = (opening + closing) / 2. Use closing inventory only when opening is not given, and state the assumption."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q11",
+          "type": "numeric",
+          "prompt": "Net profit margin is 5%, total asset turnover is 2.4 times and total assets / equity is 1.8. Compute ROE as a % to 2 decimals.",
+          "answer": 21.6,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "ROE = 0.05 x 2.4 x 1.8 = 0.216 = **21.60%**. This is the DuPont identity."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q12",
+          "type": "numeric",
+          "prompt": "Sales are ₹60,00,000 with a gross profit of 25% on sales. Opening inventory is ₹7,00,000 and closing inventory is ₹8,00,000. Compute the inventory turnover ratio (times, to 2 decimals).",
+          "answer": 6,
+          "tolerance": 0.01,
+          "unit": "times",
+          "explanation": "COGS = 60,00,000 x 75% = 45,00,000. Average inventory = (7,00,000 + 8,00,000) / 2 = 7,50,000. Inventory turnover = 45,00,000 / 7,50,000 = **6.00 times**."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Prepare the balance sheet of Sundar Ltd as at 31 March 2027 from the following information. Use a 12-month year and closing balances.",
+          "data": "- Sales (all credit) ₹36,00,000; gross profit 25% on sales\n- Inventory turnover (on cost of goods sold, closing inventory): 6 times\n- Debtors collection period: 1.5 months\n- Current ratio 2.5; quick ratio 1.5 (no prepaid expenses)\n- Fixed asset turnover (on sales): 2 times\n- Long-term debt to shareholders' funds: 1 : 2\n- Reserves and surplus to share capital: 1 : 2\n- Current assets consist of inventory, debtors and cash only",
+          "answer": "**Workings**\n\n| Item | Working | ₹ |\n| --- | --- | --- |\n| COGS | 36,00,000 x 75% | 27,00,000 |\n| Inventory | 27,00,000 / 6 | 4,50,000 |\n| Debtors | 36,00,000 x 1.5 / 12 | 4,50,000 |\n| Current liabilities | Inventory / (CR - QR) = 4,50,000 / (2.5 - 1.5) | 4,50,000 |\n| Current assets | 2.5 x 4,50,000 | 11,25,000 |\n| Cash (balancing) | 11,25,000 - 4,50,000 - 4,50,000 | 2,25,000 |\n| Fixed assets | 36,00,000 / 2 | 18,00,000 |\n| Total assets | 18,00,000 + 11,25,000 | 29,25,000 |\n| Capital employed | 29,25,000 - 4,50,000 | 24,75,000 |\n| Long-term debt | 24,75,000 x 1/3 | 8,25,000 |\n| Shareholders' funds | 24,75,000 x 2/3 | 16,50,000 |\n| Share capital | 16,50,000 x 2/3 | 11,00,000 |\n| Reserves and surplus | 16,50,000 x 1/3 | 5,50,000 |\n\n**Balance sheet of Sundar Ltd as at 31 March 2027**\n\n| Liabilities | ₹ | Assets | ₹ |\n| --- | --- | --- | --- |\n| Share capital | 11,00,000 | Fixed assets | 18,00,000 |\n| Reserves and surplus | 5,50,000 | Inventory | 4,50,000 |\n| Long-term debt | 8,25,000 | Debtors | 4,50,000 |\n| Current liabilities | 4,50,000 | Cash | 2,25,000 |\n| **Total** | **29,25,000** | **Total** | **29,25,000** |\n\nThe key step: CR - QR = Inventory / CL, because quick assets differ from current assets only by inventory."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q14",
+          "type": "interview",
+          "top": true,
+          "prompt": "What are the limitations of ratio analysis?",
+          "answer": "- Ratios are based on historical book values and ignore inflation and current market values.\n- Different accounting policies (inventory valuation, depreciation, capitalisation) make inter-firm comparison unreliable.\n- Year-end figures can be window dressed, for example by paying creditors just before the balance sheet date.\n- There is no universal standard ratio; acceptable levels differ by industry and business model.\n- A ratio shows a symptom, not its cause; qualitative factors (management quality, market position) are ignored.\n- Ratios are only as good as the underlying statements, so errors or manipulation carry through.\n- Therefore ratios must be used with trend and industry comparisons and with judgement."
+        },
+        {
+          "id": "ca-i-fm-03-ratios-q15",
+          "type": "interview",
+          "prompt": "Explain the classification of ratios and state which users are mainly interested in each group.",
+          "answer": "- Liquidity ratios (current, quick, cash): short-term creditors, banks and suppliers, who want to know if current obligations can be met.\n- Capital structure / leverage ratios (debt-equity, proprietary, debt to total funds): long-term lenders and shareholders judging financial risk.\n- Coverage ratios (interest coverage, DSCR, preference dividend cover): lenders and preference shareholders checking ability to service fixed charges.\n- Activity / turnover ratios (inventory, receivables, payables, asset turnover): management assessing efficiency of asset use.\n- Profitability ratios (GP, NP, ROCE, ROE): management, investors and lenders.\n- Market ratios (EPS, P/E, dividend yield, payout): equity investors and analysts valuing the share."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Intermediate study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: official website",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-fm-04-cost-of-capital",
+      "title": "Cost of Capital",
+      "level": "intermediate",
+      "summary": "Cost of debt, preference shares, equity (dividend growth and CAPM) and retained earnings, weighted average cost of capital on book and market weights, and the marginal cost of capital schedule.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Concept and importance",
+          "body": "The **cost of capital** is the minimum rate of return a firm must earn on its investments to keep the value of the firm (and the share price) unchanged. It is the **hurdle rate** in capital budgeting, the basis for choosing a capital structure, and a yardstick for judging management performance.\n\nEach source has its own **specific cost**. The firm's overall cost is the **weighted average cost of capital (WACC)**. Always use **after-tax** costs: interest is tax-deductible, dividends are not."
+        },
+        {
+          "heading": "Specific costs: the formula sheet",
+          "body": "| Source | Formula | Notes |\n| --- | --- | --- |\n| Irredeemable debt | Kd = I (1 - t) / NP | NP = net proceeds (issue price less flotation cost) |\n| Redeemable debt | Kd = [I (1 - t) + (RV - NP) / n] / [(RV + NP) / 2] | Approximation method; the exact method is the IRR (YTM) of the after-tax cash flows |\n| Irredeemable preference | Kp = PD / NP | No tax adjustment |\n| Redeemable preference | Kp = [PD + (RV - NP) / n] / [(RV + NP) / 2] | No tax adjustment |\n| Equity: dividend growth (Gordon) | Ke = D1 / P0 + g | D1 = D0 (1 + g); for a new issue use P0 less flotation cost |\n| Equity: CAPM | Ke = Rf + β (Rm - Rf) | β = systematic risk; (Rm - Rf) = market risk premium |\n| Equity: earnings yield | Ke = E1 / P0 | Used when all earnings are paid out and there is no growth |\n| Growth rate | g = b x r | b = retention ratio, r = return on retained funds |\n| Retained earnings | Kr = Ke (no flotation cost) | Opportunity cost to shareholders |\n\nThe cost of retained earnings is below the cost of a fresh equity issue only because a fresh issue carries flotation costs."
+        },
+        {
+          "heading": "WACC and marginal cost of capital",
+          "body": "**WACC = Σ (weight of source x specific cost)**.\n\n- **Book value weights** use balance sheet amounts. Simple and stable, but they ignore current market conditions.\n- **Market value weights** use market prices of the securities. Preferred in theory because they reflect current investor expectations; retained earnings are not shown separately because the market value of equity already includes them.\n- **Target weights** use the proportions in which the firm plans to raise future funds.\n\n**Marginal cost of capital (MCC)** is the cost of the next rupee raised. When a cheaper source runs out, the WACC rises. The total financing at which this happens is the **break point**:\n\n**Break point = Amount of the cheaper source available / Weight of that source in the target structure**\n\nBuild a schedule showing WACC for each range of total new financing."
+        },
+        {
+          "heading": "Worked example",
+          "body": "| Item | Data | Working | Cost |\n| --- | --- | --- | --- |\n| Irredeemable debt | 10% ₹100 debenture, issued at ₹96, tax 25% | 10 x 0.75 / 96 | 7.81% |\n| Redeemable debt | 11% debenture, NP ₹92, redeemable at ₹105 in 5 years, tax 30% | [7.7 + 13/5] / [(105 + 92)/2] = 10.3 / 98.5 | 10.46% |\n| Equity (CAPM) | Rf 6.5%, β 1.3, Rm 12% | 6.5 + 1.3 x 5.5 | 13.65% |\n| Equity (growth) | D0 ₹2, g 8%, P0 ₹36 | 2.16 / 36 + 0.08 | 14.00% |\n\nIf the firm is financed 60% equity (Ke 14%) and 40% irredeemable debt (Kd 7.81%):\n\n| Source | Weight | Cost (%) | Weighted cost (%) |\n| --- | --- | --- | --- |\n| Equity | 0.60 | 14.00 | 8.40 |\n| Debt | 0.40 | 7.81 | 3.12 |\n| **WACC** |  |  | **11.52** |"
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using D0 instead of D1 in the growth model. If the question gives \"dividend just paid\", multiply by (1 + g).\n- Applying tax to preference dividend. Only interest is tax-deductible.\n- Using face value instead of net proceeds (or market price for existing securities) in the denominator.\n- Adding flotation cost to retained earnings. Retained earnings have no flotation cost.\n- Showing retained earnings as a separate weight under market value weights when equity's market value already includes them.\n- Rounding intermediate costs too early. Keep 4 decimals in workings and round the final WACC."
+        }
+      ],
+      "keyPoints": [
+        "Kd (irredeemable) = I(1 - t)/NP; Kd (redeemable) = [I(1 - t) + (RV - NP)/n] / [(RV + NP)/2].",
+        "Kp uses the same structure without any tax adjustment.",
+        "Ke (growth model) = D1/P0 + g, with g = b x r; Ke (CAPM) = Rf + β(Rm - Rf).",
+        "Kr = Ke for existing shareholders; new equity costs more because of flotation cost.",
+        "WACC = Σ weight x specific after-tax cost; market value weights are preferred in theory.",
+        "MCC break point = cheaper source available / its weight in the target structure."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-fm-04-cost-of-capital-case1",
+          "title": "Case: Sahyadri Cement Ltd",
+          "body": "Sahyadri Cement Ltd's capital structure (book values):\n\n| Source | ₹ |\n| --- | --- |\n| Equity share capital (10,00,000 shares of ₹10) | 1,00,00,000 |\n| Retained earnings | 50,00,000 |\n| 9% Preference shares of ₹100, redeemable at par after 5 years | 30,00,000 |\n| 10% Debentures of ₹100, redeemable at par after 6 years | 70,00,000 |\n| **Total** | **2,50,00,000** |\n\nOther information:\n\n- Equity share price ₹40; dividend just paid ₹3.00 per share; expected growth 6% a year.\n- Risk-free rate 7%, market return 13%, beta of the share 1.2.\n- Preference shares and debentures currently trade at ₹96 and ₹95 respectively; treat these as net proceeds.\n- Corporate tax rate 25%.\n- Use the dividend growth model for the cost of equity and of retained earnings unless told otherwise."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q01",
+          "type": "numeric",
+          "caseId": "ca-i-fm-04-cost-of-capital-case1",
+          "prompt": "Compute the cost of equity using the dividend growth model, as a % to 2 decimals.",
+          "answer": 13.95,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "D1 = 3.00 x 1.06 = 3.18. Ke = 3.18 / 40 + 0.06 = 0.0795 + 0.06 = **13.95%**. Using D0 (3/40 + 6% = 13.50%) is the classic error."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q02",
+          "type": "numeric",
+          "caseId": "ca-i-fm-04-cost-of-capital-case1",
+          "prompt": "Compute the after-tax cost of the debentures using the approximation method, as a % to 2 decimals.",
+          "answer": 8.55,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "Kd = [I(1 - t) + (RV - NP)/n] / [(RV + NP)/2] = [10 x 0.75 + (100 - 95)/6] / [(100 + 95)/2] = (7.5 + 0.8333) / 97.5 = **8.55%**."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q03",
+          "type": "mcq",
+          "caseId": "ca-i-fm-04-cost-of-capital-case1",
+          "prompt": "The cost of the preference shares is:",
+          "options": [
+            "10.00%",
+            "9.38%",
+            "7.50%",
+            "9.00%"
+          ],
+          "answer": 0,
+          "explanation": "Kp = [9 + (100 - 96)/5] / [(100 + 96)/2] = 9.8 / 98 = **10.00%**. No tax adjustment applies to preference dividend. 9.38% ignores the redemption premium (9/96), and 7.50% wrongly applies tax (10% x 0.75)."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q04",
+          "type": "numeric",
+          "caseId": "ca-i-fm-04-cost-of-capital-case1",
+          "prompt": "Using book value weights, compute the WACC as a % to 2 decimals. Use the rounded specific costs: Ke = Kr = 13.95%, Kp = 10.00%, Kd = 8.55%.",
+          "answer": 11.96,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "| Source | Amount (₹ lakh) | Weight | Cost (%) | Weighted (%) |\n| --- | --- | --- | --- | --- |\n| Equity capital | 100 | 0.40 | 13.95 | 5.5800 |\n| Retained earnings | 50 | 0.20 | 13.95 | 2.7900 |\n| Preference shares | 30 | 0.12 | 10.00 | 1.2000 |\n| Debentures | 70 | 0.28 | 8.55 | 2.3940 |\n| **Total** | **250** | **1.00** |  | **11.9640** |\n\nWACC = **11.96%**."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q05",
+          "type": "mcq",
+          "caseId": "ca-i-fm-04-cost-of-capital-case1",
+          "prompt": "If Sahyadri uses CAPM instead, its cost of equity would be:",
+          "options": [
+            "14.20%",
+            "15.60%",
+            "13.95%",
+            "8.40%"
+          ],
+          "answer": 0,
+          "explanation": "Ke = Rf + β(Rm - Rf) = 7 + 1.2 x (13 - 7) = 7 + 7.2 = **14.20%**. 15.60% multiplies beta by Rm (1.2 x 13); 8.40% (1.2 x 7) wrongly multiplies beta by the risk-free rate."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q06",
+          "type": "mcq",
+          "prompt": "Why is only the cost of debt, and not the cost of preference shares, adjusted for tax?",
+          "options": [
+            "Interest is a tax-deductible expense, while preference dividend is an appropriation of profit",
+            "Preference shares are always irredeemable",
+            "Debt is always issued at a discount",
+            "Preference dividend is taxed in the hands of the company at a higher rate"
+          ],
+          "answer": 0,
+          "explanation": "Interest reduces taxable profit, so the government bears part of it. Preference dividend is paid out of after-tax profit and gives no tax saving."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q07",
+          "type": "mcq",
+          "prompt": "Market value weights are generally preferred to book value weights for computing WACC because:",
+          "options": [
+            "They reflect the current value investors place on each source and the current cost of raising funds",
+            "They never change over time",
+            "They always give a lower WACC",
+            "They are shown in the audited balance sheet"
+          ],
+          "answer": 0,
+          "explanation": "The cost of capital is a current, forward-looking rate, so weights should reflect current values. Book values are historical; market values fluctuate, which is their practical drawback."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q08",
+          "type": "mcq",
+          "prompt": "A company's EPS is ₹5, it retains 60% of earnings and earns 15% on retained funds. The share price is ₹50. Assuming the next dividend is based on this EPS, the cost of equity is:",
+          "options": [
+            "13%",
+            "9%",
+            "19%",
+            "10%"
+          ],
+          "answer": 0,
+          "explanation": "g = b x r = 0.6 x 15% = 9%. D1 = 5 x 40% = ₹2. Ke = 2/50 + 0.09 = 0.04 + 0.09 = **13%**. 19% uses EPS instead of dividend (5/50 + 9%)."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q09",
+          "type": "truefalse",
+          "prompt": "The cost of retained earnings is usually lower than the cost of a fresh equity issue because a fresh issue involves flotation costs.",
+          "answer": true,
+          "explanation": "Both belong to equity shareholders, so they share the same required return. A fresh issue raises less than the market price after flotation costs, so Ke on new equity = D1/(P0 - F) + g is higher."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q10",
+          "type": "multi",
+          "prompt": "Select all correct statements about the cost of capital.",
+          "options": [
+            "The cost of debt is adjusted for tax because interest is deductible",
+            "Flotation costs increase the cost of a new issue of securities",
+            "Retained earnings carry an opportunity cost",
+            "Preference dividend is deductible for tax, so Kp is computed after tax",
+            "Book value weights are preferred because they reflect current market conditions"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Preference dividend is not deductible, so Kp has no tax adjustment. Book values are historical; it is market value weights that reflect current conditions."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: under CAPM, Ke = Rf + β x (___ - Rf).",
+          "accept": [
+            "Rm",
+            "market return",
+            "expected market return",
+            "return on market portfolio",
+            "return on market"
+          ],
+          "explanation": "(Rm - Rf) is the market risk premium; beta scales it to the share's systematic risk."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q12",
+          "type": "numeric",
+          "prompt": "A company issues 12% irredeemable debentures of ₹100 each at ₹95. Flotation cost is 2% of face value. Tax rate 25%. Compute the after-tax cost of debt as a % to 2 decimals.",
+          "answer": 9.68,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "Net proceeds = 95 - 2 = ₹93. Kd = I(1 - t)/NP = 12 x 0.75 / 93 = 9 / 93 = **9.68%**."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Prepare the marginal cost of capital schedule for Tapti Plastics Ltd and state the break points.",
+          "data": "- Target capital structure: debt 40%, equity 60%. Tax rate 25%.\n- Retained earnings available: ₹18,00,000; cost of equity from retained earnings 15%. Beyond that, new equity costs 16.5%.\n- Debt: the first ₹16,00,000 can be borrowed at 10% before tax; additional debt costs 12% before tax.",
+          "answer": "**Break points**\n\n| Source | Working | Break point (₹) |\n| --- | --- | --- |\n| Retained earnings | 18,00,000 / 0.60 | 30,00,000 |\n| Cheaper debt | 16,00,000 / 0.40 | 40,00,000 |\n\n**After-tax specific costs**: debt 10% x 0.75 = 7.5% (up to ₹16 lakh), 12% x 0.75 = 9% beyond; equity 15% (retained), 16.5% (new).\n\n**MCC schedule**\n\n| Range of total new funds (₹) | Kd (%) | Ke (%) | WACC working | WACC (%) |\n| --- | --- | --- | --- | --- |\n| 0 to 30,00,000 | 7.5 | 15.0 | 0.4 x 7.5 + 0.6 x 15.0 = 3.0 + 9.0 | 12.00 |\n| 30,00,001 to 40,00,000 | 7.5 | 16.5 | 0.4 x 7.5 + 0.6 x 16.5 = 3.0 + 9.9 | 12.90 |\n| Above 40,00,000 | 9.0 | 16.5 | 0.4 x 9.0 + 0.6 x 16.5 = 3.6 + 9.9 | 13.50 |\n\nThe company should accept projects in the order of their IRR as long as each IRR exceeds the MCC of the range in which its funding falls."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q14",
+          "type": "interview",
+          "prompt": "Explain the significance of the cost of capital in financial decision making.",
+          "answer": "- It is the minimum required rate of return: the discount rate for NPV and the cut-off for IRR in capital budgeting.\n- It guides the capital structure decision: the optimal structure minimises WACC and maximises firm value.\n- It helps evaluate the performance of management (return earned versus cost of funds) and is used in measures such as EVA.\n- It informs dividend policy (compare r with Ke) and working capital financing choices.\n- It helps compare sources of finance and decide which to use."
+        },
+        {
+          "id": "ca-i-fm-04-cost-of-capital-q15",
+          "type": "interview",
+          "top": true,
+          "prompt": "Distinguish between book value weights and market value weights for computing WACC. Which is preferred and why?",
+          "answer": "- Book value weights use balance sheet figures of each source; market value weights use the current market prices of the securities.\n- Book values are easy to obtain, stable and match the firm's financing policy, but they are historical and may differ widely from current values.\n- Market values reflect current investor expectations and the actual cost of raising funds now, so they are theoretically superior.\n- Drawbacks of market values: they fluctuate, are not available for unlisted firms, and retained earnings cannot be valued separately (they are included in equity's market value).\n- Many firms use target capital structure weights, which reflect how future funds will be raised."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Intermediate study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: official website",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-fm-05-capital-structure",
+      "title": "Financing Decisions: Capital Structure",
+      "level": "intermediate",
+      "summary": "Optimal capital structure, the NI, NOI, traditional and Modigliani-Miller approaches, arbitrage, and the EBIT-EPS indifference point.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Capital structure and the optimal mix",
+          "body": "**Capital structure** is the mix of long-term sources: equity, preference capital and long-term debt. The **optimal capital structure** is the mix that minimises the overall cost of capital (Ko) and so maximises the value of the firm and the share price.\n\nDebt is cheaper (interest is tax-deductible and lenders bear less risk) but it adds **financial risk**: fixed interest must be paid whatever the EBIT. As debt rises, shareholders demand a higher Ke. The theories below differ on how Ke and Ko respond to leverage.\n\nPractical factors: cost of each source, stability of earnings (debt suits stable earnings), control (debt does not dilute), flexibility and future borrowing capacity, tax rate, market conditions, and lenders' covenants."
+        },
+        {
+          "heading": "The four theories",
+          "body": "| Approach | Key assumption | Effect of more debt | Optimal structure? |\n| --- | --- | --- | --- |\n| Net Income (NI), Durand | Kd and Ke stay constant | V rises, Ko falls continuously | Yes: maximum debt |\n| Net Operating Income (NOI), Durand | Ko stays constant; Ke rises with leverage | V unchanged | No: all structures equal |\n| Traditional | Ke rises slowly at first, then sharply; Kd rises at high leverage | Ko falls, reaches a minimum, then rises | Yes: where Ko is lowest |\n| Modigliani-Miller (no taxes) | Perfect markets, arbitrage, homogeneous risk classes | V unchanged; Ke = Ko + (Ko - Kd) x D/E | No: irrelevance |\n| Modigliani-Miller (with corporate tax) | Interest saves tax | VL = VU + tD | Yes: maximum debt (in theory) |\n\n**Formulas**\n\n- NI: S = (EBIT - I) / Ke; V = S + D; Ko = EBIT / V.\n- NOI: V = EBIT / Ko; S = V - D; Ke = (EBIT - I) / S.\n- MM: VU = EBIT (1 - t) / Ke(unlevered); VL = VU + tD.\n\n**Arbitrage (MM)**: if two firms differ only in leverage but sell at different values, investors sell shares of the overvalued firm and buy the undervalued firm, using **personal (home-made) leverage** to copy the corporate leverage. They earn the same income for a smaller outlay. This buying and selling restores equal values."
+        },
+        {
+          "heading": "Worked example: NI versus NOI",
+          "body": "EBIT ₹4,00,000; debt ₹10,00,000 at 10% (interest ₹1,00,000). Ignore tax.\n\n| Particulars | NI (Ke = 16%) | NOI (Ko = 14%) |\n| --- | --- | --- |\n| Value of equity S | (4,00,000 - 1,00,000) / 0.16 = 18,75,000 | V - D = 18,57,143 |\n| Value of debt D | 10,00,000 | 10,00,000 |\n| Value of firm V | 28,75,000 | 4,00,000 / 0.14 = 28,57,143 |\n| Overall cost Ko | 4,00,000 / 28,75,000 = 13.91% | 14% (given) |\n| Cost of equity Ke | 16% (given) | 3,00,000 / 18,57,143 = 16.15% |\n\nUnder NI the unknown is Ko (computed from V); under NOI the unknown is Ke (computed from S)."
+        },
+        {
+          "heading": "EBIT-EPS analysis and the indifference point",
+          "body": "EPS = [(EBIT - I)(1 - t) - Preference dividend] / Number of equity shares.\n\nThe **indifference point** is the EBIT at which two financing plans give the same EPS:\n\n**[(X - I1)(1 - t) - PD1] / N1 = [(X - I2)(1 - t) - PD2] / N2**\n\nAbove the indifference point the plan with more fixed-charge finance (debt or preference) gives higher EPS; below it, the equity plan is better.\n\nThe **financial break-even point** is the EBIT at which EPS is zero: **I + PD / (1 - t)**. Below it, equity holders earn nothing.\n\nExam format: a table of EPS under each plan (EBIT, less interest, EBT, less tax, EAT, less preference dividend, earnings for equity, number of shares, EPS), followed by the indifference point equation solved for X."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using the total new shares instead of existing plus new shares as N.\n- Forgetting to gross up preference dividend by (1 - t) in the financial break-even point.\n- In the indifference equation, leaving out existing interest that applies to both plans.\n- Under NOI, computing Ke as EBIT / S. Use (EBIT - I) / S: equity holders get what is left after interest.\n- In arbitrage, forgetting that the investor must borrow or lend in the same proportion as his share of the firm."
+        }
+      ],
+      "keyPoints": [
+        "Optimal capital structure minimises Ko and maximises firm value.",
+        "NI: Kd, Ke constant, so more debt raises V. NOI: Ko constant, so V is independent of structure.",
+        "Traditional: Ko is U-shaped, so an optimal structure exists.",
+        "MM (no tax): VL = VU, Ke = Ko + (Ko - Kd) D/E. MM (tax): VL = VU + tD.",
+        "Indifference point: [(X - I1)(1 - t) - PD1]/N1 = [(X - I2)(1 - t) - PD2]/N2.",
+        "Financial break-even EBIT = I + PD/(1 - t)."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-fm-05-capital-structure-case1",
+          "title": "Case: Narmada Foods Ltd",
+          "body": "Narmada Foods Ltd has 4,00,000 equity shares of ₹10 each and no debt. It needs ₹40,00,000 for a new plant and is considering three plans:\n\n| Plan | Financing |\n| --- | --- |\n| A | Issue 2,00,000 equity shares at ₹20 each |\n| B | Issue ₹40,00,000 of 12% debentures |\n| C | Issue 1,00,000 equity shares at ₹20 each and ₹20,00,000 of 12% debentures |\n\nExpected EBIT after expansion is ₹20,00,000. Tax rate 25%."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-fm-05-capital-structure-q01",
+          "type": "numeric",
+          "caseId": "ca-i-fm-05-capital-structure-case1",
+          "prompt": "Compute the EPS under Plan B at the expected EBIT, in ₹ to 2 decimals.",
+          "answer": 2.85,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "| Particulars | Plan A | Plan B | Plan C |\n| --- | --- | --- | --- |\n| EBIT | 20,00,000 | 20,00,000 | 20,00,000 |\n| Less: Interest | Nil | (4,80,000) | (2,40,000) |\n| EBT | 20,00,000 | 15,20,000 | 17,60,000 |\n| Less: Tax 25% | (5,00,000) | (3,80,000) | (4,40,000) |\n| EAT | 15,00,000 | 11,40,000 | 13,20,000 |\n| No. of shares | 6,00,000 | 4,00,000 | 5,00,000 |\n| **EPS (₹)** | 2.50 | **2.85** | 2.64 |"
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q02",
+          "type": "numeric",
+          "caseId": "ca-i-fm-05-capital-structure-case1",
+          "prompt": "Compute the EBIT indifference point between Plan A and Plan B (in ₹, nearest rupee).",
+          "answer": 1440000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "X(1 - 0.25) / 6,00,000 = (X - 4,80,000)(1 - 0.25) / 4,00,000\n\nCancel (1 - 0.25) and cross-multiply: 4,00,000 X = 6,00,000 (X - 4,80,000). Dividing by 1,00,000: 4X = 6X - 28,80,000, so 2X = 28,80,000 and **X = ₹14,40,000**."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q03",
+          "type": "mcq",
+          "caseId": "ca-i-fm-05-capital-structure-case1",
+          "prompt": "At the indifference point between Plans A and B, the EPS under either plan is:",
+          "options": [
+            "₹1.80",
+            "₹2.40",
+            "₹2.50",
+            "₹1.35"
+          ],
+          "answer": 0,
+          "explanation": "EPS = 14,40,000 x 0.75 / 6,00,000 = ₹1.80. Check Plan B: (14,40,000 - 4,80,000) x 0.75 / 4,00,000 = ₹1.80."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q04",
+          "type": "mcq",
+          "caseId": "ca-i-fm-05-capital-structure-case1",
+          "prompt": "If EBIT turns out to be only ₹12,00,000, which of Plans A and B gives the higher EPS?",
+          "options": [
+            "Plan A, because EBIT is below the indifference point",
+            "Plan B, because debt is cheaper than equity",
+            "Both give the same EPS",
+            "Plan B, because it issues fewer shares"
+          ],
+          "answer": 0,
+          "explanation": "Below ₹14,40,000 the equity plan wins. Plan A: 12,00,000 x 0.75 / 6,00,000 = ₹1.50; Plan B: 7,20,000 x 0.75 / 4,00,000 = ₹1.35."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q05",
+          "type": "mcq",
+          "caseId": "ca-i-fm-05-capital-structure-case1",
+          "prompt": "The financial break-even point under Plan B is:",
+          "options": [
+            "₹4,80,000",
+            "₹6,40,000",
+            "₹3,60,000",
+            "Nil"
+          ],
+          "answer": 0,
+          "explanation": "Financial BEP = Interest + PD/(1 - t) = 4,80,000 + 0 = ₹4,80,000. At this EBIT, EBT and EPS are zero. ₹6,40,000 wrongly grosses up interest by (1 - t)."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q06",
+          "type": "mcq",
+          "prompt": "Under the Net Income approach, as a firm increases the proportion of debt:",
+          "options": [
+            "The value of the firm rises and the overall cost of capital falls",
+            "The value of the firm is unchanged",
+            "The cost of equity rises so as to keep Ko constant",
+            "The overall cost of capital first falls and then rises"
+          ],
+          "answer": 0,
+          "explanation": "NI assumes Kd and Ke stay constant, so replacing costlier equity with cheaper debt keeps lowering Ko and raising V. A constant Ko is NOI; a U-shaped Ko is the traditional view."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q07",
+          "type": "mcq",
+          "prompt": "Which approach holds that the overall cost of capital is constant at all levels of leverage, with the cost of equity rising to offset cheaper debt?",
+          "options": [
+            "Net Operating Income approach",
+            "Net Income approach",
+            "Traditional approach",
+            "Pecking order theory"
+          ],
+          "answer": 0,
+          "explanation": "Under NOI, the market capitalises EBIT at a constant Ko, so firm value is independent of capital structure; Ke rises linearly with D/E."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q08",
+          "type": "numeric",
+          "prompt": "An unlevered firm is valued at ₹1,20,00,000. An otherwise identical firm has ₹40,00,000 of perpetual debt. Corporate tax is 25%. Under MM with corporate taxes, compute the value of the levered firm (₹, nearest rupee).",
+          "answer": 13000000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "VL = VU + tD = 1,20,00,000 + 0.25 x 40,00,000 = 1,20,00,000 + 10,00,000 = **₹1,30,00,000**. The tD term is the present value of the interest tax shield on perpetual debt."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q09",
+          "type": "numeric",
+          "prompt": "Under the NOI approach: EBIT ₹6,00,000, overall capitalisation rate 12%, debt ₹20,00,000 at 9%. Ignore tax. Compute the cost of equity as a % to 2 decimals.",
+          "answer": 14,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "V = 6,00,000 / 0.12 = 50,00,000. S = 50,00,000 - 20,00,000 = 30,00,000. Earnings for equity = 6,00,000 - 1,80,000 = 4,20,000. Ke = 4,20,000 / 30,00,000 = **14.00%**."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q10",
+          "type": "truefalse",
+          "prompt": "The traditional approach holds that there is an optimal capital structure at which the overall cost of capital is minimum.",
+          "answer": true,
+          "explanation": "Moderate debt lowers Ko because Ke rises only slowly at first; beyond a point Ke and Kd rise sharply and Ko goes up. The bottom of this U-shaped curve is the optimum."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q11",
+          "type": "multi",
+          "prompt": "Select all assumptions of the Modigliani-Miller (no tax) model.",
+          "options": [
+            "Capital markets are perfect, with no transaction costs",
+            "Firms can be grouped into homogeneous risk classes",
+            "Investors can borrow and lend at the same rate as firms",
+            "All earnings are distributed as dividends",
+            "The cost of debt rises sharply at high leverage"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "MM assume perfect markets, homogeneous risk classes, equal personal and corporate borrowing rates, full payout and no taxes. A rising Kd at high leverage is a feature of the traditional view."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: the level of EBIT at which EPS is the same under two alternative financing plans is called the ___ point.",
+          "accept": [
+            "indifference",
+            "EBIT-EPS indifference",
+            "indifference point",
+            "EBIT indifference"
+          ],
+          "explanation": "Above the indifference point the plan with more fixed-cost finance gives higher EPS; below it the equity plan does."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Firms U and L are identical except for capital structure. Both earn EBIT of ₹10,00,000. U is all-equity with Ke 12.5%. L has ₹30,00,000 of 10% debt and its equity is capitalised at 16%. Ignore taxes. Compute the value of each firm and show how an investor holding 10% of U's shares can gain through arbitrage under MM.",
+          "answer": "**1. Values**\n\n| Particulars | Firm U (₹) | Firm L (₹) |\n| --- | --- | --- |\n| EBIT | 10,00,000 | 10,00,000 |\n| Less: Interest | Nil | (3,00,000) |\n| Earnings for equity | 10,00,000 | 7,00,000 |\n| Ke | 12.5% | 16% |\n| Value of equity | 80,00,000 | 43,75,000 |\n| Value of debt | Nil | 30,00,000 |\n| **Value of firm** | **80,00,000** | **73,75,000** |\n\nU is overvalued relative to L, so arbitrage runs from U to L.\n\n**2. Arbitrage by an investor holding 10% of U**\n\n| Step | ₹ |\n| --- | --- |\n| Sell 10% of U's equity | 8,00,000 |\n| Buy 10% of L's equity | (4,37,500) |\n| Lend (buy 10% of L's debt), to undo L's leverage | (3,00,000) |\n| **Cash saved** | **62,500** |\n\n| Income | Before (₹) | After (₹) |\n| --- | --- | --- |\n| From U: 10% x 10,00,000 | 1,00,000 | - |\n| From L's equity: 10% x 7,00,000 | - | 70,000 |\n| Interest on lending: 10% x 3,00,000 | - | 30,000 |\n| **Total** | **1,00,000** | **1,00,000** |\n\nThe investor keeps the same income and the same risk while saving ₹62,500. Selling U and buying L continues until the two firms have equal values, which is MM's proposition that value does not depend on capital structure."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q14",
+          "type": "interview",
+          "top": true,
+          "prompt": "Compare the Net Income, Net Operating Income and traditional approaches to capital structure.",
+          "answer": "- NI (Durand): Kd and Ke are constant; using more cheap debt lowers Ko and raises firm value; optimal structure is maximum debt. Capital structure is relevant.\n- NOI (Durand): the market capitalises EBIT at a constant Ko; the benefit of cheap debt is exactly offset by a rise in Ke; value is independent of capital structure; no optimal structure.\n- Traditional: a middle path. Up to a point, debt lowers Ko because Ke rises only slowly; beyond it, Ke and Kd rise sharply and Ko increases. Ko is U-shaped and an optimal structure exists.\n- MM (no tax) supports the NOI conclusion with the arbitrage proof; with corporate tax, debt adds value through the tax shield (VL = VU + tD)."
+        },
+        {
+          "id": "ca-i-fm-05-capital-structure-q15",
+          "type": "interview",
+          "prompt": "What factors should a finance manager consider when deciding the capital structure of a company?",
+          "answer": "- Cost of each source and its effect on WACC (debt is cheaper after tax).\n- Risk: stability of sales and EBIT; firms with volatile earnings should use less debt (financial risk, leverage).\n- Control: equity dilutes control, debt does not.\n- Flexibility: keep unused borrowing capacity for future needs.\n- EBIT-EPS analysis: debt raises EPS only above the indifference point.\n- Tax rate (interest tax shield), lenders' covenants, asset structure available as security, market conditions and investor preferences.\n- Industry norms and legal or regulatory limits."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Intermediate study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: official website",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-fm-06-leverages",
+      "title": "Financing Decisions: Leverages",
+      "level": "intermediate",
+      "summary": "Operating, financial and combined leverage, their link to business and financial risk, the effect of sales changes on EBIT and EPS, and working back from leverage figures to an income statement.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Leverage and risk",
+          "body": "**Leverage** is the use of fixed costs to magnify the effect of a change in one figure on another.\n\n- **Operating leverage** comes from **fixed operating costs** (rent, salaries, depreciation). It magnifies the effect of a change in sales on **EBIT**. It measures **business risk**.\n- **Financial leverage** comes from **fixed financial charges** (interest, preference dividend). It magnifies the effect of a change in EBIT on **EPS**. It measures **financial risk**.\n- **Combined leverage** links the two: the effect of a change in sales on EPS. It measures **total risk**.\n\nThe income statement in **contribution format** is the starting point for every leverage question:\n\n| Particulars | Use |\n| --- | --- |\n| Sales |  |\n| Less: Variable costs |  |\n| **Contribution** | Numerator of DOL and DCL |\n| Less: Fixed operating costs |  |\n| **EBIT** | Denominator of DOL, numerator of DFL |\n| Less: Interest |  |\n| **EBT** | Denominator of DFL and DCL |\n| Less: Tax |  |\n| EAT, less preference dividend | Earnings for equity / EPS |"
+        },
+        {
+          "heading": "Formulas",
+          "body": "| Measure | Formula (level) | Formula (change) |\n| --- | --- | --- |\n| Degree of operating leverage (DOL) | Contribution / EBIT | % change in EBIT / % change in sales |\n| Degree of financial leverage (DFL) | EBIT / EBT | % change in EPS / % change in EBIT |\n| DFL with preference shares | EBIT / [EBT - PD / (1 - t)] |  |\n| Degree of combined leverage (DCL) | DOL x DFL = Contribution / EBT | % change in EPS / % change in sales |\n\nOther links:\n\n- **DOL = 1 / Margin of safety ratio**, because EBIT / Contribution = margin of safety / sales.\n- At the operating break-even point EBIT is zero, so DOL is undefined (infinite). Close to break-even, DOL is very high.\n- **Operating BEP (units) = Fixed costs / Contribution per unit.**\n- **Financial BEP = Interest + PD / (1 - t)**: the EBIT at which EPS is zero.\n\nICAI treats a combination of **low operating leverage and high financial leverage** as the ideal one: stable operations can safely carry debt that boosts EPS. High DOL with high DFL is the riskiest mix."
+        },
+        {
+          "heading": "Worked example",
+          "body": "Sales 20,000 units at ₹100; variable cost ₹60 per unit; fixed operating cost ₹5,00,000; interest ₹1,00,000.\n\n| Particulars | ₹ |\n| --- | --- |\n| Contribution (20,000 x 40) | 8,00,000 |\n| Less: Fixed costs | (5,00,000) |\n| EBIT | 3,00,000 |\n| Less: Interest | (1,00,000) |\n| EBT | 2,00,000 |\n\n- DOL = 8,00,000 / 3,00,000 = 2.67\n- DFL = 3,00,000 / 2,00,000 = 1.50\n- DCL = 8,00,000 / 2,00,000 = 4.00 (= 2.6667 x 1.5)\n\nIf sales rise by 10%, EBIT rises by 26.67% and EPS by 40%, whatever the tax rate, because tax is proportional to EBT."
+        },
+        {
+          "heading": "Working backwards from leverages",
+          "body": "A common exam question gives DOL, DFL and one or two figures and asks for the income statement. Use the definitions in reverse:\n\n- From DFL and interest: EBIT / (EBIT - I) = DFL gives EBIT = DFL x I / (DFL - 1).\n- From DOL and EBIT: Contribution = DOL x EBIT; fixed cost = Contribution - EBIT.\n- From the P/V ratio: Sales = Contribution / P/V ratio.\n\nAlways finish by building the full statement and re-computing DOL, DFL and DCL from it."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using EBT after tax (EAT) in DFL. Use EBT; tax cancels out in the % change version.\n- Forgetting to gross up preference dividend by (1 - t) in DFL.\n- Using gross profit instead of contribution in DOL. Gross profit already includes some fixed costs.\n- Treating interest as an operating fixed cost. Interest drives financial leverage only.\n- Reading a fall in sales as a fall in EPS by the same %. EPS falls by DCL times the % fall in sales."
+        }
+      ],
+      "keyPoints": [
+        "DOL = Contribution / EBIT = % change in EBIT / % change in sales (business risk).",
+        "DFL = EBIT / EBT = % change in EPS / % change in EBIT (financial risk); with preference shares, EBIT / [EBT - PD/(1 - t)].",
+        "DCL = DOL x DFL = Contribution / EBT = % change in EPS / % change in sales.",
+        "DOL = 1 / margin of safety ratio; DOL is infinite at operating break-even.",
+        "Working back: EBIT = DFL x I / (DFL - 1); Contribution = DOL x EBIT.",
+        "Low DOL with high DFL is regarded as the ideal combination; high DOL with high DFL is the riskiest."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-fm-06-leverages-case1",
+          "title": "Case: Godavari Cables Ltd",
+          "body": "Godavari Cables Ltd sells 50,000 coils a year at ₹200 each. Variable cost is ₹120 per coil and fixed operating costs are ₹15,00,000 a year. It has ₹50,00,000 of 10% debentures and 3,00,000 equity shares. Tax rate 25%. There is no preference capital."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-fm-06-leverages-q01",
+          "type": "mcq",
+          "caseId": "ca-i-fm-06-leverages-case1",
+          "prompt": "Godavari's degree of operating leverage is:",
+          "options": [
+            "1.60",
+            "1.25",
+            "2.00",
+            "2.67"
+          ],
+          "answer": 0,
+          "explanation": "Contribution = 50,000 x 80 = 40,00,000. EBIT = 40,00,000 - 15,00,000 = 25,00,000. DOL = 40,00,000 / 25,00,000 = **1.60**."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q02",
+          "type": "mcq",
+          "caseId": "ca-i-fm-06-leverages-case1",
+          "prompt": "Godavari's degree of financial leverage is:",
+          "options": [
+            "1.25",
+            "1.60",
+            "1.67",
+            "2.00"
+          ],
+          "answer": 0,
+          "explanation": "Interest = 10% x 50,00,000 = 5,00,000. EBT = 25,00,000 - 5,00,000 = 20,00,000. DFL = 25,00,000 / 20,00,000 = **1.25**. 1.67 would wrongly use EAT (25,00,000 / 15,00,000)."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q03",
+          "type": "numeric",
+          "caseId": "ca-i-fm-06-leverages-case1",
+          "prompt": "Compute the degree of combined leverage (to 2 decimals).",
+          "answer": 2,
+          "tolerance": 0.01,
+          "unit": "times",
+          "explanation": "DCL = Contribution / EBT = 40,00,000 / 20,00,000 = **2.00**, which equals DOL x DFL = 1.60 x 1.25."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q04",
+          "type": "numeric",
+          "caseId": "ca-i-fm-06-leverages-case1",
+          "prompt": "If sales volume rises by 15% (price and costs per unit unchanged), compute the new EPS in ₹ to 2 decimals.",
+          "answer": 6.5,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "Current EPS = 20,00,000 x 0.75 / 3,00,000 = ₹5.00. % change in EPS = DCL x 15% = 2 x 15% = 30%. New EPS = 5 x 1.30 = **₹6.50**.\n\nCheck: contribution 46,00,000 - FC 15,00,000 - interest 5,00,000 = EBT 26,00,000; EAT 19,50,000; EPS = 19,50,000 / 3,00,000 = ₹6.50."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q05",
+          "type": "numeric",
+          "caseId": "ca-i-fm-06-leverages-case1",
+          "prompt": "Compute the operating break-even point in units.",
+          "answer": 18750,
+          "tolerance": 0,
+          "unit": "units",
+          "explanation": "Operating BEP = Fixed costs / Contribution per unit = 15,00,000 / (200 - 120) = **18,750 units**. Margin of safety = 31,250 / 50,000 = 62.5%, and 1 / 0.625 = 1.6 = DOL."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q06",
+          "type": "mcq",
+          "prompt": "A company has DOL of 3 and DFL of 2. If sales fall by 10%, EPS will:",
+          "options": [
+            "Fall by 60%",
+            "Fall by 50%",
+            "Fall by 30%",
+            "Fall by 20%"
+          ],
+          "answer": 0,
+          "explanation": "DCL = 3 x 2 = 6. % change in EPS = 6 x (-10%) = -60%. 50% adds the leverages instead of multiplying them."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q07",
+          "type": "mcq",
+          "prompt": "At the operating break-even point, the degree of operating leverage is:",
+          "options": [
+            "Undefined (infinite), because EBIT is zero",
+            "Exactly 1",
+            "Zero",
+            "Equal to the degree of financial leverage"
+          ],
+          "answer": 0,
+          "explanation": "DOL = Contribution / EBIT and EBIT is zero at break-even, so the ratio is undefined. Just above break-even DOL is very large, showing high business risk."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q08",
+          "type": "mcq",
+          "prompt": "Which combination of leverages does ICAI describe as ideal?",
+          "options": [
+            "Low operating leverage and high financial leverage",
+            "High operating leverage and high financial leverage",
+            "High operating leverage and low financial leverage",
+            "Low operating leverage and low financial leverage"
+          ],
+          "answer": 0,
+          "explanation": "With low business risk, the firm can use debt to raise EPS without making total risk excessive. High-high is the riskiest; high DOL with low DFL is a cautious but common mix."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q09",
+          "type": "numeric",
+          "prompt": "EBIT is ₹12,00,000, interest ₹2,00,000, preference dividend ₹1,50,000 and tax rate 25%. Compute the degree of financial leverage (to 2 decimals).",
+          "answer": 1.5,
+          "tolerance": 0.01,
+          "unit": "times",
+          "explanation": "EBT = 10,00,000. Pre-tax equivalent of preference dividend = 1,50,000 / 0.75 = 2,00,000. DFL = 12,00,000 / (10,00,000 - 2,00,000) = **1.50**. Ignoring the preference dividend gives 1.20, which understates financial risk."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q10",
+          "type": "truefalse",
+          "prompt": "The degree of operating leverage equals the reciprocal of the margin of safety ratio.",
+          "answer": true,
+          "explanation": "EBIT = Contribution x MOS ratio (because EBIT = P/V ratio x margin of safety sales). So DOL = Contribution / EBIT = 1 / MOS ratio."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q11",
+          "type": "multi",
+          "prompt": "Other things remaining the same, select all changes that increase the degree of financial leverage.",
+          "options": [
+            "Additional borrowing at a fixed rate of interest",
+            "Issue of preference shares",
+            "A fall in EBIT with interest unchanged",
+            "Conversion of debentures into equity shares",
+            "Repayment of a term loan"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "DFL rises when fixed financial charges rise relative to EBIT. Conversion of debentures and loan repayment reduce interest and so lower DFL."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: degree of combined leverage = degree of operating leverage x degree of ___ leverage.",
+          "accept": [
+            "financial",
+            "financial leverage",
+            "DFL"
+          ],
+          "explanation": "DCL = DOL x DFL = Contribution / EBT. It measures the effect of a change in sales on EPS."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "From the following, prepare the income statement of Pench Ltd and verify the leverages.",
+          "data": "- Degree of financial leverage: 3\n- Degree of operating leverage: 4\n- Interest: ₹2,00,000\n- Variable cost: 60% of sales\n- Tax rate: 25%",
+          "answer": "**Workings**\n\n- DFL = EBIT / (EBIT - 2,00,000) = 3, so EBIT = 3 x 2,00,000 / 2 = **₹3,00,000**.\n- DOL = Contribution / EBIT = 4, so contribution = **₹12,00,000**.\n- Fixed cost = 12,00,000 - 3,00,000 = **₹9,00,000**.\n- P/V ratio = 40%, so sales = 12,00,000 / 0.40 = **₹30,00,000**.\n\n**Income statement of Pench Ltd**\n\n| Particulars | ₹ |\n| --- | --- |\n| Sales | 30,00,000 |\n| Less: Variable cost (60%) | (18,00,000) |\n| Contribution | 12,00,000 |\n| Less: Fixed cost | (9,00,000) |\n| EBIT | 3,00,000 |\n| Less: Interest | (2,00,000) |\n| EBT | 1,00,000 |\n| Less: Tax 25% | (25,000) |\n| **EAT** | **75,000** |\n\n**Verification**: DOL = 12,00,000 / 3,00,000 = 4; DFL = 3,00,000 / 1,00,000 = 3; DCL = 12,00,000 / 1,00,000 = 12 = 4 x 3."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q14",
+          "type": "interview",
+          "top": true,
+          "prompt": "Distinguish between operating leverage and financial leverage.",
+          "answer": "| Basis | Operating leverage | Financial leverage |\n| --- | --- | --- |\n| Source | Fixed operating costs | Fixed financial charges (interest, preference dividend) |\n| Links | Sales to EBIT | EBIT to EPS |\n| Risk measured | Business risk | Financial risk |\n| Formula | Contribution / EBIT | EBIT / EBT |\n| Controlled by | Cost structure (automation, outsourcing) | Capital structure (debt-equity mix) |\n| Section of income statement | Upper (operating) | Lower (financing) |\n\nCombined leverage (DOL x DFL) shows total risk. A firm with high operating leverage should usually keep financial leverage low."
+        },
+        {
+          "id": "ca-i-fm-06-leverages-q15",
+          "type": "interview",
+          "prompt": "Explain combined leverage and why a finance manager should monitor it.",
+          "answer": "- Combined leverage measures the effect of a change in sales on EPS: DCL = DOL x DFL = Contribution / EBT.\n- It captures total risk: business risk from fixed operating costs and financial risk from fixed financial charges.\n- A high DCL means a small fall in sales can wipe out EPS, while a rise in sales boosts EPS sharply.\n- Monitoring it helps set a sensible balance: a firm with high DOL should limit debt, while a firm with stable operations can take more debt.\n- It is useful in planning EPS targets, deciding on new financing, and in sensitivity analysis of profits to sales."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Intermediate study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: official website",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-fm-07-capital-budgeting",
+      "title": "Investment Decisions: Capital Budgeting",
+      "level": "advanced",
+      "summary": "Relevant cash flows, payback, discounted payback, ARR, NPV, profitability index and IRR, NPV-IRR conflicts, and the basics of risk analysis in capital budgeting.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Capital budgeting and relevant cash flows",
+          "body": "Capital budgeting is the process of evaluating long-term investment proposals (new plant, expansion, replacement, new products). The decisions involve large, mostly irreversible outlays whose benefits come over many years, so they must be judged on **incremental cash flows**, discounted at the **cost of capital**.\n\n**Rules for relevant cash flows**\n\n- Use cash flows, not accounting profit. **CFAT = PAT + Depreciation** = (EBDT - Depreciation)(1 - t) + Depreciation.\n- Take only incremental flows. Ignore **sunk costs** (for example a feasibility study already paid for); include **opportunity costs** (for example rent forgone on a building used for the project).\n- Ignore interest: financing cost is already in the discount rate.\n- **Working capital** invested at the start is an outflow and is usually recovered at the end of the project's life.\n- Include salvage value (net of tax effects where the question requires) in the final year.\n\n| Stage | Items |\n| --- | --- |\n| Initial outflow (year 0) | Cost of asset + installation + working capital - sale value of old asset (replacement) |\n| Operating inflows (years 1 to n) | CFAT = EBDT (1 - t) + Depreciation x t |\n| Terminal inflow (year n) | Salvage value + recovery of working capital |"
+        },
+        {
+          "heading": "Evaluation techniques",
+          "body": "| Technique | Formula / rule | Accept if | Main drawback |\n| --- | --- | --- | --- |\n| Payback period | Years to recover outlay from CFAT | Below target period | Ignores time value and flows after payback |\n| Discounted payback | Years to recover outlay from discounted CFAT | Below target period | Still ignores flows after payback |\n| Accounting rate of return (ARR) | Average PAT / Average investment x 100; average investment = (cost - salvage)/2 + salvage + working capital | Above target rate | Uses profit, ignores time value |\n| Net present value (NPV) | PV of inflows - PV of outflows | NPV > 0 | Needs a discount rate; absolute figure ignores scale |\n| Profitability index (PI) | PV of inflows / PV of outflows | PI > 1 | Can conflict with NPV for mutually exclusive projects |\n| Internal rate of return (IRR) | Rate at which NPV = 0 | IRR > cost of capital | Multiple IRRs for non-conventional flows; reinvestment assumption |\n\n**IRR by interpolation**: find two rates, one giving a positive NPV and one a negative NPV, then\n\n**IRR = L + [NPV at L / (NPV at L - NPV at H)] x (H - L)**\n\nFor equal annual inflows, compute the payback factor (outlay / annual CFAT) and find it in the annuity table between two rates.\n\n**NPV vs IRR conflict** for mutually exclusive projects arises from differences in size, timing of cash flows or life. NPV assumes reinvestment at the cost of capital, IRR at the IRR itself. NPV is preferred because it measures the absolute addition to wealth."
+        },
+        {
+          "heading": "Risk analysis basics",
+          "body": "- **Risk-adjusted discount rate (RADR)**: discount at Rf + risk premium; riskier projects get higher rates.\n- **Certainty equivalent (CE)**: multiply each expected cash flow by a CE coefficient (0 to 1) to get certain cash flows, then discount at the **risk-free rate**. Do not add a risk premium again.\n- **Sensitivity analysis**: change one variable at a time (price, volume, cost, life, discount rate) and find the % change that makes NPV zero. Smaller % = more sensitive = riskier variable.\n- **Scenario analysis**: NPV under worst, base and best combinations of variables.\n- **Expected NPV and probability**: weight outcomes by probability; use standard deviation or coefficient of variation to compare risk.\n- **Decision trees** for sequential decisions; **simulation** (Monte Carlo) for many uncertain variables."
+        },
+        {
+          "heading": "Worked example: payback, discounted payback, NPV and PI",
+          "body": "Outlay ₹6,00,000; CFAT ₹2,00,000, ₹2,50,000, ₹2,50,000, ₹1,50,000; cost of capital 10%.\n\n| Year | CFAT (₹) | PV factor 10% | PV (₹) | Cumulative PV (₹) |\n| --- | --- | --- | --- | --- |\n| 1 | 2,00,000 | 0.909 | 1,81,800 | 1,81,800 |\n| 2 | 2,50,000 | 0.826 | 2,06,500 | 3,88,300 |\n| 3 | 2,50,000 | 0.751 | 1,87,750 | 5,76,050 |\n| 4 | 1,50,000 | 0.683 | 1,02,450 | 6,78,500 |\n\n- Payback = 2 + 1,50,000 / 2,50,000 = **2.6 years**.\n- Discounted payback = 3 + (6,00,000 - 5,76,050) / 1,02,450 = **3.23 years**.\n- NPV = 6,78,500 - 6,00,000 = **₹78,500**; PI = 6,78,500 / 6,00,000 = **1.13**."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Deducting interest in CFAT. The discount rate already covers financing cost.\n- Forgetting to recover working capital at the end, or to include it in the initial outlay.\n- Adding the full depreciation charge to EBDT instead of the tax saving on it (CFAT = EBDT(1 - t) + Dep x t).\n- Treating sunk costs as relevant.\n- Ranking mutually exclusive projects of different size by PI or IRR when NPV gives a different answer. Use NPV.\n- In the CE approach, discounting at the cost of capital instead of the risk-free rate (double counting risk)."
+        }
+      ],
+      "keyPoints": [
+        "CFAT = PAT + depreciation = EBDT(1 - t) + depreciation x t. Ignore interest and sunk costs; include opportunity costs.",
+        "Working capital is an outflow at the start and an inflow at the end.",
+        "ARR = average PAT / average investment; average investment = (cost - salvage)/2 + salvage + working capital.",
+        "NPV > 0, PI > 1, IRR > Ko: accept. NPV is preferred when methods conflict.",
+        "IRR = L + [NPV_L / (NPV_L - NPV_H)] x (H - L).",
+        "CE approach: CE coefficient x expected cash flow, discounted at the risk-free rate. RADR: discount at Rf + risk premium."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-fm-07-capital-budgeting-case1",
+          "title": "Case: Tungabhadra Packaging Ltd",
+          "body": "Tungabhadra Packaging Ltd is considering a new laminating machine.\n\n- Cost ₹20,00,000; life 5 years; no salvage value; straight-line depreciation.\n- Additional working capital of ₹2,00,000 is needed at the start and will be released at the end of year 5.\n- Tax rate 25%; cost of capital 12%.\n\n| Year | 1 | 2 | 3 | 4 | 5 |\n| --- | --- | --- | --- | --- | --- |\n| Earnings before depreciation and tax (₹) | 6,00,000 | 7,00,000 | 8,00,000 | 8,00,000 | 6,00,000 |\n| PV factor at 12% | 0.893 | 0.797 | 0.712 | 0.636 | 0.567 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q01",
+          "type": "numeric",
+          "caseId": "ca-i-fm-07-capital-budgeting-case1",
+          "prompt": "Compute the payback period of the project (total outlay including working capital, CFAT including working capital release), in years to 2 decimals.",
+          "answer": 3.46,
+          "tolerance": 0.01,
+          "unit": "years",
+          "explanation": "Depreciation = 20,00,000 / 5 = 4,00,000. CFAT = (EBDT - 4,00,000) x 0.75 + 4,00,000.\n\n| Year | PAT (₹) | CFAT (₹) | Cumulative (₹) |\n| --- | --- | --- | --- |\n| 1 | 1,50,000 | 5,50,000 | 5,50,000 |\n| 2 | 2,25,000 | 6,25,000 | 11,75,000 |\n| 3 | 3,00,000 | 7,00,000 | 18,75,000 |\n| 4 | 3,00,000 | 7,00,000 | 25,75,000 |\n| 5 | 1,50,000 | 7,50,000 (incl. WC 2,00,000) | 33,25,000 |\n\nOutlay = 22,00,000. After 3 years 18,75,000 is recovered; balance 3,25,000 / 7,00,000 = 0.46. Payback = **3.46 years**."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q02",
+          "type": "numeric",
+          "caseId": "ca-i-fm-07-capital-budgeting-case1",
+          "prompt": "Compute the NPV of the project using the PV factors given (₹, nearest rupee).",
+          "answer": 158125,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Year | CFAT (₹) | PV factor | PV (₹) |\n| --- | --- | --- | --- |\n| 1 | 5,50,000 | 0.893 | 4,91,150 |\n| 2 | 6,25,000 | 0.797 | 4,98,125 |\n| 3 | 7,00,000 | 0.712 | 4,98,400 |\n| 4 | 7,00,000 | 0.636 | 4,45,200 |\n| 5 | 7,50,000 | 0.567 | 4,25,250 |\n| **Total PV of inflows** |  |  | **23,58,125** |\n| Less: Outlay (20,00,000 + 2,00,000) |  |  | (22,00,000) |\n| **NPV** |  |  | **1,58,125** |"
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q03",
+          "type": "mcq",
+          "caseId": "ca-i-fm-07-capital-budgeting-case1",
+          "prompt": "The profitability index of the project (to 2 decimals) is:",
+          "options": [
+            "1.07",
+            "1.18",
+            "0.07",
+            "1.00"
+          ],
+          "answer": 0,
+          "explanation": "PI = PV of inflows / PV of outflows = 23,58,125 / 22,00,000 = **1.07**. 1.18 wrongly leaves working capital out of the outlay; 0.07 is NPV / outlay."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q04",
+          "type": "mcq",
+          "caseId": "ca-i-fm-07-capital-budgeting-case1",
+          "prompt": "The accounting rate of return on average investment is:",
+          "options": [
+            "18.75%",
+            "11.25%",
+            "22.50%",
+            "10.23%"
+          ],
+          "answer": 0,
+          "explanation": "Average PAT = (1,50,000 + 2,25,000 + 3,00,000 + 3,00,000 + 1,50,000) / 5 = 2,25,000. Average investment = 20,00,000/2 + 2,00,000 working capital = 12,00,000. ARR = 2,25,000 / 12,00,000 = **18.75%**. 11.25% uses the initial investment of 20,00,000 without working capital; 22.50% omits working capital from the average investment."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q05",
+          "type": "mcq",
+          "caseId": "ca-i-fm-07-capital-budgeting-case1",
+          "prompt": "What should Tungabhadra decide?",
+          "options": [
+            "Accept: NPV is positive and PI exceeds 1",
+            "Reject: payback exceeds half the project's life",
+            "Reject: ARR is below the cost of capital plus tax",
+            "Accept only if the IRR is below 12%"
+          ],
+          "answer": 0,
+          "explanation": "NPV of ₹1,58,125 means the project earns more than 12% and adds to shareholders' wealth. Payback is not a reason to reject a positive-NPV project unless a liquidity constraint is stated."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q06",
+          "type": "mcq",
+          "prompt": "The main reason NPV and IRR can rank mutually exclusive projects differently is that:",
+          "options": [
+            "NPV assumes reinvestment of intermediate cash flows at the cost of capital, while IRR assumes reinvestment at the IRR",
+            "NPV ignores the time value of money",
+            "IRR uses accounting profit while NPV uses cash flows",
+            "IRR cannot be computed for projects with equal annual cash flows"
+          ],
+          "answer": 0,
+          "explanation": "Differences in size, timing and life combined with different reinvestment assumptions cause conflicts. Reinvestment at the cost of capital is more realistic, so NPV is preferred."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q07",
+          "type": "mcq",
+          "prompt": "Under the certainty equivalent approach, the certainty-equivalent cash flows are discounted at:",
+          "options": [
+            "The risk-free rate",
+            "The risk-adjusted discount rate",
+            "The firm's WACC plus a risk premium",
+            "The project's IRR"
+          ],
+          "answer": 0,
+          "explanation": "The CE coefficients already remove risk from the cash flows. Discounting them at a risk-adjusted rate would count risk twice."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q08",
+          "type": "numeric",
+          "prompt": "A project costs ₹10,00,000 and gives CFAT of ₹3,00,000 a year for 5 years. The 5-year annuity factors are 3.352 at 15% and 3.274 at 16%. Compute the IRR by interpolation, as a % to 2 decimals.",
+          "answer": 15.24,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "Payback factor = 10,00,000 / 3,00,000 = 3.333. It lies between 3.352 (15%) and 3.274 (16%).\n\nIRR = 15 + (3.352 - 3.3333) / (3.352 - 3.274) x 1 = 15 + 0.0187 / 0.078 = 15 + 0.24 = **15.24%**."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q09",
+          "type": "numeric",
+          "prompt": "A project costs ₹5,00,000. Expected CFAT is ₹3,00,000 in each of years 1 and 2, with certainty-equivalent coefficients of 0.9 and 0.8. Risk-free rate 6% (PV factors 0.943 and 0.890). Compute the NPV under the certainty equivalent approach (₹, nearest rupee; enter a negative number if negative).",
+          "answer": -31790,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Year | Expected CFAT | CE | Certain CFAT | PV factor 6% | PV (₹) |\n| --- | --- | --- | --- | --- | --- |\n| 1 | 3,00,000 | 0.9 | 2,70,000 | 0.943 | 2,54,610 |\n| 2 | 3,00,000 | 0.8 | 2,40,000 | 0.890 | 2,13,600 |\n|  |  |  |  | Total | 4,68,210 |\n\nNPV = 4,68,210 - 5,00,000 = **-₹31,790**. Reject the project."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q10",
+          "type": "truefalse",
+          "prompt": "The payback period method ignores cash flows that arise after the payback period.",
+          "answer": true,
+          "explanation": "This is its main weakness along with ignoring time value. Discounted payback fixes the time value problem but still ignores later flows."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q11",
+          "type": "multi",
+          "prompt": "Select all the discounted cash flow (DCF) techniques.",
+          "options": [
+            "Net present value",
+            "Profitability index",
+            "Internal rate of return",
+            "Discounted payback period",
+            "Accounting rate of return",
+            "Simple payback period"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "DCF techniques discount future cash flows. ARR uses accounting profit and simple payback ignores time value, so both are traditional (non-discounting) methods."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: profitability index = present value of cash inflows / present value of cash ___.",
+          "accept": [
+            "outflows",
+            "outflow",
+            "outlay"
+          ],
+          "explanation": "PI > 1 means NPV > 0. PI is useful for ranking projects under capital rationing."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q13",
+          "type": "practical",
+          "prompt": "A project costs ₹6,00,000 and yields CFAT of ₹2,00,000, ₹2,50,000, ₹2,50,000 and ₹1,50,000 over years 1 to 4. Cost of capital 10% (PV factors 0.909, 0.826, 0.751, 0.683). Compute the payback period, discounted payback period, NPV and profitability index.",
+          "answer": "| Year | CFAT (₹) | Cumulative CFAT (₹) | PV factor | PV (₹) | Cumulative PV (₹) |\n| --- | --- | --- | --- | --- | --- |\n| 1 | 2,00,000 | 2,00,000 | 0.909 | 1,81,800 | 1,81,800 |\n| 2 | 2,50,000 | 4,50,000 | 0.826 | 2,06,500 | 3,88,300 |\n| 3 | 2,50,000 | 7,00,000 | 0.751 | 1,87,750 | 5,76,050 |\n| 4 | 1,50,000 | 8,50,000 | 0.683 | 1,02,450 | 6,78,500 |\n\n| Measure | Working | Result |\n| --- | --- | --- |\n| Payback period | 2 + (6,00,000 - 4,50,000) / 2,50,000 | 2.6 years |\n| Discounted payback | 3 + (6,00,000 - 5,76,050) / 1,02,450 | 3.23 years |\n| NPV | 6,78,500 - 6,00,000 | ₹78,500 |\n| Profitability index | 6,78,500 / 6,00,000 | 1.13 |\n\nThe project is acceptable: NPV is positive and PI exceeds 1. Discounted payback is longer than simple payback because later inflows are worth less."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q14",
+          "type": "interview",
+          "top": true,
+          "prompt": "Compare NPV and IRR. Which should be preferred when they give conflicting rankings for mutually exclusive projects?",
+          "answer": "- NPV is the absolute surplus of PV of inflows over outflows at the cost of capital; IRR is the rate at which NPV is zero.\n- For independent conventional projects both give the same accept/reject decision.\n- For mutually exclusive projects they can conflict because of differences in initial outlay (size), timing of cash flows, or project life.\n- NPV assumes reinvestment at the cost of capital; IRR assumes reinvestment at the IRR, which is often unrealistic.\n- IRR can give multiple or no answers for non-conventional cash flows; NPV is additive across projects.\n- NPV is preferred because it measures the actual increase in shareholders' wealth. Modified IRR can be used to remove the reinvestment problem."
+        },
+        {
+          "id": "ca-i-fm-07-capital-budgeting-q15",
+          "type": "interview",
+          "prompt": "Explain the main techniques of risk analysis in capital budgeting.",
+          "answer": "- Risk-adjusted discount rate: discount at the risk-free rate plus a premium that rises with project risk. Simple but assumes risk grows over time at a constant rate.\n- Certainty equivalent: convert expected cash flows into certain ones using coefficients between 0 and 1 and discount at the risk-free rate. Separates time and risk, but coefficients are subjective.\n- Sensitivity analysis: change one variable at a time and see the effect on NPV; identifies critical variables, but ignores interdependence.\n- Scenario analysis: NPV under pessimistic, most likely and optimistic sets of variables.\n- Probability approach: expected NPV, standard deviation and coefficient of variation.\n- Decision trees for sequential decisions and Monte Carlo simulation for many uncertain variables."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Intermediate study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: official website",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-fm-08-dividend",
+      "title": "Dividend Decision",
+      "level": "advanced",
+      "summary": "Relevance and irrelevance theories of dividend: Walter, Gordon, Modigliani-Miller, Graham-Dodd and Lintner models, with the factors that shape a firm's dividend policy.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "The dividend decision",
+          "body": "The dividend decision splits earnings between **payout** (dividend) and **retention** (reinvestment). Retention is the cheapest internal source of finance, so the decision is linked to the investment and financing decisions.\n\nTwo schools of thought:\n\n- **Relevance theories** (Walter, Gordon, traditional Graham-Dodd): dividend policy affects the share price.\n- **Irrelevance theory** (Modigliani-Miller): in perfect markets, value depends only on earning power and investment policy, not on how earnings are split.\n\nKey terms: payout ratio = DPS / EPS; retention ratio b = 1 - payout; r = return on investment of retained earnings; Ke = shareholders' required return; g = b x r."
+        },
+        {
+          "heading": "Walter's model",
+          "body": "**P = [D + (r / Ke)(E - D)] / Ke**\n\nwhere P = market price, D = DPS, E = EPS.\n\nAssumptions: all financing through retained earnings (no new debt or equity), r and Ke constant, perpetual life, constant EPS and DPS.\n\n| Type of firm | Condition | Optimal payout |\n| --- | --- | --- |\n| Growth | r > Ke | 0% (retain everything) |\n| Normal | r = Ke | Irrelevant: any payout gives the same price |\n| Declining | r < Ke | 100% (pay out everything) |\n\nExample: E = ₹10, D = ₹4, Ke = 10%.\n\n| r | Working | Price (₹) |\n| --- | --- | --- |\n| 12% (growth) | [4 + 1.2 x 6] / 0.10 | 112.00 |\n| 10% (normal) | [4 + 1.0 x 6] / 0.10 | 100.00 |\n| 8% (declining) | [4 + 0.8 x 6] / 0.10 | 88.00 |"
+        },
+        {
+          "heading": "Gordon's model and the bird-in-hand argument",
+          "body": "**P0 = E1 (1 - b) / (Ke - br)**, where br = g. It is the dividend growth model written in terms of retention.\n\nAssumptions: all-equity firm, retained earnings the only source, r and Ke constant, Ke > br, perpetual life, no taxes.\n\nConclusions match Walter: retain more when r > Ke, pay out when r < Ke, irrelevant when r = Ke. The model breaks down if br ≥ Ke.\n\nGordon also argued (**bird-in-hand**) that investors are risk-averse and value a certain dividend today above uncertain future gains, so Ke rises as retention rises. On this view, dividends matter even for a normal firm."
+        },
+        {
+          "heading": "Modigliani-Miller, Graham-Dodd and Lintner",
+          "body": "**MM irrelevance**: P0 = (D1 + P1) / (1 + Ke). A dividend paid now reduces the year-end price by the same amount, so shareholders' wealth is unchanged. If the firm pays a dividend and still invests, it raises the shortfall by issuing new shares:\n\n- Number of new shares Δn = [I - (E - nD1)] / P1\n- Value of firm = [(n + Δn) P1 - I + E] / (1 + Ke), which is the same whatever the dividend.\n\nAssumptions: perfect markets, no taxes or flotation costs, fixed investment policy, certainty. Criticisms: taxes, flotation costs, transaction costs, uncertainty and information content of dividends make dividends relevant in practice.\n\n**Graham and Dodd (traditional)**: P = m (D + E/3), where m is a multiplier. Dividends get three times the weight of retained earnings.\n\n**Lintner**: companies smooth dividends towards a target payout. D1 = D0 + [(EPS x target payout) - D0] x adjustment factor."
+        },
+        {
+          "heading": "Dividend policy in practice and common mistakes",
+          "body": "Factors: legal constraints (dividend only out of profits, as the Companies Act requires), liquidity, need for funds and growth opportunities, access to capital markets, stability of earnings, shareholder preferences and tax, lenders' covenants, inflation, and the signal a dividend change sends.\n\nForms: cash dividend, stock (bonus) dividend, share buy-back; policies: stable dividend per share, stable payout ratio, low regular plus extra.\n\n**Common mistakes**\n\n- Using r where Ke belongs in Walter's denominator. The outer division is by Ke.\n- Using EPS instead of DPS in the numerator of Gordon's model.\n- In MM, forgetting to compute P1 separately for \"dividend\" and \"no dividend\" cases.\n- Applying Gordon when br ≥ Ke; the formula gives a meaningless or negative price."
+        }
+      ],
+      "keyPoints": [
+        "Walter: P = [D + (r/Ke)(E - D)] / Ke. r > Ke retain all; r < Ke pay all; r = Ke irrelevant.",
+        "Gordon: P0 = E(1 - b) / (Ke - br); requires Ke > br. Bird-in-hand: certain dividends valued more.",
+        "MM: P0 = (D1 + P1)/(1 + Ke); new shares Δn = [I - (E - nD1)] / P1; firm value unchanged by dividend.",
+        "Graham-Dodd: P = m(D + E/3).",
+        "Lintner: D1 = D0 + (target payout x EPS - D0) x adjustment factor.",
+        "MM is criticised for ignoring taxes, flotation costs, transaction costs, uncertainty and information content."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-fm-08-dividend-case1",
+          "title": "Case: Kaveri Chemicals Ltd",
+          "body": "Kaveri Chemicals Ltd has EPS of ₹20. Its shareholders require 12% (Ke) and the company earns 15% (r) on reinvested funds. The board is choosing between payout ratios of 20%, 50% and 100%. Assume the conditions of Walter's and Gordon's models hold."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-fm-08-dividend-q01",
+          "type": "numeric",
+          "caseId": "ca-i-fm-08-dividend-case1",
+          "prompt": "Using Walter's model, compute the market price per share at a 20% payout (₹, 2 decimals).",
+          "answer": 200,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "D = 20 x 20% = 4. P = [4 + (0.15/0.12)(20 - 4)] / 0.12 = [4 + 1.25 x 16] / 0.12 = 24 / 0.12 = **₹200.00**."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q02",
+          "type": "numeric",
+          "caseId": "ca-i-fm-08-dividend-case1",
+          "prompt": "Using Gordon's model, compute the market price per share at a 50% payout (₹, 2 decimals). Take EPS of ₹20 as E1.",
+          "answer": 222.22,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "b = 0.5, br = 0.5 x 0.15 = 0.075. P = 20 x 0.5 / (0.12 - 0.075) = 10 / 0.045 = **₹222.22**."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q03",
+          "type": "mcq",
+          "caseId": "ca-i-fm-08-dividend-case1",
+          "prompt": "Under Walter's model, the optimal payout ratio for Kaveri is:",
+          "options": [
+            "0%, because r exceeds Ke",
+            "100%, because shareholders want cash",
+            "50%, because it balances growth and income",
+            "Any payout, because dividend policy is irrelevant"
+          ],
+          "answer": 0,
+          "explanation": "Kaveri is a growth firm (r 15% > Ke 12%). Price rises as payout falls: ₹208.33 at 0%, ₹200 at 20%, ₹187.50 at 50%, ₹166.67 at 100%."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q04",
+          "type": "mcq",
+          "caseId": "ca-i-fm-08-dividend-case1",
+          "prompt": "Under Walter's model, the price at a 100% payout would be:",
+          "options": [
+            "₹166.67",
+            "₹187.50",
+            "₹200.00",
+            "₹133.33"
+          ],
+          "answer": 0,
+          "explanation": "With D = E = 20, the retention term is zero: P = 20 / 0.12 = ₹166.67. At 100% payout, every model reduces to E / Ke."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q05",
+          "type": "mcq",
+          "caseId": "ca-i-fm-08-dividend-case1",
+          "prompt": "If Kaveri could earn only 10% on reinvested funds, its optimal payout under Walter's model would be:",
+          "options": [
+            "100%",
+            "0%",
+            "50%",
+            "Indeterminate"
+          ],
+          "answer": 0,
+          "explanation": "With r (10%) < Ke (12%), the firm is a declining firm; shareholders can earn more elsewhere, so paying out everything maximises price."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q06",
+          "type": "mcq",
+          "prompt": "According to Modigliani and Miller, dividend policy does not affect the value of the firm because:",
+          "options": [
+            "A dividend paid now is exactly offset by a fall in the year-end share price, and any funding gap is filled by issuing new shares at a fair price",
+            "Investors always prefer capital gains to dividends",
+            "Dividends are taxed more heavily than capital gains",
+            "Firms with high payouts have lower cost of equity"
+          ],
+          "answer": 0,
+          "explanation": "Under perfect markets, P0 = (D1 + P1)/(1 + Ke), so a higher D1 means a lower P1. Wealth depends only on earnings and investment policy."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q07",
+          "type": "mcq",
+          "prompt": "Under Gordon's model, for a growth firm (r > Ke), increasing the retention ratio will:",
+          "options": [
+            "Increase the share price",
+            "Decrease the share price",
+            "Leave the share price unchanged",
+            "Make the share price infinite in all cases"
+          ],
+          "answer": 0,
+          "explanation": "Reinvesting at r > Ke creates value, so a higher b raises P (as long as br stays below Ke)."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q08",
+          "type": "numeric",
+          "prompt": "Using Lintner's model: last year's DPS was ₹4, current EPS is ₹12, the target payout ratio is 50% and the adjustment factor is 0.4. Compute the expected DPS (₹, 2 decimals).",
+          "answer": 4.8,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "Target dividend = 12 x 50% = 6. D1 = 4 + (6 - 4) x 0.4 = 4 + 0.8 = **₹4.80**. Firms move only part of the way to the target, which smooths dividends."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q09",
+          "type": "numeric",
+          "prompt": "Using the Graham-Dodd model with a multiplier of 8, DPS of ₹6 and EPS of ₹15, compute the market price per share (₹).",
+          "answer": 88,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "P = m(D + E/3) = 8 x (6 + 15/3) = 8 x 11 = **₹88**."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q10",
+          "type": "truefalse",
+          "prompt": "Under Walter's model, the dividend payout ratio does not affect the share price of a firm whose return on investment equals its cost of equity.",
+          "answer": true,
+          "explanation": "With r = Ke, the term r/Ke = 1 and P = [D + (E - D)] / Ke = E / Ke for every D."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q11",
+          "type": "multi",
+          "prompt": "Select all assumptions of Walter's model.",
+          "options": [
+            "All investment is financed by retained earnings only",
+            "The return on investment (r) and cost of equity (Ke) are constant",
+            "The firm has a perpetual life",
+            "The firm raises new debt every year to fund growth",
+            "Dividends are taxed at a higher rate than capital gains"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Walter assumes no external financing, constant r and Ke, constant EPS and DPS and a perpetual life. Taxes are ignored."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: Gordon's argument that investors value a certain dividend today more than uncertain future capital gains is called the bird-in-the-___ argument.",
+          "accept": [
+            "hand",
+            "bird in hand"
+          ],
+          "explanation": "\"A bird in the hand is worth two in the bush.\" Risk-averse investors discount distant gains at a higher rate, so retention raises Ke."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Ganga Ltd has 1,00,000 shares at ₹100 each. Ke is 10%. It expects net income of ₹10,00,000 and plans investment of ₹15,00,000 this year. It is considering a dividend of ₹5 per share at year-end. Using the MM model, compute (a) the year-end price with and without the dividend, (b) the number of new shares to be issued in each case, and (c) show that the value of the firm is the same.",
+          "answer": "**(a) Year-end price**: P0 = (D1 + P1)/(1 + Ke), so P1 = P0(1 + Ke) - D1.\n\n- With dividend: 100 x 1.10 - 5 = **₹105**\n- Without dividend: 100 x 1.10 - 0 = **₹110**\n\n**(b) New shares**\n\n| Particulars | Dividend paid (₹) | No dividend (₹) |\n| --- | --- | --- |\n| Investment required | 15,00,000 | 15,00,000 |\n| Net income | 10,00,000 | 10,00,000 |\n| Less: Dividend | (5,00,000) | Nil |\n| Retained earnings | 5,00,000 | 10,00,000 |\n| Amount to be raised | 10,00,000 | 5,00,000 |\n| Price of new share (P1) | 105 | 110 |\n| **New shares (Δn)** | **9,523.81** | **4,545.45** |\n\n**(c) Value of the firm** = [(n + Δn)P1 - I + E] / (1 + Ke)\n\n- With dividend: [(1,00,000 + 9,523.81) x 105 - 15,00,000 + 10,00,000] / 1.10 = (1,15,00,000 - 5,00,000) / 1.10 = **₹1,00,00,000**\n- Without dividend: [(1,00,000 + 4,545.45) x 110 - 15,00,000 + 10,00,000] / 1.10 = (1,15,00,000 - 5,00,000) / 1.10 = **₹1,00,00,000**\n\nThe value is ₹1 crore either way, which proves MM's irrelevance proposition."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q14",
+          "type": "interview",
+          "top": true,
+          "prompt": "State the Modigliani-Miller dividend irrelevance theory, its assumptions and its criticisms.",
+          "answer": "- Theory: in perfect capital markets the value of a firm depends on its earning power and investment policy, not on its dividend policy. A dividend paid today lowers the ex-dividend price by the same amount; any funding gap is met by issuing new shares, so shareholders' wealth is unchanged.\n- Formula: P0 = (D1 + P1)/(1 + Ke).\n- Assumptions: perfect capital markets, rational investors, no taxes (or no difference between dividend and capital gains tax), no flotation or transaction costs, fixed investment policy, certainty about future profits.\n- Criticisms: taxes differ between dividends and gains; flotation costs make external equity dearer than retained earnings; transaction costs make home-made dividends costly; under uncertainty dividends carry information (signalling); investors may prefer current income (bird-in-hand); markets are not perfect."
+        },
+        {
+          "id": "ca-i-fm-08-dividend-q15",
+          "type": "interview",
+          "prompt": "Explain the factors that determine the dividend policy of a company.",
+          "answer": "- Legal restrictions: dividend can be paid only out of profits as permitted by company law; lenders' covenants may limit payouts.\n- Liquidity: profit may be tied up in assets; cash must be available.\n- Investment opportunities and need for funds: growth firms retain more.\n- Access to capital markets and cost of external funds.\n- Stability of earnings: stable earnings support a stable dividend.\n- Shareholders' expectations, tax position and the signal a change sends.\n- Control: retention avoids dilution from new issues.\n- Inflation and the need to replace assets at higher cost."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Intermediate study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: official website",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-fm-09-working-capital",
+      "title": "Management of Working Capital",
+      "level": "advanced",
+      "summary": "Operating cycle, estimation of working capital requirement, financing of working capital, and the management of cash, receivables, payables and inventory.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Concepts and the operating cycle",
+          "body": "- **Gross working capital** = total current assets. **Net working capital** = current assets - current liabilities.\n- **Permanent (fixed) working capital** is the minimum level always needed; **temporary (fluctuating)** working capital meets seasonal or peak needs.\n- Too much working capital hurts profitability (idle funds); too little hurts liquidity. Managing it is a **risk-return trade-off**.\n\nThe **operating cycle** is the time from paying for raw materials to collecting cash from customers:\n\n**Operating cycle = R + W + F + D - C**\n\n| Component | Formula (days) |\n| --- | --- |\n| R: raw material storage period | Average RM stock / Average daily RM consumption |\n| W: work-in-progress period | Average WIP / Average daily cost of production |\n| F: finished goods storage period | Average FG stock / Average daily cost of goods sold |\n| D: receivables collection period | Average receivables / Average daily credit sales |\n| C: payables deferral period | Average payables / Average daily credit purchases |\n\nExample: R 60, W 15, F 30, D 45, C 40 days gives an operating cycle of **110 days**. The number of cycles in a 360-day year is 360 / 110."
+        },
+        {
+          "heading": "Estimating working capital requirement",
+          "body": "ICAI questions give a cost sheet per unit, holding periods and credit periods, and ask for a statement of working capital. Two bases exist; follow the question.\n\n- **Cash cost basis**: exclude depreciation (non-cash) and profit. Receivables are valued at cash cost of sales. This is the preferred basis because working capital finances cash costs.\n- **Total cost / sales value basis**: receivables at cost of sales or at sales value if the question says so.\n\n| Item | Valuation |\n| --- | --- |\n| Raw material stock | Months of RM holding x monthly RM consumption |\n| Work-in-progress | Months x monthly production cost, with RM usually 100% and labour/overheads at stated % completion (often 50%) |\n| Finished goods | Months x monthly cost of production (cash cost) |\n| Receivables | Months x monthly cash cost of sales (or sales value if stated) |\n| Cash | As given |\n| Less: Payables for RM | Months of credit x monthly RM purchases |\n| Less: Outstanding wages and overheads | Lag in months x monthly amount |\n| Add: Contingency / safety margin | % as stated, on net working capital |"
+        },
+        {
+          "heading": "Financing and managing the components",
+          "body": "**Financing approaches**\n\n- **Matching (hedging)**: permanent needs from long-term funds, temporary needs from short-term funds.\n- **Conservative**: long-term funds also cover part of temporary needs. Lower risk, lower return.\n- **Aggressive**: short-term funds also finance part of permanent needs. Higher return, higher refinancing risk.\n\n**Cash management**: prepare cash budgets; hold cash for transaction, precautionary and speculative motives. **Baumol model**: optimum cash = √(2 x U x P / S), where U = annual cash requirement, P = fixed cost per conversion of securities to cash, S = interest rate on securities. **Miller-Orr model**: cash moves randomly between a lower limit and an upper limit; when it hits either, it is restored to the **return point** (lower limit + spread / 3).\n\n**Receivables management**: set credit standards, credit period, cash discount and collection policy. Evaluate a change in policy by incremental analysis: extra contribution minus extra bad debts, extra collection cost and the cost of funds tied up in extra receivables (at cost). **Factoring** transfers collection and, if without recourse, credit risk to the factor for a fee.\n\n**Payables management**: use the full credit period, but compare the cost of forgoing a cash discount with the cost of borrowing.\n\n**Inventory management**: **EOQ = √(2AO / C)**, where A = annual demand, O = ordering cost per order, C = carrying cost per unit per year. Use ABC analysis and set reorder levels and safety stock."
+        },
+        {
+          "heading": "Worked example: evaluating a change in credit policy",
+          "body": "Current credit sales ₹60 lakh on 30 days, bad debts 1%. Proposed: 60 days, sales ₹72 lakh, bad debts 2%. Variable cost 70% of sales; fixed costs ₹6 lakh (unchanged); required return 15%; 360-day year. Investment in receivables at total cost.\n\n| Particulars (₹) | Present | Proposed |\n| --- | --- | --- |\n| Sales | 60,00,000 | 72,00,000 |\n| Less: Variable cost | (42,00,000) | (50,40,000) |\n| Less: Fixed cost | (6,00,000) | (6,00,000) |\n| Less: Bad debts | (60,000) | (1,44,000) |\n| Profit before cost of funds | 11,40,000 | 14,16,000 |\n| Investment in receivables: total cost x days / 360 | 4,00,000 | 9,40,000 |\n| Less: Cost of funds at 15% | (60,000) | (1,41,000) |\n| **Net benefit** | **10,80,000** | **12,75,000** |\n\nThe proposed policy adds ₹1,95,000, so it should be adopted."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Including depreciation in working capital under the cash cost basis.\n- Valuing receivables at sales value when the question asks for cash cost (profit is not a fund requirement).\n- Valuing WIP at full cost when it is only partly complete.\n- Deducting payables for wages or overheads computed on the wrong base (use the monthly amount x lag).\n- In credit policy questions, computing the cost of funds on sales instead of cost, or forgetting that fixed costs do not change.\n- Mixing 360 and 365-day years in one answer. Follow the question."
+        }
+      ],
+      "keyPoints": [
+        "Gross WC = current assets; net WC = current assets - current liabilities.",
+        "Operating cycle = RM period + WIP period + FG period + receivables period - payables period.",
+        "Cash cost basis excludes depreciation and profit; receivables at cash cost of sales.",
+        "Matching approach: permanent WC from long-term funds, temporary WC from short-term funds.",
+        "Baumol: optimum cash = √(2UP/S). Miller-Orr: return point = lower limit + spread/3.",
+        "EOQ = √(2AO/C). Credit policy: compare incremental profit with cost of funds on extra receivables at cost."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-fm-09-working-capital-case1",
+          "title": "Case: Krishna Garments Ltd",
+          "body": "Krishna Garments Ltd plans to produce and sell 1,20,000 units a year, evenly over 12 months. Cost and price per unit:\n\n| Element | ₹ per unit |\n| --- | --- |\n| Raw material | 40 |\n| Direct labour | 20 |\n| Overheads (including depreciation ₹5) | 20 |\n| Total cost | 80 |\n| Profit | 20 |\n| Selling price | 100 |\n\nOther information:\n\n- Raw material in stock: 1 month. Work-in-progress: 0.5 month (raw material 100% complete, labour and overheads 50% complete).\n- Finished goods in stock: 1 month. Debtors: 2 months.\n- Credit from RM suppliers: 1 month. Wages paid 0.5 month in arrears; overheads paid 1 month in arrears.\n- Minimum cash balance: ₹1,00,000.\n- Estimate working capital on a **cash cost basis** (exclude depreciation and profit; debtors at cash cost of sales)."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-fm-09-working-capital-q01",
+          "type": "numeric",
+          "caseId": "ca-i-fm-09-working-capital-case1",
+          "prompt": "Compute the investment in work-in-progress (₹, nearest rupee).",
+          "answer": 287500,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Monthly output = 10,000 units. WIP for 0.5 month = 5,000 units. Cost per unit of WIP = RM 40 + labour 20 x 50% + cash overheads 15 x 50% = 57.50. WIP = 5,000 x 57.50 = **₹2,87,500**."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q02",
+          "type": "numeric",
+          "caseId": "ca-i-fm-09-working-capital-case1",
+          "prompt": "Compute the investment in debtors (₹, nearest rupee).",
+          "answer": 1500000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Cash cost per unit = 40 + 20 + 15 = ₹75. Debtors = 2 months x 10,000 units x 75 = **₹15,00,000**. At sales value it would be ₹20,00,000, which wrongly includes profit and depreciation."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q03",
+          "type": "numeric",
+          "caseId": "ca-i-fm-09-working-capital-case1",
+          "prompt": "Compute the net working capital requirement (₹, nearest rupee).",
+          "answer": 2387500,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Raw material: 10,000 x 40 x 1 | 4,00,000 |\n| Work-in-progress | 2,87,500 |\n| Finished goods: 10,000 x 75 x 1 | 7,50,000 |\n| Debtors: 10,000 x 75 x 2 | 15,00,000 |\n| Cash | 1,00,000 |\n| **Current assets (A)** | **30,37,500** |\n| Creditors for RM: 10,000 x 40 x 1 | 4,00,000 |\n| Outstanding wages: 10,000 x 20 x 0.5 | 1,00,000 |\n| Outstanding overheads: 10,000 x 15 x 1 | 1,50,000 |\n| **Current liabilities (B)** | **6,50,000** |\n| **Net working capital (A - B)** | **23,87,500** |"
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q04",
+          "type": "mcq",
+          "caseId": "ca-i-fm-09-working-capital-case1",
+          "prompt": "Why is the overhead of ₹20 per unit taken as ₹15 in the estimate?",
+          "options": [
+            "Depreciation of ₹5 is a non-cash cost and does not need working capital funds",
+            "Overheads are paid one month in arrears",
+            "Only 75% of overheads relate to production",
+            "Overheads are recovered from customers in advance"
+          ],
+          "answer": 0,
+          "explanation": "Working capital finances cash spent before cash is collected. Depreciation involves no cash outflow, so the cash cost basis excludes it."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q05",
+          "type": "mcq",
+          "caseId": "ca-i-fm-09-working-capital-case1",
+          "prompt": "The amount of trade creditors for raw material in Krishna's estimate is:",
+          "options": [
+            "₹4,00,000",
+            "₹8,00,000",
+            "₹2,00,000",
+            "₹6,50,000"
+          ],
+          "answer": 0,
+          "explanation": "Monthly RM purchases (equal to consumption when stock levels are constant) = 10,000 x 40 = ₹4,00,000; 1 month's credit = ₹4,00,000. ₹6,50,000 is total current liabilities."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q06",
+          "type": "mcq",
+          "prompt": "Annual demand is 10,000 units, ordering cost is ₹200 per order and carrying cost is ₹4 per unit per year. The economic order quantity is:",
+          "options": [
+            "1,000 units",
+            "707 units",
+            "1,414 units",
+            "500 units"
+          ],
+          "answer": 0,
+          "explanation": "EOQ = √(2 x 10,000 x 200 / 4) = √10,00,000 = **1,000 units**. 707 units drops the 2 from the formula; 1,414 units uses a carrying cost of ₹2."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q07",
+          "type": "mcq",
+          "prompt": "In the Baumol model of cash management, the optimum cash balance increases when:",
+          "options": [
+            "The fixed cost per conversion of securities into cash rises",
+            "The interest rate on marketable securities rises",
+            "Annual cash requirement falls",
+            "The firm moves to a conservative financing policy"
+          ],
+          "answer": 0,
+          "explanation": "Optimum cash = √(2UP/S). A higher P (conversion cost) means fewer, larger conversions, so a larger balance. A higher S makes holding cash costlier and lowers it."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q08",
+          "type": "mcq",
+          "prompt": "Under the matching (hedging) approach to financing working capital:",
+          "options": [
+            "Permanent working capital is financed by long-term funds and temporary working capital by short-term funds",
+            "All working capital is financed by short-term bank borrowing",
+            "All working capital is financed by long-term funds",
+            "Temporary working capital is financed by equity"
+          ],
+          "answer": 0,
+          "explanation": "Matching the maturity of funds with the life of the assets avoids both idle long-term funds and refinancing risk. The conservative approach uses more long-term funds; the aggressive approach uses more short-term funds."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q09",
+          "type": "numeric",
+          "prompt": "From the following annual data (360-day year), compute the operating cycle in days, to 1 decimal: average RM stock ₹3,00,000, RM consumed ₹24,00,000; average WIP ₹1,50,000, cost of production ₹36,00,000; average FG ₹4,50,000, cost of goods sold ₹45,00,000; average debtors ₹7,50,000, credit sales ₹54,00,000; average creditors ₹2,50,000, credit purchases ₹24,00,000.",
+          "answer": 108.5,
+          "tolerance": 0.1,
+          "unit": "days",
+          "explanation": "| Component | Working | Days |\n| --- | --- | --- |\n| RM period | 3,00,000 / 24,00,000 x 360 | 45.0 |\n| WIP period | 1,50,000 / 36,00,000 x 360 | 15.0 |\n| FG period | 4,50,000 / 45,00,000 x 360 | 36.0 |\n| Debtors period | 7,50,000 / 54,00,000 x 360 | 50.0 |\n| Less: Creditors period | 2,50,000 / 24,00,000 x 360 | (37.5) |\n| **Operating cycle** |  | **108.5** |"
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q10",
+          "type": "truefalse",
+          "prompt": "Permanent working capital should ideally be financed from long-term sources.",
+          "answer": true,
+          "explanation": "The permanent component is needed all the time, like a fixed asset, so financing it with short-term funds creates constant refinancing risk."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q11",
+          "type": "multi",
+          "prompt": "Select all items that lengthen the operating cycle, other things being equal.",
+          "options": [
+            "Longer raw material storage period",
+            "Longer receivables collection period",
+            "Longer finished goods storage period",
+            "Longer credit period obtained from suppliers",
+            "Faster conversion of WIP into finished goods"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "R, W, F and D add to the cycle; C (supplier credit) is deducted, so longer supplier credit shortens it. Faster WIP conversion shortens W."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: in the Miller-Orr cash management model, when cash reaches the upper or lower limit it is brought back to the ___ point.",
+          "accept": [
+            "return",
+            "return point"
+          ],
+          "explanation": "Return point = lower limit + spread / 3. At the upper limit the firm buys securities; at the lower limit it sells them."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Evaluate whether Sutlej Ltd should relax its credit policy. Show your working in the ICAI format.",
+          "data": "- Present: credit sales ₹60,00,000, credit period 30 days, bad debts 1% of sales.\n- Proposed: credit period 60 days, credit sales ₹72,00,000, bad debts 2% of sales.\n- Variable cost 70% of sales; fixed costs ₹6,00,000 a year under both policies.\n- Required pre-tax return on investment in receivables 15%. Ignore tax. Use a 360-day year and value receivables at total cost.",
+          "answer": "| Particulars (₹) | Present policy | Proposed policy |\n| --- | --- | --- |\n| Credit sales | 60,00,000 | 72,00,000 |\n| Less: Variable cost (70%) | (42,00,000) | (50,40,000) |\n| Less: Fixed cost | (6,00,000) | (6,00,000) |\n| Less: Bad debts | (60,000) | (1,44,000) |\n| (A) Profit | 11,40,000 | 14,16,000 |\n| Total cost | 48,00,000 | 56,40,000 |\n| Investment in receivables (total cost x days / 360) | 48,00,000 x 30/360 = 4,00,000 | 56,40,000 x 60/360 = 9,40,000 |\n| (B) Cost of funds at 15% | 60,000 | 1,41,000 |\n| **Net benefit (A - B)** | **10,80,000** | **12,75,000** |\n\n**Decision**: the proposed policy increases the net benefit by ₹1,95,000 (12,75,000 - 10,80,000). Sutlej Ltd should extend the credit period to 60 days."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q14",
+          "type": "interview",
+          "top": true,
+          "prompt": "Explain the factors that determine the working capital requirement of a business.",
+          "answer": "- Nature of business: trading and manufacturing firms need more than service firms or utilities.\n- Length of the operating (production) cycle: longer cycles need more working capital.\n- Scale of operations and growth: expanding sales need more inventory and receivables.\n- Seasonality: seasonal industries need large temporary working capital.\n- Credit policy towards customers and credit available from suppliers.\n- Market and demand conditions (inventory needed to meet competition), and price level changes (inflation raises requirement).\n- Operating efficiency: faster inventory and receivables turnover reduce the requirement.\n- Availability and cost of short-term finance and dividend/ retention policy."
+        },
+        {
+          "id": "ca-i-fm-09-working-capital-q15",
+          "type": "interview",
+          "prompt": "What is factoring? Explain its types and benefits to a business.",
+          "answer": "- Factoring is the sale of book debts (receivables) to a factor, who advances a large part of their value, collects them and manages the sales ledger for a fee.\n- Recourse factoring: the seller bears bad debts. Non-recourse factoring: the factor bears the credit risk, at a higher fee.\n- Other forms: advance (factor pays upfront) vs maturity factoring (pays on due date), disclosed vs undisclosed, domestic vs export factoring.\n- Benefits: immediate cash, lower investment in receivables, savings in collection and credit administration costs, protection from bad debts (non-recourse), and management time freed for core activities.\n- Evaluation: compare the factor's commission and interest with savings in bad debts, administration costs and the cost of funds tied up in receivables."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Intermediate study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: official website",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    }
+  ]
+}

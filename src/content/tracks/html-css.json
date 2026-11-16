@@ -186,7 +186,8 @@
           "type": "interview",
           "prompt": "Why does semantic HTML matter? Give concrete benefits.",
           "answer": "- Accessibility: semantic elements come with roles, states and keyboard behaviour. Screen-reader users navigate by landmarks and headings; a <button> is focusable and works with Enter/Space without extra code.\n- SEO: search engines weigh headings, links and structured content; meaningful markup makes content easier to index and to show in rich results.\n- Maintainability: <nav>, <article> and <aside> are self-documenting compared with nested divs, and CSS/JS hooks become clearer.\n- Free browser features: reader mode, form autofill, native validation, and better defaults on mobile all depend on correct elements.\n- Robustness: semantic markup degrades well when CSS or JS fails to load.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "html-css-01-q12",
@@ -206,7 +207,7 @@
       "resources": [
         {
           "title": "MDN: HTML elements reference",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements"
         },
         {
           "title": "web.dev Learn HTML: Semantic HTML",
@@ -415,7 +416,7 @@
         },
         {
           "title": "MDN: The input element",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input"
         },
         {
           "title": "W3C WAI: ARIA Authoring Practices Guide",
@@ -596,7 +597,8 @@
           "type": "interview",
           "prompt": "Explain the CSS box model and why teams set box-sizing: border-box globally.",
           "answer": "- Every box has content, padding, border and margin. Width and height apply to the content box by default (content-box).\n- That makes layout arithmetic awkward: adding padding to a 50% wide column makes it wider than 50% and can break a row.\n- border-box makes the declared size include padding and border, so a 50% column stays 50% no matter what padding you add. It matches how designers think about sizes.\n- Teams apply it to *, *::before and *::after (or use inheritance from html) so every element behaves the same way. Margins still sit outside the box in both modes.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "html-css-03-q12",
@@ -610,7 +612,8 @@
           "type": "interview",
           "prompt": "When do you use px, em, rem, % and viewport units?",
           "answer": "- rem for font sizes and most spacing: it scales with the user's browser font setting and does not compound.\n- em for things that should scale with the element's own font size, like padding on a button or icon size next to text.\n- px for hairline borders, shadows and other details that should not scale.\n- % for sizes relative to the parent, such as fluid columns or max-width: 100% on images.\n- Viewport units (and dvh/svh/lvh on mobile) for full-screen sections, and combined with rem inside clamp() for fluid typography. Avoid pure vw font sizes because they ignore zoom and user font settings.\n- ch for readable text widths, and container units (cqi) for components that should scale with their container.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         }
       ],
       "resources": [
@@ -620,11 +623,11 @@
         },
         {
           "title": "MDN: Introduction to the CSS box model",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_box_model/Introduction_to_the_CSS_box_model"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Box_model/Introduction"
         },
         {
           "title": "MDN: Mastering margin collapsing",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_box_model/Mastering_margin_collapsing"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Box_model/Margin_collapsing"
         }
       ]
     },
@@ -804,7 +807,8 @@
           "type": "interview",
           "prompt": "Walk me through how the browser decides which CSS declaration applies.",
           "answer": "- First, it collects every declaration that applies to the element and property.\n- It sorts by origin and importance: user-agent, user, author, with !important reversing that order, plus animations and transitions at their special positions.\n- Then encapsulation context (Shadow DOM), then whether the declaration comes from a style attribute.\n- Then cascade layers: later declared layers win, unlayered beats layered (reversed for !important).\n- Then specificity (IDs, classes/attributes/pseudo-classes, types/pseudo-elements), then @scope proximity, and finally source order.\n- If nothing matches, inherited properties take the parent's value and others use their initial value. Knowing this order explains why a utility in a later layer beats an ID selector and why !important feels unpredictable.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "html-css-04-q12",
@@ -824,11 +828,11 @@
       "resources": [
         {
           "title": "MDN: Specificity",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Specificity"
         },
         {
           "title": "MDN: @layer",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@layer"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@layer"
         },
         {
           "title": "web.dev Learn CSS: The cascade",
@@ -1007,7 +1011,8 @@
           "type": "interview",
           "prompt": "When do you choose Flexbox over Grid, and vice versa?",
           "answer": "- Flexbox is one-dimensional and content-out: items size from their content and share space along a single axis. Good for toolbars, nav bars, button groups, media objects, centring, and wrapping tags or chips.\n- Grid is two-dimensional and layout-in: you define rows and columns and place items into them, so items line up both ways. Good for page layouts, card galleries where columns must align, dashboards and forms with aligned labels.\n- They combine well: a grid for the page, flex inside each component.\n- Rule of thumb: if you are fighting flex to make wrapped rows line up in columns, or setting widths like calc(33.333% - gap), switch to grid.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "html-css-05-q12",
@@ -1021,13 +1026,14 @@
           "type": "interview",
           "prompt": "Show several ways to centre an element horizontally and vertically.",
           "answer": "- Grid: .parent { display: grid; place-items: center; } is the shortest.\n- Flex: .parent { display: flex; justify-content: center; align-items: center; }.\n- Auto margins: .parent { display: flex; } .child { margin: auto; } (also works in grid).\n- Absolute: .child { position: absolute; inset: 0; margin: auto; width: fit-content; height: fit-content; } or the older top: 50%; left: 50%; transform: translate(-50%, -50%).\n- Text-level: text-align: center for inline content, and line-height for single-line vertical centring.\nI default to grid or flex because they handle unknown sizes without magic numbers.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         }
       ],
       "resources": [
         {
           "title": "MDN: Basic concepts of flexbox",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Basic_concepts"
         },
         {
           "title": "web.dev Learn CSS: Flexbox",
@@ -1238,7 +1244,7 @@
       "resources": [
         {
           "title": "MDN: Basic concepts of grid layout",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Basic_concepts_of_grid_layout"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Basic_concepts"
         },
         {
           "title": "web.dev Learn CSS: Grid",
@@ -1246,7 +1252,7 @@
         },
         {
           "title": "CSS-Tricks: A Complete Guide to CSS Grid",
-          "url": "https://css-tricks.com/snippets/css/complete-guide-grid/"
+          "url": "https://css-tricks.com/complete-guide-css-grid-layout/"
         }
       ]
     },
@@ -1425,14 +1431,16 @@
           "type": "interview",
           "prompt": "Explain stacking contexts. How do you debug a z-index that \"does not work\"?",
           "answer": "- A stacking context is an isolated layer group. Children are ordered only against each other, then the group is painted as one unit inside its parent context.\n- They are created by positioned elements with a non-auto z-index, fixed/sticky, flex/grid items with z-index, opacity < 1, transform, filter, isolation: isolate, will-change and others.\n- Debugging: first check the element is positioned (or a flex/grid item). Then walk up the ancestors looking for properties that create a stacking context; the element's z-index only competes inside the nearest one. Compare that ancestor's z-index with the element you want to cover.\n- Fixes: raise z-index on the ancestor context, remove the property creating the context, move the element out with a portal, or use the top layer (dialog/popover).\n- Prevent issues with a z-index scale in tokens and isolation: isolate on component roots. DevTools layer panels and the \"3D view\" help visualise it.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "html-css-07-q12",
           "type": "interview",
           "prompt": "Compare relative, absolute, fixed and sticky positioning with real use cases.",
           "answer": "- relative: stays in flow and keeps its space; offsets just shift it visually. Main use: being the anchor (containing block) for absolute children, and allowing z-index.\n- absolute: leaves the flow, positioned against the nearest positioned ancestor. Use for badges on cards, icons inside inputs, custom tooltips.\n- fixed: leaves the flow, positioned against the viewport (unless a transformed ancestor interferes). Use for overlays, cookie banners, floating action buttons.\n- sticky: in flow until a scroll threshold, then sticks within its parent. Use for table headers, section headings and site headers. It needs a top/bottom value and no overflow-clipping ancestor in between.\n- Because absolute and fixed leave the flow, they can overlap content, so reserve space or manage it deliberately.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "html-css-07-q13",
@@ -1445,11 +1453,11 @@
       "resources": [
         {
           "title": "MDN: position",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/position"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/position"
         },
         {
           "title": "MDN: Stacking context",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_positioned_layout/Stacking_context"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Positioned_layout/Stacking_context"
         },
         {
           "title": "web.dev Learn CSS: Z-index and stacking contexts",
@@ -1638,7 +1646,8 @@
           "type": "interview",
           "prompt": "Media queries vs container queries: when do you use each?",
           "answer": "- Media queries respond to the viewport and user environment: page-level layout (sidebar appears at wide widths), and user preferences like prefers-color-scheme, prefers-reduced-motion and pointer type.\n- Container queries respond to the size of an ancestor container. They make components truly reusable: a product card can be stacked in a narrow sidebar and horizontal in the main column on the same screen.\n- Typical architecture: media queries for the macro layout, container queries for components inside it.\n- Requirements: declare container-type: inline-size on a wrapper, query with @container, use cqi units for fluid internals. Remember size containment means the container cannot size itself from its content in that axis.\n- Style queries add a way to switch component variants via custom properties, with browser support still incomplete.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "html-css-08-q12",
@@ -1662,7 +1671,7 @@
         },
         {
           "title": "MDN: CSS container queries",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Containment/Container_queries"
         },
         {
           "title": "web.dev Learn Responsive Design: Responsive images",
@@ -1854,7 +1863,8 @@
           "type": "interview",
           "prompt": "Why should you animate transform and opacity instead of top/left or width? Tie it to the rendering pipeline.",
           "answer": "- Each frame the browser may run style, layout, paint and composite. Animating left, top, width or margin changes geometry, so layout (and then paint) reruns every frame on the main thread, and can affect many other elements.\n- transform and opacity do not affect layout. When the element is on its own layer, the compositor (often on the GPU, in a separate thread) can apply them directly, so the animation stays at 60/120fps even if JavaScript is busy.\n- Techniques: move with translate, resize visually with scale, fade with opacity; use FLIP (First, Last, Invert, Play) or the View Transitions API to animate layout changes using transforms.\n- Use will-change only right before animating and remove it after, since each layer costs memory.\n- Verify with the DevTools Performance panel and Rendering tab (paint flashing, layer borders).",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "html-css-09-q13",
@@ -1874,11 +1884,11 @@
       "resources": [
         {
           "title": "MDN: Using CSS custom properties",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascading_variables/Using_custom_properties"
         },
         {
           "title": "MDN: :has()",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/:has"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:has"
         },
         {
           "title": "web.dev Learn CSS: Animations",

@@ -1,0 +1,1751 @@
+{
+  "id": "ca-i-sm",
+  "title": "Strategic Management (Inter P6B)",
+  "area": "ca-inter",
+  "order": 117,
+  "icon": "SM",
+  "color": "#c2410c",
+  "description": "Case-based Strategic Management for CA Intermediate Paper 6 Section B (ICAI new scheme, attempts from May 2027): strategic intent, external and internal analysis, strategic choices, implementation, control and contemporary digital and sustainability themes, with a case scenario in every chapter.",
+  "chapters": [
+    {
+      "id": "ca-i-sm-01-introduction",
+      "title": "Introduction to Strategic Management",
+      "level": "beginner",
+      "summary": "What strategy is, why firms need strategic management, and how strategic intent, vision, mission, goals and the three levels of strategy fit together.",
+      "estMinutes": 35,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Strategy and strategic management",
+          "body": "A **strategy** is the long-term game plan a firm uses to reach its objectives in a competitive and changing environment. It decides where the firm will compete (products, markets) and how it will win (cost, differentiation, focus).\n\n**Strategic management** is the continuous process of setting direction, analysing the environment, choosing strategies, implementing them and evaluating results. It is forward-looking, involves top management, commits large resources and affects the whole organisation for a long period.\n\nStrategy is partly **proactive** (planned in advance) and partly **reactive** (adaptive responses to unforeseen events). The realised strategy of a firm is usually a blend of both.\n\n- Benefits: clear direction, proactive rather than reactive posture, better resource allocation, early warning of threats, a shared sense of purpose.\n- Limitations: the environment is complex and turbulent, the process is time-consuming and costly, and it is hard to forecast far ahead."
+        },
+        {
+          "heading": "Strategic intent: vision, mission, goals and objectives",
+          "body": "**Strategic intent** is the leveraging of a firm's resources, capabilities and core competencies to achieve its goals in the competitive environment. It is expressed through a hierarchy:\n\n| Element | Question it answers | Nature |\n| --- | --- | --- |\n| Vision | What do we want to become? | Long-term aspiration, inspirational |\n| Mission | Who are we, what do we do, for whom? | Present purpose and scope of business |\n| Business definition | Which customer needs, which customer groups, which technologies? | Scope (Abell's three dimensions) |\n| Goals | What broad results do we want? | Open-ended, qualitative |\n| Objectives | What exact result, by when? | Specific, measurable, time-bound |\n\nA good **vision** is clear, future-oriented, stable but stretching, and inspiring. A good **mission** states the purpose, the products or services, the customers, the core values and the firm's distinctive approach. Mission should be precise enough to guide choices but broad enough to allow growth.\n\n**Objectives** should be specific, measurable, achievable, relevant and time-bound, and they must be consistent with each other."
+        },
+        {
+          "heading": "Levels of strategy",
+          "body": "Strategy is formulated at three levels in a multi-business firm:\n\n| Level | Who | Key question | Example decisions |\n| --- | --- | --- | --- |\n| Corporate | Board, CEO | Which businesses should we be in? | Diversify, acquire, divest, allocate funds across SBUs |\n| Business | SBU head | How do we compete in this business? | Cost leadership, differentiation, focus |\n| Functional | Functional managers | How does each function support the business strategy? | Marketing mix, production, HR, finance plans |\n\nA single-business firm effectively has two levels: corporate and business strategy merge. Some texts add **operational** strategy below functional level (plant, region or department plans).\n\nThe levels must be **aligned**: functional plans implement the business strategy, which in turn fits the corporate portfolio."
+        },
+        {
+          "heading": "Strategic management process and the strategic leader",
+          "body": "The process has five broad steps:\n\n- Develop the strategic vision and mission.\n- Set objectives.\n- Craft a strategy (analysis of external and internal environment, then choice).\n- Implement and execute the strategy.\n- Monitor, evaluate and take corrective action.\n\nThe process is iterative: evaluation feeds back into vision, objectives and strategy.\n\nStrategic decisions are usually taken by top management, are long-term, involve large resource commitments, affect many functions and deal with uncertainty. **Strategic leaders** set direction, build consensus and drive change.\n\n**Exam technique for case questions:** identify the concept, quote the evidence from the case in one line, then explain the concept in 3-4 lines. Do not write a generic essay that ignores the case facts."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Confusing vision (future, aspiration) with mission (present purpose and scope).\n- Calling a goal an objective when it has no measurable target or deadline.\n- Treating functional plans as corporate strategy. A decision to enter a new industry is corporate level, even if the marketing team proposes it.\n- Assuming strategy removes uncertainty. It only helps the firm respond to it.\n- In case answers, listing all features of strategic management instead of the ones the case actually illustrates."
+        }
+      ],
+      "keyPoints": [
+        "Strategy = long-term plan to achieve objectives; realised strategy = proactive (planned) + reactive (adaptive) parts.",
+        "Strategic intent hierarchy: vision -> mission -> business definition -> goals -> objectives.",
+        "Vision = what we want to become (future); mission = who we are and what we do (present).",
+        "Objectives are SMART; goals are broad and open-ended.",
+        "Three levels: corporate (which businesses), business (how to compete), functional (how each function supports).",
+        "Abell's business definition: customer needs, customer groups, technologies.",
+        "Process: vision and mission -> objectives -> strategy formulation -> implementation -> evaluation and control (iterative)."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-sm-01-introduction-case1",
+          "title": "Case: Annapurna Foods Ltd",
+          "body": "Annapurna Foods Ltd is a Pune-based maker of packaged snacks with a turnover of ₹640 crore. Its founder, Meera Kulkarni, tells shareholders: 'In ten years we want to be the most trusted Indian brand for healthy everyday food in every Indian kitchen.' The company's published statement reads: 'We make tasty, millet-based snacks and breakfast foods for health-conscious urban families, using clean labels and fair prices for farmers.'\n\nAt the annual planning meeting the board decides to enter the ready-to-cook meals business through the acquisition of a small Nagpur company. The head of the snacks division proposes to compete on taste and nutrition rather than on price. The marketing manager plans a digital campaign targeting gyms and offices, and the HR manager plans training for 120 new sales staff. The board also approves a target: 'Increase the share of millet products in revenue from 28% to 45% by March 2030.'\n\nLast year, when a sudden spike in palm oil prices hit margins, the company quickly shifted some products to rice bran oil, a step that was not in its annual plan."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-sm-01-introduction-q01",
+          "type": "mcq",
+          "caseId": "ca-i-sm-01-introduction-case1",
+          "prompt": "The founder's statement 'In ten years we want to be the most trusted Indian brand for healthy everyday food in every Indian kitchen' is best described as Annapurna's:",
+          "options": [
+            "Vision",
+            "Mission",
+            "Objective",
+            "Functional strategy"
+          ],
+          "answer": 0,
+          "explanation": "It describes what the company wants to become in the future and is aspirational and long-term. That is a vision. The mission is the published statement of present purpose, products and customers."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q02",
+          "type": "mcq",
+          "caseId": "ca-i-sm-01-introduction-case1",
+          "prompt": "The board's decision to acquire the Nagpur ready-to-cook company is an example of:",
+          "options": [
+            "Corporate level strategy",
+            "Business level strategy",
+            "Functional level strategy",
+            "Operational level strategy"
+          ],
+          "answer": 0,
+          "explanation": "Deciding which businesses the firm should be in, and entering a new business through acquisition, is the core question of corporate level strategy."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q03",
+          "type": "mcq",
+          "caseId": "ca-i-sm-01-introduction-case1",
+          "prompt": "'Increase the share of millet products in revenue from 28% to 45% by March 2030' is best classified as:",
+          "options": [
+            "An objective",
+            "A vision",
+            "A mission",
+            "A goal that cannot be measured"
+          ],
+          "answer": 0,
+          "explanation": "It is specific (millet share of revenue), measurable (28% to 45%) and time-bound (March 2030). Specific, measurable and time-bound targets are objectives."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q04",
+          "type": "interview",
+          "caseId": "ca-i-sm-01-introduction-case1",
+          "top": true,
+          "prompt": "In the given case, identify and explain the three levels of strategy at Annapurna Foods Ltd.",
+          "answer": "- **Corporate level:** the board's decision to enter ready-to-cook meals by acquiring the Nagpur company. Corporate strategy decides which businesses the firm competes in and how resources are allocated across them.\n- **Business level:** the snacks division head's choice to compete on taste and nutrition rather than price. Business strategy decides how one SBU builds competitive advantage (here, differentiation).\n- **Functional level:** the marketing manager's digital campaign for gyms and offices and the HR manager's training for 120 new sales staff. Functional strategies support the business strategy within each function.\n\nThe three levels are aligned: the differentiation choice is backed by targeted marketing and a trained sales force, and the acquisition fits the vision of healthy everyday food."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q05",
+          "type": "interview",
+          "caseId": "ca-i-sm-01-introduction-case1",
+          "prompt": "In the given case, identify and explain whether Annapurna's strategy is proactive or reactive, with evidence.",
+          "answer": "Annapurna's realised strategy is a blend of both.\n\n- **Proactive (planned) part:** the vision, the millet revenue target, the acquisition and the differentiation choice were decided in advance at the planning meeting. A proactive strategy is planned ahead on the basis of analysis.\n- **Reactive (adaptive) part:** when palm oil prices spiked, the firm shifted products to rice bran oil although this was not in the annual plan. A reactive strategy is an unplanned response to unanticipated changes in the environment.\n\nSince the environment cannot be fully predicted, a firm's actual strategy is partly planned and partly adaptive. Managers should plan proactively but stay flexible enough to react quickly, as Annapurna did."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q06",
+          "type": "mcq",
+          "prompt": "Which question does a mission statement primarily answer?",
+          "options": [
+            "What do we want to become in the long run?",
+            "Who are we, what do we do and for whom?",
+            "What exact result must be achieved by a given date?",
+            "How should the HR function recruit staff?"
+          ],
+          "answer": 1,
+          "explanation": "The mission defines present purpose and scope: the business the firm is in, its products, its customers and its values. The future aspiration is the vision; dated targets are objectives."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q07",
+          "type": "mcq",
+          "prompt": "Derek F. Abell defined a business along three dimensions. Which set is correct?",
+          "options": [
+            "Customer needs, customer groups, alternative technologies",
+            "Price, product, place",
+            "Strengths, weaknesses, opportunities",
+            "Suppliers, buyers, substitutes"
+          ],
+          "answer": 0,
+          "explanation": "Abell's business definition asks who is being satisfied (customer groups), what is being satisfied (customer needs) and how (technologies or distinctive competencies)."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q08",
+          "type": "mcq",
+          "prompt": "Which is NOT a characteristic of a strategic decision?",
+          "options": [
+            "Long-term implications",
+            "Large commitment of resources",
+            "Routine and repetitive in nature",
+            "Affects several functions of the organisation"
+          ],
+          "answer": 2,
+          "explanation": "Strategic decisions are non-routine, involve uncertainty, are taken by top management and have long-term, organisation-wide effects. Routine repetitive decisions are operational."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q09",
+          "type": "mcq",
+          "prompt": "In a single-business company, which two levels of strategy usually merge?",
+          "options": [
+            "Corporate and business",
+            "Business and functional",
+            "Functional and operational",
+            "Corporate and functional"
+          ],
+          "answer": 0,
+          "explanation": "A single-business firm has only one business to compete in, so the question 'which businesses?' and 'how to compete?' are answered together by the same top team."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q10",
+          "type": "truefalse",
+          "prompt": "Strategic management eliminates uncertainty from the business environment.",
+          "answer": false,
+          "explanation": "Strategy helps a firm anticipate and respond to change, but it cannot remove uncertainty. The environment remains complex and turbulent, which is one of the limitations of strategic management."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q11",
+          "type": "truefalse",
+          "prompt": "Objectives should be specific, measurable and time-bound, while goals can be broad and open-ended.",
+          "answer": true,
+          "explanation": "Goals indicate the broad direction. Objectives convert goals into precise, measurable targets with deadlines, so that performance can be tracked."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q12",
+          "type": "multi",
+          "prompt": "Select the features of a good vision statement.",
+          "options": [
+            "Clear and easy to communicate",
+            "Future-oriented",
+            "Inspiring and motivating",
+            "Lists the detailed annual budget",
+            "Changes every quarter"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "A vision should be clear, future-focused, stable and inspiring. Budgets belong to operational planning, and a vision that changes every quarter gives no direction."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q13",
+          "type": "fill",
+          "prompt": "Fill the blank: The leveraging of a firm's resources, capabilities and core competencies to achieve its goals in the competitive environment is called strategic ___.",
+          "accept": [
+            "intent"
+          ],
+          "explanation": "Strategic intent is the firm's determination to achieve its long-term aspirations; it is expressed through vision, mission, business definition, goals and objectives."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q14",
+          "type": "interview",
+          "prompt": "Distinguish between vision and mission with an example.",
+          "answer": "- **Focus:** vision is about the future (what the firm wants to become); mission is about the present (what the firm does, for whom and how).\n- **Nature:** vision is aspirational and inspiring; mission is descriptive and defines the scope of business.\n- **Time:** vision covers a long horizon and rarely changes; mission can be revised when the scope of business changes.\n- **Use:** vision gives direction and motivates; mission guides day-to-day choices about products, customers and values.\n\nExample: a hospital chain's vision may be 'quality healthcare within reach of every Indian family', while its mission is 'to run affordable multi-speciality hospitals in tier-2 cities with transparent pricing and trained staff'."
+        },
+        {
+          "id": "ca-i-sm-01-introduction-q15",
+          "type": "interview",
+          "prompt": "Explain the strategic management process and why it is described as iterative.",
+          "answer": "The strategic management process has five stages:\n\n- Develop the strategic vision and mission.\n- Set objectives that convert the vision into measurable targets.\n- Craft the strategy after analysing the external environment (opportunities, threats) and internal environment (strengths, weaknesses).\n- Implement and execute the strategy through structure, resources, policies, culture and leadership.\n- Evaluate performance and take corrective action.\n\nIt is iterative because evaluation results and environmental changes feed back into earlier stages. A firm may revise objectives, change strategy or even redefine its mission. It is a continuous cycle, not a one-time exercise."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI: Intermediate Paper 6 Section B Strategic Management (May 2027 onward)",
+          "url": "https://www.icai.org/post/sm-inter-p6b-may2027"
+        },
+        {
+          "title": "ICAI Board of Studies (BoS) portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-sm-02-external-environment",
+      "title": "Strategic Analysis: External Environment",
+      "level": "beginner",
+      "summary": "Scanning the micro and macro environment with PESTLE, analysing industry attractiveness with Porter's five forces, and studying competitors and key success factors.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Micro and macro environment",
+          "body": "The **external environment** is everything outside the firm that affects its performance. It has two layers:\n\n- **Micro (task or operating) environment:** forces close to the firm that it can influence to some extent: customers, suppliers, competitors, intermediaries, investors, local communities.\n- **Macro (general or remote) environment:** broad forces that affect all firms and that a single firm cannot control: political, economic, social, technological, legal and environmental (ecological) factors.\n\nThe purpose of external analysis is to identify **opportunities** and **threats**. Environmental scanning should be continuous because the environment is dynamic, complex and uncertain."
+        },
+        {
+          "heading": "PESTLE analysis",
+          "body": "PESTLE groups macro factors into six heads:\n\n| Factor | Examples |\n| --- | --- |\n| Political | Government stability, trade policy, tax policy direction, subsidies, PLI schemes |\n| Economic | GDP growth, inflation, interest rates, exchange rates, disposable income |\n| Social | Demographics, urbanisation, lifestyle, health awareness, education |\n| Technological | Automation, digital payments, AI, R&D intensity, rate of obsolescence |\n| Legal | Consumer protection, labour codes, data protection, competition law, product standards |\n| Environmental | Climate change, pollution norms, waste rules, water scarcity, ESG expectations |\n\n**Exam tip:** in a case, classify each fact under the correct head and state whether it is an opportunity or a threat for the firm. The same fact can be an opportunity for one firm and a threat for another."
+        },
+        {
+          "heading": "Porter's five forces",
+          "body": "Michael Porter's model explains **industry attractiveness** (profit potential). The stronger the forces, the lower the industry's profitability.\n\n| Force | Strong when |\n| --- | --- |\n| Threat of new entrants | Low entry barriers: little need for scale, low capital, easy access to distribution, weak brand loyalty, no regulatory licences |\n| Bargaining power of buyers | Few large buyers, standardised products, low switching costs, buyers can integrate backward, buyers are price sensitive |\n| Bargaining power of suppliers | Few suppliers, unique inputs, high switching costs, supplier can integrate forward, buyer industry is not an important customer |\n| Threat of substitutes | Substitutes offer a better price-performance trade-off and switching is easy |\n| Rivalry among existing firms | Many equal-sized rivals, slow growth, high fixed costs, low differentiation, high exit barriers |\n\nA substitute is a product from **another industry** that meets the same need (video calls for air travel). A rival is a firm in the **same** industry."
+        },
+        {
+          "heading": "Industry and competitor analysis",
+          "body": "Beyond the five forces, industry analysis asks:\n\n- **Dominant economic features:** market size, growth rate, number of rivals, scale economies, learning curve effects.\n- **Driving forces:** the major causes of change in the industry (changes in long-term growth, product innovation, regulatory change, entry of large firms, internet and e-commerce).\n- **Strategic group mapping:** plotting rivals on two variables (for example price and product range) to see which firms compete most closely.\n- **Key success factors (KSFs):** the few things every firm must do well to succeed in the industry (distribution reach in FMCG, safety record in airlines).\n- **Competitor analysis:** each key rival's objectives, current strategy, resources, and its likely next moves.\n\nThe final question is: **is the industry attractive** for this firm, given its position?"
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Treating a competitor's new product as a substitute. Substitutes come from outside the industry.\n- Saying buyers are powerful merely because they are many. Many small buyers usually have low power.\n- Listing PESTLE factors without saying how each affects the firm.\n- Confusing legal factors (laws already enacted) with political factors (government policy stance and stability).\n- Calling a high entry barrier a threat. High barriers protect existing firms and reduce the threat of entry."
+        }
+      ],
+      "keyPoints": [
+        "External analysis identifies opportunities and threats; internal analysis identifies strengths and weaknesses.",
+        "Micro environment: customers, suppliers, competitors, intermediaries; macro: PESTLE.",
+        "PESTLE = Political, Economic, Social, Technological, Legal, Environmental.",
+        "Five forces: new entrants, buyers, suppliers, substitutes, rivalry; stronger forces = lower industry profit potential.",
+        "Substitutes come from other industries and meet the same need; rivals are in the same industry.",
+        "Key success factors are what every firm must do well; driving forces are what is changing the industry.",
+        "Strategic group map: rivals plotted on two competitive variables to show closest competitors."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-sm-02-external-environment-case1",
+          "title": "Case: VoltRide Mobility Pvt Ltd",
+          "body": "VoltRide Mobility makes electric two-wheelers in Hosur. The following facts are available from its annual strategy review:\n\n- The Central Government continues incentives for electric vehicle makers and several States waive road tax on EVs.\n- Petrol prices have risen 14% in two years and urban commuters are actively comparing running costs.\n- Young urban buyers increasingly see EVs as a lifestyle choice.\n- Battery cells are sourced from only three global suppliers, and switching supplier requires a six-month re-certification of the battery pack.\n- More than 40 brands sell electric two-wheelers; many offer similar range and prices, and growth has slowed in the last two quarters.\n- Two large petrol two-wheeler makers have launched EV models using their dealer networks.\n- Metro rail lines are expanding in four cities where VoltRide sells most of its scooters.\n- New battery safety standards notified by the regulator require additional testing before launch."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-sm-02-external-environment-q01",
+          "type": "mcq",
+          "caseId": "ca-i-sm-02-external-environment-case1",
+          "prompt": "Under Porter's five forces, the expansion of metro rail in VoltRide's key cities represents:",
+          "options": [
+            "Threat of substitutes",
+            "Rivalry among existing competitors",
+            "Threat of new entrants",
+            "Bargaining power of suppliers"
+          ],
+          "answer": 0,
+          "explanation": "Metro rail is from a different industry but meets the same need (urban commuting). That makes it a substitute for electric scooters."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q02",
+          "type": "mcq",
+          "caseId": "ca-i-sm-02-external-environment-case1",
+          "prompt": "The battery cell supply situation indicates:",
+          "options": [
+            "High bargaining power of suppliers",
+            "Low bargaining power of suppliers",
+            "High bargaining power of buyers",
+            "Low threat of substitutes"
+          ],
+          "answer": 0,
+          "explanation": "Only three suppliers and a six-month re-certification (high switching cost) give suppliers strong bargaining power over VoltRide."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q03",
+          "type": "mcq",
+          "caseId": "ca-i-sm-02-external-environment-case1",
+          "prompt": "Under PESTLE, the new battery safety standards notified by the regulator fall under:",
+          "options": [
+            "Legal factor",
+            "Social factor",
+            "Economic factor",
+            "Technological factor"
+          ],
+          "answer": 0,
+          "explanation": "A binding standard notified by a regulator is a legal factor. The government's general EV incentive policy is political; the safety rules are law that must be complied with."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q04",
+          "type": "interview",
+          "caseId": "ca-i-sm-02-external-environment-case1",
+          "top": true,
+          "prompt": "In the given case, identify and explain the macro environmental factors affecting VoltRide using PESTLE, and state whether each is an opportunity or a threat.",
+          "answer": "- **Political:** Central incentives and State road tax waivers for EVs. Opportunity, as they lower the price to the customer.\n- **Economic:** petrol prices up 14% and commuters comparing running costs. Opportunity, since EVs have lower running cost.\n- **Social:** young urban buyers see EVs as a lifestyle choice. Opportunity, a growing and receptive segment.\n- **Technological:** dependence on battery cell technology and the metro rail expansion as an alternative mode of commuting. Mixed: battery technology is the core of the product, while metro rail is a threat.\n- **Legal:** new battery safety standards requiring additional testing. Threat in the short run (cost and delay), though it may raise entry barriers for weaker firms.\n- **Environmental:** the case has no direct fact, but the push to EVs is linked to pollution and climate concerns, which is an opportunity.\n\nOverall, the macro environment is favourable, but VoltRide must manage compliance and substitute threats."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q05",
+          "type": "interview",
+          "caseId": "ca-i-sm-02-external-environment-case1",
+          "prompt": "In the given case, identify and explain the intensity of rivalry and the threat of new entrants in the electric two-wheeler industry.",
+          "answer": "**Rivalry is high.**\n\n- More than 40 brands compete.\n- Products are similar in range and price (low differentiation).\n- Growth has slowed in the last two quarters, so firms fight for share.\n\nThese are classic conditions for intense price and promotion competition.\n\n**Threat of new entrants is high**, and it has already materialised.\n\n- Two large petrol two-wheeler makers entered using their existing dealer networks. Access to distribution and brand strength let them overcome entry barriers easily.\n- The new safety standards raise barriers somewhat, but large incumbents can absorb the extra testing cost.\n\nTogether, these two forces reduce the profit potential of the industry for a smaller player like VoltRide."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q06",
+          "type": "mcq",
+          "prompt": "Which condition generally INCREASES the bargaining power of buyers?",
+          "options": [
+            "The product is standardised and switching costs are low",
+            "Buyers are many and each buys small quantities",
+            "The supplier's product is unique and critical to the buyer",
+            "Buyers lack information about prices"
+          ],
+          "answer": 0,
+          "explanation": "When products are undifferentiated and switching is cheap, buyers can shop around and push down prices. Fragmented, uninformed buyers have little power."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q07",
+          "type": "mcq",
+          "prompt": "Which of these is a barrier to entry?",
+          "options": [
+            "Large economies of scale enjoyed by incumbents",
+            "Low capital requirements",
+            "Weak brand loyalty",
+            "Easy access to distribution channels"
+          ],
+          "answer": 0,
+          "explanation": "A new entrant must either come in at large scale or accept a cost disadvantage. The other options make entry easier."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q08",
+          "type": "mcq",
+          "prompt": "A tool that plots competitors on two key competitive variables such as price and product-line breadth is called:",
+          "options": [
+            "Strategic group map",
+            "BCG matrix",
+            "Value chain",
+            "Balanced Scorecard"
+          ],
+          "answer": 0,
+          "explanation": "A strategic group map shows which rivals pursue similar approaches and therefore compete most closely with each other."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q09",
+          "type": "mcq",
+          "prompt": "Rising disposable incomes and a fall in interest rates fall under which PESTLE head?",
+          "options": [
+            "Economic",
+            "Social",
+            "Political",
+            "Legal"
+          ],
+          "answer": 0,
+          "explanation": "Income levels, interest rates, inflation, exchange rates and GDP growth are economic factors."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q10",
+          "type": "truefalse",
+          "prompt": "According to Porter, high exit barriers tend to intensify rivalry among existing firms.",
+          "answer": true,
+          "explanation": "When exit is costly (specialised assets, contracts, emotional ties), weak firms stay and keep competing even at low profits, which intensifies rivalry."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q11",
+          "type": "truefalse",
+          "prompt": "A new model launched by an existing competitor in the same industry is a substitute product in Porter's framework.",
+          "answer": false,
+          "explanation": "A product from a firm in the same industry adds to rivalry. Substitutes come from other industries and satisfy the same need in a different way."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q12",
+          "type": "multi",
+          "prompt": "Select the elements of a firm's micro (task) environment.",
+          "options": [
+            "Suppliers",
+            "Customers",
+            "Competitors",
+            "Inflation rate",
+            "Demographic trends"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Suppliers, customers, competitors and intermediaries interact directly with the firm. Inflation and demographics are macro factors."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q13",
+          "type": "fill",
+          "prompt": "Fill the blank: The few factors that every firm in an industry must perform well to be competitively successful are called key ___ factors.",
+          "accept": [
+            "success"
+          ],
+          "explanation": "Key success factors (KSFs) are industry-wide requirements, for example distribution reach in FMCG or on-time performance in airlines."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q14",
+          "type": "interview",
+          "prompt": "What are driving forces in an industry? Give four examples.",
+          "answer": "Driving forces are the major underlying causes of change in an industry's structure and competitive conditions. Identifying them helps a firm anticipate where the industry is heading.\n\nExamples:\n\n- Changes in the long-term growth rate of the industry.\n- Product and marketing innovation, and changes in who buys the product and how.\n- Entry or exit of major firms.\n- Diffusion of technical know-how and technological change, including the internet and e-commerce.\n- Changes in cost and efficiency, regulatory and government policy changes, and changing societal concerns and lifestyles.\n\nA firm should judge whether the driving forces will make the industry more or less attractive and adjust its strategy early."
+        },
+        {
+          "id": "ca-i-sm-02-external-environment-q15",
+          "type": "interview",
+          "prompt": "Explain the elements of competitor analysis.",
+          "answer": "Competitor analysis studies key rivals to predict their moves and plan responses. It covers:\n\n- **Future objectives:** what the rival is trying to achieve (market share, profit, growth).\n- **Current strategy:** how the rival competes now (cost, differentiation, focus, markets served).\n- **Assumptions:** what the rival believes about itself and the industry; wrong assumptions are blind spots that can be exploited.\n- **Resources and capabilities:** the rival's strengths and weaknesses (finance, brand, technology, distribution).\n\nFrom these, a firm predicts the rival's likely next moves and its likely reaction to the firm's own moves. Gathering competitive intelligence must be ethical and legal."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI: Intermediate Paper 6 Section B Strategic Management (May 2027 onward)",
+          "url": "https://www.icai.org/post/sm-inter-p6b-may2027"
+        },
+        {
+          "title": "ICAI Board of Studies (BoS) portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-sm-03-internal-environment",
+      "title": "Strategic Analysis: Internal Environment",
+      "level": "intermediate",
+      "summary": "How resources, capabilities and core competencies create competitive advantage, tested through the VRIO framework, the value chain and SWOT/TOWS.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Resources, capabilities and core competencies",
+          "body": "Internal analysis finds the firm's **strengths and weaknesses** and the source of its competitive advantage.\n\n| Term | Meaning | Example |\n| --- | --- | --- |\n| Resources | Inputs the firm owns or controls | Tangible: plant, cash, land. Intangible: brand, patents, reputation, culture. Human: skills, knowledge |\n| Capabilities | The ability to deploy resources together to perform a task | Fast product development, efficient logistics |\n| Core competencies | Capabilities that are central to the firm's advantage and difficult for rivals to copy | Miniaturisation, retail analytics, engine design |\n\nC.K. Prahalad and Gary Hamel gave three tests for a **core competence**: it gives potential access to a wide variety of markets, it makes a significant contribution to the benefits customers perceive in the end product, and it is difficult for competitors to imitate.\n\nA **competitive advantage** exists when a firm earns above-average returns by creating more value than rivals. It is **sustainable** when rivals cannot quickly copy or substitute it."
+        },
+        {
+          "heading": "The VRIO framework",
+          "body": "Jay Barney's VRIO framework tests whether a resource or capability can create sustained advantage:\n\n| Question | If no |\n| --- | --- |\n| **Valuable:** does it help exploit an opportunity or neutralise a threat? | Competitive disadvantage |\n| **Rare:** is it controlled by only a few firms? | Competitive parity |\n| **Inimitable:** is it costly or difficult to imitate? | Temporary competitive advantage |\n| **Organised:** is the firm organised (systems, structure, culture) to exploit it? | Unused competitive advantage |\n| Yes to all four | Sustained competitive advantage |\n\nResources are hard to imitate when they arise from unique history (path dependence), causal ambiguity (rivals cannot tell what drives success) or social complexity (culture, relationships, reputation)."
+        },
+        {
+          "heading": "Value chain analysis",
+          "body": "Michael Porter's **value chain** breaks a firm into activities that create value for customers. Margin is the difference between the value customers pay for and the cost of performing the activities.\n\n| Primary activities | Support activities |\n| --- | --- |\n| Inbound logistics: receiving, storing inputs | Firm infrastructure: general management, finance, legal, planning |\n| Operations: converting inputs to products | Human resource management |\n| Outbound logistics: storing and distributing output | Technology development: R&D, process improvement, IT |\n| Marketing and sales | Procurement: purchasing inputs |\n| Service: installation, repair, after-sales support | |\n\nUse: identify activities where the firm is better (source of advantage) or worse (candidate for improvement or outsourcing), and the **linkages** between activities. A firm can build cost advantage by managing cost drivers in each activity, or differentiation by adding uniqueness at each activity."
+        },
+        {
+          "heading": "SWOT and TOWS",
+          "body": "**SWOT** combines internal strengths and weaknesses with external opportunities and threats. The **TOWS matrix** (Heinz Weihrich) converts SWOT into strategies:\n\n| | Strengths | Weaknesses |\n| --- | --- | --- |\n| **Opportunities** | SO (maxi-maxi): use strengths to seize opportunities | WO (mini-maxi): overcome weaknesses by using opportunities |\n| **Threats** | ST (maxi-mini): use strengths to counter threats | WT (mini-mini): reduce weaknesses and avoid threats, often retrenchment or joint venture |\n\n**Worked mini-example:** a regional bank has a strong rural branch network (S), weak digital apps (W), rising rural smartphone use (O) and fintech competition (T). SO: sell micro-insurance through branches. WO: partner with a fintech to build an app. ST: use branch trust to retain customers against fintechs. WT: close loss-making urban branches."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Calling every resource a core competence. It must pass all three Prahalad-Hamel tests.\n- In VRIO, stopping at 'valuable'. A valuable resource that every rival has gives only parity.\n- Putting procurement or HR under primary activities. They are support activities.\n- Mixing external and internal items in SWOT: an opportunity is outside the firm, a strength is inside.\n- Leaving SWOT as a list. Examiners want strategy implications, which is why TOWS exists."
+        }
+      ],
+      "keyPoints": [
+        "Resources (what the firm has) -> capabilities (what it can do) -> core competencies (what it does uniquely well).",
+        "Core competence tests (Prahalad and Hamel): access to many markets, customer benefit, hard to imitate.",
+        "VRIO: Valuable, Rare, Inimitable, Organised; all four = sustained competitive advantage.",
+        "Value, not rare = parity; valuable and rare, imitable = temporary advantage.",
+        "Value chain primary: inbound logistics, operations, outbound logistics, marketing and sales, service.",
+        "Value chain support: firm infrastructure, HRM, technology development, procurement.",
+        "TOWS: SO maxi-maxi, WO mini-maxi, ST maxi-mini, WT mini-mini."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-sm-03-internal-environment-case1",
+          "title": "Case: Kalamkari Threads Ltd",
+          "body": "Kalamkari Threads Ltd sells handcrafted Indian ethnic wear through 85 stores and an online portal. Its strengths, as stated by the CEO, are:\n\n- A network of 3,200 artisan families in Andhra Pradesh and Gujarat, built over 30 years through fair pricing and loans for looms. Rivals have tried to poach artisans but most stay loyal.\n- A design studio that turns traditional motifs into contemporary cuts; the same design skill has been used to launch home furnishings and a premium gifting range.\n- A modern ERP system, similar to the one used by most large apparel retailers.\n- An in-house tailoring service that alters garments free within 48 hours, which customers rate highly.\n\nHowever, the company's inbound logistics are slow: fabric from remote villages takes 25 days to reach the central warehouse. The CFO also notes that a patented natural-dye process acquired in 2023 remains unused because no team has been made responsible for scaling it."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-sm-03-internal-environment-q01",
+          "type": "mcq",
+          "caseId": "ca-i-sm-03-internal-environment-case1",
+          "prompt": "Applying VRIO, the modern ERP system at Kalamkari Threads most likely gives:",
+          "options": [
+            "Competitive parity",
+            "Sustained competitive advantage",
+            "Temporary competitive advantage",
+            "Unused competitive advantage"
+          ],
+          "answer": 0,
+          "explanation": "The ERP is valuable but similar to what most large apparel retailers use, so it is not rare. A valuable but common resource gives only competitive parity."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q02",
+          "type": "mcq",
+          "caseId": "ca-i-sm-03-internal-environment-case1",
+          "prompt": "The patented natural-dye process that remains unused is, in VRIO terms, best described as:",
+          "options": [
+            "Unused competitive advantage because the firm is not organised to exploit it",
+            "Competitive disadvantage because it is not valuable",
+            "Competitive parity because it is common",
+            "Sustained competitive advantage already being earned"
+          ],
+          "answer": 0,
+          "explanation": "The process is patented (rare and hard to imitate) and potentially valuable, but no team is responsible for scaling it. It fails the 'Organised' test, so the advantage is unused."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q03",
+          "type": "mcq",
+          "caseId": "ca-i-sm-03-internal-environment-case1",
+          "prompt": "In Porter's value chain, the free 48-hour alteration service falls under:",
+          "options": [
+            "Service (primary activity)",
+            "Operations (primary activity)",
+            "Procurement (support activity)",
+            "Firm infrastructure (support activity)"
+          ],
+          "answer": 0,
+          "explanation": "Activities that maintain or enhance the product's value after sale, such as alterations, installation and repair, are part of the service primary activity."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q04",
+          "type": "interview",
+          "caseId": "ca-i-sm-03-internal-environment-case1",
+          "top": true,
+          "prompt": "In the given case, identify and explain the core competencies of Kalamkari Threads Ltd using the tests given by Prahalad and Hamel.",
+          "answer": "**1. Design capability (traditional motifs in contemporary cuts)**\n\n- Access to many markets: it has already been used for home furnishings and premium gifting, beyond apparel.\n- Customer benefit: it is what customers value in the end product, a modern look with Indian heritage.\n- Hard to imitate: it rests on accumulated design know-how and tacit skill.\n\n**2. Artisan network and relationships (3,200 families over 30 years)**\n\n- It supports all handcrafted product lines.\n- It delivers authenticity that customers pay for.\n- It is socially complex and built over decades, as rivals' failed poaching attempts show.\n\n**Not a core competence:** the ERP system. It is common in the industry and fails the imitability test.\n\nThese competencies should guide future diversification, for example related handcrafted categories."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q05",
+          "type": "interview",
+          "caseId": "ca-i-sm-03-internal-environment-case1",
+          "prompt": "In the given case, identify and explain the weaknesses in Kalamkari's value chain and suggest how they may be addressed.",
+          "answer": "- **Inbound logistics (primary activity):** fabric takes 25 days to move from remote villages to the central warehouse. This raises inventory holding cost and delays launches. Possible fixes: regional collection centres, a tie-up with a logistics partner, or digital tracking of consignments.\n- **Technology development and firm infrastructure (support activities):** the patented natural-dye process is unused because no team owns it. This is an organisational gap. Management should assign a cross-functional team with a budget and milestones.\n\nValue chain analysis requires the firm to fix activities that add cost without adding value, and to strengthen linkages. Faster inbound logistics would also support the design studio's speed to market."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q06",
+          "type": "mcq",
+          "prompt": "Which of these is a support activity in Porter's value chain?",
+          "options": [
+            "Procurement",
+            "Outbound logistics",
+            "Marketing and sales",
+            "Operations"
+          ],
+          "answer": 0,
+          "explanation": "The four support activities are firm infrastructure, HRM, technology development and procurement. The other options are primary activities."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q07",
+          "type": "mcq",
+          "prompt": "A resource is valuable and rare but competitors can copy it quickly at low cost. VRIO predicts:",
+          "options": [
+            "Temporary competitive advantage",
+            "Sustained competitive advantage",
+            "Competitive parity",
+            "Competitive disadvantage"
+          ],
+          "answer": 0,
+          "explanation": "Valuable and rare gives an advantage, but if it is easy to imitate, rivals will copy it and the advantage will be temporary."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q08",
+          "type": "mcq",
+          "prompt": "In the TOWS matrix, a strategy that uses internal strengths to avoid or reduce external threats is called:",
+          "options": [
+            "ST (maxi-mini)",
+            "SO (maxi-maxi)",
+            "WO (mini-maxi)",
+            "WT (mini-mini)"
+          ],
+          "answer": 0,
+          "explanation": "ST strategies maximise strengths and minimise threats. SO uses strengths for opportunities, WO uses opportunities to overcome weaknesses, WT reduces both."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q09",
+          "type": "mcq",
+          "prompt": "Which is an intangible resource?",
+          "options": [
+            "Brand reputation",
+            "Manufacturing plant",
+            "Cash balance",
+            "Delivery trucks"
+          ],
+          "answer": 0,
+          "explanation": "Intangible resources have no physical form: brand, reputation, patents, know-how, culture. Plant, cash and vehicles are tangible."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q10",
+          "type": "truefalse",
+          "prompt": "Social complexity and causal ambiguity make a resource harder for competitors to imitate.",
+          "answer": true,
+          "explanation": "When success comes from culture, relationships and many interacting factors, rivals cannot tell exactly what to copy or cannot reproduce it, so the resource is inimitable."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q11",
+          "type": "truefalse",
+          "prompt": "In SWOT analysis, a rapidly growing market for the firm's products is listed as a strength.",
+          "answer": false,
+          "explanation": "Market growth is an external condition, so it is an opportunity. Strengths are internal attributes such as skills, brand or cost position."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q12",
+          "type": "multi",
+          "prompt": "Select the tests of a core competence as given by Prahalad and Hamel.",
+          "options": [
+            "Provides potential access to a wide variety of markets",
+            "Makes a significant contribution to perceived customer benefits",
+            "Is difficult for competitors to imitate",
+            "Is owned as a tangible fixed asset",
+            "Is identical to industry key success factors"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "The three tests are market access, customer benefit and difficulty of imitation. Competencies are capabilities rather than physical assets, and they are firm-specific, not industry-wide KSFs."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q13",
+          "type": "fill",
+          "prompt": "Fill the blank: In the VRIO framework, the letter O stands for ___.",
+          "accept": [
+            "Organised",
+            "Organized",
+            "Organisation",
+            "Organization"
+          ],
+          "explanation": "O asks whether the firm is organised (structure, systems, culture, processes) to capture value from the resource."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q14",
+          "type": "interview",
+          "prompt": "Distinguish between resources, capabilities and core competencies.",
+          "answer": "- **Resources** are the inputs a firm owns or controls: tangible (plant, finance), intangible (brand, patents, culture) and human (skills). On their own, resources rarely create advantage.\n- **Capabilities** are the firm's ability to combine and deploy resources to perform activities, such as quick product development or efficient distribution. They arise from processes and routines.\n- **Core competencies** are the few capabilities that are central to competitive advantage. They give access to many markets, contribute substantially to customer benefits and are hard to imitate.\n\nThe progression is resources -> capabilities -> core competencies -> competitive advantage. A firm should build strategy around its core competencies and outsource activities where it has none."
+        },
+        {
+          "id": "ca-i-sm-03-internal-environment-q15",
+          "type": "interview",
+          "prompt": "Explain how a firm uses value chain analysis to build competitive advantage.",
+          "answer": "- Break the firm into primary activities (inbound logistics, operations, outbound logistics, marketing and sales, service) and support activities (firm infrastructure, HRM, technology development, procurement).\n- Identify the cost and value of each activity and compare with competitors.\n- **For cost advantage:** control cost drivers in each activity (scale, capacity use, location, learning) and remove activities that add cost without value.\n- **For differentiation:** add uniqueness in activities customers value, such as quality inputs, faster delivery or better service.\n- **Manage linkages:** better procurement may reduce rework in operations; good service data improves design.\n- Outsource activities where the firm has no advantage, and keep those that build core competencies.\n\nThe aim is to widen the margin between customer value and total cost."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI: Intermediate Paper 6 Section B Strategic Management (May 2027 onward)",
+          "url": "https://www.icai.org/post/sm-inter-p6b-may2027"
+        },
+        {
+          "title": "ICAI Board of Studies (BoS) portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-sm-04-strategic-choices",
+      "title": "Strategic Choices: Corporate Level Strategies and Portfolio Tools",
+      "level": "intermediate",
+      "summary": "Stability, growth, retrenchment and combination strategies, the routes to growth, and the Ansoff, BCG and GE matrices used to choose among them.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Corporate level strategy alternatives",
+          "body": "At corporate level, a firm chooses a **grand (directional) strategy**:\n\n| Strategy | When used | Forms |\n| --- | --- | --- |\n| Stability | Satisfactory performance, mature or uncertain environment | Continue same business, incremental improvement, pause or proceed with caution |\n| Growth (expansion) | Opportunities exist, firm has resources | Intensification (penetration, market development, product development), diversification (related, unrelated), vertical and horizontal integration |\n| Retrenchment | Poor performance, unattractive business | Turnaround, divestment, liquidation |\n| Combination | Different SBUs need different moves | Grow one SBU, hold another, divest a third, at the same time or in sequence |\n\n**Growth routes:** internal development (organic), mergers and acquisitions, joint ventures and strategic alliances. Acquisition is fast but carries integration risk; alliances share risk without full ownership."
+        },
+        {
+          "heading": "Diversification, integration and retrenchment",
+          "body": "- **Related (concentric) diversification:** entry into a business linked through technology, markets or skills (a cement maker entering ready-mix concrete). Gives synergy.\n- **Unrelated (conglomerate) diversification:** entry into an unconnected business (a textile firm entering hospitality). Spreads risk; little synergy.\n- **Vertical integration:** backward (into supplies) or forward (towards customers, distribution).\n- **Horizontal integration:** acquiring or merging with a competitor at the same stage.\n\n**Retrenchment** forms:\n\n- **Turnaround:** a sick but viable business is revived. Warning signs: persistent negative cash flow, falling market share, rising debt, high staff turnover, mismanagement. Action plan: change in management, cost reduction, focus on core products, improved marketing, financial restructuring.\n- **Divestment:** selling or closing a business unit that does not fit or is a cash drain, often after turnaround fails.\n- **Liquidation:** closing the whole business and selling assets; the last resort."
+        },
+        {
+          "heading": "Ansoff product-market growth matrix",
+          "body": "| | Existing products | New products |\n| --- | --- | --- |\n| **Existing markets** | Market penetration (lowest risk) | Product development |\n| **New markets** | Market development | Diversification (highest risk) |\n\n- Market penetration: more sales of current products to current customers (price offers, ads, loyalty).\n- Market development: current products to new geographies or segments.\n- Product development: new products for current customers.\n- Diversification: new products for new markets."
+        },
+        {
+          "heading": "BCG and GE matrices",
+          "body": "**BCG growth-share matrix** plots SBUs on **market growth rate** (vertical) and **relative market share** (horizontal). Relative market share = SBU's market share / market share of the largest competitor. A value above 1.0 means the SBU is the leader.\n\n| | High relative share | Low relative share |\n| --- | --- | --- |\n| **High growth** | Star: build, needs cash but earns it | Question mark: invest selectively or divest |\n| **Low growth** | Cash cow: hold or harvest, funds others | Dog: divest or harvest |\n\nWorked example: SBU share 15%, largest rival 30%, market growth 4%. Relative share = 15/30 = 0.5 (low); growth is low, so the SBU is a **dog**.\n\n**GE (McKinsey) nine-cell matrix** uses **industry attractiveness** (market size, growth, profitability, competition, PESTLE factors) and **business strength** (market share, brand, cost position, technology), each high, medium or low. The three green cells (top-left) call for **invest and grow**, the three diagonal yellow cells for **selectivity / hold**, and the three red cells (bottom-right) for **harvest or divest**. It uses many factors, so it is richer than BCG."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using absolute market share in BCG instead of relative market share.\n- Calling a question mark a dog: question marks are in high-growth markets.\n- Treating acquisition of a supplier as horizontal integration. It is backward vertical integration.\n- Proposing liquidation when the case shows a viable business with temporary problems; turnaround fits better.\n- Forgetting that combination strategy is common in multi-SBU firms."
+        }
+      ],
+      "keyPoints": [
+        "Grand strategies: stability, growth (expansion), retrenchment, combination.",
+        "Ansoff: penetration (existing/existing), market development, product development, diversification (new/new, highest risk).",
+        "Relative market share = own share / largest competitor's share; above 1.0 = leader.",
+        "BCG: star (high growth, high share), cash cow (low growth, high share), question mark (high growth, low share), dog (low, low).",
+        "GE nine-cell: industry attractiveness x business strength; invest/grow, hold/selective, harvest/divest.",
+        "Vertical integration: backward (suppliers), forward (distribution); horizontal: rivals at same stage.",
+        "Retrenchment: turnaround -> divestment -> liquidation (last resort)."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-sm-04-strategic-choices-case1",
+          "title": "Case: Sahyadri Industries Ltd",
+          "body": "Sahyadri Industries Ltd is a diversified group with four SBUs. Data for the latest year:\n\n| SBU | Market growth rate | Sahyadri's market share | Largest competitor's share |\n| --- | --- | --- | --- |\n| Packaged tea | 3% | 32% | 20% |\n| Solar rooftop panels | 22% | 9% | 18% |\n| Specialty paper | 2% | 6% | 25% |\n| Plant-based protein snacks | 26% | 28% | 14% |\n\nThe group treats 10% market growth as the dividing line between high and low growth.\n\nThe board plans to launch packaged tea in Bangladesh and Nepal using its existing brands, and to acquire a polysilicon wafer supplier for the solar business. The specialty paper unit has made losses for four years; a recovery plan tried in 2024 failed, and the board is now negotiating to sell the unit to a European paper company."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-sm-04-strategic-choices-q01",
+          "type": "mcq",
+          "caseId": "ca-i-sm-04-strategic-choices-case1",
+          "prompt": "In the BCG matrix, the packaged tea SBU is a:",
+          "options": [
+            "Cash cow",
+            "Star",
+            "Question mark",
+            "Dog"
+          ],
+          "answer": 0,
+          "explanation": "Growth is 3% (low, below 10%) and relative market share is 32/20 = 1.6 (high, above 1.0). Low growth with high relative share is a cash cow."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q02",
+          "type": "numeric",
+          "caseId": "ca-i-sm-04-strategic-choices-case1",
+          "prompt": "Compute the relative market share of the solar rooftop panels SBU. Give the answer as a ratio to 2 decimals.",
+          "answer": 0.5,
+          "tolerance": 0.005,
+          "explanation": "| Particulars | Value |\n| --- | --- |\n| Sahyadri's share | 9% |\n| Largest competitor's share | 18% |\n| Relative market share = 9 / 18 | **0.50** |\n\nWith growth at 22% (high) and relative share below 1.0, the solar SBU is a question mark."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q03",
+          "type": "mcq",
+          "prompt": "A tea company launches its existing packaged tea brands in Bangladesh and Nepal, where it did not sell before. Under the Ansoff matrix this is:",
+          "options": [
+            "Market development",
+            "Market penetration",
+            "Product development",
+            "Diversification"
+          ],
+          "answer": 0,
+          "explanation": "The product (packaged tea) is existing and the markets (new countries) are new. Existing product in a new market is market development."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q04",
+          "type": "mcq",
+          "caseId": "ca-i-sm-04-strategic-choices-case1",
+          "prompt": "Acquiring a polysilicon wafer supplier for the solar business is an example of:",
+          "options": [
+            "Backward vertical integration",
+            "Forward vertical integration",
+            "Horizontal integration",
+            "Conglomerate diversification"
+          ],
+          "answer": 0,
+          "explanation": "The wafer supplier is an earlier stage of the solar panel value system. Moving towards the source of inputs is backward vertical integration."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q05",
+          "type": "interview",
+          "caseId": "ca-i-sm-04-strategic-choices-case1",
+          "top": true,
+          "prompt": "In the given case, identify and explain the BCG position of each SBU of Sahyadri Industries and the strategy suitable for each.",
+          "answer": "Relative market share = own share / largest competitor's share. High growth means 10% or more.\n\n| SBU | Growth | Relative share | Position | Strategy |\n| --- | --- | --- | --- | --- |\n| Packaged tea | 3% low | 32/20 = 1.6 high | Cash cow | Hold; milk cash to fund stars and question marks |\n| Solar panels | 22% high | 9/18 = 0.5 low | Question mark | Invest selectively to build share, or exit |\n| Specialty paper | 2% low | 6/25 = 0.24 low | Dog | Divest or harvest |\n| Protein snacks | 26% high | 28/14 = 2.0 high | Star | Build; invest to keep leadership |\n\nThe board's actions are consistent with this. It is using the cash cow (tea) for market development, investing in the solar question mark through backward integration, and divesting the paper dog."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q06",
+          "type": "interview",
+          "caseId": "ca-i-sm-04-strategic-choices-case1",
+          "prompt": "In the given case, identify and explain the corporate level grand strategy followed by Sahyadri Industries as a whole.",
+          "answer": "Sahyadri is following a **combination strategy**: different grand strategies for different SBUs at the same time.\n\n- **Growth (expansion):** market development for packaged tea in Bangladesh and Nepal, and backward vertical integration in solar through the wafer supplier acquisition.\n- **Retrenchment (divestment):** the specialty paper unit has made losses for four years and the 2024 recovery (turnaround) plan failed. The board is selling it to a European company. Divestment usually follows a failed turnaround.\n- **Stability:** implied for the tea business in its home market, where it is the leader in a slow-growth market.\n\nA combination strategy suits multi-business groups because each SBU faces different market growth and competitive strength."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q07",
+          "type": "mcq",
+          "prompt": "Which Ansoff strategy carries the highest risk?",
+          "options": [
+            "Diversification",
+            "Market penetration",
+            "Market development",
+            "Product development"
+          ],
+          "answer": 0,
+          "explanation": "Diversification takes the firm into both new products and new markets, where it has the least knowledge and experience."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q08",
+          "type": "mcq",
+          "prompt": "A cement company sets up a ready-mix concrete business using its existing customer base and technical know-how. This is:",
+          "options": [
+            "Related (concentric) diversification",
+            "Conglomerate diversification",
+            "Horizontal integration",
+            "Market penetration"
+          ],
+          "answer": 0,
+          "explanation": "Ready-mix concrete is a new business linked to cement through technology and customers. Linked diversification that yields synergy is related or concentric diversification."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q09",
+          "type": "mcq",
+          "prompt": "The two dimensions of the GE nine-cell matrix are:",
+          "options": [
+            "Industry attractiveness and business strength",
+            "Market growth rate and relative market share",
+            "Products and markets",
+            "Cost and differentiation"
+          ],
+          "answer": 0,
+          "explanation": "The GE (McKinsey) matrix uses composite measures of industry attractiveness and business strength or competitive position, each graded high, medium or low."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q10",
+          "type": "truefalse",
+          "prompt": "In the BCG matrix, a 'dog' is an SBU with low relative market share in a high-growth market.",
+          "answer": false,
+          "explanation": "Low share in a high-growth market is a question mark. A dog has low relative share in a low-growth market."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q11",
+          "type": "truefalse",
+          "prompt": "Liquidation is usually considered the last resort among retrenchment strategies.",
+          "answer": true,
+          "explanation": "Liquidation ends the business, causes loss of jobs and value, and carries a stigma. Turnaround and divestment are tried before it."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q12",
+          "type": "multi",
+          "prompt": "Select the danger signals that indicate a business may need a turnaround strategy.",
+          "options": [
+            "Persistent negative cash flow",
+            "Declining market share",
+            "Uncompetitive products or services",
+            "Steady rise in profits",
+            "Mismanagement"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Negative cash flow, falling share, uncompetitive offerings and mismanagement are classic warning signs. Rising profits do not signal a need for turnaround."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q13",
+          "type": "fill",
+          "prompt": "Fill the blank: In the BCG matrix, an SBU with high relative market share in a low-growth market is called a ___.",
+          "accept": [
+            "cash cow",
+            "cash cows"
+          ],
+          "explanation": "Cash cows generate more cash than they need because they lead a mature market. The surplus funds stars and question marks."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q14",
+          "type": "interview",
+          "prompt": "Explain the action plan for a turnaround strategy.",
+          "answer": "A turnaround revives a sick but viable business. A typical action plan:\n\n- **Assess the situation:** identify causes of decline and whether the business can be saved.\n- **Change management:** bring in a turnaround leader and redefine roles.\n- **Communicate:** gain the support of employees, lenders, suppliers and customers.\n- **Short-term measures:** improve cash flow by cutting costs, selling non-core assets and reducing inventory.\n- **Focus on the core:** concentrate on profitable products and markets and drop loss makers.\n- **Revive marketing and operations:** improve quality, pricing and customer service.\n- **Financial restructuring:** reschedule debt and bring in fresh equity.\n\nIf the turnaround fails, the firm moves to divestment or, finally, liquidation."
+        },
+        {
+          "id": "ca-i-sm-04-strategic-choices-q15",
+          "type": "interview",
+          "prompt": "Distinguish between the BCG matrix and the GE nine-cell matrix.",
+          "answer": "- **Dimensions:** BCG uses market growth rate and relative market share. GE uses industry attractiveness and business strength.\n- **Measures:** BCG uses one variable on each axis. GE uses composites of many weighted factors (size, profitability, competition and PESTLE for attractiveness; share, brand, cost and technology for strength).\n- **Cells:** BCG has 4 cells (star, cash cow, question mark, dog). GE has 9 cells grouped into invest/grow, selective/hold and harvest/divest.\n- **Use:** BCG is simple and focuses on cash flow balance. GE is more detailed and judgmental, and better suits diversified firms.\n- **Limitation:** BCG oversimplifies, since high share does not always mean profit. GE weightings are subjective."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI: Intermediate Paper 6 Section B Strategic Management (May 2027 onward)",
+          "url": "https://www.icai.org/post/sm-inter-p6b-may2027"
+        },
+        {
+          "title": "ICAI Board of Studies (BoS) portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-sm-05-business-functional",
+      "title": "Business Level and Functional Strategies",
+      "level": "intermediate",
+      "summary": "Porter's generic strategies, the best-cost provider strategy and the risks of each, followed by functional strategies in marketing, operations, finance, HR and R&D that put business strategy into action.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Porter's generic strategies",
+          "body": "Michael Porter identified two sources of competitive advantage (**lower cost** or **differentiation**) and two scopes (**broad** or **narrow** target). These give the generic strategies:\n\n| | Lower cost | Differentiation |\n| --- | --- | --- |\n| **Broad target** | Cost leadership | Differentiation |\n| **Narrow target** | Cost focus | Differentiation focus |\n\n- **Cost leadership:** be the lowest-cost producer in the industry through scale, process efficiency, tight cost control, standardised products, low overheads. Charge the industry price and earn higher margin, or charge lower prices and gain share.\n- **Differentiation:** offer unique features customers value (quality, design, brand, service, technology) and charge a premium that exceeds the extra cost.\n- **Focus:** serve a narrow segment (geographic, customer group or product niche) better than broad competitors, on cost or on differentiation.\n\nA firm that tries to do everything without a clear advantage is **stuck in the middle** and usually earns below-average profits."
+        },
+        {
+          "heading": "Best-cost provider and risks of each strategy",
+          "body": "The **best-cost provider** strategy gives customers more value for money: good-to-excellent quality and features at a price lower than rivals with similar features. It suits markets where buyers are value-conscious and many want upscale features at moderate prices. It sits between cost leadership and differentiation.\n\n| Strategy | Main risks |\n| --- | --- |\n| Cost leadership | Technological change wipes out cost advantage; rivals imitate; obsession with cost ignores changing customer needs |\n| Differentiation | Premium too high relative to perceived value; rivals imitate features; customers stop valuing the differentiating attribute |\n| Focus | Niche becomes attractive to broad competitors; niche needs shift towards the mass market; segment shrinks |\n| Best-cost | Squeezed between low-cost leaders and premium differentiators |"
+        },
+        {
+          "heading": "Functional strategies",
+          "body": "Functional strategies translate business strategy into action plans for each function. They must be consistent with each other and with the business strategy.\n\n| Function | Key decisions |\n| --- | --- |\n| Marketing | Segmentation, targeting, positioning; marketing mix (product, price, place, promotion; plus people, process, physical evidence for services) |\n| Operations | Capacity, location, technology, quality systems, inventory, outsourcing |\n| Finance | Capital structure, funds for investments, dividend policy, working capital, cost of capital |\n| Human resources | Recruitment, training, performance appraisal, compensation, succession, culture |\n| R&D | Product versus process innovation, in-house versus collaborative R&D, being a leader or a follower |\n| Logistics and supply chain | Sourcing, warehousing, distribution, supplier partnerships |\n\n**Pricing choices for a new product:** **skimming** (high initial price to recover R&D from early adopters, used for innovative products with inelastic demand) and **penetration** (low initial price to gain share quickly, used when demand is price elastic and scale lowers cost)."
+        },
+        {
+          "heading": "Matching functions to business strategy",
+          "body": "Worked comparison of a cost leader and a differentiator in the same industry (budget hotel chain versus luxury resort group):\n\n| Function | Cost leader (budget hotel) | Differentiator (luxury resort) |\n| --- | --- | --- |\n| Marketing | Online booking, low prices, standard rooms | Premium pricing, brand experiences, loyalty programmes |\n| Operations | Standard design, high occupancy, self-service | Bespoke service, high staff-to-guest ratio |\n| HR | Lean staffing, multi-skilling | Intensive service training, rewards for guest feedback |\n| Finance | Tight cost control, asset-light leases | Investment in property and interiors |\n\n**Common mistakes:** describing a premium firm as a cost leader because it is efficient; mixing up cost focus (low cost in a niche) and cost leadership (low cost across the market); treating functional plans as independent instead of aligned to the business strategy."
+        }
+      ],
+      "keyPoints": [
+        "Porter: cost leadership, differentiation, focus (cost focus or differentiation focus).",
+        "Advantage source (low cost vs uniqueness) x scope (broad vs narrow).",
+        "Stuck in the middle = no clear advantage, below-average profit.",
+        "Best-cost provider: upscale attributes at lower cost than rivals with similar attributes; value for money.",
+        "Functional strategies: marketing, operations, finance, HR, R&D, logistics; must align with business strategy.",
+        "Skimming = high introductory price; penetration = low introductory price to win share.",
+        "Services marketing mix adds people, process, physical evidence to the 4Ps."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-sm-05-business-functional-case1",
+          "title": "Case: The Indian kitchen appliance market",
+          "body": "Three firms compete in mixer-grinders:\n\n- **GrindKing Ltd** sells a basic 500W model across India at ₹2,199, about 15% below the average market price. It runs one very large automated plant, buys motors in bulk and spends little on advertising.\n- **AuraHome Pvt Ltd** sells only in Kerala and Tamil Nadu. Its grinders are designed for wet-grinding idli and dosa batter, with stone attachments and Tamil and Malayalam instructions. Customers pay about 20% more than for national brands.\n- **Nexa Appliances Ltd** offers 1000W motors, smart overload sensors and a five-year warranty, features normally found in premium models, at ₹3,999, while premium rivals with similar features charge ₹5,500 or more. Its R&D team works closely with low-cost contract manufacturers to keep costs down.\n\nNexa plans to launch a new AI-enabled food processor and must decide its introductory price. GrindKing's HR department plans to recruit 300 operators and train them in multiple machines."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-sm-05-business-functional-q01",
+          "type": "mcq",
+          "caseId": "ca-i-sm-05-business-functional-case1",
+          "prompt": "GrindKing Ltd is following:",
+          "options": [
+            "Cost leadership",
+            "Differentiation",
+            "Differentiation focus",
+            "Best-cost provider"
+          ],
+          "answer": 0,
+          "explanation": "A standard product sold across India at a price below the market average, a large automated plant, bulk buying and low advertising spend all point to cost leadership with a broad target."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q02",
+          "type": "mcq",
+          "caseId": "ca-i-sm-05-business-functional-case1",
+          "prompt": "AuraHome Pvt Ltd is following:",
+          "options": [
+            "Differentiation focus",
+            "Cost focus",
+            "Cost leadership",
+            "Stuck in the middle"
+          ],
+          "answer": 0,
+          "explanation": "AuraHome targets a narrow segment (South Indian wet-grinding needs in two States) with a specialised product and charges a premium. That is focused differentiation."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q03",
+          "type": "mcq",
+          "caseId": "ca-i-sm-05-business-functional-case1",
+          "prompt": "Nexa Appliances Ltd is best described as a:",
+          "options": [
+            "Best-cost provider",
+            "Cost leader",
+            "Pure differentiator charging the highest price",
+            "Cost focuser"
+          ],
+          "answer": 0,
+          "explanation": "Nexa offers premium features at ₹3,999 against ₹5,500 or more charged by rivals with similar features. Giving upscale attributes at a lower cost than comparable rivals is the best-cost provider strategy."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q04",
+          "type": "interview",
+          "caseId": "ca-i-sm-05-business-functional-case1",
+          "top": true,
+          "prompt": "In the given case, identify and explain the generic strategy of each of the three firms and one risk each firm faces.",
+          "answer": "- **GrindKing: cost leadership.** It has a broad national market, a basic standard product, scale from one large automated plant, bulk purchase and low advertising, and a price 15% below average. Risk: a rival with new motor technology or larger scale may undercut it, and customers may move to feature-rich models.\n- **AuraHome: differentiation focus.** It has a narrow regional segment, a product designed for wet-grinding batter, local-language instructions and a 20% premium. Risk: national brands may launch similar regional models, or the niche's needs may converge with the mass market.\n- **Nexa: best-cost provider.** It offers premium features (1000W, smart sensors, five-year warranty) at a price well below premium rivals, using cost-conscious R&D and contract manufacturing. Risk: it can be squeezed between low-cost GrindKing and premium brands that cut prices.\n\nNone of the three appears stuck in the middle, since each has a clear source of advantage."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q05",
+          "type": "interview",
+          "caseId": "ca-i-sm-05-business-functional-case1",
+          "prompt": "In the given case, identify and explain the pricing options available to Nexa for its new AI-enabled food processor and recommend one.",
+          "answer": "**Price skimming:** set a high introductory price to capture early adopters who value innovation, recover R&D cost quickly, then lower the price over time. It suits new, hard-to-copy products with inelastic demand among early buyers.\n\n**Penetration pricing:** set a low introductory price to win market share fast, build volume and lower unit cost through scale. It suits price-elastic markets with the threat of quick imitation.\n\n**Recommendation:** Nexa's positioning is value for money (best-cost provider), so pure skimming would conflict with its brand promise. A moderate penetration price, below premium rivals but not at the bottom, fits the business strategy and builds volume before rivals copy the AI features. The functional (marketing) strategy must stay consistent with the business strategy."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q06",
+          "type": "mcq",
+          "prompt": "A low-cost appliance maker plans to recruit 300 machine operators and train each of them to run multiple machines. This decision is an example of:",
+          "options": [
+            "Functional (HR) strategy supporting cost leadership",
+            "Corporate level growth strategy",
+            "Business level differentiation strategy",
+            "Retrenchment strategy"
+          ],
+          "answer": 0,
+          "explanation": "Recruitment and multi-skilling are HR functional decisions. Multi-skilled operators raise labour flexibility and productivity, which supports GrindKing's low-cost business strategy."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q07",
+          "type": "mcq",
+          "prompt": "According to Porter, a firm that pursues all generic strategies without achieving any of them is:",
+          "options": [
+            "Stuck in the middle",
+            "A best-cost provider",
+            "A cash cow",
+            "A focused differentiator"
+          ],
+          "answer": 0,
+          "explanation": "Porter warned that a firm with neither a cost advantage nor a meaningful differentiation is stuck in the middle and usually earns below-average returns."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q08",
+          "type": "mcq",
+          "prompt": "Which is a typical risk of a differentiation strategy?",
+          "options": [
+            "Buyers decide the extra features are not worth the price premium",
+            "Technological change cancels the scale advantage of large plants",
+            "Overemphasis on cost leads to neglect of quality",
+            "The niche is too small to reach scale"
+          ],
+          "answer": 0,
+          "explanation": "Differentiation works only while customers value the uniqueness enough to pay the premium. If the premium gets too large or the feature becomes standard, buyers switch."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q09",
+          "type": "mcq",
+          "prompt": "For services, the extended marketing mix adds which three Ps to product, price, place and promotion?",
+          "options": [
+            "People, process, physical evidence",
+            "Profit, productivity, planning",
+            "Packaging, positioning, partnership",
+            "Policy, power, performance"
+          ],
+          "answer": 0,
+          "explanation": "Services are intangible and delivered by people, so the mix adds people, process and physical evidence."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q10",
+          "type": "truefalse",
+          "prompt": "A cost leader can earn above-average profit even when it charges the same price as its rivals.",
+          "answer": true,
+          "explanation": "With the lowest cost in the industry, the same price gives the cost leader a higher margin. Lower prices are an option, not a requirement."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q11",
+          "type": "truefalse",
+          "prompt": "Functional strategies can be framed independently of the business level strategy.",
+          "answer": false,
+          "explanation": "Functional strategies exist to implement the business strategy. A premium HR or marketing plan inside a cost-leader firm would undermine its advantage."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q12",
+          "type": "multi",
+          "prompt": "Select the sources a firm may use to achieve cost leadership.",
+          "options": [
+            "Economies of scale",
+            "Learning and experience curve effects",
+            "Standardised products and processes",
+            "Heavy brand advertising to justify a premium",
+            "Tight control of overheads"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Scale, learning, standardisation and overhead control lower unit cost. Heavy advertising to justify a premium belongs to a differentiation strategy."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q13",
+          "type": "fill",
+          "prompt": "Fill the blank: Setting a high initial price for an innovative product and lowering it over time is called price ___.",
+          "accept": [
+            "skimming"
+          ],
+          "explanation": "Skimming captures the high willingness to pay of early adopters, then reaches price-sensitive segments with later price cuts."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q14",
+          "type": "interview",
+          "prompt": "Explain the conditions under which a best-cost provider strategy works well.",
+          "answer": "A best-cost provider offers good-to-excellent product attributes at a lower cost and price than rivals with comparable features. It works well when:\n\n- Buyers are value-conscious and diverse, with many wanting upscale features at moderate prices.\n- The firm can deliver upscale features at lower cost, through efficient sourcing, design or operations.\n- There is a large middle market between budget and luxury segments.\n- The economy is in a phase where buyers trade down from premium products but do not want basic ones.\n\nIt is risky when low-cost leaders add features or premium players cut prices, because the best-cost firm can then be squeezed from both sides."
+        },
+        {
+          "id": "ca-i-sm-05-business-functional-q15",
+          "type": "interview",
+          "prompt": "Explain the role of financial strategy as a functional strategy.",
+          "answer": "Financial strategy ensures the business strategy has the funds it needs at the right cost and risk. It covers:\n\n- **Sources of funds:** the mix of equity, debt and internal accruals; the optimal capital structure.\n- **Investment of funds:** capital budgeting for projects that support strategy, and asset management.\n- **Dividend policy:** balancing shareholder payout with retention for growth.\n- **Working capital management:** inventory, receivables and cash to protect liquidity.\n- **Risk and value:** managing financial risk, controlling cost of capital and maximising shareholder value.\n\nA cost leader focuses on cost control and efficient asset use. A firm pursuing growth needs larger long-term funding."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI: Intermediate Paper 6 Section B Strategic Management (May 2027 onward)",
+          "url": "https://www.icai.org/post/sm-inter-p6b-may2027"
+        },
+        {
+          "title": "ICAI Board of Studies (BoS) portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-sm-06-implementation",
+      "title": "Strategy Implementation: Structure, Culture, Leadership and Change",
+      "level": "advanced",
+      "summary": "How strategy is put into action: the formulation-implementation link, choosing an organisation structure, building a supportive culture, strategic leadership and managing change with Lewin's model.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Formulation versus implementation",
+          "body": "A brilliant strategy fails if it is badly executed. Formulation and implementation differ:\n\n| Formulation | Implementation |\n| --- | --- |\n| Positioning forces before action | Managing forces during action |\n| Focus on effectiveness (doing the right things) | Focus on efficiency (doing things right) |\n| Mainly an intellectual, analytical process | Mainly an operational process |\n| Needs intuition and analytical skills | Needs motivation and leadership skills |\n| Coordination among a few top people | Coordination among many people across the firm |\n\nThe combinations: good formulation and good implementation = **success**; good formulation, poor implementation = **trouble**; poor formulation, good implementation = **roulette** (results unpredictable); poor on both = **failure**.\n\nImplementation tasks: build a capable organisation, allocate resources, set policies and procedures, install information and control systems, link rewards to results, shape culture and exercise strategic leadership."
+        },
+        {
+          "heading": "Strategy and structure",
+          "body": "Alfred Chandler observed that **structure follows strategy**: when strategy changes (for example, diversification), structure must change to support it.\n\n| Structure | Features | Suits |\n| --- | --- | --- |\n| Simple | Owner-manager takes all decisions | Small single-product firms |\n| Functional | Grouped by function (production, marketing, finance) | Single business, few products |\n| Divisional | Grouped by product, geography or customer; each division semi-autonomous | Diversified or multi-region firms |\n| SBU | Related divisions grouped into strategic business units | Large diversified firms |\n| Matrix | Dual reporting to functional and project/product managers | Complex projects, need for sharing specialists |\n| Network (virtual) | Core firm coordinates outsourced partners | Firms outsourcing most activities |\n| Hourglass | Middle management layer compressed; technology links top and bottom | Firms using IT to delayer |\n\nThe matrix structure improves coordination but causes conflict from two bosses. The network structure is flexible but depends on partners."
+        },
+        {
+          "heading": "Culture and strategic leadership",
+          "body": "**Corporate culture** is the shared values, beliefs and norms that shape how people behave. A culture that fits the strategy speeds implementation; a misfit culture resists it. A strong culture can become a weakness when strategy changes.\n\nTo align culture with strategy, managers change symbols and stories, recruit and promote people who model new values, change reward systems and lead by example.\n\n**Strategic leadership** is the ability to anticipate, envision, maintain flexibility and empower others to create strategic change.\n\n| Style | Approach | Suits |\n| --- | --- | --- |\n| Transformational | Inspires followers with vision, encourages innovation, intellectual stimulation | Turbulent environment, turnaround, start-ups, major change |\n| Transactional | Uses rewards and penalties linked to targets, focuses on systems and controls | Stable, mature environment |\n\nStrategic leaders also play the roles of entrepreneur, strategist, resource allocator and culture builder."
+        },
+        {
+          "heading": "Managing strategic change",
+          "body": "Strategy implementation usually involves change, and people resist change (fear of the unknown, loss of status, habit, insecurity).\n\n**Kurt Lewin's three-stage model:**\n\n- **Unfreezing:** create awareness that change is needed; reduce resistance through communication, education and participation.\n- **Changing (moving):** introduce new behaviours, structures and processes through compliance, identification with role models and internalisation.\n- **Refreezing:** stabilise the new behaviour through rewards, policies and culture so people do not slip back.\n\nSteps to initiate strategic change: recognise the need, create a shared vision, then institutionalise the change.\n\n**Common mistakes:** confusing unfreezing (creating readiness) with changing; recommending a matrix for a small owner-run business; calling every inspiring leader transformational without case evidence of vision and empowerment."
+        }
+      ],
+      "keyPoints": [
+        "Formulation = effectiveness, intellectual, few people; implementation = efficiency, operational, many people.",
+        "Good formulation + poor implementation = trouble; poor formulation + good implementation = roulette.",
+        "Chandler: structure follows strategy.",
+        "Structures: simple, functional, divisional, SBU, matrix (dual reporting), network, hourglass.",
+        "Transformational leaders inspire change; transactional leaders use rewards and controls in stable settings.",
+        "Lewin: unfreezing -> changing (moving) -> refreezing.",
+        "Culture that fits strategy speeds implementation; misfit culture resists it."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-sm-06-implementation-case1",
+          "title": "Case: Bharat Tyres and Rubber Ltd",
+          "body": "Bharat Tyres and Rubber Ltd (BTRL) was run for 40 years with a functional structure and a culture of seniority-based promotions. It now makes truck tyres, two-wheeler tyres, conveyor belts and rubber flooring, and sells in India, Africa and South-East Asia. Decisions are delayed because the functional heads in Kolkata must approve everything, and the four product lines fight over production capacity.\n\nThe new CEO, Ritu Banerjee, shared a vision of becoming 'Asia's most reliable industrial rubber partner'. She held town halls in every plant explaining why the company was losing orders, invited employees to suggest ideas, and set up innovation teams that she encouraged to question old practices. BTRL was then reorganised into four product divisions, each with its own profit responsibility. Bonuses were linked to divisional profit and customer satisfaction scores, and the old seniority rule for promotions was removed from the HR policy manual.\n\nSome senior managers in the Kolkata head office openly resist the changes because they will lose approval powers."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-sm-06-implementation-q01",
+          "type": "mcq",
+          "caseId": "ca-i-sm-06-implementation-case1",
+          "prompt": "The leadership style of Ritu Banerjee is best described as:",
+          "options": [
+            "Transformational",
+            "Transactional",
+            "Laissez-faire",
+            "Autocratic"
+          ],
+          "answer": 0,
+          "explanation": "She shares an inspiring vision, communicates widely, invites ideas and encourages teams to question old practices. Vision, inspiration and intellectual stimulation mark transformational leadership."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q02",
+          "type": "mcq",
+          "caseId": "ca-i-sm-06-implementation-case1",
+          "prompt": "The town halls explaining why the company was losing orders correspond to which stage of Lewin's change model?",
+          "options": [
+            "Unfreezing",
+            "Changing",
+            "Refreezing",
+            "Evaluating"
+          ],
+          "answer": 0,
+          "explanation": "Explaining the need for change and reducing resistance before introducing it is unfreezing."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q03",
+          "type": "mcq",
+          "caseId": "ca-i-sm-06-implementation-case1",
+          "prompt": "Linking bonuses to divisional profit and removing the seniority rule from the HR policy manual corresponds to:",
+          "options": [
+            "Refreezing",
+            "Unfreezing",
+            "Strategy formulation",
+            "Liquidation"
+          ],
+          "answer": 0,
+          "explanation": "Rewards and formal policy changes lock in new behaviour so people do not slip back to old ways. That is refreezing."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q04",
+          "type": "interview",
+          "caseId": "ca-i-sm-06-implementation-case1",
+          "top": true,
+          "prompt": "In the given case, identify and explain why BTRL's change from a functional to a divisional structure is justified.",
+          "answer": "**Chandler: structure follows strategy.** BTRL's strategy has shifted to multiple product lines (truck tyres, two-wheeler tyres, conveyor belts, flooring) and multiple regions. The old functional structure no longer fits.\n\n**Problems of the functional structure in the case:**\n\n- Decisions are slow because functional heads in Kolkata must approve everything.\n- Product lines fight over production capacity, and no one is accountable for each product's profit.\n- Top management is overloaded with operational issues.\n\n**Benefits of the divisional structure:**\n\n- Each division has profit responsibility and clear accountability.\n- Decisions are faster and closer to customers and markets.\n- Divisional performance can be compared, and rewards can be linked to it, as BTRL has done.\n- Top management is freed for corporate strategy.\n\n**Caution:** duplication of functions and inter-divisional rivalry must be managed through corporate coordination."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q05",
+          "type": "interview",
+          "caseId": "ca-i-sm-06-implementation-case1",
+          "prompt": "In the given case, identify and explain the resistance to change at BTRL and suggest how it should be managed.",
+          "answer": "**Resistance:** senior managers at the Kolkata head office openly resist because they will lose approval powers. This is resistance from loss of status and power. A seniority-based culture also makes people comfortable with old ways.\n\n**Ways to manage it:**\n\n- **Education and communication:** explain the business case (lost orders, slow decisions) repeatedly.\n- **Participation and involvement:** give these managers roles in the new divisions or corporate functions, such as policy, audit or mentoring.\n- **Facilitation and support:** training for new roles and counselling.\n- **Negotiation:** offer incentives or new responsibilities in exchange for cooperation.\n- **Refreeze the change:** use new rewards and policies, as BTRL has started to do. Use firmer measures only as a last resort.\n\nLewin's model applies here: unfreezing must reach these managers before the change can be stabilised."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q06",
+          "type": "mcq",
+          "prompt": "Good strategy formulation combined with poor implementation leads to:",
+          "options": [
+            "Trouble",
+            "Success",
+            "Roulette",
+            "Failure"
+          ],
+          "answer": 0,
+          "explanation": "A sound strategy that is badly executed causes trouble. Poor formulation with good implementation is roulette, poor on both is failure, and good on both is success."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q07",
+          "type": "mcq",
+          "prompt": "Which structure involves employees reporting to both a functional manager and a project or product manager?",
+          "options": [
+            "Matrix structure",
+            "Functional structure",
+            "Simple structure",
+            "Divisional structure"
+          ],
+          "answer": 0,
+          "explanation": "Dual reporting is the defining feature of the matrix structure. It improves coordination and sharing of specialists, but it can cause conflict from two bosses."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q08",
+          "type": "mcq",
+          "prompt": "A structure in which IT allows middle management layers to be compressed, so the organisation narrows in the middle, is called:",
+          "options": [
+            "Hourglass structure",
+            "Network structure",
+            "Matrix structure",
+            "SBU structure"
+          ],
+          "answer": 0,
+          "explanation": "In an hourglass structure, technology takes over coordination tasks of middle managers, leaving a narrow middle between top management and a broad operating base."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q09",
+          "type": "mcq",
+          "prompt": "Strategy implementation is primarily concerned with:",
+          "options": [
+            "Efficiency and managing forces during action",
+            "Effectiveness and positioning forces before action",
+            "Choosing the industry to compete in",
+            "Writing the vision statement"
+          ],
+          "answer": 0,
+          "explanation": "Formulation decides what to do (effectiveness). Implementation is about doing it well with many people across the organisation (efficiency)."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q10",
+          "type": "truefalse",
+          "prompt": "A strong corporate culture always helps strategy implementation.",
+          "answer": false,
+          "explanation": "A strong culture helps only when it fits the strategy. When strategy changes, a strong but misaligned culture becomes a major source of resistance."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q11",
+          "type": "truefalse",
+          "prompt": "Transactional leadership relies on rewards and penalties linked to agreed targets and suits relatively stable environments.",
+          "answer": true,
+          "explanation": "Transactional leaders work through existing systems, clarifying roles and rewarding target achievement. It works best when the environment is stable and change is incremental."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q12",
+          "type": "multi",
+          "prompt": "Select the actions that help align corporate culture with a new strategy.",
+          "options": [
+            "Changing reward systems to reward desired behaviour",
+            "Senior leaders modelling the new values",
+            "Recruiting and promoting people who fit the new values",
+            "Keeping all old policies unchanged to avoid discomfort"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Rewards, role-modelling and people decisions are strong culture-change levers. Leaving old policies unchanged reinforces the old culture."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q13",
+          "type": "fill",
+          "prompt": "Fill the blank: Alfred Chandler concluded that structure follows ___.",
+          "accept": [
+            "strategy"
+          ],
+          "explanation": "Chandler's study of large US firms showed that a change in strategy (such as diversification) creates administrative problems that require a new structure."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q14",
+          "type": "interview",
+          "prompt": "Distinguish between strategy formulation and strategy implementation.",
+          "answer": "- **Nature:** formulation positions forces before action; implementation manages forces during action.\n- **Focus:** formulation is about effectiveness (doing the right things); implementation is about efficiency (doing things right).\n- **Process:** formulation is primarily intellectual and analytical; implementation is primarily operational.\n- **Skills:** formulation needs intuition and analytical skill; implementation needs motivation and leadership skill.\n- **People:** formulation needs coordination among a few top managers; implementation needs coordination among many people across functions and levels.\n\nThe two are interdependent. Good formulation with poor implementation leads to trouble, and both must be sound for success."
+        },
+        {
+          "id": "ca-i-sm-06-implementation-q15",
+          "type": "interview",
+          "prompt": "Explain the advantages and disadvantages of a network (virtual) structure.",
+          "answer": "In a network structure, a small core firm designs, coordinates and markets, while most other activities (manufacturing, logistics, IT) are outsourced to partners linked by contracts and IT.\n\n**Advantages**\n\n- Flexibility to change partners as needs change.\n- Low fixed costs and capital investment.\n- Access to partners' specialist skills.\n- Speed in entering markets.\n\n**Disadvantages**\n\n- Dependence on partners for quality and delivery.\n- Weaker control over critical activities.\n- Risk of leaking know-how to partners who may become competitors.\n- Weaker employee loyalty and culture.\n- Coordination problems when partners fail.\n\nIt suits industries with fast change and many capable suppliers."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI: Intermediate Paper 6 Section B Strategic Management (May 2027 onward)",
+          "url": "https://www.icai.org/post/sm-inter-p6b-may2027"
+        },
+        {
+          "title": "ICAI Board of Studies (BoS) portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-sm-07-strategic-control",
+      "title": "Strategy Evaluation and Strategic Control",
+      "level": "advanced",
+      "summary": "Evaluating whether a strategy is working: operational versus strategic control, the four types of strategic control (premise, surveillance, special alert, implementation), Rumelt's criteria and Balanced Scorecard basics.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "Why strategic control",
+          "body": "Strategies are built on assumptions about an uncertain future. **Strategy evaluation** checks whether the strategy is being implemented as planned and whether it is still the right strategy. **Strategic control** is the continuous process of tracking strategy as it is implemented, detecting problems or changes in its premises, and making adjustments.\n\n| Operational control | Strategic control |\n| --- | --- |\n| Checks efficiency of day-to-day activities against budgets and standards | Checks whether the strategy and its assumptions remain valid |\n| Short term, internal | Long term, external and internal |\n| Done by middle and lower management | Done by top management |\n| Asks: are we doing things right? | Asks: are we still doing the right things? |\n\nThe basic control process: set standards, measure actual performance, compare and analyse deviations, take corrective action."
+        },
+        {
+          "heading": "Types of strategic control",
+          "body": "| Type | What it does | Example |\n| --- | --- | --- |\n| Premise control | Systematically checks whether the planning **premises** (assumptions about environment and industry) still hold | A plan assumed the rupee at a certain rate; treasury tracks it monthly |\n| Strategic surveillance | **Unfocused, broad** monitoring of internal and external events for anything that may affect strategy | Managers scan news, trade journals, social media, competitor launches |\n| Special alert control | **Rapid, thorough rethink** of strategy after a sudden, unexpected event | Crisis team after a plant fire, pandemic or sudden ban |\n| Implementation control | Checks whether strategic thrusts and **milestones** are achieved, and whether the strategy should change in light of results | Review at the end of each project phase |\n\nPremise control is **focused** on specific assumptions. Strategic surveillance is **unfocused** and wide. Implementation control works through monitoring strategic thrusts (key projects) and milestone reviews."
+        },
+        {
+          "heading": "Evaluation criteria and the Balanced Scorecard",
+          "body": "Richard Rumelt suggested four criteria to evaluate a strategy:\n\n- **Consistency:** goals and policies are not mutually inconsistent.\n- **Consonance:** the strategy adapts to the external environment and its changes.\n- **Advantage:** it creates or maintains a competitive advantage.\n- **Feasibility:** it can be implemented with available resources and does not create unsolvable sub-problems.\n\nThe **Balanced Scorecard** (Robert Kaplan and David Norton) translates strategy into measures across four perspectives, so that managers do not rely on financial results alone:\n\n| Perspective | Question | Sample measures |\n| --- | --- | --- |\n| Financial | How do we look to shareholders? | ROCE, revenue growth, EVA |\n| Customer | How do customers see us? | Market share, retention, satisfaction score |\n| Internal business process | What must we excel at? | Cycle time, defect rate, on-time delivery |\n| Learning and growth | Can we continue to improve and create value? | Training hours, employee retention, new product ideas |\n\nThe scorecard mixes lagging (financial) and leading (learning, process) indicators."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Calling budget variance analysis 'strategic control'. It is operational control.\n- Mixing up premise control (specific assumptions) with strategic surveillance (broad, unfocused monitoring).\n- Using special alert control for gradual trends. It is for sudden, high-impact events.\n- In the Balanced Scorecard, placing employee training under internal process. It belongs to learning and growth.\n- In case answers, naming the control without quoting the case fact that shows it."
+        }
+      ],
+      "keyPoints": [
+        "Operational control = efficiency of routine activities; strategic control = validity of strategy and its premises.",
+        "Premise control: focused check of planning assumptions.",
+        "Strategic surveillance: broad, unfocused monitoring of events.",
+        "Special alert control: rapid rethink after a sudden, unexpected event.",
+        "Implementation control: strategic thrusts and milestone reviews.",
+        "Rumelt's criteria: consistency, consonance, advantage, feasibility.",
+        "Balanced Scorecard: financial, customer, internal business process, learning and growth."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-sm-07-strategic-control-case1",
+          "title": "Case: SkyNest Hotels Ltd",
+          "body": "SkyNest Hotels Ltd prepared a five-year plan to open 30 mid-priced hotels in pilgrimage towns. The plan assumed that domestic religious tourism would grow at about 12% a year and that a proposed regional airport near two key towns would open by 2027.\n\nThe strategy cell receives a monthly report tracking pilgrim footfall data and the progress of the airport project. In addition, all general managers are asked to share anything they notice in local news, social media or competitor activity that could affect the business, even if it seems unrelated.\n\nThe plan is divided into phases; at the end of each phase the board reviews whether the hotels opened so far are meeting occupancy targets before releasing funds for the next phase.\n\nIn 2026, a flash flood damaged roads to one major pilgrimage town. Within 48 hours the CEO convened a crisis team that re-examined the expansion plan for the entire region.\n\nThe board now also wants to track guest satisfaction scores, average check-in time, staff training hours and return on capital employed in one report."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-sm-07-strategic-control-q01",
+          "type": "mcq",
+          "caseId": "ca-i-sm-07-strategic-control-case1",
+          "prompt": "The monthly report tracking pilgrim footfall and progress of the airport project is an example of:",
+          "options": [
+            "Premise control",
+            "Strategic surveillance",
+            "Special alert control",
+            "Operational control"
+          ],
+          "answer": 0,
+          "explanation": "The plan was based on two specific assumptions (12% tourism growth, airport by 2027). A focused, systematic check of whether these planning premises still hold is premise control."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q02",
+          "type": "mcq",
+          "caseId": "ca-i-sm-07-strategic-control-case1",
+          "prompt": "Asking general managers to report anything in news, social media or competitor activity that could affect the business is:",
+          "options": [
+            "Strategic surveillance",
+            "Premise control",
+            "Implementation control",
+            "Special alert control"
+          ],
+          "answer": 0,
+          "explanation": "This is broad, unfocused monitoring of a wide range of events inside and outside the firm, which is strategic surveillance."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q03",
+          "type": "mcq",
+          "caseId": "ca-i-sm-07-strategic-control-case1",
+          "prompt": "In the Balanced Scorecard, 'average check-in time' falls under which perspective?",
+          "options": [
+            "Internal business process",
+            "Customer",
+            "Financial",
+            "Learning and growth"
+          ],
+          "answer": 0,
+          "explanation": "Check-in time measures the efficiency of an internal operating process. Guest satisfaction is a customer measure, training hours a learning and growth measure, ROCE a financial measure."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q04",
+          "type": "interview",
+          "caseId": "ca-i-sm-07-strategic-control-case1",
+          "top": true,
+          "prompt": "In the given case, identify and explain the four types of strategic control used by SkyNest Hotels Ltd.",
+          "answer": "- **Premise control:** the monthly report on pilgrim footfall and airport progress checks the two planning assumptions (12% growth, airport by 2027). It is a focused, systematic check of whether the premises still hold.\n- **Strategic surveillance:** general managers report anything relevant from news, social media or competitors. It is broad, unfocused monitoring that can pick up threats premise control would miss.\n- **Implementation control:** the board reviews occupancy at the end of each phase before releasing funds. These are milestone reviews that check whether the strategy is on track and whether it should continue.\n- **Special alert control:** after the flash flood, a crisis team met within 48 hours to rethink the regional plan. This is a rapid, thorough reconsideration of strategy after a sudden, unexpected event.\n\nTogether these controls let SkyNest adjust a long-term plan as the uncertain future unfolds."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q05",
+          "type": "interview",
+          "caseId": "ca-i-sm-07-strategic-control-case1",
+          "prompt": "In the given case, identify and explain how the board's proposed single report reflects the Balanced Scorecard.",
+          "answer": "The Balanced Scorecard (Kaplan and Norton) measures performance from four perspectives, so managers do not rely only on financial results. The board's report covers all four:\n\n| Measure in case | Perspective | Question answered |\n| --- | --- | --- |\n| Return on capital employed | Financial | How do we look to shareholders? |\n| Guest satisfaction scores | Customer | How do customers see us? |\n| Average check-in time | Internal business process | What must we excel at? |\n| Staff training hours | Learning and growth | Can we keep improving? |\n\nTraining and process measures are leading indicators. Customer and financial measures are lagging outcomes. One report links SkyNest's expansion strategy to day-to-day measures and gives a balanced view of performance."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q06",
+          "type": "mcq",
+          "prompt": "Which criterion in Rumelt's framework asks whether the strategy represents an adaptive response to the external environment?",
+          "options": [
+            "Consonance",
+            "Consistency",
+            "Advantage",
+            "Feasibility"
+          ],
+          "answer": 0,
+          "explanation": "Consonance checks fit with the environment and its changes. Consistency checks internal coherence, advantage checks competitive edge and feasibility checks resource adequacy."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q07",
+          "type": "mcq",
+          "prompt": "Comparing actual material cost with standard cost every week is an example of:",
+          "options": [
+            "Operational control",
+            "Premise control",
+            "Strategic surveillance",
+            "Special alert control"
+          ],
+          "answer": 0,
+          "explanation": "Measuring efficiency of routine activities against standards and budgets is operational control. It does not question the strategy or its assumptions."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q08",
+          "type": "mcq",
+          "prompt": "Implementation control is typically carried out through:",
+          "options": [
+            "Monitoring strategic thrusts and milestone reviews",
+            "Unfocused scanning of the environment",
+            "Daily cash reconciliations",
+            "Writing a new vision statement"
+          ],
+          "answer": 0,
+          "explanation": "Implementation control tracks key projects (strategic thrusts) and reviews at milestones whether the strategy is working and should continue as planned."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q09",
+          "type": "mcq",
+          "prompt": "'Employee retention rate' in a Balanced Scorecard belongs to the:",
+          "options": [
+            "Learning and growth perspective",
+            "Customer perspective",
+            "Financial perspective",
+            "Internal business process perspective"
+          ],
+          "answer": 0,
+          "explanation": "Learning and growth covers people, information systems and organisational capability: training, skills, retention, employee satisfaction."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q10",
+          "type": "truefalse",
+          "prompt": "Strategic surveillance is designed to be focused on a few specific planning assumptions.",
+          "answer": false,
+          "explanation": "That describes premise control. Strategic surveillance is deliberately broad and unfocused to catch unanticipated events."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q11",
+          "type": "truefalse",
+          "prompt": "The Balanced Scorecard combines financial measures with non-financial measures of performance.",
+          "answer": true,
+          "explanation": "Financial measures are lagging. The scorecard adds customer, internal process and learning and growth measures that drive future financial results."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q12",
+          "type": "multi",
+          "prompt": "Select Richard Rumelt's criteria for evaluating a strategy.",
+          "options": [
+            "Consistency",
+            "Consonance",
+            "Advantage",
+            "Feasibility",
+            "Profitability"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Rumelt's four criteria are consistency, consonance, advantage and feasibility. Profitability is an outcome, not one of his criteria."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q13",
+          "type": "fill",
+          "prompt": "Fill the blank: The type of strategic control triggered by a sudden, unexpected event that requires a rapid reconsideration of strategy is called special ___ control.",
+          "accept": [
+            "alert"
+          ],
+          "explanation": "Special alert control is often run by a crisis team. Examples: a natural disaster, a sudden government ban, a product recall or the failure of a key supplier."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q14",
+          "type": "interview",
+          "prompt": "Distinguish between operational control and strategic control.",
+          "answer": "- **Purpose:** operational control checks the efficiency of routine activities. Strategic control checks whether the strategy is being implemented as planned and whether its premises are still valid.\n- **Focus:** operational control is internal. Strategic control looks at both the external environment and internal performance.\n- **Time frame:** operational control is short term (daily, weekly, monthly). Strategic control is long term and continuous.\n- **Level:** operational control is done by middle and lower management. Strategic control is done by top management.\n- **Tools:** operational control uses budgets, standard costing and variance analysis. Strategic control uses premise control, surveillance, special alert and implementation control.\n\nBoth are needed: efficient operations add little value if the strategy itself is outdated."
+        },
+        {
+          "id": "ca-i-sm-07-strategic-control-q15",
+          "type": "interview",
+          "prompt": "Explain the process of strategy evaluation and control.",
+          "answer": "- **Set standards:** derive performance standards from strategic objectives, both quantitative (ROCE, market share) and qualitative (brand image, employee morale).\n- **Measure actual performance:** collect timely and reliable data, financial and non-financial.\n- **Compare and analyse deviations:** find significant variances and their causes, whether internal (poor execution) or external (changed premises).\n- **Take corrective action:** improve implementation, revise objectives or standards, or reformulate the strategy itself.\n\nThe process is continuous and feeds back into strategy formulation. Its effectiveness depends on top management support, an information system and the willingness to change course."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI: Intermediate Paper 6 Section B Strategic Management (May 2027 onward)",
+          "url": "https://www.icai.org/post/sm-inter-p6b-may2027"
+        },
+        {
+          "title": "ICAI Board of Studies (BoS) portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-sm-08-digital-sustainable",
+      "title": "Contemporary Themes: Digital and Sustainable Strategy",
+      "level": "advanced",
+      "summary": "Applying the syllabus frameworks to digital transformation, platform business models, sustainability, the triple bottom line and shared value, as these themes appear in case scenarios across the paper.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lesson": [
+        {
+          "heading": "How this chapter fits the syllabus",
+          "body": "The ICAI new scheme Strategic Management syllabus has five chapters: Introduction to Strategic Management, Strategic Analysis: External Environment, Strategic Analysis: Internal Environment, Strategic Choices, and Strategy Implementation and Evaluation. Digital and sustainability themes are not a separate examinable chapter. They appear as the **setting of case scenarios** (an EV maker, an e-commerce platform, a green packaging firm).\n\nThis chapter shows how to apply the frameworks you already know to such cases: PESTLE and five forces for digital disruption, VRIO and the value chain for data and platform assets, Ansoff and generic strategies for green products, and Lewin and culture for digital transformation. Check the latest ICAI study material for any new content added for your attempt."
+        },
+        {
+          "heading": "Digital strategy and transformation",
+          "body": "**Digital transformation** is the use of digital technologies (cloud, mobile, data analytics, AI, automation) to change how a firm creates and delivers value. It is a strategic change, not only an IT project.\n\n| Framework | Digital lens |\n| --- | --- |\n| PESTLE | Technological factor (AI, digital payments); legal factor (data protection rules) |\n| Five forces | Digital platforms lower entry barriers and raise buyer power through price transparency; apps can be substitutes |\n| Value chain | Digitised marketing and sales, data-driven operations, e-procurement, online service |\n| VRIO | Proprietary customer data and algorithms can be valuable, rare and hard to imitate if organised well |\n| Implementation | Needs new skills, agile structures, a culture of experimentation and change management |\n\n**Platform business models** connect two or more user groups (buyers and sellers, riders and drivers). They benefit from **network effects**: each additional user makes the platform more valuable to others, which can create winner-take-most markets.\n\nDigital strategy should start from the business strategy: a cost leader uses digital tools for efficiency, a differentiator for personalised customer experience."
+        },
+        {
+          "heading": "Sustainability and strategy",
+          "body": "**Sustainable strategy** pursues long-term business success while meeting environmental, social and governance (ESG) expectations.\n\n- **Triple bottom line** (John Elkington): judge performance on **people** (social), **planet** (environmental) and **profit** (economic).\n- **Stakeholder approach:** consider employees, customers, suppliers, communities, regulators and investors, not only shareholders.\n- **Creating shared value** (Michael Porter and Mark Kramer): find business opportunities in social problems, for example by reconceiving products for underserved markets, redefining productivity in the value chain (less energy, water, waste) and building local supplier clusters.\n- **Circular economy:** design products for reuse, repair and recycling instead of take-make-dispose.\n\nSustainability can support a **differentiation** strategy (green brand, premium) or a **cost** strategy (energy and waste savings). **Greenwashing**, which means claiming environmental benefits that are not real, damages reputation and can attract regulatory action."
+        },
+        {
+          "heading": "Answering case questions on these themes",
+          "body": "Worked approach for 'In the given case, identify and explain how sustainability gives the firm a competitive advantage':\n\n- Name the framework (generic strategy, VRIO or value chain).\n- Quote the case fact (for example, 'solar power cuts energy cost by 30%').\n- Link it to the advantage (lower cost in operations -> cost advantage; eco-label valued by customers -> differentiation).\n- Note sustainability of the advantage (can rivals copy it easily?).\n\n**Common mistakes:** treating sustainability as only CSR spending, unrelated to strategy; claiming every digital tool is a core competence; ignoring the people and culture side of digital transformation; recommending a platform model without network effects or scale."
+        }
+      ],
+      "keyPoints": [
+        "ICAI new scheme SM has five chapters; digital and sustainability themes appear as case settings, applied through the standard frameworks.",
+        "Digital transformation = strategic change using digital technology; needs skills, structure and culture change.",
+        "Platforms connect user groups; network effects make each additional user add value for others.",
+        "Triple bottom line: people, planet, profit.",
+        "Creating shared value (Porter and Kramer): reconceive products and markets, redefine value chain productivity, build local clusters.",
+        "Sustainability can support cost (efficiency) or differentiation (green brand); greenwashing destroys trust.",
+        "Circular economy: reuse, repair, recycle instead of take-make-dispose."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-sm-08-digital-sustainable-case1",
+          "title": "Case: KisanKart Agritech Pvt Ltd",
+          "body": "KisanKart runs a mobile app that connects 4.5 lakh farmers in Maharashtra and Madhya Pradesh with buyers such as food processors and wholesalers. As more farmers join, more buyers join because supply is assured; more buyers in turn attract more farmers with better prices. The firm owns no warehouses; storage and transport are provided by partner firms coordinated through the app.\n\nKisanKart has built a database of soil, weather and price data over seven years and uses its own crop-advisory algorithm, which farmers say has raised yields by about 18%. Competitors have copied the app's features but cannot match the depth of data.\n\nKisanKart also runs a programme that trains women farmers in organic methods and buys their produce at an assured price for a premium organic brand sold in metro cities. Its packaging is made from crop residue, which reduces stubble burning. Investors now ask KisanKart to report on social and environmental impact along with profit.\n\nThe founders are converting the firm's paper-based procurement team to fully digital processes, but many older field staff are anxious and some have resisted using tablets."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q01",
+          "type": "mcq",
+          "caseId": "ca-i-sm-08-digital-sustainable-case1",
+          "prompt": "The way more farmers attract more buyers and more buyers attract more farmers on KisanKart is an example of:",
+          "options": [
+            "Network effects",
+            "Economies of scope",
+            "Backward integration",
+            "Price skimming"
+          ],
+          "answer": 0,
+          "explanation": "On a platform, each additional user on one side increases the value for users on the other side. That self-reinforcing loop is a network effect."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q02",
+          "type": "mcq",
+          "prompt": "An agritech firm owns no warehouses or trucks; storage and transport are provided by partner firms that it coordinates through its app. Its organisation is closest to a:",
+          "options": [
+            "Network (virtual) structure",
+            "Functional structure",
+            "Matrix structure",
+            "Simple structure"
+          ],
+          "answer": 0,
+          "explanation": "A core firm that coordinates outsourced partners through contracts and IT, while keeping only key activities in-house, has a network structure."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q03",
+          "type": "mcq",
+          "caseId": "ca-i-sm-08-digital-sustainable-case1",
+          "prompt": "Investors asking KisanKart to report social and environmental impact along with profit reflects the concept of:",
+          "options": [
+            "Triple bottom line",
+            "Cost leadership",
+            "Market penetration",
+            "Premise control"
+          ],
+          "answer": 0,
+          "explanation": "Reporting on people (social), planet (environmental) and profit (economic) is the triple bottom line."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q04",
+          "type": "interview",
+          "caseId": "ca-i-sm-08-digital-sustainable-case1",
+          "top": true,
+          "prompt": "In the given case, identify and explain whether KisanKart's data and crop-advisory algorithm give it a sustained competitive advantage, using the VRIO framework.",
+          "answer": "- **Valuable:** yes. The advisory raises farmers' yields by about 18%, which attracts and retains farmers and so feeds the platform's network effects.\n- **Rare:** yes. Seven years of soil, weather and price data across two States is held by KisanKart alone.\n- **Inimitable:** yes. Competitors copied app features but cannot match the depth of data. The data is path dependent (built over time), and the algorithm is proprietary.\n- **Organised:** yes. The firm already uses the data actively in its advisory service and app.\n\nThe data assets pass all four tests and give a **sustained competitive advantage**. In contrast, the app features are valuable but imitable, so they gave only a temporary advantage. KisanKart should keep investing in data quality and protect it through security and privacy compliance."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q05",
+          "type": "interview",
+          "caseId": "ca-i-sm-08-digital-sustainable-case1",
+          "prompt": "In the given case, identify and explain how KisanKart creates shared value through its sustainability initiatives.",
+          "answer": "Creating shared value (Porter and Kramer) means pursuing business opportunities that also solve social problems.\n\n- **Reconceiving products and markets:** the premium organic brand for metro cities creates a new profitable product line built on organic produce from trained women farmers.\n- **Redefining productivity in the value chain:** packaging made from crop residue gives the firm a low-cost input and also reduces stubble burning and air pollution.\n- **Enabling local cluster development:** training women farmers and buying at assured prices builds a reliable, skilled local supplier base and raises rural incomes.\n\nThese initiatives are part of the business model, not separate charity. They strengthen supply security and brand differentiation while delivering social and environmental benefits."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q06",
+          "type": "interview",
+          "caseId": "ca-i-sm-08-digital-sustainable-case1",
+          "prompt": "In the given case, identify and explain how KisanKart should manage the resistance to digitising its procurement team.",
+          "answer": "Older field staff are anxious about tablets: resistance arising from fear of the unknown, loss of competence and job insecurity. Using Lewin's model:\n\n- **Unfreezing:** explain why digital procurement is needed (speed, accuracy, better prices for farmers), reassure staff about job security, and involve respected senior staff as champions.\n- **Changing:** give hands-on training in local languages, provide simple interfaces, pilot with volunteers, pair older staff with digitally skilled colleagues, and offer support helplines.\n- **Refreezing:** recognise and reward adoption, update procedures so paper forms are retired, and track usage.\n\nDigital transformation succeeds only when people, skills and culture change along with technology."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q07",
+          "type": "mcq",
+          "prompt": "Making false or exaggerated claims about a product's environmental benefits is called:",
+          "options": [
+            "Greenwashing",
+            "Green marketing",
+            "Circular economy",
+            "Shared value"
+          ],
+          "answer": 0,
+          "explanation": "Greenwashing misleads stakeholders about environmental performance. When exposed, it damages reputation and can attract regulatory action."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q08",
+          "type": "mcq",
+          "prompt": "Under Porter's five forces, online price-comparison websites in a retail industry most directly:",
+          "options": [
+            "Increase the bargaining power of buyers",
+            "Increase the bargaining power of suppliers",
+            "Raise barriers to entry",
+            "Reduce rivalry among existing firms"
+          ],
+          "answer": 0,
+          "explanation": "Price transparency lowers buyers' search costs and lets them switch easily, which increases buyer power and usually intensifies price rivalry."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q09",
+          "type": "mcq",
+          "prompt": "A firm installs rooftop solar power and water recycling at its plants, cutting its operating costs below rivals. Which generic strategy does this sustainability initiative mainly support?",
+          "options": [
+            "Cost leadership",
+            "Differentiation focus",
+            "Market development",
+            "Divestment"
+          ],
+          "answer": 0,
+          "explanation": "Lower energy and water costs reduce unit cost, supporting a cost advantage. If customers paid a premium for the green image, it would support differentiation instead."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q10",
+          "type": "truefalse",
+          "prompt": "Digital transformation is purely a technology project and does not require changes in culture or skills.",
+          "answer": false,
+          "explanation": "Digital transformation changes how value is created. It needs new skills, structures, processes and a culture open to experimentation, so it is a strategic change managed by top leadership."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q11",
+          "type": "truefalse",
+          "prompt": "Under a circular economy approach, products are designed for reuse, repair and recycling.",
+          "answer": true,
+          "explanation": "The circular economy replaces the linear take-make-dispose model by keeping materials in use as long as possible."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q12",
+          "type": "multi",
+          "prompt": "Select the three dimensions of the triple bottom line.",
+          "options": [
+            "People",
+            "Planet",
+            "Profit",
+            "Price",
+            "Promotion"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "John Elkington's triple bottom line judges performance on social (people), environmental (planet) and economic (profit) outcomes. Price and promotion are marketing mix elements."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q13",
+          "type": "fill",
+          "prompt": "Fill the blank: When each additional user makes a platform more valuable to other users, the platform benefits from network ___.",
+          "accept": [
+            "effects",
+            "effect",
+            "externalities"
+          ],
+          "explanation": "Network effects create self-reinforcing growth and can make markets winner-take-most, which raises entry barriers for late entrants."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q14",
+          "type": "interview",
+          "prompt": "Explain how digital technologies can change a firm's value chain, with examples.",
+          "answer": "- **Inbound logistics:** IoT tracking of shipments and automated stock replenishment.\n- **Operations:** automation, robotics and predictive maintenance using sensor data.\n- **Outbound logistics:** route optimisation and real-time delivery tracking.\n- **Marketing and sales:** digital channels, personalised offers from customer data, e-commerce.\n- **Service:** chatbots, remote diagnostics and self-service portals.\n- **Support activities:** e-procurement, cloud ERP, digital HR (online learning, analytics), R&D using simulation and AI.\n\nDigitising activities can lower cost (cost leadership) or improve customer experience (differentiation), and it improves linkages because data flows across activities. The firm should digitise activities that support its business strategy, not adopt technology for its own sake."
+        },
+        {
+          "id": "ca-i-sm-08-digital-sustainable-q15",
+          "type": "interview",
+          "prompt": "Explain how sustainability can be a source of competitive advantage rather than only a cost.",
+          "answer": "- **Cost advantage:** energy efficiency, waste reduction, recycling and water savings lower operating cost.\n- **Differentiation:** eco-friendly products and transparent sourcing attract customers willing to pay a premium.\n- **Access to capital:** investors increasingly prefer firms with good ESG performance, lowering the cost of capital.\n- **Risk reduction:** anticipating environmental regulation and resource scarcity avoids future disruption (premise control on environmental assumptions).\n- **Talent:** a credible purpose helps attract and retain employees.\n- **Innovation:** constraints push new products and business models, such as circular products.\n\nThe advantage lasts only if initiatives are genuine and built into the business model. Greenwashing or token CSR gives no lasting advantage."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI: Intermediate Paper 6 Section B Strategic Management (May 2027 onward)",
+          "url": "https://www.icai.org/post/sm-inter-p6b-may2027"
+        },
+        {
+          "title": "ICAI Board of Studies (BoS) portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    }
+  ]
+}

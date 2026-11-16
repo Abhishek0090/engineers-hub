@@ -1,7 +1,19 @@
-# Software Engineers Hub
+# StudyHub
 
-Chapter-wise full stack study and interview prep, Duolingo style. Pick a goal, study a chapter,
-practice it as a quiz, keep your streak, and review your mistakes until they stick.
+Chapter-wise study and exam prep, Duolingo style. Pick a goal, study a chapter, practice it as a
+quiz, keep your streak, and review your mistakes until they stick.
+
+Programs today:
+
+- **Software engineering**: full stack study and interview prep.
+- **CA exam prep (ICAI new scheme)**: Foundation, Intermediate and Final, with calculations,
+  practical problems, case-based MCQs and theory questions. Law and tax chapters show the attempt
+  they are written for (Income-tax Act 2025 from the May 2027 exams) and are marked draft until
+  reviewed by a subject expert.
+
+Everything you may want to change is JSON in [src/content](src/content): the site name and programs
+(`site.json`), goals, users and one file per track. Add a new program by editing `site.json`; see
+[docs/CONTENT-GUIDE.md](docs/CONTENT-GUIDE.md).
 
 Built with Next.js 16 (App Router), React 19 and TypeScript. Content is static JSON today and
 switches to MongoDB with one environment variable.
@@ -36,7 +48,7 @@ Open http://localhost:3000. Static logins:
 | `/learn/[track]` | Chapter path for one track, grouped Beginner, Intermediate, Advanced |
 | `/learn/[track]/[chapter]` | Study page: lesson sections, code, key points, links to docs |
 | `/learn/[track]/[chapter]/practice` | Practice session: quiz, interview questions, XP, results |
-| `/interview` | Searchable interview bank with model answers, plus 5-question mock rounds |
+| `/interview` | Question bank with model answers (interview for software, theory for CA), plus 5-question rounds |
 | `/review` | Every question you got wrong, until you answer it right |
 | `/profile` | Stats, activity heatmap, daily goal, reset |
 
@@ -46,10 +58,13 @@ All study material is JSON in [src/content](src/content):
 
 - `tracks/<id>.json`: one file per track (chapters, lessons, key points, questions)
 - `goals.json`: learning goals and the ordered track list for each
+- `site.json`: site name, programs, areas and per-program wording
 - `users.json`: static users (passwords are scrypt hashes)
 
-Question types: `mcq`, `truefalse`, `multi` (select all), `fill` (fill the blank) and `interview`
-(model answer, self-graded). Lesson text supports paragraphs, `- ` bullets, `` `code` `` and `**bold**`.
+Question types: `mcq`, `truefalse`, `multi` (select all), `fill` (fill the blank), `interview`
+(model answer, self-graded), `numeric` (number within a tolerance) and `practical` (model solution,
+self-graded). Lesson text supports paragraphs, `- ` bullets, tables, `` `code` `` and `**bold**`.
+Software tracks and CA tracks differ only by `area`; see [docs/CONTENT-GUIDE.md](docs/CONTENT-GUIDE.md).
 
 After editing content, run:
 

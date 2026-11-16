@@ -5,13 +5,16 @@ import { useEffect, useState } from "react";
 
 import { Icon } from "@/components/icons";
 import { useProgress } from "@/components/progress-provider";
+import { programConfig, programOfId, progressProgram } from "@/lib/catalog";
 import { Inline } from "@/components/rich-text";
 import type { LocatedQuestion } from "@/lib/types";
 
 export default function ReviewPage() {
   const { progress, ready, update } = useProgress();
   const [items, setItems] = useState<LocatedQuestion[] | null>(null);
-  const ids = progress.mistakes;
+  const program = progressProgram(progress);
+  const ids = progress.mistakes.filter((id) => programOfId(id) === program);
+  const otherCount = progress.mistakes.length - ids.length;
   const key = ids.join(",");
 
   useEffect(() => {
@@ -36,7 +39,10 @@ export default function ReviewPage() {
       <div className="row wrap" style={{ justifyContent: "space-between" }}>
         <div>
           <h1 className="page-title">Review</h1>
-          <p className="muted" style={{ marginTop: 4 }}>Questions you missed stay here until you answer them right.</p>
+          <p className="muted" style={{ marginTop: 4 }}>
+            {programConfig(program).short} questions you missed stay here until you answer them right.
+            {otherCount ? ` ${otherCount} more from your other program show up when you switch goal.` : ""}
+          </p>
         </div>
         {ids.length ? (
           <Link href="/review/session" className="btn btn-accent">

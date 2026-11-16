@@ -1,0 +1,1848 @@
+{
+  "id": "redis-caching",
+  "title": "Redis and Caching",
+  "area": "database",
+  "order": 44,
+  "icon": "RD",
+  "color": "#b91c1c",
+  "description": "Redis data types and patterns plus caching strategy: TTLs and eviction, cache-aside and write-through, invalidation and stampedes, rate limiting, pub/sub and streams, locks, persistence, replication and HTTP/CDN caching.",
+  "chapters": [
+    {
+      "id": "redis-caching-01-intro-types",
+      "title": "Redis fundamentals and data types",
+      "level": "beginner",
+      "summary": "What Redis is, why it is fast, and which data structure to use for which job.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "What Redis is",
+          "body": "Redis is an **in-memory data structure server**: keys map to typed values (strings, hashes, lists, sets, sorted sets, streams and more), manipulated with atomic commands over a simple TCP protocol (RESP). It is used as a cache, session store, rate limiter, queue backend (BullMQ), leaderboard, pub/sub bus and lightweight primary store for ephemeral data.\n\nWhy it is fast: data lives in RAM, commands are simple operations on efficient structures, and command execution is **single-threaded**, which avoids locks and makes every individual command **atomic**. Since Redis 6, network I/O can use extra threads, but commands still run one at a time. Typical latencies are well under a millisecond inside a data centre.\n\nThe single thread means slow commands block everyone: `KEYS *` on millions of keys, `SMEMBERS` on a huge set, or a big `DEL` can stall all clients. Use `SCAN` for iteration and `UNLINK` for asynchronous deletion of large keys."
+        },
+        {
+          "heading": "Licensing and forks (Valkey)",
+          "body": "In 2024 Redis moved from the BSD licence to source-available licences (RSALv2/SSPLv1). In response, the Linux Foundation launched **Valkey**, a BSD-licensed fork of Redis 7.2, backed by AWS, Google Cloud, Oracle and others; managed services such as ElastiCache and Memorystore now offer Valkey. In 2025 **Redis 8** added AGPLv3 as a licensing option and folded the former Redis Stack modules (JSON, Query Engine/search, time series, probabilistic structures, vector sets) into the core distribution.\n\nFor application developers the commands and clients are largely the same across Redis and Valkey for the core data types. Check compatibility for newer, product-specific features."
+        },
+        {
+          "heading": "Strings, hashes and lists",
+          "body": "- **String**: up to 512 MB of bytes. Values, serialised JSON, counters (`INCR`, `INCRBY` are atomic), flags, bitmaps (`SETBIT`). `SET key value EX 60 NX` sets with a TTL only if absent.\n- **Hash**: a map of field to value under one key, e.g. a user profile or session. `HSET`, `HGET`, `HINCRBY`, `HGETALL`. Memory-efficient for small objects and lets you update one field without rewriting the whole value. Newer versions (Redis 7.4+, Valkey 9) support per-field TTLs.\n- **List**: ordered by insertion, fast push/pop at both ends (`LPUSH`, `RPOP`, `LRANGE`, `LTRIM`). Recent-activity feeds, simple queues (`BLMOVE` for reliable queue patterns). Index access in the middle is O(N).",
+          "code": {
+            "lang": "bash",
+            "source": "SET page:/home \"<html>...\" EX 300\nINCR stats:pageviews:2026-11-13           # atomic counter\nHSET user:42 name \"Ana\" plan \"pro\" logins 7\nHINCRBY user:42 logins 1\nLPUSH feed:42 \"liked post 9\"\nLTRIM feed:42 0 99                        # keep only the latest 100 entries"
+          }
+        },
+        {
+          "heading": "Sets, sorted sets and more",
+          "body": "- **Set**: unordered unique members. Tags, unique visitors, \"who liked this\", set algebra (`SINTER`, `SUNION`, `SDIFF`). `SADD`, `SISMEMBER` are O(1).\n- **Sorted set (ZSET)**: unique members each with a numeric score, kept ordered. Leaderboards (`ZADD`, `ZINCRBY`, `ZREVRANGE ... WITHSCORES`, `ZRANK`), priority queues, time-indexed data with timestamps as scores, sliding-window rate limiting. Most operations are O(log N).\n- **Stream**: append-only log with IDs and consumer groups (covered later).\n- **HyperLogLog**: approximate unique counts with about 0.81% error in at most 12 KB (`PFADD`, `PFCOUNT`).\n- **Bitmaps and bitfields**: compact per-user flags, daily active users.\n- **Geospatial**: `GEOADD`, `GEOSEARCH` for \"nearby\" queries.\n- **JSON, search and vector** capabilities ship with Redis 8 (and as modules elsewhere).",
+          "code": {
+            "lang": "bash",
+            "source": "ZADD leaderboard 1500 \"ana\" 1320 \"ben\" 1710 \"chen\"\nZINCRBY leaderboard 50 \"ben\"\nZREVRANGE leaderboard 0 2 WITHSCORES      # top 3\nZREVRANK leaderboard \"ana\"                # 0-based rank\nPFADD visitors:2026-11-13 \"u1\" \"u2\" \"u1\"\nPFCOUNT visitors:2026-11-13               # approx. 2"
+          }
+        },
+        {
+          "heading": "Keys and using Redis from Node",
+          "body": "Name keys with a consistent, colon-separated namespace: `app:env:entity:id[:field]`, e.g. `shop:prod:user:42:cart`. Keep keys short but readable, avoid unbounded \"big keys\" (a hash or list with millions of entries), and set TTLs on cache data.\n\nPopular Node clients are **node-redis** (official) and **ioredis**. Create one long-lived client per process (it multiplexes commands over a connection), handle `error` events, and use pipelining for batches.",
+          "code": {
+            "lang": "js",
+            "source": "import Redis from \"ioredis\";\nconst redis = new Redis(process.env.REDIS_URL);   // e.g. rediss://user:pass@host:6380\nredis.on(\"error\", (err) => logger.error({ err }, \"redis error\"));\n\nawait redis.set(\"user:42:name\", \"Ana\", \"EX\", 3600);\nconst name = await redis.get(\"user:42:name\");\n\n// pipeline: send many commands in one round trip\nconst results = await redis.pipeline()\n  .incr(\"stats:views\")\n  .zincrby(\"leaderboard\", 10, \"ana\")\n  .exec();"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Redis keeps typed data structures in memory; each command executes atomically on a single thread.",
+        "Slow commands (KEYS, huge SMEMBERS, big DEL) block every client; use SCAN and UNLINK.",
+        "Strings for values and counters, hashes for objects, lists for ordered feeds and queues.",
+        "Sets for uniqueness and set algebra; sorted sets for leaderboards, rankings and time windows.",
+        "HyperLogLog counts uniques approximately in about 12 KB.",
+        "Valkey is the BSD-licensed fork of Redis 7.2; Redis 8 added AGPLv3 and bundles JSON, search and more.",
+        "Use namespaced keys, TTLs for cache data, one shared client per process and pipelining."
+      ],
+      "questions": [
+        {
+          "id": "redis-caching-01-q01",
+          "type": "mcq",
+          "prompt": "Which Redis data type best implements a game leaderboard with ranks?",
+          "options": [
+            "List",
+            "Set",
+            "Sorted set",
+            "HyperLogLog"
+          ],
+          "answer": 2,
+          "explanation": "Sorted sets keep members ordered by score with O(log N) updates and support rank and range queries (ZREVRANGE, ZREVRANK)."
+        },
+        {
+          "id": "redis-caching-01-q02",
+          "type": "mcq",
+          "prompt": "Two clients run INCR counter at the same moment on a value of 5. What is the result?",
+          "options": [
+            "6",
+            "7",
+            "Either 6 or 7",
+            "An error"
+          ],
+          "answer": 1,
+          "explanation": "Commands execute one at a time, and INCR is atomic: read, increment and write happen as one operation. Both increments apply, giving 7."
+        },
+        {
+          "id": "redis-caching-01-q03",
+          "type": "mcq",
+          "prompt": "Why is KEYS user:* dangerous in production?",
+          "options": [
+            "It is deprecated",
+            "It scans the entire keyspace in one blocking O(N) call, stalling all other clients",
+            "It deletes keys",
+            "It only works in cluster mode"
+          ],
+          "answer": 1,
+          "explanation": "Redis executes commands on a single thread. Scanning millions of keys blocks everything. SCAN iterates incrementally with a cursor."
+        },
+        {
+          "id": "redis-caching-01-q04",
+          "type": "mcq",
+          "prompt": "You need to count approximately how many unique visitors hit a page each day, for millions of visitors, with minimal memory. Which structure?",
+          "options": [
+            "Set",
+            "HyperLogLog",
+            "List",
+            "String"
+          ],
+          "answer": 1,
+          "explanation": "A set stores every member (lots of memory). HyperLogLog estimates cardinality with about 0.81% standard error using at most 12 KB per key."
+        },
+        {
+          "id": "redis-caching-01-q05",
+          "type": "mcq",
+          "prompt": "What is Valkey?",
+          "options": [
+            "A Redis GUI",
+            "A BSD-licensed, Linux Foundation fork of Redis created after Redis changed its licence in 2024",
+            "A Redis client for Node",
+            "A Redis module for JSON"
+          ],
+          "answer": 1,
+          "explanation": "Valkey forked from Redis 7.2.4 and is offered by major cloud providers. It is protocol-compatible with Redis for core features."
+        },
+        {
+          "id": "redis-caching-01-q06",
+          "type": "mcq",
+          "prompt": "What does SET lock:job \"w1\" EX 30 NX do?",
+          "options": [
+            "Always overwrites lock:job",
+            "Sets lock:job to w1 with a 30-second TTL only if it does not already exist",
+            "Sets a 30 ms timeout",
+            "Deletes lock:job after 30 reads"
+          ],
+          "answer": 1,
+          "explanation": "NX means only if not exists, EX sets the expiry in seconds. The combination is atomic, which is the basis of simple locks and idempotency markers."
+        },
+        {
+          "id": "redis-caching-01-q07",
+          "type": "truefalse",
+          "prompt": "Since Redis 6 introduced I/O threads, Redis commands execute in parallel on multiple cores.",
+          "answer": false,
+          "explanation": "I/O threads parallelise reading and writing sockets. Command execution itself remains single-threaded, which preserves per-command atomicity."
+        },
+        {
+          "id": "redis-caching-01-q08",
+          "type": "truefalse",
+          "prompt": "A hash is often more memory-efficient than storing each field of a small object as a separate string key.",
+          "answer": true,
+          "explanation": "Small hashes use a compact encoding (listpack) and avoid per-key overhead, and you can read or update individual fields."
+        },
+        {
+          "id": "redis-caching-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which commands run in O(1) time?",
+          "options": [
+            "SADD for one member",
+            "INCR",
+            "LRANGE list 0 -1 on a huge list",
+            "HGET",
+            "KEYS *"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Adding a set member, incrementing and getting a hash field are constant time. LRANGE over the whole list and KEYS are O(N)."
+        },
+        {
+          "id": "redis-caching-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: use the ___ command to iterate keys incrementally with a cursor instead of KEYS.",
+          "accept": [
+            "SCAN"
+          ],
+          "explanation": "SCAN returns a cursor and a batch of keys per call, so the server never blocks for long. HSCAN, SSCAN and ZSCAN do the same within a key."
+        },
+        {
+          "id": "redis-caching-01-q11",
+          "type": "interview",
+          "prompt": "Why is Redis so fast, and what are the implications of its single-threaded design?",
+          "answer": "- Data in memory, efficient purpose-built structures, a simple protocol, and an event loop that executes commands sequentially without lock contention; I/O threads help with network throughput.\n- Implications: every command is atomic, which makes counters, NX sets and Lua scripts simple to reason about.\n- But one slow command blocks everyone: avoid O(N) commands on large keys (KEYS, SMEMBERS, HGETALL on huge hashes, big DEL), use SCAN, UNLINK, pagination, and keep values small.\n- One instance uses one core for commands; scale with replicas for reads and Cluster sharding for writes.\n- Memory is the limiting resource, so sizing, TTLs and eviction policies matter.",
+          "level": "beginner",
+          "top": true
+        },
+        {
+          "id": "redis-caching-01-q12",
+          "type": "interview",
+          "prompt": "Give examples of which Redis data structure you would use for common features.",
+          "answer": "- Cache entries and counters: strings (SET with EX, INCR).\n- User sessions or object caches with partial updates: hashes.\n- Recent activity feed with a cap: list with LPUSH + LTRIM.\n- Unique tags, followers, online users: sets (with SINTER for mutual friends).\n- Leaderboards, priority queues, sliding-window rate limits, delayed jobs by timestamp: sorted sets.\n- Event log with consumer groups: streams.\n- Approximate unique counts: HyperLogLog; daily active flags: bitmaps; nearby search: geo.",
+          "level": "beginner",
+          "top": true
+        },
+        {
+          "id": "redis-caching-01-q13",
+          "type": "interview",
+          "prompt": "What is a \"big key\" in Redis and why is it a problem?",
+          "answer": "A big key is a single key holding a very large value or collection: a multi-MB string, a hash or set with millions of members.\nProblems: operations on it can be O(N) and block the server; deleting it with DEL blocks (use UNLINK); it cannot be split across Cluster shards, creating a hot, memory-heavy shard; replication and migration of the key are slow; network transfer spikes latency.\nFind them with redis-cli --bigkeys or --memkeys and MEMORY USAGE. Fix by splitting into multiple keys (bucketing by ID range or hash), capping collections (LTRIM, ZREMRANGEBYRANK), and storing large blobs elsewhere (object storage).",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Redis docs: Understand Redis data types",
+          "url": "https://redis.io/docs/latest/develop/data-types/"
+        },
+        {
+          "title": "Redis docs: Commands",
+          "url": "https://redis.io/docs/latest/commands/"
+        },
+        {
+          "title": "Valkey documentation",
+          "url": "https://valkey.io/docs/"
+        }
+      ]
+    },
+    {
+      "id": "redis-caching-02-ttl-eviction",
+      "title": "Expiration, TTLs and eviction policies",
+      "level": "beginner",
+      "summary": "How keys expire, what Redis does when memory is full, and how to choose TTLs and an eviction policy.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Setting and reading TTLs",
+          "body": "Any key can have a time to live. Set it at write time (`SET k v EX 60`, `PX` for milliseconds, `EXAT`/`PXAT` for absolute times) or later (`EXPIRE`, `PEXPIRE`). Read it with `TTL`/`PTTL`: a positive number is the remaining time, **-1** means the key exists with no expiry, **-2** means the key does not exist. `PERSIST` removes the TTL.\n\nGotchas:\n\n- A plain `SET` on an existing key **clears** its TTL unless you pass `KEEPTTL`.\n- Commands that modify a value in place (`INCR`, `HSET`, `LPUSH`) keep the existing TTL. `INCR` on a missing key creates it **without** a TTL, a classic bug in rate limiters: set the expiry when the counter is created.\n- `EXPIRE` accepts `NX`, `XX`, `GT`, `LT` options (Redis 7+) to set conditionally.\n- Expiry uses the server clock; replicas do not expire keys themselves but receive `DEL` from the primary.",
+          "code": {
+            "lang": "bash",
+            "source": "SET session:abc '{\"userId\":42}' EX 1800\nTTL session:abc            # 1800\nSET session:abc '{\"userId\":42,\"cart\":3}'\nTTL session:abc            # -1 : plain SET removed the TTL!\nSET session:abc '{\"userId\":42,\"cart\":3}' KEEPTTL\nINCR ratelimit:ip:1.2.3.4  # creates key without TTL\nEXPIRE ratelimit:ip:1.2.3.4 60 NX   # only sets TTL if none exists"
+          }
+        },
+        {
+          "heading": "How expiration actually happens",
+          "body": "Redis does not run a timer per key. Expired keys are removed two ways:\n\n- **Passive (lazy)**: when a client accesses a key, Redis checks its expiry and deletes it if past due, so clients never see expired data.\n- **Active**: a background cycle repeatedly samples keys that have a TTL and deletes expired ones, repeating while a large fraction of the sample is expired.\n\nSo expired keys may occupy memory briefly, and a mass expiry of millions of keys at once can cause CPU spikes. Spreading TTLs with **jitter** avoids that and also avoids synchronized cache misses."
+        },
+        {
+          "heading": "Eviction when memory is full",
+          "body": "`maxmemory` caps memory use (on 64-bit systems the default is 0, meaning no limit, so always set it, leaving headroom for fragmentation, replication buffers and forks). When the limit is reached, `maxmemory-policy` decides what happens:\n\n- **noeviction** (default): writes fail with an OOM error; reads still work. Right for data you must not lose (queues like BullMQ, primary data).\n- **allkeys-lru**: evict the least recently used key among all keys. The common choice for a pure cache.\n- **allkeys-lfu**: evict the least frequently used key. Better when some keys are consistently popular and others are one-off.\n- **allkeys-random**: evict random keys.\n- **volatile-lru / volatile-lfu / volatile-random**: same, but only among keys **with a TTL**; keys without TTL are never evicted. If no volatile keys exist, writes fail like noeviction.\n- **volatile-ttl**: evict keys with a TTL, shortest remaining TTL first.\n\nLRU and LFU are **approximated** by sampling a few keys (`maxmemory-samples`, default 5) instead of tracking a perfect order, trading a little accuracy for speed and memory. Monitor `evicted_keys` and `used_memory` in `INFO`.",
+          "code": {
+            "lang": "bash",
+            "source": "# redis.conf (or CONFIG SET at runtime)\nmaxmemory 2gb\nmaxmemory-policy allkeys-lfu\nmaxmemory-samples 10"
+          }
+        },
+        {
+          "heading": "Choosing TTLs",
+          "body": "A TTL is a bound on staleness and a safety net for invalidation bugs:\n\n- Match TTL to how stale data may be: product catalog minutes to hours; prices or stock seconds; feature flags seconds to a minute; user permissions short (or invalidated explicitly).\n- Every cache key should have a TTL unless you have a strong reason, so bugs self-heal and memory is reclaimed.\n- Add **jitter** (e.g. 300 s plus or minus 10%) so keys written together do not expire together.\n- Mixed workloads: if one Redis holds both cache data and durable data, use `volatile-*` policies and give only cache keys TTLs, or better, use **separate instances** for cache and for queues/sessions with different policies.",
+          "code": {
+            "lang": "js",
+            "source": "function ttlWithJitter(baseSeconds, pct = 0.1) {\n  const delta = baseSeconds * pct;\n  return Math.round(baseSeconds - delta + Math.random() * 2 * delta);\n}\nawait redis.set(\"product:\" + id, JSON.stringify(product), \"EX\", ttlWithJitter(600));"
+          }
+        }
+      ],
+      "keyPoints": [
+        "TTL returns -1 for no expiry and -2 for a missing key.",
+        "A plain SET clears an existing TTL unless KEEPTTL is used; INCR on a new key sets no TTL.",
+        "Expired keys are removed lazily on access and by an active sampling cycle.",
+        "Always set maxmemory; the default eviction policy is noeviction.",
+        "allkeys-lru or allkeys-lfu for pure caches; noeviction for queues and durable data.",
+        "volatile-* policies only evict keys that have a TTL.",
+        "Add jitter to TTLs to avoid mass expiry and synchronized misses."
+      ],
+      "questions": [
+        {
+          "id": "redis-caching-02-q01",
+          "type": "mcq",
+          "prompt": "What does TTL return for a key that exists but has no expiry?",
+          "options": [
+            "0",
+            "-1",
+            "-2",
+            "null"
+          ],
+          "answer": 1,
+          "explanation": "-1 means the key exists without an expiry; -2 means the key does not exist."
+        },
+        {
+          "id": "redis-caching-02-q02",
+          "type": "mcq",
+          "prompt": "What is the TTL after these commands?",
+          "code": "SET k \"a\" EX 100\nSET k \"b\"\nTTL k",
+          "options": [
+            "About 100",
+            "-1",
+            "-2",
+            "200"
+          ],
+          "answer": 1,
+          "explanation": "A plain SET replaces the value and discards the previous expiry. Use SET ... KEEPTTL or set EX again."
+        },
+        {
+          "id": "redis-caching-02-q03",
+          "type": "mcq",
+          "prompt": "A rate limiter does INCR key then checks the count, but some IPs end up blocked forever. Why?",
+          "options": [
+            "INCR is not atomic",
+            "INCR created the key without a TTL and the EXPIRE call was missing or failed",
+            "Redis does not support counters",
+            "The key was evicted"
+          ],
+          "answer": 1,
+          "explanation": "INCR on a missing key creates it with no expiry. Set the TTL when the counter is created (EXPIRE ... NX, a MULTI block or a Lua script) so the window resets."
+        },
+        {
+          "id": "redis-caching-02-q04",
+          "type": "mcq",
+          "prompt": "Which eviction policy should a Redis instance backing BullMQ use?",
+          "options": [
+            "allkeys-lru",
+            "volatile-ttl",
+            "noeviction",
+            "allkeys-random"
+          ],
+          "answer": 2,
+          "explanation": "Evicting queue keys would silently lose or corrupt jobs. noeviction makes writes fail loudly when memory is full, which you can alert on."
+        },
+        {
+          "id": "redis-caching-02-q05",
+          "type": "mcq",
+          "prompt": "Your Redis is a pure cache where a small set of keys is hit constantly and many keys are read only once. Which policy usually gives the best hit rate?",
+          "options": [
+            "noeviction",
+            "allkeys-lfu",
+            "volatile-random",
+            "volatile-ttl"
+          ],
+          "answer": 1,
+          "explanation": "LFU keeps frequently accessed keys even if a burst of one-off reads touched other keys recently, which would push popular keys out under LRU."
+        },
+        {
+          "id": "redis-caching-02-q06",
+          "type": "mcq",
+          "prompt": "With maxmemory-policy volatile-lru and memory full, all keys lack a TTL. What happens on a write?",
+          "options": [
+            "A random key is evicted",
+            "The least recently used key is evicted",
+            "The write fails with an OOM error",
+            "Redis restarts"
+          ],
+          "answer": 2,
+          "explanation": "volatile-* policies only consider keys with an expiry. With none available, Redis behaves like noeviction and rejects writes that need memory."
+        },
+        {
+          "id": "redis-caching-02-q07",
+          "type": "truefalse",
+          "prompt": "Redis deletes each key at the exact millisecond its TTL elapses using a dedicated timer.",
+          "answer": false,
+          "explanation": "Redis uses lazy expiry on access plus an active sampling cycle. Clients never read expired values, but memory may be reclaimed slightly later."
+        },
+        {
+          "id": "redis-caching-02-q08",
+          "type": "truefalse",
+          "prompt": "Redis's LRU eviction is approximate and based on sampling a few keys.",
+          "answer": true,
+          "explanation": "Redis samples maxmemory-samples keys (default 5) and evicts the best candidate from a pool. Increasing samples improves accuracy at some CPU cost."
+        },
+        {
+          "id": "redis-caching-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which commands set or change a key's expiry?",
+          "options": [
+            "EXPIRE",
+            "SET with EX",
+            "PERSIST",
+            "GET",
+            "PEXPIREAT"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "EXPIRE, SET EX and PEXPIREAT set expiries; PERSIST removes one. GET only reads (GETEX can change expiry, but GET cannot)."
+        },
+        {
+          "id": "redis-caching-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the SET option ___ keeps the key's existing TTL when overwriting its value.",
+          "accept": [
+            "KEEPTTL"
+          ],
+          "explanation": "KEEPTTL (Redis 6+) retains the time to live associated with the key instead of clearing it."
+        },
+        {
+          "id": "redis-caching-02-q11",
+          "type": "interview",
+          "prompt": "Explain Redis eviction policies and how you would choose one.",
+          "answer": "- When used memory reaches maxmemory, the policy decides: noeviction (reject writes), allkeys-lru/lfu/random (evict any key), volatile-lru/lfu/random/ttl (evict only keys with TTL).\n- Pure cache: allkeys-lru, or allkeys-lfu if access is skewed with a stable hot set.\n- Durable data (queues, sessions you cannot lose, primary data): noeviction, with memory alerts and capacity planning.\n- Mixed instance: volatile-lru with TTLs only on cache keys, though separate instances with different policies are cleaner.\n- LRU/LFU are approximations via sampling; monitor evicted_keys, hit ratio (keyspace_hits/misses) and memory fragmentation.",
+          "level": "beginner",
+          "top": true
+        },
+        {
+          "id": "redis-caching-02-q12",
+          "type": "interview",
+          "prompt": "How does Redis expire keys internally, and what operational issues can that cause?",
+          "answer": "Expiry is lazy (checked on access) plus active (a periodic cycle samples keys with TTLs and deletes expired ones, looping while many are expired, within a time budget).\nIssues: expired-but-unaccessed keys can linger briefly, so memory looks higher; mass expiries (many keys created together with the same TTL) cause CPU spikes and latency as the active cycle works harder, plus a burst of cache misses hitting the database. Fix with TTL jitter. On replicas, expiry is driven by the primary's DEL, and replicas hide logically expired keys from reads.",
+          "level": "intermediate"
+        },
+        {
+          "id": "redis-caching-02-q13",
+          "type": "interview",
+          "prompt": "How do you decide TTLs for cached data?",
+          "answer": "- Start from the business tolerance for staleness per data type (prices seconds, catalog minutes, static config hours).\n- Combine with explicit invalidation on writes where freshness matters; the TTL then is a safety net for missed invalidations.\n- Consider cost of recomputation and traffic: hot, expensive keys may use longer TTLs with background refresh (stale-while-revalidate).\n- Add jitter to prevent synchronized expiry; cache negative results (not found) with short TTLs to stop repeated misses.\n- Measure hit ratio and staleness incidents, then tune.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Redis docs: Key eviction",
+          "url": "https://redis.io/docs/latest/develop/reference/eviction/"
+        },
+        {
+          "title": "Redis docs: EXPIRE command",
+          "url": "https://redis.io/docs/latest/commands/expire/"
+        },
+        {
+          "title": "Redis docs: SET command",
+          "url": "https://redis.io/docs/latest/commands/set/"
+        }
+      ]
+    },
+    {
+      "id": "redis-caching-03-patterns",
+      "title": "Caching patterns: cache-aside, read-through, write-through, write-behind",
+      "level": "intermediate",
+      "summary": "The standard ways to combine a cache with a database, their consistency trade-offs, and what to cache in the first place.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Why and what to cache",
+          "body": "A cache stores the result of expensive work (DB queries, API calls, rendering) in faster storage to cut latency and load. It is worth it when data is **read much more often than written**, is **expensive** to produce, and can tolerate some **staleness**.\n\nCaching layers: in-process memory (fastest, per instance, lost on restart), a shared cache like Redis (consistent across instances, network hop), HTTP caches and CDNs (closest to users), and database caches (buffer pool, materialised views).\n\nMeasure before and after: hit ratio, latency percentiles, and database load. A cache with a 20% hit ratio often adds complexity for little gain."
+        },
+        {
+          "heading": "Cache-aside (lazy loading)",
+          "body": "The most common pattern. The **application** manages the cache:\n\n- Read: check the cache; on a hit, return it. On a miss, read the database, store the result in the cache with a TTL, return it.\n- Write: update the database, then **delete** (invalidate) the cache key so the next read reloads fresh data.\n\nPros: only requested data is cached; the cache failing degrades to DB reads instead of an outage; simple. Cons: the first read after a miss is slow; there is a window for stale data; the app owns all the logic.\n\nWhy delete instead of updating the cache on write: two concurrent writers can update the DB in one order and the cache in the other, leaving the cache permanently wrong. Deleting is idempotent and lets the next read repopulate.",
+          "code": {
+            "lang": "js",
+            "source": "async function getProduct(id) {\n  const key = \"product:\" + id;\n  const cached = await redis.get(key);\n  if (cached) return JSON.parse(cached);                 // hit\n\n  const product = await db.products.findById(id);         // miss\n  if (product) await redis.set(key, JSON.stringify(product), \"EX\", 600);\n  else await redis.set(key, \"null\", \"EX\", 30);            // short negative cache\n  return product;\n}\n\nasync function updateProduct(id, patch) {\n  const product = await db.products.update(id, patch);    // 1) write the source of truth\n  await redis.del(\"product:\" + id);                       // 2) invalidate\n  return product;\n}"
+          }
+        },
+        {
+          "heading": "Read-through and write-through",
+          "body": "- **Read-through**: the application only talks to the cache; on a miss the **cache layer** loads from the database (via a loader function or a caching library/proxy). Same behaviour as cache-aside, but the logic is centralised.\n- **Write-through**: every write goes to the cache and synchronously to the database before acknowledging. The cache is always populated and fresh for written keys. Cons: higher write latency, and data that is written but never read wastes cache space (combine with TTLs)."
+        },
+        {
+          "heading": "Write-behind (write-back) and write-around",
+          "body": "- **Write-behind**: writes go to the cache and are acknowledged immediately; the cache flushes to the database **asynchronously**, often batched. Very fast writes and coalescing of repeated updates (great for counters, view counts, metrics). Risk: data loss if the cache fails before flushing, and the database lags behind. Needs durable cache configuration or a queue.\n- **Write-around**: writes go only to the database; the cache is filled on reads (as in cache-aside). Avoids polluting the cache with write-once data.\n\nChoose by the cost of staleness vs the cost of latency and complexity. Most web apps use cache-aside with delete-on-write and TTLs; write-behind is used selectively for high-volume counters.",
+          "code": {
+            "lang": "js",
+            "source": "// Write-behind for view counts: increment in Redis, flush periodically\nawait redis.hincrby(\"views:pending\", postId, 1);\n\nsetInterval(async () => {\n  const batch = await redis.multi().hgetall(\"views:pending\").del(\"views:pending\").exec();\n  const counts = batch[0][1];\n  for (const [id, n] of Object.entries(counts)) {\n    await db.query(\"UPDATE posts SET views = views + $1 WHERE id = $2\", [Number(n), id]);\n  }\n}, 10_000);"
+          }
+        },
+        {
+          "heading": "Serialisation, keys and local caches",
+          "body": "- Version keys when the cached shape changes (`product:v2:42`) so old entries are ignored after deploys.\n- Serialise compactly (JSON is fine; MessagePack for large objects) and cache **DTOs**, not ORM instances.\n- Include every input that affects the result in the key (user, locale, permissions, query parameters), or you will serve one user's data to another.\n- A small **in-process LRU** in front of Redis (two-level cache) removes the network hop for very hot keys, at the cost of per-instance staleness; Redis client-side caching (`CLIENT TRACKING`, RESP3) can invalidate local copies automatically."
+        }
+      ],
+      "keyPoints": [
+        "Cache data that is read-heavy, expensive to compute and tolerant of some staleness.",
+        "Cache-aside: read cache, on miss load from DB and populate; on write update DB then delete the key.",
+        "Delete rather than update cache entries on write to avoid race-induced stale values.",
+        "Read-through and write-through move loading and writing logic into the cache layer.",
+        "Write-behind acknowledges writes from the cache and flushes later: fast but risks data loss.",
+        "Include all result-affecting inputs in the cache key, and version keys on shape changes.",
+        "Cache negative results briefly to stop repeated misses for missing data."
+      ],
+      "questions": [
+        {
+          "id": "redis-caching-03-q01",
+          "type": "mcq",
+          "prompt": "In cache-aside, what does the application do on a cache miss?",
+          "options": [
+            "Return an error",
+            "Load from the database, store the result in the cache, and return it",
+            "Wait for the cache to load it",
+            "Write to the database"
+          ],
+          "answer": 1,
+          "explanation": "Cache-aside is lazy: the app populates the cache itself on misses, usually with a TTL."
+        },
+        {
+          "id": "redis-caching-03-q02",
+          "type": "mcq",
+          "prompt": "Why is \"update DB, then delete cache key\" generally preferred over \"update DB, then set cache to the new value\"?",
+          "options": [
+            "Deleting is faster",
+            "Concurrent writers can set the cache in a different order than the DB commits, leaving a stale value; deleting forces a fresh reload",
+            "SET is not atomic",
+            "Redis forbids it"
+          ],
+          "answer": 1,
+          "explanation": "With two racing updates, the later DB write can be followed by the earlier cache write. Deletion is order-insensitive; the next read loads the current DB value."
+        },
+        {
+          "id": "redis-caching-03-q03",
+          "type": "mcq",
+          "prompt": "Which pattern acknowledges writes once they hit the cache and persists to the database asynchronously?",
+          "options": [
+            "Cache-aside",
+            "Write-through",
+            "Write-behind",
+            "Write-around"
+          ],
+          "answer": 2,
+          "explanation": "Write-behind (write-back) defers database writes, giving very low write latency at the risk of losing un-flushed data."
+        },
+        {
+          "id": "redis-caching-03-q04",
+          "type": "mcq",
+          "prompt": "A cached endpoint returns personalised prices, but the cache key is \"prices:\" + productId. What is the bug?",
+          "options": [
+            "TTL too long",
+            "Users can see prices computed for other users because user-specific inputs are missing from the key",
+            "JSON serialisation",
+            "No negative caching"
+          ],
+          "answer": 1,
+          "explanation": "Every input that affects the result must be part of the key (or the data must not be cached at a shared level). Otherwise the first requester's result is served to everyone."
+        },
+        {
+          "id": "redis-caching-03-q05",
+          "type": "mcq",
+          "prompt": "Which is a key advantage of write-through caching?",
+          "options": [
+            "Lowest write latency",
+            "Recently written data is always present and consistent in the cache",
+            "No database needed",
+            "No memory use"
+          ],
+          "answer": 1,
+          "explanation": "Writes update cache and DB together, so reads after writes hit fresh cached data. The cost is slower writes and caching data that may never be read."
+        },
+        {
+          "id": "redis-caching-03-q06",
+          "type": "mcq",
+          "prompt": "Requests for non-existent product IDs keep missing the cache and hitting the database. What helps?",
+          "options": [
+            "Longer TTLs on existing keys",
+            "Caching the \"not found\" result with a short TTL (negative caching), plus a Bloom filter for very high volume",
+            "Disabling the cache",
+            "Using write-behind"
+          ],
+          "answer": 1,
+          "explanation": "Without negative caching, every lookup of a missing ID goes to the DB, which attackers can exploit (cache penetration). A short-TTL null entry or a Bloom filter stops that."
+        },
+        {
+          "id": "redis-caching-03-q07",
+          "type": "truefalse",
+          "prompt": "With cache-aside, if Redis goes down the application can keep working by reading from the database, though more slowly.",
+          "answer": true,
+          "explanation": "The database remains the source of truth. As long as the code treats cache errors as misses and the DB can handle the load, the system degrades gracefully."
+        },
+        {
+          "id": "redis-caching-03-q08",
+          "type": "truefalse",
+          "prompt": "Write-behind caching is the safest choice for financial transactions.",
+          "answer": false,
+          "explanation": "Acknowledging before the durable write means a cache crash can lose acknowledged transactions. Financial data needs synchronous, durable writes to the system of record."
+        },
+        {
+          "id": "redis-caching-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good candidates for caching?",
+          "options": [
+            "A product catalog page read 10,000 times per minute and updated hourly",
+            "A one-time password verification result",
+            "An expensive aggregate dashboard query refreshed every 5 minutes",
+            "Exchange rates fetched from a paid external API",
+            "A bank balance used to authorise a withdrawal"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Read-heavy, slow-changing or expensive data caches well. Single-use OTP results and balances used for authorization decisions need fresh, authoritative reads."
+        },
+        {
+          "id": "redis-caching-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the pattern where the application checks the cache and, on a miss, loads from the database and populates the cache is called cache-___.",
+          "accept": [
+            "aside",
+            "aside pattern"
+          ],
+          "explanation": "Cache-aside (lazy loading) is the most common caching pattern in web applications."
+        },
+        {
+          "id": "redis-caching-03-q11",
+          "type": "interview",
+          "prompt": "Compare cache-aside, write-through and write-behind. Which do you use by default?",
+          "answer": "- Cache-aside: app reads cache, loads DB on miss and populates; writes go to DB and delete the key. Simple, resilient to cache failure, caches only what is read; stale window and miss latency.\n- Write-through: writes update cache and DB synchronously. Fresh reads after writes; slower writes, caches unread data.\n- Write-behind: writes to cache, async flush to DB. Fast and coalesces writes; risk of data loss and DB lag; needs durable queueing.\n- Default: cache-aside with TTL + jitter and delete-on-write, plus stampede protection for hot keys. Write-behind only for high-volume, loss-tolerant counters/metrics. Write-through when read-after-write freshness is critical and writes are moderate.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "redis-caching-03-q12",
+          "type": "interview",
+          "prompt": "Describe a race condition that can make cache-aside serve stale data indefinitely, and how to mitigate it.",
+          "answer": "Classic sequence: reader A misses and reads the old value from the DB; writer B updates the DB and deletes the key; reader A then writes its old value into the cache. Now the cache holds stale data until the TTL expires.\nMitigations: always use TTLs so staleness is bounded; delayed double delete (delete again a short time after the write); version or timestamp the cached value and only set if newer (Lua compare-and-set); use change data capture (Debezium) to invalidate after commit; or for critical data, skip caching or use short TTLs.",
+          "level": "advanced"
+        },
+        {
+          "id": "redis-caching-03-q13",
+          "type": "interview",
+          "prompt": "How would you add caching to a slow product listing API?",
+          "answer": "- Profile first: confirm the DB query is the bottleneck and check indexes; caching should not hide a missing index.\n- Cache-aside in Redis, key including every parameter: products:v1:{category}:{sort}:{page}:{locale}; TTL a few minutes with jitter.\n- Invalidate on product changes: delete affected keys or bump a category version number included in keys (namespace versioning) so many keys invalidate at once.\n- HTTP caching on top: Cache-Control with s-maxage and stale-while-revalidate for CDN; ETags.\n- Protect against stampede for popular pages; monitor hit ratio and DB load; handle Redis failures as misses with timeouts.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "AWS: Caching patterns (Database Caching Strategies Using Redis)",
+          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html"
+        },
+        {
+          "title": "Redis docs: Client-side caching",
+          "url": "https://redis.io/docs/latest/develop/reference/client-side-caching/"
+        },
+        {
+          "title": "Microsoft: Cache-Aside pattern",
+          "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside"
+        }
+      ]
+    },
+    {
+      "id": "redis-caching-04-invalidation-stampede",
+      "title": "Cache invalidation, stampedes, penetration and avalanches",
+      "level": "intermediate",
+      "summary": "Keep caches correct after writes and keep them from collapsing your database under load.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Invalidation strategies",
+          "body": "\"There are only two hard things in computer science: cache invalidation and naming things.\" The options, often combined:\n\n- **TTL expiry**: simplest; bounded staleness, no coordination.\n- **Explicit delete on write**: the write path deletes affected keys. Requires knowing every key derived from the changed data.\n- **Versioned keys / namespaces**: include a version in the key (`catalog:v17:product:42`); bump the version (`INCR catalog:version`) to invalidate a whole group at once. Old keys age out via TTL.\n- **Tag-based invalidation**: track which keys belong to a tag (a Redis set per tag) and delete them all when the tag changes. Frameworks like Next.js expose this as `revalidateTag`.\n- **Event-driven / CDC**: publish change events after commit (outbox or Debezium reading the DB log) and let consumers invalidate. Decouples writers from cache knowledge and catches writes from any source.\n- **Broadcast for local caches**: when instances hold in-process caches, publish invalidations over Redis pub/sub so every instance drops its copy.",
+          "code": {
+            "lang": "js",
+            "source": "// Namespace versioning: invalidate all catalog entries in O(1)\nasync function catalogKey(suffix) {\n  const v = (await redis.get(\"catalog:version\")) ?? \"0\";\n  return \"catalog:v\" + v + \":\" + suffix;\n}\nawait redis.set(await catalogKey(\"product:42\"), json, \"EX\", 3600);\nawait redis.incr(\"catalog:version\");  // after a bulk import: every old key is now unreachable"
+          }
+        },
+        {
+          "heading": "Cache stampede (thundering herd / dogpile)",
+          "body": "When a hot key expires, hundreds of concurrent requests miss at the same moment and all recompute it, hammering the database exactly when it is busiest. Expensive keys can take the whole system down in a feedback loop.\n\nDefences:\n\n- **Single flight / request coalescing**: only one caller recomputes; others wait for its result. In-process with a map of pending promises; across instances with a short Redis lock (`SET lock:key token NX PX 5000`) while others briefly wait and retry or serve stale data.\n- **Stale-while-revalidate**: store a soft expiry inside the value and a longer hard TTL. After the soft expiry, serve the stale value and refresh in the background (one refresher via lock).\n- **Probabilistic early expiration** (XFetch): each request recomputes early with a probability that rises as expiry approaches, so one request usually refreshes before the key actually expires.\n- **Pre-warming** hot keys on deploy or on a schedule.",
+          "code": {
+            "lang": "js",
+            "source": "// In-process single flight: concurrent misses for the same key share one promise\nconst inflight = new Map();\n\nasync function cached(key, ttl, loader) {\n  const hit = await redis.get(key);\n  if (hit) return JSON.parse(hit);\n  if (inflight.has(key)) return inflight.get(key);\n\n  const p = (async () => {\n    try {\n      const value = await loader();\n      await redis.set(key, JSON.stringify(value), \"EX\", ttl);\n      return value;\n    } finally {\n      inflight.delete(key);\n    }\n  })();\n  inflight.set(key, p);\n  return p;\n}"
+          }
+        },
+        {
+          "heading": "Penetration, breakdown and avalanche",
+          "body": "Three related failure modes, common in interview questions:\n\n- **Cache penetration**: requests for keys that do not exist in the cache **or** the database (often malicious, random IDs) always miss and hit the DB. Fix: cache negative results with short TTLs, validate IDs early, use a **Bloom filter** of existing IDs to reject impossible keys.\n- **Cache breakdown (hotspot invalid)**: a single extremely hot key expires and the herd hits the DB: the stampede case. Fix: single flight, stale-while-revalidate, never-expire hot keys refreshed in the background.\n- **Cache avalanche**: many keys expire at once (same TTL set during a bulk load) or the cache cluster goes down, so the whole load lands on the DB. Fix: TTL jitter, high availability for the cache (replicas, cluster), circuit breakers and rate limiting in front of the DB, and graceful degradation."
+        },
+        {
+          "heading": "Consistency expectations",
+          "body": "A cache in front of a database is **eventually consistent** by design. Decide per data type what staleness is acceptable and design for it:\n\n- **Read-your-writes**: after a user edits their profile, they should see the change. Delete the key on write, or bypass the cache for that user's next reads, or write-through for their own data.\n- **Never cache authorization-critical decisions for long** (roles, account suspension); keep TTLs short or invalidate explicitly on change.\n- Treat Redis errors and timeouts as cache misses (with a short client timeout) so a cache incident does not become an outage, but protect the database from the resulting load."
+        }
+      ],
+      "keyPoints": [
+        "Combine TTLs with explicit invalidation; TTLs bound the damage of missed invalidations.",
+        "Versioned keys and tags invalidate whole groups cheaply.",
+        "CDC or outbox events decouple invalidation from write paths.",
+        "Stampede: many concurrent misses for one hot key; fix with single flight, locks, stale-while-revalidate or early refresh.",
+        "Penetration: lookups for non-existent data; fix with negative caching and Bloom filters.",
+        "Avalanche: mass expiry or cache outage; fix with TTL jitter, HA and DB protection.",
+        "Caches are eventually consistent; design read-your-writes explicitly where needed."
+      ],
+      "questions": [
+        {
+          "id": "redis-caching-04-q01",
+          "type": "mcq",
+          "prompt": "A homepage key cached for 60 seconds expires and 2,000 concurrent requests all query the database. What is this called?",
+          "options": [
+            "Cache penetration",
+            "Cache stampede (thundering herd)",
+            "Cache warming",
+            "Write-behind"
+          ],
+          "answer": 1,
+          "explanation": "Simultaneous misses on a hot key cause a burst of identical recomputations. Single flight or stale-while-revalidate prevents it."
+        },
+        {
+          "id": "redis-caching-04-q02",
+          "type": "mcq",
+          "prompt": "Attackers request random non-existent product IDs to bypass the cache. Which defence targets this directly?",
+          "options": [
+            "Longer TTLs",
+            "Negative caching and a Bloom filter of valid IDs",
+            "Write-through caching",
+            "allkeys-lfu"
+          ],
+          "answer": 1,
+          "explanation": "This is cache penetration. Bloom filters reject IDs that cannot exist without touching the DB, and short-lived null entries absorb repeated lookups."
+        },
+        {
+          "id": "redis-caching-04-q03",
+          "type": "mcq",
+          "prompt": "After a nightly bulk import, all 2 million cache keys were written with EX 86400 and expire together the next night, overloading the DB. Best fix?",
+          "options": [
+            "Use noeviction",
+            "Add random jitter to TTLs",
+            "Remove TTLs entirely",
+            "Use KEYS to delete them earlier"
+          ],
+          "answer": 1,
+          "explanation": "Jitter spreads expirations over time, preventing a cache avalanche. Removing TTLs trades this for unbounded staleness and memory growth."
+        },
+        {
+          "id": "redis-caching-04-q04",
+          "type": "mcq",
+          "prompt": "What does stale-while-revalidate mean for a cache?",
+          "options": [
+            "Never serve stale data",
+            "Serve the stale value after its soft expiry while one background task refreshes it",
+            "Delete stale data immediately",
+            "Revalidate on every request synchronously"
+          ],
+          "answer": 1,
+          "explanation": "Users get fast responses and the DB sees one refresh per key instead of a herd. A hard TTL still bounds how stale data can get."
+        },
+        {
+          "id": "redis-caching-04-q05",
+          "type": "mcq",
+          "prompt": "How does namespace versioning (catalog:v17:...) invalidate a group of keys?",
+          "options": [
+            "It deletes all keys with SCAN",
+            "Incrementing the version makes new lookups use different keys; old ones are no longer read and expire by TTL",
+            "It renames the keys",
+            "It flushes the database"
+          ],
+          "answer": 1,
+          "explanation": "Invalidation becomes a single INCR. The trade-off is temporarily holding orphaned old keys until TTLs reclaim them."
+        },
+        {
+          "id": "redis-caching-04-q06",
+          "type": "mcq",
+          "prompt": "What does this in-process single flight code guarantee?",
+          "code": "if (inflight.has(key)) return inflight.get(key);\nconst p = loadAndCache(key).finally(() => inflight.delete(key));\ninflight.set(key, p);\nreturn p;",
+          "options": [
+            "Only one database call per key per process while a load is in progress",
+            "Only one database call per key across all servers",
+            "That values are never stale",
+            "That Redis is never called"
+          ],
+          "answer": 0,
+          "explanation": "The map of pending promises coalesces concurrent misses within one process. Across many instances you need a distributed lock or accept one load per instance."
+        },
+        {
+          "id": "redis-caching-04-q07",
+          "type": "truefalse",
+          "prompt": "When Redis is unavailable, a well-designed cache-aside implementation should treat errors as misses with short timeouts rather than failing requests.",
+          "answer": true,
+          "explanation": "Graceful degradation keeps the service up; the database must then be protected (rate limits, circuit breakers) from the extra load."
+        },
+        {
+          "id": "redis-caching-04-q08",
+          "type": "truefalse",
+          "prompt": "A Bloom filter can return false negatives, so it may reject IDs that actually exist.",
+          "answer": false,
+          "explanation": "Bloom filters have no false negatives: if it says \"not present\", the item was never added. They can have false positives, which simply fall through to the normal lookup."
+        },
+        {
+          "id": "redis-caching-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which techniques help prevent cache stampedes?",
+          "options": [
+            "Distributed lock so only one process recomputes",
+            "Probabilistic early recomputation",
+            "Serving stale data while one worker refreshes",
+            "Setting the same TTL on all keys",
+            "Pre-warming hot keys"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Locks, early refresh, stale-while-revalidate and warming all prevent a herd. Identical TTLs increase synchronized expiry."
+        },
+        {
+          "id": "redis-caching-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a probabilistic data structure used to quickly reject lookups for keys that definitely do not exist is a ___ filter.",
+          "accept": [
+            "Bloom",
+            "bloom"
+          ],
+          "explanation": "A Bloom filter answers \"definitely not present\" or \"maybe present\" in small, fixed memory. Redis 8 includes Bloom filters (BF.ADD, BF.EXISTS)."
+        },
+        {
+          "id": "redis-caching-04-q11",
+          "type": "interview",
+          "prompt": "What is a cache stampede and how do you prevent it?",
+          "answer": "- When a popular key expires (or is evicted or invalidated), many concurrent requests miss simultaneously and all regenerate it, spiking database load, sometimes cascading into an outage because slow queries make even more requests pile up.\n- Prevention: single flight (one recomputation per key, in-process promise map plus a Redis SET NX PX lock across instances; others wait briefly, retry or get stale data).\n- Stale-while-revalidate: soft and hard expiry, serve stale while one refresher runs.\n- Probabilistic early expiration (XFetch) to refresh before expiry.\n- TTL jitter and pre-warming; for the hottest keys, refresh on a schedule and never let them expire.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "redis-caching-04-q12",
+          "type": "interview",
+          "prompt": "Explain cache penetration, cache breakdown and cache avalanche.",
+          "answer": "- Penetration: requests for data that exists in neither cache nor DB always reach the DB (bugs or attacks with random IDs). Fix: negative caching with short TTL, input validation, Bloom filter of valid keys, rate limiting.\n- Breakdown: a single hot key expires and concurrent requests stampede the DB. Fix: mutex/single flight, stale-while-revalidate, logical expiry with background refresh.\n- Avalanche: many keys expire at once or the cache tier fails, so the full load hits the DB. Fix: TTL jitter, highly available cache (replication, Sentinel/Cluster), multi-level caches, circuit breakers and rate limits protecting the DB, and warm-up after recovery.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "redis-caching-04-q13",
+          "type": "interview",
+          "prompt": "How would you keep in-process caches on 20 API instances consistent when data changes?",
+          "answer": "- Keep in-process TTLs short so staleness is bounded regardless.\n- On writes, publish an invalidation message (key or tag) on Redis pub/sub (or a stream for durability); every instance subscribes and evicts its local entry. Pub/sub is fire-and-forget, so a disconnected instance may miss messages: clear the local cache on reconnect.\n- Alternatively use Redis client-side caching with CLIENT TRACKING (RESP3), where Redis itself sends invalidation messages for keys the client has read.\n- Generate invalidations from committed changes (outbox/CDC) so writes from any service or migration also invalidate.\n- Measure whether the local tier is worth it; often Redis alone is fast enough.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Redis docs: Client-side caching",
+          "url": "https://redis.io/docs/latest/develop/reference/client-side-caching/"
+        },
+        {
+          "title": "Redis docs: Bloom filter",
+          "url": "https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/"
+        },
+        {
+          "title": "Optimal Probabilistic Cache Stampede Prevention (VLDB paper)",
+          "url": "https://www.vldb.org/pvldb/vol8/p886-vattani.pdf"
+        }
+      ]
+    },
+    {
+      "id": "redis-caching-05-sessions-ratelimit",
+      "title": "Sessions, rate limiting and counters with Redis",
+      "level": "intermediate",
+      "summary": "Use Redis as a shared session store and build correct, atomic rate limiters and counters.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Redis as a session store",
+          "body": "With several app instances, sessions must live in a shared store. Redis fits: fast lookups, native TTL for expiry, and easy revocation.\n\nDesign notes:\n\n- Key by a random session ID (`sess:<id>`), store data in a hash or JSON string, and set a TTL equal to the idle timeout. Refresh the TTL on activity (sliding expiration) but also enforce an absolute maximum lifetime stored in the session.\n- To support \"log out everywhere\", keep a set of session IDs per user (`user:42:sessions`) and delete them all.\n- Sessions are **durable-ish** data: losing Redis logs everyone out. Use replication and persistence, and a `noeviction` or `volatile-*` policy, ideally a separate instance from your cache.\n- Store only what you need (user ID, roles version, CSRF secret), not large objects.",
+          "code": {
+            "lang": "js",
+            "source": "async function createSession(userId) {\n  const id = crypto.randomBytes(32).toString(\"base64url\");\n  await redis.multi()\n    .hset(\"sess:\" + id, { userId, createdAt: Date.now() })\n    .expire(\"sess:\" + id, 1800)                   // 30 min idle timeout\n    .sadd(\"user:\" + userId + \":sessions\", id)\n    .exec();\n  return id;\n}\n\nasync function logoutEverywhere(userId) {\n  const ids = await redis.smembers(\"user:\" + userId + \":sessions\");\n  const pipe = redis.pipeline();\n  for (const id of ids) pipe.del(\"sess:\" + id);\n  pipe.del(\"user:\" + userId + \":sessions\");\n  await pipe.exec();\n}"
+          }
+        },
+        {
+          "heading": "Fixed window rate limiting",
+          "body": "The simplest limiter: one counter per client per window. `INCR` returns the new count atomically; set the expiry only when the counter is created. Do both in one atomic step (a Lua script or `MULTI`) so a crash between them cannot leave a counter without a TTL.\n\nWeakness: bursts at window boundaries can reach twice the limit.",
+          "code": {
+            "lang": "lua",
+            "source": "-- fixed_window.lua  KEYS[1]=counter key, ARGV[1]=window seconds, ARGV[2]=limit\nlocal current = redis.call(\"INCR\", KEYS[1])\nif current == 1 then\n  redis.call(\"EXPIRE\", KEYS[1], ARGV[1])\nend\nif current > tonumber(ARGV[2]) then\n  return {0, redis.call(\"TTL\", KEYS[1])}   -- blocked, seconds until reset\nend\nreturn {1, tonumber(ARGV[2]) - current}    -- allowed, remaining"
+          }
+        },
+        {
+          "heading": "Sliding window and token bucket",
+          "body": "- **Sliding window log**: a sorted set per client with request timestamps as scores. On each request remove entries older than the window (`ZREMRANGEBYSCORE`), count (`ZCARD`), and add the new one if under the limit. Exact, but memory grows with the limit.\n- **Sliding window counter**: keep counters for the current and previous fixed windows and weight the previous one by how much of it overlaps the sliding window. Cheap and close to exact.\n- **Token bucket**: store `tokens` and `last_refill` in a hash; on each request refill based on elapsed time, then take a token if available. Allows bursts up to capacity with a steady average rate. Implement in Lua so read-modify-write is atomic.\n\nLibraries such as `rate-limiter-flexible` or the Redis store for `express-rate-limit` implement these correctly. Use Redis server time (`TIME`) inside scripts rather than each app server's clock.",
+          "code": {
+            "lang": "js",
+            "source": "// Sliding window log with a sorted set (atomic via MULTI)\nasync function allow(userId, limit = 100, windowMs = 60_000) {\n  const key = \"rl:\" + userId;\n  const now = Date.now();\n  const [, [, count]] = await redis.multi()\n    .zremrangebyscore(key, 0, now - windowMs)\n    .zcard(key)\n    .exec();\n  if (count >= limit) return false;\n  await redis.multi()\n    .zadd(key, now, now + \":\" + crypto.randomUUID())\n    .pexpire(key, windowMs)\n    .exec();\n  return true; // small race between the two MULTI blocks: use one Lua script for strictness\n}"
+          }
+        },
+        {
+          "heading": "Counters and analytics",
+          "body": "- Page views and likes: `INCR`/`HINCRBY`, flushed to the database periodically (write-behind) if they must be durable.\n- Unique counts: HyperLogLog (`PFADD`/`PFCOUNT`), mergeable across days with `PFMERGE`.\n- Daily active users per feature: bitmaps keyed by day with user IDs as offsets (`SETBIT`, `BITCOUNT`), very compact for dense integer IDs.\n- Top-N: sorted sets (`ZINCRBY`, `ZREVRANGE`).\n- Time-bucketed keys (`views:2026-11-13:post:9`) with TTLs keep memory bounded."
+        }
+      ],
+      "keyPoints": [
+        "Store sessions in Redis keyed by a random ID with a TTL; track per-user session sets for global logout.",
+        "Sessions are durable-ish: use replication, persistence and a non-evicting policy or separate instance.",
+        "Fixed window: INCR plus EXPIRE on first increment, done atomically (Lua or MULTI).",
+        "Sliding window log uses a sorted set of timestamps; sliding counter approximates cheaply.",
+        "Token bucket in a Lua script allows bursts with a steady average rate.",
+        "Use Redis TIME in scripts to avoid clock skew between app servers.",
+        "HyperLogLog, bitmaps and sorted sets cover uniques, DAU flags and leaderboards."
+      ],
+      "questions": [
+        {
+          "id": "redis-caching-05-q01",
+          "type": "mcq",
+          "prompt": "Why should INCR and EXPIRE for a new rate-limit counter run atomically?",
+          "options": [
+            "For speed only",
+            "If the process crashes between them, the counter may have no TTL and block the client forever",
+            "Redis requires it",
+            "To avoid eviction"
+          ],
+          "answer": 1,
+          "explanation": "A counter without expiry never resets. A Lua script or MULTI ensures both happen together."
+        },
+        {
+          "id": "redis-caching-05-q02",
+          "type": "mcq",
+          "prompt": "What does this Lua script return on the 101st call within the window when limit is 100?",
+          "code": "local current = redis.call(\"INCR\", KEYS[1])\nif current == 1 then redis.call(\"EXPIRE\", KEYS[1], ARGV[1]) end\nif current > tonumber(ARGV[2]) then return {0, redis.call(\"TTL\", KEYS[1])} end\nreturn {1, tonumber(ARGV[2]) - current}",
+          "options": [
+            "{1, -1}",
+            "{0, remaining seconds until reset}",
+            "An error",
+            "{1, 0}"
+          ],
+          "answer": 1,
+          "explanation": "current becomes 101, which exceeds the limit, so the script returns 0 (blocked) with the counter's TTL as the time to reset."
+        },
+        {
+          "id": "redis-caching-05-q03",
+          "type": "mcq",
+          "prompt": "Which Redis structure naturally implements a sliding window log limiter?",
+          "options": [
+            "List",
+            "Sorted set with timestamps as scores",
+            "HyperLogLog",
+            "String"
+          ],
+          "answer": 1,
+          "explanation": "Sorted sets support removing entries older than the window by score and counting the rest, giving exact sliding windows."
+        },
+        {
+          "id": "redis-caching-05-q04",
+          "type": "mcq",
+          "prompt": "Why are Lua scripts popular for token bucket limiters?",
+          "options": [
+            "Lua is faster than JavaScript",
+            "The read-refill-decrement-write sequence must be atomic, and a script runs atomically on the server in one round trip",
+            "Redis cannot store hashes otherwise",
+            "Scripts are persisted to disk"
+          ],
+          "answer": 1,
+          "explanation": "Without atomicity, two concurrent requests could both read the same token count and both pass. A script executes without interleaving."
+        },
+        {
+          "id": "redis-caching-05-q05",
+          "type": "mcq",
+          "prompt": "You store sessions in the same Redis as your cache with allkeys-lru. What can happen under memory pressure?",
+          "options": [
+            "Nothing",
+            "Active sessions can be evicted, logging users out",
+            "Redis refuses all reads",
+            "Sessions become permanent"
+          ],
+          "answer": 1,
+          "explanation": "allkeys-lru may evict any key, including sessions. Use a separate instance or volatile-* with TTLs only on cache keys, and size memory properly."
+        },
+        {
+          "id": "redis-caching-05-q06",
+          "type": "mcq",
+          "prompt": "Which approach implements \"log out of all devices\" efficiently?",
+          "options": [
+            "SCAN all sess:* keys and check each userId",
+            "Maintain a set of session IDs per user and delete those sessions",
+            "FLUSHALL",
+            "Wait for TTLs to expire"
+          ],
+          "answer": 1,
+          "explanation": "A per-user index set makes revocation O(number of the user's sessions) instead of scanning the whole keyspace."
+        },
+        {
+          "id": "redis-caching-05-q07",
+          "type": "truefalse",
+          "prompt": "A sliding window log limiter's memory use grows with the request limit per window.",
+          "answer": true,
+          "explanation": "It stores one sorted set entry per request in the window. For high limits, sliding window counters or token buckets are cheaper."
+        },
+        {
+          "id": "redis-caching-05-q08",
+          "type": "truefalse",
+          "prompt": "Each app server should use its own Date.now() inside rate-limit logic because clocks are always synchronised.",
+          "answer": false,
+          "explanation": "Server clocks drift. Using Redis TIME inside the script gives one consistent clock for all instances."
+        },
+        {
+          "id": "redis-caching-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good practices for Redis-backed sessions?",
+          "options": [
+            "Random, high-entropy session IDs",
+            "TTL matching the idle timeout, refreshed on activity",
+            "An absolute maximum session lifetime",
+            "Storing the user's password in the session",
+            "Replication and persistence for the session instance"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Strong IDs, idle and absolute timeouts and HA are standard. Passwords (or hashes) never belong in sessions."
+        },
+        {
+          "id": "redis-caching-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the Redis command ___ atomically increments an integer and creates the key with value 1 if it does not exist.",
+          "accept": [
+            "INCR"
+          ],
+          "explanation": "INCR treats a missing key as 0, increments it and returns the new value, all atomically."
+        },
+        {
+          "id": "redis-caching-05-q11",
+          "type": "interview",
+          "prompt": "How would you implement a distributed rate limiter with Redis?",
+          "answer": "- Choose the algorithm: fixed window (INCR + EXPIRE, simple, boundary bursts), sliding window log (sorted set, exact, memory per request), sliding window counter (two counters, approximate, cheap), or token bucket (hash with tokens and last refill, bursts allowed).\n- Implement each check as a single Lua script (or function) so the read-modify-write is atomic and one round trip, using Redis TIME.\n- Key by API key/user, falling back to IP; set TTLs on all limiter keys.\n- Return allowed, remaining and reset time so the API can send 429 with Retry-After and RateLimit headers.\n- Decide fail-open vs fail-closed on Redis errors; use a local fallback limiter; in Cluster, keep each client's keys in one slot (hash tags).",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "redis-caching-05-q12",
+          "type": "interview",
+          "prompt": "Why store sessions in Redis rather than in process memory or the main database?",
+          "answer": "- In-process memory does not work across multiple instances or survive restarts; sticky sessions are fragile.\n- The main database works but adds a query to every request and write load for TTL refreshes; expiry needs cleanup jobs.\n- Redis gives sub-millisecond reads, native TTL expiry, atomic updates, easy revocation and scales horizontally.\n- Trade-offs: it becomes critical infrastructure (losing it logs everyone out), so run it with replication, failover (Sentinel or managed service), persistence, and a non-evicting policy separate from the cache.",
+          "level": "intermediate"
+        },
+        {
+          "id": "redis-caching-05-q13",
+          "type": "interview",
+          "prompt": "Implement a token bucket rate limiter in Redis. What state do you store and how does each request work?",
+          "answer": "State per client in a hash: tokens (float) and last_refill timestamp (ms), with a TTL so idle buckets disappear.\nEach request runs a Lua script: get now from TIME; read tokens and last_refill (default to full capacity if missing); refill = elapsed * rate, tokens = min(capacity, tokens + refill); if tokens >= 1, decrement and allow, else deny and compute wait time = (1 - tokens) / rate; write tokens and now back; set PEXPIRE to the time needed to refill fully.\nAtomicity comes from the script; capacity sets the burst size and rate sets the average. Return allowed and retry-after to the caller.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Redis docs: INCR (rate limiter pattern)",
+          "url": "https://redis.io/docs/latest/commands/incr/"
+        },
+        {
+          "title": "Redis docs: Scripting with Lua",
+          "url": "https://redis.io/docs/latest/develop/programmability/eval-intro/"
+        },
+        {
+          "title": "Redis docs: Sorted sets",
+          "url": "https://redis.io/docs/latest/develop/data-types/sorted-sets/"
+        }
+      ]
+    },
+    {
+      "id": "redis-caching-06-pubsub-streams",
+      "title": "Pub/Sub and Streams",
+      "level": "intermediate",
+      "summary": "Fire-and-forget messaging with Pub/Sub versus durable, replayable event logs with Streams and consumer groups.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Pub/Sub: fire and forget",
+          "body": "`PUBLISH channel message` delivers the message to every client currently `SUBSCRIBE`d to that channel (or `PSUBSCRIBE`d to a matching pattern like `orders.*`). Messages are **not stored**: subscribers that are offline, reconnecting or too slow simply miss them. Delivery is at most once.\n\nGood for: cache invalidation broadcasts to app instances, WebSocket fan-out between servers (Socket.IO Redis adapter), live notifications where a missed message is acceptable or recoverable.\n\nNotes: a connection in subscribe mode cannot run other commands, so use a **dedicated connection** for subscribing. In Redis Cluster, classic pub/sub messages are broadcast to all nodes; **sharded pub/sub** (`SPUBLISH`/`SSUBSCRIBE`, Redis 7+) routes a channel to one shard for better scaling.",
+          "code": {
+            "lang": "js",
+            "source": "import Redis from \"ioredis\";\nconst pub = new Redis(process.env.REDIS_URL);\nconst sub = new Redis(process.env.REDIS_URL); // dedicated connection for subscribing\n\nawait sub.subscribe(\"cache-invalidate\");\nsub.on(\"message\", (channel, message) => {\n  const { key } = JSON.parse(message);\n  localCache.delete(key);\n});\n\nawait pub.publish(\"cache-invalidate\", JSON.stringify({ key: \"product:42\" }));"
+          }
+        },
+        {
+          "heading": "Streams: a persistent append-only log",
+          "body": "A **Stream** is a log of entries, each with a unique, time-ordered ID (`1731500000000-0`) and field-value pairs. Unlike pub/sub, entries are stored until trimmed, so consumers can read history, resume after downtime and acknowledge processing.\n\n- `XADD key * field value ...` appends (`*` auto-generates the ID). Cap length with `MAXLEN ~ 100000` or `MINID`.\n- `XRANGE`/`XREVRANGE` read by ID range; `XREAD BLOCK 5000 STREAMS key $` waits for new entries (like tailing a log).\n- `XLEN`, `XTRIM`, `XDEL` manage size.",
+          "code": {
+            "lang": "bash",
+            "source": "XADD orders * type created orderId o_1 total 4598\nXADD orders MAXLEN ~ 100000 * type paid orderId o_1\nXRANGE orders - + COUNT 10\nXREAD BLOCK 5000 STREAMS orders $"
+          }
+        },
+        {
+          "heading": "Consumer groups",
+          "body": "Consumer groups let multiple workers share a stream, each entry delivered to **one** consumer in the group, with acknowledgements:\n\n- `XGROUP CREATE orders billing $ MKSTREAM` creates a group starting at new entries (`0` to start from the beginning).\n- `XREADGROUP GROUP billing worker-1 COUNT 10 BLOCK 5000 STREAMS orders >` fetches never-delivered entries; they enter the group's **Pending Entries List (PEL)**.\n- `XACK orders billing <id>` removes an entry from the PEL after successful processing.\n- If a consumer crashes, its pending entries stay in the PEL. Another consumer inspects them with `XPENDING` and takes them over with `XCLAIM` or `XAUTOCLAIM` after an idle time. Track the delivery count to move poison messages to a dead-letter stream.\n\nThis gives **at-least-once** processing, so handlers must be idempotent. Several groups can consume the same stream independently (billing, email, analytics), similar to Kafka consumer groups but simpler and bounded by memory.",
+          "code": {
+            "lang": "js",
+            "source": "await redis.xgroup(\"CREATE\", \"orders\", \"billing\", \"$\", \"MKSTREAM\").catch(() => {}); // exists already\n\nwhile (running) {\n  const res = await redis.xreadgroup(\n    \"GROUP\", \"billing\", \"worker-1\", \"COUNT\", 10, \"BLOCK\", 5000, \"STREAMS\", \"orders\", \">\"\n  );\n  if (!res) continue;\n  for (const [, entries] of res) {\n    for (const [id, fields] of entries) {\n      await handleOrderEvent(Object.fromEntries(chunk(fields, 2)));  // idempotent\n      await redis.xack(\"orders\", \"billing\", id);\n    }\n  }\n}\n// elsewhere, periodically: XAUTOCLAIM orders billing worker-1 60000 0-0 COUNT 50"
+          }
+        },
+        {
+          "heading": "Choosing: Pub/Sub vs Streams vs Lists vs Kafka",
+          "body": "- **Pub/Sub**: ephemeral broadcast, lowest latency, no history, no acks.\n- **Streams**: durable (as durable as your Redis persistence), replay, consumer groups, acks, bounded by memory; good for moderate-volume event processing, activity feeds, lightweight job distribution.\n- **Lists** (`LPUSH` + `BRPOP`/`BLMOVE`): simple work queues; `BLMOVE` to a processing list gives basic reliability. Libraries like BullMQ build richer queues on Redis.\n- **Kafka/RabbitMQ**: when you need large retention on disk, very high throughput, strong durability guarantees, or broker-level routing features."
+        }
+      ],
+      "keyPoints": [
+        "Pub/Sub delivers to currently connected subscribers only; nothing is stored (at most once).",
+        "Use a dedicated connection for subscribing; consider sharded pub/sub in Cluster.",
+        "Streams are append-only logs with time-ordered IDs; read history and block for new entries.",
+        "Consumer groups split entries among consumers and track unacknowledged ones in the PEL.",
+        "Recover crashed consumers' messages with XPENDING and XAUTOCLAIM; dead-letter poison messages.",
+        "Streams give at-least-once processing, so handlers must be idempotent.",
+        "Trim streams with MAXLEN or MINID to bound memory."
+      ],
+      "questions": [
+        {
+          "id": "redis-caching-06-q01",
+          "type": "mcq",
+          "prompt": "A subscriber disconnects for 10 seconds while 50 messages are published to its channel. What happens to those messages for that subscriber?",
+          "options": [
+            "They are queued and delivered on reconnect",
+            "They are lost for that subscriber",
+            "Redis stores them in a stream",
+            "PUBLISH fails"
+          ],
+          "answer": 1,
+          "explanation": "Pub/sub keeps no history. Messages are delivered only to subscribers connected at publish time. Use Streams if consumers must not miss messages."
+        },
+        {
+          "id": "redis-caching-06-q02",
+          "type": "mcq",
+          "prompt": "In a consumer group, what happens to an entry delivered to a consumer that crashed before XACK?",
+          "options": [
+            "It is deleted",
+            "It remains in the Pending Entries List and can be claimed by another consumer with XCLAIM/XAUTOCLAIM",
+            "It is automatically re-delivered to all consumers",
+            "It moves to a dead-letter stream automatically"
+          ],
+          "answer": 1,
+          "explanation": "Redis does not reassign pending entries automatically. Consumers must check XPENDING and claim idle entries, and you implement dead-lettering by tracking delivery counts."
+        },
+        {
+          "id": "redis-caching-06-q03",
+          "type": "mcq",
+          "prompt": "What does the special ID > mean in XREADGROUP ... STREAMS orders >?",
+          "options": [
+            "Read all entries from the beginning",
+            "Read only entries never delivered to any consumer in this group",
+            "Read the last entry",
+            "Read pending entries of this consumer"
+          ],
+          "answer": 1,
+          "explanation": "> requests new messages for the group. Passing a concrete ID such as 0 instead returns this consumer's own pending (delivered but unacked) entries, useful for recovery after restart."
+        },
+        {
+          "id": "redis-caching-06-q04",
+          "type": "mcq",
+          "prompt": "Why use a separate Redis connection for SUBSCRIBE?",
+          "options": [
+            "Subscriptions require TLS",
+            "A connection in subscribe mode can only run subscribe-related commands",
+            "It is faster to publish",
+            "Redis allows only one subscriber per connection"
+          ],
+          "answer": 1,
+          "explanation": "Once in subscriber mode (RESP2), the connection cannot issue normal commands like GET, so apps keep one connection for commands and another for subscriptions."
+        },
+        {
+          "id": "redis-caching-06-q05",
+          "type": "mcq",
+          "prompt": "Three services (billing, email, analytics) must each process every order event. How do you model this with Streams?",
+          "options": [
+            "One consumer group shared by all three",
+            "One stream with three separate consumer groups",
+            "Three pub/sub channels",
+            "One list per service with BRPOP"
+          ],
+          "answer": 1,
+          "explanation": "Each consumer group tracks its own position and pending entries, so every group receives every entry, while consumers within a group share the work."
+        },
+        {
+          "id": "redis-caching-06-q06",
+          "type": "mcq",
+          "prompt": "What does XADD events MAXLEN ~ 100000 * ... do?",
+          "options": [
+            "Rejects writes after 100,000 entries",
+            "Appends and trims old entries so the stream stays around 100,000 entries, trimming efficiently in whole nodes",
+            "Creates 100,000 entries",
+            "Sets a TTL"
+          ],
+          "answer": 1,
+          "explanation": "The ~ allows approximate trimming, which is much cheaper than exact trimming. Old entries beyond the cap are removed."
+        },
+        {
+          "id": "redis-caching-06-q07",
+          "type": "truefalse",
+          "prompt": "Redis Streams consumer groups provide at-least-once delivery, so consumers should be idempotent.",
+          "answer": true,
+          "explanation": "An entry can be processed and then the consumer can crash before XACK, leading to reprocessing after a claim."
+        },
+        {
+          "id": "redis-caching-06-q08",
+          "type": "truefalse",
+          "prompt": "Redis Pub/Sub guarantees that every message is delivered at least once to every subscriber.",
+          "answer": false,
+          "explanation": "Pub/Sub is at most once: no persistence, no acknowledgements, and slow or disconnected subscribers miss messages."
+        },
+        {
+          "id": "redis-caching-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good uses of Redis Pub/Sub?",
+          "options": [
+            "Broadcasting cache invalidations to app instances",
+            "Fan-out of chat messages between WebSocket servers",
+            "Durable order processing that must not lose events",
+            "Live dashboard updates where occasional loss is fine",
+            "Payment event processing with retries"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Pub/sub suits ephemeral broadcasts. Durable processing with retries needs Streams, a queue or a broker."
+        },
+        {
+          "id": "redis-caching-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: after successfully processing a stream entry in a consumer group, the consumer calls ___ to remove it from the pending list.",
+          "accept": [
+            "XACK"
+          ],
+          "explanation": "XACK acknowledges the entry for that group, removing it from the PEL so it will not be claimed or re-delivered."
+        },
+        {
+          "id": "redis-caching-06-q11",
+          "type": "interview",
+          "prompt": "Compare Redis Pub/Sub and Redis Streams. When would you use each?",
+          "answer": "- Pub/Sub: push to currently connected subscribers, no storage, no acks, at most once, very low latency. Use for ephemeral broadcasts: cache invalidation, WebSocket fan-out, presence, live updates.\n- Streams: persistent append-only log with IDs, range reads, blocking reads, consumer groups with acknowledgements and a pending list, claiming for crash recovery. At-least-once. Use for event processing, activity logs, lightweight queues where history and reliability matter.\n- Streams live in memory, so trim them and rely on Redis persistence/replication for durability; for large retention or high throughput, use Kafka.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "redis-caching-06-q12",
+          "type": "interview",
+          "prompt": "How do you handle failures and poison messages with Redis Streams consumer groups?",
+          "answer": "- Process then XACK; never ack before the work is done.\n- On startup, each consumer first reads its own pending entries (ID 0) to finish work interrupted by a crash.\n- A periodic job uses XAUTOCLAIM to take over entries idle longer than a threshold from dead consumers.\n- XPENDING reports delivery counts; entries delivered more than N times are copied to a dead-letter stream with error details and acked in the main stream, then alerted on.\n- Handlers are idempotent (dedupe by entry ID or business key) because claims can cause reprocessing.\n- Trim the stream with MAXLEN/MINID, keeping enough history for recovery.",
+          "level": "advanced"
+        },
+        {
+          "id": "redis-caching-06-q13",
+          "type": "interview",
+          "prompt": "How would you broadcast WebSocket messages across multiple Node servers using Redis?",
+          "answer": "Each server holds its own client connections. When a message must reach users in a room, the receiving server publishes it to a Redis channel (room:123) and every server subscribed to that channel forwards it to its local sockets in the room. Socket.IO's Redis adapter (or sharded adapter using SPUBLISH in Cluster) implements this.\nBecause pub/sub is fire-and-forget, a server restarting misses messages; clients reconnect and resync from a durable source (DB or a stream with a last-seen ID). For high fan-out, use sharded pub/sub or subscribe only to channels that have local members.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Redis docs: Pub/Sub",
+          "url": "https://redis.io/docs/latest/develop/pubsub/"
+        },
+        {
+          "title": "Redis docs: Streams",
+          "url": "https://redis.io/docs/latest/develop/data-types/streams/"
+        },
+        {
+          "title": "Redis docs: XREADGROUP",
+          "url": "https://redis.io/docs/latest/commands/xreadgroup/"
+        }
+      ]
+    },
+    {
+      "id": "redis-caching-07-http-cdn",
+      "title": "HTTP and CDN caching",
+      "level": "intermediate",
+      "summary": "Use Cache-Control, ETags and CDNs so many requests never reach your servers, without leaking private data.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Cache-Control directives",
+          "body": "HTTP caching happens in browsers (private caches) and in shared caches (CDNs, reverse proxies). The `Cache-Control` response header controls both:\n\n- `max-age=N`: fresh for N seconds in any cache.\n- `s-maxage=N`: overrides max-age for **shared** caches only (CDN can cache longer than browsers).\n- `public`: may be stored by shared caches (even for authenticated requests); `private`: only the user's browser may store it.\n- `no-cache`: may be stored, but must be **revalidated** with the origin before each use (it does not mean \"do not cache\").\n- `no-store`: must not be stored anywhere. Use for sensitive data (account pages, banking).\n- `must-revalidate`: once stale, must not be served without successful revalidation.\n- `immutable`: will never change during its lifetime; browsers skip revalidation on reload.\n- `stale-while-revalidate=N`: serve stale for up to N seconds while refreshing in the background; `stale-if-error=N`: serve stale if the origin errors.",
+          "code": {
+            "lang": "http",
+            "source": "# Fingerprinted static assets (app.3f9a1c.js): cache forever\nCache-Control: public, max-age=31536000, immutable\n\n# HTML documents: always check for a new version\nCache-Control: no-cache\n\n# Public API listing: browser 60 s, CDN 5 min, serve stale while refreshing\nCache-Control: public, max-age=60, s-maxage=300, stale-while-revalidate=600\n\n# Personal account data\nCache-Control: private, no-store"
+          }
+        },
+        {
+          "heading": "Validation: ETag and Last-Modified",
+          "body": "When a cached response is stale (or `no-cache`), the cache **revalidates** with a conditional request instead of downloading everything again:\n\n- The server sent `ETag: \"abc123\"` (a fingerprint, e.g. a hash or version) and/or `Last-Modified`.\n- The cache sends `If-None-Match: \"abc123\"` (or `If-Modified-Since`).\n- If unchanged, the server returns **304 Not Modified** with no body; the cache refreshes its freshness and reuses its copy.\n\nStrong ETags compare byte-for-byte; weak ETags (`W/\"abc\"`) mean semantically equivalent. Express generates weak ETags for responses automatically. A 304 still costs a round trip and some server work, but saves bandwidth and serialisation."
+        },
+        {
+          "heading": "CDNs and the Vary header",
+          "body": "A CDN caches responses at edge locations close to users. The **cache key** is usually the URL (scheme, host, path, query), optionally plus selected headers or cookies. `Vary` tells caches which request headers change the response: `Vary: Accept-Encoding` (gzip vs br) is standard; `Vary: Accept-Language` or `Origin` split the cache further. `Vary: Cookie` or `Vary: *` effectively disables shared caching.\n\nOther CDN features: **purge/invalidation** APIs (by URL, prefix, or **surrogate keys/cache tags** to purge all pages showing product 42), `Surrogate-Control`/`CDN-Cache-Control` headers to give the CDN different rules than browsers, request collapsing (one origin fetch for many concurrent misses), origin shielding, and serving stale on origin errors."
+        },
+        {
+          "heading": "Caching pitfalls",
+          "body": "- **Caching personalised responses publicly**: a CDN caches `/api/me` for user A and serves it to user B. Mark per-user responses `private` or `no-store`, and never rely on the CDN to understand your auth cookies. Web cache deception attacks trick CDNs into caching private pages under static-looking URLs (`/account/profile.css`); configure caching by content type and explicit rules, not file extension alone.\n- **Cache poisoning**: unkeyed inputs (like `X-Forwarded-Host`) that change the response let attackers store a malicious variant for everyone. Do not reflect unkeyed headers.\n- **Caching errors**: a 500 or a temporary 404 cached for an hour. Set short TTLs for error responses.\n- **No cache busting for assets**: long max-age without fingerprinted filenames means users keep old JS/CSS after deploys. Use content hashes in filenames (bundlers do this) and `no-cache` for HTML.\n- Set-Cookie on cacheable responses: many CDNs refuse to cache or, worse, cache the cookie.",
+          "code": {
+            "lang": "js",
+            "source": "// Express: cache public catalog responses, keep user data private\napp.get(\"/api/products\", async (req, res) => {\n  res.set(\"Cache-Control\", \"public, max-age=60, s-maxage=300, stale-while-revalidate=600\");\n  res.set(\"Surrogate-Key\", \"products\");   // tag for purging (CDN-specific header name)\n  res.json(await products.list(req.query));\n});\n\napp.get(\"/api/me\", requireAuth, async (req, res) => {\n  res.set(\"Cache-Control\", \"private, no-store\");\n  res.json(await users.profile(req.user.id));\n});"
+          }
+        }
+      ],
+      "keyPoints": [
+        "max-age for all caches, s-maxage for shared caches; public vs private controls who may store.",
+        "no-cache means revalidate before use; no-store means never store.",
+        "Fingerprinted assets: max-age=31536000, immutable; HTML: no-cache.",
+        "ETag + If-None-Match returns 304 Not Modified when unchanged.",
+        "Vary lists request headers that change the response and therefore the cache key.",
+        "Purge by surrogate keys/tags; use stale-while-revalidate and stale-if-error for resilience.",
+        "Never cache personalised responses in shared caches; beware cache poisoning and deception."
+      ],
+      "questions": [
+        {
+          "id": "redis-caching-07-q01",
+          "type": "mcq",
+          "prompt": "What does Cache-Control: no-cache mean?",
+          "options": [
+            "The response must never be stored",
+            "The response may be stored but must be revalidated with the origin before each use",
+            "Cache for one hour",
+            "Only CDNs may cache it"
+          ],
+          "answer": 1,
+          "explanation": "no-cache forces revalidation (typically getting cheap 304s). no-store is the directive that forbids storing."
+        },
+        {
+          "id": "redis-caching-07-q02",
+          "type": "mcq",
+          "prompt": "Which header lets a CDN cache a response for 10 minutes while browsers cache it for 1 minute?",
+          "options": [
+            "Cache-Control: max-age=600",
+            "Cache-Control: public, max-age=60, s-maxage=600",
+            "Expires: 600",
+            "Vary: max-age"
+          ],
+          "answer": 1,
+          "explanation": "s-maxage applies to shared caches and overrides max-age there, while browsers use max-age."
+        },
+        {
+          "id": "redis-caching-07-q03",
+          "type": "mcq",
+          "prompt": "A browser has a stale copy with ETag \"v7\". The resource has not changed. What is the typical exchange?",
+          "options": [
+            "Browser downloads the full body again",
+            "Browser sends If-None-Match: \"v7\" and the server replies 304 Not Modified without a body",
+            "Server replies 412",
+            "Server replies 204"
+          ],
+          "answer": 1,
+          "explanation": "Conditional requests let the server confirm the cached copy is still valid, saving bandwidth."
+        },
+        {
+          "id": "redis-caching-07-q04",
+          "type": "mcq",
+          "prompt": "After a deploy, some users keep running old JavaScript for days. The bundle is served as /app.js with max-age=604800. Best fix?",
+          "options": [
+            "Ask users to clear caches",
+            "Use content-hashed filenames (app.3f9a1c.js) with long immutable caching and serve HTML with no-cache",
+            "Set no-store on all assets",
+            "Add Vary: User-Agent"
+          ],
+          "answer": 1,
+          "explanation": "New builds produce new URLs, so caching each URL forever is safe. HTML revalidates and points to the new asset names."
+        },
+        {
+          "id": "redis-caching-07-q05",
+          "type": "mcq",
+          "prompt": "A CDN serves user A's /api/me response to user B. What most likely went wrong?",
+          "options": [
+            "ETag mismatch",
+            "The response was cacheable by shared caches (public or missing private/no-store) and the cache key did not include user identity",
+            "TLS misconfiguration",
+            "Gzip"
+          ],
+          "answer": 1,
+          "explanation": "Per-user responses must be marked private or no-store. Shared caches key on the URL by default and do not understand your session."
+        },
+        {
+          "id": "redis-caching-07-q06",
+          "type": "mcq",
+          "prompt": "What does Vary: Accept-Encoding tell caches?",
+          "options": [
+            "Do not cache",
+            "Store separate variants depending on the request's Accept-Encoding (e.g. br vs gzip vs identity)",
+            "Compress all responses",
+            "Ignore encoding"
+          ],
+          "answer": 1,
+          "explanation": "Vary adds request headers to the cache key so a gzip variant is not served to a client that cannot decode it."
+        },
+        {
+          "id": "redis-caching-07-q07",
+          "type": "truefalse",
+          "prompt": "stale-while-revalidate lets a cache serve a stale response immediately while it refreshes the response in the background.",
+          "answer": true,
+          "explanation": "This hides origin latency from users and smooths load, within the configured stale window."
+        },
+        {
+          "id": "redis-caching-07-q08",
+          "type": "truefalse",
+          "prompt": "Setting Cache-Control: private prevents the user's own browser from caching the response.",
+          "answer": false,
+          "explanation": "private only forbids shared caches (CDNs, proxies). The browser may still store it; use no-store to forbid all storage."
+        },
+        {
+          "id": "redis-caching-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which responses should typically use Cache-Control: no-store?",
+          "options": [
+            "A banking account statement page",
+            "A fingerprinted CSS file",
+            "An API response with the user's personal data",
+            "A public product image",
+            "A page showing a one-time recovery code"
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "explanation": "Sensitive or personal responses should not be stored. Fingerprinted and public assets are ideal for long caching."
+        },
+        {
+          "id": "redis-caching-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: when a conditional request finds the resource unchanged, the server responds with status ___.",
+          "accept": [
+            "304",
+            "304 Not Modified"
+          ],
+          "explanation": "304 Not Modified has no body; the client reuses its cached copy and updates freshness metadata."
+        },
+        {
+          "id": "redis-caching-07-q11",
+          "type": "interview",
+          "prompt": "Explain HTTP caching headers and how you would configure them for a typical web app.",
+          "answer": "- Cache-Control is the main control: max-age/s-maxage for freshness, public/private for who may store, no-cache to force revalidation, no-store to forbid storage, immutable, stale-while-revalidate and stale-if-error for resilience.\n- Validators: ETag/If-None-Match and Last-Modified/If-Modified-Since enable 304 responses.\n- Vary declares which request headers affect the response.\n- Config: fingerprinted static assets public, max-age=31536000, immutable; HTML no-cache (with ETag); public API data short max-age with longer s-maxage and stale-while-revalidate, purged by tags on change; personalised and sensitive data private, no-store; errors with short TTLs.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "redis-caching-07-q12",
+          "type": "interview",
+          "prompt": "What is web cache poisoning and how do you prevent it?",
+          "answer": "An attacker sends a request whose unkeyed inputs (headers not in the cache key, such as X-Forwarded-Host, X-Original-URL, or unusual query parameters a CDN strips) change the response, for example injecting a malicious script URL. The cache stores that poisoned response under the normal key and serves it to everyone.\nPrevention: do not use unkeyed headers to build responses (configure trusted host lists, ignore X-Forwarded-* from untrusted sources), include any input that affects the response in the cache key or disable caching for it, normalise requests at the CDN, avoid caching responses that reflect input, and keep frameworks updated. Related: web cache deception, where private pages are cached because of static-looking paths; cache only explicit, intended routes.",
+          "level": "advanced"
+        },
+        {
+          "id": "redis-caching-07-q13",
+          "type": "interview",
+          "prompt": "How do Redis caching and CDN caching complement each other?",
+          "answer": "- CDN/HTTP caching sits closest to users: it removes requests entirely for public, URL-addressable content (assets, public pages, public API reads), cutting latency globally and absorbing traffic spikes.\n- Redis sits behind the application: it caches computed data and fragments that are personalised, need fine-grained invalidation, or are shared across many URLs (user permissions, aggregates, sessions), and protects the database.\n- Together: CDN serves public responses with s-maxage and stale-while-revalidate; on a CDN miss the app builds the response from Redis-cached pieces; writes invalidate Redis keys and purge CDN tags. Personal data stays out of the CDN.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: HTTP caching",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching"
+        },
+        {
+          "title": "MDN: Cache-Control header",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control"
+        },
+        {
+          "title": "web.dev: Prevent unnecessary network requests with the HTTP Cache",
+          "url": "https://web.dev/articles/http-cache"
+        }
+      ]
+    },
+    {
+      "id": "redis-caching-08-locks-atomicity",
+      "title": "Atomicity, transactions, Lua and distributed locks",
+      "level": "advanced",
+      "summary": "Make multi-step operations atomic with MULTI, WATCH and Lua, and understand what Redis locks can and cannot guarantee.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "MULTI/EXEC transactions",
+          "body": "`MULTI` starts queuing commands; `EXEC` runs them all **sequentially without interleaving** other clients' commands. Things to know:\n\n- No rollback: if one command fails at runtime (e.g. wrong type), the others still execute. Syntax errors detected while queuing abort the whole transaction.\n- You cannot read a value and branch on it inside MULTI, because results only arrive at EXEC.\n- **Optimistic locking** with `WATCH key`: if a watched key changes before `EXEC`, the transaction aborts (EXEC returns null) and you retry. This implements check-and-set.\n- Pipelining is different: it batches commands for fewer round trips but gives no isolation.",
+          "code": {
+            "lang": "js",
+            "source": "// Check-and-set with WATCH: transfer credits only if balance is sufficient\nasync function spend(userId, amount) {\n  const key = \"credits:\" + userId;\n  for (let attempt = 0; attempt < 5; attempt++) {\n    await redis.watch(key);\n    const balance = Number(await redis.get(key) ?? 0);\n    if (balance < amount) { await redis.unwatch(); return false; }\n    const res = await redis.multi().decrby(key, amount).exec();\n    if (res !== null) return true;            // committed\n  }                                            // null = key changed, retry\n  throw new Error(\"too much contention\");\n}"
+          }
+        },
+        {
+          "heading": "Lua scripts and Functions",
+          "body": "`EVAL` runs a Lua script **atomically** on the server: no other command runs while it executes, and it can read, branch and write in one round trip. Use `EVALSHA` (or client helpers like ioredis `defineCommand`) to avoid resending the script. Redis 7 added **Functions** (`FUNCTION LOAD`, `FCALL`), named libraries persisted and replicated with the dataset.\n\nRules:\n\n- Pass all keys the script touches in `KEYS` (required for Cluster routing; all keys must be in the same hash slot).\n- Keep scripts short: a long script blocks the whole server like any slow command (`busy-script-time-limit`).\n- Scripts are effect-replicated, so non-deterministic calls are safe in Redis 7, but keep them simple and deterministic anyway.",
+          "code": {
+            "lang": "js",
+            "source": "// Atomic \"decrement stock if available\" with a Lua script (ioredis)\nredis.defineCommand(\"reserveStock\", {\n  numberOfKeys: 1,\n  lua: `\n    local stock = tonumber(redis.call(\"GET\", KEYS[1]) or \"0\")\n    local qty = tonumber(ARGV[1])\n    if stock < qty then return -1 end\n    return redis.call(\"DECRBY\", KEYS[1], qty)\n  `,\n});\nconst left = await redis.reserveStock(\"stock:sku_1\", 2); // -1 means not enough stock"
+          }
+        },
+        {
+          "heading": "A single-instance distributed lock",
+          "body": "Locks coordinate work across processes: one cron runner, one cache rebuild, one payment processing per order. The standard single-Redis lock:\n\n- **Acquire**: `SET lock:resource <random-token> NX PX 30000`. NX ensures only one holder; PX sets a lease so a crashed holder does not block forever; the random token identifies the owner.\n- **Release**: delete the key **only if it still holds your token**, atomically with Lua. A plain `DEL` could delete a lock that expired and was acquired by someone else.\n- **Extend** long work by renewing the lease (again checking the token) before it expires.",
+          "code": {
+            "lang": "js",
+            "source": "const token = crypto.randomUUID();\nconst ok = await redis.set(\"lock:report:2026-11\", token, \"PX\", 30_000, \"NX\");\nif (ok !== \"OK\") return; // someone else holds it\n\ntry {\n  await generateReport();\n} finally {\n  await redis.eval(\n    'if redis.call(\"GET\", KEYS[1]) == ARGV[1] then return redis.call(\"DEL\", KEYS[1]) else return 0 end',\n    1, \"lock:report:2026-11\", token\n  );\n}"
+          }
+        },
+        {
+          "heading": "Why Redis locks are not safe for correctness",
+          "body": "A lease-based lock can be violated: the holder pauses (GC pause, VM stall, slow network) past the lease, the lock expires, a second process acquires it, and the first resumes and keeps writing, believing it still holds the lock. Also, with async replication, a primary can crash after granting a lock but before replicating it; the promoted replica has no lock and grants it again.\n\n**Redlock** acquires the lock on a majority of N independent Redis masters to survive single-node failures, but Martin Kleppmann's well-known critique argues it still depends on timing assumptions, so it is not suitable when mutual exclusion is required for correctness.\n\nPractical guidance:\n\n- Use Redis locks for **efficiency** (avoid duplicate work; occasional double execution is harmless).\n- For **correctness**, make the protected resource enforce it: **fencing tokens** (a monotonically increasing number issued with the lock that the storage rejects if lower than the last seen), database constraints, conditional writes (`UPDATE ... WHERE version = $1`), or a consensus-based system (etcd, ZooKeeper, database advisory locks within transactions)."
+        }
+      ],
+      "keyPoints": [
+        "MULTI/EXEC runs queued commands without interleaving, but has no rollback.",
+        "WATCH gives optimistic check-and-set: EXEC returns null if a watched key changed.",
+        "Lua scripts and Functions run atomically and can read, branch and write in one round trip.",
+        "Declare every key in KEYS; in Cluster all keys of a script must share a hash slot.",
+        "Lock = SET key token NX PX ttl; release only if the token matches, atomically.",
+        "Leases can expire during pauses; Redis locks are for efficiency, not correctness.",
+        "For correctness use fencing tokens, DB constraints or consensus systems."
+      ],
+      "questions": [
+        {
+          "id": "redis-caching-08-q01",
+          "type": "mcq",
+          "prompt": "Inside MULTI, the second of three commands fails at runtime with WRONGTYPE. What happens on EXEC?",
+          "options": [
+            "All three are rolled back",
+            "The first and third still execute; EXEC returns the error for the second",
+            "None execute",
+            "Redis retries the second"
+          ],
+          "answer": 1,
+          "explanation": "Redis transactions do not roll back. Runtime errors are reported per command while the rest still apply. Validate types before or use Lua with explicit checks."
+        },
+        {
+          "id": "redis-caching-08-q02",
+          "type": "mcq",
+          "prompt": "What does EXEC return if a key under WATCH was modified by another client before EXEC?",
+          "options": [
+            "The results as usual",
+            "null (the transaction is aborted)",
+            "An error that crashes the client",
+            "Only the first result"
+          ],
+          "answer": 1,
+          "explanation": "WATCH implements optimistic concurrency. A null reply means nothing was executed and the client should retry with fresh data."
+        },
+        {
+          "id": "redis-caching-08-q03",
+          "type": "mcq",
+          "prompt": "Why must lock release check the token before deleting?",
+          "options": [
+            "DEL is slow",
+            "The lock may have expired and been acquired by another process; a blind DEL would remove their lock",
+            "Tokens are required by Redis",
+            "To refresh the TTL"
+          ],
+          "answer": 1,
+          "explanation": "Comparing the stored token with your own ensures you only delete a lock you still own. The compare and delete must be atomic, hence the Lua script."
+        },
+        {
+          "id": "redis-caching-08-q04",
+          "type": "mcq",
+          "prompt": "Process A acquires a lock with a 10 s lease, then a 15 s GC pause occurs. Process B acquires the lock at second 11. What happens when A resumes?",
+          "options": [
+            "A is blocked automatically",
+            "A may continue writing while B also writes, violating mutual exclusion unless the resource checks fencing tokens",
+            "Redis kills process A",
+            "B's lock is rejected"
+          ],
+          "answer": 1,
+          "explanation": "Leases cannot stop a paused process from resuming. Fencing tokens let the storage layer reject A's stale writes."
+        },
+        {
+          "id": "redis-caching-08-q05",
+          "type": "mcq",
+          "prompt": "Which Redis feature best implements \"decrement stock only if enough stock remains\" atomically in one round trip?",
+          "options": [
+            "Pipelining",
+            "A Lua script or Function",
+            "Pub/Sub",
+            "SCAN"
+          ],
+          "answer": 1,
+          "explanation": "Scripts can read, compare and write atomically. Pipelining only batches network calls without isolation; MULTI alone cannot branch on values."
+        },
+        {
+          "id": "redis-caching-08-q06",
+          "type": "mcq",
+          "prompt": "A Lua script touches keys user:1 and user:2 in Redis Cluster and fails with CROSSSLOT. Fix?",
+          "options": [
+            "Use EVALSHA",
+            "Use hash tags like {user:1}:profile and {user:1}:stats so keys share a slot, or redesign so the script touches one slot",
+            "Disable Cluster",
+            "Pass the keys in ARGV instead"
+          ],
+          "answer": 1,
+          "explanation": "Cluster requires all keys in a script or transaction to map to the same hash slot. Hash tags force slot assignment by the part in braces. Passing keys in ARGV breaks routing and correctness."
+        },
+        {
+          "id": "redis-caching-08-q07",
+          "type": "truefalse",
+          "prompt": "Pipelining provides the same isolation guarantees as MULTI/EXEC.",
+          "answer": false,
+          "explanation": "Pipelining reduces round trips, but other clients' commands can interleave between pipelined commands. MULTI/EXEC or Lua is needed for isolation."
+        },
+        {
+          "id": "redis-caching-08-q08",
+          "type": "truefalse",
+          "prompt": "A long-running Lua script blocks all other clients until it finishes.",
+          "answer": true,
+          "explanation": "Scripts run atomically on the single command thread. Keep them short; after busy-script-time-limit Redis only accepts a few commands such as SCRIPT KILL."
+        },
+        {
+          "id": "redis-caching-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which make a Redis-based lock safer?",
+          "options": [
+            "A random owner token per acquisition",
+            "A lease TTL via PX",
+            "Releasing with an atomic compare-and-delete",
+            "Using KEYS to find stale locks",
+            "Fencing tokens checked by the protected resource"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Tokens, leases, atomic release and fencing all address real failure modes. KEYS is a blocking command and does not help."
+        },
+        {
+          "id": "redis-caching-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: SET lock:x token ___ PX 30000 acquires the lock only if no one else holds it.",
+          "accept": [
+            "NX"
+          ],
+          "explanation": "NX makes SET succeed only if the key does not exist, which is what gives mutual exclusion."
+        },
+        {
+          "id": "redis-caching-08-q11",
+          "type": "interview",
+          "prompt": "How do you implement a distributed lock with Redis, and what are its limitations?",
+          "answer": "- Acquire: SET lock:{resource} <uuid> NX PX <lease>. Retry with backoff or give up if held.\n- Release: Lua script that deletes only if the value equals my uuid. Extend long tasks with a token-checked PEXPIRE before the lease ends.\n- Limitations: lease expiry during GC or network pauses lets two holders overlap; failover with async replication can lose the lock; clock issues affect leases. Redlock (majority of independent nodes) improves availability but still relies on timing assumptions (Kleppmann's critique).\n- So: fine for efficiency (deduplicating cron jobs, cache rebuilds). For correctness, add fencing tokens enforced by the storage, use DB constraints/conditional updates, or a consensus system like etcd/ZooKeeper or Postgres advisory locks.",
+          "level": "advanced",
+          "top": true
+        },
+        {
+          "id": "redis-caching-08-q12",
+          "type": "interview",
+          "prompt": "What is the difference between MULTI/EXEC, pipelining and Lua scripts in Redis?",
+          "answer": "- Pipelining: send many commands without waiting for each reply; fewer round trips, no atomicity or isolation.\n- MULTI/EXEC: queue commands and execute them as one isolated batch; no interleaving, but no rollback and no conditional logic based on values read inside the transaction. Combine with WATCH for optimistic check-and-set with retries.\n- Lua scripts/Functions: arbitrary logic (read, branch, write) executed atomically server-side in one round trip; best for rate limiters, compare-and-delete, inventory reservation. Must declare keys, stay short, and in Cluster touch a single slot.\n- Choose pipelining for throughput, MULTI for simple grouped writes, Lua for conditional atomic logic.",
+          "level": "advanced",
+          "top": true
+        },
+        {
+          "id": "redis-caching-08-q13",
+          "type": "interview",
+          "prompt": "What are fencing tokens and why do they matter for distributed locks?",
+          "answer": "A fencing token is a monotonically increasing number issued each time the lock is granted (e.g. INCR lock:resource:fence on acquisition). The lock holder sends the token with every write to the protected resource, and the resource remembers the highest token seen and rejects writes with lower ones.\nThis closes the gap that leases leave: if holder A pauses, its lease expires and B acquires a higher token and writes, A's later writes carry an older token and are rejected. The resource itself enforces safety instead of trusting clocks.\nIt requires the resource to support the check (a DB column with a conditional UPDATE WHERE fence < $token, or object storage preconditions).",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Redis docs: Transactions",
+          "url": "https://redis.io/docs/latest/develop/interact/transactions/"
+        },
+        {
+          "title": "Redis docs: Distributed locks with Redis",
+          "url": "https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/"
+        },
+        {
+          "title": "Martin Kleppmann: How to do distributed locking",
+          "url": "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html"
+        }
+      ]
+    },
+    {
+      "id": "redis-caching-09-persistence-scaling",
+      "title": "Persistence, replication, Sentinel, Cluster and Valkey",
+      "level": "advanced",
+      "summary": "How Redis survives restarts and failures and how it scales: RDB vs AOF, async replication, Sentinel failover, Cluster sharding and the Redis/Valkey choice.",
+      "estMinutes": 45,
+      "lesson": [
+        {
+          "heading": "Persistence: RDB and AOF",
+          "body": "Redis is in-memory, but it can persist to disk:\n\n- **RDB snapshots**: a compact point-in-time dump written by a forked child process (copy-on-write), on a schedule (`save 3600 1 300 100 60 10000`) or via `BGSAVE`. Fast restarts and good for backups, but you lose everything since the last snapshot on a crash. Forking a large dataset can briefly stall and temporarily needs extra memory for pages modified during the snapshot.\n- **AOF (append-only file)**: logs every write command. `appendfsync everysec` (the default and usual choice) loses at most about a second of writes; `always` fsyncs every write (safest, slowest); `no` leaves it to the OS. The AOF is periodically **rewritten** (compacted) in the background; since Redis 7 it is stored as a base file plus incremental files (multi-part AOF).\n- **Both**: the common production setup. With `aof-use-rdb-preamble` (default on) the rewritten AOF starts with an RDB snapshot followed by recent commands, combining fast loading with good durability.\n- **None**: valid for a pure cache that can start empty.\n\nPersistence is not a backup strategy by itself: copy RDB files off the machine regularly.",
+          "code": {
+            "lang": "bash",
+            "source": "# redis.conf\nsave 3600 1 300 100 60 10000      # RDB: after 1h/1 change, 5m/100 changes, 60s/10k changes\nappendonly yes\nappendfsync everysec\naof-use-rdb-preamble yes"
+          }
+        },
+        {
+          "heading": "Replication",
+          "body": "A primary streams its write commands to one or more **replicas** (`REPLICAOF host port`). Replicas serve reads (scaling read throughput) and are failover candidates. Initial sync transfers an RDB snapshot; afterwards the replication stream continues, and short disconnections resume via partial resync from a backlog buffer.\n\nReplication is **asynchronous**: the primary acknowledges writes before replicas have them. Consequences:\n\n- Reads from replicas can be **stale** (replication lag).\n- If the primary fails, the most recent acknowledged writes may be **lost** after a replica is promoted.\n- `WAIT numreplicas timeout` blocks until writes reach N replicas, reducing (not eliminating) loss windows; `WAITAOF` (Redis 7.2+) waits for AOF fsync locally and/or on replicas."
+        },
+        {
+          "heading": "High availability with Sentinel",
+          "body": "**Redis Sentinel** provides automatic failover for a primary/replica setup without sharding. Run at least **three** Sentinel processes on separate machines. They monitor the primary; when a **quorum** agrees it is down, they elect a leader Sentinel that promotes a replica, reconfigures the other replicas, and publishes the new primary address.\n\nClients connect to Sentinels to discover the current primary (ioredis and node-redis support Sentinel configs) and must handle reconnection. Use `min-replicas-to-write` to make the primary refuse writes when it cannot reach enough replicas, limiting split-brain data loss.",
+          "code": {
+            "lang": "js",
+            "source": "import Redis from \"ioredis\";\nconst redis = new Redis({\n  sentinels: [{ host: \"sentinel-1\", port: 26379 }, { host: \"sentinel-2\", port: 26379 }, { host: \"sentinel-3\", port: 26379 }],\n  name: \"mymaster\",          // master group name configured in Sentinel\n});"
+          }
+        },
+        {
+          "heading": "Scaling out with Redis Cluster",
+          "body": "**Redis Cluster** shards data across multiple primaries, each with replicas, and provides failover without Sentinel. The keyspace is split into **16,384 hash slots**; a key's slot is `CRC16(key) mod 16384`, and each primary owns a range of slots.\n\n- Clients are cluster-aware: they cache the slot map and follow **MOVED** (slot permanently moved) and **ASK** (slot migrating) redirects.\n- **Multi-key operations** (MGET, MULTI, Lua scripts, SUNION) only work when all keys are in the **same slot**. Force co-location with **hash tags**: only the part inside `{...}` is hashed, so `{user:42}:cart` and `{user:42}:profile` share a slot. Overusing one tag creates hot shards.\n- Resharding moves slots between nodes online.\n- Cluster mode historically supports only database 0 (`SELECT` is unavailable); Valkey 9 added numbered databases in cluster mode.\n- Consistency is not strong: asynchronous replication means acknowledged writes can be lost during failover.\n\nBefore sharding, check whether one larger instance (or read replicas) suffices; a single Redis can handle on the order of 100k+ simple operations per second."
+        },
+        {
+          "heading": "Redis vs Valkey and managed options",
+          "body": "- **Redis** (Redis Ltd.): Redis 8 under RSALv2/SSPLv1/AGPLv3 options, with JSON, search/query, time series, probabilistic structures and vector sets in the core; Redis Cloud and Redis Software for enterprise features (active-active geo replication).\n- **Valkey** (Linux Foundation, BSD): fork of Redis 7.2, compatible clients and commands for the core feature set; recent releases focus on performance (improved multi-threaded I/O) and operational features. Default engine for many managed offerings (AWS ElastiCache and MemoryDB for Valkey, Google Memorystore for Valkey) and often cheaper there.\n- Other compatible engines: Dragonfly, KeyDB, and serverless HTTP-based Redis APIs such as Upstash for edge and serverless functions.\n\nChoose based on licence requirements, needed modules (search/vector), managed service availability and cost. Application code using standard commands usually runs on either."
+        }
+      ],
+      "keyPoints": [
+        "RDB: periodic forked snapshots, compact and fast to load, loses recent writes on crash.",
+        "AOF with appendfsync everysec loses about a second at most; combine with RDB preamble.",
+        "Replication is asynchronous: replica reads can be stale and failover can lose acknowledged writes.",
+        "Sentinel (3+ instances, quorum) gives automatic failover and primary discovery without sharding.",
+        "Cluster shards 16,384 hash slots across primaries; clients follow MOVED and ASK.",
+        "Multi-key operations in Cluster need one slot; use hash tags like {user:42}.",
+        "Valkey is the BSD fork offered by major clouds; Redis 8 bundles JSON, search and vector features."
+      ],
+      "questions": [
+        {
+          "id": "redis-caching-09-q01",
+          "type": "mcq",
+          "prompt": "Which persistence setting loses at most about one second of writes in a crash, with good performance?",
+          "options": [
+            "RDB every hour",
+            "AOF with appendfsync everysec",
+            "AOF with appendfsync no",
+            "No persistence"
+          ],
+          "answer": 1,
+          "explanation": "everysec fsyncs the AOF once per second in the background, the usual balance. always is safer but much slower; no depends on the OS flushing (often 30 s)."
+        },
+        {
+          "id": "redis-caching-09-q02",
+          "type": "mcq",
+          "prompt": "A client writes to the primary, gets OK, and the primary crashes before replicating. A replica is promoted. What happens to that write?",
+          "options": [
+            "It is guaranteed to exist on the new primary",
+            "It can be lost, because replication is asynchronous",
+            "The client receives an error retroactively",
+            "Sentinel replays it"
+          ],
+          "answer": 1,
+          "explanation": "Acknowledgement happens before replication. WAIT reduces the window but Redis does not provide strong consistency guarantees in failover."
+        },
+        {
+          "id": "redis-caching-09-q03",
+          "type": "mcq",
+          "prompt": "How many hash slots does Redis Cluster use?",
+          "options": [
+            "1,024",
+            "4,096",
+            "16,384",
+            "65,536"
+          ],
+          "answer": 2,
+          "explanation": "The key space is divided into 16,384 slots, assigned to primaries. A key's slot is CRC16(key) mod 16384."
+        },
+        {
+          "id": "redis-caching-09-q04",
+          "type": "mcq",
+          "prompt": "Which pair of keys is guaranteed to be in the same Cluster slot?",
+          "options": [
+            "user:42:cart and user:42:profile",
+            "{user:42}:cart and {user:42}:profile",
+            "cart:42 and profile:42",
+            "user:42 and USER:42"
+          ],
+          "answer": 1,
+          "explanation": "Only the substring inside the first {...} is hashed when a hash tag is present, so both keys hash \"user:42\" and land in the same slot. Without tags, similar-looking keys usually hash differently."
+        },
+        {
+          "id": "redis-caching-09-q05",
+          "type": "mcq",
+          "prompt": "What does Redis Sentinel provide?",
+          "options": [
+            "Sharding across many primaries",
+            "Monitoring, automatic failover and primary discovery for a primary/replica setup",
+            "Disk persistence",
+            "Query language"
+          ],
+          "answer": 1,
+          "explanation": "Sentinel handles HA for a non-sharded deployment. Redis Cluster provides sharding with built-in failover."
+        },
+        {
+          "id": "redis-caching-09-q06",
+          "type": "mcq",
+          "prompt": "A client sends GET to a Cluster node that does not own the key's slot. What does it receive?",
+          "options": [
+            "The value, proxied",
+            "A MOVED error with the slot and the correct node's address",
+            "null",
+            "A CROSSSLOT error"
+          ],
+          "answer": 1,
+          "explanation": "Nodes do not proxy. The client follows the MOVED redirect and updates its slot map. ASK is returned during slot migration for a one-off redirect."
+        },
+        {
+          "id": "redis-caching-09-q07",
+          "type": "truefalse",
+          "prompt": "Running Redis with AOF persistence makes separate off-host backups unnecessary.",
+          "answer": false,
+          "explanation": "Persistence protects against process restarts, not against disk loss, accidental FLUSHALL, corruption or region failure. Ship RDB snapshots to other storage."
+        },
+        {
+          "id": "redis-caching-09-q08",
+          "type": "truefalse",
+          "prompt": "Redis Sentinel should run with at least three instances on independent machines.",
+          "answer": true,
+          "explanation": "A quorum among independent Sentinels avoids false failovers and keeps failover possible when one Sentinel or host is down."
+        },
+        {
+          "id": "redis-caching-09-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which statements about Redis Cluster are true?",
+          "options": [
+            "Multi-key commands require all keys in the same hash slot",
+            "It supports SELECT with numbered databases in classic Redis Cluster",
+            "Clients must handle MOVED and ASK redirections",
+            "Each shard can have replicas for failover",
+            "It provides strongly consistent writes"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Same-slot multi-key operations, redirect handling and per-shard replicas are core features. Classic Redis Cluster only supports database 0, and replication is asynchronous, so writes are not strongly consistent."
+        },
+        {
+          "id": "redis-caching-09-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the AOF option appendfsync ___ fsyncs once per second and is the default.",
+          "accept": [
+            "everysec"
+          ],
+          "explanation": "everysec bounds data loss to roughly one second while keeping throughput high."
+        },
+        {
+          "id": "redis-caching-09-q11",
+          "type": "interview",
+          "prompt": "Explain Redis persistence options and how you would configure them for a cache vs a session store.",
+          "answer": "- RDB: point-in-time snapshots via fork; compact, fast restart, good backups; loses changes since last snapshot; fork cost on big datasets.\n- AOF: log of writes; everysec loses about 1 s; rewrites compact it; larger files and slower restarts than RDB, mitigated by the RDB preamble.\n- Cache: persistence often off (or RDB only for warm restarts); losing data is acceptable; eviction policy allkeys-lru/lfu.\n- Session store: AOF everysec plus RDB snapshots shipped off-host, replication with automatic failover (Sentinel or managed), noeviction or volatile policy, memory alerts.\n- Queues (BullMQ): like sessions, plus monitoring of memory and fsync latency.",
+          "level": "advanced",
+          "top": true
+        },
+        {
+          "id": "redis-caching-09-q12",
+          "type": "interview",
+          "prompt": "Sentinel vs Cluster: when do you need each?",
+          "answer": "- Sentinel: one primary with replicas, automatic failover and service discovery. Use when the dataset and write load fit on one node and you need HA. Simple client semantics: all keys on one node, multi-key operations unrestricted.\n- Cluster: data sharded across many primaries (16,384 slots), each with replicas and built-in failover. Use when memory or write throughput exceeds a single node. Costs: cluster-aware clients, same-slot requirement for multi-key ops/Lua/transactions (hash tags), hot-shard risk, resharding operations.\n- Both use async replication, so failover can lose recent writes. Managed services (ElastiCache/Memorystore for Valkey or Redis, Redis Cloud) handle most of this operationally.",
+          "level": "advanced",
+          "top": true
+        },
+        {
+          "id": "redis-caching-09-q13",
+          "type": "interview",
+          "prompt": "Your company runs Redis on AWS. Would you choose Redis or Valkey, and why?",
+          "answer": "For standard use (caching, sessions, rate limiting, BullMQ, pub/sub, streams) both are command- and client-compatible, so the choice is mostly cost, licence and features.\n- Valkey: BSD licence, Linux Foundation governance with broad vendor backing, offered as the default and typically cheaper engine on ElastiCache/MemoryDB, active performance work.\n- Redis 8: if you need its built-in Query Engine (search, secondary indexing), JSON, time series or vector sets, or Redis Enterprise features (active-active), via Redis Cloud or self-managed under its licences.\nI would default to managed Valkey for core workloads, keep code on standard commands and well-supported clients (ioredis/node-redis or valkey-glide), and choose Redis where its modules are a real requirement.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Redis docs: Persistence",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/"
+        },
+        {
+          "title": "Redis docs: Scale with Redis Cluster",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/scaling/"
+        },
+        {
+          "title": "Redis docs: High availability with Redis Sentinel",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/"
+        }
+      ]
+    }
+  ]
+}

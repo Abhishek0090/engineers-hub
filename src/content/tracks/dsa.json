@@ -185,7 +185,8 @@
           "type": "interview",
           "prompt": "Explain the difference between worst-case, average-case and amortized complexity, with an example of each.",
           "answer": "- Worst case is the upper bound for any input of size n. Example: quicksort with a bad pivot on sorted input is O(n^2).\n- Average case is the expected cost over a distribution of inputs. Example: hash map lookup is O(1) on average because keys spread across buckets, but O(n) worst case if everything collides.\n- Amortized is a guarantee over a sequence of operations, with no probability involved. Example: dynamic array push. Most pushes are O(1); a resize copies n elements, but because capacity doubles, n pushes cost O(n) total, so each is O(1) amortized.\nThe key distinction: amortized is a worst-case guarantee on the total; average case depends on input randomness.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "dsa-01-q12",
@@ -401,14 +402,16 @@
           "type": "interview",
           "prompt": "Trapping Rain Water: given heights, compute how much water is trapped after rain. Give an O(n) time, O(1) space solution.",
           "answer": "Water above index i is min(maxLeft, maxRight) - h[i]. Use two pointers l and r with running maxima leftMax and rightMax. At each step, move the side with the smaller height: if h[l] < h[r], then the left side is the bottleneck, because there is a wall at least h[r] on the right. Update leftMax = max(leftMax, h[l]) and add leftMax - h[l], then l++. Otherwise do the mirror on the right. Each index is processed once: O(n) time, O(1) space. Alternatives: precompute leftMax/rightMax arrays (O(n) space) or a monotonic stack.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "dsa-02-q12",
           "type": "interview",
           "prompt": "3Sum: find all unique triplets that sum to zero. Walk through your approach and how you avoid duplicate triplets.",
           "answer": "Sort the array (O(n log n)). For each index i: if a[i] > 0 break, since all later values are positive; if a[i] equals a[i-1] skip it to avoid duplicate triplets starting with the same value. Then run two pointers l = i + 1, r = n - 1: if the sum is below zero move l right, above zero move r left. On a match record it, move both, and skip over equal values at l. Total O(n^2) time and O(1) extra space excluding output and sort. A hash set approach also gives O(n^2) but dedup is messier.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "dsa-02-q13",
@@ -616,14 +619,16 @@
           "type": "interview",
           "prompt": "Minimum Window Substring: given strings s and t, find the smallest substring of s containing every character of t (with multiplicity).",
           "answer": "Count characters of t into a need map and set missing = t.length. Expand right over s: if need[c] > 0, decrement missing; always decrement need[c] (it can go negative, meaning surplus). When missing == 0 the window is valid: shrink left while the left char is surplus (need[s[left]] < 0, increment it and move left). Record the window if it is smaller than the best, then remove s[left] (increment need, and since it becomes positive, missing++) and move left to look for the next valid window. Each pointer moves at most |s| times: O(|s| + |t|) time, O(charset) space.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "dsa-03-q12",
           "type": "interview",
           "prompt": "Top K Frequent Elements: return the k most frequent values in an array. Aim for better than O(n log n).",
           "answer": "Count frequencies with a Map: O(n). Then either:\n- Bucket sort: create buckets indexed by frequency (0..n), put each value in bucket[count], and walk from the highest bucket collecting values until you have k. O(n) time, O(n) space.\n- Min-heap of size k keyed by frequency: O(n log k).\n- Quickselect on the unique values: O(n) average.\nSorting the unique values by count is O(u log u) and is fine as a first answer. I would present bucket sort because it is linear and simple.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "dsa-03-q13",
@@ -832,7 +837,8 @@
           "type": "interview",
           "prompt": "Design an LRU Cache with O(1) get and put.",
           "answer": "Use a hash map from key to node and a doubly linked list ordered by recency, with dummy head and tail nodes. get(key): if missing return -1; otherwise unlink the node, move it to the front and return its value. put(key, value): if the key exists, update the value and move it to the front; otherwise create a node, add it to the front and to the map; if size exceeds capacity, remove the node before the tail (least recently used) from both list and map. All operations are O(1): the map finds nodes, the doubly linked list removes them without traversal. In JavaScript an insertion-ordered Map gives the same behavior with delete + set on access and map.keys().next().value for eviction.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "dsa-04-q12",
@@ -1050,14 +1056,16 @@
           "type": "interview",
           "prompt": "Search in Rotated Sorted Array: find a target in a rotated sorted array of distinct values in O(log n).",
           "answer": "Standard binary search with lo, hi inclusive. At each mid, if nums[mid] equals the target, return mid. Otherwise one half is sorted: if nums[lo] <= nums[mid], the left half is sorted; if target is in [nums[lo], nums[mid]) search left (hi = mid - 1), else search right. If the right half is sorted (nums[mid] < nums[lo]), check whether target is in (nums[mid], nums[hi]]; if yes lo = mid + 1, else hi = mid - 1. O(log n) time, O(1) space. With duplicates, when nums[lo] == nums[mid] == nums[hi] you cannot decide, so shrink both ends, which degrades to O(n) worst case.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "dsa-05-q12",
           "type": "interview",
           "prompt": "Kth Largest Element in an Array: give at least two approaches and their complexities.",
           "answer": "- Sort descending and index k - 1: O(n log n), simplest.\n- Min-heap of size k: push each element, pop when size exceeds k; the top is the answer. O(n log k) time, O(k) space; good for streams.\n- Quickselect: partition around a random pivot; the k-th largest is at index n - k in sorted order, so recurse only into the side containing that index. O(n) average, O(n^2) worst, O(1) extra space with in-place partitioning. Three-way partitioning helps with many duplicates.\nI would mention the heap for streaming data and quickselect when asked for the optimal average time.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "dsa-05-q13",
@@ -1490,7 +1498,8 @@
           "type": "interview",
           "prompt": "Lowest Common Ancestor of a binary tree (not a BST): given nodes p and q, find their LCA.",
           "answer": "Recursive postorder: lca(node) returns null if node is null; returns node if node is p or q. Otherwise compute left = lca(node.left) and right = lca(node.right). If both are non-null, p and q are in different subtrees, so node is the LCA. Otherwise return whichever is non-null. This works because the first node where the two searches meet from different sides is the deepest common ancestor. O(n) time, O(h) space. For a BST, use ordering instead: walk down until p and q split, O(h).",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "dsa-07-q12",
@@ -1702,7 +1711,8 @@
           "type": "interview",
           "prompt": "Find Median from Data Stream: support addNum and findMedian efficiently.",
           "answer": "Keep two heaps: lo, a max-heap holding the smaller half, and hi, a min-heap holding the larger half. addNum: push into lo, then move lo's top to hi (keeps ordering), then if hi has more elements than lo, move hi's top back to lo. So lo has the same size as hi or one more. findMedian: if sizes differ, return lo's top; otherwise the average of both tops. addNum is O(log n), findMedian O(1), space O(n). Follow-up: if all values are in 0..100, use a count array and walk it in O(100).",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "dsa-08-q12",
@@ -1926,7 +1936,8 @@
           "type": "interview",
           "prompt": "Course Schedule II: given numCourses and prerequisite pairs [a, b] (take b before a), return a valid order or an empty array if impossible.",
           "answer": "Build a directed graph with edges b -> a and count in-degrees. Kahn's algorithm: enqueue all courses with in-degree 0; pop one, append to the order, decrement in-degree of its dependents and enqueue any that reach 0. If the order length equals numCourses, return it; otherwise a cycle exists, return []. O(V + E) time and space. The DFS alternative uses three states and detects a cycle when it reaches a node currently on the recursion stack; reverse postorder is the answer.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "dsa-09-q12",
@@ -2145,7 +2156,8 @@
           "type": "interview",
           "prompt": "Word Break: given a string s and a dictionary, can s be segmented into dictionary words?",
           "answer": "dp[i] = true if the prefix s[0..i) can be segmented. dp[0] = true. For each i from 1 to n, for each j < i (or each word w that ends at i), if dp[j] and s.slice(j, i) is in the word Set, set dp[i] = true and break. Answer dp[n]. With the j loop it is O(n^2) substring checks, each O(n) to hash, so O(n^3) worst case; bound j by the max word length to make it O(n * L^2). A trie avoids slicing. Memoized DFS over start index is equivalent. Word Break II (return all sentences) needs backtracking with memo and is exponential in output.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "dsa-10-q12",

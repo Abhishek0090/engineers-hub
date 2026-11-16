@@ -61,7 +61,12 @@
           "id": "nextjs-01-q01",
           "type": "mcq",
           "prompt": "Which URL renders `app/(shop)/products/[id]/page.tsx`?",
-          "options": ["/shop/products/42", "/(shop)/products/42", "/products/42", "/products/[id]"],
+          "options": [
+            "/shop/products/42",
+            "/(shop)/products/42",
+            "/products/42",
+            "/products/[id]"
+          ],
           "answer": 2,
           "explanation": "Route group names in parentheses are omitted from the URL; [id] matches any single segment."
         },
@@ -69,7 +74,12 @@
           "id": "nextjs-01-q02",
           "type": "mcq",
           "prompt": "Which folder name matches both /docs and /docs/a/b?",
-          "options": ["docs/[slug]", "docs/[...slug]", "docs/[[...slug]]", "docs/(slug)"],
+          "options": [
+            "docs/[slug]",
+            "docs/[...slug]",
+            "docs/[[...slug]]",
+            "docs/(slug)"
+          ],
           "answer": 2,
           "explanation": "The optional catch-all [[...slug]] also matches the parent path with no segments. [...slug] requires at least one."
         },
@@ -78,7 +88,12 @@
           "type": "mcq",
           "prompt": "This code worked in Next.js 14. What is required in Next.js 16?",
           "code": "export default function Page({ params }) {\n  return <h1>{params.slug}</h1>;\n}",
-          "options": ["Nothing changed", "Make the component async and await params (or use(params) in a Client Component)", "Use getServerSideProps", "Wrap the page in Suspense"],
+          "options": [
+            "Nothing changed",
+            "Make the component async and await params (or use(params) in a Client Component)",
+            "Use getServerSideProps",
+            "Wrap the page in Suspense"
+          ],
           "answer": 1,
           "explanation": "params is a Promise since Next.js 15 and the synchronous compatibility access was removed in 16."
         },
@@ -86,7 +101,12 @@
           "id": "nextjs-01-q04",
           "type": "mcq",
           "prompt": "A user navigates from /dashboard/settings to /dashboard/billing. What happens to app/dashboard/layout.tsx?",
-          "options": ["It remounts and loses state", "It stays mounted and keeps its state; only the page segment changes", "The browser does a full reload", "It re-renders but resets state"],
+          "options": [
+            "It remounts and loses state",
+            "It stays mounted and keeps its state; only the page segment changes",
+            "The browser does a full reload",
+            "It re-renders but resets state"
+          ],
           "answer": 1,
           "explanation": "Partial rendering keeps shared layouts mounted. Use template.tsx if you need a fresh instance per navigation."
         },
@@ -94,7 +114,12 @@
           "id": "nextjs-01-q05",
           "type": "mcq",
           "prompt": "Which import is correct for useRouter in an App Router Client Component?",
-          "options": ["next/router", "next/navigation", "next/link", "react-router"],
+          "options": [
+            "next/router",
+            "next/navigation",
+            "next/link",
+            "react-router"
+          ],
           "answer": 1,
           "explanation": "next/navigation contains the App Router hooks. next/router is for the Pages Router and does not work in app/."
         },
@@ -102,7 +127,12 @@
           "id": "nextjs-01-q06",
           "type": "mcq",
           "prompt": "Which file is NOT a route on its own?",
-          "options": ["app/about/page.tsx", "app/api/health/route.ts", "app/blog/PostCard.tsx", "app/(auth)/login/page.tsx"],
+          "options": [
+            "app/about/page.tsx",
+            "app/api/health/route.ts",
+            "app/blog/PostCard.tsx",
+            "app/(auth)/login/page.tsx"
+          ],
           "answer": 2,
           "explanation": "Only page and route files expose a segment publicly. Other files in app/ can be safely colocated."
         },
@@ -124,15 +154,32 @@
           "id": "nextjs-01-q09",
           "type": "multi",
           "prompt": "Select all that apply: which are App Router special file conventions?",
-          "options": ["loading.tsx", "_app.tsx", "error.tsx", "not-found.tsx", "getStaticProps.ts", "template.tsx"],
-          "answers": [0, 2, 3, 5],
+          "options": [
+            "loading.tsx",
+            "_app.tsx",
+            "error.tsx",
+            "not-found.tsx",
+            "getStaticProps.ts",
+            "template.tsx"
+          ],
+          "answers": [
+            0,
+            2,
+            3,
+            5
+          ],
           "explanation": "_app.tsx and getStaticProps belong to the Pages Router. loading, error, not-found and template are App Router conventions."
         },
         {
           "id": "nextjs-01-q10",
           "type": "fill",
           "prompt": "Fill the blank: a folder named ___ (with a leading character) is private and excluded from routing, for example _components.",
-          "accept": ["_", "underscore", "an underscore", "_folder"],
+          "accept": [
+            "_",
+            "underscore",
+            "an underscore",
+            "_folder"
+          ],
           "explanation": "Prefixing a folder with an underscore opts it and its children out of routing."
         },
         {
@@ -140,7 +187,8 @@
           "type": "interview",
           "prompt": "What are the main differences between the App Router and the Pages Router?",
           "answer": "The App Router (app/) is built on React Server Components: components are server-rendered by default, can be async and fetch data directly, and ship no JS unless marked 'use client'. Pages Router (pages/) treats every page as a client component, with data loaded via getServerSideProps, getStaticProps and getInitialProps. The App Router adds nested layouts that persist across navigation, file conventions for loading and error states based on Suspense and error boundaries, streaming, Server Actions for mutations, Route Handlers instead of API routes, the Metadata API, and fine-grained caching (use cache, cacheLife, cacheTag in Next 16). Navigation fetches RSC payloads for changed segments only. Pages Router is still supported, and both can coexist during migration.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "nextjs-01-q12",
@@ -158,9 +206,18 @@
         }
       ],
       "resources": [
-        { "title": "Next.js docs: Layouts and Pages", "url": "https://nextjs.org/docs/app/getting-started/layouts-and-pages" },
-        { "title": "Next.js docs: Linking and Navigating", "url": "https://nextjs.org/docs/app/getting-started/linking-and-navigating" },
-        { "title": "Next.js docs: Dynamic Routes", "url": "https://nextjs.org/docs/app/api-reference/file-conventions/dynamic-routes" }
+        {
+          "title": "Next.js docs: Layouts and Pages",
+          "url": "https://nextjs.org/docs/app/getting-started/layouts-and-pages"
+        },
+        {
+          "title": "Next.js docs: Linking and Navigating",
+          "url": "https://nextjs.org/docs/app/getting-started/linking-and-navigating"
+        },
+        {
+          "title": "Next.js docs: Dynamic Routes",
+          "url": "https://nextjs.org/docs/app/api-reference/file-conventions/dynamic-routes"
+        }
       ]
     },
     {
@@ -214,7 +271,12 @@
           "type": "mcq",
           "prompt": "What happens when you build this?",
           "code": "// app/page.tsx (no directive)\nimport { useState } from 'react';\nexport default function Page() {\n  const [n, setN] = useState(0);\n  return <button onClick={() => setN(n + 1)}>{n}</button>;\n}",
-          "options": ["It works", "Error: useState only works in Client Components; add 'use client'", "It renders but the click does nothing", "It renders 0 and hydrates later"],
+          "options": [
+            "It works",
+            "Error: useState only works in Client Components; add 'use client'",
+            "It renders but the click does nothing",
+            "It renders 0 and hydrates later"
+          ],
           "answer": 1,
           "explanation": "Pages are Server Components by default, where state and event handlers are not available."
         },
@@ -222,7 +284,12 @@
           "id": "nextjs-02-q02",
           "type": "mcq",
           "prompt": "A Client Component needs to display a server-rendered list inside its collapsible panel. What is the correct approach?",
-          "options": ["Import the Server Component inside the Client Component", "Pass the Server Component as children from a Server Component parent", "Convert the list to a Client Component and fetch in useEffect", "It is impossible"],
+          "options": [
+            "Import the Server Component inside the Client Component",
+            "Pass the Server Component as children from a Server Component parent",
+            "Convert the list to a Client Component and fetch in useEffect",
+            "It is impossible"
+          ],
           "answer": 1,
           "explanation": "Client Components can render Server Components they receive as props or children. Importing them would make them client code."
         },
@@ -230,7 +297,12 @@
           "id": "nextjs-02-q03",
           "type": "mcq",
           "prompt": "Where does `process.env.STRIPE_SECRET_KEY` resolve in a Client Component?",
-          "options": ["To the real key", "To undefined or empty, since only NEXT_PUBLIC_ variables are exposed to the browser", "It throws at build", "To the key, but encrypted"],
+          "options": [
+            "To the real key",
+            "To undefined or empty, since only NEXT_PUBLIC_ variables are exposed to the browser",
+            "It throws at build",
+            "To the key, but encrypted"
+          ],
           "answer": 1,
           "explanation": "Non-public env vars are not inlined into client bundles. Only NEXT_PUBLIC_ variables are, which is why secrets must never use that prefix."
         },
@@ -239,7 +311,12 @@
           "type": "mcq",
           "prompt": "Why does this cause a hydration error?",
           "code": "export function Clock() {\n  return <span>{new Date().toLocaleTimeString()}</span>;\n}",
-          "options": ["Dates cannot be rendered", "The server and client compute different times, so the HTML differs", "toLocaleTimeString is server-only", "span is invalid here"],
+          "options": [
+            "Dates cannot be rendered",
+            "The server and client compute different times, so the HTML differs",
+            "toLocaleTimeString is server-only",
+            "span is invalid here"
+          ],
           "answer": 1,
           "explanation": "The server render and the first client render produce different text. Render it after mount or use suppressHydrationWarning for that element."
         },
@@ -247,7 +324,12 @@
           "id": "nextjs-02-q05",
           "type": "mcq",
           "prompt": "What does `import 'server-only'` at the top of lib/db.ts do?",
-          "options": ["Runs the module only at build time", "Makes importing the module from Client Component code a build error", "Encrypts the module", "Marks its functions as Server Actions"],
+          "options": [
+            "Runs the module only at build time",
+            "Makes importing the module from Client Component code a build error",
+            "Encrypts the module",
+            "Marks its functions as Server Actions"
+          ],
           "answer": 1,
           "explanation": "server-only is a guard package; it fails the build if the module ends up in a client bundle."
         },
@@ -255,7 +337,12 @@
           "id": "nextjs-02-q06",
           "type": "mcq",
           "prompt": "Which prop cannot be passed from a Server Component page to a 'use client' component?",
-          "options": ["user={{ id: '1', name: 'Ada' }}", "createdAt={new Date()}", "format={(n) => n.toFixed(2)}", "dataPromise={getStats()}"],
+          "options": [
+            "user={{ id: '1', name: 'Ada' }}",
+            "createdAt={new Date()}",
+            "format={(n) => n.toFixed(2)}",
+            "dataPromise={getStats()}"
+          ],
           "answer": 2,
           "explanation": "Ordinary functions are not serializable. Plain objects, Dates and promises are."
         },
@@ -277,15 +364,28 @@
           "id": "nextjs-02-q09",
           "type": "multi",
           "prompt": "Select all that apply: which require a Client Component?",
-          "options": ["onClick handler", "Reading a database with Prisma", "useSearchParams()", "Reading localStorage", "Rendering markdown to HTML on the server"],
-          "answers": [0, 2, 3],
+          "options": [
+            "onClick handler",
+            "Reading a database with Prisma",
+            "useSearchParams()",
+            "Reading localStorage",
+            "Rendering markdown to HTML on the server"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
           "explanation": "Event handlers, client hooks and browser APIs need the client. Database access and markdown rendering are ideal server work."
         },
         {
           "id": "nextjs-02-q10",
           "type": "fill",
           "prompt": "Fill the blank: environment variables are exposed to the browser only if they start with the prefix ___.",
-          "accept": ["NEXT_PUBLIC_", "NEXT_PUBLIC"],
+          "accept": [
+            "NEXT_PUBLIC_",
+            "NEXT_PUBLIC"
+          ],
           "explanation": "NEXT_PUBLIC_ values are inlined into the client bundle at build time."
         },
         {
@@ -293,14 +393,16 @@
           "type": "interview",
           "prompt": "How do you decide whether a component should be a Server or a Client Component?",
           "answer": "Default to Server Components: fetching data, accessing backend resources and secrets, rendering static or content-heavy UI, and using large dependencies like markdown or syntax highlighters, which then cost no client JS. Switch to a Client Component only for interactivity and browser features: state, effects, event handlers, browser APIs, and client hooks like useRouter or context. Then minimize the client surface by pushing 'use client' to leaves, and use the children pattern so interactive wrappers like modals or tabs can contain server-rendered content. Providers go in a small client wrapper in the root layout. I pass serializable, minimal props across the boundary rather than whole database rows.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "nextjs-02-q12",
           "type": "interview",
           "prompt": "What is a hydration mismatch and how do you fix one?",
           "answer": "Hydration is React attaching event handlers and state to server-rendered HTML; it requires the first client render to match the server output. A mismatch happens when output depends on something that differs between environments: current time, random values, locale formatting, window or localStorage checks during render, invalid HTML nesting the browser repairs, or extensions altering the DOM. React reports it and re-renders that subtree on the client, which costs performance and can flash content. Fix by making the first render deterministic and moving client-only values into an effect or useSyncExternalStore with a server snapshot, disabling SSR for a truly client-only widget with next/dynamic ssr: false, or using suppressHydrationWarning on one element for unavoidable differences like timestamps.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "nextjs-02-q13",
@@ -311,8 +413,14 @@
         }
       ],
       "resources": [
-        { "title": "Next.js docs: Server and Client Components", "url": "https://nextjs.org/docs/app/getting-started/server-and-client-components" },
-        { "title": "React docs: 'use client'", "url": "https://react.dev/reference/rsc/use-client" }
+        {
+          "title": "Next.js docs: Server and Client Components",
+          "url": "https://nextjs.org/docs/app/getting-started/server-and-client-components"
+        },
+        {
+          "title": "React docs: 'use client'",
+          "url": "https://react.dev/reference/rsc/use-client"
+        }
       ]
     },
     {
@@ -373,7 +481,12 @@
           "id": "nextjs-03-q01",
           "type": "mcq",
           "prompt": "app/dashboard/layout.tsx throws during render. Which file handles it?",
-          "options": ["app/dashboard/error.tsx", "app/error.tsx (the parent segment's error boundary)", "app/dashboard/not-found.tsx", "Nothing; the app crashes"],
+          "options": [
+            "app/dashboard/error.tsx",
+            "app/error.tsx (the parent segment's error boundary)",
+            "app/dashboard/not-found.tsx",
+            "Nothing; the app crashes"
+          ],
           "answer": 1,
           "explanation": "A segment's error boundary sits inside its layout, so layout errors bubble to the parent's error.tsx (or global-error.tsx for the root layout)."
         },
@@ -382,7 +495,12 @@
           "type": "mcq",
           "prompt": "What is wrong with this error file?",
           "code": "// app/blog/error.tsx\nexport default function Error({ error, reset }) {\n  return <button onClick={reset}>Retry</button>;\n}",
-          "options": ["It must be async", "It must be a Client Component with 'use client'", "It must export a named function", "reset is not a prop"],
+          "options": [
+            "It must be async",
+            "It must be a Client Component with 'use client'",
+            "It must export a named function",
+            "reset is not a prop"
+          ],
           "answer": 1,
           "explanation": "Error boundaries run on the client, so error.tsx requires the 'use client' directive."
         },
@@ -391,7 +509,12 @@
           "type": "mcq",
           "prompt": "Why does the redirect never happen?",
           "code": "try {\n  const user = await getUser();\n  if (!user) redirect('/login');\n} catch (e) {\n  console.error(e);\n}",
-          "options": ["redirect only works in Client Components", "redirect throws a special error that the catch swallows", "redirect needs await", "The path must be absolute"],
+          "options": [
+            "redirect only works in Client Components",
+            "redirect throws a special error that the catch swallows",
+            "redirect needs await",
+            "The path must be absolute"
+          ],
           "answer": 1,
           "explanation": "redirect and notFound throw control-flow errors that Next.js handles. Call them outside try/catch or rethrow."
         },
@@ -399,7 +522,12 @@
           "id": "nextjs-03-q04",
           "type": "mcq",
           "prompt": "In Next.js 16, you add an @analytics slot but no default.tsx. What happens?",
-          "options": ["The slot silently renders nothing", "The build fails; every slot needs an explicit default.tsx", "It falls back to children", "A runtime warning only"],
+          "options": [
+            "The slot silently renders nothing",
+            "The build fails; every slot needs an explicit default.tsx",
+            "It falls back to children",
+            "A runtime warning only"
+          ],
           "answer": 1,
           "explanation": "Next.js 16 requires default.js for all parallel route slots. Return null or call notFound() for the old behavior."
         },
@@ -407,7 +535,12 @@
           "id": "nextjs-03-q05",
           "type": "mcq",
           "prompt": "In the photo-modal pattern, the user refreshes the page while the modal URL /photo/7 is open. What renders?",
-          "options": ["The modal over the feed", "The full app/photo/[id]/page.tsx page", "A 404", "The feed without the modal"],
+          "options": [
+            "The modal over the feed",
+            "The full app/photo/[id]/page.tsx page",
+            "A 404",
+            "The feed without the modal"
+          ],
           "answer": 1,
           "explanation": "Interception only applies to soft (client) navigations. A hard load renders the real route."
         },
@@ -415,7 +548,12 @@
           "id": "nextjs-03-q06",
           "type": "mcq",
           "prompt": "Which statement about loading.tsx is correct?",
-          "options": ["It shows only during the first page load", "It wraps the segment's page in a Suspense boundary, so the layout stays visible while the page streams", "It must be a Client Component", "It replaces the layout while loading"],
+          "options": [
+            "It shows only during the first page load",
+            "It wraps the segment's page in a Suspense boundary, so the layout stays visible while the page streams",
+            "It must be a Client Component",
+            "It replaces the layout while loading"
+          ],
           "answer": 1,
           "explanation": "loading.tsx is sugar for a Suspense boundary inside the layout. It is a Server Component by default and is also shown instantly on navigation thanks to prefetching."
         },
@@ -437,15 +575,28 @@
           "id": "nextjs-03-q09",
           "type": "multi",
           "prompt": "Select all that apply: benefits of streaming with Suspense in the App Router.",
-          "options": ["Faster time to first byte and first contentful paint", "Slow data no longer blocks the whole page", "It removes the need for a database index", "Parts of the page can hydrate and become interactive earlier", "It caches data permanently"],
-          "answers": [0, 1, 3],
+          "options": [
+            "Faster time to first byte and first contentful paint",
+            "Slow data no longer blocks the whole page",
+            "It removes the need for a database index",
+            "Parts of the page can hydrate and become interactive earlier",
+            "It caches data permanently"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
           "explanation": "Streaming sends the shell early and lets boundaries resolve independently, including selective hydration. It does not speed up queries or cache data."
         },
         {
           "id": "nextjs-03-q10",
           "type": "fill",
           "prompt": "Fill the blank: to intercept a route at the root of the app directory, prefix the folder with ___.",
-          "accept": ["(...)", "(...)photo"],
+          "accept": [
+            "(...)",
+            "(...)photo"
+          ],
           "explanation": "(...) matches from the root app directory; (.) is same level and (..) is one segment up."
         },
         {
@@ -471,9 +622,18 @@
         }
       ],
       "resources": [
-        { "title": "Next.js docs: Parallel Routes", "url": "https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes" },
-        { "title": "Next.js docs: Intercepting Routes", "url": "https://nextjs.org/docs/app/api-reference/file-conventions/intercepting-routes" },
-        { "title": "Next.js docs: Error Handling", "url": "https://nextjs.org/docs/app/getting-started/error-handling" }
+        {
+          "title": "Next.js docs: Parallel Routes",
+          "url": "https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes"
+        },
+        {
+          "title": "Next.js docs: Intercepting Routes",
+          "url": "https://nextjs.org/docs/app/api-reference/file-conventions/intercepting-routes"
+        },
+        {
+          "title": "Next.js docs: Error Handling",
+          "url": "https://nextjs.org/docs/app/getting-started/error-handling"
+        }
       ]
     },
     {
@@ -535,7 +695,12 @@
           "type": "mcq",
           "prompt": "Each call takes about 500 ms. How long does this page take to get its data?",
           "code": "const user = await getUser(id);\nconst orders = await getOrders(id);\nconst recs = await getRecommendations(id);",
-          "options": ["About 500 ms", "About 1500 ms", "About 1000 ms", "It depends on caching only"],
+          "options": [
+            "About 500 ms",
+            "About 1500 ms",
+            "About 1000 ms",
+            "It depends on caching only"
+          ],
           "answer": 1,
           "explanation": "Each await waits for the previous one: a waterfall. Promise.all would bring it to about 500 ms because the calls are independent."
         },
@@ -543,7 +708,12 @@
           "id": "nextjs-04-q02",
           "type": "mcq",
           "prompt": "In Next.js 15 and 16, is `await fetch('https://api.example.com/posts')` cached across requests by default?",
-          "options": ["Yes, force-cache is the default", "No, fetch is not cached by default", "Only in development", "Only for GET requests in Route Handlers"],
+          "options": [
+            "Yes, force-cache is the default",
+            "No, fetch is not cached by default",
+            "Only in development",
+            "Only for GET requests in Route Handlers"
+          ],
           "answer": 1,
           "explanation": "Next.js 15 changed the default to no caching. Opt in with 'use cache' (Cache Components) or cache: 'force-cache' / next.revalidate in the earlier model."
         },
@@ -551,7 +721,12 @@
           "id": "nextjs-04-q03",
           "type": "mcq",
           "prompt": "A layout and a page both call getCurrentUser(), which queries Prisma. How do you avoid two DB queries per request?",
-          "options": ["Use useMemo", "Wrap getCurrentUser in React's cache()", "Put the user in a global variable", "Call it only in the layout and pass it via context"],
+          "options": [
+            "Use useMemo",
+            "Wrap getCurrentUser in React's cache()",
+            "Put the user in a global variable",
+            "Call it only in the layout and pass it via context"
+          ],
           "answer": 1,
           "explanation": "React cache() memoizes a function per server request. Global variables would leak data between users."
         },
@@ -559,7 +734,12 @@
           "id": "nextjs-04-q04",
           "type": "mcq",
           "prompt": "With `dynamicParams = false` and generateStaticParams returning slugs a and b, what does /blog/c return?",
-          "options": ["It renders on demand", "404", "It redirects to /blog", "Build error"],
+          "options": [
+            "It renders on demand",
+            "404",
+            "It redirects to /blog",
+            "Build error"
+          ],
           "answer": 1,
           "explanation": "dynamicParams = false restricts the route to the generated params; others return a 404."
         },
@@ -567,7 +747,12 @@
           "id": "nextjs-04-q05",
           "type": "mcq",
           "prompt": "With cacheComponents enabled, a component reads cookies() and is not inside any Suspense boundary. What happens?",
-          "options": ["The whole route silently becomes dynamic", "Next.js reports an error asking you to wrap it in Suspense or move the data access", "cookies() returns an empty store", "The component is cached per user automatically"],
+          "options": [
+            "The whole route silently becomes dynamic",
+            "Next.js reports an error asking you to wrap it in Suspense or move the data access",
+            "cookies() returns an empty store",
+            "The component is cached per user automatically"
+          ],
           "answer": 1,
           "explanation": "Cache Components requires request-time data to sit behind a Suspense boundary so the rest can be prerendered as a static shell."
         },
@@ -575,7 +760,12 @@
           "id": "nextjs-04-q06",
           "type": "mcq",
           "prompt": "With time-based ISR, a request arrives after the page's revalidation time has passed. What does that user get?",
-          "options": ["They wait for the fresh page", "The stale cached page, while regeneration happens in the background", "A 503", "A loading skeleton"],
+          "options": [
+            "They wait for the fresh page",
+            "The stale cached page, while regeneration happens in the background",
+            "A 503",
+            "A loading skeleton"
+          ],
           "answer": 1,
           "explanation": "ISR uses stale-while-revalidate: the expired page is served once more and the next visitor sees the regenerated version."
         },
@@ -597,15 +787,29 @@
           "id": "nextjs-04-q09",
           "type": "multi",
           "prompt": "Select all that apply: which APIs opt rendering into request time?",
-          "options": ["cookies()", "headers()", "generateStaticParams()", "connection()", "await searchParams"],
-          "answers": [0, 1, 3, 4],
+          "options": [
+            "cookies()",
+            "headers()",
+            "generateStaticParams()",
+            "connection()",
+            "await searchParams"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            4
+          ],
           "explanation": "generateStaticParams runs at build time to prerender pages. The others read request data or explicitly wait for a request."
         },
         {
           "id": "nextjs-04-q10",
           "type": "fill",
           "prompt": "Fill the blank: the next.config option that enables Cache Components and PPR in Next.js 16 is ___: true.",
-          "accept": ["cacheComponents", "cacheComponents: true"],
+          "accept": [
+            "cacheComponents",
+            "cacheComponents: true"
+          ],
           "explanation": "cacheComponents replaced experimental.ppr and experimental.dynamicIO."
         },
         {
@@ -613,14 +817,16 @@
           "type": "interview",
           "prompt": "Explain SSG, SSR, ISR and PPR and when you would choose each.",
           "answer": "SSG renders at build time and serves static files from a CDN: fastest, cheapest, good for marketing pages and docs that change with deploys. SSR renders on every request: needed when output depends on the request (cookies, auth, search params) or must be real-time, at the cost of server time and TTFB. ISR is static plus revalidation: pages are regenerated after a lifetime with stale-while-revalidate, or on demand via tags or paths after a CMS webhook or mutation; good for catalogs, blogs and listings. PPR mixes them inside one route: a prerendered static shell served instantly with Suspense holes streamed per request, ideal for mostly-static pages with personalized bits like a cart or recommendations. In Next.js 16, PPR comes from Cache Components: dynamic by default, opt into caching with 'use cache' and cacheLife.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "nextjs-04-q12",
           "type": "interview",
           "prompt": "How do you avoid data fetching waterfalls in the App Router?",
           "answer": "First, start independent requests together with Promise.all instead of sequential awaits. Second, avoid component waterfalls where a parent awaits before rendering a child that then fetches: split independent parts into sibling components each wrapped in its own Suspense boundary so they fetch and stream in parallel. Third, start a fetch early and pass the promise down (to a Server Component that awaits it or a Client Component that calls use()). Fourth, use preload patterns: call a cached data function early (void getItem(id)) so it is in flight when a child needs it. Also check the network side: colocate the server near the database and batch queries where possible.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "nextjs-04-q13",
@@ -631,9 +837,18 @@
         }
       ],
       "resources": [
-        { "title": "Next.js docs: Fetching Data", "url": "https://nextjs.org/docs/app/getting-started/fetching-data" },
-        { "title": "Next.js docs: generateStaticParams", "url": "https://nextjs.org/docs/app/api-reference/functions/generate-static-params" },
-        { "title": "Next.js docs: cacheComponents", "url": "https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents" }
+        {
+          "title": "Next.js docs: Fetching Data",
+          "url": "https://nextjs.org/docs/app/getting-started/fetching-data"
+        },
+        {
+          "title": "Next.js docs: generateStaticParams",
+          "url": "https://nextjs.org/docs/app/api-reference/functions/generate-static-params"
+        },
+        {
+          "title": "Next.js docs: cacheComponents",
+          "url": "https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents"
+        }
       ]
     },
     {
@@ -687,7 +902,12 @@
           "type": "mcq",
           "prompt": "What is wrong with this Client Component?",
           "code": "'use client';\nexport function LikeButton({ id }) {\n  async function like() {\n    'use server';\n    await db.like.create({ data: { postId: id } });\n  }\n  return <button onClick={like}>Like</button>;\n}",
-          "options": ["Nothing", "Client Components cannot define inline Server Actions; import them from a 'use server' file", "onClick cannot call async functions", "db must be imported dynamically"],
+          "options": [
+            "Nothing",
+            "Client Components cannot define inline Server Actions; import them from a 'use server' file",
+            "onClick cannot call async functions",
+            "db must be imported dynamically"
+          ],
           "answer": 1,
           "explanation": "Inline 'use server' functions are only allowed in Server Components. Put the action in a separate file and import it."
         },
@@ -695,7 +915,12 @@
           "id": "nextjs-05-q02",
           "type": "mcq",
           "prompt": "Which HTTP method does Next.js use to invoke a Server Action?",
-          "options": ["GET", "POST", "PUT", "It uses a WebSocket"],
+          "options": [
+            "GET",
+            "POST",
+            "PUT",
+            "It uses a WebSocket"
+          ],
           "answer": 1,
           "explanation": "Actions are invoked with POST requests carrying the action ID and serialized arguments."
         },
@@ -703,7 +928,12 @@
           "id": "nextjs-05-q03",
           "type": "mcq",
           "prompt": "After a user saves their profile in a Server Action, they must see the new values immediately. Which Next 16 API fits best?",
-          "options": ["revalidateTag('profile', 'max')", "updateTag('profile')", "router.refresh() only", "Do nothing; it updates automatically"],
+          "options": [
+            "revalidateTag('profile', 'max')",
+            "updateTag('profile')",
+            "router.refresh() only",
+            "Do nothing; it updates automatically"
+          ],
           "answer": 1,
           "explanation": "updateTag expires the entries immediately for read-your-own-writes. revalidateTag with a profile uses stale-while-revalidate, so the user could briefly see old data."
         },
@@ -711,7 +941,12 @@
           "id": "nextjs-05-q04",
           "type": "mcq",
           "prompt": "You add app/dashboard/route.ts next to app/dashboard/page.tsx. What happens?",
-          "options": ["GET goes to route.ts, others to page", "Conflict error: a segment cannot have both", "page.tsx wins", "route.ts wins"],
+          "options": [
+            "GET goes to route.ts, others to page",
+            "Conflict error: a segment cannot have both",
+            "page.tsx wins",
+            "route.ts wins"
+          ],
           "answer": 1,
           "explanation": "A segment can be a page or a Route Handler, not both. Put APIs under a different path such as app/api/dashboard/route.ts."
         },
@@ -720,7 +955,12 @@
           "type": "mcq",
           "prompt": "The delete form is only rendered for admins. Is this action secure?",
           "code": "'use server';\nexport async function deleteUser(id: string) {\n  await db.user.delete({ where: { id } });\n}",
-          "options": ["Yes, only admins see the button", "No, anyone can call the action endpoint; it must verify the session and role itself", "Yes, Server Actions are private", "Yes, because of CSRF protection"],
+          "options": [
+            "Yes, only admins see the button",
+            "No, anyone can call the action endpoint; it must verify the session and role itself",
+            "Yes, Server Actions are private",
+            "Yes, because of CSRF protection"
+          ],
           "answer": 1,
           "explanation": "Hiding UI is not authorization. The action is a POST endpoint reachable by any client, so it must authenticate and authorize."
         },
@@ -728,7 +968,12 @@
           "id": "nextjs-05-q06",
           "type": "mcq",
           "prompt": "Which is the best use of a Route Handler rather than a Server Action?",
-          "options": ["Submitting your app's comment form", "Receiving a Stripe webhook", "Toggling a todo from a button", "Updating the user's display name"],
+          "options": [
+            "Submitting your app's comment form",
+            "Receiving a Stripe webhook",
+            "Toggling a todo from a button",
+            "Updating the user's display name"
+          ],
           "answer": 1,
           "explanation": "Webhooks come from third parties calling a stable URL with their own payload format. The other cases are UI mutations that suit Server Actions."
         },
@@ -750,15 +995,28 @@
           "id": "nextjs-05-q09",
           "type": "multi",
           "prompt": "Select all that apply: what should every Server Action that writes data do?",
-          "options": ["Validate inputs with a runtime schema", "Check authentication and authorization", "Trust the TypeScript parameter types", "Revalidate or update affected caches", "Return the full database row including internal fields"],
-          "answers": [0, 1, 3],
+          "options": [
+            "Validate inputs with a runtime schema",
+            "Check authentication and authorization",
+            "Trust the TypeScript parameter types",
+            "Revalidate or update affected caches",
+            "Return the full database row including internal fields"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
           "explanation": "Types vanish at runtime and full rows can leak data. Validation, auth checks and cache invalidation are required."
         },
         {
           "id": "nextjs-05-q10",
           "type": "fill",
           "prompt": "Fill the blank: to invalidate all cached data for the route /posts after a mutation, call ___('/posts').",
-          "accept": ["revalidatePath", "revalidatePath()"],
+          "accept": [
+            "revalidatePath",
+            "revalidatePath()"
+          ],
           "explanation": "revalidatePath invalidates the cached output of a path; use tag APIs for finer-grained data invalidation."
         },
         {
@@ -766,7 +1024,8 @@
           "type": "interview",
           "prompt": "Server Actions vs Route Handlers: how do you choose?",
           "answer": "Server Actions are for mutations initiated by my own React UI. They give type-safe function calls without designing endpoints, progressive enhancement for forms, integration with useActionState and useOptimistic, and they can revalidate and return the updated RSC payload in a single round trip. Route Handlers are for HTTP endpoints with a stable public contract: webhooks, mobile or third-party clients, OAuth callbacks, file downloads, feeds, and streaming responses. Actions are not good for data fetching because they are POST, uncached and dispatched sequentially. Both are public endpoints, so both need validation, authentication, authorization and rate limiting.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "nextjs-05-q12",
@@ -784,9 +1043,18 @@
         }
       ],
       "resources": [
-        { "title": "Next.js docs: Mutating Data", "url": "https://nextjs.org/docs/app/getting-started/mutating-data" },
-        { "title": "Next.js docs: Route Handlers", "url": "https://nextjs.org/docs/app/getting-started/route-handlers" },
-        { "title": "Next.js docs: updateTag", "url": "https://nextjs.org/docs/app/api-reference/functions/updateTag" }
+        {
+          "title": "Next.js docs: Mutating Data",
+          "url": "https://nextjs.org/docs/app/getting-started/mutating-data"
+        },
+        {
+          "title": "Next.js docs: Route Handlers",
+          "url": "https://nextjs.org/docs/app/getting-started/route-handlers"
+        },
+        {
+          "title": "Next.js docs: updateTag",
+          "url": "https://nextjs.org/docs/app/api-reference/functions/updateTag"
+        }
       ]
     },
     {
@@ -847,7 +1115,12 @@
           "id": "nextjs-06-q01",
           "type": "mcq",
           "prompt": "The root layout sets title.template to '%s | Acme'. A page exports `metadata = { title: 'Pricing' }`. What is the document title?",
-          "options": ["Pricing", "Pricing | Acme", "Acme", "%s | Acme"],
+          "options": [
+            "Pricing",
+            "Pricing | Acme",
+            "Acme",
+            "%s | Acme"
+          ],
           "answer": 1,
           "explanation": "Child titles are inserted into the nearest parent template."
         },
@@ -855,7 +1128,12 @@
           "id": "nextjs-06-q02",
           "type": "mcq",
           "prompt": "The layout defines openGraph with siteName and images. A page defines openGraph: { title: 'Post' }. What does the page's final openGraph contain?",
-          "options": ["siteName, images and title", "Only title", "Only siteName and images", "A build error"],
+          "options": [
+            "siteName, images and title",
+            "Only title",
+            "Only siteName and images",
+            "A build error"
+          ],
           "answer": 1,
           "explanation": "Metadata merging is shallow: a nested object defined by a deeper segment replaces the parent's object entirely."
         },
@@ -864,7 +1142,12 @@
           "type": "mcq",
           "prompt": "Why might this image download a huge file on mobile?",
           "code": "<div className=\"relative w-1/3 aspect-square\">\n  <Image src={product.img} alt=\"\" fill />\n</div>",
-          "options": ["fill disables optimization", "Without sizes, the browser assumes the image is 100vw wide and picks a large srcset candidate", "alt is empty", "aspect-square is unsupported"],
+          "options": [
+            "fill disables optimization",
+            "Without sizes, the browser assumes the image is 100vw wide and picks a large srcset candidate",
+            "alt is empty",
+            "aspect-square is unsupported"
+          ],
           "answer": 1,
           "explanation": "sizes tells the browser the rendered width; for a one-third-width tile, something like sizes=\"33vw\" picks a much smaller file."
         },
@@ -872,7 +1155,12 @@
           "id": "nextjs-06-q04",
           "type": "mcq",
           "prompt": "What does next/font/google do at build time?",
-          "options": ["Adds a <link> to fonts.googleapis.com", "Downloads and self-hosts the font files, plus generates a metric-adjusted fallback", "Converts fonts to images", "Inlines fonts as base64 in every page"],
+          "options": [
+            "Adds a <link> to fonts.googleapis.com",
+            "Downloads and self-hosts the font files, plus generates a metric-adjusted fallback",
+            "Converts fonts to images",
+            "Inlines fonts as base64 in every page"
+          ],
           "answer": 1,
           "explanation": "Fonts are served from your own domain, so there is no request to Google and no layout shift from the swap."
         },
@@ -880,7 +1168,12 @@
           "id": "nextjs-06-q05",
           "type": "mcq",
           "prompt": "Where can generateMetadata be exported?",
-          "options": ["Any Client Component", "Server Component layouts and pages", "Only route.ts files", "Only the root layout"],
+          "options": [
+            "Any Client Component",
+            "Server Component layouts and pages",
+            "Only route.ts files",
+            "Only the root layout"
+          ],
           "answer": 1,
           "explanation": "The Metadata API is supported only in Server Component layouts and pages."
         },
@@ -888,7 +1181,12 @@
           "id": "nextjs-06-q06",
           "type": "mcq",
           "prompt": "A chat widget script is not needed until the user is idle. Which Script strategy fits?",
-          "options": ["beforeInteractive", "afterInteractive", "lazyOnload", "eager"],
+          "options": [
+            "beforeInteractive",
+            "afterInteractive",
+            "lazyOnload",
+            "eager"
+          ],
           "answer": 2,
           "explanation": "lazyOnload loads during idle time so it does not compete with critical resources."
         },
@@ -910,15 +1208,29 @@
           "id": "nextjs-06-q09",
           "type": "multi",
           "prompt": "Select all that apply: which files does Next.js treat as metadata conventions?",
-          "options": ["app/sitemap.ts", "app/robots.ts", "app/blog/opengraph-image.tsx", "app/seo.config.ts", "app/icon.png"],
-          "answers": [0, 1, 2, 4],
+          "options": [
+            "app/sitemap.ts",
+            "app/robots.ts",
+            "app/blog/opengraph-image.tsx",
+            "app/seo.config.ts",
+            "app/icon.png"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
           "explanation": "sitemap, robots, opengraph-image and icon are conventions. seo.config.ts has no special meaning."
         },
         {
           "id": "nextjs-06-q10",
           "type": "fill",
           "prompt": "Fill the blank: set ___ in the root layout's metadata so relative Open Graph image URLs become absolute.",
-          "accept": ["metadataBase", "metadataBase: new URL()"],
+          "accept": [
+            "metadataBase",
+            "metadataBase: new URL()"
+          ],
           "explanation": "metadataBase is the base URL for URL-based metadata fields."
         },
         {
@@ -944,9 +1256,18 @@
         }
       ],
       "resources": [
-        { "title": "Next.js docs: Metadata and OG Images", "url": "https://nextjs.org/docs/app/getting-started/metadata-and-og-images" },
-        { "title": "Next.js docs: Image Component", "url": "https://nextjs.org/docs/app/api-reference/components/image" },
-        { "title": "Next.js docs: Font Optimization", "url": "https://nextjs.org/docs/app/getting-started/fonts" }
+        {
+          "title": "Next.js docs: Metadata and OG Images",
+          "url": "https://nextjs.org/docs/app/getting-started/metadata-and-og-images"
+        },
+        {
+          "title": "Next.js docs: Image Component",
+          "url": "https://nextjs.org/docs/app/api-reference/components/image"
+        },
+        {
+          "title": "Next.js docs: Font Optimization",
+          "url": "https://nextjs.org/docs/app/getting-started/fonts"
+        }
       ]
     },
     {
@@ -1000,7 +1321,12 @@
           "type": "mcq",
           "prompt": "What happens with this cached function?",
           "code": "export async function getDashboard() {\n  'use cache';\n  const session = (await cookies()).get('session');\n  return loadDashboard(session?.value);\n}",
-          "options": ["It caches per cookie value automatically", "It errors: request-time APIs cannot be used inside 'use cache'", "It caches the first user's dashboard for everyone", "It works only in development"],
+          "options": [
+            "It caches per cookie value automatically",
+            "It errors: request-time APIs cannot be used inside 'use cache'",
+            "It caches the first user's dashboard for everyone",
+            "It works only in development"
+          ],
           "answer": 1,
           "explanation": "cookies() and headers() are forbidden in cached scopes. Read the cookie outside and pass the user id as an argument so it becomes part of the key."
         },
@@ -1009,7 +1335,12 @@
           "type": "mcq",
           "prompt": "How many cache entries does this produce after calls getPrice('a'), getPrice('b'), getPrice('a')?",
           "code": "async function getPrice(sku: string) {\n  'use cache';\n  cacheLife('hours');\n  return fetchPrice(sku);\n}",
-          "options": ["1", "2", "3", "0, since fetch is uncached"],
+          "options": [
+            "1",
+            "2",
+            "3",
+            "0, since fetch is uncached"
+          ],
           "answer": 1,
           "explanation": "Arguments are part of the key: one entry for 'a' (reused on the third call) and one for 'b'."
         },
@@ -1017,7 +1348,12 @@
           "id": "nextjs-07-q03",
           "type": "mcq",
           "prompt": "A user edits their bio in a Server Action and must see it on the very next render. Which call is right?",
-          "options": ["revalidateTag('bio', 'max')", "updateTag('bio')", "cacheLife('seconds')", "router.prefetch()"],
+          "options": [
+            "revalidateTag('bio', 'max')",
+            "updateTag('bio')",
+            "cacheLife('seconds')",
+            "router.prefetch()"
+          ],
           "answer": 1,
           "explanation": "updateTag expires immediately for read-your-own-writes. revalidateTag with a profile serves stale content once while revalidating."
         },
@@ -1025,7 +1361,12 @@
           "id": "nextjs-07-q04",
           "type": "mcq",
           "prompt": "In Next.js 16, what is the status of `revalidateTag('posts')` with one argument?",
-          "options": ["The recommended form", "Deprecated; pass a cacheLife profile such as 'max' as the second argument, or use updateTag in actions", "Removed and throws", "Only valid in proxy.ts"],
+          "options": [
+            "The recommended form",
+            "Deprecated; pass a cacheLife profile such as 'max' as the second argument, or use updateTag in actions",
+            "Removed and throws",
+            "Only valid in proxy.ts"
+          ],
           "answer": 1,
           "explanation": "Next 16 requires a profile for stale-while-revalidate semantics and deprecates the single-argument form."
         },
@@ -1033,7 +1374,12 @@
           "id": "nextjs-07-q05",
           "type": "mcq",
           "prompt": "A 'use cache' function has no cacheLife call. Which profile applies?",
-          "options": ["max", "seconds", "default: stale 5 minutes, revalidate 15 minutes, no time-based expiry", "It is never cached"],
+          "options": [
+            "max",
+            "seconds",
+            "default: stale 5 minutes, revalidate 15 minutes, no time-based expiry",
+            "It is never cached"
+          ],
           "answer": 2,
           "explanation": "The default profile applies when cacheLife is omitted. Explicit cacheLife calls are recommended for clarity."
         },
@@ -1041,7 +1387,12 @@
           "id": "nextjs-07-q06",
           "type": "mcq",
           "prompt": "A header shows an unread notification count read from the database without caching. After markAsRead() in a Server Action, which call updates it without invalidating any caches?",
-          "options": ["revalidatePath('/')", "refresh()", "updateTag('notifications')", "cacheTag('notifications')"],
+          "options": [
+            "revalidatePath('/')",
+            "refresh()",
+            "updateTag('notifications')",
+            "cacheTag('notifications')"
+          ],
           "answer": 1,
           "explanation": "refresh() re-renders uncached dynamic data and leaves cached content alone."
         },
@@ -1063,15 +1414,29 @@
           "id": "nextjs-07-q09",
           "type": "multi",
           "prompt": "Select all that apply: which become part of a 'use cache' entry's key?",
-          "options": ["The build ID", "Serializable function arguments", "Variables captured from an outer scope", "The request's cookies", "A hash of the function's location"],
-          "answers": [0, 1, 2, 4],
+          "options": [
+            "The build ID",
+            "Serializable function arguments",
+            "Variables captured from an outer scope",
+            "The request's cookies",
+            "A hash of the function's location"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
           "explanation": "Cookies are not available in cached scopes at all; pass the value you need as an argument."
         },
         {
           "id": "nextjs-07-q10",
           "type": "fill",
           "prompt": "Fill the blank: to label a cached entry so it can be invalidated later, call ___('products') inside the 'use cache' scope.",
-          "accept": ["cacheTag", "cacheTag()"],
+          "accept": [
+            "cacheTag",
+            "cacheTag()"
+          ],
           "explanation": "cacheTag associates tags with the entry; updateTag and revalidateTag invalidate by tag."
         },
         {
@@ -1079,7 +1444,8 @@
           "type": "interview",
           "prompt": "Explain the caching model in Next.js 16 compared with Next.js 14.",
           "answer": "Next 14 cached implicitly: fetch was force-cache by default, routes were statically rendered unless a dynamic API opted out, and the client router cache held segments for 30 seconds even for dynamic pages, so stale data surprised people. Next 15 made fetch, GET Route Handlers and dynamic page segments in the client cache uncached by default. Next 16 adds Cache Components: with cacheComponents enabled, everything runs at request time unless you mark it with 'use cache' on a file, component or function. Keys are generated by the compiler from arguments and closures, lifetimes come from cacheLife profiles (stale, revalidate, expire), and invalidation uses cacheTag with updateTag (immediate, Server Actions), revalidateTag(tag, profile) (stale-while-revalidate) or revalidatePath. It also powers Partial Prerendering: cached parts form the static shell, dynamic parts stream inside Suspense.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "nextjs-07-q12",
@@ -1093,7 +1459,8 @@
           "type": "interview",
           "prompt": "Users report seeing stale data after a mutation. How do you debug it?",
           "answer": "First identify which layer is stale. If a hard refresh fixes it, it is the client router cache: the mutation did not revalidate, or it ran outside a Server Action so the router was not told; use updateTag or revalidatePath inside the action, or router.refresh() after a client-side mutation. If a hard refresh still shows old data, it is a server cache: check that the cached function has the right cacheTag, that the invalidation uses the same tag string, and whether revalidateTag's stale-while-revalidate behavior explains one stale response. Then check deployment: on multiple self-hosted instances the default in-memory cache is per instance, so you need a shared cache handler. NEXT_PRIVATE_DEBUG_CACHE=1 logs cache activity, and checking response headers shows whether the CDN served it.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "nextjs-07-q14",
@@ -1104,9 +1471,18 @@
         }
       ],
       "resources": [
-        { "title": "Next.js docs: use cache", "url": "https://nextjs.org/docs/app/api-reference/directives/use-cache" },
-        { "title": "Next.js docs: cacheLife", "url": "https://nextjs.org/docs/app/api-reference/functions/cacheLife" },
-        { "title": "Next.js docs: revalidateTag", "url": "https://nextjs.org/docs/app/api-reference/functions/revalidateTag" }
+        {
+          "title": "Next.js docs: use cache",
+          "url": "https://nextjs.org/docs/app/api-reference/directives/use-cache"
+        },
+        {
+          "title": "Next.js docs: cacheLife",
+          "url": "https://nextjs.org/docs/app/api-reference/functions/cacheLife"
+        },
+        {
+          "title": "Next.js docs: revalidateTag",
+          "url": "https://nextjs.org/docs/app/api-reference/functions/revalidateTag"
+        }
       ]
     },
     {
@@ -1159,7 +1535,12 @@
           "id": "nextjs-08-q01",
           "type": "mcq",
           "prompt": "You upgrade to Next.js 16. What do you do with middleware.ts?",
-          "options": ["Nothing; it is unchanged", "Rename it to proxy.ts and rename the exported function to proxy", "Move the logic into next.config.ts", "Move it into app/middleware/route.ts"],
+          "options": [
+            "Nothing; it is unchanged",
+            "Rename it to proxy.ts and rename the exported function to proxy",
+            "Move the logic into next.config.ts",
+            "Move it into app/middleware/route.ts"
+          ],
           "answer": 1,
           "explanation": "proxy.ts replaces middleware.ts. The logic stays the same; middleware.ts remains only for deprecated Edge runtime use."
         },
@@ -1167,7 +1548,12 @@
           "id": "nextjs-08-q02",
           "type": "mcq",
           "prompt": "Which runtime does proxy.ts use in Next.js 16?",
-          "options": ["Edge only", "Node.js", "Browser", "Configurable per request"],
+          "options": [
+            "Edge only",
+            "Node.js",
+            "Browser",
+            "Configurable per request"
+          ],
           "answer": 1,
           "explanation": "proxy.ts runs on Node.js. Edge runtime interception still requires the deprecated middleware.ts."
         },
@@ -1175,7 +1561,12 @@
           "id": "nextjs-08-q03",
           "type": "mcq",
           "prompt": "The dashboard layout checks the session and redirects if missing. Why is this insufficient?",
-          "options": ["Layouts cannot read cookies", "Layouts do not re-render on client navigation, and actions and handlers below are not protected by it", "redirect is not allowed in layouts", "Layouts run only at build time"],
+          "options": [
+            "Layouts cannot read cookies",
+            "Layouts do not re-render on client navigation, and actions and handlers below are not protected by it",
+            "redirect is not allowed in layouts",
+            "Layouts run only at build time"
+          ],
           "answer": 1,
           "explanation": "Partial rendering skips shared layouts on navigation. Put checks in the data layer used by pages, actions and handlers."
         },
@@ -1183,7 +1574,12 @@
           "id": "nextjs-08-q04",
           "type": "mcq",
           "prompt": "Which cookie attribute prevents JavaScript running on the page from reading the session token?",
-          "options": ["secure", "httpOnly", "sameSite", "path"],
+          "options": [
+            "secure",
+            "httpOnly",
+            "sameSite",
+            "path"
+          ],
           "answer": 1,
           "explanation": "httpOnly cookies are sent with requests but not exposed to document.cookie, limiting token theft through XSS."
         },
@@ -1191,7 +1587,12 @@
           "id": "nextjs-08-q05",
           "type": "mcq",
           "prompt": "What should proxy.ts do for auth?",
-          "options": ["Validate the session against the database and load permissions", "An optimistic check such as cookie presence, redirecting unauthenticated users early", "Nothing; proxy cannot read cookies", "Issue JWTs"],
+          "options": [
+            "Validate the session against the database and load permissions",
+            "An optimistic check such as cookie presence, redirecting unauthenticated users early",
+            "Nothing; proxy cannot read cookies",
+            "Issue JWTs"
+          ],
           "answer": 1,
           "explanation": "Proxy runs on every matched request including prefetches, so it should be fast and optimistic. Secure checks belong next to the data."
         },
@@ -1199,7 +1600,12 @@
           "id": "nextjs-08-q06",
           "type": "mcq",
           "prompt": "Why does the DAL return a DTO instead of the database row?",
-          "options": ["DTOs are faster to serialize", "To avoid leaking fields like password hashes or internal flags to callers and Client Components", "Rows cannot be passed to components", "Next.js requires it"],
+          "options": [
+            "DTOs are faster to serialize",
+            "To avoid leaking fields like password hashes or internal flags to callers and Client Components",
+            "Rows cannot be passed to components",
+            "Next.js requires it"
+          ],
           "answer": 1,
           "explanation": "Returning only needed fields keeps sensitive data from accidentally crossing to the client."
         },
@@ -1221,15 +1627,28 @@
           "id": "nextjs-08-q09",
           "type": "multi",
           "prompt": "Select all that apply: where must authorization be enforced for a protected 'delete project' feature?",
-          "options": ["In the Server Action that deletes the project", "Only by hiding the delete button for non-owners", "In any Route Handler exposing the same operation", "In the data access function that performs the delete", "Only in proxy.ts"],
-          "answers": [0, 2, 3],
+          "options": [
+            "In the Server Action that deletes the project",
+            "Only by hiding the delete button for non-owners",
+            "In any Route Handler exposing the same operation",
+            "In the data access function that performs the delete",
+            "Only in proxy.ts"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
           "explanation": "Every server entry point and the data layer must check. UI hiding and proxy are optimistic layers, not security."
         },
         {
           "id": "nextjs-08-q10",
           "type": "fill",
           "prompt": "Fill the blank: in proxy.ts, the exported ___ object with a matcher array limits which paths the proxy runs on.",
-          "accept": ["config", "export const config"],
+          "accept": [
+            "config",
+            "export const config"
+          ],
           "explanation": "export const config = { matcher: [...] } scopes the proxy, typically excluding static assets."
         },
         {
@@ -1237,7 +1656,8 @@
           "type": "interview",
           "prompt": "How would you implement authentication in a Next.js 16 App Router app?",
           "answer": "I would use an established library (Auth.js, Better Auth or Clerk) unless there is a reason not to. Sign-in runs in a Server Action or Route Handler that verifies credentials or completes OAuth, then sets an httpOnly, secure, sameSite=lax session cookie, either an encrypted stateless token or an opaque id for a database session. proxy.ts does an optimistic check for the cookie on protected paths and redirects to login early. The real checks live in a server-only Data Access Layer: verifySession is wrapped in React cache to dedupe per request, and every data function checks ownership or role and returns DTOs. Server Actions and Route Handlers call the DAL too. Logout deletes the cookie (and the database session). I never rely on layout checks or hidden UI for security.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "nextjs-08-q12",
@@ -1255,9 +1675,18 @@
         }
       ],
       "resources": [
-        { "title": "Next.js docs: Proxy", "url": "https://nextjs.org/docs/app/getting-started/proxy" },
-        { "title": "Next.js docs: Authentication guide", "url": "https://nextjs.org/docs/app/guides/authentication" },
-        { "title": "Next.js docs: proxy.js file convention", "url": "https://nextjs.org/docs/app/api-reference/file-conventions/proxy" }
+        {
+          "title": "Next.js docs: Proxy",
+          "url": "https://nextjs.org/docs/app/getting-started/proxy"
+        },
+        {
+          "title": "Next.js docs: Authentication guide",
+          "url": "https://nextjs.org/docs/app/guides/authentication"
+        },
+        {
+          "title": "Next.js docs: proxy.js file convention",
+          "url": "https://nextjs.org/docs/app/api-reference/file-conventions/proxy"
+        }
       ]
     },
     {
@@ -1302,7 +1731,12 @@
           "id": "nextjs-09-q01",
           "type": "mcq",
           "prompt": "Which feature still works with output: 'export'?",
-          "options": ["Server Actions", "proxy.ts", "Statically generated pages with generateStaticParams", "ISR with revalidateTag"],
+          "options": [
+            "Server Actions",
+            "proxy.ts",
+            "Statically generated pages with generateStaticParams",
+            "ISR with revalidateTag"
+          ],
           "answer": 2,
           "explanation": "Static export produces files at build time, so prerendered pages work but anything needing a running server does not."
         },
@@ -1310,7 +1744,12 @@
           "id": "nextjs-09-q02",
           "type": "mcq",
           "prompt": "What does output: 'standalone' do?",
-          "options": ["Builds a static site", "Emits a minimal Node.js server with only the required dependencies, ideal for Docker", "Disables Turbopack", "Bundles the app as a single HTML file"],
+          "options": [
+            "Builds a static site",
+            "Emits a minimal Node.js server with only the required dependencies, ideal for Docker",
+            "Disables Turbopack",
+            "Bundles the app as a single HTML file"
+          ],
           "answer": 1,
           "explanation": "Standalone output traces the files and node_modules actually used, producing a small deployable folder."
         },
@@ -1318,7 +1757,12 @@
           "id": "nextjs-09-q03",
           "type": "mcq",
           "prompt": "You run 4 self-hosted instances. A CMS webhook calls revalidateTag on one instance. What goes wrong with the default setup?",
-          "options": ["Nothing", "Only that instance's in-memory cache is invalidated; the others keep serving old data", "All instances crash", "The webhook is rejected"],
+          "options": [
+            "Nothing",
+            "Only that instance's in-memory cache is invalidated; the others keep serving old data",
+            "All instances crash",
+            "The webhook is rejected"
+          ],
           "answer": 1,
           "explanation": "The default cache is per process. A shared cache handler such as Redis keeps instances consistent."
         },
@@ -1326,7 +1770,12 @@
           "id": "nextjs-09-q04",
           "type": "mcq",
           "prompt": "How do you build a Next.js 16 app with webpack instead of Turbopack?",
-          "options": ["It is impossible", "next build --webpack", "Set turbopack: false in next.config", "Delete .next"],
+          "options": [
+            "It is impossible",
+            "next build --webpack",
+            "Set turbopack: false in next.config",
+            "Delete .next"
+          ],
           "answer": 1,
           "explanation": "Turbopack is the default; the --webpack flag on dev and build opts out."
         },
@@ -1334,7 +1783,12 @@
           "id": "nextjs-09-q05",
           "type": "mcq",
           "prompt": "A Docker image is built once and deployed to staging and production. NEXT_PUBLIC_API_URL differs per environment. What happens?",
-          "options": ["Each environment reads its own value at runtime", "The client bundle contains the value present at build time in both environments", "The build fails", "Next.js fetches it from the server on load"],
+          "options": [
+            "Each environment reads its own value at runtime",
+            "The client bundle contains the value present at build time in both environments",
+            "The build fails",
+            "Next.js fetches it from the server on load"
+          ],
           "answer": 1,
           "explanation": "NEXT_PUBLIC_ values are inlined during next build. Use server-read runtime variables passed down, or build per environment."
         },
@@ -1342,7 +1796,12 @@
           "id": "nextjs-09-q06",
           "type": "mcq",
           "prompt": "Which Next.js 16 change requires code edits in most older App Router apps?",
-          "options": ["Pages Router removal", "Removal of synchronous params, searchParams, cookies() and headers() access", "React 17 requirement", "Removal of Server Actions"],
+          "options": [
+            "Pages Router removal",
+            "Removal of synchronous params, searchParams, cookies() and headers() access",
+            "React 17 requirement",
+            "Removal of Server Actions"
+          ],
           "answer": 1,
           "explanation": "The temporary synchronous compatibility from Next 15 was removed; these must be awaited."
         },
@@ -1364,15 +1823,29 @@
           "id": "nextjs-09-q09",
           "type": "multi",
           "prompt": "Select all that apply: breaking changes or requirements in Next.js 16.",
-          "options": ["Node.js 20.9 or newer", "middleware.ts renamed to proxy.ts", "Every parallel route slot needs default.js", "Server Components removed", "next lint command removed"],
-          "answers": [0, 1, 2, 4],
+          "options": [
+            "Node.js 20.9 or newer",
+            "middleware.ts renamed to proxy.ts",
+            "Every parallel route slot needs default.js",
+            "Server Components removed",
+            "next lint command removed"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
           "explanation": "Server Components remain the foundation. The others are listed in the Next.js 16 release notes."
         },
         {
           "id": "nextjs-09-q10",
           "type": "fill",
           "prompt": "Fill the blank: the file at the project root used to register OpenTelemetry and onRequestError hooks is ___.ts.",
-          "accept": ["instrumentation", "instrumentation.ts"],
+          "accept": [
+            "instrumentation",
+            "instrumentation.ts"
+          ],
           "explanation": "instrumentation.ts exports register() and onRequestError for observability."
         },
         {
@@ -1380,7 +1853,8 @@
           "type": "interview",
           "prompt": "What do you need to consider when self-hosting Next.js instead of using Vercel?",
           "answer": "Use next start or output: 'standalone' in Docker behind a reverse proxy that supports streaming (disable response buffering, for example in Nginx). With more than one instance, configure a shared cache handler for ISR and 'use cache' entries, a consistent deploymentId, and a stable NEXT_SERVER_ACTIONS_ENCRYPTION_KEY, and plan for version skew during rolling deploys. Put a CDN in front for static assets and respect Cache-Control. Image optimization is CPU intensive; use a dedicated image CDN or loader if traffic is high. NEXT_PUBLIC_ variables are inlined at build time. Add observability with instrumentation.ts, health checks, and graceful shutdown. Keep Next.js patched, which matters for advisories like the 2025 middleware bypass.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "nextjs-09-q12",
@@ -1398,9 +1872,18 @@
         }
       ],
       "resources": [
-        { "title": "Next.js blog: Next.js 16", "url": "https://nextjs.org/blog/next-16" },
-        { "title": "Next.js docs: Upgrading to Version 16", "url": "https://nextjs.org/docs/app/guides/upgrading/version-16" },
-        { "title": "Next.js docs: Self-Hosting", "url": "https://nextjs.org/docs/app/guides/self-hosting" }
+        {
+          "title": "Next.js blog: Next.js 16",
+          "url": "https://nextjs.org/blog/next-16"
+        },
+        {
+          "title": "Next.js docs: Upgrading to Version 16",
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-16"
+        },
+        {
+          "title": "Next.js docs: Self-Hosting",
+          "url": "https://nextjs.org/docs/app/guides/self-hosting"
+        }
       ]
     }
   ]

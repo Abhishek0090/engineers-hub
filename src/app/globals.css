@@ -1,4 +1,4 @@
-/* Software Engineers Hub - design tokens and components. Dark by default, light via data-theme. */
+/* StudyHub - design tokens and components. Dark by default, light via data-theme. */
 
 :root {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -1906,4 +1906,164 @@ select.input option {
   .qa-body {
     animation: none;
   }
+}
+
+/* ---------- Tables, problem data and CA extras ---------- */
+.table-wrap {
+  margin-top: 14px;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.prose > .table-wrap:first-child {
+  margin-top: 0;
+}
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.table-wrap th,
+.table-wrap td {
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+.table-wrap th {
+  background: var(--surface-2);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.table-wrap td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.table-wrap tr:last-child td {
+  border-bottom: 0;
+}
+.q-data {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.q-data .prose {
+  font-size: 15.5px;
+  line-height: 1.65;
+  max-width: none;
+}
+.q-case {
+  margin-top: 16px;
+}
+.q-case summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--brand);
+}
+.q-case[open] summary {
+  margin-bottom: 10px;
+}
+.notice {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.notice.warn {
+  border-color: var(--flame);
+  background: color-mix(in srgb, var(--flame) 12%, transparent);
+}
+.numeric-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+.numeric-input .unit {
+  font-weight: 700;
+  color: var(--text-2);
+}
+.program-switch {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.program-switch button {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-2);
+}
+.program-switch button[aria-pressed="true"] {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* ---------- Programs (landing) ---------- */
+.program-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.program-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--pc) 55%, transparent);
+  background: color-mix(in srgb, var(--pc) 16%, transparent);
+}
+.program-card {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  border-top: 4px solid var(--pc);
+}
+.program-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 14px;
+}
+.program-card .muted {
+  margin-top: 6px;
+}
+.program-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  color: #fff;
+  background: var(--pc);
+}
+.program-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--text-2);
+}
+.program-stats b {
+  color: var(--text);
+  font-size: 18px;
 }

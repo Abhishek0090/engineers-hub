@@ -179,14 +179,16 @@
           "type": "interview",
           "prompt": "What is idempotency and how would you make a non-idempotent endpoint like POST /payments safe to retry?",
           "answer": "- An operation is idempotent if performing it multiple times has the same effect on server state as performing it once. GET, PUT, DELETE are idempotent by HTTP semantics; POST is not.\n- Clients retry on timeouts and network errors without knowing whether the first request succeeded, so a non-idempotent POST could double-charge.\n- Solution: the client generates a unique Idempotency-Key per logical operation. The server, inside a transaction, inserts the key with a unique constraint and status in-progress; on completion stores the response. A duplicate with the same key returns the stored response (or 409 if the first is still running, or 422 if the payload differs).\n- Keys expire after a window (e.g. 24 hours). Downstream calls should also be idempotent (pass the key along to the payment provider).",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "api-design-01-q12",
           "type": "interview",
           "prompt": "Explain the difference between 401 and 403, and between 502, 503 and 504.",
           "answer": "- 401 Unauthorized actually means unauthenticated: no credentials or invalid/expired ones. It should include a WWW-Authenticate header; the client can fix it by logging in or refreshing a token.\n- 403 Forbidden: the server knows who you are and you are not allowed. Re-authenticating will not help.\n- 502 Bad Gateway: a proxy or gateway received an invalid response from the upstream (crash, connection reset).\n- 503 Service Unavailable: the server is temporarily unable to handle the request (overload, maintenance, circuit open), ideally with Retry-After.\n- 504 Gateway Timeout: the proxy did not get a response from upstream in time.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "api-design-01-q13",
@@ -383,7 +385,8 @@
           "type": "interview",
           "prompt": "How do you design a REST API for a new feature? Walk me through your process.",
           "answer": "- Start from use cases and consumers: which screens or services call it, with what access patterns.\n- Identify resources and relationships (nouns), their identifiers and ownership; map operations to methods and status codes; model non-CRUD actions as sub-resources or explicit action endpoints.\n- Define representations: field names, types, formats (ISO dates, money in minor units), required vs optional, and what is never exposed.\n- Decide cross-cutting concerns up front: auth and authorization per endpoint, pagination/filtering/sorting, error format (Problem Details), idempotency for POSTs, rate limits, versioning.\n- Write it as an OpenAPI contract, review with consumers, lint for consistency, generate mocks so frontend can start, then implement with contract tests.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "api-design-02-q12",
@@ -407,7 +410,7 @@
         },
         {
           "title": "Google Cloud: API Design Guide",
-          "url": "https://cloud.google.com/apis/design"
+          "url": "https://docs.cloud.google.com/apis/design"
         },
         {
           "title": "Martin Fowler: Richardson Maturity Model",
@@ -617,15 +620,15 @@
       "resources": [
         {
           "title": "Express: Using middleware",
-          "url": "https://expressjs.com/en/guide/using-middleware.html"
+          "url": "https://expressjs.com/en/guide/using-middleware/"
         },
         {
           "title": "Express: Error handling",
-          "url": "https://expressjs.com/en/guide/error-handling.html"
+          "url": "https://expressjs.com/en/guide/error-handling/"
         },
         {
           "title": "Express: Migrating to Express 5",
-          "url": "https://expressjs.com/en/guide/migrating-5.html"
+          "url": "https://expressjs.com/en/guide/migrating-5/"
         }
       ]
     },
@@ -796,14 +799,16 @@
           "type": "interview",
           "prompt": "Compare offset and cursor pagination. Which would you choose for a public API's /events endpoint?",
           "answer": "- Offset: OFFSET/LIMIT or page/size; easy, allows random access and total pages. Cost grows with depth, and concurrent inserts/deletes cause duplicates or gaps.\n- Cursor/keyset: client passes an opaque cursor encoding the last item's sort key; query uses WHERE (sort_key, id) < (...) with an index. Constant performance and stable results, but only next/previous navigation.\n- For an events feed that is append-heavy and potentially large, I'd use cursor pagination ordered by (created_at, id) with an index, fetch limit+1 to compute hasMore, cap limit at 100, and return nextCursor in the envelope.\n- If a UI needs page numbers on small, admin-style datasets, offset is fine.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "api-design-04-q12",
           "type": "interview",
           "prompt": "How do you handle API versioning and deprecation in practice?",
           "answer": "- Avoid versions as long as possible by making additive changes and tolerant clients.\n- When breaking change is needed, use a clear scheme: URL major versions (/v1, /v2) for simplicity, or date-based versions for frequent small changes; run old and new side by side with adapters translating at the edge so core logic has one implementation.\n- Announce deprecation in docs and changelog, send Deprecation and Sunset headers, notify known consumers, and measure traffic per version/client.\n- Remove only after usage drops and the sunset date passes; consider brownouts (temporary failures) to flush out forgotten clients.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "api-design-04-q13",
@@ -1010,7 +1015,8 @@
           "type": "interview",
           "prompt": "How would you implement rate limiting for a public API running on multiple instances?",
           "answer": "- Layered: coarse IP-based limits at the edge (CDN/WAF/API gateway) to absorb floods; precise per-API-key or per-user limits in the application.\n- Algorithm: token bucket or sliding window, implemented atomically in Redis (a Lua script or a library such as rate-limiter-flexible) so all instances share counters.\n- Different limits per plan and per endpoint cost; stricter limits on login, signup and password reset.\n- Respond 429 with Retry-After and RateLimit headers; document limits.\n- Decide fail-open vs fail-closed if Redis is down (usually fail-open with a local fallback limiter for availability).\n- Monitor 429 rates to tune limits and catch abusive clients.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "api-design-05-q13",
@@ -1023,7 +1029,7 @@
       "resources": [
         {
           "title": "Express: multer middleware",
-          "url": "https://expressjs.com/en/resources/middleware/multer.html"
+          "url": "https://expressjs.com/en/resources/middleware/multer/"
         },
         {
           "title": "OpenAPI Initiative: Learn OpenAPI",
@@ -1215,7 +1221,8 @@
           "type": "interview",
           "prompt": "When would you choose GraphQL over REST, and what problems would you need to solve?",
           "answer": "Choose GraphQL when many clients (web, iOS, Android, partners) need different shapes of the same data, when screens aggregate data from several services (GraphQL as a BFF or federated gateway), and when front-end iteration speed matters.\nProblems to solve:\n- N+1: DataLoader per request, or SQL-level joins/lookahead.\n- Cost control: depth and complexity limits, max page sizes, timeouts, persisted queries for first-party clients.\n- Caching: client normalized caches, persisted GET queries for CDN, response caches; HTTP semantics are weaker.\n- Authorization at field/object level, not just the endpoint.\n- Observability: errors arrive with 200, so trace per operation name and resolver.\nFor a simple public API with few clients, REST is usually simpler and more cacheable.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "api-design-06-q12",
@@ -1422,7 +1429,8 @@
           "type": "interview",
           "prompt": "SSE vs WebSockets vs long polling: how do you choose?",
           "answer": "- Long polling: universal compatibility, simple infra, but per-message request overhead and latency. Fallback option.\n- SSE: server-to-client only, built on HTTP (works with existing auth cookies, proxies, HTTP/2 multiplexing), automatic reconnect with Last-Event-ID, text only. Great for notifications, feeds, progress updates, LLM token streaming.\n- WebSockets: bidirectional, low overhead per message, binary support. Needed for chat, collaboration, games. Costs: custom protocol design, auth during upgrade, heartbeats, reconnection, sticky connections and a backplane for scale.\nI default to SSE when the client only listens and WebSockets when clients send frequent messages.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "api-design-07-q12",
@@ -1634,7 +1642,8 @@
           "type": "interview",
           "prompt": "Explain the transactional outbox pattern and when you need it.",
           "answer": "When a service must both change its database and publish a message (enqueue a job, emit an event to Kafka), doing two independent writes risks inconsistency: the DB commits and the publish fails, or vice versa.\nThe outbox pattern writes the message into an outbox table within the same local transaction as the business change. A separate relay reads unsent rows (polling with FOR UPDATE SKIP LOCKED, or change data capture like Debezium reading the WAL), publishes them, and marks them sent.\nThis gives at-least-once publishing; consumers must be idempotent. Also consider ordering per aggregate (partition by aggregate ID) and cleanup of old outbox rows. You need it whenever losing or inventing an event would cause real inconsistency, such as orders, payments or inventory.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "api-design-08-q13",
@@ -1655,7 +1664,7 @@
         },
         {
           "title": "AWS Builders' Library: Timeouts, retries and backoff with jitter",
-          "url": "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/"
+          "url": "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter"
         }
       ]
     },
@@ -1834,7 +1843,8 @@
           "type": "interview",
           "prompt": "When should a company move from a monolith to microservices?",
           "answer": "When the monolith's coupling is the bottleneck, not as a default. Signals: many teams blocked on each other's deploys, parts of the system with very different scaling or reliability needs, a domain area that needs a different tech stack, or regulatory isolation.\nBefore splitting: modularise the monolith with clear boundaries and owned data; this often solves the problem. Then extract services along bounded contexts using the strangler fig pattern, starting with a well-isolated capability.\nPrerequisites: CI/CD per service, observability (logs, metrics, distributed tracing), container orchestration, contract testing, and on-call ownership. Without them microservices increase incidents.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "api-design-09-q13",

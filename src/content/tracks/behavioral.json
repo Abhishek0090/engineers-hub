@@ -1,0 +1,1774 @@
+{
+  "id": "behavioral",
+  "title": "Behavioral and Career",
+  "area": "career",
+  "order": 90,
+  "icon": "HR",
+  "color": "#a855f7",
+  "description": "Prepare for the interviews that decide levels and offers: STAR stories, conflict and failure questions, ownership, working with product and design, negotiation, job search strategy and growing from junior to staff.",
+  "chapters": [
+    {
+      "id": "behavioral-01-star-story-bank",
+      "title": "The STAR Method and Your Story Bank",
+      "level": "beginner",
+      "summary": "Learn how behavioral interviews are scored, structure answers with STAR, and build a reusable bank of stories that covers the competencies companies test.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Why behavioral interviews matter",
+          "body": "Behavioral interviews assume that past behavior predicts future behavior. Instead of \"what would you do?\", interviewers ask \"tell me about a time you did...\", and probe for specifics.\n\nThey are not a formality. At many companies the behavioral round decides the **level** of an offer (mid vs senior), and a strong technical performance can be vetoed by red flags such as blaming others, no ownership or poor collaboration. Amazon builds every interview around its Leadership Principles; Google assesses \"Googleyness\" and leadership; Meta has a dedicated behavioral round focused on conflict, ambiguity and impact.\n\nInterviewers usually score against a rubric of competencies, for example: ownership, impact, collaboration, conflict resolution, dealing with ambiguity, growth and learning, communication and technical leadership. Each story you tell is evidence for one or more of these."
+        },
+        {
+          "heading": "The STAR structure",
+          "body": "STAR keeps answers concrete and easy to score:\n\n- **Situation**: the context in one or two sentences. Team, product, stakes.\n- **Task**: your responsibility or the goal. What needed to happen and why it mattered.\n- **Action**: what **you** did, step by step. This is the core, roughly 60% of the answer. Say \"I\", not \"we\", for your part; mention decisions, trade-offs and how you worked with others.\n- **Result**: the outcome, quantified where possible (latency down 40%, shipped two weeks early, churn reduced), plus what you learned or would do differently.\n\nAim for about two minutes per story, then let the interviewer dig in. Many candidates add a final **L** (STAR-L) for learning or reflection, which matters especially for failure questions.\n\nCommon mistakes: a long situation and a short action, describing what the team did without your role, hypothetical answers (\"I would...\"), no measurable result, and stories with no tension or decision."
+        },
+        {
+          "heading": "An example, before and after",
+          "body": "Question: \"Tell me about a time you improved something without being asked.\"\n\n**Weak**: \"We had slow builds so we fixed them and it was much better. I think I helped with the caching.\"\n\n**Strong (STAR)**:\n\n- S: \"Our CI pipeline for the web app took 28 minutes, and engineers were batching changes to avoid waiting, which made PRs bigger and riskier.\"\n- T: \"It wasn't assigned to anyone, but I owned the frontend build, so I set a goal to get it under 10 minutes without dropping any checks.\"\n- A: \"I profiled the pipeline and found three issues: no dependency caching, tests running serially, and E2E tests running on every PR. I added npm and Next.js build caches, sharded unit tests across four runners, and proposed running the full E2E suite only on merge to main with a smoke subset on PRs. I wrote a one-page proposal, got the QA lead's agreement on the subset, and rolled it out behind a flag on one repo first.\"\n- R: \"Median pipeline time dropped to 9 minutes. Over the next quarter average PR size went down by about a third, and two other teams copied the setup. I learned to bring data and a small pilot when proposing process changes.\""
+        },
+        {
+          "heading": "Building a story bank",
+          "body": "Prepare 8 to 12 stories in advance and map each one to the competencies it demonstrates. One good story can answer several questions with a different emphasis.\n\nUseful categories to cover:\n\n- A technical project you are proud of (impact, depth)\n- A conflict or disagreement with a peer, manager or PM\n- A failure or mistake, and a time you received hard feedback\n- Ownership: going beyond your role, fixing something nobody owned\n- Ambiguity: unclear requirements or a pivot\n- Tight deadline or scope trade-off\n- Leadership or influence without authority; mentoring someone\n- Customer focus: a time you advocated for users\n- Learning something new quickly\n\nWrite each story as bullet points, not a script, with numbers you can quote. Use recent examples (last 2 to 3 years) at the level you are interviewing for: senior candidates need stories with cross-team scope and influence, not only individual tasks.",
+          "code": {
+            "lang": "text",
+            "source": "STORY: CI pipeline 28 -> 9 min\n  Competencies: ownership, impact, influence, data-driven\n  S: 28 min CI, devs batching PRs\n  T: self-assigned goal < 10 min, no dropped checks\n  A: profiled; caching; 4x sharding; E2E split (smoke on PR)\n     1-page proposal, QA lead buy-in, pilot on one repo\n  R: 9 min median; PR size -33%; adopted by 2 teams\n  L: data + small pilot wins process changes\n  Follow-ups ready: why not drop E2E? what broke? cost?"
+          }
+        },
+        {
+          "heading": "Handling follow-up questions",
+          "body": "Good interviewers dig: \"Why did you choose that?\", \"What did your manager think?\", \"What would you do differently?\", \"What was the hardest part?\". Follow-ups test whether the story is real and whether you understand the reasoning behind your actions.\n\n- Be honest about the team's role and your own; inflated stories fall apart under probing\n- Know the numbers and the alternatives you considered\n- It is fine to pause and say \"let me think about that\"\n- If you do not have an exact example, say so and offer the closest real one rather than inventing a hypothetical\n- Keep answers to the question asked; if a story runs long, offer to go deeper (\"I can say more about the technical side if useful\")\n\nPractice out loud, ideally recorded or with a friend, until you can tell each story in under two minutes without notes."
+        }
+      ],
+      "keyPoints": [
+        "Behavioral rounds are scored against competencies and often decide the level of the offer.",
+        "STAR: Situation and Task briefly, Action in detail (about 60%), Result with numbers, plus a learning.",
+        "Say what you did with \"I\", while acknowledging the team.",
+        "Prepare 8 to 12 recent stories mapped to competencies; one story can serve several questions.",
+        "Senior-level stories need wider scope: cross-team impact, influence and trade-offs.",
+        "Expect probing follow-ups; honesty and knowing your reasoning matter more than polish.",
+        "Practice out loud until each story takes about two minutes."
+      ],
+      "questions": [
+        {
+          "id": "behavioral-01-q01",
+          "type": "mcq",
+          "prompt": "In a STAR answer, which part should take up most of your time?",
+          "options": [
+            "Situation",
+            "Task",
+            "Action",
+            "Result"
+          ],
+          "answer": 2,
+          "explanation": "Interviewers score what you did and how you thought. Context should be just enough to understand the stakes; the action carries the evidence."
+        },
+        {
+          "id": "behavioral-01-q02",
+          "type": "mcq",
+          "prompt": "Asked about a conflict, a candidate says: 'I would first listen to the other person and then find a compromise.' What is the problem?",
+          "options": [
+            "It is too short",
+            "It is hypothetical; behavioral questions ask for a specific past example",
+            "It mentions listening",
+            "Nothing"
+          ],
+          "answer": 1,
+          "explanation": "\"Tell me about a time\" needs a real situation with real actions and outcomes. Hypothetical answers give the interviewer no evidence."
+        },
+        {
+          "id": "behavioral-01-q03",
+          "type": "mcq",
+          "prompt": "Which result statement is strongest?",
+          "options": [
+            "It went well and everyone was happy.",
+            "We shipped it.",
+            "We shipped two weeks early, checkout errors fell from 2.1% to 0.4%, and support tickets on payments dropped by half.",
+            "I learned a lot."
+          ],
+          "answer": 2,
+          "explanation": "Specific, measurable outcomes make impact credible and comparable. Add a learning, but not instead of a result."
+        },
+        {
+          "id": "behavioral-01-q04",
+          "type": "mcq",
+          "prompt": "Why should you say 'I' rather than 'we' when describing actions?",
+          "options": [
+            "To take credit for the team's work",
+            "Because the interviewer is evaluating your contribution and decisions specifically",
+            "Because teamwork is not valued",
+            "It is a grammar rule"
+          ],
+          "answer": 1,
+          "explanation": "\"We\" hides your role. Credit the team where due, but make your own decisions and actions explicit."
+        },
+        {
+          "id": "behavioral-01-q05",
+          "type": "mcq",
+          "prompt": "You are interviewing for a senior role. Which story best demonstrates the expected scope?",
+          "options": [
+            "Fixing a CSS bug on your own ticket",
+            "Leading a migration across three teams, aligning stakeholders and changing the release process",
+            "Learning a new framework in a weekend",
+            "Completing all sprint tickets on time"
+          ],
+          "answer": 1,
+          "explanation": "Senior and staff levels are assessed on scope, influence and ambiguity. Stories should show impact beyond your own tasks."
+        },
+        {
+          "id": "behavioral-01-q06",
+          "type": "mcq",
+          "prompt": "What is the main purpose of a story bank?",
+          "options": [
+            "Memorizing scripts word for word",
+            "Having prepared, mapped examples so you can pick the right story for any competency question",
+            "Avoiding follow-up questions",
+            "Making stories up in advance"
+          ],
+          "answer": 1,
+          "explanation": "Mapping real stories to competencies lets you answer quickly with relevant evidence. Bullet points beat scripts, which sound rehearsed."
+        },
+        {
+          "id": "behavioral-01-q07",
+          "type": "truefalse",
+          "prompt": "A strong behavioral interview can influence the level at which you receive an offer.",
+          "answer": true,
+          "explanation": "Many companies use behavioral signals such as scope, ownership and leadership to calibrate level, not just pass or fail."
+        },
+        {
+          "id": "behavioral-01-q08",
+          "type": "truefalse",
+          "prompt": "It is acceptable to embellish a story as long as it sounds impressive.",
+          "answer": false,
+          "explanation": "Follow-up questions quickly expose inflated stories, and integrity is itself evaluated. Use real examples and be precise about your role."
+        },
+        {
+          "id": "behavioral-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are common mistakes in behavioral answers?",
+          "options": [
+            "Spending most of the time on background",
+            "Quantifying the result",
+            "Describing only what the team did",
+            "Choosing a story with no real challenge or decision",
+            "Mentioning what you learned"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Long context, invisible personal contribution and stories without tension weaken answers. Numbers and reflection strengthen them."
+        },
+        {
+          "id": "behavioral-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: STAR stands for Situation, Task, ___, Result.",
+          "accept": [
+            "Action",
+            "Actions"
+          ],
+          "explanation": "Action is where you show your decisions and behavior, the part interviewers score most heavily."
+        },
+        {
+          "id": "behavioral-01-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "Tell me about a project you are most proud of.",
+          "answer": "Example (STAR): S: \"At a B2B SaaS company, our reporting page took 12 seconds to load for large customers, and two enterprise accounts had flagged it in renewal talks.\" T: \"I was the frontend lead and took ownership of getting it under 2 seconds without a full rewrite.\" A: \"I profiled it and found the client fetched all rows and rendered 20k DOM nodes. I worked with a backend engineer to add server-side pagination and aggregation endpoints, virtualized the table, and moved the export to a background job. I set up RUM so we could measure real customer load times, and shipped behind a flag to the two accounts first.\" R: \"p75 load time dropped from 12 s to 1.6 s, both accounts renewed, and support tickets about reports fell about 70%.\"\n\nWhat the interviewer looks for: a project with real stakes, your specific technical and leadership contributions, sound trade-offs, measurable impact, and genuine enthusiasm. Pick a story at the level you are applying for and be ready to go deep on the technical details.",
+          "level": "beginner"
+        },
+        {
+          "id": "behavioral-01-q12",
+          "type": "interview",
+          "prompt": "Tell me about a time you had to learn something new quickly.",
+          "answer": "Example: S: \"Two weeks before a launch, our only mobile engineer left, and the React Native app needed a push notification feature.\" T: \"I was a web developer, and I volunteered to deliver it.\" A: \"I scoped what I needed to learn: the native build setup, Expo notifications, and the backend token flow. I read the official docs first, built a throwaway prototype on day one, and booked a one-hour session with an engineer from another team who knew the iOS certificate setup. I kept a running doc of gotchas and asked for code review from that engineer.\" R: \"We shipped on time; notification opt-in reached 48%, and my doc became the onboarding guide for the next mobile hire.\"\n\nWhat they look for: a deliberate learning strategy (prioritizing, prototyping, asking experts), humility, delivering despite the gap, and making it easier for others afterwards.",
+          "level": "beginner"
+        },
+        {
+          "id": "behavioral-01-q13",
+          "type": "interview",
+          "prompt": "Tell me about a time you went above and beyond your role.",
+          "answer": "Example: S: \"Our team kept getting paged at night because a flaky queue consumer failed silently and retried forever. It belonged to a team that had been reorganized away.\" T: \"It wasn't my service, but it was hurting our on-call and our customers, so I decided to fix the root cause.\" A: \"I checked with my manager that it was worth a few days, read the code, added dead-letter handling and alerts with a runbook, and wrote tests. I then proposed in the architecture meeting that our team formally own it, and documented it.\" R: \"Night pages from that service went from about 6 a month to zero, and the ownership gap was closed.\"\n\nWhat they look for: ownership without being asked, judgment about priorities (aligning with the manager instead of going rogue), fixing the root cause and the process, and measurable benefit.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Amazon Leadership Principles",
+          "url": "https://www.amazon.jobs/content/en/our-workplace/leadership-principles"
+        },
+        {
+          "title": "The Muse: The STAR Interview Method",
+          "url": "https://www.themuse.com/advice/star-interview-method"
+        },
+        {
+          "title": "Tech Interview Handbook: Behavioral interviews",
+          "url": "https://www.techinterviewhandbook.org/behavioral-interview/"
+        }
+      ]
+    },
+    {
+      "id": "behavioral-02-tell-me-about-yourself",
+      "title": "Tell Me About Yourself, Why Us, and Your Questions",
+      "level": "beginner",
+      "summary": "Open interviews with a tight personal pitch, answer motivation questions convincingly, and close with questions that show judgment and help you evaluate the company.",
+      "estMinutes": 20,
+      "lesson": [
+        {
+          "heading": "Tell me about yourself: the structure",
+          "body": "This opener sets the tone for the whole interview. It is not your life story or a resume read-through; it is a 60 to 90 second pitch connecting your experience to this role.\n\nA reliable structure is **present, past, future**:\n\n- **Present**: your current role and focus, with one concrete highlight (\"I'm a frontend engineer at X, leading our checkout rebuild in Next.js\")\n- **Past**: one or two earlier experiences that explain how you got your relevant skills, with an impact point\n- **Future**: why this role is the logical next step, linked to what the company does\n\nTailor it to the role: for a full stack position, mention both frontend and backend work; for a senior role, lead with scope and leadership. End with a hook the interviewer can follow, such as a project they will want to ask about."
+        },
+        {
+          "heading": "Example pitch",
+          "body": "\"I'm a full stack engineer with five years of experience, currently at a health-tech startup where I own our patient scheduling product end to end, React and Next.js on the front and Node with Postgres behind it. Last year I led a rewrite of the booking flow that cut drop-off by 18%.\n\nBefore that I spent two years at an agency building e-commerce sites for different clients, which is where I got obsessed with performance and accessibility, because they directly moved conversion.\n\nI'm now looking for a product company where I can go deeper on one problem at scale and grow into technical leadership. Your team's work on the merchant dashboard is close to what I've been doing, and I'd love to bring the performance and DX experience to it.\"\n\nNotice: about 80 seconds, specific numbers, a clear thread (product impact through engineering), and a reason for this company."
+        },
+        {
+          "heading": "Why this company, why this role, why leaving",
+          "body": "**Why us?** Interviewers want evidence you chose them deliberately. Research the product (use it), engineering blog, recent launches, tech stack and mission. Connect two or three specific things to your own experience or goals. Avoid generic answers (\"great culture\", \"you're a leader in the industry\") and answers only about perks or pay.\n\n**Why this role?** Tie the responsibilities to your strengths and the growth you want.\n\n**Why are you leaving?** Stay positive and forward-looking. Focus on what you are moving towards (scope, domain, technology, growth) rather than complaints. Never badmouth a current or former employer; interviewers assume you will talk about them the same way. If you were laid off, say so plainly and briefly; it is common and not a red flag.\n\n**Gaps in your resume**: give a short honest explanation (caregiving, health, study, a career break) and what you did to stay current, then move on."
+        },
+        {
+          "heading": "Strengths, weaknesses and where you see yourself",
+          "body": "**Greatest strength**: pick one relevant to the role and back it with a short example, not a list of adjectives.\n\n**Greatest weakness**: choose a real, non-critical weakness and show what you are doing about it. Avoid disguised strengths (\"I'm a perfectionist\", \"I work too hard\"), which read as evasive. Example: \"I used to take on too much myself instead of delegating. As a tech lead that became a bottleneck, so now I break work into tickets others can pick up and I pair on the first one. My team shipped more last quarter with me writing less code.\"\n\n**Where do you see yourself in five years?** Show ambition aligned with the company's paths: deeper technical expertise (senior, staff) or people leadership, and growing within the domain. You do not need certainty; show that you have thought about growth."
+        },
+        {
+          "heading": "Asking great questions at the end",
+          "body": "\"Do you have any questions for me?\" is part of the evaluation and your best chance to evaluate them. Prepare 3 to 5 questions tailored to the interviewer's role. Avoid questions answered on the careers page, and save compensation details for the recruiter.\n\nGood questions:\n\n- \"What does success look like in the first 90 days for this role?\"\n- \"What is the biggest technical challenge the team is facing this year?\"\n- \"How are decisions made when engineering and product disagree?\"\n- \"How does code get from a PR to production? How often do you deploy?\"\n- \"How is on-call handled, and how often are people paged?\"\n- \"What do people who get promoted here do differently?\"\n- \"What's something you'd change about how the team works?\"\n\nListen to the answers; they tell you about culture, process maturity and whether you would actually want the job."
+        }
+      ],
+      "keyPoints": [
+        "Tell me about yourself: 60 to 90 seconds, present-past-future, tailored to the role.",
+        "Include one or two concrete achievements with numbers and end with a reason for this role.",
+        "Why us: specific research about product, engineering and mission linked to your goals.",
+        "Why leaving: positive, forward-looking, never badmouth employers; layoffs can be stated plainly.",
+        "Weakness: real, non-critical, with concrete steps you are taking; avoid disguised strengths.",
+        "Prepare 3 to 5 tailored questions; they are evaluated and help you evaluate the company.",
+        "Save detailed compensation questions for the recruiter."
+      ],
+      "questions": [
+        {
+          "id": "behavioral-02-q01",
+          "type": "mcq",
+          "prompt": "What is the best length for a 'tell me about yourself' answer?",
+          "options": [
+            "10 seconds",
+            "About 60 to 90 seconds",
+            "5 to 10 minutes",
+            "As long as needed to cover every job"
+          ],
+          "answer": 1,
+          "explanation": "Long enough to give a clear narrative and highlights, short enough to leave time for the interviewer's questions."
+        },
+        {
+          "id": "behavioral-02-q02",
+          "type": "mcq",
+          "prompt": "Which 'why are you leaving' answer is best?",
+          "options": [
+            "My manager is terrible and the codebase is a mess.",
+            "I've grown a lot owning our checkout, and I'm looking for a larger-scale product where I can move towards technical leadership.",
+            "I want more money.",
+            "I'm bored."
+          ],
+          "answer": 1,
+          "explanation": "It is positive, specific and about what you are moving towards. Complaints about employers are a red flag even when true."
+        },
+        {
+          "id": "behavioral-02-q03",
+          "type": "mcq",
+          "prompt": "Which weakness answer is strongest?",
+          "options": [
+            "I'm a perfectionist.",
+            "I have no weaknesses.",
+            "I used to avoid public speaking, so I volunteered to run our team demos every sprint and joined a speaking workshop; I now present at company all-hands.",
+            "I'm bad at coding."
+          ],
+          "answer": 2,
+          "explanation": "It is genuine, not critical to the role, and shows concrete steps and progress. Disguised strengths and denial read as evasive."
+        },
+        {
+          "id": "behavioral-02-q04",
+          "type": "mcq",
+          "prompt": "What makes a 'why our company' answer convincing?",
+          "options": [
+            "Praising the company's size",
+            "Specific references to the product, engineering work or mission, connected to your experience and goals",
+            "Mentioning the free lunch",
+            "Saying you applied to many companies"
+          ],
+          "answer": 1,
+          "explanation": "Specifics show genuine interest and research; connecting them to your background shows fit."
+        },
+        {
+          "id": "behavioral-02-q05",
+          "type": "mcq",
+          "prompt": "Which question is best to ask an engineering manager at the end of an interview?",
+          "options": [
+            "What does your company do?",
+            "How many vacation days do I get?",
+            "What does success look like for this role in the first 90 days?",
+            "Did I pass?"
+          ],
+          "answer": 2,
+          "explanation": "It shows you are thinking about delivering impact and reveals expectations. The others are answered elsewhere or put the interviewer on the spot."
+        },
+        {
+          "id": "behavioral-02-q06",
+          "type": "mcq",
+          "prompt": "In the present-past-future structure, what does 'future' cover?",
+          "options": [
+            "Your retirement plans",
+            "Why this role is the logical next step for you",
+            "Predictions about the industry",
+            "Your salary expectations"
+          ],
+          "answer": 1,
+          "explanation": "The future part ties your story to this opportunity and gives the interviewer a reason to see you in the role."
+        },
+        {
+          "id": "behavioral-02-q07",
+          "type": "truefalse",
+          "prompt": "Being laid off is a red flag that you should hide in interviews.",
+          "answer": false,
+          "explanation": "Layoffs are common and widely understood. State it briefly and honestly, then focus on what you did and what you want next."
+        },
+        {
+          "id": "behavioral-02-q08",
+          "type": "truefalse",
+          "prompt": "Saying you have no questions at the end can signal low interest.",
+          "answer": true,
+          "explanation": "Questions show curiosity and engagement. Even if many topics were covered, ask about challenges, team practices or growth."
+        },
+        {
+          "id": "behavioral-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which belong in a strong 'tell me about yourself'?",
+          "options": [
+            "Current role and focus",
+            "A quantified achievement",
+            "Your full list of hobbies",
+            "Why this role is the next step",
+            "Complaints about your current team"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Focus on relevance and a clear narrative. A brief personal note can be fine, but a hobby list and complaints are not."
+        },
+        {
+          "id": "behavioral-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a common structure for 'tell me about yourself' is present, past, ___.",
+          "accept": [
+            "future"
+          ],
+          "explanation": "Start with what you do now, explain how you got there, and finish with where you want to go and why this role fits."
+        },
+        {
+          "id": "behavioral-02-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "Tell me about yourself.",
+          "answer": "Example: \"I'm a frontend-leaning full stack engineer with four years of experience. Right now I'm at a logistics startup where I own the driver web app, built with React, TypeScript and a Node GraphQL API. My biggest recent project was offline support for drivers in low-signal areas, which cut failed deliveries by 12%. Before that I was a backend developer at a bank, which gave me a habit of testing carefully and thinking about data integrity. I'm looking for a role with more product ownership at a company where the frontend really matters to the business, and your work on real-time collaboration is exactly the type of problem I want to work on.\"\n\nWhat the interviewer looks for: clear communication, a coherent career story, relevant skills for this role, evidence of impact, and genuine motivation. It also tells them which threads to follow, so mention things you are happy to go deep on.",
+          "level": "beginner"
+        },
+        {
+          "id": "behavioral-02-q12",
+          "type": "interview",
+          "prompt": "Why do you want to work here?",
+          "answer": "Example: \"Three reasons. First, the product: I've used your invoicing tool as a freelancer, and the pain points I hit around reconciliation are things I'd like to help solve. Second, the engineering culture: your blog posts on moving to trunk-based development and your public accessibility statement match how I like to work. Third, the role: you're growing the platform team that owns the design system, and I built and maintained a component library used by six teams at my current company, so I can contribute quickly and grow towards tech lead.\"\n\nWhat the interviewer looks for: genuine, specific research, alignment between the candidate's skills and the team's needs, and motivation beyond compensation. Generic flattery is a negative signal.",
+          "level": "beginner"
+        },
+        {
+          "id": "behavioral-02-q13",
+          "type": "interview",
+          "prompt": "What is your greatest weakness?",
+          "answer": "Example: \"I tend to dive into implementation before aligning on the design with stakeholders. On one feature I built a complex filter UI over a week, and in review the PM pointed out that customers only used two filters. Since then I write a short design note or quick prototype for anything over a couple of days and get feedback from product and design first. On our last big feature that caught a scope issue on day two and we shipped a simpler version a week earlier.\"\n\nWhat the interviewer looks for: self-awareness, honesty, a weakness that is real but not disqualifying for the role, and concrete evidence of improvement. Avoid cliches like perfectionism and avoid weaknesses that are core requirements of the job.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Tech Interview Handbook: Self introduction",
+          "url": "https://www.techinterviewhandbook.org/self-introduction/"
+        },
+        {
+          "title": "Tech Interview Handbook: Questions to ask",
+          "url": "https://www.techinterviewhandbook.org/final-questions/"
+        }
+      ]
+    },
+    {
+      "id": "behavioral-03-resume-job-search",
+      "title": "Resume, Portfolio and a Job Search System",
+      "level": "beginner",
+      "summary": "Write an impact-focused engineering resume, build a portfolio that proves your skills, and run your job search as a structured pipeline with referrals, tracking and preparation.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "What a resume is for",
+          "body": "A resume has one job: get you a screen. Recruiters often skim it in well under a minute, and many companies use an applicant tracking system (ATS) to parse and search it. So it must be scannable, keyword-relevant and full of evidence.\n\nFormat guidelines:\n\n- One page for under roughly 8 to 10 years of experience; two at most for very senior candidates\n- Simple single-column layout, standard section headings, a text-based PDF (no tables of skill bars, photos or graphics that ATS cannot parse)\n- Order: contact and links (GitHub, portfolio, LinkedIn), experience, projects (especially early career), skills, education\n- Reverse chronological, consistent dates, no typos\n- Tailor the summary, skills and the order of bullets to each role family (frontend, full stack, platform)"
+        },
+        {
+          "heading": "Writing impact bullets",
+          "body": "Each bullet should show what you did, how, and what changed. A popular formula (often attributed to Google recruiting): **Accomplished [X] as measured by [Y] by doing [Z]**.\n\n- Start with a strong verb: built, led, reduced, migrated, designed, launched\n- Quantify: performance, revenue, conversion, users, time saved, error rates, scale (requests per second, data size), team size\n- Name the technology in context, which also matches ATS keywords\n- Cut responsibilities that any person in the role had (\"attended standups\", \"worked on features\")\n\nIf you lack exact numbers, use honest estimates or scale indicators (\"used by ~40k monthly users\"), and be ready to explain them.",
+          "code": {
+            "lang": "text",
+            "source": "WEAK\n- Worked on the checkout page using React.\n- Responsible for performance improvements.\n\nSTRONG\n- Rebuilt checkout in Next.js and React Server Components, cutting\n  p75 LCP from 4.1s to 1.9s and raising mobile conversion 9%.\n- Designed a typed API client generated from OpenAPI, eliminating a\n  class of contract bugs (14 incidents/quarter to 1).\n- Mentored 3 junior engineers; two promoted within 12 months."
+          }
+        },
+        {
+          "heading": "Portfolio and GitHub",
+          "body": "A portfolio matters most early in your career or when changing fields, when your resume lacks proof. Quality beats quantity: two or three solid projects beat ten tutorial clones.\n\nA strong project:\n\n- Solves a real problem (ideally for real users, even a few)\n- Is deployed with a live link and a clear README: what it does, screenshots, tech choices and trade-offs, how to run it\n- Shows professional practices: TypeScript, tests, CI, accessibility, sensible commits\n- Has some depth: authentication, data modeling, performance work, a non-trivial feature\n\nOpen source contributions, technical blog posts and talks are strong signals too. Pin your best repos on GitHub and make sure anything public reflects your current standards."
+        },
+        {
+          "heading": "Running the search as a pipeline",
+          "body": "Treat the job search like a sales funnel with stages: target list, applied or referred, recruiter screen, technical rounds, onsite or final, offer.\n\n- **Target list**: 20 to 40 companies grouped by priority; include a few lower-priority ones to practice on first\n- **Referrals** have much higher response rates than cold applications. Reach out to people you know, alumni and former colleagues with a short, specific message and your resume\n- **Recruiters**: keep LinkedIn updated with the right title and keywords; reply professionally even when declining\n- **Track everything** in a spreadsheet or board: company, role, contact, stage, dates, next step, notes from each conversation\n- **Batch the timing**: try to get processes to the offer stage around the same time, so you can compare and negotiate with leverage\n- Review conversion rates: few screens means the resume or targeting needs work; screens but no offers means interview preparation does",
+          "code": {
+            "lang": "text",
+            "source": "Company   | Role             | Source   | Stage        | Next step          | Date\nAcme      | Sr Frontend      | Referral | Tech screen  | Prep system design | Mar 12\nGlobex    | Full Stack II    | Applied  | Recruiter    | Call booked        | Mar 10\nInitech   | Frontend Eng     | Recruiter| Onsite       | Thank-you notes    | Mar 08\n\nWeekly review: applications 12 -> screens 4 -> onsites 2 -> offers 0"
+          }
+        },
+        {
+          "heading": "Preparation plan and interview logistics",
+          "body": "Map the typical loop for full stack roles: recruiter screen, technical phone screen (coding or a take-home), and a final loop with coding, frontend or practical build, system design (mid-level and up), and behavioral.\n\nA balanced weekly plan over 4 to 8 weeks:\n\n- Coding practice focused on patterns, plus practical frontend tasks (build a component, debounce, fetch with caching)\n- System design practice, including frontend system design for UI-heavy roles\n- Behavioral: write and rehearse your story bank\n- Mock interviews with peers or platforms, since performing under observation is its own skill\n\nLogistics: confirm time zones, test your setup for video calls, have water and notes, and send a short thank-you note. After each round, write down the questions and how you did; it compounds across processes. Rejections are normal and often unrelated to you; ask for feedback when possible, and keep the pipeline moving."
+        }
+      ],
+      "keyPoints": [
+        "A resume's job is to get a screen: scannable, ATS-friendly, one page for most engineers.",
+        "Bullets show action, method and measurable result: accomplished X as measured by Y by doing Z.",
+        "Tailor keywords and bullet order to each role family.",
+        "Portfolios: a few deployed, well-documented projects with real depth beat many tutorial clones.",
+        "Referrals convert much better than cold applications.",
+        "Track the search as a pipeline and use conversion rates to see what to fix.",
+        "Align process timelines so offers arrive together, and prepare coding, design and behavioral in parallel."
+      ],
+      "questions": [
+        {
+          "id": "behavioral-03-q01",
+          "type": "mcq",
+          "prompt": "Which resume bullet is strongest?",
+          "options": [
+            "Responsible for frontend development.",
+            "Worked with React and Redux on many features.",
+            "Migrated the dashboard from Redux to React Query, removing 4k lines of code and cutting API calls per session by 60%.",
+            "Team player with excellent communication skills."
+          ],
+          "answer": 2,
+          "explanation": "It shows a concrete action, technologies in context and measurable results. The others describe duties or adjectives without evidence."
+        },
+        {
+          "id": "behavioral-03-q02",
+          "type": "mcq",
+          "prompt": "Why should you avoid multi-column resume templates with skill bars and graphics?",
+          "options": [
+            "They look unprofessional to all humans",
+            "Applicant tracking systems may misparse them, and skill bars convey no real information",
+            "They are too long",
+            "Recruiters cannot print them"
+          ],
+          "answer": 1,
+          "explanation": "Parsing errors can hide your experience from searches. A simple text-based layout is safest and easiest to skim."
+        },
+        {
+          "id": "behavioral-03-q03",
+          "type": "mcq",
+          "prompt": "You applied to 60 companies and got 2 recruiter screens. What does that most likely indicate?",
+          "options": [
+            "Your interviewing skills need work",
+            "Your resume, targeting or application channel needs work",
+            "The market has no jobs",
+            "You should apply to 600 companies"
+          ],
+          "answer": 1,
+          "explanation": "Low conversion at the first stage points to the inputs: resume content, role fit, or relying on cold applications instead of referrals."
+        },
+        {
+          "id": "behavioral-03-q04",
+          "type": "mcq",
+          "prompt": "What makes a portfolio project most convincing?",
+          "options": [
+            "Following a popular tutorial exactly",
+            "A deployed app solving a real problem with a clear README, tests and explained trade-offs",
+            "The largest number of repositories",
+            "Using as many frameworks as possible"
+          ],
+          "answer": 1,
+          "explanation": "Hiring managers look for evidence of professional judgment and depth, which a deployed, documented, tested project shows."
+        },
+        {
+          "id": "behavioral-03-q05",
+          "type": "mcq",
+          "prompt": "Why try to have several interview processes reach the offer stage at the same time?",
+          "options": [
+            "To be busy",
+            "To compare offers and negotiate with real alternatives",
+            "Because companies require it",
+            "To reduce preparation"
+          ],
+          "answer": 1,
+          "explanation": "Competing offers are the strongest negotiation leverage and let you choose rather than accept the first option under time pressure."
+        },
+        {
+          "id": "behavioral-03-q06",
+          "type": "mcq",
+          "prompt": "Which channel typically has the highest response rate?",
+          "options": [
+            "Cold applications on job boards",
+            "Employee referrals",
+            "Mass emailing CEOs",
+            "Applying to every role at one company"
+          ],
+          "answer": 1,
+          "explanation": "Referred candidates are vouched for and usually reviewed with priority. Applying to many roles at one company can look unfocused."
+        },
+        {
+          "id": "behavioral-03-q07",
+          "type": "truefalse",
+          "prompt": "For an engineer with three years of experience, a one-page resume is usually the right length.",
+          "answer": true,
+          "explanation": "One page forces prioritization of the most relevant, impactful work, which is what skimming reviewers need."
+        },
+        {
+          "id": "behavioral-03-q08",
+          "type": "truefalse",
+          "prompt": "You should send the same generic resume to every role.",
+          "answer": false,
+          "explanation": "Light tailoring of summary, keywords and bullet order to the role family improves both ATS matching and human relevance."
+        },
+        {
+          "id": "behavioral-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good ways to quantify impact on a resume?",
+          "options": [
+            "Performance changes (p75 LCP 4.1s to 1.9s)",
+            "Business metrics (conversion +9%)",
+            "Scale (40k monthly users, 2k requests/second)",
+            "Number of meetings attended",
+            "Reliability (incidents per quarter reduced from 14 to 1)"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Outcomes, scale and reliability show impact. Meeting counts measure activity, not results."
+        },
+        {
+          "id": "behavioral-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: software that parses and filters resumes for recruiters is called an applicant tracking ___ (ATS).",
+          "accept": [
+            "system"
+          ],
+          "explanation": "ATS tools store applications and let recruiters search by keywords, which is why clear formatting and relevant terms matter."
+        },
+        {
+          "id": "behavioral-03-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "Walk me through your resume.",
+          "answer": "Approach: treat it as a guided tour, not a line-by-line reading. Spend most time on the last 2 or 3 years and the most relevant roles; summarize older roles in a sentence each.\n\nExample: \"I'll start with my current role since it's most relevant. At Acme I'm a senior frontend engineer on the payments team: I led the checkout rebuild that improved mobile conversion 9%, and I run our frontend guild. Before that, at Globex, I moved from backend into full stack and built the internal admin platform used by 200 support agents. I started my career at an agency, which taught me to ship quickly for many clients. Throughout, the thread is building user-facing products where performance directly drives business results, which is why this role appeals to me.\"\n\nWhat the interviewer looks for: a coherent narrative, clear transitions with reasons, progression in scope, and the ability to summarize. Be ready to go deep on any bullet.",
+          "level": "beginner"
+        },
+        {
+          "id": "behavioral-03-q12",
+          "type": "interview",
+          "prompt": "Tell me about a side project or open source contribution.",
+          "answer": "Example: S: \"I volunteer at a local food bank that tracked pickups in a shared spreadsheet, and double bookings were common.\" T: \"I offered to build a simple scheduling app they could actually maintain.\" A: \"I interviewed two coordinators, then built a Next.js app with Postgres and magic-link auth, kept the UI keyboard and screen-reader friendly since one coordinator uses a magnifier, added Playwright tests for booking, and deployed it on a free tier with daily backups. I wrote a one-page guide for the staff.\" R: \"It has handled about 3,000 bookings in a year with no double bookings, and it's the project I learned the most about real user research from.\"\n\nWhat the interviewer looks for: initiative, curiosity, product thinking, real users, technical depth, and engineering practices applied without anyone requiring them.",
+          "level": "beginner"
+        },
+        {
+          "id": "behavioral-03-q13",
+          "type": "interview",
+          "prompt": "Why are you looking for a new role, and what are you looking for?",
+          "answer": "Example: \"I've been at my company for three years and I've grown a lot: I went from building features to owning the checkout area. The company is now shifting focus to a market where my team's product is in maintenance mode, so the kind of challenging product work I want is limited. I'm looking for three things: a product where frontend quality matters to the business, a team that ships often with good engineering practices, and a path towards tech lead. From what I've heard about your team, all three are here.\"\n\nWhat the interviewer looks for: a positive, forward-looking reason, clarity about what you want (which helps assess fit and retention), and no negativity about current colleagues or employers.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Tech Interview Handbook: Resume",
+          "url": "https://www.techinterviewhandbook.org/resume/"
+        },
+        {
+          "title": "GitHub Docs: Managing your profile README",
+          "url": "https://docs.github.com/en/account-and-profile/how-tos/profile-customization/managing-your-profile-readme"
+        }
+      ]
+    },
+    {
+      "id": "behavioral-04-conflict-feedback",
+      "title": "Conflict, Disagreement and Feedback",
+      "level": "intermediate",
+      "summary": "Answer conflict and feedback questions with stories that show you disagree constructively, resolve tension with data and empathy, and give and receive feedback well.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "What conflict questions are really testing",
+          "body": "\"Tell me about a disagreement with a coworker\" is one of the most common behavioral questions. Interviewers want to know:\n\n- Can you disagree without damaging the relationship?\n- Do you seek to understand the other side before arguing your own?\n- Do you use data, experiments and shared goals rather than opinions and seniority?\n- Can you commit to a decision you disagreed with (\"disagree and commit\")?\n- Do you escalate appropriately: not too early, not never?\n\nRed flags: stories where the other person is a villain, where you \"won\" by going over someone's head, where conflict was avoided entirely, or where there was no real disagreement. The best stories show mutual respect and a better outcome than either original position."
+        },
+        {
+          "heading": "A framework for resolving disagreements",
+          "body": "Strong conflict stories usually follow these steps, which are also good practice at work:\n\n- **Move to a private, direct conversation** rather than arguing in a PR thread or a meeting\n- **Understand their position and constraints**: ask questions, restate their view until they agree you have it right\n- **Find the shared goal**: we both want the release to be safe and on time\n- **Separate facts from opinions**: gather data, run a spike, prototype or benchmark\n- **Explore options** beyond the two original positions, and make trade-offs explicit\n- **Decide and record**: who decides (the owner, tech lead or PM), write the decision down\n- **Commit** fully even if it did not go your way, and revisit if new data appears\n\nThe Amazon Leadership Principle \"Have Backbone; Disagree and Commit\" describes this well: challenge decisions respectfully when you disagree, and once a decision is made, commit wholly."
+        },
+        {
+          "heading": "Common conflict scenarios",
+          "body": "Prepare at least one story for each of these, since they come up in different forms:\n\n- **Technical disagreement with a peer**: architecture, library choice, code review dispute\n- **Disagreement with your manager**: priorities, estimates, a process decision\n- **Conflict with product or design**: scope, deadline, quality trade-offs\n- **A difficult coworker**: someone unresponsive, dismissive or not delivering\n- **Disagreeing with a decision after it was made**: and committing anyway\n\nFor manager conflicts, show respect for their accountability while making your case with data. For difficult coworkers, focus on behavior and impact rather than personality, and show you tried to understand their situation (workload, unclear expectations) before escalating."
+        },
+        {
+          "heading": "Receiving feedback",
+          "body": "\"Tell me about a time you received critical feedback\" tests coachability, one of the strongest predictors of growth.\n\nA strong answer shows:\n\n- The feedback was real and somewhat uncomfortable (not trivial)\n- Your first reaction was to listen and ask clarifying questions, not defend\n- You took specific actions to change\n- There is evidence the change worked, ideally confirmed by the person who gave the feedback\n\nExample topics: your PR reviews came across as harsh, your updates to stakeholders were too technical, you were not delegating, you over-engineered solutions, you spoke too much in design meetings."
+        },
+        {
+          "heading": "Giving feedback",
+          "body": "Mid-level and senior engineers are expected to give feedback, to peers, juniors and even managers. A widely used model is **SBI** (Situation, Behavior, Impact), from the Center for Creative Leadership:\n\n- **Situation**: when and where (\"In yesterday's design review...\")\n- **Behavior**: the specific observable action (\"...you interrupted Priya twice while she was presenting her proposal\")\n- **Impact**: the effect (\"...and she didn't finish explaining the caching approach, which I think was the strongest option\")\n\nThen ask for their perspective and agree on what happens next. Give feedback privately, soon after the event, about behavior not personality, and give positive feedback just as specifically. In code review, the same principles apply: comment on the code, explain why, and distinguish blocking issues from preferences."
+        }
+      ],
+      "keyPoints": [
+        "Conflict questions test respect, curiosity, data-driven reasoning, appropriate escalation and commitment.",
+        "Never cast the other person as a villain; show you understood their constraints.",
+        "Resolve disagreements privately, with shared goals, data and explicit trade-offs, then record the decision.",
+        "Disagree and commit: challenge respectfully, then support the decision fully.",
+        "Feedback stories should show listening, specific changes and evidence that the change worked.",
+        "Give feedback with SBI: situation, behavior, impact, then ask for their view.",
+        "Prepare stories for peer, manager, cross-functional and post-decision conflicts."
+      ],
+      "questions": [
+        {
+          "id": "behavioral-04-q01",
+          "type": "mcq",
+          "prompt": "Which conflict story ending is strongest?",
+          "options": [
+            "I escalated to the VP and they agreed with me.",
+            "We ran a one-day benchmark, the data favored a hybrid of both approaches, and we shipped it together; we still work closely.",
+            "I let them do it their way to avoid conflict.",
+            "I rewrote their code after they went home."
+          ],
+          "answer": 1,
+          "explanation": "It shows data-driven resolution, a better outcome than either position, and an intact relationship. The others show escalation by power, avoidance or disrespect."
+        },
+        {
+          "id": "behavioral-04-q02",
+          "type": "mcq",
+          "prompt": "What does 'disagree and commit' mean?",
+          "options": [
+            "Pretend to agree",
+            "Voice disagreement openly, then fully support the decision once it is made",
+            "Keep arguing until you win",
+            "Commit code without review"
+          ],
+          "answer": 1,
+          "explanation": "Healthy teams debate before deciding and execute together afterwards. Quietly undermining a decision is the failure mode."
+        },
+        {
+          "id": "behavioral-04-q03",
+          "type": "mcq",
+          "prompt": "A peer's PR review comments feel hostile. What is the best first step?",
+          "options": [
+            "Reply publicly pointing out their tone",
+            "Talk to them directly and privately to understand their intent and share the impact",
+            "Complain to HR immediately",
+            "Ignore their comments"
+          ],
+          "answer": 1,
+          "explanation": "Most tension comes from misunderstanding or stress. A direct private conversation resolves most cases; escalate if behavior continues."
+        },
+        {
+          "id": "behavioral-04-q04",
+          "type": "mcq",
+          "prompt": "In the SBI feedback model, what does B stand for?",
+          "options": [
+            "Belief",
+            "Behavior",
+            "Background",
+            "Benefit"
+          ],
+          "answer": 1,
+          "explanation": "Situation, Behavior, Impact. Describing observable behavior rather than character judgments keeps feedback actionable and less defensive."
+        },
+        {
+          "id": "behavioral-04-q05",
+          "type": "mcq",
+          "prompt": "When is escalating a disagreement to a manager appropriate?",
+          "options": [
+            "Immediately, before talking to the person",
+            "After direct attempts to resolve it fail and the issue materially affects the team or goals",
+            "Never",
+            "Only by email"
+          ],
+          "answer": 1,
+          "explanation": "Escalation is a legitimate tool, ideally done jointly (\"let's ask the tech lead to decide\"), after you have tried to resolve it directly."
+        },
+        {
+          "id": "behavioral-04-q06",
+          "type": "mcq",
+          "prompt": "Which is a red flag in a 'received critical feedback' answer?",
+          "options": [
+            "Asking clarifying questions",
+            "Explaining why the feedback was wrong and nothing changed",
+            "Describing specific changes you made",
+            "Mentioning a follow-up conversation"
+          ],
+          "answer": 1,
+          "explanation": "Defensiveness signals low coachability. If you disagreed with part of the feedback, show how you engaged with it constructively."
+        },
+        {
+          "id": "behavioral-04-q07",
+          "type": "truefalse",
+          "prompt": "The best conflict stories show the other person as clearly wrong and unreasonable.",
+          "answer": false,
+          "explanation": "Interviewers look for empathy and fairness. Stories with a villain suggest you may be hard to work with."
+        },
+        {
+          "id": "behavioral-04-q08",
+          "type": "truefalse",
+          "prompt": "Saying 'I've never had a conflict at work' is a weak answer.",
+          "answer": true,
+          "explanation": "Disagreement is normal in engineering teams. Having none suggests avoidance or lack of self-awareness. Pick a real technical or prioritization disagreement."
+        },
+        {
+          "id": "behavioral-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which actions help resolve a technical disagreement?",
+          "options": [
+            "Restating the other person's position until they agree you understand it",
+            "Running a small spike or benchmark",
+            "Agreeing on decision criteria first",
+            "Arguing louder in the team channel",
+            "Recording the decision and its rationale"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Understanding, data, shared criteria and documentation move teams forward. Public escalation of tone entrenches positions."
+        },
+        {
+          "id": "behavioral-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: Amazon's leadership principle is 'Have Backbone; Disagree and ___'.",
+          "accept": [
+            "Commit"
+          ],
+          "explanation": "The principle asks leaders to challenge decisions respectfully and then commit wholly once a decision is made."
+        },
+        {
+          "id": "behavioral-04-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "Tell me about a time you disagreed with a coworker. How did you resolve it?",
+          "answer": "Example: S: \"A senior backend engineer wanted to build our new notifications feature on a homegrown polling mechanism; I believed server-sent events would be simpler and cheaper.\" T: \"I owned the frontend and needed us to agree within a week to hit the release.\" A: \"I asked for a 1:1 and started by asking about his concerns. It turned out he worried about our load balancer's connection limits and ops burden, which I hadn't considered. We agreed on criteria: latency, infrastructure cost and operational risk. I spent a day prototyping SSE behind our load balancer and he measured polling cost at expected load. The data showed SSE was fine up to our projected scale but needed a timeout config change, so we chose SSE with his fallback to polling for old clients.\" R: \"We shipped on time, reduced notification latency from about 30 s to under 1 s, and he later asked me to co-design the next real-time feature.\"\n\nWhat they look for: curiosity about the other view, shared criteria, data over opinion, a better combined outcome and a stronger relationship.",
+          "level": "intermediate"
+        },
+        {
+          "id": "behavioral-04-q12",
+          "type": "interview",
+          "top": true,
+          "prompt": "Tell me about a time you received difficult feedback.",
+          "answer": "Example: S: \"After my first six months as a mid-level engineer, my manager told me that two juniors found my code reviews intimidating and had started avoiding asking me for reviews.\" T: \"I wanted to be a reviewer people sought out, not avoided.\" A: \"My first reaction was surprise, so I asked for specific examples. Rereading my comments, I saw they were terse commands without reasons. I started explaining the why behind each comment, labeling nits as optional, asking questions instead of declaring, and adding positive notes on good work. I also offered to pair on larger reviews, and after a month I asked both juniors directly how it felt.\" R: \"They said reviews felt much more useful, review requests to me went up, and in my next review cycle my manager highlighted mentoring as a strength.\"\n\nWhat they look for: openness rather than defensiveness, specific behavior change, follow-up to verify, and growth.",
+          "level": "intermediate"
+        },
+        {
+          "id": "behavioral-04-q13",
+          "type": "interview",
+          "prompt": "Tell me about a time you disagreed with your manager's decision.",
+          "answer": "Example: S: \"My manager decided to skip writing integration tests for a partner API integration to meet a launch date.\" T: \"I thought that was risky because the partner's API had changed twice without notice.\" A: \"I raised it in our 1:1 rather than in the team meeting, and brought data: the two previous breakages had each cost us about two days of firefighting. I proposed a middle path, contract tests on the three critical endpoints only, about a day of work, plus alerting on error rates. My manager agreed to the alerting but still chose to defer tests until after launch. I committed to that plan, built the alerting, and added the tests to the backlog with a date.\" R: \"Three weeks after launch the partner changed a field; the alert caught it in 10 minutes instead of a customer reporting it. We then prioritized the contract tests.\"\n\nWhat they look for: raising concerns respectfully with data, proposing alternatives, accepting the manager's call (disagree and commit), and mitigating risk within the decision.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Tech Interview Handbook: Behavioral interview questions",
+          "url": "https://www.techinterviewhandbook.org/behavioral-interview-questions/"
+        },
+        {
+          "title": "Amazon Leadership Principles",
+          "url": "https://www.amazon.jobs/content/en/our-workplace/leadership-principles"
+        }
+      ]
+    },
+    {
+      "id": "behavioral-05-failure-ownership",
+      "title": "Failure, Mistakes and Ownership",
+      "level": "intermediate",
+      "summary": "Tell honest failure stories that show accountability and learning, describe production incidents with a blameless mindset, and demonstrate ownership beyond your tickets.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Why interviewers ask about failure",
+          "body": "\"Tell me about a time you failed\" tests self-awareness, accountability and the ability to learn. Everyone who has shipped real software has made mistakes; a candidate with no failure story is either inexperienced or not reflective.\n\nWhat a strong answer shows:\n\n- A **real** failure with real consequences, owned personally (not a team failure where you were a bystander, and not a humblebrag)\n- **Accountability**: \"I\" made the call or missed the step; no blaming others or circumstances\n- **Response**: what you did immediately to limit the damage and communicate\n- **Learning**: the root cause in your own behavior or judgment, and a lasting change you made\n- **Evidence**: a later situation where the lesson paid off\n\nAvoid catastrophic stories that raise doubts about basic judgment (ethics, ignoring security rules), and avoid fake failures like \"I worked too hard\"."
+        },
+        {
+          "heading": "Structuring a failure story",
+          "body": "STAR works, with more weight on the end. A useful split:\n\n- **Situation and task**: brief context and what you were responsible for\n- **What went wrong and why**: your decision or omission, stated plainly\n- **Immediate response**: containment, communication, fix\n- **Learning and change**: root cause and the specific change in how you work or how the system works\n- **Proof**: when that change made a difference later\n\nExample learnings that land well: \"I now confirm assumptions with the customer before building\", \"I add a rollback plan and feature flag to every risky deploy\", \"I flag schedule risk the day I see it rather than hoping to catch up\". Learnings that sound generic (\"communication is important\") are weaker than specific behaviors."
+        },
+        {
+          "heading": "Production incidents and blameless postmortems",
+          "body": "Many engineering failure stories are incidents. Interviewers want to see the incident-response mindset:\n\n- **Mitigate first**: roll back or disable the feature flag before debugging the root cause\n- **Communicate**: status updates to stakeholders and support at regular intervals\n- **Find root and contributing causes**: use techniques such as the 5 Whys; usually there are several (a bug, a missing test, an alert that did not fire, a risky deploy process)\n- **Blameless postmortem**: focus on how the system allowed the mistake, not on who made it; Google's SRE book describes blameless postmortem culture as essential to learning\n- **Follow-up actions** with owners and dates, and verification that they were done\n\nOwning your part (\"I wrote the migration\") and fixing the system (\"we now run migrations against a production-sized snapshot in CI\") together are the strongest signal.",
+          "code": {
+            "lang": "text",
+            "source": "Postmortem outline\n- Summary: what happened, impact (users, duration, revenue)\n- Timeline: detection, escalation, mitigation, resolution (UTC)\n- Root cause and contributing factors\n- What went well / what went poorly / where we got lucky\n- Action items: owner, priority, due date\n\n5 Whys example\nWhy did checkout fail? The DB migration locked the orders table.\nWhy did it lock? Adding a column with a default rewrote the table (old Postgres).\nWhy wasn't it caught? Staging has 1k rows; prod has 40M.\nWhy no prod-size test? No process for risky migrations.\n-> Action: migration review checklist + prod-size snapshot test"
+          }
+        },
+        {
+          "heading": "What ownership looks like",
+          "body": "Ownership is a top competency at nearly every company (Amazon lists it as a Leadership Principle). Ownership stories show you acting like the outcome is yours, not just the ticket:\n\n- Following a feature after release: watching metrics, fixing issues, talking to users\n- Fixing problems nobody owns: flaky tests, broken onboarding docs, a noisy alert\n- Raising risks early and proposing solutions, not just reporting problems\n- Saying \"that was my mistake\" quickly\n- Thinking long term: not taking shortcuts that create problems for others later\n\nOwnership also includes judgment: aligning with your manager before spending a week on something outside your scope, and handing work off cleanly when priorities change."
+        },
+        {
+          "heading": "Missed deadlines and things outside your control",
+          "body": "Not every failure is a bug. Missed deadlines, a project that was cancelled, a hire that did not work out, or a feature nobody used are good stories too.\n\nFor things partly outside your control, still focus on what **you** could have done differently: flagged the risk earlier, validated demand before building, negotiated scope, asked for help sooner. \"The PM changed the requirements\" is an explanation; \"I didn't push for a written spec and a demo checkpoint, so we discovered the mismatch late; now I demo early increments every week\" is ownership.\n\nAvoid ending on the failure. End with what changed and how it helped later."
+        }
+      ],
+      "keyPoints": [
+        "Failure questions test accountability, self-awareness and learning; everyone has real failure stories.",
+        "Own the mistake with \"I\", state it plainly, and avoid blaming others or circumstances.",
+        "Describe immediate containment and communication, then root cause and a specific lasting change.",
+        "In incidents: mitigate first, communicate, run a blameless postmortem, follow through on action items.",
+        "Ownership means caring about outcomes beyond your ticket, with judgment about priorities.",
+        "For partly external failures, focus on what you could have done differently.",
+        "End with evidence that the lesson paid off later."
+      ],
+      "questions": [
+        {
+          "id": "behavioral-05-q01",
+          "type": "mcq",
+          "prompt": "Which failure answer is strongest?",
+          "options": [
+            "I've never really failed.",
+            "The project failed because the PM kept changing requirements.",
+            "I shipped a migration that locked a table in production for 9 minutes; I rolled it back, led the postmortem, and introduced prod-size migration testing that caught two similar issues since.",
+            "My biggest failure is that I care too much."
+          ],
+          "answer": 2,
+          "explanation": "It is real, owned, describes the response, and shows a systemic fix with evidence. The others deny, blame or disguise."
+        },
+        {
+          "id": "behavioral-05-q02",
+          "type": "mcq",
+          "prompt": "During a production incident caused by your deploy, what should you do first?",
+          "options": [
+            "Find the exact root cause before acting",
+            "Mitigate: roll back or disable the feature flag, then investigate",
+            "Write the postmortem",
+            "Wait for users to report more details"
+          ],
+          "answer": 1,
+          "explanation": "Restoring service limits user impact. Root cause analysis can happen once things are stable."
+        },
+        {
+          "id": "behavioral-05-q03",
+          "type": "mcq",
+          "prompt": "What is the main principle of a blameless postmortem?",
+          "options": [
+            "Nobody made a mistake",
+            "Focus on how the system and process allowed the failure, so people share information openly and the system improves",
+            "The manager takes all blame",
+            "Postmortems are optional"
+          ],
+          "answer": 1,
+          "explanation": "If people fear punishment, they hide information. Blameless culture assumes good intent and fixes the conditions that made the error possible."
+        },
+        {
+          "id": "behavioral-05-q04",
+          "type": "mcq",
+          "prompt": "Which learning statement is most convincing?",
+          "options": [
+            "Communication is important.",
+            "I learned a lot.",
+            "I now post a risk update the same day I see a schedule slip, with options to cut scope or move the date.",
+            "I will try harder."
+          ],
+          "answer": 2,
+          "explanation": "Specific behavior changes are credible and checkable. Generic learnings sound rehearsed."
+        },
+        {
+          "id": "behavioral-05-q05",
+          "type": "mcq",
+          "prompt": "You notice a flaky test suite that belongs to no team and slows everyone down. What best demonstrates ownership with good judgment?",
+          "options": [
+            "Ignore it, it's not yours",
+            "Delete the flaky tests",
+            "Raise it with your manager, agree on time to fix it, fix the root causes and propose an owner",
+            "Spend three weeks rewriting it without telling anyone"
+          ],
+          "answer": 2,
+          "explanation": "Ownership means acting on problems you see, while aligning priorities and creating a lasting fix."
+        },
+        {
+          "id": "behavioral-05-q06",
+          "type": "mcq",
+          "prompt": "What is the '5 Whys' technique used for?",
+          "options": [
+            "Estimating tasks",
+            "Drilling down from a symptom to underlying causes by repeatedly asking why",
+            "Prioritizing a backlog",
+            "Interviewing candidates"
+          ],
+          "answer": 1,
+          "explanation": "Asking why repeatedly moves past the immediate trigger to process or system causes you can fix. Real incidents usually have several contributing causes."
+        },
+        {
+          "id": "behavioral-05-q07",
+          "type": "truefalse",
+          "prompt": "A good failure story ends with the failure itself to show honesty.",
+          "answer": false,
+          "explanation": "End with the learning and evidence that it changed how you work. The point is growth, not just the mistake."
+        },
+        {
+          "id": "behavioral-05-q08",
+          "type": "truefalse",
+          "prompt": "Choosing a failure story involving ethical lapses or ignoring security rules is risky in interviews.",
+          "answer": true,
+          "explanation": "Interviewers may doubt your basic judgment. Choose a meaningful mistake of execution or judgment that you clearly learned from."
+        },
+        {
+          "id": "behavioral-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which belong in a good incident postmortem?",
+          "options": [
+            "Timeline of detection, mitigation and resolution",
+            "The name of the person to blame",
+            "Impact on users",
+            "Contributing factors",
+            "Action items with owners and due dates"
+          ],
+          "answers": [
+            0,
+            2,
+            3,
+            4
+          ],
+          "explanation": "Postmortems document what happened, its impact, why, and how to prevent it. Blaming individuals undermines the process."
+        },
+        {
+          "id": "behavioral-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a ___ postmortem focuses on systems and processes rather than individual fault.",
+          "accept": [
+            "blameless",
+            "blame-free",
+            "blame free"
+          ],
+          "explanation": "Blameless postmortems, popularized by Google SRE and others, encourage honest reporting so teams can fix the real causes."
+        },
+        {
+          "id": "behavioral-05-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "Tell me about a time you failed.",
+          "answer": "Example: S: \"I was leading a redesign of our onboarding flow. I was confident in the new design and skipped user testing to save two weeks.\" T: \"The goal was to raise activation from 30% to 40%.\" A: \"We launched to 100% at once. Within a week activation dropped to 26%: users missed the new 'import data' step, which I had moved behind a menu. I rolled back to the old flow the same day, shared the numbers with my manager and PM, and owned that skipping research and a gradual rollout was my call. We ran five user sessions, fixed the discoverability problem, and relaunched as an A/B test.\" R: \"The second version reached 37% activation. Since then I always ship UX changes behind an experiment, and I run at least a few quick user tests even on tight timelines; on the next project that caught a confusing pricing step before launch.\"\n\nWhat they look for: a real failure with consequences, clear personal accountability, fast containment, a specific root cause in your own judgment, and a lasting behavior change with evidence.",
+          "level": "intermediate"
+        },
+        {
+          "id": "behavioral-05-q12",
+          "type": "interview",
+          "prompt": "Tell me about a production incident you were involved in.",
+          "answer": "Example: S: \"On a Friday afternoon, a release of mine caused about 15% of checkout requests to fail with 500 errors for 25 minutes.\" T: \"I was the deployer and incident lead.\" A: \"Error alerts fired within 3 minutes. I declared an incident in our channel, rolled back the release within 10 minutes, and posted updates to support every 15 minutes. Errors stopped after rollback. In the investigation I found my code assumed a non-null shipping address, which is null for digital products, and neither our tests nor staging data covered digital orders. I wrote the blameless postmortem.\" R: \"Action items: tests for digital orders, a production-like seed dataset in staging, canary releases to 5% with automatic rollback on error spikes, and no Friday afternoon deploys for checkout. In the following year canary analysis stopped two bad releases before customers noticed.\"\n\nWhat they look for: calm execution, mitigation before diagnosis, clear communication, owning your part, systemic fixes and follow-through.",
+          "level": "intermediate"
+        },
+        {
+          "id": "behavioral-05-q13",
+          "type": "interview",
+          "prompt": "Tell me about a time you took ownership of something outside your responsibilities.",
+          "answer": "Example: S: \"New engineers on our team took around two weeks to get a working local environment; the setup docs were outdated and no one owned them.\" T: \"After watching two new hires struggle, I decided to fix onboarding.\" A: \"I proposed it to my manager as a two-sprint side project at about 20% of my time. I timed a fresh setup, scripted it into a single command using Docker Compose and seed data, replaced the wiki with a README that lives in the repo, and added a CI job that runs the setup script weekly so it can't silently rot. I asked the next new hire to follow it and note any friction.\" R: \"Setup time dropped from about two weeks to under a day, and new engineers shipped their first PR in their first week. Two other teams adopted the script.\"\n\nWhat they look for: noticing problems others accept, aligning with the manager on priority, fixing it sustainably (automation, CI), and measurable impact on the team.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Google SRE Book: Postmortem Culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/"
+        },
+        {
+          "title": "Atlassian: Blameless postmortems",
+          "url": "https://www.atlassian.com/incident-management/postmortem/blameless"
+        }
+      ]
+    },
+    {
+      "id": "behavioral-06-collaboration-remote",
+      "title": "Working with Product, Design, Code Review Culture and Remote Work",
+      "level": "intermediate",
+      "summary": "Show that you collaborate well with PMs and designers, contribute to a healthy code review culture, and work effectively in remote and distributed teams.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Working with product managers",
+          "body": "Product managers own the what and the why (problem, users, priorities, success metrics); engineers own the how and share responsibility for outcomes. Strong engineers are partners, not ticket takers:\n\n- Ask about the problem and the metric before discussing solutions (\"what user behavior do we want to change?\")\n- Offer options with trade-offs: \"Version A takes 2 weeks and covers 80% of cases; the full version takes 6\"\n- Raise technical risks and costs early, including maintenance and on-call\n- Push back with data, not refusal: propose a smaller first slice, an experiment, or a different sequencing\n- Share what you learn while building (\"customers keep using export this way, should we...\")\n\nInterview stories here often involve scope negotiation, a deadline under pressure, or influencing the roadmap with technical insight (for example proposing performance work with a business case)."
+        },
+        {
+          "heading": "Working with designers",
+          "body": "Collaboration with design goes best when engineers join early:\n\n- Review designs before they are final: point out states the mockups miss (loading, empty, error, long text, permissions, mobile), accessibility concerns and implementation costs\n- Use a shared design system and tokens, so design and code use the same components and names\n- Propose alternatives when a detail is expensive: \"this custom animation costs 3 days; the standard transition gives 90% of the effect\"\n- Pair on polish: a 30-minute review in the browser often beats many screenshot comments\n- Respect expertise both ways: designers know the user research; engineers know the platform constraints\n\nA good interview story shows you improving the product together, for example catching an accessibility issue early, or finding a simpler interaction that tested better."
+        },
+        {
+          "heading": "Code review culture",
+          "body": "How you review and respond to reviews tells interviewers a lot about collaboration. Healthy review culture includes:\n\n- **Fast turnaround**: review within a business day; unreviewed PRs block teammates\n- **Small PRs** that are easy to review well\n- **Kind and clear comments**: about the code, with reasons, separating blocking issues from nits, asking questions instead of commanding\n- **Learning both ways**: juniors review seniors' code too; reviews spread knowledge of the codebase\n- **Automation for style**: linters and formatters end bike-shedding\n- **Authors stay open**: respond to every comment, do not take it personally, move long debates to a call\n\nQuestions like \"how do you handle a PR you think is bad?\" or \"tell me about feedback you gave in a code review\" are common. Show that you protect quality while keeping people motivated."
+        },
+        {
+          "heading": "Remote and distributed work",
+          "body": "Remote and hybrid teams are common in software, and interviewers check that you can work well without hallway conversations:\n\n- **Written communication**: clear PR descriptions, design docs, status updates, decision records; write so someone in another time zone can act without a meeting\n- **Async by default**: use meetings for discussion and relationship building, not for status\n- **Overcommunicate progress and blockers**: post daily or regular updates; ask for help early\n- **Time zones**: protect overlap hours for collaboration; record or document meetings\n- **Trust and visibility**: deliver reliably and make your work visible (demos, changelogs)\n- **Relationships**: virtual coffees, pairing sessions, being responsive and friendly in chat\n- **Boundaries**: sustainable hours and focus time; remote burnout is real\n\nA strong answer to \"how do you work remotely?\" gives concrete habits and an example, such as running a project across three time zones with a weekly written update and decision log."
+        },
+        {
+          "heading": "Communicating with non-technical stakeholders",
+          "body": "Engineers who can explain technical topics in business terms are trusted with bigger problems. Tips:\n\n- Lead with the impact and the decision needed, then details on request (\"We can launch on the 15th if we drop CSV import; adding it moves us to the 29th\")\n- Translate technical risk into user or business risk (\"without this migration, checkout could be down for up to an hour during peak sales\")\n- Use analogies and visuals sparingly and accurately\n- Give ranges and confidence levels, not false precision\n- Confirm understanding and follow up in writing\n\n\"Explain a technical concept to a non-technical person\" is itself a common interview prompt; practice explaining things like caching, APIs or technical debt in two minutes."
+        }
+      ],
+      "keyPoints": [
+        "PMs own what and why; engineers own how and share responsibility for outcomes. Be a partner, not a ticket taker.",
+        "Offer options with trade-offs and push back with data and smaller slices, not refusals.",
+        "Join design early; surface missing states, accessibility and costs; use a shared design system.",
+        "Healthy code review: fast, small PRs, kind and reasoned comments, nits labeled, style automated.",
+        "Remote work runs on clear writing, async updates, early help requests and deliberate relationship building.",
+        "Explain technical topics to stakeholders by leading with impact, decision and risk in business terms.",
+        "Prepare stories for scope negotiation, design collaboration, review disagreements and remote projects."
+      ],
+      "questions": [
+        {
+          "id": "behavioral-06-q01",
+          "type": "mcq",
+          "prompt": "A PM asks for a feature you estimate at 6 weeks, but the deadline is in 3. What is the best response?",
+          "options": [
+            "Agree and work weekends",
+            "Refuse",
+            "Explain the estimate and offer options: a smaller first slice that delivers most value in 3 weeks, or a later date for the full scope",
+            "Silently cut corners on testing"
+          ],
+          "answer": 2,
+          "explanation": "Making trade-offs explicit lets the PM decide with full information. Hidden overtime or hidden quality cuts create bigger problems later."
+        },
+        {
+          "id": "behavioral-06-q02",
+          "type": "mcq",
+          "prompt": "What is the most valuable thing an engineer can do when reviewing a design mockup early?",
+          "options": [
+            "Approve it quickly",
+            "Identify missing states (loading, empty, error, long content), accessibility issues and costly details",
+            "Redesign it themselves",
+            "Only check colors"
+          ],
+          "answer": 1,
+          "explanation": "Engineers see edge cases and constraints that static mockups miss. Catching them early is far cheaper than during implementation."
+        },
+        {
+          "id": "behavioral-06-q03",
+          "type": "mcq",
+          "prompt": "Which code review comment is best?",
+          "options": [
+            "This is wrong.",
+            "Why would you do it like this?",
+            "This query runs once per item, so a 200-item order makes 200 DB calls. Could we batch it with a single WHERE id IN (...)?",
+            "I would never write it this way."
+          ],
+          "answer": 2,
+          "explanation": "It explains the problem, its impact and a suggestion, in a collaborative tone focused on the code."
+        },
+        {
+          "id": "behavioral-06-q04",
+          "type": "mcq",
+          "prompt": "In a remote team spread across time zones, what is the most effective habit?",
+          "options": [
+            "Scheduling meetings for every decision",
+            "Clear written updates, design docs and decision records that others can act on asynchronously",
+            "Only communicating by video calls",
+            "Waiting until the weekly meeting to raise blockers"
+          ],
+          "answer": 1,
+          "explanation": "Good writing replaces many meetings and lets people in other time zones contribute without waiting."
+        },
+        {
+          "id": "behavioral-06-q05",
+          "type": "mcq",
+          "prompt": "How should you explain a delay to a non-technical executive?",
+          "options": [
+            "Detailed explanation of the database locking issue",
+            "Lead with the impact and options: the new date, what causes it in plain terms, and what could be cut to keep the original date",
+            "Avoid mentioning it",
+            "Blame another team"
+          ],
+          "answer": 1,
+          "explanation": "Executives need the decision and its business impact. Technical details are available if they ask."
+        },
+        {
+          "id": "behavioral-06-q06",
+          "type": "mcq",
+          "prompt": "Your team's PRs sit unreviewed for days. What best reflects a healthy review culture?",
+          "options": [
+            "Merge without review",
+            "Agree on a response-time norm, keep PRs small and prioritize reviews over starting new work",
+            "Assign all reviews to the most senior engineer",
+            "Review only on Fridays"
+          ],
+          "answer": 1,
+          "explanation": "Unreviewed work delivers no value. Team norms and small PRs keep flow high without sacrificing quality."
+        },
+        {
+          "id": "behavioral-06-q07",
+          "type": "truefalse",
+          "prompt": "Engineers should only implement what the PM specifies and leave product decisions entirely to them.",
+          "answer": false,
+          "explanation": "PMs decide priorities, but engineers contribute insight on feasibility, cost and user behavior. The best products come from that partnership."
+        },
+        {
+          "id": "behavioral-06-q08",
+          "type": "truefalse",
+          "prompt": "Linters and formatters reduce unproductive debates in code review.",
+          "answer": true,
+          "explanation": "Automating style decisions frees reviewers to focus on correctness, design and readability."
+        },
+        {
+          "id": "behavioral-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good remote work practices?",
+          "options": [
+            "Posting regular progress updates and blockers",
+            "Writing decisions down where the team can find them",
+            "Being unreachable during agreed overlap hours",
+            "Scheduling occasional informal video chats",
+            "Asking for help early rather than staying stuck for days"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "explanation": "Visibility, documentation, relationships and early help requests make distributed teams work. Overlap hours are for collaboration."
+        },
+        {
+          "id": "behavioral-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a code review comment prefixed with '___:' signals a minor, non-blocking suggestion.",
+          "accept": [
+            "nit",
+            "nit:",
+            "nitpick"
+          ],
+          "explanation": "Labeling nits helps authors prioritize and keeps reviews from feeling like a wall of mandatory changes."
+        },
+        {
+          "id": "behavioral-06-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "Tell me about a time you disagreed with a product manager.",
+          "answer": "Example: S: \"Our PM wanted to launch a new pricing page with a complex interactive calculator in four weeks for a marketing campaign.\" T: \"I estimated the calculator alone at five weeks, and I was concerned it would hurt LCP on a page that drives signups.\" A: \"Instead of just saying no, I asked what the calculator needed to achieve. The goal was helping customers pick a plan. I proposed a static comparison table plus a simple three-question plan picker, about 1.5 weeks, and offered to A/B test it against the full calculator later. I showed analytics from our old page: most visitors never scrolled past the plan cards. The PM agreed, as long as we tracked plan selection.\" R: \"We launched a week early, page LCP stayed under 2 seconds, and the plan picker raised paid conversions by 11%. The full calculator was dropped from the roadmap.\"\n\nWhat they look for: understanding the goal behind the request, offering options with trade-offs, using data, and keeping a strong partnership with product.",
+          "level": "intermediate"
+        },
+        {
+          "id": "behavioral-06-q12",
+          "type": "interview",
+          "prompt": "How do you handle a pull request that you think has serious design problems?",
+          "answer": "Example: S: \"A teammate submitted a 1,200-line PR adding a new caching layer that duplicated logic from our data-fetching library.\" T: \"I was the reviewer and believed it would cause stale-data bugs and maintenance cost.\" A: \"I didn't leave dozens of comments. I wrote one summary comment explaining my concern and its impact, then asked for a quick call. On the call I first asked what problem he was solving: slow repeat loads on the dashboard. I showed how the library's built-in cache with a longer stale time would solve most of it, and we agreed he would try that in a small PR. I also suggested we discuss approaches in a short design note before big PRs next time.\" R: \"The replacement was 80 lines, solved the performance issue, and he started writing design notes for larger changes, which the whole team adopted.\"\n\nWhat they look for: protecting quality while respecting the author, moving complex discussions to a conversation, understanding intent, and improving the process to prevent repeats.",
+          "level": "intermediate"
+        },
+        {
+          "id": "behavioral-06-q13",
+          "type": "interview",
+          "prompt": "How do you work effectively in a remote or distributed team? Give an example.",
+          "answer": "Example: S: \"I led a migration with engineers in Berlin, Bangalore and Toronto, with only about two hours of overlap per day.\" T: \"Keep everyone unblocked and aligned without endless meetings.\" A: \"I wrote a design doc with clear ownership per module and a decision log. We kept one 30-minute weekly sync in the overlap window and made everything else async: a written update every Monday and Thursday with progress, risks and decisions needed, and PRs with detailed descriptions and screen recordings. I set a norm that blockers are posted immediately with a proposed solution, so people waking up could act on them. Once a month we did an informal video call with no agenda.\" R: \"We finished the migration a week ahead of plan with no incidents, and the update format was adopted by our department.\"\n\nWhat they look for: strong written communication, deliberate async processes, proactive visibility, and attention to relationships and team health.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "GitLab Handbook: Asynchronous communication",
+          "url": "https://handbook.gitlab.com/handbook/company/culture/all-remote/asynchronous/"
+        },
+        {
+          "title": "Google Engineering Practices: The Standard of Code Review",
+          "url": "https://google.github.io/eng-practices/review/reviewer/standard.html"
+        }
+      ]
+    },
+    {
+      "id": "behavioral-07-leadership-estimation",
+      "title": "Leadership, Influence, Estimation and Deadlines",
+      "level": "advanced",
+      "summary": "Demonstrate technical leadership without formal authority, handle ambiguity, estimate honestly, and manage scope and deadlines under pressure.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Leadership without authority",
+          "body": "Senior and staff engineers rarely have direct reports, yet they are expected to lead: set technical direction, align teams, unblock others and raise the bar. Interviewers look for **influence**:\n\n- Building consensus with design docs and RFCs, gathering feedback before deciding\n- Persuading with data, prototypes and a clear explanation of trade-offs\n- Bringing skeptics in early and addressing their concerns, rather than steamrolling\n- Making others successful: mentoring, delegating meaningful work, giving credit\n- Driving execution: breaking down work, tracking risks, keeping stakeholders informed\n\nGood stories: leading a migration across teams, introducing a practice such as testing standards or feature flags, driving an incident review to a lasting fix, or turning around a struggling project."
+        },
+        {
+          "heading": "Handling ambiguity",
+          "body": "\"Tell me about a time you worked on something with unclear requirements\" is common at senior levels. A strong approach:\n\n- **Clarify the goal and constraints**: talk to users, PMs and stakeholders; identify what success means and who decides\n- **Reduce uncertainty cheaply**: spikes, prototypes, user interviews, data analysis\n- **Write down assumptions** and get them confirmed or challenged\n- **Deliver incrementally**: ship a thin slice, learn, adjust\n- **Make reversible decisions quickly** and spend more time on irreversible ones (Amazon's one-way vs two-way doors)\n\nShow that ambiguity did not paralyze you and that you brought structure for others too."
+        },
+        {
+          "heading": "Estimation that people can trust",
+          "body": "Estimates are uncertain by nature; trust comes from being transparent about that uncertainty.\n\n- **Break work down** into tasks of a day or two; unknowns hide in big chunks\n- **Include everything**: tests, code review, QA, deployment, docs, migrations, coordination\n- **Give ranges with confidence** (\"3 to 5 weeks, most likely 4\") and state assumptions\n- **Spike first** when a key unknown dominates the estimate\n- **Use history**: compare with similar past work; teams consistently underestimate (the planning fallacy)\n- **Separate estimate from commitment**: an estimate is a forecast; a commitment is a decision that includes risk tolerance\n- **Re-estimate as you learn**, and communicate changes immediately\n\nUnder pressure to give a lower number, keep the estimate honest and negotiate scope, resources or date instead."
+        },
+        {
+          "heading": "Managing deadlines and scope",
+          "body": "The classic triangle: scope, time and resources (with quality as the hidden fourth). When a deadline is at risk:\n\n- **Raise it early**, the day you see it, with data on why and options\n- **Cut scope smartly**: identify the must-haves for the deadline's purpose; ship the rest after\n- **Avoid silent quality cuts**: skipping tests or reviews borrows from the future; if you take on deliberate technical debt, record it with a plan\n- Adding people late rarely helps (Brooks's law: adding manpower to a late software project makes it later), though targeted help on independent pieces can\n- Track progress visibly: burn-up charts, milestone demos\n\nInterview stories should show you protecting what matters (users, quality, team health) while delivering, not heroics like weeks of overtime, which interviewers increasingly see as a planning failure."
+        },
+        {
+          "heading": "Prioritization and saying no",
+          "body": "Senior engineers are flooded with requests. Prioritizing well is a leadership skill:\n\n- Tie work to goals: which outcome does this move, and by how much?\n- Use simple frameworks: impact vs effort, urgency vs importance, cost of delay\n- Make trade-offs visible: \"If I take this, X slips by a week. Which matters more?\"\n- Say no (or not now) with reasons and alternatives\n- Protect time for important non-urgent work: tech debt, reliability, mentoring\n\nA story where you redirected effort from a low-impact project to a high-impact one, with stakeholder agreement, is strong evidence of senior judgment."
+        }
+      ],
+      "keyPoints": [
+        "Leadership without authority means influence: design docs, data, prototypes, bringing skeptics in, and making others successful.",
+        "With ambiguity, clarify goals, reduce uncertainty cheaply, write down assumptions and deliver in slices.",
+        "Estimates: break work down, include everything, give ranges with assumptions, spike unknowns, re-estimate openly.",
+        "Separate estimates (forecasts) from commitments (decisions).",
+        "When deadlines slip, raise it early with options; cut scope rather than silently cutting quality.",
+        "Brooks's law: adding people late usually makes a late project later.",
+        "Prioritize by impact on goals, make trade-offs visible and say no with reasons."
+      ],
+      "questions": [
+        {
+          "id": "behavioral-07-q01",
+          "type": "mcq",
+          "prompt": "Your manager asks for an estimate on a feature with a major unknown (a third-party API you have never used). What is best?",
+          "options": [
+            "Give a single confident number",
+            "Refuse to estimate",
+            "Propose a short time-boxed spike, then give a range with assumptions",
+            "Double your gut feeling and say nothing more"
+          ],
+          "answer": 2,
+          "explanation": "A spike reduces the main uncertainty cheaply, and a range with stated assumptions communicates confidence honestly."
+        },
+        {
+          "id": "behavioral-07-q02",
+          "type": "mcq",
+          "prompt": "Halfway through a project you realize it will be two weeks late. When should you tell stakeholders?",
+          "options": [
+            "At the deadline",
+            "As soon as you know, with the cause and options",
+            "Never, work overtime instead",
+            "After you finish"
+          ],
+          "answer": 1,
+          "explanation": "Early warnings give stakeholders options (cut scope, move dates, adjust launches). Late surprises destroy trust."
+        },
+        {
+          "id": "behavioral-07-q03",
+          "type": "mcq",
+          "prompt": "What does Brooks's law say?",
+          "options": [
+            "Software expands to fill available time",
+            "Adding people to a late software project makes it later",
+            "Every system will be rewritten",
+            "Estimates are always too high"
+          ],
+          "answer": 1,
+          "explanation": "New people need onboarding and add communication overhead, so late additions usually slow things down further in the short term."
+        },
+        {
+          "id": "behavioral-07-q04",
+          "type": "mcq",
+          "prompt": "You want your organization to adopt feature flags, but you have no authority over other teams. What is the most effective approach?",
+          "options": [
+            "Mandate it in a team chat",
+            "Pilot it on your team, measure results, write a short proposal with data and offer help to adopters",
+            "Wait for leadership to decide",
+            "Implement it silently in other teams' code"
+          ],
+          "answer": 1,
+          "explanation": "A working example with data, plus making adoption easy, persuades better than authority you do not have."
+        },
+        {
+          "id": "behavioral-07-q05",
+          "type": "mcq",
+          "prompt": "Requirements for a project are vague and stakeholders disagree. What is a strong first step?",
+          "options": [
+            "Start coding the most complex part",
+            "Write down the goal, assumptions and open questions, and get stakeholders to confirm or resolve them",
+            "Wait for complete requirements",
+            "Build all versions"
+          ],
+          "answer": 1,
+          "explanation": "Making assumptions explicit turns vague disagreement into concrete decisions and gives the team a shared reference."
+        },
+        {
+          "id": "behavioral-07-q06",
+          "type": "mcq",
+          "prompt": "Under deadline pressure, which trade-off is generally healthiest?",
+          "options": [
+            "Skip tests and code review quietly",
+            "Reduce scope to the must-haves and ship the rest in a follow-up",
+            "Ask the team to work every weekend for a month",
+            "Ship without telling QA"
+          ],
+          "answer": 1,
+          "explanation": "Scope cuts are visible and reversible. Hidden quality cuts and sustained overtime create defects, debt and burnout."
+        },
+        {
+          "id": "behavioral-07-q07",
+          "type": "truefalse",
+          "prompt": "An estimate and a commitment are the same thing.",
+          "answer": false,
+          "explanation": "An estimate is a forecast with uncertainty; a commitment is a promise that should factor in risk and buffer. Conflating them causes chronic missed deadlines."
+        },
+        {
+          "id": "behavioral-07-q08",
+          "type": "truefalse",
+          "prompt": "Stories of heroic overtime to rescue a deadline are always viewed positively in senior interviews.",
+          "answer": false,
+          "explanation": "Interviewers often read them as planning or communication failures. Show how you prevented the crunch or what you changed afterwards."
+        },
+        {
+          "id": "behavioral-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are signs of technical leadership without formal authority?",
+          "options": [
+            "Writing a design doc and incorporating feedback from skeptics",
+            "Mentoring teammates and delegating meaningful work",
+            "Taking credit for the team's work",
+            "Driving an incident follow-up to completion across teams",
+            "Overruling others because you are the most senior"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Influence, growing others and driving outcomes are leadership. Taking credit and pulling rank erode trust."
+        },
+        {
+          "id": "behavioral-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the tendency to underestimate how long tasks will take, even with past experience, is called the planning ___.",
+          "accept": [
+            "fallacy"
+          ],
+          "explanation": "Described by Kahneman and Tversky. Using historical data from similar work (reference class forecasting) counters it."
+        },
+        {
+          "id": "behavioral-07-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "Tell me about a time you led a project or initiative.",
+          "answer": "Example: S: \"Our frontend was split across three apps using different component libraries, causing inconsistent UI and duplicated work. No one owned a fix.\" T: \"As a senior engineer, I proposed and led a shared design system across three product teams, without being anyone's manager.\" A: \"I wrote an RFC with the cost of duplication (we found 14 different button implementations) and options, and asked each team's tech lead to review it. Their main concern was migration cost, so I proposed incremental adoption: new features use the shared library, old screens migrate when touched. I recruited a designer and one engineer from each team as part-time contributors, set up Storybook, visual regression tests and a release process, and ran monthly demos to keep momentum.\" R: \"In nine months, 70% of screens used the shared components, UI bug reports dropped by about 40%, and new feature UI work got noticeably faster. Two contributors became maintainers, and the system is now staffed as a platform team.\"\n\nWhat they look for: initiative, influencing without authority, addressing concerns, enabling others, structured execution and measurable results.",
+          "level": "advanced"
+        },
+        {
+          "id": "behavioral-07-q12",
+          "type": "interview",
+          "top": true,
+          "prompt": "Tell me about a time you missed a deadline or had to deliver under a tight deadline.",
+          "answer": "Example: S: \"We committed to launching a partner integration for a conference in six weeks. At week three, the partner's API turned out to lack bulk endpoints, so syncing would be 10x slower than planned.\" T: \"I was the tech lead and responsible for the delivery plan.\" A: \"The same day, I wrote up the issue with three options: launch with manual sync for the first five customers, delay two weeks to build a queue-based sync, or ask the partner to expose a bulk endpoint, which was uncertain. I recommended option one plus starting the queue work in parallel, since the conference demo only needed a few accounts. The PM and sales lead agreed. I re-planned tasks, cut the settings UI to a config file for launch, and posted twice-weekly progress updates.\" R: \"We launched on the conference date with five customers, shipped the queue-based sync three weeks later, and the partner integration signed 20 customers that quarter. The lesson I applied since: validate third-party API capabilities in a spike before committing to a date.\"\n\nWhat they look for: early transparency, options with trade-offs, scope negotiation rather than heroics, and learning that improved future planning.",
+          "level": "advanced"
+        },
+        {
+          "id": "behavioral-07-q13",
+          "type": "interview",
+          "prompt": "How do you estimate a large project? Give an example.",
+          "answer": "Example: \"For a migration from REST to a typed GraphQL layer, I first listed every consumer and endpoint, about 60 endpoints in five apps. I ran a one-week spike migrating three representative endpoints (simple, paginated, and one with complex auth), which gave real per-endpoint numbers and exposed an auth caching issue we would otherwise have hit late. I then estimated by groups, added explicit items for testing, a parallel-run period, documentation and coordination, and compared with our last migration, which had overrun by 40%. I presented 10 to 14 weeks with assumptions and the main risks, and a milestone plan so progress was visible. We tracked actuals against estimates every two weeks and re-forecast once; we finished in 13 weeks.\"\n\nWhat they look for: decomposition, de-risking unknowns with spikes, including non-coding work, ranges with assumptions, use of historical data, and ongoing re-forecasting with clear communication.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "StaffEng: Guides for staff-plus engineers",
+          "url": "https://staffeng.com/guides/"
+        },
+        {
+          "title": "Martin Fowler: Purpose of Estimation",
+          "url": "https://martinfowler.com/bliki/PurposeOfEstimation.html"
+        }
+      ]
+    },
+    {
+      "id": "behavioral-08-salary-negotiation",
+      "title": "Salary Negotiation and Evaluating Offers",
+      "level": "advanced",
+      "summary": "Understand compensation components, research market rates, handle the expectations question, and negotiate offers professionally using leverage and clear asks.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Understand total compensation",
+          "body": "Compare offers on total compensation, not base salary alone:\n\n- **Base salary**: fixed annual pay\n- **Bonus**: annual target percentage, often tied to company and individual performance\n- **Equity**: RSUs at public companies (shares that vest over time, often 4 years, sometimes with a 1-year cliff or front/back-loaded schedules); stock options at startups (the right to buy at a strike price, valuable only if the company's value grows and you can eventually sell)\n- **Sign-on bonus**: one-time cash, often used to compensate for unvested equity or a bonus you leave behind; may have a clawback if you leave early\n- **Benefits**: retirement matching, health insurance, learning budget, remote stipend, parental leave, PTO\n\nFor startup options, ask for the number of options, the total shares outstanding (to compute your percentage), the strike price, the latest preferred price or valuation, the vesting schedule and the post-termination exercise window. Treat illiquid startup equity as high risk."
+        },
+        {
+          "heading": "Research before you talk numbers",
+          "body": "Know your market value before the first recruiter call:\n\n- Crowdsourced compensation data: levels.fyi for tech companies, Glassdoor, Blind, and salary transparency in job postings (required in several US states and increasingly in the EU under the Pay Transparency Directive, which member states were required to transpose into national law by June 2026)\n- Talk to peers and recruiters in your network\n- Map your level: the same title can mean different levels at different companies; level matters more than title\n- Factor in location policies (many companies adjust pay by geographic zone)\n\nDecide in advance your target and your walk-away number, and what non-salary items matter to you (remote flexibility, title, start date, learning budget)."
+        },
+        {
+          "heading": "Handling the expectations question",
+          "body": "Recruiters often ask \"What are your salary expectations?\" early. Options:\n\n- **Defer**: \"I'd like to learn more about the role and level first. I'm sure we'll find a number that works if it's a good fit. What's the budgeted range for this role?\"\n- **Give a researched range** whose bottom is a number you would be happy with, anchored on market data for the level: \"Based on my research for senior roles in this market, I'm looking at total compensation around X to Y.\"\n\nAvoid giving your current salary where it is not required; in many US states and cities employers are prohibited from asking about salary history. Focus on market value for the role, not your past pay.\n\nThe first offer is rarely the best offer. Companies usually have room within a band, and recruiters expect negotiation; a respectful negotiation almost never causes an offer to be withdrawn."
+        },
+        {
+          "heading": "Negotiating the offer",
+          "body": "When the offer arrives:\n\n- **Thank them and express enthusiasm**, then ask for the details in writing and time to review (a few days to a week is normal)\n- **Do not accept or reject on the call**\n- **Leverage** comes from competing offers, a strong interview performance, scarce skills and genuine willingness to walk away. Share competing offers honestly; do not invent them.\n- **Make a specific ask** with reasons: \"Given my competing offer at X and the scope we discussed, I'd be ready to sign today at a base of Y and equity of Z.\"\n- **Negotiate the whole package**: if base is capped by the band, ask about sign-on, equity, level, start date or remote terms\n- **Be collaborative**, not adversarial: the recruiter is often your advocate internally\n- **Consider the level**: negotiating up a level has more long-term impact than a small salary bump\n\nGet everything final in writing before resigning from your current job.",
+          "code": {
+            "lang": "text",
+            "source": "\"Thank you, I'm really excited about the team and the role.\nI've reviewed the offer, and I also have an offer from another\ncompany at a total compensation of about $X. I'd much rather join\nyou. If you can bring the base to $Y and add a $Z sign-on bonus\nto offset the bonus I'm leaving behind, I'm ready to accept.\""
+          }
+        },
+        {
+          "heading": "Evaluating offers beyond money",
+          "body": "The best offer is not always the highest number. Weigh:\n\n- **Growth**: scope, learning, mentorship, promotion paths and how fast people grow there\n- **Team and manager**: the manager is one of the biggest factors in day-to-day satisfaction; ask to talk to them and a future peer\n- **Company health**: runway and funding for startups, layoffs history, business trajectory\n- **Work style**: remote policy, on-call load, hours, culture\n- **Mission and product**: whether you care about the problem\n\nBe careful with exploding offers (very short deadlines); it is reasonable to ask for more time. And handle declines gracefully: you may want to work with these people later. A counteroffer from your current employer deserves skepticism: the reasons you looked elsewhere often remain."
+        }
+      ],
+      "keyPoints": [
+        "Compare total compensation: base, bonus, equity (RSUs or options), sign-on and benefits.",
+        "For startup options, ask about percentage ownership, strike price, valuation, vesting and the exercise window.",
+        "Research market data by level (levels.fyi, peers, posted ranges) and set target and walk-away numbers.",
+        "Defer or give a researched range for expectations; avoid sharing current salary where not required.",
+        "Do not accept on the call; respond with enthusiasm, a specific ask and reasons.",
+        "Leverage comes from competing offers, strong interviews and scarce skills; never invent offers.",
+        "Weigh growth, manager, company health and work style, not just money; get everything in writing."
+      ],
+      "questions": [
+        {
+          "id": "behavioral-08-q01",
+          "type": "mcq",
+          "prompt": "A recruiter asks for your salary expectations in the first call. Which response is strongest?",
+          "options": [
+            "Whatever you think is fair",
+            "My current salary is X",
+            "I'd like to understand the level and scope first. What's the budgeted range for this role?",
+            "I need at least double my current pay"
+          ],
+          "answer": 2,
+          "explanation": "It keeps you from anchoring low and gets information first. If pressed, give a researched range for the level whose bottom you would accept."
+        },
+        {
+          "id": "behavioral-08-q02",
+          "type": "mcq",
+          "prompt": "What is an RSU?",
+          "options": [
+            "An option to buy shares at a fixed price",
+            "A grant of company shares that are delivered as they vest",
+            "A type of bonus paid in cash",
+            "A retirement plan"
+          ],
+          "answer": 1,
+          "explanation": "Restricted stock units become actual shares on vesting dates. Options, by contrast, give the right to buy at a strike price."
+        },
+        {
+          "id": "behavioral-08-q03",
+          "type": "mcq",
+          "prompt": "The company says base salary is at the top of the band. What is a good next move?",
+          "options": [
+            "Accept immediately",
+            "Ask about other levers: sign-on bonus, equity, level, start date or remote terms",
+            "Threaten to withdraw",
+            "Ask for a bigger title only"
+          ],
+          "answer": 1,
+          "explanation": "Bands constrain base, but other components often have flexibility. A level change can also unlock a higher band."
+        },
+        {
+          "id": "behavioral-08-q04",
+          "type": "mcq",
+          "prompt": "Which piece of information do you need to understand what 20,000 startup stock options are worth?",
+          "options": [
+            "Only the number of options",
+            "Total shares outstanding, strike price and latest valuation or preferred price",
+            "The company's office size",
+            "The CEO's salary"
+          ],
+          "answer": 1,
+          "explanation": "The number alone means nothing; you need your ownership percentage and the spread between strike price and share value, plus vesting and exercise terms."
+        },
+        {
+          "id": "behavioral-08-q05",
+          "type": "mcq",
+          "prompt": "What gives you the strongest negotiation leverage?",
+          "options": [
+            "Saying you are thinking about it",
+            "A real competing offer and a strong interview performance",
+            "Being rude to the recruiter",
+            "Inventing a competing offer"
+          ],
+          "answer": 1,
+          "explanation": "Real alternatives and demonstrated value move offers. Invented offers can backfire badly if questioned and damage trust."
+        },
+        {
+          "id": "behavioral-08-q06",
+          "type": "mcq",
+          "prompt": "When should you resign from your current job?",
+          "options": [
+            "After the verbal offer",
+            "After you have the final offer in writing and any conditions (such as background checks) are cleared",
+            "Before interviewing",
+            "After the first interview round"
+          ],
+          "answer": 1,
+          "explanation": "Verbal offers can change. A signed written offer with conditions satisfied protects you."
+        },
+        {
+          "id": "behavioral-08-q07",
+          "type": "truefalse",
+          "prompt": "Respectfully negotiating an offer commonly causes companies to withdraw it.",
+          "answer": false,
+          "explanation": "Recruiters expect negotiation, and professional requests are normal. Withdrawals are rare and usually involve aggressive or bad-faith behavior."
+        },
+        {
+          "id": "behavioral-08-q08",
+          "type": "truefalse",
+          "prompt": "Negotiating a higher level can have more long-term financial impact than a small base increase.",
+          "answer": true,
+          "explanation": "Level sets your band, equity refreshers, scope and future promotion trajectory, compounding over years."
+        },
+        {
+          "id": "behavioral-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are part of total compensation?",
+          "options": [
+            "Base salary",
+            "Annual bonus target",
+            "Equity grants",
+            "The office's coffee quality",
+            "Sign-on bonus"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Total compensation usually means base plus bonus plus annualized equity plus one-time payments. Benefits matter too, but perks like coffee are not compensation."
+        },
+        {
+          "id": "behavioral-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: a vesting schedule where nothing vests in the first year, then a chunk vests at 12 months, has a one-year ___.",
+          "accept": [
+            "cliff"
+          ],
+          "explanation": "Cliffs protect companies from granting equity to people who leave very early; after the cliff, vesting usually continues monthly or quarterly."
+        },
+        {
+          "id": "behavioral-08-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "What are your salary expectations?",
+          "answer": "Example answer early in the process: \"I'm focused on finding the right role and level first, and I'm confident we can agree on compensation if it's a fit. Could you share the range budgeted for this position?\" If pressed: \"Based on market data for senior full stack roles in this location, I'm targeting total compensation in the range of X to Y, depending on the level and the equity component.\"\n\nWhat the interviewer or recruiter looks for: whether you are within the budget, and whether you are reasonable and informed. Your goals: avoid anchoring below market, never lie, keep flexibility across components, and move the discussion to level and scope. Research the range for the level beforehand so any number you give is defensible.",
+          "level": "intermediate"
+        },
+        {
+          "id": "behavioral-08-q12",
+          "type": "interview",
+          "prompt": "You receive an offer below your expectations, and you have a competing offer. How do you negotiate? Role-play your response.",
+          "answer": "Example: \"Thank you so much, I'm excited about this team and especially the work on the platform migration. I'd like to be transparent: I have another offer with a base of X and total compensation around Y. Your team is my first choice because of the scope and the manager, so I'd love to make this work. If you can bring the base to A and the equity grant to B, I'll be ready to sign this week. I'm also open to a sign-on bonus if base flexibility is limited.\"\n\nWhy it works: enthusiasm signals you will likely accept, so the recruiter can justify going back to the compensation team; a real competing offer provides evidence; the ask is specific; and offering to sign creates a clear path to close. Follow up in writing, stay courteous, and decide in advance what you will do if they cannot move.",
+          "level": "advanced"
+        },
+        {
+          "id": "behavioral-08-q13",
+          "type": "interview",
+          "prompt": "How would you compare an offer from a large public company with one from an early-stage startup?",
+          "answer": "- Cash: compare base and bonus directly; startups often pay less cash.\n- Equity: public RSUs are liquid and can be valued at the current share price (with volatility); startup options are illiquid and risky, so I would value them conservatively, maybe near zero for decision purposes, after checking ownership percentage, strike price, preferences and the exercise window.\n- Risk: startup runway and funding; the big company's layoff history and team stability.\n- Growth: startups often give broader scope and faster responsibility; large companies offer mentorship, scale problems and structured promotions.\n- Lifestyle: hours, on-call, remote policy.\nI would decide what I am optimizing for over the next 2 to 3 years (learning, scope, financial stability) and pick the offer that best serves it, rather than the biggest headline number.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Levels.fyi compensation data",
+          "url": "https://www.levels.fyi/"
+        },
+        {
+          "title": "Tech Interview Handbook: Negotiation",
+          "url": "https://www.techinterviewhandbook.org/negotiation/"
+        }
+      ]
+    },
+    {
+      "id": "behavioral-09-career-growth-mentoring",
+      "title": "Career Growth: Junior to Senior to Staff, and Mentoring",
+      "level": "advanced",
+      "summary": "Understand what changes at each engineering level, how promotions really happen, how to choose between staff and management tracks, and how to mentor others effectively.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "What changes at each level",
+          "body": "Titles vary by company, but expectations follow a common shape. The main shift is in **scope** (how big a problem you own) and **autonomy** (how much direction you need).\n\n- **Junior (entry level)**: completes well-defined tasks with guidance; learning the codebase, tools and practices; asks good questions\n- **Mid-level**: owns features end to end with little supervision; writes solid, tested code; reviews others' code; estimates their own work\n- **Senior**: owns projects or systems; handles ambiguity; designs solutions with trade-offs; mentors; influences the team's technical direction; raises quality and delivery for the whole team\n- **Staff**: owns problems that span multiple teams; sets technical strategy; aligns stakeholders; finds and fixes the most important problems before being asked; multiplies many engineers\n- **Principal and beyond**: organization-wide or company-wide technical direction\n\nIn interviews, the same question (\"tell me about a project\") is scored differently by level. Make sure your stories show the scope of the level you want."
+        },
+        {
+          "heading": "How promotions actually happen",
+          "body": "Most companies promote people who are **already operating at the next level** for some time. Practical steps:\n\n- Get the written level expectations (a career ladder or framework) and discuss them with your manager\n- Agree on a gap analysis: which expectations you meet and which you need to demonstrate\n- Seek or create next-level work: lead a project, own a system, drive a cross-team improvement\n- Make impact visible: design docs, demos, short written summaries of outcomes, and a running **brag document** of accomplishments with metrics\n- Get feedback from peers and senior engineers, who often provide input to promotion packets\n- Have regular career conversations, not only at review time\n\nPromotion is not a reward for tenure or for working harder on the same scope. It recognizes larger scope and impact."
+        },
+        {
+          "heading": "Staff engineer vs engineering manager",
+          "body": "After senior, many companies offer two parallel tracks:\n\n- **Individual contributor (staff, principal)**: technical leadership through architecture, strategy, solving hard problems and influencing across teams. Common staff archetypes, as described by Will Larson in Staff Engineer: Tech Lead, Architect, Solver and Right Hand.\n- **Engineering manager**: responsible for people: hiring, growth, performance, team health and delivery. Coding drops significantly.\n\nManagement is a different job, not a promotion. Good reasons to choose it: you find growing people and building teams energizing. Weak reasons: it seems like the only path up, or you want authority. Many companies allow moving back and forth (the \"engineer/manager pendulum\", from Charity Majors), and trying tech lead responsibilities first is a good way to test the waters."
+        },
+        {
+          "heading": "Mentoring and growing others",
+          "body": "Mentoring is expected from senior engineers and is a major promotion signal. Effective mentoring:\n\n- **Starts with their goals**: what do they want to learn or achieve in six months?\n- **Balances teaching and doing**: ask guiding questions before giving answers; let them struggle productively, but not for days\n- **Uses real work**: pairing, design reviews and stretch assignments with support\n- **Gives specific feedback**, positive and constructive, close to the event\n- **Delegates meaningful work**, not just leftovers, and gives them visibility (let them present the demo)\n- **Sponsors**: mentors advise; sponsors use their influence to give people opportunities and advocate for them in rooms they are not in\n\nAlso mentor across the team: onboarding docs, office hours, code review comments that teach, and internal talks scale your knowledge."
+        },
+        {
+          "heading": "Managing your own growth",
+          "body": "Habits that compound over a career:\n\n- **Learn the business**: understand how your product makes money and which metrics matter; it makes your technical judgment more valuable\n- **Write well**: design docs, postmortems and proposals are how senior engineers scale influence\n- **Go deep and broad**: a T-shaped profile, deep in one area (frontend performance, data systems) and broad enough to work across the stack\n- **Seek feedback** regularly and act on it\n- **Build relationships** across teams before you need them\n- **Choose roles for learning**: scope, mentors and hard problems matter more early on than small pay differences\n- **Protect sustainability**: burnout destroys growth; manage on-call load and set boundaries\n\nIn interviews, \"where do you want to be in five years?\" and \"how do you keep learning?\" are chances to show you have a deliberate growth plan."
+        }
+      ],
+      "keyPoints": [
+        "Levels differ mainly by scope and autonomy: tasks, features, projects, multi-team problems, organization strategy.",
+        "Promotions usually recognize people already operating at the next level; use the career ladder and a gap analysis.",
+        "Make impact visible with design docs, demos and a brag document with metrics.",
+        "Staff IC and engineering manager are parallel tracks; management is a different job, not a promotion.",
+        "Effective mentoring starts with the mentee's goals, uses real work and guiding questions, and includes sponsorship.",
+        "Writing, business understanding and a T-shaped skill set scale your influence.",
+        "Stories in senior and staff interviews must show the scope of the target level."
+      ],
+      "questions": [
+        {
+          "id": "behavioral-09-q01",
+          "type": "mcq",
+          "prompt": "What most clearly distinguishes a senior engineer from a mid-level engineer?",
+          "options": [
+            "Years of experience",
+            "Owning ambiguous projects end to end, making design trade-offs and raising the whole team's output",
+            "Writing more code",
+            "Knowing more frameworks"
+          ],
+          "answer": 1,
+          "explanation": "Seniority is about scope, autonomy and multiplying the team, not tenure or raw output."
+        },
+        {
+          "id": "behavioral-09-q02",
+          "type": "mcq",
+          "prompt": "Which is the most effective way to work towards a promotion?",
+          "options": [
+            "Wait for your manager to notice",
+            "Work longer hours on the same tasks",
+            "Agree on a gap analysis against the career ladder with your manager and take on next-level scope",
+            "Ask for a promotion every week"
+          ],
+          "answer": 2,
+          "explanation": "Promotions recognize demonstrated next-level impact. A shared understanding of the gaps turns vague ambition into a plan."
+        },
+        {
+          "id": "behavioral-09-q03",
+          "type": "mcq",
+          "prompt": "What is the difference between a mentor and a sponsor?",
+          "options": [
+            "No difference",
+            "A mentor gives advice; a sponsor uses their influence to create opportunities and advocate for you",
+            "A sponsor pays for training",
+            "A mentor is always your manager"
+          ],
+          "answer": 1,
+          "explanation": "Sponsorship is often what turns potential into promotions: being recommended for projects and championed in calibration discussions."
+        },
+        {
+          "id": "behavioral-09-q04",
+          "type": "mcq",
+          "prompt": "A senior engineer is considering management mainly because it seems like the only way to grow. What is the best advice?",
+          "options": [
+            "Management is always the next step",
+            "Explore the staff IC track and try tech lead responsibilities first; choose management only if you are energized by growing people",
+            "Never switch tracks",
+            "Quit"
+          ],
+          "answer": 1,
+          "explanation": "Management is a different job. Many companies have IC tracks to principal level, and testing leadership responsibilities first reduces risk."
+        },
+        {
+          "id": "behavioral-09-q05",
+          "type": "mcq",
+          "prompt": "Your mentee asks how to fix a bug they have been stuck on for 20 minutes. What is often the best first response?",
+          "options": [
+            "Fix it for them immediately",
+            "Ask guiding questions about what they have tried and what they think is happening",
+            "Tell them to figure it out alone for a week",
+            "Escalate to the manager"
+          ],
+          "answer": 1,
+          "explanation": "Guiding questions build their debugging skills. If they are truly stuck after that, pairing or a direct hint keeps them from wasting days."
+        },
+        {
+          "id": "behavioral-09-q06",
+          "type": "mcq",
+          "prompt": "What is a brag document?",
+          "options": [
+            "A list of complaints",
+            "A running record of your accomplishments, impact and feedback, used for reviews and promotions",
+            "A public social media post",
+            "A resume template"
+          ],
+          "answer": 1,
+          "explanation": "People forget most of their achievements by review time. A brag doc (popularized by Julia Evans) makes impact easy to communicate."
+        },
+        {
+          "id": "behavioral-09-q07",
+          "type": "truefalse",
+          "prompt": "At most companies, promotion is primarily a reward for time spent at the current level.",
+          "answer": false,
+          "explanation": "Tenure may be a minimum requirement, but promotions are based on consistently demonstrating the next level's scope and impact."
+        },
+        {
+          "id": "behavioral-09-q08",
+          "type": "truefalse",
+          "prompt": "Staff engineers are typically expected to influence work across multiple teams.",
+          "answer": true,
+          "explanation": "Staff scope goes beyond one team: setting technical direction, solving cross-cutting problems and aligning stakeholders."
+        },
+        {
+          "id": "behavioral-09-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are effective mentoring practices?",
+          "options": [
+            "Starting from the mentee's own goals",
+            "Delegating meaningful stretch work with support",
+            "Giving specific, timely feedback",
+            "Doing all hard tasks for them so they don't fail",
+            "Giving them visibility, such as presenting their work"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Growth comes from goals, challenge, feedback and visibility. Shielding mentees from all difficulty prevents learning."
+        },
+        {
+          "id": "behavioral-09-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: an engineer with deep expertise in one area and broad knowledge across others is often described as ___-shaped.",
+          "accept": [
+            "T",
+            "t",
+            "T-shaped"
+          ],
+          "explanation": "The vertical bar is depth; the horizontal bar is breadth that lets you collaborate across the stack."
+        },
+        {
+          "id": "behavioral-09-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "Tell me about a time you mentored someone.",
+          "answer": "Example: S: \"A junior engineer joined our team from a bootcamp and struggled with our large Next.js codebase; their first PRs took weeks and came back with many review comments.\" T: \"My manager asked me to mentor them, and I set a goal with them: ship a medium feature independently within three months.\" A: \"We started with their goals and agreed on weekly 1:1s. I paired with them on their first two tickets, thinking aloud about how I navigate unfamiliar code. Then I switched to asking questions instead of giving answers, and gave written feedback on PRs that explained the why. I picked a stretch project, the notification preferences page, broke it into milestones, and let them present it at the sprint demo. I also told our tech lead about their progress so they got credit.\" R: \"They shipped the feature in ten weeks with light review, their PR cycle time halved, and a year later they were promoted to mid-level and mentoring our next hire.\"\n\nWhat they look for: structured, goal-driven mentoring, adapting your approach as they grow, real stretch work, sponsorship, and measurable growth in the mentee.",
+          "level": "advanced"
+        },
+        {
+          "id": "behavioral-09-q12",
+          "type": "interview",
+          "top": true,
+          "prompt": "Where do you see yourself in five years?",
+          "answer": "Example: \"I want to grow into a staff-level engineer who sets technical direction for a product area. Concretely, in the next couple of years I want to lead larger cross-team projects, like the design system work I've started, get better at writing technical strategy, and keep mentoring, since I've found I really enjoy that. I'm open to management later, but right now I'm most energized by technical leadership. This role appeals to me because the platform team's scope and the senior engineers I met would give me room to grow in exactly that direction.\"\n\nWhat the interviewer looks for: ambition that is realistic and aligned with paths the company offers, self-awareness about what energizes you, and a link back to this role. Avoid answers implying you will leave quickly or that you want the interviewer's job.",
+          "level": "intermediate"
+        },
+        {
+          "id": "behavioral-09-q13",
+          "type": "interview",
+          "prompt": "What is the difference between a senior and a staff engineer, and how have you operated at the higher level?",
+          "answer": "A senior engineer owns significant projects or systems within a team, handles ambiguity and raises the team's output. A staff engineer's scope spans multiple teams or a whole domain: they identify the most important technical problems, often before anyone asks, set direction through strategy documents and architecture, align stakeholders, and make many engineers more effective. Example of operating at that level: \"I noticed three teams were each building their own permission checks, with inconsistent behavior and two security incidents. I wrote a short strategy doc quantifying the risk, got buy-in from the three tech leads and our director, designed a shared authorization service with a migration plan, and coordinated the rollout over two quarters while the teams did most of the implementation. Incidents in that area stopped and new features no longer needed custom permission work.\"\n\nWhat they look for: clarity about scope differences and evidence of cross-team, strategic impact delivered mostly through others.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "StaffEng: Staff archetypes",
+          "url": "https://staffeng.com/guides/staff-archetypes/"
+        },
+        {
+          "title": "Julia Evans: Get your work recognized: write a brag document",
+          "url": "https://jvns.ca/blog/brag-documents/"
+        },
+        {
+          "title": "Charity Majors: The Engineer/Manager Pendulum",
+          "url": "https://charity.wtf/2017/05/11/the-engineer-manager-pendulum/"
+        }
+      ]
+    }
+  ]
+}

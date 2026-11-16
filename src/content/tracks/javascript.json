@@ -216,7 +216,8 @@
           "type": "interview",
           "prompt": "What is the difference between == and ===, and when (if ever) would you use ==?",
           "answer": "- `===` compares type and value with no conversion; objects are equal only if they are the same reference.\n- `==` runs the Abstract Equality algorithm: null and undefined equal each other and nothing else, strings and booleans are converted to numbers, objects are converted with ToPrimitive. This gives results like `[1] == 1` and `\"\" == 0` being true.\n- I default to `===` (and enforce it with ESLint `eqeqeq`) because it is predictable.\n- The one idiom I accept is `value == null` to check for null or undefined in one comparison; many style guides allow it explicitly.\n- For NaN and signed zero edge cases I use `Object.is` or `Number.isNaN`.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "javascript-01-q13",
@@ -247,7 +248,7 @@
         },
         {
           "title": "MDN: Equality comparisons and sameness",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness"
         },
         {
           "title": "MDN: Type coercion",
@@ -459,14 +460,16 @@
           "type": "interview",
           "prompt": "What is hoisting? Explain how it differs for var, let/const, function declarations and function expressions.",
           "answer": "- Hoisting is the effect of the engine creating all bindings for a scope before executing its code.\n- Function declarations are created and initialized with their body, so they are callable anywhere in the scope.\n- `var` bindings are created and initialized to `undefined`; the assignment stays in place, so early reads return undefined.\n- `let`, `const` and `class` bindings are created but not initialized. Accessing them before the declaration executes throws a ReferenceError (the TDZ).\n- Function expressions and arrows behave like whatever variable holds them: with var you get \"is not a function\", with const you get a TDZ ReferenceError.\n- I'd mention that nothing is literally moved to the top; the \"move to top\" picture is a mental model.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "javascript-02-q13",
           "type": "interview",
           "prompt": "Compare var, let and const. Which do you use and why?",
           "answer": "- Scope: var is function-scoped; let and const are block-scoped.\n- Redeclaration: var allows it silently; let and const throw a SyntaxError in the same scope.\n- Hoisting: var is initialized to undefined; let and const sit in the TDZ.\n- Globals: top-level var in a classic script creates a `window` property; let and const do not.\n- Loops: let gets a fresh binding per iteration, which fixes closure-in-loop bugs.\n- I use const by default because it signals the binding never changes, let when I must reassign (counters, accumulators), and never var in new code. I also point out that const does not make objects immutable.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "javascript-02-q14",
@@ -480,7 +483,8 @@
           "type": "interview",
           "prompt": "Here is a loop that schedules three setTimeout calls with var and prints 3 3 3. Give two ways to fix it and explain why they work.",
           "answer": "- Cause: var creates one function-scoped `i`. The callbacks close over that single binding and run after the loop ends, when i is 3.\n- Fix 1: use `let`. The for-loop spec copies the binding into a new lexical environment for each iteration, so each callback closes over its own i.\n- Fix 2 (older code): wrap the body in an IIFE `(function (j) { setTimeout(() => log(j)); })(i)`, which creates a new function scope per iteration holding a copy of the value.\n- Fix 3: pass the value as an argument: `setTimeout(console.log, 0, i)` or `setTimeout(log.bind(null, i))`, which captures the value at scheduling time.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         }
       ],
       "resources": [
@@ -688,7 +692,8 @@
           "type": "interview",
           "prompt": "What is a closure? Give two real-world uses.",
           "answer": "- A closure is a function combined with a reference to the lexical environment it was created in, so it can keep accessing those variables after the outer function returns.\n- Use 1: encapsulation. A factory like `createStore()` keeps state in a local variable and exposes only functions that read and update it, so nothing outside can mutate it directly.\n- Use 2: caching or rate limiting. `memoize`, `once`, `debounce` and `throttle` all keep their cache, flag or timer id in a closure.\n- Others: event handlers that remember an item id, partial application, React hooks (every render's handlers close over that render's props and state).\n- Trade-offs: captured scopes stay alive as long as the closure does, so long-lived closures can retain memory; and closures read whatever the variable holds when they run, which can be stale.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "javascript-03-q12",
@@ -715,7 +720,7 @@
       "resources": [
         {
           "title": "MDN: Closures",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures"
         },
         {
           "title": "MDN: Arrow function expressions",
@@ -926,7 +931,8 @@
           "type": "interview",
           "prompt": "Explain how this is determined in JavaScript, including precedence.",
           "answer": "- For arrow functions, this is lexical: it comes from the enclosing scope and nothing at the call site changes it.\n- For regular functions, it is decided per call: new binding (fresh object) beats explicit binding (call, apply, bind), which beats implicit binding (the object before the dot), which beats default binding.\n- Default binding is undefined in strict code (modules, classes, \"use strict\") and globalThis in sloppy scripts.\n- Edge cases: bound functions ignore later call/apply/bind but not new; callbacks lose implicit binding; DOM listeners registered with a regular function get the element (`currentTarget`) as this.\n- I usually explain it by pointing at the call site: \"what is to the left of the dot when this runs?\"",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "javascript-04-q13",
@@ -947,7 +953,8 @@
           "type": "interview",
           "prompt": "What is the difference between call, apply and bind? Give a use case for each.",
           "answer": "- `call(thisArg, ...args)` invokes now with listed arguments. Use case: borrowing a method, e.g. `Array.prototype.slice.call(arguments)` or calling a parent constructor in pre-class code: `Parent.call(this, name)`.\n- `apply(thisArg, argsArray)` invokes now with an array of arguments. Use case: forwarding all arguments in a wrapper, `fn.apply(this, args)`, or `Math.max.apply(null, nums)` (now usually spread).\n- `bind(thisArg, ...preset)` returns a new function for later. Use case: passing a method as an event handler or timer callback, or partial application like `const log = console.log.bind(console, \"[app]\")`.\n- Note that none of them affect arrow functions' this.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         }
       ],
       "resources": [
@@ -1170,7 +1177,8 @@
           "type": "interview",
           "prompt": "Explain prototypal inheritance and how it differs from classical inheritance.",
           "answer": "- In JavaScript, objects link to other objects. A property lookup that misses on the object follows the [[Prototype]] link up the chain until it finds the property or hits null.\n- Behavior is shared by delegation at lookup time, not by copying. Changing a prototype immediately affects all objects that delegate to it.\n- In classical languages (Java, C#), classes are blueprints and instances are created from them with a fixed shape; inheritance is between classes at compile time.\n- JS class syntax looks classical but compiles to prototypes: methods on `Class.prototype`, `extends` linking prototypes and constructors.\n- Practical consequences: you can create objects from other objects (`Object.create`), patch prototypes at runtime (which is how polyfills work), and writes shadow rather than modify inherited properties.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "javascript-05-q13",
@@ -1197,7 +1205,7 @@
       "resources": [
         {
           "title": "MDN: Inheritance and the prototype chain",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain"
         },
         {
           "title": "MDN: Classes",
@@ -1412,7 +1420,8 @@
           "type": "interview",
           "prompt": "Explain event bubbling and capturing. When would you use capture?",
           "answer": "- Events travel down from window to the target's parent (capture), run at the target, then travel back up (bubble). Listeners are bubble-phase by default.\n- Bubbling is what makes delegation possible: a click on a button can be handled on its container.\n- Capture is useful when an ancestor needs to see the event before descendants can stop it: global click-outside detection for menus, analytics, or intercepting events inside third-party widgets that call stopPropagation.\n- It is also a way to handle non-bubbling events like focus and blur on a container.\n- I'd mention target vs currentTarget, and that stopPropagation in capture on an ancestor prevents the target from ever receiving the event.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "javascript-06-q13",
@@ -1439,7 +1448,7 @@
       "resources": [
         {
           "title": "MDN: Introduction to the DOM",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
         },
         {
           "title": "MDN: EventTarget.addEventListener()",
@@ -1654,7 +1663,8 @@
           "type": "interview",
           "prompt": "Explain the JavaScript event loop, including microtasks vs macrotasks.",
           "answer": "- JS executes on one thread with a call stack. Async work is done by the host, which queues callbacks.\n- The loop takes one task (script, timer, event, message), runs it to completion, then drains the microtask queue completely (promise reactions, await continuations, queueMicrotask, MutationObserver), including microtasks added during draining.\n- Then, if a frame is due, it runs requestAnimationFrame callbacks, style, layout and paint, then picks the next task.\n- Consequences: promise callbacks always beat setTimeout 0; long sync work or endless microtasks block rendering and input; rAF is the right place for visual updates.\n- For Node I'd add libuv phases, process.nextTick running before promises, and setImmediate in the check phase.\n- I'd usually walk through a small output puzzle to show the rules.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "javascript-07-q13",
@@ -1681,7 +1691,7 @@
       "resources": [
         {
           "title": "MDN: The event loop (execution model)",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model"
         },
         {
           "title": "MDN: Using microtasks",
@@ -1895,7 +1905,8 @@
           "type": "interview",
           "prompt": "Compare ES modules and CommonJS.",
           "answer": "- Syntax: `import/export` vs `require/module.exports`.\n- Loading: ESM is statically analyzed and linked before execution, can load asynchronously and supports top-level await. CJS executes synchronously as require is called, and require can be dynamic.\n- Bindings: ESM imports are live read-only bindings. CJS gives you the exports object; destructured values are snapshots.\n- Tooling: static ESM enables tree shaking and better IDE analysis.\n- Environment: ESM is the standard and runs natively in browsers; CJS is Node-specific. In Node, ESM is selected by .mjs or \"type\": \"module\". ESM lacks __dirname but has import.meta.dirname and import.meta.url.\n- Interop: ESM can import CJS; modern Node can require synchronous ESM. For libraries I would publish ESM (optionally dual with an exports map) and be careful about dual-package hazards where two copies of a module get loaded.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "javascript-08-q13",
@@ -2140,7 +2151,8 @@
           "type": "interview",
           "prompt": "Implement debounce. Then explain how you would add a leading option and cancel.",
           "answer": "- Core: keep a timer id in a closure. Each call clears the previous timer and sets a new one; when it fires, call `fn.apply(this, args)` with the latest arguments and this.\n- `function debounce(fn, wait) { let t; return function (...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), wait); }; }`\n- Leading: if no timer is pending, call fn immediately, then start the timer; calls during the wait only reset the timer and do not fire again (optionally a trailing call if more calls came in).\n- cancel: attach `debounced.cancel = () => { clearTimeout(t); t = undefined; }`; flush runs the pending call immediately.\n- In React, create the debounced function once (useMemo or useRef) and cancel it in an effect cleanup, otherwise each render makes a new debouncer and the debounce never takes effect.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "javascript-09-q13",

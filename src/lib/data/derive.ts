@@ -1,5 +1,29 @@
 // Pure helpers shared by every repository implementation.
-import type { InterviewItem, LocatedQuestion, Track, TrackSummary } from "@/lib/types";
+import { programOf } from "@/lib/catalog";
+import { isSelfRated, type InterviewItem, type LocatedQuestion, type Track, type TrackSummary } from "@/lib/types";
+
+/**
+ * Prepares a track as stored for use in the app. Every question gets its `program` (from the
+ * track's area), and questions that point at a chapter case study get its title and text in
+ * `caseTitle` and `caseBody`, so every screen that shows a question (practice, review) can
+ * label it and render the case without looking up the track or chapter.
+ */
+export function expandTrack(track: Track): Track {
+  const program = programOf(track.area);
+  return {
+    ...track,
+    chapters: track.chapters.map((c) => {
+      const cases = new Map((c.cases ?? []).map((k) => [k.id, k]));
+      return {
+        ...c,
+        questions: c.questions.map((q) => {
+          const k = q.caseId ? cases.get(q.caseId) : undefined;
+          return k ? { ...q, program, caseTitle: k.title, caseBody: k.body } : { ...q, program };
+        }),
+      };
+    }),
+  };
+}
 
 export function summarizeTrack(track: Track): TrackSummary {
   const chapters = track.chapters.map((c) => ({
@@ -9,7 +33,7 @@ export function summarizeTrack(track: Track): TrackSummary {
     summary: c.summary,
     estMinutes: c.estMinutes,
     questionCount: c.questions.length,
-    interviewCount: c.questions.filter((q) => q.type === "interview").length,
+    interviewCount: c.questions.filter(isSelfRated).length,
   }));
   return {
     id: track.id,
@@ -19,6 +43,7 @@ export function summarizeTrack(track: Track): TrackSummary {
     icon: track.icon,
     color: track.color,
     description: track.description,
+    program: programOf(track.area),
     chapters,
     questionCount: chapters.reduce((n, c) => n + c.questionCount, 0),
   };
@@ -36,6 +61,7 @@ export function interviewItems(tracks: Track[]): InterviewItem[] {
             trackId: t.id,
             trackTitle: t.title,
             trackColor: t.color,
+            program: programOf(t.area),
             chapterId: c.id,
             chapterTitle: c.title,
             chapterLevel: c.level,

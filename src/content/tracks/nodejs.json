@@ -178,7 +178,8 @@
           "type": "interview",
           "prompt": "Explain how Node.js can handle thousands of concurrent connections with a single JavaScript thread.",
           "answer": "- Node uses an event-driven, non-blocking model: I/O is started and the thread immediately goes back to the event loop instead of waiting.\n- For sockets, libuv registers file descriptors with the kernel (epoll, kqueue, IOCP) and is notified when they are readable or writable, so idle connections cost almost nothing (no thread per connection, no stack per connection).\n- When an operation completes, its callback is queued and run on the main thread; each callback should be short.\n- Operations without good async OS support (file system, dns.lookup, some crypto/zlib) run on libuv's thread pool and report back to the loop.\n- The trade-off: CPU-bound work blocks everything, so it must be chunked, moved to worker_threads, or offloaded to another service.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "nodejs-01-q12",
@@ -205,11 +206,11 @@
       "resources": [
         {
           "title": "Node.js: Introduction to Node.js",
-          "url": "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs"
+          "url": "https://nodejs.org/learn/getting-started/introduction-to-nodejs"
         },
         {
           "title": "Node.js: Don't Block the Event Loop (or the Worker Pool)",
-          "url": "https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop"
+          "url": "https://nodejs.org/learn/asynchronous-work/dont-block-the-event-loop"
         },
         {
           "title": "Node.js release schedule",
@@ -396,7 +397,8 @@
           "type": "interview",
           "prompt": "Compare CommonJS and ES Modules. Which would you use for a new Node.js project and why?",
           "answer": "- CJS: require is synchronous and dynamic (can be called anywhere, with computed paths), exports a plain object, wraps files in a function providing __dirname, require, module.\n- ESM: static import/export syntax, parsed and linked before execution, live bindings, strict mode, top-level await, standard across browsers and runtimes, and enables tree shaking in bundlers.\n- For new projects I'd use ESM (\"type\": \"module\"), node: prefixed built-ins, and explicit file extensions. Since require(esm) is available in current LTS lines, shipping ESM-only libraries no longer strands CJS consumers unless top-level await is used.\n- I'd keep CJS only where tooling still requires it, and be aware of the dual package hazard if publishing both builds.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "nodejs-02-q12",
@@ -809,14 +811,16 @@
           "type": "interview",
           "prompt": "Walk me through the Node.js event loop phases and where process.nextTick and promises fit.",
           "answer": "- After the main module runs, libuv iterates: timers (expired setTimeout/setInterval), pending callbacks, idle/prepare, poll (wait for and run I/O callbacks; blocks here if idle), check (setImmediate), close callbacks.\n- process.nextTick and promise microtasks are not phases. After each callback, Node drains the nextTick queue completely, then the microtask queue completely, repeating until both are empty.\n- Consequences: nextTick and promise callbacks run before any I/O or timers; setImmediate inside an I/O callback runs before timers; recursive nextTick/microtasks can starve I/O.\n- In practice I use promises/async-await, setImmediate to yield in long loops, and avoid depending on micro-ordering between nextTick and promises (it differs between CJS and ESM).",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "nodejs-04-q12",
           "type": "interview",
           "prompt": "What is the difference between process.nextTick, setImmediate and setTimeout(fn, 0)?",
           "answer": "- process.nextTick: runs right after the current callback finishes, before promises and before the loop continues. Highest priority; can starve I/O if abused. Used by libraries to defer event emission until after the caller attaches listeners.\n- setImmediate: runs in the check phase, after the current poll phase. Good for yielding to I/O. The naming is confusing: nextTick is more immediate than setImmediate.\n- setTimeout(fn, 0): a 1 ms timer in the timers phase of a later iteration. Relative to setImmediate it is non-deterministic from the main module, but always after setImmediate when scheduled from an I/O callback.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "nodejs-04-q13",
@@ -836,15 +840,15 @@
       "resources": [
         {
           "title": "Node.js: The Node.js Event Loop",
-          "url": "https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick"
+          "url": "https://nodejs.org/learn/asynchronous-work/event-loop-timers-and-nexttick"
         },
         {
           "title": "Node.js: Understanding process.nextTick()",
-          "url": "https://nodejs.org/en/learn/asynchronous-work/understanding-processnexttick"
+          "url": "https://nodejs.org/learn/asynchronous-work/understanding-processnexttick"
         },
         {
           "title": "Node.js: Understanding setImmediate()",
-          "url": "https://nodejs.org/en/learn/asynchronous-work/understanding-setimmediate"
+          "url": "https://nodejs.org/learn/asynchronous-work/understanding-setimmediate"
         }
       ]
     },
@@ -1030,7 +1034,8 @@
           "type": "interview",
           "prompt": "What is backpressure in Node.js streams and what happens if you ignore it?",
           "answer": "- Backpressure is the mechanism that slows a fast producer down to the speed of a slow consumer.\n- Writable streams buffer incoming chunks; once the buffer exceeds highWaterMark, write() returns false. The producer should pause and resume on the drain event. Readable streams similarly stop reading from the source when their buffer is full and nobody is consuming.\n- Ignoring it (calling write() in a loop regardless of the return value) means data piles up in memory: a fast disk read piped into a slow network client can grow the heap until the process crashes or GC thrashes.\n- pipeline(), pipe() and for await...of handle this automatically, which is why they are preferred over manual data event handlers.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "nodejs-05-q12",
@@ -1054,7 +1059,7 @@
         },
         {
           "title": "Node.js: Backpressuring in Streams",
-          "url": "https://nodejs.org/en/learn/modules/backpressuring-in-streams"
+          "url": "https://nodejs.org/learn/modules/backpressuring-in-streams"
         },
         {
           "title": "Node.js docs: File system",
@@ -1247,14 +1252,16 @@
           "type": "interview",
           "prompt": "How do you handle errors in an async Node.js application end to end?",
           "answer": "- Distinguish operational errors (handle: retry with backoff, translate to HTTP status, fallback) from programmer errors (fix; let them crash).\n- Use async/await with try/catch where you can actually do something; otherwise let errors propagate. Throw Error subclasses with codes, wrap with cause for context.\n- In web frameworks, use a central error middleware that maps known errors to responses and logs unknown ones with request IDs, without leaking stack traces to clients.\n- Attach error listeners to every EventEmitter/stream, and use pipeline for streams.\n- At process level, log unhandledRejection/uncaughtException and exit; rely on the orchestrator to restart, and run multiple instances.\n- Add timeouts (AbortSignal.timeout) to all outbound calls so errors surface instead of hanging.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "nodejs-06-q12",
           "type": "interview",
           "prompt": "How would you implement graceful shutdown for a Node.js HTTP service running in Kubernetes?",
           "answer": "- Listen for SIGTERM (Kubernetes sends it, then SIGKILL after terminationGracePeriodSeconds, default 30s).\n- Flip readiness to failing so the Service stops routing new traffic; optionally wait a few seconds for endpoint propagation.\n- Call server.close() to stop accepting connections, closeIdleConnections() for idle keep-alive sockets, and let in-flight requests complete.\n- Stop queue consumers from pulling new jobs and let current jobs finish or requeue them.\n- Close DB pools, Redis and broker connections, flush logs/metrics, then exit 0.\n- Set a hard timeout shorter than the grace period that force-exits. Make sure node actually receives the signal: exec form CMD [\"node\", \"server.js\"] or tini, not npm start.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "nodejs-06-q13",
@@ -1275,7 +1282,7 @@
         },
         {
           "title": "Node.js docs: Process signal events",
-          "url": "https://nodejs.org/api/process.html#signal-events"
+          "url": "https://nodejs.org/api/process.html"
         }
       ]
     },
@@ -1488,7 +1495,7 @@
         },
         {
           "title": "Node.js: Security Best Practices",
-          "url": "https://nodejs.org/en/learn/getting-started/security-best-practices"
+          "url": "https://nodejs.org/learn/getting-started/security-best-practices"
         }
       ]
     },
@@ -1666,7 +1673,8 @@
           "type": "interview",
           "prompt": "Compare worker_threads, child_process and cluster. When do you use each?",
           "answer": "- worker_threads: threads with separate isolates inside one process. Low overhead messaging, optional shared memory. Use for CPU-bound JS (parsing, image processing, hashing, compression) via a pool like Piscina.\n- child_process: separate processes. Use to run external binaries (ffmpeg, ImageMagick, git), Python scripts, or to isolate untrusted or crash-prone work; can kill on timeout.\n- cluster: N copies of the server sharing a port on one machine, primary does round-robin. Use to use all cores on a VM for HTTP throughput; state must live outside the process.\n- In Kubernetes or serverless I typically skip cluster: one process per container, scale replicas, and use worker threads only for CPU hot spots.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "nodejs-08-q12",
@@ -1869,7 +1877,8 @@
           "type": "interview",
           "prompt": "How would you debug a memory leak in a production Node.js service?",
           "answer": "- Confirm it: memory metrics (rss, heapUsed, external) climbing over hours with load-correlated growth and GC not reclaiming it, eventually OOM restarts.\n- Decide which memory: heapUsed growth means JS objects; rss/external growth means Buffers or native code.\n- Reproduce in staging with a load generator, or capture from one production instance pulled out of rotation using --heapsnapshot-signal or v8.writeHeapSnapshot().\n- Three-snapshot comparison in DevTools: find constructors whose counts grow, then follow retainers to the code holding them (a cache, listener, closure, global array).\n- Fix (bounded LRU, remove listeners, clear timers, WeakMap), add a regression load test, and keep --heapsnapshot-near-heap-limit enabled to catch the next one.\n- Short term mitigation while investigating: restarts, but never treat restarts as the fix.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "nodejs-09-q12",
@@ -1889,11 +1898,11 @@
       "resources": [
         {
           "title": "Node.js: Using Heap Snapshot",
-          "url": "https://nodejs.org/en/learn/diagnostics/memory/using-heap-snapshot"
+          "url": "https://nodejs.org/learn/diagnostics/memory/using-heap-snapshot"
         },
         {
           "title": "Node.js: Profiling Node.js Applications",
-          "url": "https://nodejs.org/en/learn/getting-started/profiling"
+          "url": "https://nodejs.org/learn/getting-started/profiling"
         },
         {
           "title": "V8 blog: Trash talk - the Orinoco garbage collector",

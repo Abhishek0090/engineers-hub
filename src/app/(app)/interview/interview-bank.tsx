@@ -6,13 +6,20 @@ import { useDeferredValue, useMemo, useState } from "react";
 import { Icon } from "@/components/icons";
 import { useProgress } from "@/components/progress-provider";
 import { QaCard } from "@/components/qa-card";
-import { LEVELS } from "@/lib/catalog";
-import type { InterviewItem, Level } from "@/lib/types";
+import { LEVELS, programConfig, PROGRAMS, progressProgram } from "@/lib/catalog";
+import type { InterviewItem, Level, Program } from "@/lib/types";
 
 const PAGE = 30;
 
-export function InterviewBank({ items, tracks }: { items: InterviewItem[]; tracks: { id: string; title: string; color: string; icon: string }[] }) {
+type TrackChip = { id: string; title: string; color: string; icon: string; program: Program };
+
+export function InterviewBank({ items, tracks }: { items: InterviewItem[]; tracks: TrackChip[] }) {
   const { progress } = useProgress();
+  const [programChoice, setProgram] = useState<Program | null>(null);
+  // Until the learner picks, follow the program of their current goal.
+  const program: Program = programChoice ?? progressProgram(progress);
+  const terms = programConfig(program).terms;
+  const programs = PROGRAMS.filter((p) => items.some((i) => i.program === p.id));
   const [query, setQuery] = useState("");
   const [track, setTrack] = useState<string>("all");
   const [level, setLevel] = useState<Level | "all">("all");
@@ -24,6 +31,7 @@ export function InterviewBank({ items, tracks }: { items: InterviewItem[]; track
   const filtered = useMemo(
     () =>
       items.filter((i) => {
+        if (i.program !== program) return false;
         if (track !== "all" && i.trackId !== track) return false;
         if (level !== "all" && (i.level ?? i.chapterLevel) !== level) return false;
         if (status === "done" && !practiced.has(i.id)) return false;
@@ -31,11 +39,12 @@ export function InterviewBank({ items, tracks }: { items: InterviewItem[]; track
         if (q && !`${i.prompt} ${i.answer} ${i.chapterTitle} ${i.trackTitle}`.toLowerCase().includes(q)) return false;
         return true;
       }),
-    [items, track, level, status, q, practiced],
+    [items, program, track, level, status, q, practiced],
   );
 
 
   const mockParams = new URLSearchParams();
+  mockParams.set("program", program);
   if (track !== "all") mockParams.set("track", track);
   if (level !== "all") mockParams.set("level", level);
 
@@ -43,13 +52,31 @@ export function InterviewBank({ items, tracks }: { items: InterviewItem[]; track
     <div className="container page stack" style={{ gap: 20 }}>
       <div className="row wrap" style={{ justifyContent: "space-between" }}>
         <div>
-          <h1 className="page-title">Interview bank</h1>
+          <h1 className="page-title">{terms.bank}</h1>
           <p className="muted" style={{ marginTop: 4 }}>
-            {items.length} questions with model answers. {practiced.size} practiced.
+            {items.filter((i) => i.program === program).length} questions with model answers. {practiced.size} practiced.
           </p>
+          {programs.length > 1 ? (
+            <div className="program-switch" role="group" aria-label="Program" style={{ marginTop: 12 }}>
+              {programs.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  aria-pressed={program === p.id}
+                  onClick={() => {
+                    setProgram(p.id);
+                    setTrack("all");
+                    setLimit(PAGE);
+                  }}
+                >
+                  {p.short}
+                </button>
+              ))}
+            </div>
+          ) : null}
         </div>
-        <Link href={`/interview/mock${mockParams.size ? `?${mockParams}` : ""}`} className="btn btn-accent">
-          <Icon name="mic" size={18} /> Mock interview (5)
+        <Link href={`/interview/mock?${mockParams}`} className="btn btn-accent">
+          <Icon name="mic" size={18} /> {terms.round} (5)
         </Link>
       </div>
 
@@ -60,7 +87,7 @@ export function InterviewBank({ items, tracks }: { items: InterviewItem[]; track
           <input
             id="q"
             className="input"
-            placeholder="Search: closures, indexes, hydration, JWT..."
+            placeholder={terms.search}
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -70,7 +97,7 @@ export function InterviewBank({ items, tracks }: { items: InterviewItem[]; track
         </div>
         <div className="chip-row" role="group" aria-label="Filter by track">
           <button type="button" className="chip" aria-pressed={track === "all"} onClick={() => setTrack("all")}>All tracks</button>
-          {tracks.map((t) => (
+          {tracks.filter((t) => t.program === program).map((t) => (
             <button key={t.id} type="button" className="chip" aria-pressed={track === t.id} onClick={() => { setTrack(t.id); setLimit(PAGE); }}>
               <span style={{ width: 10, height: 10, borderRadius: 3, background: t.color }} /> {t.title}
             </button>

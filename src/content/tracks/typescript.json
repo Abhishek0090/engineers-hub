@@ -206,7 +206,8 @@
           "type": "interview",
           "prompt": "What is the difference between any and unknown, and when would you use each?",
           "answer": "- Both accept any value, but any also disables checking: you can call it, read properties and assign it to anything, and the any spreads through your code.\n- unknown is type safe: you must narrow it (typeof, instanceof, in, a type guard or a schema validator) before using it.\n- Use unknown for untrusted data: JSON.parse results, API responses, catch clause variables (useUnknownInCatchVariables is on under strict).\n- any is an escape hatch for migration or genuinely untypeable code; I keep it rare and isolated, often with a lint rule like no-explicit-any.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "typescript-01-q12",
@@ -220,7 +221,8 @@
           "type": "interview",
           "prompt": "Why do teams prefer string literal unions or 'as const' objects over enums?",
           "answer": "- Unions are erased at compile time, so there is zero runtime cost and they work with type-stripping tools (Node type stripping, erasableSyntaxOnly).\n- Numeric enums are unsound in older versions and have reverse mappings that confuse iteration.\n- Enums are nominal-ish: you cannot pass the string 'up' where Direction.Up is expected, which is awkward with API data.\n- An 'as const' object plus 'typeof obj[keyof typeof obj]' gives you named constants and a union type at once.\n- Enums are still fine if a codebase already uses them consistently; const enums have extra pitfalls with isolatedModules.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         }
       ]
     },
@@ -424,14 +426,16 @@
           "type": "interview",
           "prompt": "When do you choose an interface versus a type alias?",
           "answer": "- They overlap for plain object shapes, so the main rule is team consistency.\n- I use interface for object contracts that may be extended or implemented by classes, and when I need declaration merging (augmenting Window, Express Request, module augmentation).\n- I use type for unions, tuples, function types, and anything computed with mapped or conditional types.\n- interface extends reports conflicting members as errors, while intersections silently produce never, so interfaces give better errors for hierarchies.\n- The TypeScript team also notes interface extends is cached and can type check faster than big intersections.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "typescript-02-q12",
           "type": "interview",
           "prompt": "Explain structural typing and a situation where it causes a bug. How do you prevent it?",
           "answer": "Structural typing means compatibility is based on shape, not declared name. If UserId and OrderId are both aliases for string, you can pass an OrderId to getUser(id: UserId) and the compiler is happy, which is a real bug. The fix is branding: type UserId = string & { readonly __brand: 'UserId' }, created only through a validating constructor function, so a plain string or OrderId no longer fits. Other places structural typing surprises people: extra properties are allowed except on fresh literals, and class instances with the same public shape are interchangeable unless they have private or #private members.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "typescript-02-q13",
@@ -640,14 +644,16 @@
           "type": "interview",
           "prompt": "What is a discriminated union and why is it useful?",
           "answer": "A discriminated union is a union of object types that all have a common property with a distinct literal type, such as kind: 'circle' | 'square' or status: 'loading' | 'success' | 'error'. Checking that property with if or switch narrows the value to exactly one member, so each branch can only access fields that exist in that state. It models state machines, Redux actions and API results precisely and makes impossible states unrepresentable, unlike a bag of optional fields. Combined with an assertNever default branch, adding a new variant produces compile errors everywhere it is not handled.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "typescript-03-q12",
           "type": "interview",
           "prompt": "Explain how exhaustiveness checking with never works.",
           "answer": "- Each case in a switch on the discriminant removes that member from the union.\n- After all members are handled, the remaining type in default is never.\n- Passing it to a function with a never parameter (assertNever) compiles only if nothing is left.\n- When a teammate adds a new member, the remaining type is that member, not never, so every non-exhaustive switch fails to compile.\n- The function also throws at runtime, which protects against bad data from outside the type system.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "typescript-03-q13",
@@ -849,7 +855,8 @@
           "type": "interview",
           "prompt": "Explain generics to a junior developer and give a real example.",
           "answer": "Generics are type parameters: variables for types, filled in by the caller, so one implementation works for many types without losing type information. Without them you would write the same function per type or use any and lose checking. A real example is a typed fetch helper: async function getJson<T>(url: string): Promise<T>, or better, one that takes a schema and infers T from it. Others: Array<T>, Promise<T>, a useLocalStorage<T> hook, or getProp<T, K extends keyof T>(obj, key): T[K]. Constraints (T extends {...}) limit what callers can pass and let the body use those members.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "typescript-04-q12",
@@ -1064,7 +1071,8 @@
           "type": "interview",
           "prompt": "What is the difference between Omit and Exclude?",
           "answer": "Omit<T, K> works on object types: it builds a new object type with the keys K removed (it is Pick<T, Exclude<keyof T, K>>). Exclude<U, X> works on union types: it removes union members assignable to X, for example Exclude<'a' | 'b', 'a'> is 'b'. A common confusion is using Exclude on an object type, which removes nothing useful. Also note Omit does not check that K exists in T, so typos pass silently; a StrictOmit<T, K extends keyof T> fixes that.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "typescript-05-q12",
@@ -1078,7 +1086,8 @@
           "type": "interview",
           "prompt": "Walk me through the utility types you use most and give an example of each.",
           "answer": "- Partial<T> for patch payloads and default-merging options.\n- Pick/Omit to shape view models and form types from an entity, e.g. Omit<User, 'id' | 'createdAt'> for a create form.\n- Record<K, V> for lookup tables keyed by a union, which also forces every key to be present.\n- Exclude/Extract/NonNullable to filter unions.\n- ReturnType and Parameters (with typeof) to type wrappers around third-party functions.\n- Awaited to unwrap promises, often Awaited<ReturnType<typeof fn>> for async loaders.\n- Readonly for immutable props or state, remembering it is shallow.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         }
       ]
     },
@@ -1792,7 +1801,7 @@
         },
         {
           "title": "TSConfig: strictFunctionTypes",
-          "url": "https://www.typescriptlang.org/tsconfig#strictFunctionTypes"
+          "url": "https://www.typescriptlang.org/tsconfig/"
         }
       ],
       "questions": [
@@ -1926,7 +1935,8 @@
           "type": "interview",
           "prompt": "When would you use satisfies instead of a type annotation?",
           "answer": "Use satisfies when you want the compiler to validate a value against a type but keep the value's more precise inferred type. Typical cases are config objects, route tables and lookup maps: with const x: Record<string, Route> = {...}, the keys widen to string so x.typo compiles and you lose literal values; with satisfies Record<string, Route> you still get excess property and shape checking, but keyof typeof x is the exact key union and values keep literal types. An annotation is still right when you want the variable to be the wider type, for example a variable that will be reassigned or a public API contract.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "typescript-09-q12",

@@ -404,14 +404,16 @@
           "type": "interview",
           "prompt": "Explain the staging area. Why does Git have it when other VCSs commit directly?",
           "answer": "The staging area (index) is the draft of the next commit. `git add` copies file content into it and `git commit` turns it into a snapshot. It exists so you can shape commits deliberately: if you fixed a bug and also refactored something unrelated, you stage and commit them separately, even hunk by hunk with `git add -p`. That produces small, reviewable, revertable commits and makes tools like bisect more useful. It also lets you review exactly what you are committing with `git diff --staged`. The index also caches file metadata, which is why `git status` is fast on large repos.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "git-cli-02-q12",
           "type": "interview",
           "prompt": "A teammate pushed an AWS key to the main branch an hour ago. What do you do?",
           "answer": "- Treat the key as compromised immediately: revoke or rotate it in AWS first, because bots scan public repos within minutes and even private repos are cloned to many machines.\n- Check CloudTrail or billing for misuse during the exposure window.\n- Remove the secret from the code and load it from an environment variable or a secrets manager.\n- Decide whether to purge history with `git filter-repo` or BFG. That requires a force push and every clone re-syncing, so it is coordinated, but it matters less than rotation because the old key is already dead.\n- Prevent recurrence: add the file to .gitignore, enable secret scanning and push protection (GitHub), and add a pre-commit hook like gitleaks.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "git-cli-02-q13",
@@ -619,7 +621,8 @@
           "type": "interview",
           "prompt": "What is the difference between git fetch and git pull? Which do you prefer and why?",
           "answer": "`git fetch` downloads new commits from the remote and updates remote-tracking refs like origin/main, without changing my branches or files. `git pull` does a fetch and then immediately integrates the upstream into my current branch, by merge by default or rebase if configured. I often fetch first and inspect with `git log main..origin/main` or `git diff`, so I know what is coming before integrating. For day-to-day work I set `pull.rebase=true` (or use `pull --ff-only`) so I do not create noisy \"Merge branch main of origin\" commits on my local branch. The key point is that fetch is always safe while pull can produce conflicts.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "git-cli-03-q12",
@@ -834,14 +837,16 @@
           "type": "interview",
           "prompt": "Merge vs rebase: explain the difference and when you would use each.",
           "answer": "Both integrate changes from one branch into another; they differ in history. Merge finds the common ancestor and creates a merge commit with two parents (or fast-forwards), preserving exactly what happened and never rewriting commits, so it is safe on shared branches. Rebase replays my commits on top of another branch, creating new commits and a linear history, which is easier to read, review and bisect. The rule is never to rebase commits other people have based work on, because it forces them to reconcile duplicated history. In practice I rebase my own feature branch onto main to stay current and clean up commits before review, and merge (or squash/rebase-merge via the PR tool) into main according to team convention.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "git-cli-04-q12",
           "type": "interview",
           "prompt": "Walk me through how you resolve a nasty merge conflict.",
           "answer": "- Check `git status` to see the conflicting files and whether I am in a merge or rebase.\n- Understand intent before editing: `git log --merge -p file` or the PR descriptions tell me why each side changed the code. The zdiff3 style shows the base, so I can see what each side changed.\n- Write a resolution that preserves both intents, which is often neither side verbatim. For generated files like lockfiles I take one side and regenerate (`npm install`).\n- Remove all markers, build and run the tests before `git add` and `--continue`.\n- If it gets confusing, `--abort` and retry, or talk to the author of the other change.\n- Afterwards, reduce future conflicts with smaller PRs and more frequent integration.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "git-cli-04-q13",
@@ -1049,14 +1054,16 @@
           "type": "interview",
           "prompt": "Explain git reset --soft, --mixed and --hard, and give a use case for each.",
           "answer": "All three move the current branch pointer to the given commit; they differ in what they do to the index and working tree. --soft touches neither, so the changes from the undone commits appear staged; I use it to squash my last few commits into one with `reset --soft HEAD~3` and a new commit. --mixed, the default, also resets the index but leaves files alone, so changes are unstaged; useful to undo a commit and re-stage it differently, or to split a commit during an interactive rebase. --hard resets index and working tree to match the commit; I use it to throw away experiments or match the remote with `reset --hard origin/main`. Uncommitted work is unrecoverable after --hard, but committed work can still be found with the reflog.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "git-cli-05-q12",
           "type": "interview",
           "prompt": "Revert vs reset: when do you use which?",
           "answer": "reset rewrites history by moving the branch pointer backwards, so it is only appropriate for commits that have not been shared, or a personal branch where a force push is acceptable. revert creates a new commit that undoes a previous one, leaving history intact, so it is the right tool for main, release branches and anything deployed. Revert is also auditable: the log shows what was undone and why. A special case is merge commits: revert needs `-m 1`, and re-landing the branch later requires reverting the revert. During an incident I revert the offending PR immediately, then fix forward in a normal PR.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "git-cli-05-q13",
@@ -1481,7 +1488,8 @@
           "type": "interview",
           "prompt": "Compare trunk-based development and GitFlow. Which would you choose for a new web product?",
           "answer": "GitFlow has long-lived main and develop branches plus feature, release and hotfix branches. It suits products with explicit versions and multiple maintained releases, but branches diverge for longer and merges get bigger. Trunk-based development has everyone merging small changes into main at least daily, with feature flags hiding unfinished work and main always releasable. For a continuously deployed web product I would choose trunk-based (or GitHub flow with short-lived branches): faster feedback, smaller conflicts, and research like DORA links it to better delivery performance. It requires investment in CI, automated tests and a feature flag system. If we later had to support shipped versions, I would add short-lived release branches with cherry-picked fixes rather than adopting full GitFlow.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "git-cli-07-q12",
@@ -1910,7 +1918,8 @@
           "type": "interview",
           "prompt": "A regression appeared somewhere in the last 400 commits and nobody knows where. How do you find it?",
           "answer": "I use git bisect. First I write the smallest reliable reproduction, ideally a failing automated test or script that exits non-zero when the bug is present. Then `git bisect start`, `git bisect bad HEAD`, `git bisect good <last known good tag>`. With `git bisect run ./repro.sh` Git binary-searches automatically, about 9 steps for 400 commits. Commits that do not build exit 125 to be skipped. When it reports the first bad commit, I read its diff and PR to understand the cause, run `git bisect reset`, and fix with a regression test. If the history has many broken intermediate commits, bisect gets noisy, which is an argument for atomic commits that each pass CI.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "git-cli-09-q12",

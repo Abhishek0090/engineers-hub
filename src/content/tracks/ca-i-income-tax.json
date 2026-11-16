@@ -1,0 +1,2082 @@
+{
+  "id": "ca-i-income-tax",
+  "title": "Income-tax (Inter P3A)",
+  "area": "ca-inter",
+  "order": 112,
+  "icon": "IT",
+  "color": "#b45309",
+  "description": "ICAI Intermediate Paper 3A on the Income-tax Act, 2025 as amended by the Finance Act, 2026 (tax year 2026-27, May 2027 exams onward): heads of income, set-off, deductions, tax computation, TDS and returns.",
+  "chapters": [
+    {
+      "id": "ca-i-income-tax-01-basics",
+      "title": "Basic Concepts, Tax Rates and Regimes",
+      "level": "beginner",
+      "summary": "Tax year, person, assessee and income under the Income-tax Act, 2025, with the new default regime, the old regime, rebate, surcharge and cess.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "The Income-tax Act, 2025 and the tax year",
+          "body": "The Income-tax Act, 2025 replaced the Income-tax Act, 1961 from 1 April 2026. ICAI applies the 2025 Act, as amended by the Finance Act, 2026, from the May 2027 examinations. The first year you study is **tax year 2026-27**.\n\nThe 1961 Act used two years: income of the **previous year** was taxed in the **assessment year** that followed. The 2025 Act uses one term, the **tax year** (section 3 of the 2025 Act): the financial year of 12 months beginning on 1 April. Income earned in tax year 2026-27 (1 April 2026 to 31 March 2027) is taxed as income of tax year 2026-27.\n\n- For a business or profession newly set up, or a new source of income, the first tax year begins on the date of setting up (or the date the source comes into existence) and ends on 31 March of that financial year.\n- The rates of tax are prescribed by the annual Finance Act. The Finance Act, 2026 kept the 2025-26 slab structure unchanged for tax year 2026-27.\n\nKey definitions (the 1961 Act references are given because most textbooks still cite them):\n\n- **Person** (corresponds to section 2(31) of the 1961 Act): individual, Hindu undivided family (HUF), company, firm, association of persons or body of individuals (AOP/BOI), local authority and every artificial juridical person.\n- **Assessee**: a person by whom tax or any other sum is payable, including a person against whom proceedings have been started and a deemed assessee or assessee in default.\n- **Income** (corresponds to section 2(24) of the 1961 Act): an inclusive definition. It covers profits, dividends, perquisites, capital gains, winnings from lotteries and gifts above the limit, among others.\n- **Five heads of income**: Salaries; Income from house property; Profits and gains of business or profession; Capital gains; Income from other sources."
+        },
+        {
+          "heading": "Rates: new default regime and old regime",
+          "body": "The **new tax regime** is the default for individuals, HUFs, AOPs (other than co-operative societies), BOIs and artificial juridical persons (section 202 of the 2025 Act; corresponds to section 115BAC of the 1961 Act). An assessee may opt out and pay tax under the **old regime**. A person with no business or profession income can choose each year in the return; a person with business income can opt out once and come back only once.\n\nNew regime slab rates for tax year 2026-27:\n\n| Total income (₹) | Rate |\n| --- | --- |\n| Up to 4,00,000 | Nil |\n| 4,00,001 to 8,00,000 | 5% |\n| 8,00,001 to 12,00,000 | 10% |\n| 12,00,001 to 16,00,000 | 15% |\n| 16,00,001 to 20,00,000 | 20% |\n| 20,00,001 to 24,00,000 | 25% |\n| Above 24,00,000 | 30% |\n\nOld regime slab rates (individual below 60 years):\n\n| Total income (₹) | Rate |\n| --- | --- |\n| Up to 2,50,000 | Nil |\n| 2,50,001 to 5,00,000 | 5% |\n| 5,00,001 to 10,00,000 | 20% |\n| Above 10,00,000 | 30% |\n\nIn the old regime the basic exemption limit is ₹3,00,000 for a resident senior citizen (60 years or more) and ₹5,00,000 for a resident super senior citizen (80 years or more). The new regime has one slab table for all ages.\n\nWhat the new regime gives up: most Chapter VI-A deductions (80C, 80D and the like), HRA and LTA exemptions, professional tax deduction and interest on a self-occupied house. It keeps the standard deduction on salary (₹75,000), employer NPS contribution deduction (corresponds to section 80CCD(2)) and a higher rebate."
+        },
+        {
+          "heading": "Rebate, surcharge and cess",
+          "body": "**Rebate** (section 156 of the 2025 Act; corresponds to section 87A of the 1961 Act) is available only to a **resident individual**.\n\n| Regime | Total income limit | Maximum rebate |\n| --- | --- | --- |\n| New regime | ₹12,00,000 | ₹60,000 |\n| Old regime | ₹5,00,000 | ₹12,500 |\n\nUnder the new regime there is **marginal relief**: where total income slightly exceeds ₹12,00,000, the tax (before cess) cannot exceed the income in excess of ₹12,00,000. The rebate is not available against tax on income taxed at special rates (for example, capital gains on listed equity).\n\n**Surcharge** for individuals is a percentage of income-tax, based on total income:\n\n| Total income | Surcharge |\n| --- | --- |\n| Above ₹50 lakh up to ₹1 crore | 10% |\n| Above ₹1 crore up to ₹2 crore | 15% |\n| Above ₹2 crore up to ₹5 crore | 25% |\n| Above ₹5 crore | 37% (old regime only; capped at 25% under the new regime) |\n\nSurcharge on dividend and on capital gains taxed at special rates under sections 111A, 112 and 112A of the 1961 Act (and their 2025 Act equivalents) is capped at 15%. Marginal relief applies at each surcharge threshold.\n\n**Health and Education Cess** is 4% of income-tax plus surcharge, under both regimes."
+        },
+        {
+          "heading": "Worked example: computing tax under the new regime",
+          "body": "Mr. Arjun, a resident individual aged 35, has total income of ₹15,00,000 for tax year 2026-27 and stays in the new regime.\n\n| Slab | Computation | Tax (₹) |\n| --- | --- | --- |\n| 0 to 4,00,000 | Nil | 0 |\n| 4,00,000 to 8,00,000 | 4,00,000 x 5% | 20,000 |\n| 8,00,000 to 12,00,000 | 4,00,000 x 10% | 40,000 |\n| 12,00,000 to 15,00,000 | 3,00,000 x 15% | 45,000 |\n| **Tax on total income** | | **1,05,000** |\n| Rebate (income above ₹12 lakh) | | Nil |\n| Add: Cess @ 4% | | 4,200 |\n| **Tax liability** | | **1,09,200** |\n\nMarginal relief example: total income ₹12,40,000. Slab tax is ₹66,000 but income above ₹12,00,000 is only ₹40,000, so tax is limited to ₹40,000 (relief ₹26,000). With cess, liability is ₹41,600.\n\nRound total income to the nearest multiple of ₹10 and round tax payable to the nearest multiple of ₹10 in a full computation (sections 288A and 288B of the 1961 Act). Many exam questions ask you to round to the nearest rupee instead; follow the question."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using \"previous year\" and \"assessment year\" in answers on the 2025 Act. Use **tax year**.\n- Giving the new regime rebate to a non-resident, or to an HUF. Rebate is for resident individuals only.\n- Applying the ₹3,00,000 senior citizen exemption under the new regime. It exists only in the old regime.\n- Computing cess on tax before surcharge. Cess is on tax plus surcharge.\n- Forgetting marginal relief just above ₹12,00,000 (rebate) and just above ₹50 lakh, ₹1 crore and so on (surcharge).\n- Allowing 80C or 80D under the default regime."
+        }
+      ],
+      "keyPoints": [
+        "Tax year = financial year from 1 April to 31 March (section 3 of the 2025 Act); no separate assessment year.",
+        "New regime (section 202, 2025 Act; old section 115BAC) is the default; slabs 0-4-8-12-16-20-24 lakh at nil, 5, 10, 15, 20, 25, 30%.",
+        "Old regime slabs: 2.5 lakh nil, 2.5-5 lakh 5%, 5-10 lakh 20%, above 10 lakh 30% (3 lakh / 5 lakh exemption for senior / super senior residents).",
+        "Rebate (section 156, 2025 Act; old section 87A): new regime up to ₹60,000 if total income <= ₹12 lakh, with marginal relief; old regime ₹12,500 if <= ₹5 lakh. Resident individuals only.",
+        "Surcharge 10% / 15% / 25% / 37% above ₹50 lakh / 1 crore / 2 crore / 5 crore; new regime capped at 25%; 15% cap on dividend and special-rate capital gains.",
+        "Health and Education Cess = 4% of (tax + surcharge).",
+        "Standard deduction on salary: ₹75,000 (new) and ₹50,000 (old)."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-income-tax-01-basics-case1",
+          "title": "Case: Mr. Raghav Menon",
+          "body": "Mr. Raghav Menon, aged 40, is a resident individual employed with a private company in Kochi. For tax year 2026-27 his gross salary is ₹13,50,000. He has no other income and has made no investments. He wants to stay in the default tax regime.\n\nHis colleague Ms. Lata (also resident, aged 38) earns gross salary of ₹12,60,000 and also stays in the default regime."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-income-tax-01-basics-q01",
+          "type": "mcq",
+          "prompt": "Under the Income-tax Act, 2025, income earned between 1 April 2026 and 31 March 2027 is taxed as income of:",
+          "options": [
+            "Tax year 2026-27",
+            "Assessment year 2027-28 only",
+            "Previous year 2026-27 and assessment year 2027-28",
+            "Tax year 2027-28"
+          ],
+          "answer": 0,
+          "explanation": "The 2025 Act replaces the previous year / assessment year pair with a single tax year. The financial year 2026-27 is tax year 2026-27."
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q02",
+          "type": "mcq",
+          "prompt": "Which of the following is NOT a 'person' under the Income-tax Act?",
+          "options": [
+            "A branch office of an Indian company",
+            "A Hindu undivided family",
+            "A local authority",
+            "An artificial juridical person"
+          ],
+          "answer": 0,
+          "explanation": "A branch is part of the company, which is the person. HUF, local authority and artificial juridical person are all listed in the definition of person."
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q03",
+          "type": "mcq",
+          "prompt": "Mr. X, a non-resident individual, has total income of ₹7,00,000 for tax year 2026-27 under the new regime. His rebate is:",
+          "options": [
+            "Nil",
+            "₹15,000",
+            "₹60,000",
+            "₹12,500"
+          ],
+          "answer": 0,
+          "explanation": "Rebate (section 156 of the 2025 Act; old section 87A) is available only to a resident individual. A non-resident pays tax of ₹15,000 plus cess."
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q04",
+          "type": "mcq",
+          "prompt": "Health and Education Cess is levied at:",
+          "options": [
+            "4% of income-tax plus surcharge",
+            "4% of income-tax only",
+            "2% of income-tax plus 1% secondary cess",
+            "4% of total income"
+          ],
+          "answer": 0,
+          "explanation": "Cess is computed on income-tax as increased by surcharge, at 4%, under both regimes."
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q05",
+          "type": "numeric",
+          "prompt": "Compute the tax liability (including cess) of Mr. Arjun, a resident individual aged 35, whose total income for tax year 2026-27 is ₹15,00,000 under the new regime. Round to the nearest rupee.",
+          "answer": 109200,
+          "explanation": "| Slab | Tax (₹) |\n| --- | --- |\n| 4 to 8 lakh @ 5% | 20,000 |\n| 8 to 12 lakh @ 10% | 40,000 |\n| 12 to 15 lakh @ 15% | 45,000 |\n| Total | 1,05,000 |\n| Cess @ 4% | 4,200 |\n| **Tax liability** | **1,09,200** |\n\nNo rebate because total income exceeds ₹12,00,000.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q06",
+          "type": "numeric",
+          "prompt": "Ms. Nisha, a resident individual, has total income of ₹12,40,000 (all normal income) for tax year 2026-27 under the new regime. Compute her tax liability including cess, after marginal relief. Round to the nearest rupee.",
+          "answer": 41600,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Slab tax: 20,000 + 40,000 + 40,000 x 15% | 66,000 |\n| Income above ₹12,00,000 | 40,000 |\n| Tax limited to (marginal relief ₹26,000) | 40,000 |\n| Cess @ 4% | 1,600 |\n| **Tax liability** | **41,600** |",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q07",
+          "type": "numeric",
+          "prompt": "Mr. Dev, a resident individual aged 45, opts out of the new regime. His total income under the old regime is ₹9,00,000. Compute his tax liability including cess. Round to the nearest rupee.",
+          "answer": 96200,
+          "explanation": "| Slab | Tax (₹) |\n| --- | --- |\n| 2.5 to 5 lakh @ 5% | 12,500 |\n| 5 to 9 lakh @ 20% | 80,000 |\n| Total | 92,500 |\n| Cess @ 4% | 3,700 |\n| **Tax liability** | **96,200** |\n\nNo rebate because total income exceeds ₹5,00,000.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q08",
+          "type": "numeric",
+          "prompt": "Ms. Sana, a resident individual, has total income of ₹60,00,000 (all salary) for tax year 2026-27 under the new regime. Compute her tax liability including surcharge and cess. Round to the nearest rupee.",
+          "answer": 1578720,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Tax up to 24 lakh (20,000 + 40,000 + 60,000 + 80,000 + 1,00,000) | 3,00,000 |\n| 36,00,000 x 30% | 10,80,000 |\n| Income-tax | 13,80,000 |\n| Surcharge @ 10% | 1,38,000 |\n| Cess @ 4% on 15,18,000 | 60,720 |\n| **Tax liability** | **15,78,720** |\n\nMarginal relief check: tax on ₹50 lakh is ₹10,80,000; ₹10,80,000 + ₹10,00,000 exceeds ₹15,18,000, so no marginal relief.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q09",
+          "type": "numeric",
+          "prompt": "Compute Mr. Raghav's tax liability (including cess) for tax year 2026-27. Round to the nearest rupee.",
+          "answer": 74100,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Gross salary | 13,50,000 |\n| Less: Standard deduction | (75,000) |\n| Total income | 12,75,000 |\n| Tax: 20,000 + 40,000 + 75,000 x 15% | 71,250 |\n| Marginal relief: income above 12 lakh is 75,000, more than tax | Nil |\n| Cess @ 4% | 2,850 |\n| **Tax liability** | **74,100** |",
+          "caseId": "ca-i-income-tax-01-basics-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q10",
+          "type": "truefalse",
+          "prompt": "Ms. Lata's tax liability for tax year 2026-27 is nil.",
+          "answer": true,
+          "explanation": "Her total income is ₹12,60,000 - ₹75,000 = ₹11,85,000. Slab tax of ₹58,500 is fully covered by the rebate (maximum ₹60,000) because total income does not exceed ₹12,00,000.",
+          "caseId": "ca-i-income-tax-01-basics-case1"
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q11",
+          "type": "mcq",
+          "prompt": "If Mr. Raghav opts out of the default regime, which change applies to his salary computation?",
+          "options": [
+            "Standard deduction falls to ₹50,000",
+            "Standard deduction rises to ₹1,00,000",
+            "No standard deduction is allowed",
+            "Standard deduction stays ₹75,000"
+          ],
+          "answer": 0,
+          "explanation": "Standard deduction is ₹75,000 under the new regime and ₹50,000 under the old regime.",
+          "caseId": "ca-i-income-tax-01-basics-case1"
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q12",
+          "type": "multi",
+          "prompt": "Which of these are available to an individual paying tax under the new default regime for tax year 2026-27? Select all that apply.",
+          "options": [
+            "Standard deduction of ₹75,000 on salary",
+            "Deduction for employer contribution to NPS (corresponds to section 80CCD(2))",
+            "Deduction for life insurance premium (corresponds to section 80C)",
+            "Rebate up to ₹60,000 for a resident individual",
+            "Exemption for house rent allowance"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "The new regime keeps the standard deduction, employer NPS contribution deduction and the higher rebate. 80C-type deductions and HRA exemption are available only in the old regime."
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q13",
+          "type": "fill",
+          "prompt": "Fill the blank: under the old regime, a resident individual aged 82 has a basic exemption limit of ₹___ (write the amount in figures, e.g. 250000).",
+          "accept": [
+            "500000",
+            "5,00,000",
+            "5 lakh"
+          ],
+          "explanation": "A resident super senior citizen (80 years or more) has a basic exemption limit of ₹5,00,000 in the old regime."
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q14",
+          "type": "practical",
+          "prompt": "Ms. Kiran, a resident individual aged 42, wants to know which regime is better for tax year 2026-27. Compute her tax under both regimes and advise.",
+          "data": "| Particulars | ₹ |\n| --- | --- |\n| Gross salary (including HRA) | 14,00,000 |\n| HRA exempt under the old regime (computed) | 1,20,000 |\n| Life insurance premium and PPF (80C-type) | 1,50,000 |\n| Mediclaim premium for self (80D-type) | 25,000 |\n\nShe has no other income.",
+          "answer": "**Old regime**\n\n| Particulars | ₹ |\n| --- | --- |\n| Gross salary | 14,00,000 |\n| Less: HRA exempt | (1,20,000) |\n| Less: Standard deduction | (50,000) |\n| Income from salary / GTI | 12,30,000 |\n| Less: 80C-type deduction | (1,50,000) |\n| Less: 80D-type deduction | (25,000) |\n| Total income | 10,55,000 |\n| Tax: 12,500 + 1,00,000 + 55,000 x 30% | 1,29,000 |\n| Cess @ 4% | 5,160 |\n| **Tax liability** | **1,34,160** |\n\n**New regime**\n\n| Particulars | ₹ |\n| --- | --- |\n| Gross salary (HRA fully taxable) | 14,00,000 |\n| Less: Standard deduction | (75,000) |\n| Total income | 13,25,000 |\n| Tax: 20,000 + 40,000 + 1,25,000 x 15% | 78,750 |\n| Cess @ 4% | 3,150 |\n| **Tax liability** | **81,900** |\n\n**Advice**: the new regime saves ₹52,260. As she has no business income she can choose the regime each year while filing the return.",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q15",
+          "type": "interview",
+          "prompt": "Explain the concept of 'tax year' under the Income-tax Act, 2025 and how it differs from the 'previous year' and 'assessment year' concept of the 1961 Act.",
+          "answer": "- Section 3 of the 2025 Act defines tax year as the financial year of 12 months beginning on 1 April.\n- Under the 1961 Act, income of the previous year was assessed in the following assessment year. Two terms described one period of earning.\n- The 2025 Act uses one term: income of tax year 2026-27 is taxed as income of that tax year. Returns, assessment and advance tax all refer to the tax year.\n- For a new business or profession, or a new source of income, the first tax year starts on the date of set up or the date the source arises and ends on 31 March of that financial year.\n- The change is one of terminology and simplification; the 12-month April-March period and the scheme of annual rates through the Finance Act remain.",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-01-basics-q16",
+          "type": "interview",
+          "prompt": "Write a short note on rebate to resident individuals and the marginal relief under the new regime.",
+          "answer": "- Section 156 of the 2025 Act (corresponds to section 87A of the 1961 Act) gives a rebate to a resident individual only.\n- New regime: if total income does not exceed ₹12,00,000, rebate equals the tax on total income, up to ₹60,000. So income up to ₹12 lakh (₹12.75 lakh of salary after standard deduction) bears no tax.\n- Marginal relief: where total income exceeds ₹12,00,000, tax payable cannot exceed the amount by which total income exceeds ₹12,00,000.\n- Old regime: rebate up to ₹12,500 where total income does not exceed ₹5,00,000.\n- The rebate is not allowed against tax on income charged at special rates (such as capital gains on listed equity) under the new regime.\n- Rebate is deducted before surcharge and cess."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal (Inter Paper 3 study material and RTPs)",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts, rules and tax tools",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-income-tax-02-residence",
+      "title": "Residential Status and Scope of Total Income",
+      "level": "beginner",
+      "summary": "Determine whether an individual, HUF, firm or company is resident, RNOR or non-resident, and which incomes fall in their total income.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Why residence matters",
+          "body": "Residential status is decided for **each tax year** separately and decides the scope of total income. Citizenship does not decide it, though some rules apply only to Indian citizens. The provisions here correspond to sections 5, 6 and 9 of the 1961 Act; the 2025 Act retains the same day-count tests.\n\nAn individual or HUF can be:\n\n- **Resident and ordinarily resident (ROR)**\n- **Resident but not ordinarily resident (RNOR)**\n- **Non-resident (NR)**\n\nA firm, AOP, company or other person is only resident or non-resident."
+        },
+        {
+          "heading": "Tests for an individual",
+          "body": "**Basic conditions** (any one makes the individual resident):\n\n- (a) in India for **182 days or more** in the tax year; or\n- (b) in India for **60 days or more** in the tax year and **365 days or more** in the 4 preceding tax years.\n\n**Exceptions to condition (b)**:\n\n| Who | Rule |\n| --- | --- |\n| Indian citizen leaving India for employment abroad, or as crew of an Indian ship | Only the 182-day test applies |\n| Indian citizen or person of Indian origin (PIO) visiting India, Indian income up to ₹15 lakh | 60 days is replaced by 182 days (so effectively only 182) |\n| Same visitor, income other than foreign-source income above ₹15 lakh | 60 days is replaced by **120 days** (with 365 days in 4 preceding years) |\n\n**Deemed resident**: an Indian citizen whose income other than from foreign sources exceeds ₹15 lakh and who is not liable to tax in any other country by reason of domicile or residence is deemed resident in India. A deemed resident is always **RNOR**.\n\n**ROR vs RNOR**: a resident individual is RNOR if (i) non-resident in 9 out of the 10 preceding tax years, or (ii) in India for 729 days or less in the 7 preceding tax years, or (iii) resident only because of the 120-day rule, or (iv) deemed resident. Otherwise the resident is ROR."
+        },
+        {
+          "heading": "HUF, firm and company",
+          "body": "- **HUF, firm, AOP**: resident unless control and management of its affairs is **wholly** outside India. A resident HUF is ROR or RNOR depending on whether the **karta** satisfies the ROR additional conditions.\n- **Company**: resident if it is an Indian company, or its **place of effective management (POEM)** in the tax year is in India. POEM means the place where key management and commercial decisions necessary for the conduct of the business as a whole are in substance made.\n\nScope of total income:\n\n| Income | ROR | RNOR | NR |\n| --- | --- | --- | --- |\n| Received or deemed received in India | Taxable | Taxable | Taxable |\n| Accrues or arises (or deemed to) in India | Taxable | Taxable | Taxable |\n| Accrues and received outside India from a business controlled in, or a profession set up in, India | Taxable | Taxable | Not taxable |\n| Other income accruing and received outside India | Taxable | Not taxable | Not taxable |\n| Past untaxed foreign income remitted to India later | Not taxable | Not taxable | Not taxable |\n\nIncome deemed to accrue in India (section 9 of the 1961 Act) includes salary for services rendered in India, income from a business connection or property in India, and interest, royalty or fees for technical services payable by specified persons."
+        },
+        {
+          "heading": "Worked example: scope of income",
+          "body": "Incomes of an individual for tax year 2026-27:\n\n| Income for tax year 2026-27 (already computed under the relevant head) | ₹ |\n| --- | --- |\n| Salary for services rendered in India, received in Dubai | 6,00,000 |\n| Interest on a UK bank deposit, received in the UK | 80,000 |\n| Income from a house in London, received in London | 2,10,000 |\n| Profit of a business in Singapore controlled from India, received in Singapore | 4,00,000 |\n| Dividend from an Indian company | 50,000 |\n| Income from a profession set up in Germany, received in Germany | 1,50,000 |\n| Profit of a business in Japan, received in India | 70,000 |\n| Foreign income of tax year 2024-25, not taxed then, brought into India in 2026-27 | 1,00,000 |\n\n| Particulars | ROR | RNOR | NR |\n| --- | --- | --- | --- |\n| Salary for services in India (accrues in India) | 6,00,000 | 6,00,000 | 6,00,000 |\n| UK interest received abroad | 80,000 | - | - |\n| London house income received abroad | 2,10,000 | - | - |\n| Singapore business controlled from India | 4,00,000 | 4,00,000 | - |\n| Dividend from Indian company | 50,000 | 50,000 | 50,000 |\n| German profession set up abroad | 1,50,000 | - | - |\n| Japan business profit received in India | 70,000 | 70,000 | 70,000 |\n| Past foreign income remitted (not income of this year) | - | - | - |\n| **Gross total income** | **15,60,000** | **11,20,000** | **7,20,000** |\n\nRemittance of past foreign income is not income at all: it is a transfer of money already earned in an earlier year."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Counting days of the preceding 4 years for a citizen who left India for employment. Only 182 days matters.\n- Treating a deemed resident or a 120-day visitor as ROR. Both are RNOR.\n- Taxing past foreign income when it is brought into India.\n- Forgetting that place of receipt alone decides taxability for an NR only when the income is first received in India; a mere transfer between accounts later is not receipt.\n- For an HUF, testing the HUF's own stay instead of the karta's stay for the ROR conditions."
+        }
+      ],
+      "keyPoints": [
+        "Resident: 182 days, or 60 days + 365 days in 4 preceding tax years.",
+        "60 days becomes 182 for citizens leaving for employment and crew; becomes 120 for citizen / PIO visitors with Indian income above ₹15 lakh.",
+        "Deemed resident: citizen with Indian income above ₹15 lakh not taxed elsewhere by domicile or residence; always RNOR.",
+        "RNOR if NR in 9 of 10 preceding years, or <= 729 days in 7 preceding years.",
+        "Company resident if Indian company or POEM in India; HUF / firm resident unless control wholly outside India.",
+        "ROR taxed on global income; RNOR adds foreign income from business controlled / profession set up in India; NR only Indian income."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-income-tax-02-residence-case1",
+          "title": "Case: Mr. Kabir Rao",
+          "body": "Mr. Kabir Rao is an Indian citizen who has lived in London since 2015, where he is not taxed as a resident because of a special status. He visits India every year. Details for tax year 2026-27:\n\n| Particulars | Detail |\n| --- | --- |\n| Stay in India in tax year 2026-27 | 130 days |\n| Stay in India in the 4 preceding tax years | 410 days |\n| Stay in India in the 7 preceding tax years | 700 days |\n| Rent from a flat in Pune (income other than from foreign sources) | ₹18,00,000 |\n| Salary from a London employer, received in London | ₹40,00,000 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-income-tax-02-residence-q01",
+          "type": "mcq",
+          "prompt": "What is Mr. Kabir's residential status for tax year 2026-27?",
+          "options": [
+            "Resident but not ordinarily resident",
+            "Resident and ordinarily resident",
+            "Non-resident",
+            "Deemed resident and ordinarily resident"
+          ],
+          "answer": 0,
+          "explanation": "He is an Indian citizen visiting India with Indian income above ₹15 lakh, so the 60-day test becomes 120 days. 130 days and 410 days in 4 preceding years make him resident. A person resident only because of the 120-day rule is RNOR.",
+          "caseId": "ca-i-income-tax-02-residence-case1"
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q02",
+          "type": "truefalse",
+          "prompt": "If Mr. Kabir's Indian income were ₹12,00,000 (instead of ₹18,00,000) with the same stay, he would be a non-resident for tax year 2026-27.",
+          "answer": true,
+          "explanation": "With Indian income up to ₹15 lakh, the 60-day test is replaced by 182 days for a visiting citizen. 130 days is less than 182, so he is non-resident. He is not a deemed resident either, because that needs Indian income above ₹15 lakh.",
+          "caseId": "ca-i-income-tax-02-residence-case1"
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q03",
+          "type": "mcq",
+          "prompt": "Which of Mr. Kabir's incomes is included in his total income for tax year 2026-27?",
+          "options": [
+            "Only the Pune rent of ₹18,00,000",
+            "Both the Pune rent and the London salary",
+            "Only the London salary",
+            "Neither"
+          ],
+          "answer": 0,
+          "explanation": "As an RNOR he is taxed on income received or accruing in India. The London salary accrues and is received outside India and is not from a business controlled from India, so it is excluded.",
+          "caseId": "ca-i-income-tax-02-residence-case1"
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q04",
+          "type": "mcq",
+          "prompt": "Ms. Jane, a foreign national, was in India for 75 days in tax year 2026-27 and for 400 days in the 4 preceding tax years. Her status is:",
+          "options": [
+            "Resident",
+            "Non-resident",
+            "Deemed resident",
+            "Cannot be determined without her income"
+          ],
+          "answer": 0,
+          "explanation": "She satisfies 60 days in the tax year and 365 days in the 4 preceding years. The 120-day and 182-day modifications apply only to Indian citizens or PIOs."
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q05",
+          "type": "mcq",
+          "prompt": "Mr. Amit, an Indian citizen, left India on 1 August 2026 to take up a job in Canada. He was in India for 400 days in each of the earlier 4-year blocks. For tax year 2026-27 he is:",
+          "options": [
+            "Non-resident, because he stayed fewer than 182 days",
+            "Resident, because he satisfies 60 + 365 days",
+            "RNOR under the 120-day rule",
+            "Deemed resident"
+          ],
+          "answer": 0,
+          "explanation": "From 1 April to 1 August 2026 he stayed about 123 days. For a citizen leaving India for employment only the 182-day test applies, so he is non-resident."
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q06",
+          "type": "mcq",
+          "prompt": "A company incorporated in Mauritius has its place of effective management in Mumbai during tax year 2026-27. Its status is:",
+          "options": [
+            "Resident",
+            "Non-resident",
+            "RNOR",
+            "Resident only if 50% of its income arises in India"
+          ],
+          "answer": 0,
+          "explanation": "A foreign company is resident in India if its POEM in the tax year is in India. A company cannot be RNOR."
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q07",
+          "type": "numeric",
+          "prompt": "Using the data, compute the gross total income if the individual is resident and ordinarily resident for tax year 2026-27.",
+          "answer": 1560000,
+          "explanation": "| Particulars | ROR | RNOR | NR |\n| --- | --- | --- | --- |\n| Salary for services in India (accrues in India) | 6,00,000 | 6,00,000 | 6,00,000 |\n| UK interest received abroad | 80,000 | - | - |\n| London house income received abroad | 2,10,000 | - | - |\n| Singapore business controlled from India | 4,00,000 | 4,00,000 | - |\n| Dividend from Indian company | 50,000 | 50,000 | 50,000 |\n| German profession set up abroad | 1,50,000 | - | - |\n| Japan business profit received in India | 70,000 | 70,000 | 70,000 |\n| Past foreign income remitted (not income of this year) | - | - | - |\n| **Gross total income** | **15,60,000** | **11,20,000** | **7,20,000** |",
+          "data": "| Income for tax year 2026-27 (already computed under the relevant head) | ₹ |\n| --- | --- |\n| Salary for services rendered in India, received in Dubai | 6,00,000 |\n| Interest on a UK bank deposit, received in the UK | 80,000 |\n| Income from a house in London, received in London | 2,10,000 |\n| Profit of a business in Singapore controlled from India, received in Singapore | 4,00,000 |\n| Dividend from an Indian company | 50,000 |\n| Income from a profession set up in Germany, received in Germany | 1,50,000 |\n| Profit of a business in Japan, received in India | 70,000 |\n| Foreign income of tax year 2024-25, not taxed then, brought into India in 2026-27 | 1,00,000 |",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q08",
+          "type": "numeric",
+          "prompt": "Using the data, compute the gross total income if the individual is resident but not ordinarily resident.",
+          "answer": 1120000,
+          "explanation": "| Particulars | ROR | RNOR | NR |\n| --- | --- | --- | --- |\n| Salary for services in India (accrues in India) | 6,00,000 | 6,00,000 | 6,00,000 |\n| UK interest received abroad | 80,000 | - | - |\n| London house income received abroad | 2,10,000 | - | - |\n| Singapore business controlled from India | 4,00,000 | 4,00,000 | - |\n| Dividend from Indian company | 50,000 | 50,000 | 50,000 |\n| German profession set up abroad | 1,50,000 | - | - |\n| Japan business profit received in India | 70,000 | 70,000 | 70,000 |\n| Past foreign income remitted (not income of this year) | - | - | - |\n| **Gross total income** | **15,60,000** | **11,20,000** | **7,20,000** |",
+          "data": "| Income for tax year 2026-27 (already computed under the relevant head) | ₹ |\n| --- | --- |\n| Salary for services rendered in India, received in Dubai | 6,00,000 |\n| Interest on a UK bank deposit, received in the UK | 80,000 |\n| Income from a house in London, received in London | 2,10,000 |\n| Profit of a business in Singapore controlled from India, received in Singapore | 4,00,000 |\n| Dividend from an Indian company | 50,000 |\n| Income from a profession set up in Germany, received in Germany | 1,50,000 |\n| Profit of a business in Japan, received in India | 70,000 |\n| Foreign income of tax year 2024-25, not taxed then, brought into India in 2026-27 | 1,00,000 |",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q09",
+          "type": "numeric",
+          "prompt": "Using the data, compute the gross total income if the individual is non-resident.",
+          "answer": 720000,
+          "explanation": "| Particulars | ROR | RNOR | NR |\n| --- | --- | --- | --- |\n| Salary for services in India (accrues in India) | 6,00,000 | 6,00,000 | 6,00,000 |\n| UK interest received abroad | 80,000 | - | - |\n| London house income received abroad | 2,10,000 | - | - |\n| Singapore business controlled from India | 4,00,000 | 4,00,000 | - |\n| Dividend from Indian company | 50,000 | 50,000 | 50,000 |\n| German profession set up abroad | 1,50,000 | - | - |\n| Japan business profit received in India | 70,000 | 70,000 | 70,000 |\n| Past foreign income remitted (not income of this year) | - | - | - |\n| **Gross total income** | **15,60,000** | **11,20,000** | **7,20,000** |",
+          "data": "| Income for tax year 2026-27 (already computed under the relevant head) | ₹ |\n| --- | --- |\n| Salary for services rendered in India, received in Dubai | 6,00,000 |\n| Interest on a UK bank deposit, received in the UK | 80,000 |\n| Income from a house in London, received in London | 2,10,000 |\n| Profit of a business in Singapore controlled from India, received in Singapore | 4,00,000 |\n| Dividend from an Indian company | 50,000 |\n| Income from a profession set up in Germany, received in Germany | 1,50,000 |\n| Profit of a business in Japan, received in India | 70,000 |\n| Foreign income of tax year 2024-25, not taxed then, brought into India in 2026-27 | 1,00,000 |",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q10",
+          "type": "multi",
+          "prompt": "A resident HUF is RNOR if its karta (select all that apply):",
+          "options": [
+            "Was non-resident in 9 out of the 10 preceding tax years",
+            "Was in India for 729 days or less in the 7 preceding tax years",
+            "Was in India for less than 182 days in the tax year",
+            "Is not an Indian citizen"
+          ],
+          "answers": [
+            0,
+            1
+          ],
+          "explanation": "The ROR / RNOR test of an HUF depends on the karta satisfying the additional conditions. Stay in the current year and citizenship of the karta do not decide it."
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: an Indian citizen whose income other than from foreign sources exceeds ₹15 lakh and who is not liable to tax in any other country by reason of domicile or residence is deemed to be resident, and is treated as resident but ___ resident.",
+          "accept": [
+            "not ordinarily",
+            "not-ordinarily"
+          ],
+          "explanation": "A deemed resident is always RNOR, so his foreign income (other than from a business controlled or profession set up in India) stays outside the tax net."
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q12",
+          "type": "practical",
+          "prompt": "Determine the residential status of each person for tax year 2026-27, giving reasons.",
+          "data": "| Person | Facts |\n| --- | --- |\n| A, Indian citizen | Crew member of an Indian ship; in India 150 days in 2026-27; 700 days in 4 preceding years |\n| B, foreign national | In India 200 days in 2026-27; in India for the first time |\n| C, HUF | Control and management partly in India; karta was resident in 5 of the 10 preceding tax years and in India for 600 days in the 7 preceding tax years |\n| D, Indian company | All board meetings held in Singapore |",
+          "answer": "| Person | Status | Reason |\n| --- | --- | --- |\n| A | Non-resident | For crew of an Indian ship only the 182-day test applies; 150 days is short |\n| B | RNOR | Resident (182 days or more), but non-resident in 9 of the 10 preceding years (first visit) |\n| C | RNOR | Resident because control is not wholly outside India. The karta fails the 9-of-10 test, but he was in India for only 600 days (729 days or less) in the 7 preceding years, so the HUF is RNOR |\n| D | Resident | An Indian company is always resident, whatever its POEM |",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-02-residence-q13",
+          "type": "interview",
+          "prompt": "Explain the scope of total income of a resident and ordinarily resident, a resident but not ordinarily resident and a non-resident.",
+          "answer": "- All three are taxed on income received or deemed received in India, and income accruing or arising, or deemed to accrue or arise, in India.\n- An ROR is also taxed on income that accrues and is received outside India: worldwide income.\n- An RNOR is taxed on foreign income only if it is derived from a business controlled in India or a profession set up in India.\n- An NR is not taxed on any income that accrues and is received outside India.\n- Income is taxed once: income already taxed on accrual is not taxed again when received, and past untaxed foreign income remitted to India later is not income of the year of remittance.\n- These rules correspond to section 5 of the 1961 Act and are carried into the 2025 Act.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal (Inter Paper 3 study material and RTPs)",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts, rules and tax tools",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-income-tax-03-exempt-incomes",
+      "title": "Incomes which do not Form Part of Total Income",
+      "level": "beginner",
+      "summary": "Agricultural income, composite income from tea, coffee and rubber, partial integration, and other common exemptions.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Where exemptions sit in the 2025 Act",
+          "body": "The 1961 Act listed exempt incomes in section 10 (with sections 10AA to 13A). The 2025 Act moves them to **section 11 read with Schedules II to VII**. Clause numbers changed, so this chapter names each exemption and gives the 1961 clause for reference.\n\nCommon exemptions for individuals:\n\n| Exemption | 1961 Act reference |\n| --- | --- |\n| Agricultural income | 10(1) |\n| Sum received by a member out of HUF income | 10(2) |\n| Partner's share of profit of a firm (taxed in the firm's hands) | 10(2A) |\n| Sum received under a life insurance policy, including bonus, subject to premium conditions | 10(10D) |\n| Payment from a statutory provident fund / public provident fund | 10(11) |\n| Daily and other allowances of MPs and MLAs | 10(17) |\n| Compensation on compulsory acquisition of urban agricultural land | 10(37) |\n\nExpenses incurred to earn exempt income are not deductible (corresponds to section 14A of the 1961 Act; section 14 of the 2025 Act)."
+        },
+        {
+          "heading": "Agricultural income",
+          "body": "Agricultural income (corresponds to section 2(1A) of the 1961 Act) means:\n\n- **rent or revenue** derived from land situated in India and used for agricultural purposes;\n- income from **agriculture** on such land, or from a process done by the cultivator or receiver of rent-in-kind to make the produce fit for the market, or from sale of such produce;\n- income from a **farm building** used in connection with agriculture (rent from a farm building for other purposes is not agricultural income, except a building in a rural area).\n\nThe land must be in India. Basic operations (tilling, sowing) are essential; income from forest trees that grow on their own without basic operations is not agricultural income. Dividend from a company engaged in agriculture is not agricultural income in the shareholder's hands.\n\n**Composite income** (Income-tax Rules: Rules 7A, 7B and 8 of the 1962 Rules):\n\n| Activity (grown and processed by the same person) | Business income | Agricultural income |\n| --- | --- | --- |\n| Rubber grown and manufactured | 35% | 65% |\n| Coffee grown and cured | 25% | 75% |\n| Coffee grown, cured, roasted and ground | 40% | 60% |\n| Tea grown and manufactured | 40% | 60% |\n\nIncome from sugar or other produce processed in a factory is split under the general rule: market value of the produce is agricultural income, the rest is business income."
+        },
+        {
+          "heading": "Partial integration of agricultural income",
+          "body": "Agricultural income is exempt but is used to fix the **rate** on non-agricultural income for an individual, HUF, AOP, BOI or artificial juridical person when both conditions hold:\n\n- net agricultural income exceeds ₹5,000; and\n- non-agricultural income exceeds the basic exemption limit.\n\nSteps (old regime, individual below 60):\n\n| Step | Computation |\n| --- | --- |\n| 1 | Tax on (non-agricultural income + net agricultural income) |\n| 2 | Tax on (net agricultural income + basic exemption limit) |\n| 3 | Step 1 minus Step 2 |\n| 4 | Less rebate (if any), add surcharge and cess |\n\nExample: non-agricultural income ₹7,00,000, agricultural income ₹1,00,000.\n\n| Particulars | ₹ |\n| --- | --- |\n| Tax on ₹8,00,000 | 72,500 |\n| Less: Tax on ₹3,50,000 | (5,000) |\n| Tax | 67,500 |\n| Cess @ 4% | 2,700 |\n| **Tax liability** | **70,200** |\n\nExam questions on partial integration usually state the regime; the numbers in this chapter use the old regime."
+        },
+        {
+          "heading": "Life insurance proceeds and other exam favourites",
+          "body": "- **Life insurance policy**: the sum received is exempt unless the premium in any year exceeds 10% of the actual capital sum assured (policies issued on or after 1 April 2012; 20% for policies of 2003-2012). Sum received on **death** is always exempt.\n- For a non-ULIP policy issued on or after 1 April 2023, the exemption is lost if the aggregate premium of such policies exceeds ₹5,00,000 in any year (except on death). For a ULIP issued on or after 1 February 2021, the limit is ₹2,50,000 of annual premium.\n- **Partner's share** of profit is exempt, but salary, bonus, commission and interest from the firm are taxable as business income of the partner.\n- **Share from HUF** is exempt in the member's hands, even if the HUF's income was exempt.\n\nCommon mistakes:\n\n- Treating income from land outside India as agricultural income. It is taxable.\n- Applying partial integration when non-agricultural income is below the exemption limit.\n- Treating a partner's interest on capital as exempt along with the share of profit.\n- Forgetting cess after partial integration."
+        }
+      ],
+      "keyPoints": [
+        "Exempt incomes: section 11 with Schedules II to VII of the 2025 Act (old section 10).",
+        "Agricultural income: land in India, used for agriculture; rent, cultivation income and farm building income.",
+        "Composite income business portion: rubber 35%, coffee cured 25%, coffee cured-roasted-ground 40%, tea 40%.",
+        "Partial integration: agri income > ₹5,000 and non-agri income > basic exemption limit; tax on (N + A) minus tax on (A + exemption limit).",
+        "Life insurance: premium within 10% of sum assured; ₹5 lakh aggregate premium cap for non-ULIPs from 1 April 2023; death proceeds always exempt.",
+        "Partner's share of profit exempt; interest and salary from firm taxable."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-case1",
+          "title": "Case: Mr. Gurpreet Singh",
+          "body": "Mr. Gurpreet Singh, a resident individual aged 50, has opted out of the new regime for tax year 2026-27. His income:\n\n| Particulars | ₹ |\n| --- | --- |\n| Profit from a transport business | 6,00,000 |\n| Profit from tea grown on his estate in Assam and manufactured in his own factory | 5,00,000 |\n\nHe has no other income and claims no deductions."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q01",
+          "type": "numeric",
+          "prompt": "What amount of Mr. Gurpreet's tea profit is taxable as business income? Answer in rupees.",
+          "answer": 200000,
+          "explanation": "Tea grown and manufactured by the same person: 40% of the profit is business income and 60% is agricultural income.\n\n| Particulars | ₹ |\n| --- | --- |\n| Business income: 5,00,000 x 40% | 2,00,000 |\n| Agricultural income: 5,00,000 x 60% | 3,00,000 |",
+          "caseId": "ca-i-income-tax-03-exempt-incomes-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q02",
+          "type": "numeric",
+          "prompt": "Compute Mr. Gurpreet's tax liability (including cess) for tax year 2026-27 using partial integration. Round to the nearest rupee.",
+          "answer": 124800,
+          "explanation": "Non-agricultural income = 6,00,000 + 2,00,000 = ₹8,00,000. Agricultural income = ₹3,00,000.\n\n| Step | ₹ |\n| --- | --- |\n| Tax on 11,00,000: 12,500 + 1,00,000 + 30,000 | 1,42,500 |\n| Less: Tax on 5,50,000 (3,00,000 + 2,50,000): 12,500 + 10,000 | (22,500) |\n| Tax | 1,20,000 |\n| Cess @ 4% | 4,800 |\n| **Tax liability** | **1,24,800** |",
+          "caseId": "ca-i-income-tax-03-exempt-incomes-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q03",
+          "type": "mcq",
+          "prompt": "Partial integration applies to Mr. Gurpreet because:",
+          "options": [
+            "Agricultural income exceeds ₹5,000 and non-agricultural income exceeds the basic exemption limit",
+            "His total income exceeds ₹5,00,000",
+            "He is an individual who has opted for the old regime and is below 60",
+            "Agricultural income exceeds non-agricultural income"
+          ],
+          "answer": 0,
+          "explanation": "Both conditions must be met: net agricultural income above ₹5,000 and non-agricultural income above the basic exemption limit (₹2,50,000 here).",
+          "caseId": "ca-i-income-tax-03-exempt-incomes-case1"
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q04",
+          "type": "numeric",
+          "prompt": "A resident individual (old regime, aged 40) has non-agricultural income of ₹7,00,000 and agricultural income of ₹1,00,000. Compute tax liability including cess. Round to the nearest rupee.",
+          "answer": 70200,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Tax on 8,00,000 | 72,500 |\n| Less: Tax on 3,50,000 | (5,000) |\n| Tax | 67,500 |\n| Cess @ 4% | 2,700 |\n| **Tax liability** | **70,200** |",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q05",
+          "type": "numeric",
+          "prompt": "A planter grows rubber and manufactures it into sheets in his own unit. Profit for tax year 2026-27 is ₹6,00,000. What amount is taxable as business income?",
+          "answer": 210000,
+          "explanation": "35% of income from rubber grown and manufactured is business income: 6,00,000 x 35% = ₹2,10,000. The balance ₹3,90,000 is agricultural income.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q06",
+          "type": "mcq",
+          "prompt": "Which of the following is agricultural income?",
+          "options": [
+            "Rent from land in Gujarat let out for growing wheat",
+            "Rent from agricultural land situated in Nepal",
+            "Dividend from a tea company",
+            "Income from sale of trees that grew on their own in a forest"
+          ],
+          "answer": 0,
+          "explanation": "Rent from land in India used for agriculture is agricultural income. Land outside India, dividend from an agricultural company and spontaneous forest growth do not qualify."
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q07",
+          "type": "mcq",
+          "prompt": "Coffee grown, cured, roasted and ground by the same person: what share of the profit is business income?",
+          "options": [
+            "40%",
+            "25%",
+            "35%",
+            "60%"
+          ],
+          "answer": 0,
+          "explanation": "Rule 7B of the 1962 Rules: 25% for coffee grown and cured; 40% where it is also roasted and ground."
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q08",
+          "type": "mcq",
+          "prompt": "Mr. P, a partner, receives from his firm: share of profit ₹3,00,000, interest on capital ₹50,000, and salary ₹2,00,000 (all within allowed limits). How much is exempt in his hands?",
+          "options": [
+            "₹3,00,000",
+            "₹5,50,000",
+            "₹2,50,000",
+            "Nil"
+          ],
+          "answer": 0,
+          "explanation": "Only the share of profit is exempt (old section 10(2A)). Interest and remuneration allowed to the firm are taxable in the partner's hands as business income."
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q09",
+          "type": "truefalse",
+          "prompt": "Sum received on the death of the insured under a life insurance policy is exempt even if the premium exceeded 10% of the sum assured.",
+          "answer": true,
+          "explanation": "The premium-to-sum-assured condition and the ₹5 lakh aggregate premium condition do not apply to sums received on death."
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q10",
+          "type": "multi",
+          "prompt": "Which of these incomes are exempt for a resident individual? Select all that apply.",
+          "options": [
+            "Share of income received from the HUF of which he is a member",
+            "Interest on Public Provident Fund",
+            "Interest on a savings bank account",
+            "Compensation on compulsory acquisition of urban agricultural land",
+            "Dividend from an Indian company"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "HUF share, PPF interest and compensation for compulsory acquisition of urban agricultural land are exempt. Savings interest and dividends are taxable under income from other sources (a deduction may apply in the old regime for savings interest)."
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: for a life insurance policy (other than ULIP) issued on or after 1 April 2023, maturity proceeds are not exempt if the aggregate premium payable in any year exceeds ₹___ lakh.",
+          "accept": [
+            "5",
+            "five",
+            "5,00,000",
+            "500000"
+          ],
+          "explanation": "The limit is ₹5,00,000 aggregate premium in any year for such policies, except for sums received on death."
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q12",
+          "type": "practical",
+          "prompt": "Mr. Ramesh, aged 55, opts for the old regime for tax year 2026-27. Compute his tax liability.",
+          "data": "| Particulars | ₹ |\n| --- | --- |\n| Income from business | 4,20,000 |\n| Income from other sources | 80,000 |\n| Coffee grown and cured by him, profit | 2,00,000 |\n| Rent from agricultural land in Karnataka | 1,50,000 |\n| Expenses on collecting the land rent | 10,000 |",
+          "answer": "**Split of income**\n\n| Particulars | Non-agricultural (₹) | Agricultural (₹) |\n| --- | --- | --- |\n| Business | 4,20,000 | |\n| Other sources | 80,000 | |\n| Coffee: 25% business / 75% agricultural | 50,000 | 1,50,000 |\n| Land rent net of expenses | | 1,40,000 |\n| **Total** | **5,50,000** | **2,90,000** |\n\nBoth conditions for partial integration are met (agricultural income above ₹5,000; non-agricultural income above ₹2,50,000).\n\n| Step | ₹ |\n| --- | --- |\n| Tax on 8,40,000 (5,50,000 + 2,90,000): 12,500 + 68,000 | 80,500 |\n| Less: Tax on 5,40,000 (2,90,000 + 2,50,000): 12,500 + 8,000 | (20,500) |\n| Tax | 60,000 |\n| Rebate | Nil (total income 5,50,000 exceeds 5,00,000) |\n| Cess @ 4% | 2,400 |\n| **Tax liability** | **62,400** |",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-03-exempt-incomes-q13",
+          "type": "interview",
+          "prompt": "What is agricultural income? Explain with three examples of income that is and is not agricultural income.",
+          "answer": "- Agricultural income (old section 2(1A); exempt under old section 10(1), now section 11 and the Schedules of the 2025 Act) has three limbs: rent or revenue from land in India used for agriculture; income from agriculture or from processes by the cultivator to make produce marketable, or from sale of such produce; and income from farm buildings used in connection with agriculture.\n- Basic operations on land are essential.\n- Is agricultural income: rent from paddy land in Punjab; profit on sale of wheat grown by the farmer; 60% of profit from tea grown and manufactured.\n- Is not agricultural income: income from land outside India; dividend from a plantation company; income from a dairy or poultry farm; trees growing spontaneously without basic operations.\n- Agricultural income is exempt, but partial integration applies when the conditions are met.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal (Inter Paper 3 study material and RTPs)",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts, rules and tax tools",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-income-tax-04-salaries",
+      "title": "Income from Salaries",
+      "level": "intermediate",
+      "summary": "Charge of salary, allowances, HRA, retirement benefits (gratuity, leave encashment, commuted pension), standard deduction and regime differences.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Charge and meaning of salary",
+          "body": "Salary is taxable under the head \"Salaries\" only if there is an **employer-employee relationship** (sections 15 to 19 of the 2025 Act; sections 15 to 17 of the 1961 Act). It is taxed on **due or receipt basis, whichever is earlier**. Advance salary is taxed on receipt; arrears not taxed earlier are taxed on receipt (relief for arrears corresponds to section 89 of the 1961 Act).\n\nSalary includes wages, annuity or pension, gratuity, fees, commission, perquisites, profits in lieu of salary, leave encashment, the taxable part of employer contribution to a recognised provident fund (above 12% of salary), and the employer's contribution to NPS (deductible again within limits).\n\n**Salary for retirement benefit and HRA purposes** usually means basic salary + dearness allowance (DA) if it forms part of retirement benefits + commission as a fixed percentage of turnover.\n\nPartner's salary from a firm is business income, not salary. MPs' and MLAs' salaries are taxed under other sources."
+        },
+        {
+          "heading": "Allowances and HRA",
+          "body": "**House rent allowance** (exempt only in the old regime; old section 10(13A)) is exempt to the least of:\n\n- actual HRA received;\n- rent paid minus 10% of salary;\n- 50% of salary in Mumbai, Delhi, Kolkata or Chennai (40% elsewhere; check the current list of cities under the new rules).\n\nSalary is computed on a due basis for the period the house is occupied. No exemption if the employee lives in his own house or pays no rent.\n\nOther points:\n\n- Dearness allowance, city compensatory allowance, overtime, tiffin and fixed medical allowances are fully taxable.\n- Allowances to government employees posted abroad are exempt.\n- Under the new regime, most allowance exemptions (HRA, LTA, children education) are not available; only specified ones such as transport allowance for a specially-abled employee and travel/conveyance allowances for official duty remain.\n\n**Deductions from salary** (section 19 of the 2025 Act; corresponds to section 16 of the 1961 Act):\n\n| Deduction | New regime | Old regime |\n| --- | --- | --- |\n| Standard deduction | ₹75,000 | ₹50,000 |\n| Professional tax paid | Not allowed | Allowed (actual, within ₹2,500 State cap) |\n| Entertainment allowance (government employees) | Not allowed | Least of ₹5,000, 20% of basic, actual |"
+        },
+        {
+          "heading": "Retirement benefits",
+          "body": "**Gratuity** (old section 10(10); limit ₹20,00,000 for non-government employees):\n\n| Employee | Exempt amount = least of |\n| --- | --- |\n| Government | Fully exempt |\n| Covered by Payment of Gratuity Act | 15/26 x last drawn monthly salary x years of service (part year above 6 months = full year); ₹20,00,000; actual |\n| Not covered | 1/2 x average monthly salary of last 10 months x completed years; ₹20,00,000; actual |\n\n**Leave encashment on retirement** (old section 10(10AA); non-government employees): least of actual, ₹25,00,000, 10 x average monthly salary of the last 10 months, and cash equivalent of unavailed leave (leave capped at 30 days per completed year of service). Encashment during service is fully taxable.\n\n**Commuted pension** (old section 10(10A); non-government employees): exempt to 1/3 of the full commuted value if gratuity is also received, 1/2 otherwise. Uncommuted (monthly) pension is fully taxable as salary.\n\nGratuity worked example: covered employee, last drawn basic + DA ₹90,000 per month, service 25 years 7 months, gratuity received ₹15,00,000.\n\n| Particulars | ₹ |\n| --- | --- |\n| 15/26 x 90,000 x 26 years | 13,50,000 |\n| Statutory limit | 20,00,000 |\n| Actual received | 15,00,000 |\n| Exempt (least) | 13,50,000 |\n| **Taxable gratuity** | **1,50,000** |"
+        },
+        {
+          "heading": "Exam format: computation of income under the head Salaries",
+          "body": "| Particulars | ₹ |\n| --- | --- |\n| Basic salary | xxx |\n| Dearness allowance | xxx |\n| Allowances (less exempt part) | xxx |\n| Perquisites (valued under the rules) | xxx |\n| Employer contribution to NPS / excess PF contribution | xxx |\n| Retirement benefits (less exempt part) | xxx |\n| **Gross salary** | **xxx** |\n| Less: Standard deduction | (xxx) |\n| Less: Professional tax (old regime only) | (xxx) |\n| **Income from salaries** | **xxx** |\n\nEmployer NPS contribution is first included in salary and then deducted under Chapter VI-A (corresponds to section 80CCD(2)) up to **14% of salary** in the new regime and **10%** in the old regime (private employer). Employer contributions to PF, NPS and superannuation fund above ₹7,50,000 in aggregate are taxable as a perquisite.\n\nPerquisite valuation (rent-free accommodation, car, ESOPs) follows the Income-tax Rules. The rules were reissued with the 2025 Act; use the rates in ICAI study material for your attempt."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Allowing HRA exemption or professional tax under the new regime.\n- Rounding service down for a covered employee: more than 6 months counts as a full year. For a non-covered employee use completed years only.\n- Using 15/26 instead of 1/2 for a non-covered employee (and vice versa).\n- Forgetting to add employer NPS contribution to salary before claiming the Chapter VI-A deduction.\n- Treating commuted pension of a non-government employee as fully exempt."
+        }
+      ],
+      "keyPoints": [
+        "Salary taxed on due or receipt basis, whichever earlier; needs employer-employee relationship.",
+        "Standard deduction ₹75,000 (new) / ₹50,000 (old); professional tax only in old regime.",
+        "HRA exempt (old regime): least of actual HRA, rent - 10% of salary, 50% / 40% of salary.",
+        "Gratuity: covered 15/26 x last salary x years (6+ months rounds up); non-covered 1/2 x 10-month average x completed years; cap ₹20 lakh.",
+        "Leave encashment cap ₹25 lakh; leave credit max 30 days per completed year.",
+        "Commuted pension (non-govt): 1/3 exempt with gratuity, 1/2 without.",
+        "Employer NPS deduction: 14% of salary (new regime), 10% (old, private employer)."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-income-tax-04-salaries-case1",
+          "title": "Case: Ms. Meera Iyer",
+          "body": "Ms. Meera Iyer, aged 34, works with a private company in Mumbai. Her salary details for tax year 2026-27:\n\n| Particulars | ₹ |\n| --- | --- |\n| Basic salary | 9,00,000 |\n| Dearness allowance (forms part of retirement benefits) | 1,80,000 |\n| House rent allowance | 3,60,000 |\n| Employer's contribution to NPS (10% of basic + DA) | 1,08,000 |\n| Professional tax paid | 2,500 |\n| Rent paid for a flat in Mumbai | 4,20,000 |\n\nShe has no other income and makes no other investments."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-income-tax-04-salaries-q01",
+          "type": "numeric",
+          "prompt": "Compute the HRA exempt for Ms. Meera if she opts for the old regime.",
+          "answer": 312000,
+          "explanation": "Salary = basic + DA = 10,80,000.\n\n| Least of | ₹ |\n| --- | --- |\n| Actual HRA | 3,60,000 |\n| Rent paid - 10% of salary: 4,20,000 - 1,08,000 | 3,12,000 |\n| 50% of salary (Mumbai) | 5,40,000 |\n| **Exempt** | **3,12,000** |",
+          "caseId": "ca-i-income-tax-04-salaries-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q02",
+          "type": "numeric",
+          "prompt": "Compute Ms. Meera's income under the head Salaries under the default new regime.",
+          "answer": 1473000,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Basic + DA | 10,80,000 |\n| HRA (fully taxable) | 3,60,000 |\n| Employer NPS contribution | 1,08,000 |\n| Gross salary | 15,48,000 |\n| Less: Standard deduction | (75,000) |\n| **Income from salaries** | **14,73,000** |\n\nProfessional tax is not deductible in the new regime.",
+          "caseId": "ca-i-income-tax-04-salaries-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q03",
+          "type": "numeric",
+          "prompt": "Compute Ms. Meera's total income under the new regime after the deduction for employer NPS contribution.",
+          "answer": 1365000,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Income from salaries | 14,73,000 |\n| Less: Employer NPS contribution (limit 14% of 10,80,000 = 1,51,200) | (1,08,000) |\n| **Total income** | **13,65,000** |",
+          "caseId": "ca-i-income-tax-04-salaries-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q04",
+          "type": "mcq",
+          "prompt": "Under the old regime, what is Ms. Meera's income under the head Salaries?",
+          "options": [
+            "₹11,83,500",
+            "₹11,86,000",
+            "₹12,36,000",
+            "₹14,98,000"
+          ],
+          "answer": 0,
+          "explanation": "15,48,000 - HRA exempt 3,12,000 - standard deduction 50,000 - professional tax 2,500 = ₹11,83,500.",
+          "caseId": "ca-i-income-tax-04-salaries-case1"
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q05",
+          "type": "numeric",
+          "prompt": "Mr. Joseph, a private sector employee not covered by the Payment of Gratuity Act, retires after 20 years and 9 months of service. Average salary for the last 10 months is ₹80,000 per month. He receives gratuity of ₹10,00,000. Compute the exempt gratuity.",
+          "answer": 800000,
+          "explanation": "For a non-covered employee only completed years count (20).\n\n| Least of | ₹ |\n| --- | --- |\n| 1/2 x 80,000 x 20 | 8,00,000 |\n| Statutory limit | 20,00,000 |\n| Actual | 10,00,000 |\n| **Exempt** | **8,00,000** |\n\nTaxable gratuity = ₹2,00,000.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q06",
+          "type": "numeric",
+          "prompt": "Mr. Arun's salary (basic + DA forming part of retirement benefits) is ₹7,20,000 for the year. He receives HRA of ₹3,00,000 and pays rent of ₹3,60,000 in Delhi. Under the old regime, how much HRA is taxable?",
+          "answer": 12000,
+          "explanation": "| Least of | ₹ |\n| --- | --- |\n| Actual HRA | 3,00,000 |\n| 3,60,000 - 10% of 7,20,000 | 2,88,000 |\n| 50% of 7,20,000 | 3,60,000 |\n| Exempt | 2,88,000 |\n| **Taxable HRA** | **12,000** |",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q07",
+          "type": "mcq",
+          "prompt": "Which of the following is taxable under the head Salaries?",
+          "options": [
+            "Salary received by a partner from his firm",
+            "Pension received by a retired employee from the former employer",
+            "Salary received by a Member of Parliament",
+            "Family pension received by the widow of an employee"
+          ],
+          "answer": 1,
+          "explanation": "Pension from the former employer is salary. A partner's salary is business income; MPs' salary and family pension are income from other sources."
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q08",
+          "type": "mcq",
+          "prompt": "For an employee covered by the Payment of Gratuity Act with 15 years and 7 months of service, the number of years used in the formula is:",
+          "options": [
+            "16",
+            "15",
+            "15.58",
+            "15.5"
+          ],
+          "answer": 0,
+          "explanation": "Under the Payment of Gratuity Act formula, a part year above 6 months counts as a full year."
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q09",
+          "type": "truefalse",
+          "prompt": "A non-government employee who receives gratuity and commutes part of his pension is exempt on one-half of the full commuted value of pension.",
+          "answer": false,
+          "explanation": "When gratuity is also received, the exemption is one-third of the full commuted value. One-half applies only when no gratuity is received."
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q10",
+          "type": "multi",
+          "prompt": "Which of the following are NOT allowed to a salaried individual under the new default regime? Select all that apply.",
+          "options": [
+            "HRA exemption",
+            "Professional tax deduction",
+            "Standard deduction",
+            "Deduction for employer NPS contribution",
+            "Leave travel concession exemption"
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "explanation": "HRA, LTC and professional tax are given up in the new regime. Standard deduction (₹75,000) and employer NPS contribution deduction remain."
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: the exemption limit for leave encashment received on retirement by a non-government employee is ₹___ lakh.",
+          "accept": [
+            "25",
+            "twenty five",
+            "25,00,000",
+            "2500000"
+          ],
+          "explanation": "The limit was raised from ₹3 lakh to ₹25 lakh from 1 April 2023."
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q12",
+          "type": "practical",
+          "prompt": "Mr. Suresh, a private sector employee covered by the Payment of Gratuity Act, retired on 31 October 2026 after 25 years and 7 months of service. Compute the taxable portion of his retirement benefits.",
+          "data": "| Particulars | Detail |\n| --- | --- |\n| Last drawn basic + DA per month (also the 10-month average) | ₹90,000 |\n| Gratuity received | ₹15,00,000 |\n| Leave entitlement | 30 days per completed year; availed 450 days during service |\n| Leave encashment received | ₹11,00,000 |\n| Pension commuted: 50% of pension, amount received | ₹6,00,000 |",
+          "answer": "**Gratuity**\n\n| Least of | ₹ |\n| --- | --- |\n| 15/26 x 90,000 x 26 years | 13,50,000 |\n| Limit | 20,00,000 |\n| Actual | 15,00,000 |\n| Exempt 13,50,000; **taxable** | **1,50,000** |\n\n**Leave encashment**: leave credit = 25 completed years x 30 = 750 days; balance = 750 - 450 = 300 days = 10 months.\n\n| Least of | ₹ |\n| --- | --- |\n| Actual | 11,00,000 |\n| Limit | 25,00,000 |\n| 10 x 90,000 | 9,00,000 |\n| Cash equivalent: 10 months x 90,000 | 9,00,000 |\n| Exempt 9,00,000; **taxable** | **2,00,000** |\n\n**Commuted pension**: full value = 6,00,000 / 50% = 12,00,000. He receives gratuity, so exempt = 1/3 x 12,00,000 = 4,00,000; **taxable 2,00,000**.\n\n**Total taxable retirement benefits** = 1,50,000 + 2,00,000 + 2,00,000 = **₹5,50,000**.",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-04-salaries-q13",
+          "type": "interview",
+          "prompt": "Explain the computation of HRA exemption and state when it is not available.",
+          "answer": "- HRA exemption (old section 10(13A) read with the rules) is the least of: actual HRA; rent paid minus 10% of salary; 50% of salary in Mumbai, Delhi, Kolkata and Chennai (40% elsewhere, subject to the current list of cities).\n- Salary means basic + DA (if part of retirement benefits) + commission as a fixed percentage of turnover, on a due basis, for the period of occupation.\n- No exemption if the employee pays no rent or lives in his own house.\n- No exemption under the new default regime (section 202 of the 2025 Act).\n- An employee who gets no HRA may claim a deduction for rent paid in the old regime (corresponds to section 80GG of the 1961 Act).",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal (Inter Paper 3 study material and RTPs)",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts, rules and tax tools",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-income-tax-05-house-property",
+      "title": "Income from House Property",
+      "level": "intermediate",
+      "summary": "Annual value, deductions for let-out and self-occupied property, pre-construction interest, arrears and unrealised rent, and the new regime limits.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Charge and conditions",
+          "body": "Income from house property is charged under sections 20 to 25 of the 2025 Act (sections 22 to 27 of the 1961 Act). The **annual value** of a building or land appurtenant to it is taxable in the hands of its **owner** if:\n\n- the property consists of a building or land appurtenant;\n- the assessee is the owner (legal or deemed);\n- the property is not used for the owner's own business or profession (then it is business income).\n\n**Deemed owner** includes: an individual who transfers a house to his spouse (not under an agreement to live apart) or minor child (not a married daughter) without adequate consideration; the holder of an impartible estate; a member allotted a house by a co-operative society; a person in possession under a part-performance contract; and a lessee for 12 years or more.\n\nComposite rent for a building with furniture or services: if the letting is inseparable, it is taxed as business income or other sources; if separable, the building rent is house property income."
+        },
+        {
+          "heading": "Annual value of a let-out property",
+          "body": "| Step | Computation |\n| --- | --- |\n| 1. Expected rent | Higher of municipal value and fair rent, but not more than standard rent (Rent Control Act) |\n| 2. Actual rent receivable | Rent for the let-out period, less unrealised rent (if conditions met) |\n| 3. Gross annual value (GAV) | Higher of steps 1 and 2. If actual rent is lower than expected rent **because of vacancy**, GAV = actual rent |\n| 4. Less: Municipal taxes | Only if **paid by the owner** during the tax year |\n| 5. **Net annual value (NAV)** | |\n\n**Deductions** (section 22 of the 2025 Act; corresponds to section 24 of the 1961 Act):\n\n- **Standard deduction**: 30% of NAV, whatever the actual expense on repairs.\n- **Interest on borrowed capital** for acquisition, construction, repair or reconstruction, on accrual basis. Interest on unpaid interest and brokerage for arranging the loan are not deductible.\n- **Pre-construction interest** (from date of borrowing to 31 March before the year of completion) is allowed in **5 equal instalments** from the year of completion.\n\nArrears of rent and unrealised rent recovered later are taxed in the year of receipt, even if the assessee no longer owns the property, after a deduction of 30%."
+        },
+        {
+          "heading": "Self-occupied property and the new regime",
+          "body": "For up to **two** houses occupied for own residence (or not occupied because employment elsewhere), annual value is **nil**. Only interest is deductible:\n\n| Loan purpose | Old regime limit |\n| --- | --- |\n| Acquisition or construction, loan on or after 1 April 1999, completed within 5 years from end of the year of borrowing | ₹2,00,000 (current + pre-construction interest, in aggregate for both houses) |\n| Repair, renewal or reconstruction, or other cases | ₹30,000 |\n\n**New regime** (section 202 of the 2025 Act):\n\n- No interest deduction on a self-occupied property; its income is nil.\n- Interest on a let-out property is deductible, but any **loss** under house property **cannot be set off** against income under any other head under the new regime.\n\n**Old regime** loss under house property can be set off against other heads up to **₹2,00,000**; the balance is carried forward for 8 tax years against house property income only."
+        },
+        {
+          "heading": "Worked example: let-out property",
+          "body": "| Particulars | ₹ |\n| --- | --- |\n| Municipal value | 3,00,000 |\n| Fair rent | 3,60,000 |\n| Standard rent | 3,30,000 |\n| Expected rent: higher of MV and FR (3,60,000) limited to SR | 3,30,000 |\n| Actual rent (30,000 x 12) | 3,60,000 |\n| **GAV** (higher) | **3,60,000** |\n| Less: Municipal tax paid by owner | (30,000) |\n| NAV | 3,30,000 |\n| Less: 30% standard deduction | (99,000) |\n| Less: Interest on loan | (1,20,000) |\n| **Income from house property** | **1,11,000** |"
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Deducting municipal taxes that were due but not paid, or paid by the tenant.\n- Allowing actual repairs instead of 30% of NAV.\n- Allowing interest on a self-occupied house under the new regime.\n- Claiming the full pre-construction interest in one year instead of 1/5.\n- Setting off house property loss beyond ₹2,00,000 against other heads (old regime), or at all in the new regime.\n- Taxing a house used for the owner's business as house property."
+        }
+      ],
+      "keyPoints": [
+        "Expected rent = higher of MV and FR, capped at SR; GAV = higher of expected rent and actual rent (vacancy exception).",
+        "NAV = GAV - municipal taxes paid by owner in the year.",
+        "Deductions: 30% of NAV + interest on borrowed capital (section 22, 2025 Act; old section 24).",
+        "Pre-construction interest: 5 equal instalments from the year of completion.",
+        "Self-occupied (up to 2 houses): NAV nil; interest cap ₹2,00,000 (₹30,000 for repairs) in old regime only.",
+        "Arrears / recovered unrealised rent: taxable on receipt less 30%.",
+        "HP loss set-off against other heads: ₹2 lakh (old regime), not allowed (new regime)."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-income-tax-05-house-property-case1",
+          "title": "Case: Mr. Rohan Kapoor",
+          "body": "Mr. Rohan Kapoor, a resident aged 45, owns two houses in Pune for tax year 2026-27.\n\n| Particulars | House A (let out all year) | House B (self-occupied) |\n| --- | --- | --- |\n| Municipal value | 3,00,000 | 2,40,000 |\n| Fair rent | 3,60,000 | 2,80,000 |\n| Standard rent | 3,30,000 | N.A. |\n| Rent received (30,000 per month) | 3,60,000 | - |\n| Municipal taxes paid by Rohan | 30,000 | 24,000 |\n| Interest on loan for the house (current year) | 1,20,000 | 2,40,000 |\n\nHouse B was completed in tax year 2025-26. Its pre-construction interest was ₹1,50,000; the first instalment was claimed in tax year 2025-26."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-income-tax-05-house-property-q01",
+          "type": "numeric",
+          "prompt": "Compute the gross annual value of House A.",
+          "answer": 360000,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Higher of MV (3,00,000) and FR (3,60,000) | 3,60,000 |\n| Limited to standard rent: expected rent | 3,30,000 |\n| Actual rent | 3,60,000 |\n| **GAV** (higher of expected and actual) | **3,60,000** |",
+          "caseId": "ca-i-income-tax-05-house-property-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q02",
+          "type": "numeric",
+          "prompt": "Under the old regime, compute the loss from House B to be shown in the computation (enter as a positive number).",
+          "answer": 200000,
+          "explanation": "NAV of a self-occupied house is nil; municipal taxes are not deductible.\n\n| Particulars | ₹ |\n| --- | --- |\n| Current year interest | 2,40,000 |\n| Pre-construction interest: 1,50,000 / 5 | 30,000 |\n| Total | 2,70,000 |\n| **Allowed, limited to** | **2,00,000** |",
+          "caseId": "ca-i-income-tax-05-house-property-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q03",
+          "type": "mcq",
+          "prompt": "If Mr. Rohan stays in the new default regime, his income under the head House property is:",
+          "options": [
+            "₹1,11,000",
+            "Loss of ₹89,000",
+            "Loss of ₹1,59,000",
+            "Nil"
+          ],
+          "answer": 0,
+          "explanation": "House A: GAV 3,60,000 - municipal tax 30,000 = NAV 3,30,000; less 30% (99,000) and interest 1,20,000 = 1,11,000. House B: no interest deduction for a self-occupied house in the new regime, so nil.",
+          "caseId": "ca-i-income-tax-05-house-property-case1"
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q04",
+          "type": "truefalse",
+          "prompt": "Under the old regime, Mr. Rohan's net house property loss can be set off against his salary income in full in tax year 2026-27.",
+          "answer": true,
+          "explanation": "Old regime: House A income 1,11,000 less House B loss 2,00,000 = net loss 89,000, which is within the ₹2,00,000 limit for set-off against other heads.",
+          "caseId": "ca-i-income-tax-05-house-property-case1"
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q05",
+          "type": "numeric",
+          "prompt": "A house is let out at ₹25,000 per month but stays vacant for 2 months; rent received is ₹3,00,000. Municipal value ₹3,00,000, fair rent ₹3,60,000, standard rent ₹3,30,000. Municipal tax paid by the owner ₹30,000. No loan. Compute income from house property.",
+          "answer": 189000,
+          "explanation": "Expected rent = ₹3,30,000. Actual rent ₹3,00,000 is lower because of vacancy, so GAV = actual rent.\n\n| Particulars | ₹ |\n| --- | --- |\n| GAV | 3,00,000 |\n| Less: Municipal tax | (30,000) |\n| NAV | 2,70,000 |\n| Less: 30% | (81,000) |\n| **Income** | **1,89,000** |",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q06",
+          "type": "numeric",
+          "prompt": "In tax year 2026-27, Ms. Rao receives arrears of rent of ₹60,000 for a house she sold in 2025. Compute the amount taxable.",
+          "answer": 42000,
+          "explanation": "Arrears of rent are taxed in the year of receipt even if she no longer owns the house, after a deduction of 30%: 60,000 - 18,000 = ₹42,000.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q07",
+          "type": "mcq",
+          "prompt": "Interest on a loan for repairs of a self-occupied house is deductible under the old regime up to:",
+          "options": [
+            "₹30,000",
+            "₹2,00,000",
+            "₹1,50,000",
+            "Actual amount without limit"
+          ],
+          "answer": 0,
+          "explanation": "₹2,00,000 applies to loans for acquisition or construction taken on or after 1 April 1999 and completed within 5 years; for repairs the limit is ₹30,000."
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q08",
+          "type": "mcq",
+          "prompt": "Mr. A transfers a house to his wife for no consideration (they live together). The wife lets it out. Who is taxed on the rent?",
+          "options": [
+            "Mr. A, as deemed owner",
+            "Mrs. A, as legal owner",
+            "Both equally",
+            "Neither, as it is a gift"
+          ],
+          "answer": 0,
+          "explanation": "A person who transfers a house to his spouse without adequate consideration, other than under an agreement to live apart, is the deemed owner."
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q09",
+          "type": "mcq",
+          "prompt": "A building owned by Mr. B is used for his own business. The income from it is:",
+          "options": [
+            "Not taxable under house property; no notional rent is taxed",
+            "Taxable under house property at fair rent",
+            "Taxable under other sources",
+            "Taxable under capital gains"
+          ],
+          "answer": 0,
+          "explanation": "Property used for the owner's business or profession is outside house property. Depreciation is claimed under business income instead."
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q10",
+          "type": "multi",
+          "prompt": "Which of the following are deductible from NAV of a let-out property? Select all that apply.",
+          "options": [
+            "30% of NAV",
+            "Interest on a loan for construction",
+            "Actual repairs of ₹50,000",
+            "Brokerage paid for arranging the loan",
+            "1/5 of pre-construction interest"
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "explanation": "Only the 30% standard deduction and interest (including 1/5 of pre-construction interest) are allowed. Actual repairs and loan brokerage are not deductible."
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: pre-construction interest is deductible in ___ equal annual instalments starting from the tax year of completion.",
+          "accept": [
+            "5",
+            "five"
+          ],
+          "explanation": "Interest for the period from borrowing to the 31 March before the year of completion is allowed in five equal instalments."
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q12",
+          "type": "practical",
+          "prompt": "Compute Ms. Divya's income from house property for tax year 2026-27 (old regime).",
+          "data": "| Particulars | ₹ |\n| --- | --- |\n| Municipal value | 4,80,000 |\n| Fair rent | 5,00,000 |\n| Standard rent | 6,00,000 |\n| Rent (50,000 per month, let throughout the year) | 6,00,000 |\n| Unrealised rent for 1 month (all conditions for exclusion met) | 50,000 |\n| Municipal taxes levied | 48,000 |\n| Municipal taxes paid by her during the year | 36,000 |\n| Interest on housing loan | 1,80,000 |\n| Arrears of rent of tax year 2024-25 received in 2026-27 | 40,000 |",
+          "answer": "| Particulars | ₹ |\n| --- | --- |\n| Expected rent: higher of MV and FR (5,00,000), within SR | 5,00,000 |\n| Actual rent receivable: 6,00,000 - 50,000 | 5,50,000 |\n| **GAV** | **5,50,000** |\n| Less: Municipal taxes paid | (36,000) |\n| NAV | 5,14,000 |\n| Less: 30% of NAV | (1,54,200) |\n| Less: Interest on loan | (1,80,000) |\n| Income from the property | 1,79,800 |\n| Add: Arrears of rent 40,000 less 30% | 28,000 |\n| **Income from house property** | **2,07,800** |\n\nOnly municipal taxes actually paid by the owner in the year are deductible; the ₹12,000 unpaid is allowed in the year of payment.",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-05-house-property-q13",
+          "type": "interview",
+          "prompt": "Explain the treatment of interest on borrowed capital for a house property, including pre-construction interest and the new regime position.",
+          "answer": "- Interest on capital borrowed for acquisition, construction, repair, renewal or reconstruction is deductible on accrual basis (section 22 of the 2025 Act; corresponds to section 24(b) of the 1961 Act).\n- Pre-construction interest, from the date of borrowing to 31 March before the year of completion, is allowed in five equal instalments from the year of completion.\n- Let-out property: no ceiling on interest.\n- Self-occupied property, old regime: aggregate ceiling ₹2,00,000 for acquisition or construction (loan on or after 1 April 1999, completed within 5 years); ₹30,000 for repairs or older loans.\n- New regime: no deduction for a self-occupied house; for a let-out house the deduction is allowed but the resulting loss cannot be set off against income under any other head.\n- Interest on fresh loans taken to repay the original loan is allowed; brokerage and interest on unpaid interest are not.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal (Inter Paper 3 study material and RTPs)",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts, rules and tax tools",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-income-tax-06-pgbp",
+      "title": "Profits and Gains of Business or Profession",
+      "level": "intermediate",
+      "summary": "Computing business income: allowable and disallowed expenses, depreciation on block of assets, payment-basis deductions and presumptive taxation.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Scope and method",
+          "body": "Business income is charged from section 26 of the 2025 Act onward (sections 28 to 44DB of the 1961 Act). Taxable items include profits of any business or profession, compensation on termination of agency, export incentives, value of benefits arising from business, interest, salary and commission received by a partner from the firm, and sums received under a keyman insurance policy.\n\nThe exam method is **adjustment of net profit**: start with net profit as per the profit and loss account, add back items debited but not allowable, deduct items credited but not taxable under this head (or exempt), and adjust for tax depreciation.\n\n| Particulars | ₹ |\n| --- | --- |\n| Net profit as per P&L account | xxx |\n| Add: Inadmissible expenses debited (income-tax, personal expenses, disallowances) | xxx |\n| Add: Book depreciation | xxx |\n| Less: Income credited but taxable under other heads or exempt | (xxx) |\n| Less: Depreciation allowable under the Act | (xxx) |\n| **Profits and gains of business or profession** | **xxx** |"
+        },
+        {
+          "heading": "Depreciation on block of assets",
+          "body": "Depreciation (corresponds to section 32 of the 1961 Act) is allowed on tangible assets (building, machinery, plant, furniture) and specified intangibles (know-how, patents, copyrights, trademarks, licences, franchises) owned wholly or partly and used for business. Goodwill is not depreciable.\n\nWritten down value (WDV) of a **block**:\n\n| Particulars | ₹ |\n| --- | --- |\n| Opening WDV | xxx |\n| Add: Actual cost of assets acquired during the year | xxx |\n| Less: Moneys payable for assets sold, discarded or destroyed (with scrap value) | (xxx) |\n| WDV for depreciation | xxx |\n\n- An asset **used for less than 180 days** in the year of acquisition gets **50%** of the normal rate.\n- If sale proceeds exceed the block's WDV, the excess is **short-term capital gain** and no depreciation is allowed. If the block ceases to exist with WDV left, the balance is short-term capital loss.\n- Common rates: residential building 5%, other building 10%, furniture 10%, plant and machinery 15%, motor car (non-hire) 15%, computers and software 40%, intangibles 25%.\n- **Additional depreciation** of 20% (10% if used under 180 days) on new plant and machinery for manufacturing is available only in the old regime.\n\nWorked example (P&M 15%): opening WDV 10,00,000; purchase 4,00,000 in May 2026 and 2,00,000 in November 2026; sale 1,40,000.\n\n| Particulars | ₹ |\n| --- | --- |\n| WDV: 10,00,000 + 4,00,000 + 2,00,000 - 1,40,000 | 14,60,000 |\n| 15% on 12,60,000 | 1,89,000 |\n| 7.5% on 2,00,000 (used under 180 days) | 15,000 |\n| **Depreciation** | **2,04,000** |"
+        },
+        {
+          "heading": "Disallowances and payment-basis deductions",
+          "body": "References are to the 1961 Act sections, as the exam still refers to them by these well-known numbers:\n\n- **Section 37(1)**: general deduction for expenditure laid out wholly and exclusively for business, not capital or personal. Expenditure for an offence or prohibited purpose and CSR expenditure are not allowed.\n- **Section 40(a)(ia)**: if tax is not deducted at source on payments to residents (or deducted but not paid by the return due date), **30%** of the expense is disallowed; allowed in the year the tax is paid.\n- **Section 40(a)(ii)**: income-tax paid is not deductible.\n- **Section 40A(3)**: payment to a person in a day, otherwise than by account payee cheque, draft, or electronic mode, exceeding **₹10,000** (₹35,000 to transport operators) is **fully** disallowed.\n- **Section 40A(2)**: excessive payment to relatives or related persons is disallowed to the extent unreasonable.\n- **Section 43B**: taxes, duties, employer's contribution to PF / ESI, bonus, leave encashment, interest to banks and financial institutions are deductible only on **actual payment** on or before the due date of the return. Payments to micro and small enterprises beyond the MSMED Act time limit are allowed only on payment.\n- Employee's PF / ESI contribution deducted from salary is allowed only if deposited by the due date under the relevant Act."
+        },
+        {
+          "heading": "Presumptive taxation",
+          "body": "| Scheme (1961 Act) | Who | Presumptive income |\n| --- | --- | --- |\n| 44AD | Resident individual, HUF, firm (not LLP) in eligible business; turnover up to ₹2 crore (₹3 crore if cash receipts are 5% or less) | 6% of turnover received by banking / digital modes (by due date of return); 8% of the rest |\n| 44ADA | Resident individual or firm (not LLP) in specified professions; receipts up to ₹50 lakh (₹75 lakh if cash receipts are 5% or less) | 50% of gross receipts |\n| 44AE | Owner of up to 10 goods carriages | ₹1,000 per ton per month (heavy vehicles); ₹7,500 per vehicle per month (others) |\n\nAll deductions, including depreciation, are deemed allowed; WDV is computed as if depreciation was claimed. The assessee may declare higher income. Under 44AD, a person who declares lower income in any of the 5 following years cannot use the scheme for the next 5 years, and must maintain books and get them audited if income exceeds the exemption limit. Advance tax under 44AD and 44ADA is payable in one instalment by **15 March**.\n\nThe 2025 Act carries these schemes forward with new section numbers. Cite the scheme by name and old section in your answer unless ICAI material gives the new number."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Disallowing 100% for non-deduction of TDS on resident payments. It is 30%.\n- Disallowing only the excess over ₹10,000 under 40A(3). The entire payment is disallowed.\n- Giving full-rate depreciation on an asset used under 180 days.\n- Forgetting to remove dividend or rent credited in the P&L; they belong to other heads.\n- Applying 44AD to an LLP, or to a professional."
+        }
+      ],
+      "keyPoints": [
+        "Net profit method: add back inadmissible items and book depreciation; deduct other-head income and tax depreciation.",
+        "Depreciation on WDV of block; half rate if used under 180 days; P&M 15%, computers 40%, intangibles 25%, furniture 10%.",
+        "40(a)(ia): 30% disallowed for TDS default on resident payments.",
+        "40A(3): cash payment above ₹10,000 per person per day (₹35,000 transporters) fully disallowed.",
+        "43B: taxes, bonus, leave encashment, bank interest, MSE dues allowed only on payment.",
+        "44AD: 6% / 8%, limit ₹2 crore (₹3 crore with <= 5% cash); 44ADA: 50%, limit ₹50 lakh (₹75 lakh)."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-income-tax-06-pgbp-case1",
+          "title": "Case: Mr. Vikram Patel",
+          "body": "Mr. Vikram Patel, a resident aged 48, runs a trading business (not eligible for presumptive taxation). His net profit for tax year 2026-27 as per the P&L account is ₹12,00,000 after the following:\n\n| Item | ₹ |\n| --- | --- |\n| Depreciation as per books (debited) | 1,50,000 |\n| Payment to a resident contractor without deducting TDS (debited) | 5,00,000 |\n| Cash payment to a supplier in a single day (debited) | 25,000 |\n| Income-tax paid (debited) | 40,000 |\n| Bonus to staff (debited); ₹20,000 of this was paid after the return due date | 60,000 |\n| Dividend from an Indian company (credited) | 30,000 |\n\nTax depreciation: plant and machinery block (15%) had opening WDV ₹10,00,000; he bought machines for ₹4,00,000 on 10 May 2026 and ₹2,00,000 on 15 November 2026, and sold a machine for ₹1,40,000."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-income-tax-06-pgbp-q01",
+          "type": "numeric",
+          "prompt": "Compute the depreciation allowable to Mr. Vikram for tax year 2026-27.",
+          "answer": 204000,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Opening WDV | 10,00,000 |\n| Add: Purchases | 6,00,000 |\n| Less: Sale | (1,40,000) |\n| WDV | 14,60,000 |\n| 15% on 12,60,000 | 1,89,000 |\n| 7.5% on 2,00,000 (used under 180 days) | 15,000 |\n| **Depreciation** | **2,04,000** |",
+          "caseId": "ca-i-income-tax-06-pgbp-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q02",
+          "type": "numeric",
+          "prompt": "Compute Mr. Vikram's profits and gains of business for tax year 2026-27.",
+          "answer": 1351000,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Net profit | 12,00,000 |\n| Add: Book depreciation | 1,50,000 |\n| Add: 30% of 5,00,000 (TDS default) | 1,50,000 |\n| Add: Cash payment above ₹10,000 (fully) | 25,000 |\n| Add: Income-tax | 40,000 |\n| Add: Bonus paid after due date of return | 20,000 |\n| Less: Dividend (other sources) | (30,000) |\n| Less: Tax depreciation | (2,04,000) |\n| **PGBP** | **13,51,000** |",
+          "caseId": "ca-i-income-tax-06-pgbp-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q03",
+          "type": "mcq",
+          "prompt": "The bonus of ₹20,000 paid after the due date of the return is:",
+          "options": [
+            "Allowed in the tax year in which it is actually paid",
+            "Permanently disallowed",
+            "Allowed in tax year 2026-27 because it was provided in the books",
+            "Allowed at 70%"
+          ],
+          "answer": 0,
+          "explanation": "Under the payment-basis rule (old section 43B), bonus is allowed in the year of accrual only if paid by the due date of the return; otherwise it is allowed in the year of payment.",
+          "caseId": "ca-i-income-tax-06-pgbp-case1"
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q04",
+          "type": "mcq",
+          "prompt": "If Mr. Vikram deducts the TDS on the contractor payment in March 2027 and deposits it in August 2027 (before the return due date), the disallowance for tax year 2026-27 is:",
+          "options": [
+            "Nil",
+            "₹1,50,000",
+            "₹5,00,000",
+            "₹1,00,000"
+          ],
+          "answer": 0,
+          "explanation": "The 30% disallowance does not apply if tax deducted during the year is paid on or before the due date of filing the return.",
+          "caseId": "ca-i-income-tax-06-pgbp-case1"
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q05",
+          "type": "numeric",
+          "prompt": "Ms. Rekha, a resident trader, has turnover of ₹1,80,00,000 for tax year 2026-27, of which ₹1,50,00,000 was received through banking channels and ₹30,00,000 in cash. Compute her presumptive income at the minimum rates.",
+          "answer": 1140000,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| 6% of 1,50,00,000 | 9,00,000 |\n| 8% of 30,00,000 | 2,40,000 |\n| **Presumptive income** | **11,40,000** |\n\nThe turnover limit is ₹2 crore because cash receipts exceed 5% of turnover; ₹1.8 crore is within it.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q06",
+          "type": "numeric",
+          "prompt": "Dr. Neha, a resident doctor, has gross receipts of ₹70,00,000, of which 2% is in cash. She opts for the presumptive scheme for professionals. Compute her presumptive income.",
+          "answer": 3500000,
+          "explanation": "Cash receipts are within 5%, so the limit is ₹75 lakh. Presumptive income = 50% of ₹70,00,000 = ₹35,00,000.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q07",
+          "type": "mcq",
+          "prompt": "Mr. C pays ₹12,000 in cash to a single supplier on one day for goods. The amount disallowed is:",
+          "options": [
+            "₹12,000",
+            "₹2,000",
+            "₹3,600",
+            "Nil"
+          ],
+          "answer": 0,
+          "explanation": "When a cash payment to a person in a day exceeds ₹10,000, the entire amount is disallowed, not only the excess."
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q08",
+          "type": "mcq",
+          "prompt": "Which of these is NOT eligible for the presumptive scheme for small businesses (old section 44AD)?",
+          "options": [
+            "A limited liability partnership",
+            "A resident individual retailer",
+            "A resident HUF running a grocery shop",
+            "A resident partnership firm in wholesale trade"
+          ],
+          "answer": 0,
+          "explanation": "The scheme covers resident individuals, HUFs and partnership firms other than LLPs."
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q09",
+          "type": "mcq",
+          "prompt": "A computer bought for ₹1,00,000 and put to use on 20 December 2026 (block otherwise nil) gets depreciation for tax year 2026-27 of:",
+          "options": [
+            "₹20,000",
+            "₹40,000",
+            "₹15,000",
+            "₹7,500"
+          ],
+          "answer": 0,
+          "explanation": "Computers carry 40%. Used under 180 days, so half: 1,00,000 x 20% = ₹20,000."
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q10",
+          "type": "truefalse",
+          "prompt": "If the sale price of assets in a block exceeds the opening WDV plus additions, the excess is a short-term capital gain even if the assets were held for many years.",
+          "answer": true,
+          "explanation": "For depreciable assets the gain is always short-term (old section 50); depreciation is not allowed on that block for the year."
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q11",
+          "type": "multi",
+          "prompt": "Which of the following are deductible only on actual payment (by the due date of the return)? Select all that apply.",
+          "options": [
+            "GST payable to the government",
+            "Bonus to employees",
+            "Interest on a term loan from a scheduled bank",
+            "Rent payable to a landlord",
+            "Leave encashment to employees"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Taxes and duties, bonus, bank interest and leave encashment are payment-basis items. Rent is allowed on accrual (subject to TDS rules)."
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: an asset acquired during the year and put to use for less than ___ days gets depreciation at half the normal rate.",
+          "accept": [
+            "180",
+            "one hundred eighty"
+          ],
+          "explanation": "Assets used for less than 180 days in the year of acquisition get 50% of the normal rate; the balance is not carried as extra allowance (except additional depreciation)."
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q13",
+          "type": "practical",
+          "prompt": "M/s. Shah Traders (a sole proprietorship, resident, old regime) shows net profit of ₹8,00,000. Compute the business income.",
+          "data": "| Debits / credits in P&L | ₹ |\n| --- | --- |\n| Salary to proprietor's son, of which ₹60,000 is excessive (debited) | 3,00,000 |\n| Interest on proprietor's own capital (debited) | 50,000 |\n| Donation to a political party (debited) | 25,000 |\n| Advertisement in a souvenir of a political party (debited) | 15,000 |\n| Penalty paid for contravention of the municipal law (debited) | 10,000 |\n| Rent from a house property (credited) | 1,20,000 |\n| Book depreciation (debited) | 80,000 |\n| Tax depreciation | 95,000 |",
+          "answer": "| Particulars | ₹ |\n| --- | --- |\n| Net profit | 8,00,000 |\n| Add: Excess salary to relative (old section 40A(2)) | 60,000 |\n| Add: Interest on own capital (payment to self) | 50,000 |\n| Add: Donation to political party (Chapter VI-A item, not a business expense) | 25,000 |\n| Add: Advertisement in political party souvenir (old section 37(2B)) | 15,000 |\n| Add: Penalty for an offence / infraction of law | 10,000 |\n| Add: Book depreciation | 80,000 |\n| Less: House property rent (taxed under that head) | (1,20,000) |\n| Less: Tax depreciation | (95,000) |\n| **Profits and gains of business** | **8,25,000** |\n\nThe political donation may be claimed as a deduction from gross total income in the old regime if paid by non-cash mode.",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q14",
+          "type": "interview",
+          "prompt": "Explain the disallowance for failure to deduct tax at source under section 40(a)(ia) of the 1961 Act and its treatment under the 2025 Act.",
+          "answer": "- Where tax is deductible on a payment to a resident (interest, commission, rent, contractor fees, professional fees and the like) and is not deducted, or is deducted but not paid by the due date of the return, 30% of the expenditure is disallowed.\n- The disallowed 30% is allowed in the year the tax is deducted and paid.\n- If the payee has filed a return including the income and paid tax, the payer is not treated as in default and the disallowance does not apply (proviso with the accountant's certificate).\n- For payments to non-residents, the disallowance is 100% (old section 40(a)(i)).\n- The 2025 Act retains the rule among the amounts not deductible in computing business income; the TDS provisions themselves are consolidated in section 393."
+        },
+        {
+          "id": "ca-i-income-tax-06-pgbp-q15",
+          "type": "interview",
+          "prompt": "Write a note on the presumptive taxation scheme for professionals.",
+          "answer": "- Old section 44ADA; carried into the 2025 Act.\n- Eligible: resident individual or partnership firm (not LLP) in a profession referred to in old section 44AA(1), such as legal, medical, engineering, architecture, accountancy, technical consultancy and interior decoration.\n- Gross receipts limit ₹50 lakh, raised to ₹75 lakh if cash receipts do not exceed 5% of total receipts.\n- Income is deemed to be 50% of gross receipts; a higher amount may be declared.\n- All deductions including depreciation are deemed allowed.\n- If lower income is declared and income exceeds the exemption limit, books must be kept and audited.\n- Advance tax is payable in one instalment by 15 March.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal (Inter Paper 3 study material and RTPs)",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts, rules and tax tools",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-income-tax-07-capital-gains",
+      "title": "Capital Gains",
+      "level": "advanced",
+      "summary": "Capital asset, transfer, holding periods, computation of short-term and long-term gains, special rates after July 2024, deemed consideration and exemptions for reinvestment.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Capital asset, transfer and holding period",
+          "body": "Capital gains are charged from section 67 of the 2025 Act (section 45 of the 1961 Act onward). Profit on **transfer** of a **capital asset** in the tax year is taxable in the year of transfer.\n\n**Capital asset** means property of any kind, but excludes stock-in-trade, personal effects (movable property for personal use other than jewellery, archaeological collections, drawings, paintings, sculptures and works of art) and rural agricultural land in India.\n\n**Transfer** includes sale, exchange, relinquishment, extinguishment of rights and compulsory acquisition. Some transactions are not transfers: distribution on partition of an HUF, transfer under a gift or will, transfer between a holding company and its wholly-owned Indian subsidiary, and conversion of bonds or debentures into shares.\n\nHolding period (transfers on or after 23 July 2024):\n\n| Asset | Long-term if held for more than |\n| --- | --- |\n| Listed securities (shares, units of equity-oriented funds, listed bonds) | 12 months |\n| All other assets (land, building, unlisted shares, gold, jewellery) | 24 months |\n\nUnits of specified mutual funds and market-linked debentures are always short-term (old section 50AA). Gain on depreciable assets is always short-term (old section 50)."
+        },
+        {
+          "heading": "Computation and rates",
+          "body": "| Particulars | ₹ |\n| --- | --- |\n| Full value of consideration | xxx |\n| Less: Expenses on transfer (brokerage, legal fees) | (xxx) |\n| Net consideration | xxx |\n| Less: Cost of acquisition | (xxx) |\n| Less: Cost of improvement (after 1 April 2001 only) | (xxx) |\n| Capital gain | xxx |\n| Less: Exemptions (reinvestment) | (xxx) |\n| **Taxable capital gain** | **xxx** |\n\nRates for tax year 2026-27 (1961 Act sections in brackets):\n\n| Gain | Rate |\n| --- | --- |\n| STCG on listed equity shares / equity fund units with STT (111A) | 20% |\n| Other STCG | Slab rates |\n| LTCG on listed equity / equity fund units with STT (112A), above ₹1,25,000 | 12.5% |\n| Other LTCG (112), without indexation | 12.5% |\n\n**Grandfathering for land and buildings**: a resident individual or HUF transferring land or building acquired **before 23 July 2024** may pay the lower of 12.5% without indexation and 20% with indexation.\n\nFor assets acquired before 1 April 2001, cost may be taken as fair market value on that date (for land and building, capped at stamp duty value on that date). Under 112A, cost of shares acquired before 1 February 2018 is the higher of actual cost and the lower of FMV on 31 January 2018 and sale value.\n\nA resident individual can adjust unused basic exemption limit against special-rate gains. Chapter VI-A deductions cannot be claimed against 111A, 112 or 112A gains."
+        },
+        {
+          "heading": "Deemed consideration and exemptions",
+          "body": "**Stamp duty value** (old section 50C): where land or building is sold for less than its stamp duty value, and SDV exceeds **110%** of actual consideration, SDV is the full value of consideration.\n\nExemptions on reinvestment (1961 Act sections; the 2025 Act renumbers them):\n\n| Section | Who / asset sold | Invest in | Exemption |\n| --- | --- | --- | --- |\n| 54 | Individual / HUF; long-term residential house | One residential house in India (two, once in a lifetime, if LTCG up to ₹2 crore): purchase 1 year before or 2 years after, or construct within 3 years | Lower of LTCG and cost of new house, capped at ₹10 crore |\n| 54EC | Any assessee; long-term land or building | Specified bonds (NHAI, REC and others) within 6 months, lock-in 5 years, up to ₹50 lakh | Lower of LTCG and amount invested |\n| 54F | Individual / HUF; any long-term asset other than a house (owns at most one other house) | One residential house in India | LTCG x amount invested / net consideration (cost of new house capped at ₹10 crore) |\n| 54B | Individual / HUF; agricultural land used for 2 years | Agricultural land within 2 years | Lower of gain and amount invested |\n\nAmount not used by the due date of the return must be deposited in the **Capital Gains Account Scheme** to keep the exemption."
+        },
+        {
+          "heading": "Worked example",
+          "body": "Ms. Kavita sells land in December 2026 for ₹80,00,000 (brokerage 1%). She bought it in August 2024 for ₹50,00,000. She invests ₹20,00,000 in 54EC bonds in February 2027.\n\n| Particulars | ₹ |\n| --- | --- |\n| Sale consideration | 80,00,000 |\n| Less: Brokerage | (80,000) |\n| Less: Cost of acquisition (no indexation) | (50,00,000) |\n| LTCG (held 28 months) | 29,20,000 |\n| Less: Exemption for bond investment (old 54EC) | (20,00,000) |\n| **Taxable LTCG** | **9,20,000** |\n| Tax @ 12.5% | 1,15,000 |\n\nNo grandfathering option: the land was bought after 22 July 2024."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Using 36 months for land or unlisted shares. It is 24 months for transfers on or after 23 July 2024.\n- Applying indexation to assets bought after 22 July 2024, or to shares and gold.\n- Forgetting the ₹1,25,000 threshold under 112A, or applying it to 112 gains.\n- Applying 50C when SDV is within 110% of consideration.\n- Allowing 54F in full when only part of net consideration is reinvested.\n- Claiming 80C-type deductions against special-rate gains."
+        }
+      ],
+      "keyPoints": [
+        "Holding period: 12 months for listed securities, 24 months for all other assets.",
+        "STCG 111A: 20%; LTCG 112A: 12.5% above ₹1,25,000; other LTCG: 12.5% without indexation.",
+        "Land / building acquired before 23 July 2024 (resident individual / HUF): lower of 12.5% without and 20% with indexation.",
+        "50C: SDV is consideration if it exceeds 110% of actual consideration.",
+        "54: house to house, cap ₹10 crore; 54EC: bonds within 6 months, max ₹50 lakh, 5-year lock-in; 54F: proportionate.",
+        "Depreciable assets and specified MF / market-linked debentures: always short-term."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-income-tax-07-capital-gains-case1",
+          "title": "Case: Mrs. Kavita Desai",
+          "body": "Mrs. Kavita Desai, a resident aged 52, has these transactions in tax year 2026-27:\n\n| Transaction | Details |\n| --- | --- |\n| Listed equity shares (STT paid) | Bought February 2024 for ₹4,00,000; sold September 2026 for ₹8,00,000 |\n| Listed equity shares (STT paid) | Bought January 2026 for ₹3,00,000; sold August 2026 for ₹5,00,000 |\n| Land in Nashik | Bought August 2024 for ₹50,00,000; sold December 2026 for ₹80,00,000; brokerage 1% |\n| Bonds of NHAI (eligible) | ₹20,00,000 invested in February 2027 |\n\nShe has salary income above ₹12 lakh, so the basic exemption limit is fully used."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q01",
+          "type": "numeric",
+          "prompt": "Compute the tax (before cess) on Mrs. Kavita's long-term gain on listed shares.",
+          "answer": 34375,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Sale 8,00,000 - cost 4,00,000 (held over 12 months) | 4,00,000 |\n| Less: Threshold | (1,25,000) |\n| Taxable LTCG | 2,75,000 |\n| **Tax @ 12.5%** | **34,375** |",
+          "caseId": "ca-i-income-tax-07-capital-gains-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q02",
+          "type": "numeric",
+          "prompt": "Compute Mrs. Kavita's taxable long-term capital gain on the Nashik land after the exemption.",
+          "answer": 920000,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Sale consideration | 80,00,000 |\n| Less: Brokerage 1% | (80,000) |\n| Less: Cost | (50,00,000) |\n| LTCG | 29,20,000 |\n| Less: Bonds (old 54EC), within 6 months | (20,00,000) |\n| **Taxable LTCG** | **9,20,000** |",
+          "caseId": "ca-i-income-tax-07-capital-gains-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q03",
+          "type": "mcq",
+          "prompt": "The tax rate on Mrs. Kavita's gain on shares bought in January 2026 and sold in August 2026 is:",
+          "options": [
+            "20%",
+            "15%",
+            "12.5%",
+            "Slab rate"
+          ],
+          "answer": 0,
+          "explanation": "Held for 12 months or less, so short-term; listed equity with STT is taxed at 20% (old section 111A) for transfers on or after 23 July 2024.",
+          "caseId": "ca-i-income-tax-07-capital-gains-case1"
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q04",
+          "type": "truefalse",
+          "prompt": "Mrs. Kavita can choose to pay 20% tax with indexation on the Nashik land instead of 12.5% without indexation.",
+          "answer": false,
+          "explanation": "The option is only for land or building acquired before 23 July 2024. She bought the land in August 2024.",
+          "caseId": "ca-i-income-tax-07-capital-gains-case1"
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q05",
+          "type": "numeric",
+          "prompt": "Mr. Bose sells a building for ₹60,00,000. Its stamp duty value is ₹70,00,000. What is the full value of consideration?",
+          "answer": 7000000,
+          "explanation": "110% of ₹60,00,000 is ₹66,00,000. SDV of ₹70,00,000 exceeds it, so SDV is the full value of consideration (old section 50C).",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q06",
+          "type": "numeric",
+          "prompt": "Mr. Jain sells gold held for 5 years. Net consideration is ₹1,00,00,000 and LTCG is ₹30,00,000. He invests ₹60,00,000 in a new residential house (he owns no other house). Compute the taxable LTCG.",
+          "answer": 1200000,
+          "explanation": "Exemption (old section 54F) is proportionate: 30,00,000 x 60,00,000 / 1,00,00,000 = 18,00,000.\n\nTaxable LTCG = 30,00,000 - 18,00,000 = **₹12,00,000**.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q07",
+          "type": "numeric",
+          "prompt": "Mr. Iyer, a resident, bought land in 2010-11 for ₹20,00,000 and sells it in October 2026 for ₹1,00,00,000. Take CII 2010-11 = 167 and CII 2026-27 = 400 (assumed for this question). Compute the lower tax (before cess) using the grandfathering option. Round to the nearest rupee.",
+          "answer": 1000000,
+          "explanation": "| Option | ₹ |\n| --- | --- |\n| A: LTCG without indexation: 1,00,00,000 - 20,00,000 = 80,00,000 @ 12.5% | 10,00,000 |\n| B: Indexed cost: 20,00,000 x 400 / 167 = 47,90,419; LTCG 52,09,581 @ 20% | 10,41,916 |\n| **Lower tax** | **10,00,000** |\n\nThe CII for 2026-27 here is assumed; use the notified figure in the exam.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q08",
+          "type": "mcq",
+          "prompt": "Which of the following is a capital asset?",
+          "options": [
+            "Jewellery held for personal use",
+            "Motor car held for personal use",
+            "Raw material held by a manufacturer",
+            "Agricultural land in a village with population 3,000, beyond 8 km of any municipality"
+          ],
+          "answer": 0,
+          "explanation": "Jewellery is expressly excluded from personal effects, so it is a capital asset. A personal car is a personal effect, raw material is stock, and rural agricultural land is excluded."
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q09",
+          "type": "mcq",
+          "prompt": "Which transaction is NOT regarded as a transfer for capital gains?",
+          "options": [
+            "Gift of shares by a father to his son",
+            "Sale of a house for cash",
+            "Compulsory acquisition of land by the government",
+            "Exchange of a plot for a flat"
+          ],
+          "answer": 0,
+          "explanation": "Transfer under a gift or will is not regarded as a transfer. The others are transfers."
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q10",
+          "type": "multi",
+          "prompt": "Which of these assets are long-term if held for 15 months before transfer in tax year 2026-27? Select all that apply.",
+          "options": [
+            "Listed equity shares",
+            "Units of an equity-oriented mutual fund",
+            "Unlisted shares",
+            "A residential flat",
+            "Gold jewellery"
+          ],
+          "answers": [
+            0,
+            1
+          ],
+          "explanation": "Listed securities and equity fund units need more than 12 months. Unlisted shares, land and building and gold need more than 24 months."
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: investment in the specified bonds to claim exemption on LTCG from land or building must be made within ___ months of transfer.",
+          "accept": [
+            "6",
+            "six"
+          ],
+          "explanation": "The bonds must be bought within 6 months of transfer, up to ₹50 lakh, and held for 5 years."
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q12",
+          "type": "practical",
+          "prompt": "Mr. Anil, a resident, sold his residential house (bought in 2018 for ₹45,00,000) on 1 August 2026 for ₹1,20,00,000; brokerage ₹1,00,000. He bought a new house for ₹40,00,000 in March 2027 and invested ₹20,00,000 in eligible bonds in December 2026. Compute taxable LTCG and tax at 12.5% without indexation (ignore cess).",
+          "data": "Assume Mr. Anil opts out of the indexation alternative.",
+          "answer": "| Particulars | ₹ |\n| --- | --- |\n| Sale consideration | 1,20,00,000 |\n| Less: Brokerage | (1,00,000) |\n| Less: Cost of acquisition | (45,00,000) |\n| LTCG (held over 24 months) | 74,00,000 |\n| Less: Exemption for new house (old section 54) | (40,00,000) |\n| Less: Exemption for bonds (old section 54EC), within 6 months | (20,00,000) |\n| **Taxable LTCG** | **14,00,000** |\n| **Tax @ 12.5%** | **1,75,000** |\n\nThe house was acquired before 23 July 2024, so in a full answer compare with 20% after indexation and pay the lower; this question fixes the 12.5% option.",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-07-capital-gains-q13",
+          "type": "interview",
+          "prompt": "Explain the conditions for exemption under section 54 of the 1961 Act for long-term capital gains on a residential house.",
+          "answer": "- Available to an individual or HUF.\n- The asset transferred must be a long-term residential house (building or land appurtenant), whose income is chargeable under house property.\n- A new residential house in India must be purchased 1 year before or 2 years after the transfer, or constructed within 3 years.\n- Exemption = lower of LTCG and cost of the new house; cost above ₹10 crore is ignored.\n- Once in a lifetime, where LTCG does not exceed ₹2 crore, two houses may be bought.\n- Amount not used before the due date of the return must be deposited in the Capital Gains Account Scheme.\n- If the new house is transferred within 3 years, the exemption is withdrawn by reducing its cost.\n- The 2025 Act retains the provision with a new section number.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal (Inter Paper 3 study material and RTPs)",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts, rules and tax tools",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-income-tax-08-other-sources",
+      "title": "Income from Other Sources",
+      "level": "intermediate",
+      "summary": "Residual head: dividends, interest, winnings, gifts and property received for inadequate consideration, family pension and permitted deductions.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Residual head and specific incomes",
+          "body": "Income from other sources is charged under section 92 of the 2025 Act (sections 56 to 59 of the 1961 Act). It is a **residual** head: income not taxable under any other head falls here. Some incomes are always taxed here:\n\n- **Dividends** (taxable in the hands of shareholders).\n- **Winnings** from lotteries, crossword puzzles, races including horse races, card games, gambling or betting: taxed at a flat **30%** (old section 115BB). No expense, no deduction and no basic exemption is allowed against them. Net winnings from online games have their own 30% charge (old section 115BBJ).\n- **Interest on securities**, bank deposits and other interest (if not business income).\n- **Gifts and property received** without or for inadequate consideration (old section 56(2)(x)).\n- **Family pension** received by legal heirs of a deceased employee.\n- Income from letting of machinery, plant or furniture, and composite letting with a building where the lettings are inseparable, if not business income.\n- Interest on compensation or enhanced compensation (50% deduction allowed)."
+        },
+        {
+          "heading": "Gifts: sum of money and property",
+          "body": "| Receipt by any person | Taxable amount |\n| --- | --- |\n| Sum of money without consideration | Whole amount, if aggregate in the year exceeds ₹50,000 |\n| Immovable property without consideration | Stamp duty value, if it exceeds ₹50,000 |\n| Immovable property for inadequate consideration | SDV minus consideration, if the difference exceeds the higher of ₹50,000 and 10% of consideration |\n| Other property (shares, jewellery, paintings, bullion) without consideration | Aggregate FMV, if it exceeds ₹50,000 |\n| Other property for inadequate consideration | FMV minus consideration, if the difference exceeds ₹50,000 |\n\n**Not taxable** when received:\n\n- from a **relative** (spouse, brother or sister, brother or sister of the spouse, brother or sister of either parent, any lineal ascendant or descendant, and lineal ascendant or descendant of the spouse, and spouses of these persons);\n- on the occasion of the individual's **marriage**;\n- under a will or by inheritance, or in contemplation of death;\n- from a local authority, a registered charitable trust or institution, or an educational / medical institution;\n- from an HUF by its member.\n\nThe ₹50,000 limit is an aggregate threshold: if gifts from non-relatives total ₹55,000, all ₹55,000 is taxable."
+        },
+        {
+          "heading": "Deductions and family pension",
+          "body": "Deductions (section 93 of the 2025 Act; old section 57):\n\n- Family pension: **lower of one-third of family pension and ₹25,000** under the new regime; ₹15,000 under the old regime.\n- Any other expenditure laid out wholly and exclusively for earning the income (not capital, not personal).\n- Interest on compensation: 50% of such interest.\n\nNot deductible: personal expenses, interest payable outside India without TDS, wealth-tax, and any expense against winnings.\n\nThe Finance Act, 2026 withdrew the deduction for interest expenditure against dividend and mutual fund income; do not allow it for tax year 2026-27.\n\nFormat:\n\n| Particulars | ₹ |\n| --- | --- |\n| Dividend | xxx |\n| Interest on deposits and securities | xxx |\n| Family pension less deduction | xxx |\n| Gifts taxable | xxx |\n| Winnings (taxed separately at 30%) | xxx |\n| **Income from other sources** | **xxx** |"
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Taxing only the excess over ₹50,000 for gifts. Once the aggregate crosses ₹50,000, the whole is taxable.\n- Treating a gift from a cousin or friend as from a relative. Cousins are not relatives under this definition.\n- Allowing basic exemption or Chapter VI-A deductions against lottery winnings.\n- Taxing the net amount received from a lottery. Gross up for TDS: the gross winning is taxable.\n- Using 10% of SDV instead of 10% of consideration for the tolerance on immovable property."
+        }
+      ],
+      "keyPoints": [
+        "Residual head (section 92 of the 2025 Act; old section 56).",
+        "Winnings: flat 30% on gross amount, no deductions, no basic exemption.",
+        "Gifts of money above ₹50,000 aggregate: whole amount taxable; relatives, marriage, will and inheritance excluded.",
+        "Immovable property for inadequate consideration: taxable if SDV - consideration > higher of ₹50,000 and 10% of consideration.",
+        "Family pension deduction: lower of 1/3 and ₹25,000 (new) / ₹15,000 (old).",
+        "Interest on enhanced compensation: 50% deduction."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-income-tax-08-other-sources-case1",
+          "title": "Case: Mr. Ajay Kulkarni",
+          "body": "Mr. Ajay Kulkarni, a resident aged 30, receives the following in tax year 2026-27:\n\n| Receipt | ₹ |\n| --- | --- |\n| Cash gift from a friend on his birthday | 30,000 |\n| Cash gift from a colleague | 25,000 |\n| Cash gift from his elder brother | 1,00,000 |\n| Gifts from friends on his marriage in November 2026 | 2,00,000 |\n| Land bought from an unrelated person for ₹40,00,000; stamp duty value | 50,00,000 |\n| Lottery prize credited to his account, net of TDS at 30% | 70,000 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-income-tax-08-other-sources-q01",
+          "type": "numeric",
+          "prompt": "Compute the taxable amount of cash gifts in Mr. Ajay's hands.",
+          "answer": 55000,
+          "explanation": "| Gift | Taxable (₹) |\n| --- | --- |\n| Friend | 30,000 |\n| Colleague | 25,000 |\n| Brother (relative) | Exempt |\n| Marriage gifts | Exempt |\n| **Aggregate from non-relatives** | **55,000** |\n\nThe aggregate exceeds ₹50,000, so the whole ₹55,000 is taxable.",
+          "caseId": "ca-i-income-tax-08-other-sources-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q02",
+          "type": "numeric",
+          "prompt": "Compute the amount taxable in Mr. Ajay's hands on purchase of the land.",
+          "answer": 1000000,
+          "explanation": "SDV - consideration = 50,00,000 - 40,00,000 = 10,00,000. This exceeds the higher of ₹50,000 and 10% of consideration (₹4,00,000), so ₹10,00,000 is taxable.",
+          "caseId": "ca-i-income-tax-08-other-sources-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q03",
+          "type": "mcq",
+          "prompt": "What amount of lottery income is included in Mr. Ajay's income, and at what rate is it taxed?",
+          "options": [
+            "₹1,00,000 at 30%",
+            "₹70,000 at 30%",
+            "₹1,00,000 at slab rates",
+            "₹70,000 at slab rates"
+          ],
+          "answer": 0,
+          "explanation": "The gross amount is 70,000 / 70% = ₹1,00,000. Winnings are taxed at a flat 30% with no deduction.",
+          "caseId": "ca-i-income-tax-08-other-sources-case1"
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q04",
+          "type": "truefalse",
+          "prompt": "If the land's stamp duty value were ₹43,50,000, nothing would be taxable in Mr. Ajay's hands on the purchase.",
+          "answer": true,
+          "explanation": "The difference would be ₹3,50,000, which does not exceed 10% of consideration (₹4,00,000).",
+          "caseId": "ca-i-income-tax-08-other-sources-case1"
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q05",
+          "type": "numeric",
+          "prompt": "Mrs. Lalitha receives family pension of ₹3,00,000 in tax year 2026-27 and stays in the new regime. Compute the taxable family pension.",
+          "answer": 275000,
+          "explanation": "Deduction = lower of 1/3 (₹1,00,000) and ₹25,000 = ₹25,000. Taxable = ₹2,75,000.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q06",
+          "type": "numeric",
+          "prompt": "Mr. Hari, a resident, wins ₹2,00,000 in a TV quiz show. His other income is ₹3,00,000 (new regime). Compute tax payable on the winnings including cess.",
+          "answer": 62400,
+          "explanation": "Winnings are taxed at a flat 30%: 2,00,000 x 30% = 60,000; cess 4% = 2,400; total ₹62,400. Unused basic exemption cannot be set against winnings, and the rebate is not available against special-rate income under the new regime.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q07",
+          "type": "mcq",
+          "prompt": "Mr. R receives a painting worth ₹80,000 as a gift from his friend. The amount taxable is:",
+          "options": [
+            "₹80,000",
+            "₹30,000",
+            "Nil, as a painting is not a sum of money",
+            "Nil, as paintings are personal effects"
+          ],
+          "answer": 0,
+          "explanation": "A painting is 'property' for this provision. FMV above ₹50,000 received without consideration is fully taxable."
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q08",
+          "type": "mcq",
+          "prompt": "Which of these is a 'relative' for exemption of gifts received by an individual?",
+          "options": [
+            "Wife's sister",
+            "First cousin",
+            "Nephew (brother's son)",
+            "Friend's father"
+          ],
+          "answer": 0,
+          "explanation": "Brother or sister of the spouse is a relative. Cousins and nephews are not in the list."
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q09",
+          "type": "mcq",
+          "prompt": "Interest received on enhanced compensation of ₹4,00,000 is taxable under other sources at:",
+          "options": [
+            "₹2,00,000",
+            "₹4,00,000",
+            "₹3,00,000",
+            "Nil"
+          ],
+          "answer": 0,
+          "explanation": "A deduction of 50% of such interest is allowed, so ₹2,00,000 is taxable in the year of receipt."
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q10",
+          "type": "multi",
+          "prompt": "Which receipts by an individual are NOT taxable under the gift provisions? Select all that apply.",
+          "options": [
+            "₹5,00,000 from his father",
+            "₹1,00,000 from a friend",
+            "₹2,00,000 received under the will of an uncle",
+            "Gifts of ₹3,00,000 received on his marriage",
+            "₹60,000 from a cousin"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Gifts from a lineal ascendant, under a will, and on the occasion of marriage are excluded. Friends and cousins are not relatives."
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: winnings from lotteries and races are taxed at a flat rate of ___% (before surcharge and cess).",
+          "accept": [
+            "30",
+            "thirty"
+          ],
+          "explanation": "Old section 115BB charges 30%, without any deduction or basic exemption."
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q12",
+          "type": "practical",
+          "prompt": "Compute Ms. Pooja's income from other sources for tax year 2026-27 (new regime) and the tax on special-rate income.",
+          "data": "| Particulars | ₹ |\n| --- | --- |\n| Dividend from Indian companies | 40,000 |\n| Interest on fixed deposit | 60,000 |\n| Interest on savings bank account | 8,000 |\n| Family pension | 1,20,000 |\n| Winnings from a horse race (gross) | 50,000 |\n| Cash gifts from her uncle (father's brother) | 75,000 |\n| Cash gift from a neighbour | 40,000 |",
+          "answer": "| Particulars | ₹ |\n| --- | --- |\n| Dividend | 40,000 |\n| Interest on FD | 60,000 |\n| Interest on savings account (no deduction in new regime) | 8,000 |\n| Family pension 1,20,000 less lower of 1/3 (40,000) and 25,000 | 95,000 |\n| Gift from uncle (relative) | Exempt |\n| Gift from neighbour (aggregate below ₹50,001) | Nil |\n| Income at normal rates | 2,03,000 |\n| Winnings from horse race | 50,000 |\n| **Income from other sources** | **2,53,000** |\n\nTax on winnings at 30% = ₹15,000 + cess ₹600 = ₹15,600. Income at normal rates is below ₹4,00,000, so no slab tax.",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-08-other-sources-q13",
+          "type": "interview",
+          "prompt": "Explain the taxability of property received without or for inadequate consideration under the 1961 Act, section 56(2)(x).",
+          "answer": "- Applies to any person (individual, HUF, firm, company).\n- Money: aggregate receipts without consideration above ₹50,000 in a year are fully taxable.\n- Immovable property without consideration: stamp duty value taxable if above ₹50,000; for inadequate consideration, SDV minus consideration is taxable if it exceeds the higher of ₹50,000 and 10% of consideration.\n- Movable property (shares, jewellery, bullion, drawings, paintings, sculptures, archaeological collections): aggregate FMV above ₹50,000 if no consideration; FMV minus consideration if the difference exceeds ₹50,000.\n- Exclusions: receipts from relatives, on marriage, under will or inheritance, from local authorities and registered trusts, and specified business reorganisations.\n- Cost of such property for later capital gains is the value already taxed.\n- The 2025 Act retains these rules under the other-sources head.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal (Inter Paper 3 study material and RTPs)",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts, rules and tax tools",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-income-tax-09-clubbing-setoff-deductions",
+      "title": "Clubbing, Set-off and Carry Forward of Losses, Deductions",
+      "level": "advanced",
+      "summary": "Income of other persons included in an assessee's income, inter-source and inter-head set-off, carry forward of losses, and Chapter VI-A deductions under both regimes.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Clubbing of income",
+          "body": "Clubbing provisions (section 99 of the 2025 Act; sections 60 to 65 of the 1961 Act) tax one person on income legally belonging to another.\n\n| Situation (1961 Act) | Clubbed in the hands of |\n| --- | --- |\n| Transfer of income without transfer of asset (60) | Transferor |\n| Revocable transfer of assets (61) | Transferor |\n| Remuneration of spouse from a concern in which the individual has substantial interest (20% or more voting power or profit share), unless the spouse has technical or professional qualification and the income is attributable to it (64(1)(ii)) | The spouse with substantial interest (if both, the one with higher total income before clubbing) |\n| Income from assets transferred to spouse without adequate consideration, other than under an agreement to live apart (64(1)(iv)) | Transferor |\n| Income from assets transferred to son's wife without adequate consideration (64(1)(vi)) | Transferor |\n| Income of a minor child (64(1A)) | Parent whose total income (before clubbing) is greater; if parents' marriage does not subsist, the parent maintaining the child |\n\nMinor's income is **not** clubbed if it arises from manual work or from activity involving the minor's skill, talent or specialised knowledge, or if the minor has a disability of the kind specified for the disability deduction. In the old regime, exemption of up to **₹1,500 per minor child** is allowed on clubbed income (old section 10(32)).\n\nIncome on accretion (interest earned on clubbed income that is reinvested) is not clubbed; it is the transferee's own income."
+        },
+        {
+          "heading": "Set-off and carry forward of losses",
+          "body": "Order: first **intra-head** set-off (one source against another under the same head), then **inter-head** set-off, then brought forward losses.\n\n| Loss | Current-year set-off | Carry forward |\n| --- | --- | --- |\n| House property | Any head, up to ₹2,00,000 a year (old regime); not against other heads in the new regime | 8 years, against house property income only |\n| Business (non-speculative) | Any head except salary | 8 years, against business income |\n| Speculation business | Only speculation profit | 4 years |\n| Specified business (old 35AD) | Only specified business profit | Indefinitely |\n| Short-term capital loss | STCG or LTCG | 8 years, against STCG or LTCG |\n| Long-term capital loss | Only LTCG | 8 years, only LTCG |\n| Owning and maintaining race horses | Only that activity | 4 years |\n| Unabsorbed depreciation | Any head except salary | Indefinitely |\n\nNo loss can be set off against winnings from lotteries, races and the like. Losses other than house property loss and unabsorbed depreciation can be carried forward only if the return of the loss year was filed **by the due date**.\n\nThe set-off provisions sit in sections 108 to 121 of the 2025 Act."
+        },
+        {
+          "heading": "Deductions from gross total income (old regime)",
+          "body": "Total deductions cannot exceed GTI, and are not allowed against special-rate capital gains or winnings. Under the new default regime only a few are available, chiefly employer NPS contribution (old 80CCD(2)), Agnipath contribution (80CCH) and new employment (80JJAA).\n\n| Deduction (1961 Act) | Main limit |\n| --- | --- |\n| 80C (section 123 of the 2025 Act): LIC premium, PPF, EPF, ELSS, tuition fees for 2 children, housing loan principal, 5-year bank FD, NSC, Sukanya Samriddhi | ₹1,50,000 (with 80CCC and 80CCD(1)) |\n| 80CCD(1B): own NPS contribution | Additional ₹50,000 |\n| 80D: health insurance | Self / family ₹25,000 (₹50,000 if senior); parents ₹25,000 (₹50,000 if senior); preventive health check-up ₹5,000 within these; no cash premium |\n| 80E: interest on education loan | Actual interest, 8 years |\n| 80G: donations | 100% or 50%, with or without qualifying limit of 10% of adjusted GTI; cash above ₹2,000 not allowed |\n| 80GG: rent paid without HRA | Least of rent - 10% of total income, ₹5,000 per month, 25% of total income |\n| 80TTA: savings interest (non-senior) | ₹10,000 |\n| 80TTB: interest of resident senior citizen | ₹50,000 |\n| 80U / 80DD: disability | ₹75,000 (₹1,25,000 severe) |\n\nWorked example (80C and 80D): LIC 60,000 + PPF 1,00,000 + tuition fees 40,000 + housing loan principal 30,000 = 2,30,000, restricted to 1,50,000. Mediclaim for self ₹30,000 (allowed 25,000) and senior parents ₹55,000 (allowed 50,000). Total deduction ₹2,25,000."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Setting off business loss against salary.\n- Setting off LTCL against STCG.\n- Clubbing a minor's income from skill (such as a music competition prize).\n- Clubbing the minor's income with the father by default; it goes to the parent with higher income.\n- Allowing 80C-type deductions under the new regime.\n- Allowing 80D for a premium paid in cash, or 80G for a cash donation above ₹2,000.\n- Forgetting that carry forward needs a return filed by the due date (except house property loss and unabsorbed depreciation)."
+        }
+      ],
+      "keyPoints": [
+        "Minor's income clubbed with the parent having higher income; ₹1,500 exemption per child (old regime); skill income and disabled minor's income not clubbed.",
+        "Assets gifted to spouse or son's wife: income clubbed with transferor; accretion not clubbed.",
+        "HP loss: ₹2 lakh inter-head (old regime), none in new regime; carry forward 8 years.",
+        "Business loss not against salary; speculation loss only against speculation profit (4 years).",
+        "LTCL only against LTCG; STCL against both; 8 years.",
+        "80C limit ₹1,50,000 (section 123 of the 2025 Act); 80D ₹25,000 / ₹50,000; 80TTA ₹10,000; 80TTB ₹50,000.",
+        "New regime: only employer NPS (80CCD(2)), 80CCH and 80JJAA type deductions."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-case1",
+          "title": "Case: The Sharma family",
+          "body": "Mr. Arvind Sharma and Mrs. Neelam Sharma, both residents, opt for the old regime for tax year 2026-27.\n\n| Particulars | ₹ |\n| --- | --- |\n| Mr. Sharma's income from salary | 15,00,000 |\n| Mrs. Sharma's income from salary | 6,00,000 |\n| Interest on FD made by Mrs. Sharma from ₹10,00,000 gifted to her by Mr. Sharma in 2025 | 80,000 |\n| Interest earned by Mrs. Sharma on reinvesting earlier years' FD interest | 6,000 |\n| Interest on FD held by their minor son, Kunal (aged 12) | 30,000 |\n| Prize won by their minor daughter, Riya (aged 15), in a national singing competition | 20,000 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q01",
+          "type": "numeric",
+          "prompt": "Compute the total amount clubbed in Mr. Sharma's income for tax year 2026-27.",
+          "answer": 108500,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Interest on FD from gifted funds (transfer to spouse) | 80,000 |\n| Kunal's FD interest | 30,000 |\n| Less: Exemption per minor child | (1,500) |\n| Riya's prize (skill and talent) | Not clubbed |\n| Interest on reinvested interest (accretion) | Not clubbed |\n| **Total clubbed** | **1,08,500** |\n\nKunal's income goes to Mr. Sharma because his total income before clubbing is higher.",
+          "caseId": "ca-i-income-tax-09-clubbing-setoff-deductions-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q02",
+          "type": "mcq",
+          "prompt": "Riya's prize of ₹20,000 is:",
+          "options": [
+            "Taxed in Riya's own hands",
+            "Clubbed with Mr. Sharma",
+            "Clubbed with Mrs. Sharma",
+            "Exempt as a gift"
+          ],
+          "answer": 0,
+          "explanation": "Income of a minor from activity involving skill or talent is not clubbed; it is assessed as the minor's own income (through her guardian).",
+          "caseId": "ca-i-income-tax-09-clubbing-setoff-deductions-case1"
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q03",
+          "type": "truefalse",
+          "prompt": "The interest of ₹6,000 earned by Mrs. Sharma on reinvesting earlier years' interest is clubbed with Mr. Sharma's income.",
+          "answer": false,
+          "explanation": "Only income from the transferred asset is clubbed. Income from reinvestment of that income (accretion) is the spouse's own income.",
+          "caseId": "ca-i-income-tax-09-clubbing-setoff-deductions-case1"
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q04",
+          "type": "mcq",
+          "prompt": "If Mrs. Sharma's income before clubbing were higher than Mr. Sharma's, Kunal's FD interest would be clubbed with:",
+          "options": [
+            "Mrs. Sharma",
+            "Mr. Sharma, as father",
+            "Both equally",
+            "Neither; Kunal would be taxed"
+          ],
+          "answer": 0,
+          "explanation": "A minor's income is clubbed with the parent whose total income (before clubbing) is greater.",
+          "caseId": "ca-i-income-tax-09-clubbing-setoff-deductions-case1"
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q05",
+          "type": "numeric",
+          "prompt": "Mr. Bhatt (old regime) has: salary ₹8,00,000; loss from a let-out house ₹3,00,000; business profit ₹2,00,000; short-term capital loss ₹50,000; long-term capital gain on land ₹1,00,000. Compute his gross total income.",
+          "answer": 850000,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Salary | 8,00,000 |\n| Less: HP loss set off (limit) | (2,00,000) |\n| Salary after set-off | 6,00,000 |\n| Business | 2,00,000 |\n| LTCG 1,00,000 - STCL 50,000 | 50,000 |\n| **Gross total income** | **8,50,000** |\n\nHP loss of ₹1,00,000 is carried forward.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q06",
+          "type": "numeric",
+          "prompt": "Ms. Gupta (old regime, aged 40) pays: LIC premium ₹60,000, PPF ₹1,00,000, tuition fees for two children ₹40,000, housing loan principal ₹30,000, mediclaim for self and spouse ₹30,000 and mediclaim for her parents (both senior citizens) ₹55,000, all by cheque. Compute her total deduction under these provisions.",
+          "answer": 225000,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| 80C items: 60,000 + 1,00,000 + 40,000 + 30,000 = 2,30,000, limited to | 1,50,000 |\n| 80D self and spouse: 30,000, limited to | 25,000 |\n| 80D senior parents: 55,000, limited to | 50,000 |\n| **Total deduction** | **2,25,000** |",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q07",
+          "type": "numeric",
+          "prompt": "Mr. Roy (old regime) donates ₹1,00,000 by cheque to a fund eligible for 50% deduction subject to the qualifying limit. His adjusted gross total income is ₹8,00,000. Compute the deduction.",
+          "answer": 40000,
+          "explanation": "Qualifying amount = lower of donation (1,00,000) and 10% of adjusted GTI (80,000) = 80,000. Deduction = 50% of 80,000 = ₹40,000.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q08",
+          "type": "mcq",
+          "prompt": "Business loss of the current year cannot be set off against:",
+          "options": [
+            "Income from salaries",
+            "Income from house property",
+            "Long-term capital gains",
+            "Income from other sources"
+          ],
+          "answer": 0,
+          "explanation": "Business loss can be set off against any head except salaries."
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q09",
+          "type": "mcq",
+          "prompt": "Speculation business loss can be carried forward for:",
+          "options": [
+            "4 tax years",
+            "8 tax years",
+            "Indefinitely",
+            "It cannot be carried forward"
+          ],
+          "answer": 0,
+          "explanation": "Speculation loss is carried forward for 4 years and set off only against speculation profit."
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q10",
+          "type": "mcq",
+          "prompt": "Which deduction is available to an individual in the new default regime?",
+          "options": [
+            "Employer's contribution to NPS (old 80CCD(2))",
+            "Health insurance premium (old 80D)",
+            "Interest on education loan (old 80E)",
+            "Savings bank interest (old 80TTA)"
+          ],
+          "answer": 0,
+          "explanation": "The new regime keeps the deduction for the employer's NPS contribution (up to 14% of salary); the other deductions are lost."
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q11",
+          "type": "multi",
+          "prompt": "Which losses can be carried forward even if the return for the loss year was filed after the due date? Select all that apply.",
+          "options": [
+            "Loss under the head house property",
+            "Unabsorbed depreciation",
+            "Business loss",
+            "Long-term capital loss",
+            "Speculation loss"
+          ],
+          "answers": [
+            0,
+            1
+          ],
+          "explanation": "House property loss and unabsorbed depreciation are exceptions to the timely-return condition."
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: under the old regime, loss under the head house property can be set off against other heads up to ₹___ in a tax year.",
+          "accept": [
+            "200000",
+            "2,00,000",
+            "2 lakh"
+          ],
+          "explanation": "The inter-head set-off of house property loss is capped at ₹2,00,000; the balance is carried forward for 8 years."
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q13",
+          "type": "practical",
+          "prompt": "Compute Mr. Nair's gross total income for tax year 2026-27 (old regime) and the losses to be carried forward.",
+          "data": "| Particulars | ₹ |\n| --- | --- |\n| Income from salary | 6,00,000 |\n| House A (let out): income | 1,00,000 |\n| House B (let out): loss | (3,50,000) |\n| Business X: profit | 2,00,000 |\n| Speculation business: loss | (40,000) |\n| Short-term capital gain on unlisted shares | 60,000 |\n| Long-term capital loss on land | (70,000) |\n| Business loss brought forward from tax year 2022-23 (return filed in time) | (1,50,000) |",
+          "answer": "| Particulars | ₹ |\n| --- | --- |\n| **Salaries** | 6,00,000 |\n| Less: HP loss set off (limit) | (2,00,000) |\n| Salary after set-off | 4,00,000 |\n| **House property**: 1,00,000 - 3,50,000 = (2,50,000); set off 2,00,000 against salary | Nil |\n| **Business**: Business X | 2,00,000 |\n| Less: Brought forward business loss | (1,50,000) |\n| Business income | 50,000 |\n| Speculation loss (cannot be set off against non-speculative profit) | Nil |\n| **Capital gains**: STCG | 60,000 |\n| LTCL (cannot be set off against STCG) | Nil |\n| **Gross total income** | **5,10,000** |\n\n**Losses carried forward**\n\n| Loss | ₹ | Period |\n| --- | --- | --- |\n| House property | 50,000 | 8 years |\n| Speculation | 40,000 | 4 years |\n| Long-term capital loss | 70,000 | 8 years |",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-09-clubbing-setoff-deductions-q14",
+          "type": "interview",
+          "prompt": "Explain the clubbing of a minor child's income.",
+          "answer": "- Old section 64(1A); retained in section 99 of the 2025 Act.\n- All income of a minor child is clubbed with the income of the parent whose total income (before clubbing) is greater; if the marriage does not subsist, with the parent who maintains the minor.\n- Once clubbed with one parent, it stays with that parent in later years unless the Assessing Officer is satisfied a change is needed.\n- Not clubbed: income from manual work or from activity involving the minor's skill, talent or specialised knowledge and experience; income of a minor with a specified disability.\n- In the old regime the parent gets an exemption up to ₹1,500 per minor child (old section 10(32)).\n- A minor child includes a step child and an adopted child.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal (Inter Paper 3 study material and RTPs)",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts, rules and tax tools",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-income-tax-10-computation-payment-returns",
+      "title": "Total Income, Tax Liability, Advance Tax, TDS/TCS and Returns",
+      "level": "advanced",
+      "summary": "Bringing the heads together into total income and tax payable, then paying it through advance tax, TDS and TCS, interest for defaults, and filing the return.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Computation of total income and tax liability",
+          "body": "Format for an individual (tax year 2026-27):\n\n| Particulars | ₹ |\n| --- | --- |\n| Income from salaries | xxx |\n| Income from house property | xxx |\n| Profits and gains of business or profession | xxx |\n| Capital gains (STCG 111A, other STCG, LTCG 112A, other LTCG shown separately) | xxx |\n| Income from other sources | xxx |\n| Add: Clubbed income; less: set-off of losses | xxx |\n| **Gross total income** | **xxx** |\n| Less: Deductions (only those allowed in the chosen regime) | (xxx) |\n| **Total income (rounded to nearest ₹10)** | **xxx** |\n| Tax on special-rate income (111A 20%, 112A 12.5%, 112 12.5%, winnings 30%) | xxx |\n| Tax on balance at slab rates | xxx |\n| Less: Rebate (resident individual) | (xxx) |\n| Add: Surcharge, then cess @ 4% | xxx |\n| Less: Relief (arrears of salary, double taxation) | (xxx) |\n| Less: TDS, TCS and advance tax | (xxx) |\n| **Tax payable / refundable (rounded to nearest ₹10)** | **xxx** |\n\nA resident individual may use unused basic exemption against 111A, 112 and 112A gains, but not against winnings. Chapter VI-A deductions are not allowed against special-rate gains."
+        },
+        {
+          "heading": "Advance tax and interest",
+          "body": "Advance tax is payable if tax liability for the year (after TDS / TCS) is **₹10,000 or more** (old sections 207 to 211). A resident senior citizen without business or profession income is exempt.\n\n| Due date | Cumulative instalment (general) | Presumptive cases (44AD / 44ADA) |\n| --- | --- | --- |\n| 15 June | 15% | - |\n| 15 September | 45% | - |\n| 15 December | 75% | - |\n| 15 March | 100% | 100% |\n\nInterest (simple, per month or part of a month):\n\n| Section (1961 Act) | Default | Rate and period |\n| --- | --- | --- |\n| 234A | Return filed after the due date | 1% per month on tax unpaid, from the day after the due date to the date of filing |\n| 234B | Advance tax paid is less than 90% of assessed tax | 1% per month on the shortfall, from 1 April after the tax year to the date of determination (self-assessment) |\n| 234C | Instalments short of 12%, 36%, 75%, 100% at the four dates | 1% per month for 3 months (1 month for the last instalment) on the shortfall against 15%, 45%, 75%, 100% |\n\nWorked example (234B): assessed tax (net of TDS) ₹1,60,000; advance tax paid ₹1,00,000, which is below 90% (₹1,44,000). Shortfall ₹60,000. Tax paid with the return on 31 July 2027: April to July = 4 months. Interest = 60,000 x 1% x 4 = **₹2,400**."
+        },
+        {
+          "heading": "TDS and TCS",
+          "body": "The 2025 Act consolidates TDS into **section 392** (salary) and **section 393** (all other payments, set out in tables), and TCS into **section 394**. Exam questions often still use the 1961 section names below.\n\n| Payment (1961 Act) | Rate |\n| --- | --- |\n| Salary (192) | Average rate on estimated income of the year, under the regime chosen by the employee |\n| Interest other than on securities (194A) | 10% |\n| Payment to contractors (194C) | 1% to individual / HUF, 2% to others |\n| Commission or brokerage (194H) | 2% |\n| Rent (194-I) | 2% plant and machinery; 10% land, building, furniture |\n| Fees for professional services (194J) | 10% (2% for technical services, royalty for films, call centres) |\n| Lottery and crossword winnings (194B) | 30% |\n| Payee without PAN (206AA) | Higher of 20% and the normal rate (generally) |\n\nThresholds were revised by the Finance Act, 2025 and the 2025 Act; check the current table before applying them.\n\nThe deductor deposits TDS with the government, files quarterly statements and issues certificates (Form 16 for salary, Form 16A for others under the 1961 Act; the 2025 Act renumbers the forms). The deductee claims credit as shown in the annual information statement.\n\n**TCS** is collected by the seller on specified sales and remittances (scrap, alcoholic liquor, forest produce, motor vehicles above ₹10 lakh, overseas tour packages and LRS remittances). The Finance Act, 2026 rationalised several TCS rates; use the ICAI-applicable table."
+        },
+        {
+          "heading": "Return of income",
+          "body": "Return filing is governed by section 263 of the 2025 Act (corresponds to section 139 of the 1961 Act).\n\n- A company and a firm must file every year, whatever the income.\n- An individual must file if total income (before certain exemptions and deductions) exceeds the basic exemption limit, and also in specified cases such as deposit above ₹1 crore in current accounts, foreign travel expenditure above ₹2 lakh or electricity bills above ₹1 lakh in the year, or holding foreign assets as a resident.\n- **Due dates**: 31 October for assessees whose accounts are audited; 30 November for transfer pricing cases; 31 July for most other individuals. The Finance Act, 2026 changed some due dates and time limits for belated and revised returns; confirm them against ICAI material for your attempt.\n- **Belated return** attracts a fee (old section 234F: ₹5,000, or ₹1,000 if total income does not exceed ₹5 lakh) and loses carry forward of most losses.\n- **Updated return** (old section 139(8A)) lets an assessee add income within the permitted window by paying additional tax.\n- Self-assessment tax (section 266 of the 2025 Act; old section 140A) with interest must be paid before filing."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Computing advance tax before deducting TDS.\n- Charging 234B when advance tax paid is 90% or more of assessed tax.\n- Using the 15 June instalment for a 44AD / 44ADA assessee: they pay 100% by 15 March.\n- Charging rebate against special-rate gains under the new regime.\n- Forgetting that a fraction of a month counts as a full month for interest.\n- Mixing the 12% / 36% tolerance test with the 15% / 45% instalment base under 234C."
+        }
+      ],
+      "keyPoints": [
+        "Advance tax if liability after TDS >= ₹10,000; 15 / 45 / 75 / 100% by 15 June, 15 Sept, 15 Dec, 15 March.",
+        "44AD / 44ADA: 100% advance tax by 15 March.",
+        "234A late return, 234B shortfall below 90%, 234C deferment: 1% per month or part.",
+        "TDS: 392 (salary), 393 (others), TCS: 394 of the 2025 Act; 194C 1% / 2%, 194J 10% / 2%, 194A 10%, no PAN 20%.",
+        "Return: section 263 of the 2025 Act (old 139); late fee ₹5,000 / ₹1,000.",
+        "Order: GTI - deductions = total income; special-rate tax + slab tax - rebate + surcharge + cess - prepaid taxes."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-case1",
+          "title": "Case: Ms. Priya Nambiar",
+          "body": "Ms. Priya Nambiar, a resident aged 36, is an architect who stays in the default regime and uses the presumptive scheme for professionals for tax year 2026-27.\n\n| Particulars | ₹ |\n| --- | --- |\n| Gross professional receipts (3% received in cash) | 60,00,000 |\n| Interest on fixed deposits | 1,00,000 |\n| TDS deducted by clients on professional fees | 2,40,000 |\n| TDS deducted by the bank on FD interest | 10,000 |\n\nShe has paid no advance tax so far."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q01",
+          "type": "numeric",
+          "prompt": "Compute Ms. Priya's tax liability (including cess, before TDS) for tax year 2026-27. Round to the nearest rupee.",
+          "answer": 530400,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Presumptive income: 50% of 60,00,000 (cash within 5%, limit ₹75 lakh) | 30,00,000 |\n| Interest on FD | 1,00,000 |\n| Total income | 31,00,000 |\n| Tax up to 24 lakh | 3,00,000 |\n| 7,00,000 x 30% | 2,10,000 |\n| Income-tax | 5,10,000 |\n| Cess @ 4% | 20,400 |\n| **Tax liability** | **5,30,400** |",
+          "caseId": "ca-i-income-tax-10-computation-payment-returns-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q02",
+          "type": "numeric",
+          "prompt": "How much advance tax must Ms. Priya pay for tax year 2026-27?",
+          "answer": 280400,
+          "explanation": "Tax liability 5,30,400 - TDS (2,40,000 + 10,000) = ₹2,80,400.",
+          "caseId": "ca-i-income-tax-10-computation-payment-returns-case1",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q03",
+          "type": "mcq",
+          "prompt": "By which date must Ms. Priya pay her advance tax to avoid interest for deferment?",
+          "options": [
+            "15 March 2027, in a single instalment",
+            "15 June, 15 September, 15 December and 15 March in four instalments",
+            "31 March 2027",
+            "31 July 2027"
+          ],
+          "answer": 0,
+          "explanation": "An assessee under the presumptive scheme for professionals (or small business) pays the whole advance tax by 15 March.",
+          "caseId": "ca-i-income-tax-10-computation-payment-returns-case1"
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q04",
+          "type": "truefalse",
+          "prompt": "If 10% of Ms. Priya's receipts had been in cash, she could still use the presumptive scheme for professionals with receipts of ₹60,00,000.",
+          "answer": false,
+          "explanation": "With cash receipts above 5%, the limit falls to ₹50,00,000. Receipts of ₹60,00,000 would exceed it.",
+          "caseId": "ca-i-income-tax-10-computation-payment-returns-case1"
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q05",
+          "type": "numeric",
+          "prompt": "Mr. Joshi's tax liability for tax year 2026-27 is ₹2,00,000 and TDS on his salary is ₹40,000. What cumulative advance tax should he have paid by 15 September 2026?",
+          "answer": 72000,
+          "explanation": "Advance tax payable = 2,00,000 - 40,000 = 1,60,000. Cumulative 45% by 15 September = ₹72,000.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q06",
+          "type": "numeric",
+          "prompt": "Mr. Kumar's assessed tax (net of TDS) is ₹1,60,000. He paid advance tax of ₹1,00,000 and paid the balance with his return on 31 July 2027. Compute interest under section 234B of the 1961 Act.",
+          "answer": 2400,
+          "explanation": "90% of assessed tax = 1,44,000; advance tax paid is lower. Shortfall = 60,000. Period April to July 2027 = 4 months. Interest = 60,000 x 1% x 4 = ₹2,400.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q07",
+          "type": "numeric",
+          "prompt": "A company pays professional fees of ₹5,00,000 to a resident chartered accountant who has not furnished a PAN. Compute the TDS.",
+          "answer": 100000,
+          "explanation": "The normal rate for professional fees is 10%, but without PAN the rate is the higher of 20% and the normal rate: 5,00,000 x 20% = ₹1,00,000.",
+          "tolerance": 1,
+          "unit": "₹"
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q08",
+          "type": "mcq",
+          "prompt": "Advance tax is not payable by:",
+          "options": [
+            "A resident aged 65 with only pension and interest income",
+            "A resident aged 40 with salary income and tax liability of ₹50,000 after TDS",
+            "A firm with tax liability of ₹1,00,000",
+            "A non-resident with tax liability of ₹20,000 after TDS"
+          ],
+          "answer": 0,
+          "explanation": "A resident senior citizen without business or profession income is not liable to pay advance tax."
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q09",
+          "type": "mcq",
+          "prompt": "TDS on a payment of ₹2,00,000 to an individual contractor for a work contract is:",
+          "options": [
+            "₹2,000",
+            "₹4,000",
+            "₹20,000",
+            "₹10,000"
+          ],
+          "answer": 0,
+          "explanation": "Payment to a contractor who is an individual or HUF: 1% = ₹2,000 (old section 194C)."
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q10",
+          "type": "mcq",
+          "prompt": "Under the Income-tax Act, 2025, TDS on salary is governed by:",
+          "options": [
+            "Section 392",
+            "Section 393",
+            "Section 394",
+            "Section 263"
+          ],
+          "answer": 0,
+          "explanation": "Section 392 covers TDS on salary; section 393 covers other payments in a table; section 394 covers TCS; section 263 covers returns."
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q11",
+          "type": "multi",
+          "prompt": "Which of the following are consequences of filing a return after the due date? Select all that apply.",
+          "options": [
+            "Late filing fee",
+            "Interest on unpaid tax for the period of delay",
+            "Business loss of that year cannot be carried forward",
+            "House property loss of that year cannot be carried forward",
+            "The return is treated as invalid"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Late fee and interest under old sections 234F and 234A apply, and most losses (but not house property loss or unabsorbed depreciation) cannot be carried forward. A belated return is still valid."
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: advance tax is payable when the tax liability for the year, after TDS and TCS, is ₹___ or more.",
+          "accept": [
+            "10000",
+            "10,000",
+            "ten thousand"
+          ],
+          "explanation": "The threshold is ₹10,000."
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q13",
+          "type": "practical",
+          "prompt": "Compute the total income and tax payable of Mr. Sunil, a resident aged 50, for tax year 2026-27 under the default regime.",
+          "data": "| Particulars | ₹ |\n| --- | --- |\n| Gross salary | 20,00,000 |\n| Income from a let-out house (computed) | 1,50,000 |\n| STCG on listed shares (STT paid) | 1,00,000 |\n| LTCG on listed shares (STT paid) | 2,25,000 |\n| Interest on fixed deposits | 75,000 |\n| TDS on salary | 2,30,000 |",
+          "answer": "| Particulars | ₹ |\n| --- | --- |\n| Salary 20,00,000 - standard deduction 75,000 | 19,25,000 |\n| House property | 1,50,000 |\n| STCG (111A) | 1,00,000 |\n| LTCG (112A) | 2,25,000 |\n| Other sources | 75,000 |\n| **Gross total income = Total income** | **24,75,000** |\n\n| Tax | ₹ |\n| --- | --- |\n| Slab tax on normal income 21,50,000: 20,000 + 40,000 + 60,000 + 80,000 + 1,50,000 x 25% | 2,37,500 |\n| STCG 1,00,000 @ 20% | 20,000 |\n| LTCG (2,25,000 - 1,25,000) @ 12.5% | 12,500 |\n| Total (no rebate; no surcharge as income is below ₹50 lakh) | 2,70,000 |\n| Cess @ 4% | 10,800 |\n| Tax liability | 2,80,800 |\n| Less: TDS | (2,30,000) |\n| **Tax payable** | **50,800** |",
+          "top": true
+        },
+        {
+          "id": "ca-i-income-tax-10-computation-payment-returns-q14",
+          "type": "interview",
+          "prompt": "Explain the interest payable under sections 234A, 234B and 234C of the 1961 Act.",
+          "answer": "- 234A: for filing the return after the due date, simple interest of 1% per month or part on the tax unpaid (after advance tax and TDS), from the day after the due date to the date of filing.\n- 234B: if advance tax paid is less than 90% of assessed tax, or none is paid, 1% per month or part on the shortfall from 1 April following the tax year to the date of determination; credit is given for self-assessment tax paid.\n- 234C: for deferment of instalments. If cumulative advance tax paid is below 12%, 36%, 75% and 100% by 15 June, 15 September, 15 December and 15 March, interest is 1% per month on the shortfall against 15%, 45%, 75% and 100%, for 3 months each (1 month for the March instalment). Presumptive cases: only the 15 March instalment.\n- No 234C interest on shortfall caused by capital gains or winnings arising after an instalment date, if paid in the remaining instalments.\n- The 2025 Act retains these interest provisions with new section numbers.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal (Inter Paper 3 study material and RTPs)",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts, rules and tax tools",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    }
+  ]
+}

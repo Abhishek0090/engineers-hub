@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { CodeBlock } from "@/components/code-block";
 import { Icon } from "@/components/icons";
 import { Inline, RichText } from "@/components/rich-text";
-import { levelLabel } from "@/lib/catalog";
+import { levelLabel, programConfig, programOf } from "@/lib/catalog";
 import { getRepository } from "@/lib/data/repository";
 
 import { StudyActions } from "./study-actions";
@@ -49,6 +49,20 @@ export default async function ChapterPage({ params }: { params: Params }) {
           </div>
           <h1 className="page-title" style={{ marginTop: 10 }}>{chapter.title}</h1>
           <p className="muted" style={{ marginTop: 8, fontSize: 18 }}>{chapter.summary}</p>
+          {chapter.draft || chapter.applicableFor || chapter.lawAsOf ? (
+            <div className={`notice${chapter.draft ? " warn" : ""}`} style={{ marginTop: 16 }} role="note">
+              <Icon name="shield" size={18} />
+              <div>
+                {chapter.applicableFor ? <p><b>Applicable for:</b> {chapter.applicableFor}</p> : null}
+                {chapter.lawAsOf ? <p><b>Law as of:</b> {chapter.lawAsOf}</p> : null}
+                {chapter.draft ? (
+                  <p style={{ marginTop: chapter.applicableFor || chapter.lawAsOf ? 6 : 0 }}>
+                    <b>Draft.</b> Not yet reviewed by a subject expert. Verify rates, limits and section numbers against the ICAI study material for your attempt.
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
 
           <div style={{ marginTop: 32 }}>
             {chapter.lesson.map((s, i) => (
@@ -121,7 +135,9 @@ export default async function ChapterPage({ params }: { params: Params }) {
               {counts.truefalse ? (<><dt>True or false</dt><dd>{counts.truefalse}</dd></>) : null}
               {counts.multi ? (<><dt>Select all</dt><dd>{counts.multi}</dd></>) : null}
               {counts.fill ? (<><dt>Fill the blank</dt><dd>{counts.fill}</dd></>) : null}
-              {counts.interview ? (<><dt>Interview</dt><dd>{counts.interview}</dd></>) : null}
+              {counts.numeric ? (<><dt>Calculations</dt><dd>{counts.numeric}</dd></>) : null}
+              {counts.practical ? (<><dt>Practical problems</dt><dd>{counts.practical}</dd></>) : null}
+              {counts.interview ? (<><dt>{programConfig(programOf(track.area)).terms.nav}</dt><dd>{counts.interview}</dd></>) : null}
             </dl>
             <Link href={`/learn/${track.id}/${chapter.id}/practice`} className="btn btn-block btn-accent" style={{ marginTop: 6 }}>
               <Icon name="bolt" size={18} /> Start practice

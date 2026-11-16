@@ -179,14 +179,16 @@
           "type": "interview",
           "prompt": "Explain the testing pyramid and the testing trophy. How would you apply them to a React application?",
           "answer": "The pyramid says to have many fast unit tests, fewer integration tests and very few slow E2E tests. The trophy, from Kent C. Dodds, keeps the idea that E2E is expensive but makes integration tests the largest layer, adds static analysis at the base, and shrinks pure unit tests. For a React app I would follow the trophy: TypeScript and ESLint everywhere, unit tests for pure logic like pricing or date utils, integration tests with React Testing Library and MSW for features (render a page or feature, interact like a user, mock only the network), and a handful of Playwright tests for critical journeys like login and checkout. The reasoning is that most frontend bugs come from wiring between components, state and APIs, which integration tests catch cheaply.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "frontend-testing-01-q12",
           "type": "interview",
           "prompt": "What makes a test good? What makes one bad?",
           "answer": "- Good: it fails when behavior breaks and only then, so it survives refactors.\n- Good: it is readable as a specification, with a descriptive name, clear Arrange-Act-Assert and one behavior per test.\n- Good: it is fast, deterministic and isolated, with no dependence on order, time or shared state.\n- Good: failure messages point straight at the problem.\n- Bad: asserting internals (state, private methods, class names), so it breaks on refactors.\n- Bad: over-mocking, so it passes while the real integration is broken.\n- Bad: flaky timing with arbitrary sleeps, giant snapshots nobody reads, logic and loops in tests, and tests that test the framework rather than our code.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "frontend-testing-01-q13",
@@ -610,14 +612,16 @@
           "type": "interview",
           "prompt": "Explain the difference between getBy, queryBy and findBy queries and when to use each.",
           "answer": "getBy returns a single matching element synchronously and throws if there are none or more than one, so it is the default for elements that should already be there; the thrown error prints the DOM, which helps debugging. queryBy returns null instead of throwing when nothing matches, so I use it only to assert that something is absent. findBy returns a promise that polls until the element appears or times out (1000 ms default), so I use it for content that appears after async work such as fetches. Each has an All variant returning arrays. A common mistake is using queryBy for presence checks, which gives worse error messages, or wrapping getBy in waitFor when findBy does the same thing more clearly.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "frontend-testing-03-q12",
           "type": "interview",
           "prompt": "Why does React Testing Library discourage data-testid, and when is it acceptable?",
           "answer": "Test IDs are invisible to users, so a test that finds elements by them proves nothing about whether users or assistive technology can find the element; the button might have no accessible name and the test still passes. Role and label queries test the real interface and push the team towards accessible markup. Test IDs are acceptable when there is no meaningful role or text: a canvas chart, a drag handle, a container you need to scope into, or dynamic content where the text is unpredictable. Even then I would first check whether adding a proper label or role would improve accessibility, since that solves both problems.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "frontend-testing-03-q13",
@@ -824,7 +828,8 @@
           "type": "interview",
           "prompt": "When should you mock and when should you not? How do you avoid over-mocking?",
           "answer": "I mock things that make tests slow, flaky or impossible to control: the network, time, randomness, third-party SDKs like analytics or payments, and browser APIs that jsdom lacks. I avoid mocking code I own inside the unit under test, such as child components, hooks and utilities, because every mock is an assumption that can drift from reality. Signs of over-mocking: tests that assert a mock was called with exact arguments instead of checking outcomes, tests that break on refactors, or bugs reaching production in code that was fully mocked. Mocking at the network level with MSW is a good default because the whole client stack stays real. If something is hard to test without many mocks, I treat it as a design smell and inject the dependency instead.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "frontend-testing-04-q12",
@@ -838,7 +843,8 @@
           "type": "interview",
           "prompt": "Explain stubs, spies, mocks and fakes with examples.",
           "answer": "- A stub returns predetermined data so the code under test can run: an API client stub that always returns a user.\n- A spy records how a function was called, optionally still running the real code: `vi.spyOn(console, 'error')` to assert an error was logged.\n- A mock is a stub with expectations about its use: `onSubmit = vi.fn()` then `expect(onSubmit).toHaveBeenCalledWith(formData)`.\n- A fake is a simplified working implementation: an in-memory repository instead of Postgres, or MSW acting as a fake server.\n- Fakes often give the most realistic tests because they behave like the real thing. Mocks are best for verifying interactions at boundaries, such as a callback prop or analytics event.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         }
       ],
       "resources": [
@@ -1039,7 +1045,8 @@
           "type": "interview",
           "prompt": "What does act() do, and why do you see act warnings in tests?",
           "answer": "act groups a unit of interaction and makes React flush all resulting state updates, effects and re-renders before continuing, so assertions see the UI as the user would after that interaction. RTL wraps render, fireEvent, user-event, findBy and waitFor in act, so explicit act is mainly needed when calling hook functions directly or advancing fake timers. The warning appears when React detects a state update that happened outside act, typically because a promise or timer resolved after the test's last awaited step. That means the test is not waiting for some async behavior. The right fix is to await the resulting UI with findBy or waitFor, or make sure requests complete or are aborted, not to wrap random lines in act or silence console.error.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "frontend-testing-05-q12",
@@ -1276,7 +1283,7 @@
       "resources": [
         {
           "title": "supertest on GitHub",
-          "url": "https://github.com/ladjs/supertest"
+          "url": "https://github.com/forwardemail/supertest"
         },
         {
           "title": "Testcontainers for Node.js",
@@ -1284,7 +1291,7 @@
         },
         {
           "title": "OWASP Top 10",
-          "url": "https://owasp.org/www-project-top-ten/"
+          "url": "https://owasp.org/projects/top-ten"
         }
       ]
     },
@@ -1470,14 +1477,16 @@
           "type": "interview",
           "prompt": "How do you keep an E2E suite fast and reliable as it grows?",
           "answer": "- Scope: E2E only for critical journeys; push edge cases down to integration and unit tests.\n- Isolation: fresh contexts, unique data created via API per test, no order dependence, so `fullyParallel` is safe.\n- Speed: reuse auth with storageState, seed data through APIs rather than the UI, shard across machines, and run against a production build.\n- Reliability: role and label locators, web-first assertions, no fixed sleeps, wait for specific responses when needed, and stable test environments with controlled third parties.\n- Observability: traces on first retry, HTML reports as artifacts, and tracking flaky tests so retries do not hide them.\n- Ownership: a flaky test is a bug with an owner and a deadline; quarantine it if needed, but fix it.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "frontend-testing-07-q12",
           "type": "interview",
           "prompt": "Playwright vs Cypress: what are the main differences?",
           "answer": "Playwright drives browsers through the Chrome DevTools Protocol and equivalent protocols for Firefox and WebKit from a Node process outside the browser, supports Chromium, Firefox and WebKit (Safari's engine), multiple tabs, origins and browser contexts, and runs tests in parallel for free. Its API is async/await with auto-waiting locators. Cypress runs test code inside the browser alongside the app, which gives an excellent interactive runner and direct access to the app, but historically limited multi-tab and cross-origin flows (improved with cy.origin), has no WebKit support beyond experimental, and uses a chained command queue instead of async/await; parallelization is tied to its cloud service or third-party tools. For a new project I would usually choose Playwright for cross-browser coverage, parallelism and its trace viewer; Cypress is fine where the team already has a healthy suite.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "frontend-testing-07-q13",

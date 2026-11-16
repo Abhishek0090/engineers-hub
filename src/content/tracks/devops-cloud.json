@@ -176,7 +176,8 @@
           "type": "interview",
           "prompt": "Explain the difference between CI, continuous delivery and continuous deployment, and which you would choose for a fintech app.",
           "answer": "- CI: every change merged to main frequently is automatically built and tested, catching integration bugs early.\n- Continuous delivery: every green build produces a releasable artifact; a human (or a schedule) decides when to push it to production.\n- Continuous deployment: every green build goes to production automatically.\n- For fintech I would start with continuous delivery: automated pipeline to staging, then a gated production promotion with audit trail, because regulators often require change approval. With strong test coverage, canary releases, feature flags and automatic rollback on SLO breach, the team can move toward continuous deployment for low-risk services while keeping approvals for money-moving code paths.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "devops-cloud-01-q12",
@@ -388,7 +389,8 @@
           "type": "interview",
           "prompt": "How do you secure GitHub Actions workflows?",
           "answer": "- Least privilege `permissions:` at workflow level, elevating per job only when needed.\n- Pin third-party actions to commit SHAs and keep them updated with Dependabot.\n- Never interpolate untrusted inputs (PR titles, branch names, issue bodies) into `run:`; pass via env vars.\n- Be careful with `pull_request_target` and `workflow_run`: they run with secrets in the base repo context, so never check out and execute untrusted PR code in them.\n- Use environments with required reviewers for production secrets.\n- Prefer OIDC federation to cloud providers over long-lived access keys stored as secrets.\n- Restrict self-hosted runners to private repos, since forks could run arbitrary code on them.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "devops-cloud-02-q13",
@@ -405,11 +407,11 @@
         },
         {
           "title": "Workflow syntax for GitHub Actions",
-          "url": "https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions"
+          "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax"
         },
         {
           "title": "Security hardening for GitHub Actions",
-          "url": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions"
+          "url": "https://docs.github.com/en/actions/reference/security/secure-use"
         }
       ]
     },
@@ -793,7 +795,8 @@
           "type": "interview",
           "prompt": "Compare rolling, blue-green and canary deployments. When would you use each?",
           "answer": "- Rolling: gradual replacement with health checks, no extra environment. Default for stateless services on Kubernetes/ECS. Rollback is slow-ish (another rollout) and versions overlap.\n- Blue-green: full parallel environment, atomic switch at the load balancer, instant rollback. Good when you need to validate the full stack before cutover or when overlap of versions in traffic is undesirable. Costs double capacity briefly.\n- Canary: progressive traffic shifting guided by metrics. Best for high-traffic, high-risk services where you want to limit blast radius and have solid observability.\n- All three need backward-compatible schema changes. Feature flags complement them by controlling release separately from deploy.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "devops-cloud-04-q12",
@@ -997,7 +1000,8 @@
           "type": "interview",
           "prompt": "Design a highly available AWS architecture for a typical full stack web app (React/Next.js frontend, Node API, Postgres).",
           "answer": "- DNS in Route 53, TLS certs from ACM.\n- Frontend: static build in a private S3 bucket behind CloudFront (Origin Access Control), or Next.js on Amplify/Vercel/containers if SSR is needed.\n- API: ECS Fargate service (or EC2 Auto Scaling Group) in private subnets across at least 2 AZs, behind an ALB in public subnets; health checks and autoscaling on CPU/request count.\n- Data: RDS/Aurora Postgres Multi-AZ, read replicas if read heavy; ElastiCache Redis for caching and sessions.\n- Async: SQS queues consumed by workers or Lambda; S3 presigned uploads.\n- Security: IAM roles per task, Secrets Manager for credentials, security groups chained ALB -> app -> DB, WAF on CloudFront/ALB.\n- Ops: CloudWatch logs/metrics/alarms, automated backups with point-in-time recovery, infrastructure defined in Terraform/CDK.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "devops-cloud-05-q12",
@@ -1011,7 +1015,8 @@
           "type": "interview",
           "prompt": "An AWS access key was accidentally pushed to a public GitHub repo. What do you do?",
           "answer": "- Immediately deactivate and delete the key in IAM (assume it is already compromised; scanners find keys in minutes). Removing it from Git history is not enough.\n- Check CloudTrail for activity using that key: new users, roles, EC2 instances in unusual regions (crypto mining), S3 data access.\n- Revoke any resources or credentials the attacker created; check billing.\n- Rotate other secrets that may be exposed alongside it.\n- Prevent recurrence: replace long-lived keys with roles/OIDC, enable GitHub secret scanning and push protection, add pre-commit scanners (gitleaks), and use least-privilege policies so any future leak has limited blast radius.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         }
       ],
       "resources": [
@@ -1222,15 +1227,15 @@
       "resources": [
         {
           "title": "GitHub Docs - Running variations of jobs in a workflow (matrix)",
-          "url": "https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/running-variations-of-jobs-in-a-workflow"
+          "url": "https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations"
         },
         {
           "title": "GitHub Docs - Configuring OpenID Connect in Amazon Web Services",
-          "url": "https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services"
+          "url": "https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws"
         },
         {
           "title": "GitHub Docs - Managing environments for deployment",
-          "url": "https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-deployments/managing-environments-for-deployment"
+          "url": "https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments"
         }
       ]
     },
@@ -1404,7 +1409,8 @@
           "type": "interview",
           "prompt": "Explain the difference between liveness, readiness and startup probes, and a common mistake with each.",
           "answer": "- Readiness: decides if the pod receives traffic. Mistake: none configured, so traffic hits pods before they warm up, or during shutdown. It can check critical dependencies carefully.\n- Liveness: decides if the container must be restarted because it is wedged. Mistake: checking the database or other dependencies, so a dependency outage restarts every pod and makes things worse; or too aggressive timeouts that kill a busy but healthy app.\n- Startup: protects slow-starting apps by disabling liveness/readiness until it succeeds. Mistake: using a long liveness initialDelaySeconds instead, which delays detection of real hangs forever after.\n- Also: handle SIGTERM and fail readiness during shutdown so the pod is removed from endpoints before exiting.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "devops-cloud-07-q12",
@@ -1818,14 +1824,16 @@
           "type": "interview",
           "prompt": "p99 latency of an API doubled after a deploy, but p50 is unchanged. How do you investigate?",
           "answer": "- Confirm correlation with the deploy (deploy markers on dashboards) and consider rolling back first if the SLO is burning.\n- Break down latency by endpoint, region, instance and version to see whether it is isolated (canary vs baseline).\n- Pull exemplar traces from the slow tail: which span grew? Common culprits are a new N+1 query, a missing index, a synchronous external call, lock contention, or a connection pool exhausted under load.\n- Check saturation metrics: DB pool wait time, event loop lag in Node (GC pauses or CPU-heavy work blocking the loop), CPU throttling from container limits.\n- Compare profiles before/after if continuous profiling exists.\n- Fix, add a regression test or performance check, and document in a postmortem.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "devops-cloud-09-q13",
           "type": "interview",
           "prompt": "Explain SLI, SLO, SLA and error budgets, and how they change engineering decisions.",
           "answer": "- SLI: a measured ratio of good events to total, for example successful requests under 300 ms / all requests.\n- SLO: the internal target for that SLI over a window, for example 99.9% per 28 days.\n- SLA: an external contract with consequences, set looser than the SLO so you breach the SLO first.\n- Error budget: 1 - SLO, the amount of unreliability you can spend.\n- Decisions: when budget remains, teams ship features and take risks (faster deploys, experiments); when it is exhausted, a freeze or reliability focus kicks in. It turns the 'velocity vs stability' argument into data both product and engineering agreed to, and drives alerting via burn rates instead of arbitrary thresholds.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         }
       ],
       "resources": [

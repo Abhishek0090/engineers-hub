@@ -1,0 +1,1935 @@
+{
+  "id": "ca-f-law",
+  "title": "Business Laws (Foundation P2)",
+  "area": "ca-foundation",
+  "order": 101,
+  "icon": "LAW",
+  "color": "#7c3aed",
+  "description": "CA Foundation Paper 2 (ICAI new scheme): the Indian regulatory framework, Contract Act, Sale of Goods, Partnership, LLP, Companies Act basics and Negotiable Instruments, written for descriptive answers with section references.",
+  "chapters": [
+    {
+      "id": "ca-f-law-01-framework",
+      "title": "The Indian Regulatory Framework",
+      "level": "beginner",
+      "summary": "Where Indian law comes from, how a Bill becomes an Act, and which regulator oversees which part of business.",
+      "estMinutes": 30,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Constitution of India and regulator statutes as amended up to 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Sources of law",
+          "body": "Law is the set of rules the State enforces. Indian law draws on several sources:\n\n- **Constitution of India**: the supreme law. Any law inconsistent with Fundamental Rights is void to that extent (Article 13).\n- **Legislation (statutes)**: Acts passed by Parliament or State Legislatures, such as the Indian Contract Act, 1872.\n- **Delegated (subordinate) legislation**: rules, regulations, notifications and bye-laws made by the executive or a regulator under powers given by an Act. Example: rules framed by the Central Government under the Companies Act, 2013; regulations made by SEBI under the SEBI Act, 1992.\n- **Judicial precedent**: decisions of higher courts bind lower courts. Under Article 141, the law declared by the Supreme Court binds all courts in India.\n- **Custom**: a practice followed for a long time, which is certain, reasonable and not opposed to law or public policy.\n- **Personal laws and justice, equity and good conscience**: used where no statute applies.\n\nIn an answer, name the source and give one example of each."
+        },
+        {
+          "heading": "How a law is made",
+          "body": "The Seventh Schedule to the Constitution divides law-making power (Article 246):\n\n| List | Who legislates | Examples |\n| --- | --- | --- |\n| List I - Union List | Parliament | Banking, foreign exchange, incorporation of companies, cheques and bills of exchange, defence |\n| List II - State List | State Legislature | Police, public health, land |\n| List III - Concurrent List | Both (Union law prevails on conflict, Article 254) | Contracts including partnership and agency, bankruptcy and insolvency |\n\nSteps for a Central Act:\n\n- A **Bill** is introduced in either House (a Money Bill only in the Lok Sabha, Article 110).\n- It passes through readings, may go to a committee, and is passed by both Houses.\n- The **President gives assent** (Article 111). It becomes an Act and comes into force on the date stated or notified.\n\nWhen Parliament is not in session, the President may issue an **Ordinance** (Article 123); the Governor has a similar power for a State (Article 213). An Ordinance lapses six weeks after Parliament reassembles unless approved."
+        },
+        {
+          "heading": "Regulators and adjudicating bodies",
+          "body": "Business in India is supervised by statutory regulators. Know the regulator, its parent Act and its field.\n\n| Body | Constituted under | Field |\n| --- | --- | --- |\n| Ministry of Corporate Affairs (MCA) | Companies Act, 2013 and LLP Act, 2008 (administers) | Companies, LLPs, Registrar of Companies |\n| Reserve Bank of India (RBI) | RBI Act, 1934 | Monetary policy, banks, NBFCs, foreign exchange (FEMA, 1999) |\n| SEBI | SEBI Act, 1992 | Securities market, listed companies, intermediaries |\n| IRDAI | IRDA Act, 1999 | Insurance |\n| Competition Commission of India | Competition Act, 2002 | Anti-competitive agreements, abuse of dominance, combinations |\n| IBBI | Insolvency and Bankruptcy Code, 2016 | Insolvency professionals and processes |\n| ICAI | Chartered Accountants Act, 1949 | Regulates the CA profession |\n| NCLT and NCLAT | Companies Act, 2013 | Tribunal for company law and insolvency cases; NCLAT hears appeals |\n\nCourts: the Supreme Court (Article 124) at the top, High Courts in each State (Article 214), and subordinate civil and criminal courts below. Writs are issued by the Supreme Court under Article 32 and High Courts under Article 226."
+        },
+        {
+          "heading": "Exam approach and common mistakes",
+          "body": "Questions in this chapter are short descriptive ones: 'Explain the sources of law', 'Name the regulator for...', 'Describe the process of enacting a law'.\n\n- Write the definition first, then a list, then one line of example per item.\n- Mention the parent Act with the year for every regulator.\n- Do not mix up an Act with the body: the Companies Act is administered by MCA; NCLT is the adjudicating tribunal, not the regulator.\n- An Ordinance has the same force as an Act but is temporary. Students often forget the six-week rule.\n- Delegated legislation must stay within the parent Act. A rule that goes beyond the Act is ultra vires and void."
+        }
+      ],
+      "keyPoints": [
+        "Sources: Constitution, legislation, delegated legislation, judicial precedent (Article 141), custom, personal law, equity.",
+        "Seventh Schedule: Union, State and Concurrent Lists (Article 246); Union law prevails on Concurrent subjects (Article 254).",
+        "Bill passed by both Houses + President's assent (Article 111) = Act. Money Bill starts only in Lok Sabha (Article 110).",
+        "Ordinance: President (Article 123), Governor (Article 213); lapses six weeks after the legislature reassembles.",
+        "RBI - RBI Act 1934; SEBI - SEBI Act 1992; IRDAI - IRDA Act 1999; CCI - Competition Act 2002; IBBI - IBC 2016; ICAI - CA Act 1949.",
+        "NCLT/NCLAT are tribunals under the Companies Act, 2013; MCA administers company and LLP law."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-law-01-framework-q01",
+          "type": "mcq",
+          "prompt": "Under which Article of the Constitution is the law declared by the Supreme Court binding on all courts in India?",
+          "options": [
+            "Article 32",
+            "Article 141",
+            "Article 226",
+            "Article 246"
+          ],
+          "answer": 1,
+          "explanation": "Article 141 makes the law declared by the Supreme Court binding on all courts. Article 32 and 226 deal with writs; Article 246 with distribution of legislative power."
+        },
+        {
+          "id": "ca-f-law-01-framework-q02",
+          "type": "mcq",
+          "prompt": "Rules framed by the Central Government under powers given by the Companies Act, 2013 are an example of:",
+          "options": [
+            "Custom",
+            "Judicial precedent",
+            "Delegated legislation",
+            "Personal law"
+          ],
+          "answer": 2,
+          "explanation": "Parliament delegates power to the executive to make detailed rules within the framework of the parent Act. Such rules are delegated (subordinate) legislation."
+        },
+        {
+          "id": "ca-f-law-01-framework-q03",
+          "type": "mcq",
+          "prompt": "Which body regulates the securities market in India?",
+          "options": [
+            "RBI",
+            "SEBI",
+            "IRDAI",
+            "Competition Commission of India"
+          ],
+          "answer": 1,
+          "explanation": "SEBI, set up under the SEBI Act, 1992, protects investors and regulates the securities market and its intermediaries."
+        },
+        {
+          "id": "ca-f-law-01-framework-q04",
+          "type": "mcq",
+          "prompt": "A Money Bill can be introduced:",
+          "options": [
+            "In either House of Parliament",
+            "Only in the Rajya Sabha",
+            "Only in the Lok Sabha",
+            "Only in a joint sitting"
+          ],
+          "answer": 2,
+          "explanation": "Article 109 and 110: a Money Bill is introduced only in the Lok Sabha. The Rajya Sabha can only make recommendations."
+        },
+        {
+          "id": "ca-f-law-01-framework-q05",
+          "type": "mcq",
+          "prompt": "Which body is responsible for regulating anti-competitive agreements and abuse of dominant position?",
+          "options": [
+            "SEBI",
+            "NCLT",
+            "Competition Commission of India",
+            "IBBI"
+          ],
+          "answer": 2,
+          "explanation": "The Competition Commission of India, under the Competition Act, 2002, deals with anti-competitive agreements, abuse of dominance and regulation of combinations."
+        },
+        {
+          "id": "ca-f-law-01-framework-q06",
+          "type": "mcq",
+          "prompt": "The power of the President to promulgate an Ordinance is found in:",
+          "options": [
+            "Article 111",
+            "Article 123",
+            "Article 213",
+            "Article 254"
+          ],
+          "answer": 1,
+          "explanation": "Article 123 gives the President power to promulgate Ordinances when both Houses are not in session. Article 213 is the Governor's equivalent power."
+        },
+        {
+          "id": "ca-f-law-01-framework-q07",
+          "type": "mcq",
+          "prompt": "The Chartered Accountants profession in India is regulated by ICAI, constituted under:",
+          "options": [
+            "Companies Act, 2013",
+            "Chartered Accountants Act, 1949",
+            "SEBI Act, 1992",
+            "Cost and Works Accountants Act, 1959"
+          ],
+          "answer": 1,
+          "explanation": "ICAI is a statutory body set up under the Chartered Accountants Act, 1949."
+        },
+        {
+          "id": "ca-f-law-01-framework-q08",
+          "type": "truefalse",
+          "prompt": "An Ordinance continues to operate indefinitely until it is expressly repealed by Parliament.",
+          "answer": false,
+          "explanation": "An Ordinance ceases to operate six weeks after Parliament reassembles unless Parliament approves it earlier by passing a law; it can also be withdrawn by the President."
+        },
+        {
+          "id": "ca-f-law-01-framework-q09",
+          "type": "truefalse",
+          "prompt": "If a Union law and a State law on a Concurrent List subject conflict, the Union law generally prevails.",
+          "answer": true,
+          "explanation": "Article 254: on a Concurrent List matter, the law made by Parliament prevails over a repugnant State law, unless the State law has received the President's assent."
+        },
+        {
+          "id": "ca-f-law-01-framework-q10",
+          "type": "multi",
+          "prompt": "Select the bodies that are statutory regulators set up under a specific Act of Parliament.",
+          "options": [
+            "Reserve Bank of India",
+            "Securities and Exchange Board of India",
+            "Insurance Regulatory and Development Authority of India",
+            "A stock exchange's internal listing committee"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "RBI (RBI Act, 1934), SEBI (SEBI Act, 1992) and IRDAI (IRDA Act, 1999) are created by statute. A stock exchange committee is not a statutory regulator."
+        },
+        {
+          "id": "ca-f-law-01-framework-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: The distribution of legislative subjects between the Union and the States is contained in the ___ Schedule to the Constitution.",
+          "accept": [
+            "Seventh",
+            "7th",
+            "7"
+          ],
+          "explanation": "The Seventh Schedule has three lists: Union, State and Concurrent. Article 246 gives effect to it."
+        },
+        {
+          "id": "ca-f-law-01-framework-q12",
+          "type": "interview",
+          "prompt": "Explain the various sources of law in India.",
+          "answer": "Law is the body of rules recognised and enforced by the State. Its sources in India are:\n\n- **Constitution**: the supreme law; laws violating Fundamental Rights are void (Article 13).\n- **Legislation**: Acts of Parliament and State Legislatures within the Seventh Schedule, e.g. Indian Contract Act, 1872.\n- **Delegated legislation**: rules and regulations made by the executive or regulators under a parent Act, e.g. SEBI regulations.\n- **Judicial precedent**: decisions of superior courts; Supreme Court law binds all courts (Article 141).\n- **Custom**: ancient, certain, reasonable practices not opposed to law.\n- **Personal law** and **justice, equity and good conscience** fill gaps where no statute applies.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-01-framework-q13",
+          "type": "interview",
+          "prompt": "Describe the process by which a Bill becomes an Act of Parliament.",
+          "answer": "- A Bill (draft law) is introduced in either House; a Money Bill only in the Lok Sabha (Article 110).\n- First reading: introduction. Second reading: general discussion, possible reference to a select or standing committee, clause-by-clause consideration. Third reading: the Bill is passed.\n- The Bill goes to the other House, which follows the same steps. Disagreement can be resolved in a joint sitting (Article 108), except for Money Bills.\n- The Bill is presented for the President's assent (Article 111). The President may assent, withhold assent or return a non-Money Bill for reconsideration.\n- After assent it becomes an Act and comes into force on the date it states or the date notified by the Government."
+        },
+        {
+          "id": "ca-f-law-01-framework-q14",
+          "type": "interview",
+          "prompt": "Name the regulator, and its parent Act, for each case and give reasons: (a) A bank wants to open a new branch abroad. (b) A listed company wants to issue shares to the public. (c) Two large companies propose to merge and cross the prescribed asset thresholds. (d) An insurer wants to launch a new policy.",
+          "answer": "- (a) **RBI** under the Banking Regulation Act, 1949 and the RBI Act, 1934, which regulate banks, their branch expansion and foreign exchange.\n- (b) **SEBI** under the SEBI Act, 1992; public issues by listed companies are governed by SEBI regulations, alongside the Companies Act, 2013 administered by MCA.\n- (c) **Competition Commission of India** under the Competition Act, 2002; combinations above thresholds need its approval.\n- (d) **IRDAI** under the IRDA Act, 1999 and the Insurance Act, 1938, which regulate insurers and their products."
+        },
+        {
+          "id": "ca-f-law-01-framework-q15",
+          "type": "interview",
+          "prompt": "What is delegated legislation? Why is it needed and how is it controlled?",
+          "answer": "Delegated legislation is law made by an authority other than the legislature (the executive or a regulator) under power given by a parent Act, e.g. Companies (Incorporation) Rules made under the Companies Act, 2013.\n\n- Need: Parliament lacks time and technical expertise; details change often; quick response in emergencies.\n- Control: (1) Parliamentary control - rules are laid before Parliament; (2) Judicial control - courts strike down rules that go beyond the parent Act (ultra vires) or violate the Constitution; (3) procedural control - publication in the Official Gazette and consultation where required."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI Board of Studies",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "India Code: Central Acts",
+          "url": "https://www.indiacode.nic.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-law-02-contract-formation",
+      "title": "Contract Act I: Offer, Acceptance, Consideration, Capacity, Consent",
+      "level": "beginner",
+      "summary": "The essentials of a valid contract under section 10 of the Indian Contract Act, 1872: proposal, acceptance, consideration, capacity and free consent.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Indian Contract Act, 1872 as amended up to 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Agreement + enforceability = contract",
+          "body": "Section 2(h): an agreement enforceable by law is a contract. Section 2(e): every promise and every set of promises forming consideration for each other is an agreement. So every contract is an agreement, but not every agreement is a contract.\n\nSection 10 lists the essentials. All agreements are contracts if made by:\n\n- **free consent** of parties\n- parties **competent** to contract\n- for a **lawful consideration** and with a **lawful object**\n- and not expressly declared void.\n\nAdd two more from case law and other sections: **intention to create legal relations** (Balfour v. Balfour, 1919: a domestic promise between husband and wife was not enforceable) and **certainty** (section 29).\n\nKey definitions: proposal 2(a), acceptance 2(b), promise 2(b), promisor and promisee 2(c), consideration 2(d), void agreement 2(g), voidable contract 2(i), void contract 2(j)."
+        },
+        {
+          "heading": "Offer and acceptance",
+          "body": "**Offer (proposal)**: one person signifies willingness to do or abstain from doing anything, with a view to obtaining the assent of the other (section 2(a)).\n\n- Offer may be express or implied (section 9), specific or **general**. A general offer to the world can be accepted by anyone who performs the condition: **Carlill v. Carbolic Smoke Ball Co. (1893)** - the company had to pay the reward to Mrs Carlill who used the smoke ball and still caught influenza.\n- An **invitation to offer** is not an offer: price lists, catalogues, goods displayed in a shop, tenders invited, advertisements for auction.\n- Offer must be **communicated** (section 4). A person who performs the act without knowing of the offer cannot claim the reward.\n- A cross offer is not acceptance; a counter offer rejects the original offer.\n\n**Acceptance** (section 7) must be absolute and unqualified, expressed in the usual and reasonable manner, and communicated. Silence is not acceptance. Acceptance can also be by performing the conditions (section 8).\n\n**Communication and revocation** (sections 4 and 5), for a letter by post:\n\n| Event | Complete when |\n| --- | --- |\n| Communication of offer | It comes to the knowledge of the offeree |\n| Acceptance - as against proposer | Letter is put in course of transmission |\n| Acceptance - as against acceptor | Letter comes to the knowledge of the proposer |\n| Revocation of offer | Possible any time before acceptance is complete as against the proposer |\n| Revocation of acceptance | Possible any time before acceptance is complete as against the acceptor |\n\nSection 6: an offer lapses by notice of revocation, lapse of prescribed or reasonable time, failure to fulfil a condition precedent, or death or insanity of the proposer if the acceptor comes to know of it before acceptance."
+        },
+        {
+          "heading": "Consideration and capacity",
+          "body": "**Consideration** (section 2(d)): at the **desire of the promisor**, the promisee **or any other person** has done or abstained, or does or abstains, or promises to do or abstain. It may be past, present or future. It need not be adequate (Explanation 2 to section 25), but must be real and lawful.\n\nPrivity: a stranger to consideration can sue in India (consideration can move from 'any other person'), but a stranger to the **contract** generally cannot.\n\nSection 25: an agreement without consideration is void, except:\n\n- in writing and **registered**, made on account of **natural love and affection** between parties in a near relation;\n- promise to **compensate** a person who has already **voluntarily** done something for the promisor;\n- written promise, **signed**, to pay a **time-barred debt**.\n\nGifts actually made are also valid without consideration.\n\n**Capacity** (section 11): a person is competent if of the age of majority, of sound mind (section 12) and not disqualified by law (e.g. alien enemy, insolvent, foreign sovereign).\n\n**Minor's agreement is void ab initio**: **Mohori Bibee v. Dharmodas Ghose (1903)** - a mortgage executed by a minor was void and the lender could not recover the money advanced. Consequences: no ratification on attaining majority; minor can be a promisee or beneficiary; minor's estate is liable for necessaries supplied (section 68); no estoppel against a minor; minor can be an agent but is not liable to the principal."
+        },
+        {
+          "heading": "Free consent",
+          "body": "Consent: parties agree upon the same thing in the same sense (section 13). It is free (section 14) when not caused by:\n\n| Factor | Section | Effect |\n| --- | --- | --- |\n| Coercion | 15 | Voidable at the option of the aggrieved party (section 19) |\n| Undue influence | 16 | Voidable (section 19A); court may set aside on terms |\n| Fraud | 17 | Voidable; also damages |\n| Misrepresentation | 18 | Voidable |\n| Mistake of fact by both parties on an essential matter | 20 | Void |\n| Mistake of Indian law | 21 | Not a ground; contract valid |\n| Unilateral mistake | 22 | Contract not voidable merely for this |\n\nCoercion includes committing or threatening an act forbidden by the Indian Penal Code (now read as the Bharatiya Nyaya Sanhita, 2023) or unlawful detaining of property. Undue influence needs a relationship where one party can dominate the will of the other (fiduciary, real or apparent authority, mental distress) and uses that position to obtain an unfair advantage. Mere silence is not fraud unless there is a duty to speak or silence is itself equivalent to speech.\n\nException to section 19: if consent was caused by misrepresentation or silence-type fraud and the party could have discovered the truth with ordinary diligence, the contract is not voidable."
+        },
+        {
+          "heading": "Answering problem questions",
+          "body": "ICAI problem questions end with 'Decide with reasons'. Use a four-part answer:\n\n- **Provision**: quote the section in your own words.\n- **Facts**: restate the key facts in one or two lines.\n- **Analysis**: apply each element.\n- **Conclusion**: one clear sentence.\n\nCommon mistakes:\n\n- Calling a minor's agreement voidable. It is void.\n- Saying consideration must be adequate. It must only be real.\n- Treating a display of goods or a catalogue as an offer.\n- Mixing up void (section 20) and voidable (sections 19, 19A)."
+        }
+      ],
+      "keyPoints": [
+        "Section 10: free consent + competent parties + lawful consideration and object + not expressly void.",
+        "Postal acceptance: complete against proposer on posting; against acceptor when it reaches the proposer.",
+        "Section 25 exceptions: natural love and affection (written, registered, near relation); past voluntary service; time-barred debt (written, signed).",
+        "Minor's agreement void ab initio (Mohori Bibee v. Dharmodas Ghose); no ratification; estate liable for necessaries (section 68).",
+        "Coercion (15), undue influence (16), fraud (17), misrepresentation (18) make a contract voidable; bilateral mistake of fact (20) makes the agreement void.",
+        "General offer accepted by performance: Carlill v. Carbolic Smoke Ball Co."
+      ],
+      "cases": [
+        {
+          "id": "ca-f-law-02-contract-formation-case1",
+          "title": "Case: Nirmal and the coaching institute",
+          "body": "On 1 March, Ace Classes posted a letter to Nirmal offering him a faculty position at ₹60,000 a month, asking him to reply within seven days. Nirmal posted his acceptance on 4 March; it reached Ace Classes on 6 March. On 5 March, Ace Classes sent an email to Nirmal revoking the offer. Nirmal had turned 17 the previous month and his father had urged him to take the job. Separately, the director of Ace Classes, who had for years been the spiritual adviser of Nirmal's elder sister Rhea (aged 24), and on whom she relied for every decision, persuaded her to sell her laptop to the director at a fraction of its value."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-law-02-contract-formation-q01",
+          "type": "mcq",
+          "prompt": "A shopkeeper displays a shirt in the window with a price tag of ₹1,200. In law, the display is:",
+          "options": [
+            "A general offer",
+            "A specific offer",
+            "An invitation to offer",
+            "An acceptance"
+          ],
+          "answer": 2,
+          "explanation": "Goods displayed with price tags invite customers to make offers. The customer offers to buy; the shopkeeper may accept or refuse."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q02",
+          "type": "mcq",
+          "prompt": "The leading case on general offers, where a reward was claimed by a person who used the product as directed and still fell ill, is:",
+          "options": [
+            "Mohori Bibee v. Dharmodas Ghose",
+            "Carlill v. Carbolic Smoke Ball Co.",
+            "Balfour v. Balfour",
+            "Salomon v. Salomon & Co. Ltd."
+          ],
+          "answer": 1,
+          "explanation": "In Carlill v. Carbolic Smoke Ball Co. (1893) the advertisement was a general offer, accepted by anyone who performed its conditions; communication of acceptance was not needed."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q03",
+          "type": "mcq",
+          "prompt": "Under section 2(d), consideration must move at the desire of:",
+          "options": [
+            "The promisee",
+            "The promisor",
+            "A third party",
+            "The court"
+          ],
+          "answer": 1,
+          "explanation": "Consideration is something done at the desire of the promisor. An act done at the desire of a third party is not consideration."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q04",
+          "type": "mcq",
+          "prompt": "An agreement with a minor is:",
+          "options": [
+            "Voidable at the option of the minor",
+            "Valid if beneficial to the minor",
+            "Void ab initio",
+            "Valid once ratified on attaining majority"
+          ],
+          "answer": 2,
+          "explanation": "Mohori Bibee v. Dharmodas Ghose (1903): a minor's agreement is void ab initio and cannot be ratified on attaining majority."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q05",
+          "type": "mcq",
+          "prompt": "Where both parties to an agreement are under a mistake as to a matter of fact essential to the agreement, the agreement is:",
+          "options": [
+            "Valid",
+            "Voidable",
+            "Void",
+            "Illegal"
+          ],
+          "answer": 2,
+          "explanation": "Section 20: a bilateral mistake of fact essential to the agreement makes it void."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q06",
+          "type": "mcq",
+          "caseId": "ca-f-law-02-contract-formation-case1",
+          "prompt": "Was the revocation of the offer by Ace Classes on 5 March effective, ignoring Nirmal's age?",
+          "options": [
+            "Yes, because the acceptance had not reached Ace Classes",
+            "No, because the acceptance was complete as against Ace Classes on 4 March when Nirmal posted it",
+            "Yes, because an email overrides a letter",
+            "No, because offers can never be revoked"
+          ],
+          "answer": 1,
+          "explanation": "Sections 4 and 5: an offer may be revoked only before acceptance is complete as against the proposer, which happens when the acceptance is put in course of transmission (4 March). The 5 March revocation was too late."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q07",
+          "type": "mcq",
+          "caseId": "ca-f-law-02-contract-formation-case1",
+          "prompt": "Taking Nirmal's age into account, the employment agreement is:",
+          "options": [
+            "Valid because his father consented",
+            "Voidable at Nirmal's option",
+            "Void because Nirmal is a minor",
+            "Valid because it benefits Nirmal"
+          ],
+          "answer": 2,
+          "explanation": "Under section 11 a minor is not competent to contract. The agreement is void ab initio; a parent's consent does not cure it."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q08",
+          "type": "mcq",
+          "caseId": "ca-f-law-02-contract-formation-case1",
+          "prompt": "Rhea's sale of the laptop to the director is most likely:",
+          "options": [
+            "Void for want of consideration",
+            "Voidable for undue influence, if the director was in a position to dominate her will",
+            "Valid because consideration need not be adequate",
+            "Void because of fraud"
+          ],
+          "answer": 1,
+          "explanation": "Section 16 needs a relationship in which one party can dominate the will of the other, plus use of that position to gain an unfair advantage. A spiritual adviser relied on for every decision is in such a position, and a sale at a fraction of value is unfair. The contract is voidable at Rhea's option (section 19A). Inadequate consideration alone would not make it void."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q09",
+          "type": "truefalse",
+          "prompt": "Under Indian law, a stranger to consideration can sue on a contract.",
+          "answer": true,
+          "explanation": "Section 2(d) allows consideration to move from the promisee 'or any other person'. A stranger to consideration who is a party to the contract can sue. A stranger to the contract generally cannot."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q10",
+          "type": "truefalse",
+          "prompt": "Silence of the offeree amounts to acceptance if the offer says 'If I do not hear from you, I will consider the deal done'.",
+          "answer": false,
+          "explanation": "Acceptance must be expressed in some usual and reasonable manner (section 7). The offeror cannot impose silence as acceptance."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q11",
+          "type": "multi",
+          "prompt": "Under section 25, which agreements are valid even without consideration?",
+          "options": [
+            "A written, registered promise made out of natural love and affection to a near relative",
+            "A promise to compensate a person who voluntarily did something for the promisor earlier",
+            "A written, signed promise to pay a time-barred debt",
+            "An oral promise to donate ₹10,000 to a friend next year"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "These are the three exceptions in section 25. An oral promise to make a future gift has no consideration and is void."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: Under section ___ of the Indian Contract Act, 1872, an agreement enforceable by law is a contract.",
+          "accept": [
+            "2(h)",
+            "2h",
+            "2 (h)"
+          ],
+          "explanation": "Section 2(h) defines contract. Section 2(e) defines agreement."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q13",
+          "type": "interview",
+          "prompt": "'All contracts are agreements but all agreements are not contracts.' Explain with reference to the essentials of a valid contract.",
+          "answer": "- Section 2(e): agreement = every promise and set of promises forming consideration for each other. Section 2(h): contract = agreement enforceable by law.\n- An agreement becomes a contract only if it meets section 10: free consent, competent parties, lawful consideration, lawful object, not expressly declared void.\n- Other essentials: intention to create legal relations (Balfour v. Balfour), certainty (section 29), possibility of performance (section 56), and legal formalities where required.\n- Examples of agreements that are not contracts: social agreements, agreement with a minor, wagering agreement (section 30), agreement in restraint of marriage (section 26).\n- Hence every contract is an agreement, but only enforceable agreements are contracts.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q14",
+          "type": "interview",
+          "prompt": "Explain when communication of offer, acceptance and revocation is complete, and when an offer and an acceptance may be revoked.",
+          "answer": "- Offer: complete when it comes to the knowledge of the offeree (section 4).\n- Acceptance: complete as against the proposer when put in course of transmission so that it is out of the acceptor's power; as against the acceptor when it comes to the knowledge of the proposer.\n- Revocation: complete as against the person making it when put in course of transmission; as against the other when it comes to his knowledge.\n- Section 5: an offer may be revoked any time before communication of acceptance is complete as against the proposer; an acceptance may be revoked any time before communication of acceptance is complete as against the acceptor.\n- Illustration: acceptance posted on day 1, reaches on day 3. Offer can be revoked only before day 1; acceptance can be revoked up to day 3 (by a faster mode)."
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q15",
+          "type": "interview",
+          "prompt": "Mohan, aged 17, borrowed ₹50,000 from Vikram by executing a promissory note, falsely stating he was 19. He used the money to pay college fees. Vikram now sues Mohan to recover the money. Decide with reasons.",
+          "answer": "- Provision: section 11 - a minor is not competent to contract. Mohori Bibee v. Dharmodas Ghose: a minor's agreement is void ab initio and money advanced cannot be recovered under the contract.\n- No estoppel against a minor: Mohan's false statement of age does not make the agreement valid.\n- Necessaries: section 68 allows recovery from a minor's property for necessaries supplied. College fees for education are generally necessaries suited to his condition in life, but section 68 covers necessaries 'supplied'; a lender who advances money is reimbursed only to the extent it was actually spent on necessaries, and only from the minor's property, not personally.\n- Conclusion: Vikram cannot sue Mohan on the promissory note. He may recover, out of Mohan's property, the amount actually spent on necessaries; Mohan is not personally liable.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-02-contract-formation-q16",
+          "type": "interview",
+          "prompt": "Distinguish between coercion and undue influence.",
+          "answer": "| Basis | Coercion (section 15) | Undue influence (section 16) |\n| --- | --- | --- |\n| Nature | Physical force or threat | Mental pressure |\n| Act | Committing or threatening an act forbidden by the penal law, or unlawful detaining of property | Using a dominant position to obtain unfair advantage |\n| Relationship | Not needed; can be used by a stranger | A relationship of domination is essential |\n| Against whom | Any person, not necessarily the party | The other contracting party |\n| Effect | Voidable (section 19); benefit received must be restored | Voidable (section 19A); court may set aside absolutely or on terms |"
+        }
+      ],
+      "resources": [
+        {
+          "title": "India Code: Indian Contract Act, 1872 (search)",
+          "url": "https://www.indiacode.nic.in/"
+        },
+        {
+          "title": "ICAI Board of Studies",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-law-03-contract-performance",
+      "title": "Contract Act II: Void Agreements, Contingent and Quasi Contracts, Performance, Breach",
+      "level": "intermediate",
+      "summary": "Agreements expressly declared void, contingent contracts, quasi contracts, performance and discharge, and remedies for breach under the Indian Contract Act, 1872.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Indian Contract Act, 1872 as amended up to 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Agreements expressly declared void",
+          "body": "Section 10 requires that the agreement is 'not expressly declared void'. The Act declares these void:\n\n| Section | Agreement | Exception |\n| --- | --- | --- |\n| 11 | With incompetent parties | - |\n| 20 | Bilateral mistake of fact | - |\n| 23, 24 | Unlawful object or consideration (wholly or partly, if inseparable) | - |\n| 25 | Without consideration | Love and affection, past voluntary service, time-barred debt |\n| 26 | In restraint of marriage of a person other than a minor | None |\n| 27 | In restraint of trade | Sale of goodwill: seller may agree not to carry on a similar business within specified local limits, if reasonable |\n| 28 | In restraint of legal proceedings | Agreement to refer disputes to arbitration |\n| 29 | Uncertain in meaning | Meaning capable of being made certain |\n| 30 | By way of wager | Horse-race prizes of ₹500 or more (proviso); crossword competitions of skill are not wagers |\n| 36 | Contingent on an impossible event | - |\n| 56 | To do an impossible act | - |\n\nSection 27 exceptions in case law: reasonable restraints on an employee during the term of service are valid; restraints after termination are generally void."
+        },
+        {
+          "heading": "Contingent and quasi contracts",
+          "body": "**Contingent contract** (section 31): to do or not to do something if some event, collateral to the contract, does or does not happen. Example: an insurance contract.\n\n- Section 32: contingent on the **happening** of an uncertain future event - enforceable only when the event happens; void if it becomes impossible.\n- Section 33: contingent on the event **not happening** - enforceable when its happening becomes impossible.\n- Section 34: if the event is the future conduct of a living person, it is deemed impossible when that person does anything that makes it impossible within a definite time.\n- Section 35: event to happen or not happen within a fixed time.\n- Section 36: contingent on an impossible event - void, whether or not the parties knew of the impossibility.\n\n**Quasi contracts** (sections 68-72): no agreement, but the law imposes an obligation to prevent unjust enrichment.\n\n| Section | Situation |\n| --- | --- |\n| 68 | Necessaries supplied to a person incapable of contracting (minor, lunatic) or his dependants: recover from his property |\n| 69 | Payment by an interested person of money another is bound to pay: reimbursement |\n| 70 | Lawfully doing a thing or delivering goods non-gratuitously, where the other enjoys the benefit: compensation |\n| 71 | Finder of goods: responsibilities of a bailee |\n| 72 | Money paid or thing delivered by mistake or under coercion: must be repaid or returned |"
+        },
+        {
+          "heading": "Performance and discharge",
+          "body": "Section 37: parties must perform or offer to perform their promises unless dispensed with or excused. On death, representatives are bound unless the contract is personal.\n\n- **Who must perform** (sections 40-45): the promisor personally if personal skill is involved; otherwise he or his agent. Joint promisors are jointly and severally liable (section 43) and can claim contribution.\n- **Reciprocal promises** (sections 51-54): when performance is to be simultaneous, neither need perform unless the other is ready and willing.\n- **Time** (section 55): if time is essential and the promisor fails to perform in time, the contract becomes voidable at the promisee's option.\n\nModes of discharge:\n\n- By **performance** (actual or attempted - tender).\n- By **agreement**: novation, rescission, alteration (section 62); remission (section 63); waiver; accord and satisfaction.\n- By **impossibility** (section 56): initial impossibility makes the agreement void; subsequent impossibility (destruction of subject matter, death or incapacity in personal contracts, change of law, outbreak of war) makes the contract void when the act becomes impossible. Not covered: mere difficulty, higher cost, commercial hardship, strikes, failure of one of several objects.\n- By **lapse of time** (Limitation Act, 1963), **operation of law** (death, insolvency, merger) and **breach**."
+        },
+        {
+          "heading": "Breach and remedies",
+          "body": "Breach may be **actual** (on the due date or during performance) or **anticipatory** (refusal before the due date). On anticipatory breach the promisee may rescind at once and sue, or wait till the due date (section 39).\n\nRemedies:\n\n- **Rescission** (section 75: party rightfully rescinding is entitled to compensation).\n- **Damages** (section 73): for loss which naturally arose in the usual course of things, or which the parties knew when contracting to be likely to result from breach. Remote and indirect loss is not recoverable. This follows **Hadley v. Baxendale (1854)**. The injured party must take reasonable steps to mitigate loss.\n- **Liquidated damages and penalty** (section 74): where a sum is named or a penalty stipulated, the injured party gets reasonable compensation not exceeding the amount named.\n- **Quantum meruit**: payment for what has been done, e.g. when the other party prevents completion.\n- **Specific performance** and **injunction** under the Specific Relief Act, 1963.\n\nKinds of damages: ordinary, special (if notice of special circumstances), exemplary (rare: breach of promise to marry, dishonour of a cheque by a banker with sufficient funds) and nominal."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Saying a void agreement is 'illegal'. All illegal agreements are void, but not all void agreements are illegal; collateral transactions to a merely void agreement (e.g. wager) can be valid.\n- Treating commercial hardship or price rise as frustration under section 56.\n- Forgetting that section 74 caps compensation at the named sum, even if actual loss is higher.\n- Forgetting the goodwill exception to section 27.\n- In quasi contract answers, not stating that there is no actual contract; liability arises by law."
+        }
+      ],
+      "keyPoints": [
+        "Expressly void: sections 11, 20, 23-25, 26 (marriage), 27 (trade), 28 (legal proceedings), 29 (uncertainty), 30 (wager), 36, 56.",
+        "Section 27 exception: seller of goodwill may agree not to carry on similar business within reasonable local limits.",
+        "Contingent contracts: sections 31-36; contingent on impossible event is void (section 36).",
+        "Quasi contracts: 68 necessaries, 69 interested payment, 70 non-gratuitous act, 71 finder, 72 mistake or coercion.",
+        "Section 56: supervening impossibility discharges; commercial hardship does not.",
+        "Section 73: natural and contemplated loss (Hadley v. Baxendale); section 74: reasonable compensation up to the named sum."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-law-03-contract-performance-q01",
+          "type": "mcq",
+          "prompt": "Which agreement in restraint of trade is valid under the exception to section 27?",
+          "options": [
+            "An employee agreeing never to work for a competitor after leaving",
+            "A seller of goodwill agreeing not to carry on a similar business within reasonable local limits",
+            "Two traders agreeing not to compete anywhere in India for life",
+            "A buyer agreeing not to buy from any other supplier forever"
+          ],
+          "answer": 1,
+          "explanation": "The only statutory exception to section 27 is on sale of goodwill, within specified local limits that the court considers reasonable."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q02",
+          "type": "mcq",
+          "prompt": "A agrees to pay B ₹1,00,000 if B marries C. C was dead at the time of the agreement, unknown to both. The agreement is:",
+          "options": [
+            "Valid",
+            "Voidable at A's option",
+            "Void under section 36",
+            "Enforceable when B marries someone else"
+          ],
+          "answer": 2,
+          "explanation": "Section 36: contingent agreements to do anything if an impossible event happens are void, whether or not the impossibility is known to the parties."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q03",
+          "type": "mcq",
+          "prompt": "A finder of goods belonging to another, who takes them into custody, is subject to the same responsibility as:",
+          "options": [
+            "An agent",
+            "A bailee",
+            "A pledgee",
+            "A trustee"
+          ],
+          "answer": 1,
+          "explanation": "Section 71: a person who finds goods belonging to another and takes them into custody has the same responsibility as a bailee."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q04",
+          "type": "mcq",
+          "prompt": "Substitution of a new contract for an existing one, either between the same or different parties, is called:",
+          "options": [
+            "Rescission",
+            "Novation",
+            "Remission",
+            "Waiver"
+          ],
+          "answer": 1,
+          "explanation": "Section 62 covers novation, rescission and alteration. Novation is substitution of a new contract; the original need not be performed."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q05",
+          "type": "mcq",
+          "prompt": "Which of the following discharges a contract under the doctrine of supervening impossibility (section 56)?",
+          "options": [
+            "Steep rise in raw material prices",
+            "Strike by the promisor's workers",
+            "Destruction of the specific hall hired for a concert by fire before the date, without fault",
+            "Promisor finding a better deal elsewhere"
+          ],
+          "answer": 2,
+          "explanation": "Destruction of the subject matter makes performance impossible. Price rise, strikes and better offers are commercial difficulties, not impossibility."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q06",
+          "type": "mcq",
+          "prompt": "The rule that damages are recoverable only for losses arising naturally or within the contemplation of the parties comes from:",
+          "options": [
+            "Carlill v. Carbolic Smoke Ball Co.",
+            "Hadley v. Baxendale",
+            "Mohori Bibee v. Dharmodas Ghose",
+            "Royal British Bank v. Turquand"
+          ],
+          "answer": 1,
+          "explanation": "Hadley v. Baxendale (1854) laid down the remoteness rule, now reflected in section 73."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q07",
+          "type": "mcq",
+          "prompt": "Under section 74, where a contract names a sum payable on breach, the injured party is entitled to:",
+          "options": [
+            "The full named sum in every case",
+            "Actual loss, even if more than the named sum",
+            "Reasonable compensation not exceeding the named sum",
+            "Nothing unless loss exceeds the named sum"
+          ],
+          "answer": 2,
+          "explanation": "Section 74 allows reasonable compensation up to the amount named, whether the sum is called liquidated damages or a penalty. Proof of actual loss is relevant to what is reasonable."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q08",
+          "type": "truefalse",
+          "prompt": "An agreement to refer future disputes to arbitration is void under section 28 as being in restraint of legal proceedings.",
+          "answer": false,
+          "explanation": "Exception 1 to section 28 saves agreements to refer disputes to arbitration."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q09",
+          "type": "truefalse",
+          "prompt": "Every void agreement is also illegal.",
+          "answer": false,
+          "explanation": "Every illegal agreement is void, but a void agreement need not be illegal. A wagering agreement is void but not illegal, so a collateral loan to pay a wager can be recovered."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q10",
+          "type": "multi",
+          "prompt": "Which of these are quasi contractual obligations under the Indian Contract Act, 1872?",
+          "options": [
+            "Claim for necessaries supplied to a minor (section 68)",
+            "Duty to repay money paid by mistake (section 72)",
+            "Liability of a surety (section 128)",
+            "Duty to pay for non-gratuitous goods whose benefit was enjoyed (section 70)"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Sections 68 to 72 are quasi contracts. A surety's liability arises from a contract of guarantee, a real contract."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: An agreement by way of wager is void under section ___ of the Indian Contract Act, 1872.",
+          "accept": [
+            "30"
+          ],
+          "explanation": "Section 30 declares wagering agreements void and bars suits to recover anything won on a wager."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q12",
+          "type": "interview",
+          "prompt": "Explain the doctrine of supervening impossibility under section 56. State the cases where the doctrine does not apply.",
+          "answer": "- Section 56: an agreement to do an impossible act is void. A contract to do an act which, after it is made, becomes impossible or unlawful through an event the promisor could not prevent, becomes void when the act becomes impossible.\n- Grounds: destruction of subject matter; death or incapacity in personal services; change in law; outbreak of war; non-existence of a state of things assumed (e.g. cancellation of an event).\n- Promisor who knew of the impossibility and the promisee did not must compensate the promisee.\n- Not covered: mere difficulty, higher cost, commercial impossibility, strikes or lockouts, default of a third party, failure of one of several objects.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q13",
+          "type": "interview",
+          "prompt": "Ravi sold his bakery in Pune, with its goodwill, to Meena and agreed not to run a bakery within 2 km of the shop for 3 years. Within a year Ravi opened a bakery 1 km away. Meena seeks to restrain him. Ravi pleads section 27. Decide with reasons.",
+          "answer": "- Provision: section 27 declares agreements in restraint of trade void. The exception allows a seller of goodwill to agree with the buyer to refrain from carrying on a similar business within specified local limits, so long as the buyer carries on a like business, if the limits are reasonable.\n- Facts: Ravi sold the bakery with goodwill; the restraint is limited to 2 km and 3 years, and Meena runs the same business.\n- Analysis: the restraint is limited in area and time and protects the goodwill Meena paid for. It falls within the exception.\n- Conclusion: the agreement is valid. Meena can obtain an injunction restraining Ravi and may claim damages; Ravi's plea fails."
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q14",
+          "type": "interview",
+          "prompt": "What are quasi contracts? Explain the circumstances covered by sections 68 to 72.",
+          "answer": "Quasi contracts are obligations imposed by law, not by agreement, based on the principle that no one should be unjustly enriched at another's expense. The Act calls them 'certain relations resembling those created by contract'.\n\n- Section 68: necessaries supplied to a person incapable of contracting, or his dependants - supplier is reimbursed from that person's property.\n- Section 69: a person interested in a payment who pays money another is bound by law to pay is entitled to reimbursement.\n- Section 70: a person who lawfully does something or delivers something non-gratuitously, the benefit of which another enjoys, is entitled to compensation.\n- Section 71: a finder of goods has the responsibilities of a bailee.\n- Section 72: money paid or anything delivered by mistake or under coercion must be repaid or returned.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-03-contract-performance-q15",
+          "type": "interview",
+          "prompt": "Asha contracted to deliver 100 bags of rice to Karan on 1 July at ₹2,000 a bag. On 1 June she informed Karan that she would not deliver. Karan waited till 1 July, when the market price was ₹2,300. Advise Karan on his rights and the damages he can claim.",
+          "answer": "- Asha's refusal on 1 June is an anticipatory breach (section 39). Karan could rescind at once and sue, or keep the contract alive till the due date.\n- By waiting, Karan kept the contract alive; the breach becomes actual on 1 July and damages are measured on that date.\n- Section 73: compensation for loss naturally arising, i.e. the difference between contract price and market price on the due date: (₹2,300 - ₹2,000) x 100 = ₹30,000.\n- Risk of waiting: if the contract were discharged meanwhile (e.g. supervening impossibility), Asha would also be released. Karan must also take reasonable steps to mitigate.\n- Conclusion: Karan can recover ₹30,000 as damages."
+        }
+      ],
+      "resources": [
+        {
+          "title": "India Code: Central Acts",
+          "url": "https://www.indiacode.nic.in/"
+        },
+        {
+          "title": "ICAI Board of Studies",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-law-04-special-contracts",
+      "title": "Contract Act III: Indemnity, Guarantee, Bailment, Pledge, Agency",
+      "level": "intermediate",
+      "summary": "Special contracts under sections 124 to 238 of the Indian Contract Act, 1872: indemnity, guarantee, bailment, pledge and agency.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Indian Contract Act, 1872 as amended up to 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Indemnity and guarantee",
+          "body": "**Contract of indemnity** (section 124): one party promises to save the other from loss caused by the conduct of the promisor himself or of any other person. Parties: indemnifier and indemnity holder. Section 125: the indemnity holder can recover damages, costs of suits and sums paid under a compromise (if prudent and authorised).\n\n**Contract of guarantee** (section 126): to perform the promise, or discharge the liability, of a third person in case of his default. Three parties: **surety**, **principal debtor**, **creditor**. It may be oral or written. Section 127: anything done for the benefit of the principal debtor is sufficient consideration for the surety.\n\n| Basis | Indemnity | Guarantee |\n| --- | --- | --- |\n| Parties | Two | Three |\n| Contracts | One | Three (creditor-debtor, creditor-surety, surety-debtor) |\n| Liability | Primary | Secondary (on default of the debtor) |\n| Purpose | Save from loss | Assurance of performance |\n\n**Surety's liability is co-extensive** with that of the principal debtor unless the contract provides otherwise (section 128). The creditor need not first sue the debtor.\n\n**Continuing guarantee** (section 129): extends to a series of transactions. Revoked for future transactions by notice (section 130) or by the surety's death (section 131), subject to contract."
+        },
+        {
+          "heading": "Discharge and rights of surety",
+          "body": "A surety is discharged:\n\n- by notice of revocation or death in a continuing guarantee (sections 130, 131);\n- by **variance** in the terms of the contract between creditor and debtor without the surety's consent (section 133);\n- by **release or discharge** of the principal debtor (section 134);\n- when the creditor **compounds** with, **gives time** to, or **agrees not to sue** the debtor without the surety's consent (section 135);\n- by the creditor's act or omission that **impairs the surety's eventual remedy** (section 139);\n- by loss of security (section 141, to the extent of its value).\n\nRights of the surety:\n\n- **Subrogation** (section 140): on payment, he steps into the creditor's shoes.\n- **Benefit of securities** held by the creditor (section 141).\n- **Implied promise of indemnity** by the principal debtor (section 145).\n- **Contribution** among co-sureties: equally, unless otherwise agreed (section 146); in proportion to their limits if the limits differ (section 147)."
+        },
+        {
+          "heading": "Bailment and pledge",
+          "body": "**Bailment** (section 148): delivery of goods by one person (bailor) to another (bailee) for some purpose, on a contract that the goods be returned or disposed of as directed when the purpose is accomplished. Only movable goods; possession, not ownership, passes. Delivery may be actual or constructive (section 149).\n\nDuties of bailee: take reasonable care like a prudent man of his own goods (section 151) - not liable for loss if he took that care (section 152); not to make unauthorised use (section 154); not to mix goods (sections 155-157); return the goods (section 160) and accretions (section 163).\n\nDuties of bailor: disclose known faults (section 150) - in a bailment for hire he is liable even for faults he did not know of.\n\n**Lien**: section 170 - a particular lien where the bailee has rendered services involving skill or labour; section 171 - general lien for bankers, factors, wharfingers, attorneys of a High Court and policy brokers.\n\n**Pledge** (section 172): bailment of goods as security for payment of a debt or performance of a promise. Pawnor and pawnee. On default the pawnee may (section 176) sue on the debt and retain the goods as collateral, or sell after giving the pawnor **reasonable notice**; he can recover any deficiency and must return any surplus. Pledge by a non-owner is valid in limited cases: mercantile agent (section 178), person with voidable title not yet rescinded (section 178A), pawnor with limited interest (section 179)."
+        },
+        {
+          "heading": "Agency",
+          "body": "Section 182: an **agent** is a person employed to do any act for another or to represent another in dealings with third persons; the other is the **principal**.\n\n- Who may employ: any person of majority and sound mind (section 183).\n- Who may be an agent: any person, but a minor or person of unsound mind is not responsible to the principal (section 184).\n- No consideration needed (section 185).\n- Creation: express or implied (sections 186, 187), by necessity / emergency (section 189), by ratification (section 196), by estoppel (section 237).\n- Ratification: principal must exist and be competent at the time of the act; must know the facts; ratify the whole transaction (section 199); within reasonable time; cannot ratify a void act or one that harms a third party (section 200).\n- Delegation: an agent cannot delegate except by custom or nature of agency (section 190). A **sub-agent** acts under the agent's control (section 191); a **substituted agent** is named by the agent on the principal's express or implied authority and acts directly for the principal (section 194).\n- Termination (section 201): revocation, renunciation, completion, death or insanity of either party, insolvency of the principal. Section 202: an **agency coupled with interest** cannot be terminated to the prejudice of that interest.\n- Section 230: an agent cannot personally enforce or be bound by contracts made for the principal, unless the contract says so, the principal is foreign, undisclosed, or cannot be sued."
+        },
+        {
+          "heading": "Exam tips",
+          "body": "- In a guarantee problem, identify the three parties first. Then check whether any act of the creditor discharges the surety: variance (133), release (134), time given (135), impairment (139).\n- Section 135 needs a **binding** agreement to give time; mere forbearance to sue does not discharge the surety (section 137).\n- Bailee's lien: particular lien needs skill and labour on the goods. A general lien is only for the five categories in section 171.\n- In pledge, sale without reasonable notice to the pawnor is wrongful.\n- Distinguish sub-agent (no privity with principal) and substituted agent (privity with principal)."
+        }
+      ],
+      "keyPoints": [
+        "Indemnity: section 124, two parties, primary liability. Guarantee: section 126, three parties, secondary liability.",
+        "Surety's liability co-extensive with the debtor (section 128); continuing guarantee (section 129).",
+        "Surety discharged by variance (133), release of debtor (134), composition / time / promise not to sue (135), impairment (139).",
+        "Surety's rights: subrogation (140), securities (141), indemnity (145), contribution (146-147).",
+        "Bailment (148), reasonable care (151), particular lien (170), general lien (171); pledge (172), pawnee's rights (176).",
+        "Agency: section 182; ratification (196); sub-agent (191) vs substituted agent (194); agency coupled with interest (202)."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-law-04-special-contracts-q01",
+          "type": "mcq",
+          "prompt": "A contract of guarantee involves how many parties?",
+          "options": [
+            "One",
+            "Two",
+            "Three",
+            "Four"
+          ],
+          "answer": 2,
+          "explanation": "Section 126: surety, principal debtor and creditor."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q02",
+          "type": "mcq",
+          "prompt": "The liability of a surety, unless otherwise provided, is:",
+          "options": [
+            "Limited to half the debt",
+            "Co-extensive with that of the principal debtor",
+            "Arising only after the creditor exhausts remedies against the debtor",
+            "Primary and independent of the debtor"
+          ],
+          "answer": 1,
+          "explanation": "Section 128. The creditor may proceed against the surety without first suing the debtor."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q03",
+          "type": "mcq",
+          "prompt": "Which of the following persons does NOT have a general lien under section 171?",
+          "options": [
+            "Bankers",
+            "Wharfingers",
+            "Factors",
+            "A tailor who stitched a suit"
+          ],
+          "answer": 3,
+          "explanation": "Section 171 lists bankers, factors, wharfingers, attorneys of a High Court and policy brokers. A tailor has only a particular lien under section 170 for his charges on that suit."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q04",
+          "type": "mcq",
+          "prompt": "Bailment of goods as security for payment of a debt is called:",
+          "options": [
+            "Hypothecation",
+            "Mortgage",
+            "Pledge",
+            "Lien"
+          ],
+          "answer": 2,
+          "explanation": "Section 172 defines pledge. Hypothecation does not involve delivery of possession; mortgage concerns immovable property."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q05",
+          "type": "mcq",
+          "prompt": "Under section 176, if the pawnor defaults, the pawnee may sell the pledged goods after:",
+          "options": [
+            "Obtaining a court decree only",
+            "Giving the pawnor reasonable notice of the sale",
+            "Waiting one year",
+            "No notice at all"
+          ],
+          "answer": 1,
+          "explanation": "Section 176 permits sale on giving the pawnor reasonable notice. The pawnee may also sue on the debt and retain the goods as collateral."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q06",
+          "type": "mcq",
+          "prompt": "A person named by the agent, on the authority of the principal, to act for the principal in the business of the agency is a:",
+          "options": [
+            "Sub-agent",
+            "Substituted agent",
+            "Co-agent",
+            "Del credere agent"
+          ],
+          "answer": 1,
+          "explanation": "Section 194. A substituted agent has privity with the principal; a sub-agent (section 191) works under the control of the original agent."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q07",
+          "type": "mcq",
+          "prompt": "An agency where the agent himself has an interest in the subject matter, which cannot be revoked to the prejudice of that interest, is covered by:",
+          "options": [
+            "Section 182",
+            "Section 196",
+            "Section 201",
+            "Section 202"
+          ],
+          "answer": 3,
+          "explanation": "Section 202: agency coupled with interest cannot, in the absence of an express contract, be terminated to the prejudice of such interest."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q08",
+          "type": "truefalse",
+          "prompt": "A minor can be appointed as an agent, but he is not responsible to the principal.",
+          "answer": true,
+          "explanation": "Section 184: any person may become an agent, but a person who is not of majority and sound mind is not responsible to the principal. The principal is bound by the minor agent's acts with third parties."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q09",
+          "type": "truefalse",
+          "prompt": "Mere forbearance by the creditor to sue the principal debtor discharges the surety.",
+          "answer": false,
+          "explanation": "Section 137: mere forbearance to sue or enforce a remedy, without a binding promise to give time, does not discharge the surety."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q10",
+          "type": "multi",
+          "prompt": "In which situations is a surety discharged?",
+          "options": [
+            "Creditor and debtor change the loan terms without the surety's consent",
+            "Creditor releases the principal debtor",
+            "Creditor makes a binding agreement with the debtor to give extra time, without the surety's consent",
+            "Creditor delays filing a suit but makes no promise to the debtor"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Sections 133, 134 and 135 discharge the surety. Mere delay without a binding promise does not (section 137)."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: When a surety pays the guaranteed debt, he is invested with all the rights the creditor had against the principal debtor. This right is called the right of ___.",
+          "accept": [
+            "subrogation"
+          ],
+          "explanation": "Section 140: the surety is subrogated to the creditor's rights on payment."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q12",
+          "type": "interview",
+          "prompt": "Distinguish between a contract of indemnity and a contract of guarantee.",
+          "answer": "| Basis | Indemnity (section 124) | Guarantee (section 126) |\n| --- | --- | --- |\n| Parties | Two: indemnifier, indemnity holder | Three: surety, principal debtor, creditor |\n| Number of contracts | One | Three |\n| Nature of liability | Primary | Secondary, on default of the debtor |\n| Object | Protect against loss | Secure performance or payment by a third person |\n| Existing debt | Not necessary | Usually an existing or future debt of the principal debtor |\n| Right to sue third party | Indemnifier cannot sue third parties in his own name unless assigned | Surety on payment steps into the creditor's shoes (section 140) |",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q13",
+          "type": "interview",
+          "prompt": "Suresh guaranteed a loan of ₹5,00,000 given by a bank to Dinesh, repayable in 12 months. Without Suresh's knowledge, the bank and Dinesh agreed in writing to extend repayment by 6 months and raise the interest rate. Dinesh defaulted. The bank sues Suresh. Decide with reasons.",
+          "answer": "- Provisions: section 133 - any variance made without the surety's consent in the terms of the contract between the principal debtor and the creditor discharges the surety as to transactions after the variance. Section 135 - a binding contract by the creditor to give time to the principal debtor discharges the surety unless he assents.\n- Facts: the bank and Dinesh varied both time and interest rate by a written agreement, without Suresh's consent.\n- Analysis: both a variance (section 133) and a binding agreement to give time (section 135) occurred.\n- Conclusion: Suresh is discharged. The bank cannot recover from him and must proceed against Dinesh.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q14",
+          "type": "interview",
+          "prompt": "Explain the essentials of a valid ratification by a principal.",
+          "answer": "Ratification (sections 196-200) is the principal's later adoption of an act done on his behalf without authority. Essentials:\n\n- The agent must have acted **on behalf of** the principal.\n- The principal must have been in **existence and competent** to contract when the act was done (a company cannot ratify pre-incorporation contracts).\n- The principal must have **full knowledge** of the facts (section 198).\n- He must ratify the **whole** transaction, not just the beneficial part (section 199).\n- Ratification must be within a **reasonable time**.\n- The act must be one the principal could lawfully do; a **void or illegal** act cannot be ratified.\n- It cannot subject a third party to damages or terminate his right or interest (section 200).\n- It may be express or implied (section 197) and relates back to the date of the act."
+        },
+        {
+          "id": "ca-f-law-04-special-contracts-q15",
+          "type": "interview",
+          "prompt": "Priya left her car with a garage for repairs. The garage repaired it for ₹18,000. Priya also owed the garage ₹7,000 for a repair done last year to her other car. The garage refuses to release the car until she pays ₹25,000. Decide with reasons.",
+          "answer": "- Provision: section 170 - a bailee who renders service involving the exercise of labour or skill on goods bailed has a **particular lien** on those goods for remuneration for that service. Section 171 allows a **general lien** (for a general balance of account) only to bankers, factors, wharfingers, attorneys of a High Court and policy brokers, or by express contract.\n- Facts: the garage repaired this car (₹18,000) and seeks to also recover an old bill on another car (₹7,000).\n- Analysis: the garage is a bailee who used skill and labour on this car, so it has a particular lien for ₹18,000. It is not in the section 171 list and there is no contract for a general lien.\n- Conclusion: the garage may retain the car only until ₹18,000 is paid. It must release the car on that payment and sue separately for ₹7,000."
+        }
+      ],
+      "resources": [
+        {
+          "title": "India Code: Central Acts",
+          "url": "https://www.indiacode.nic.in/"
+        },
+        {
+          "title": "ICAI Board of Studies",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-law-05-sale-of-goods",
+      "title": "The Sale of Goods Act, 1930",
+      "level": "intermediate",
+      "summary": "Contract of sale, conditions and warranties, caveat emptor, transfer of property and title, and rights of an unpaid seller.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Sale of Goods Act, 1930 as amended up to 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Contract of sale",
+          "body": "Section 4: a contract of sale is one whereby the seller **transfers or agrees to transfer** the property in goods to the buyer for a **price**. It may be absolute or conditional.\n\n- **Sale**: property passes at once; an executed contract. Risk generally passes with property.\n- **Agreement to sell**: property passes at a future time or on fulfilment of a condition; an executory contract. It becomes a sale when that time elapses or the condition is fulfilled.\n\nEssentials: two parties, goods, price (money consideration; barter is not a sale), transfer of general property, and all essentials of a valid contract.\n\n**Goods** (section 2(7)): every kind of movable property other than actionable claims and money; includes stock and shares, growing crops, grass and things attached to land agreed to be severed before sale. Goods may be **existing** (specific or ascertained, or unascertained / generic), **future** or **contingent** (section 6). A contract for future goods is always an agreement to sell.\n\nSection 7: specific goods that have perished without the seller's knowledge when the contract is made - contract void. Section 8: perished after an agreement to sell, before risk passes, without fault of either party - agreement avoided.\n\nPrice (section 9): fixed by contract, by an agreed manner, or by the course of dealing; otherwise a reasonable price. Section 10: price to be fixed by a third party's valuation."
+        },
+        {
+          "heading": "Conditions, warranties and caveat emptor",
+          "body": "Section 12: a **condition** is a stipulation essential to the main purpose; breach gives the right to reject the goods and treat the contract as repudiated. A **warranty** is collateral; breach gives only a claim for damages. Section 13: a buyer may waive a condition or elect to treat it as a warranty; where the buyer has accepted the goods in a non-severable contract, breach of condition can be treated only as breach of warranty.\n\nImplied conditions:\n\n| Section | Implied condition |\n| --- | --- |\n| 14(a) | Seller has the right to sell |\n| 15 | Goods correspond with the description |\n| 16(1) | Fitness for a particular purpose, when the buyer makes the purpose known and relies on the seller's skill |\n| 16(2) | Merchantable quality, in sale by description from a dealer in such goods |\n| 17 | Sale by sample: bulk corresponds with sample; reasonable opportunity to compare; free from hidden defects |\n| Case law | Wholesomeness for eatables |\n\nImplied warranties: quiet possession (14(b)), freedom from encumbrances (14(c)), disclosure of dangerous nature.\n\n**Caveat emptor** ('let the buyer beware', section 16): no implied condition of quality or fitness, except: fitness for purpose made known with reliance on seller's skill; merchantable quality in sale by description; usage of trade; fraud or misrepresentation by the seller; and sale by sample."
+        },
+        {
+          "heading": "Transfer of property and title",
+          "body": "Property passes when the parties intend (section 19). The rules in sections 20-24 decide intention when it is not clear:\n\n| Section | Goods | Property passes |\n| --- | --- | --- |\n| 20 | Specific, deliverable state, unconditional contract | When the contract is made, even if payment or delivery is postponed |\n| 21 | Specific, seller must do something to put them in deliverable state | When it is done and the buyer has notice |\n| 22 | Specific, deliverable, seller must weigh / measure / test to fix price | When that is done and the buyer has notice |\n| 23 | Unascertained or future | On unconditional appropriation of goods in deliverable state with the other party's assent |\n| 24 | On approval or sale or return | When buyer signifies approval, does an act adopting the transaction, or retains goods beyond the fixed / reasonable time |\n\nSection 18: no property passes in unascertained goods until they are ascertained. Section 26: risk prima facie passes with property.\n\n**Nemo dat quod non habet** (section 27): no one can give a better title than he has. Exceptions: sale by a mercantile agent in possession with owner's consent (proviso to section 27), estoppel, sale by a joint owner in sole possession (section 28), sale under a voidable contract not yet rescinded (section 29), seller in possession after sale (section 30(1)), buyer in possession before property passes (section 30(2)), and resale by an unpaid seller (section 54(3)). The buyer must act in good faith without notice."
+        },
+        {
+          "heading": "Unpaid seller and remedies",
+          "body": "Section 45: a seller is **unpaid** when the whole price has not been paid or tendered, or a bill of exchange or other negotiable instrument received as conditional payment has been dishonoured.\n\nRights against the goods (section 46):\n\n- **Lien** (sections 47-49): retain goods in his possession until paid. Lost on delivery to a carrier without reserving the right of disposal, when the buyer lawfully obtains possession, or by waiver. Not lost merely because he obtained a decree for the price.\n- **Stoppage in transit** (sections 50-52): when the buyer becomes **insolvent** and goods are in transit with a carrier.\n- **Resale** (section 54): if goods are perishable, or after notice of intention to resell and the buyer fails to pay in reasonable time. He may claim loss but keeps any profit only if he resold after notice.\n\nRights against the buyer personally: suit for price (section 55), damages for non-acceptance (section 56), repudiation before the due date (section 60), interest (section 61). Buyer's remedies: damages for non-delivery (section 57), specific performance (section 58), breach of warranty (section 59).\n\n**Auction** (section 64): each lot is a separate contract; sale is complete on the fall of the hammer; a bidder may retract before that; seller may reserve the right to bid if notified; employing a puffer without notice makes the sale voidable by the buyer."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Treating barter as sale. No money price, no sale.\n- Assuming risk follows delivery. It follows property (section 26) unless agreed otherwise.\n- Using lien when goods are with a carrier. Use stoppage in transit, which needs the buyer's insolvency.\n- Forgetting that caveat emptor applies only to quality and fitness, not to title.\n- In section 24 problems, check whether the buyer did an act adopting the transaction (pledging or selling the goods)."
+        }
+      ],
+      "keyPoints": [
+        "Section 4: sale (property passes now) vs agreement to sell (property passes later).",
+        "Condition breach = reject + damages; warranty breach = damages only (section 12). Section 13: condition may be treated as warranty.",
+        "Implied conditions: title 14(a), description 15, fitness 16(1), merchantability 16(2), sample 17.",
+        "Caveat emptor (section 16) with exceptions: purpose made known + reliance, sale by description, trade usage, fraud.",
+        "Property passes: sections 19-24; risk follows property (section 26); nemo dat (section 27) and its exceptions (27-30, 54(3)).",
+        "Unpaid seller (45): lien (47), stoppage in transit on buyer's insolvency (50), resale (54); auction (64)."
+      ],
+      "cases": [
+        {
+          "id": "ca-f-law-05-sale-of-goods-case1",
+          "title": "Case: Fresh Farms and the cold store",
+          "body": "Fresh Farms, a dealer in refrigeration equipment, sold a cold storage unit to Kavya Foods on credit. Kavya told Fresh Farms' salesman that the unit must keep 2 tonnes of dairy products at 4 degrees Celsius, and relied on his recommendation of a model. The unit was dispatched by a transport company on 10 August. On 12 August, while the unit was still with the carrier, Fresh Farms learnt that Kavya Foods had been admitted into insolvency proceedings and had not paid. Separately, Fresh Farms gave Kavya Foods two display freezers 'on approval for 10 days'; on day 4 Kavya Foods pledged both freezers with a bank for a loan."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-law-05-sale-of-goods-q01",
+          "type": "mcq",
+          "prompt": "Which of the following is NOT 'goods' under section 2(7) of the Sale of Goods Act, 1930?",
+          "options": [
+            "Shares of a company",
+            "Growing crops agreed to be severed before sale",
+            "Money in current use",
+            "A second-hand car"
+          ],
+          "answer": 2,
+          "explanation": "Section 2(7) excludes actionable claims and money. Stock and shares and growing crops are expressly included."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q02",
+          "type": "mcq",
+          "prompt": "A stipulation collateral to the main purpose of the contract, whose breach gives only a claim for damages, is a:",
+          "options": [
+            "Condition",
+            "Warranty",
+            "Guarantee",
+            "Representation"
+          ],
+          "answer": 1,
+          "explanation": "Section 12(3) defines warranty. Breach of a condition (section 12(2)) allows rejection of the goods."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q03",
+          "type": "mcq",
+          "prompt": "A contract for the sale of specific goods that, without the seller's knowledge, had perished when the contract was made is:",
+          "options": [
+            "Valid",
+            "Voidable",
+            "Void",
+            "Enforceable at the buyer's option"
+          ],
+          "answer": 2,
+          "explanation": "Section 7: such a contract is void."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q04",
+          "type": "mcq",
+          "prompt": "In an auction sale, the sale is complete:",
+          "options": [
+            "When the highest bid is made",
+            "On the fall of the hammer or in other customary manner",
+            "When the price is paid",
+            "When the goods are delivered"
+          ],
+          "answer": 1,
+          "explanation": "Section 64(2). Until the hammer falls, a bidder can retract his bid."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q05",
+          "type": "mcq",
+          "caseId": "ca-f-law-05-sale-of-goods-case1",
+          "prompt": "If the cold storage unit cannot keep the dairy products at 4 degrees, Kavya Foods can most strongly rely on:",
+          "options": [
+            "Caveat emptor",
+            "Implied condition of fitness for purpose under section 16(1)",
+            "Implied warranty of quiet possession",
+            "Section 64"
+          ],
+          "answer": 1,
+          "explanation": "Kavya made the particular purpose known and relied on the seller's skill; Fresh Farms deals in such goods. Section 16(1) implies a condition of fitness, an exception to caveat emptor."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q06",
+          "type": "mcq",
+          "caseId": "ca-f-law-05-sale-of-goods-case1",
+          "prompt": "What right can Fresh Farms exercise over the unit on 12 August?",
+          "options": [
+            "Lien, since it is unpaid",
+            "Stoppage in transit, since the buyer is insolvent and the goods are with a carrier",
+            "No right, since property has passed",
+            "Resale without any notice"
+          ],
+          "answer": 1,
+          "explanation": "Lien needs the seller to be in possession; that was lost on delivery to the carrier. Sections 50-52 allow an unpaid seller to stop goods in transit when the buyer becomes insolvent."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q07",
+          "type": "mcq",
+          "caseId": "ca-f-law-05-sale-of-goods-case1",
+          "prompt": "When did property in the display freezers pass to Kavya Foods?",
+          "options": [
+            "On delivery on approval",
+            "On day 4, when Kavya pledged them, as an act adopting the transaction",
+            "Only on day 10",
+            "Never, because they were on approval"
+          ],
+          "answer": 1,
+          "explanation": "Section 24(a): property passes when the buyer signifies approval or does any other act adopting the transaction. Pledging the goods is such an act."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q08",
+          "type": "truefalse",
+          "prompt": "Under section 26, unless otherwise agreed, risk passes with the property in goods, whether delivery has been made or not.",
+          "answer": true,
+          "explanation": "Section 26: goods remain at the seller's risk until property passes; thereafter at the buyer's risk, whether delivered or not."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q09",
+          "type": "truefalse",
+          "prompt": "An unpaid seller loses his lien as soon as he obtains a decree for the price.",
+          "answer": false,
+          "explanation": "Section 49(2): the unpaid seller does not lose his lien merely because he has obtained a decree for the price."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q10",
+          "type": "multi",
+          "prompt": "Which are exceptions to the rule nemo dat quod non habet?",
+          "options": [
+            "Sale by a mercantile agent in possession with the owner's consent",
+            "Sale by a person with voidable title before the contract is rescinded",
+            "Sale by a thief to a good faith buyer",
+            "Sale by a seller in possession after sale"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Proviso to section 27, section 29 and section 30(1). A thief has no title, so a buyer from a thief gets none even in good faith."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: The doctrine 'let the buyer beware' is known as caveat ___.",
+          "accept": [
+            "emptor"
+          ],
+          "explanation": "Caveat emptor, in section 16: the buyer must examine the goods; there is no implied condition of quality or fitness except as provided."
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q12",
+          "type": "interview",
+          "prompt": "Explain the doctrine of caveat emptor and its exceptions.",
+          "answer": "- Meaning: 'let the buyer beware'. Section 16 provides that there is no implied condition or warranty as to quality or fitness of goods for any particular purpose. The buyer must satisfy himself.\n- Exceptions:\n- Fitness for purpose: buyer makes the purpose known, relies on the seller's skill, and the goods are of a description the seller deals in (section 16(1)).\n- Merchantable quality: goods bought by description from a dealer in such goods; if the buyer examined them, no condition as to defects examination ought to have revealed (section 16(2)).\n- Usage of trade may annex a condition (section 16(3)).\n- Sale by sample (section 17) and by sample and description (section 15).\n- Seller's fraud or misrepresentation, or active concealment of defects.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q13",
+          "type": "interview",
+          "prompt": "Distinguish between a sale and an agreement to sell.",
+          "answer": "| Basis | Sale | Agreement to sell |\n| --- | --- | --- |\n| Property | Passes immediately | Passes at a future time or on a condition |\n| Nature | Executed contract | Executory contract |\n| Risk | With the buyer (risk follows property, section 26) | With the seller |\n| Remedy of seller on breach | Suit for price (section 55) | Damages for non-acceptance (section 56) |\n| Buyer's insolvency before payment | Ownership is with the buyer; unpaid seller has only rights of lien, stoppage in transit and resale | Seller may refuse to deliver unless paid |\n| Right to resell | Seller cannot resell, except as unpaid seller | Seller may resell, liable for damages |\n| Goods | Existing and specific or ascertained | Can be future or contingent |"
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q14",
+          "type": "interview",
+          "prompt": "Anil bought a car from Bunty, who had stolen it from Chirag. Anil paid full price in good faith. Chirag traces the car and demands it back. Anil argues that he was a bona fide purchaser for value. Decide with reasons.",
+          "answer": "- Provision: section 27 - where goods are sold by a person who is not the owner and does not sell under the owner's authority, the buyer acquires no better title than the seller had (nemo dat quod non habet).\n- Exceptions (mercantile agent, joint owner, voidable title, seller or buyer in possession, unpaid seller's resale, estoppel) need the seller to have some title or the owner's consent.\n- Facts: Bunty is a thief; he had no title and no authority from Chirag. None of the exceptions apply.\n- Conclusion: Anil acquires no title despite his good faith. Chirag can recover the car. Anil's remedy is against Bunty for breach of the implied condition as to title (section 14(a)).",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-05-sale-of-goods-q15",
+          "type": "interview",
+          "prompt": "Who is an unpaid seller? Explain his rights against the goods.",
+          "answer": "- Section 45: a seller is unpaid when the whole price has not been paid or tendered, or when a bill of exchange or other negotiable instrument received as conditional payment is dishonoured. Includes an agent of the seller in the seller's position.\n- Rights against goods (section 46):\n- **Lien** (sections 47-49): retain goods in possession until the price is paid, where goods are sold without credit, credit has expired, or the buyer becomes insolvent. Lost by delivery to a carrier without reserving disposal, by the buyer lawfully obtaining possession, or by waiver.\n- **Stoppage in transit** (sections 50-52): on the buyer's insolvency, resume possession while goods are with a carrier.\n- **Resale** (section 54): of perishable goods, or after notice to the buyer; recover loss from the buyer.\n- Where property has not passed, a right of **withholding delivery**, similar to lien and stoppage."
+        }
+      ],
+      "resources": [
+        {
+          "title": "India Code: Central Acts",
+          "url": "https://www.indiacode.nic.in/"
+        },
+        {
+          "title": "ICAI Board of Studies",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-law-06-partnership",
+      "title": "The Indian Partnership Act, 1932",
+      "level": "intermediate",
+      "summary": "Nature of partnership, rights and liabilities of partners, minor as partner, registration, and dissolution of a firm.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Indian Partnership Act, 1932 as amended up to 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Nature of partnership",
+          "body": "Section 4: partnership is the relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all. Persons are individually **partners** and collectively a **firm**; the name is the **firm name**.\n\nEssentials:\n\n- **Agreement** (written or oral): partnership arises from contract, not status (section 5). Members of a Hindu Undivided Family are not partners by status.\n- **Business** (section 2(b) includes every trade, occupation and profession).\n- **Sharing of profits**. Sharing of losses is implied but not essential to the definition.\n- **Mutual agency**: business carried on by all or any of them acting for all. This is the real test (section 6: regard is had to the real relation, shown by all relevant facts).\n\nSharing profits alone is not conclusive: a lender receiving interest varying with profits, a servant paid a share of profits, the widow or child of a deceased partner receiving an annuity, and a seller of goodwill receiving a share of profits are not partners merely by that (section 6 Explanation 2).\n\nKinds: **partnership at will** (section 7, no fixed term), **particular partnership** (section 8, a single venture). A firm is not a legal entity separate from its partners."
+        },
+        {
+          "heading": "Rights, duties and authority",
+          "body": "Mutual rights are governed by the partnership deed; subject to it, section 13 provides:\n\n| Clause | Default rule |\n| --- | --- |\n| 13(a) | No remuneration for taking part in the business |\n| 13(b) | Profits and losses shared equally |\n| 13(c) | Interest on capital, if agreed, payable only out of profits |\n| 13(d) | Interest on advances beyond capital at 6% per annum |\n| 13(e) | Indemnity for payments and liabilities in the ordinary and proper conduct of business or in an emergency |\n| 13(f) | Partner must indemnify the firm for loss caused by his wilful neglect |\n\nOther rights: take part in business (section 12(a)), be consulted, have access to books (section 12(d)). Ordinary matters are decided by majority; a change in the nature of business needs consent of all (section 12(c)).\n\n**Implied authority** (section 19): every partner is an agent of the firm (section 18); an act done in the usual way to carry on business of the kind binds the firm. Unless usage or custom permits, implied authority does **not** extend to (section 19(2)):\n\n- submit a dispute to arbitration;\n- open a bank account in his own name on the firm's behalf;\n- compromise or relinquish a claim of the firm;\n- withdraw a suit filed by the firm;\n- admit liability in a suit against the firm;\n- acquire or transfer immovable property of the firm;\n- enter into partnership on the firm's behalf.\n\nSection 25: every partner is liable **jointly and severally** for all acts of the firm while he is a partner. Section 28: **holding out** - a person who represents himself, or knowingly allows himself to be represented, as a partner is liable to those who gave credit on that basis."
+        },
+        {
+          "heading": "Minor, incoming and outgoing partners",
+          "body": "**Minor** (section 30): cannot be a partner, but may be admitted to the **benefits** of partnership with the consent of all partners.\n\n- He shares profits and property, and may inspect and copy accounts.\n- His liability is limited to his share in the firm; he is not personally liable.\n- Within **six months** of attaining majority, or of knowing he was admitted to benefits, whichever is later, he must give public notice whether he elects to become or not to become a partner. If he gives no notice, he becomes a partner on expiry of the six months.\n- If he becomes a partner, he is personally liable for all acts of the firm since he was admitted to benefits.\n\n**Incoming partner** (section 31): needs consent of all existing partners; not liable for acts before he joined. **Retirement** (section 32): with consent, by agreement, or by notice in a partnership at will; the retiring partner remains liable to third parties until **public notice** is given. **Expulsion** (section 33): only if the deed confers the power and it is exercised in good faith."
+        },
+        {
+          "heading": "Registration and dissolution",
+          "body": "Registration is **not compulsory**, but section 69 penalises non-registration:\n\n- A partner of an unregistered firm cannot sue the firm or other partners to enforce a right from the contract or the Act.\n- An unregistered firm cannot sue a third party to enforce a contract.\n- The firm cannot claim a set-off above ₹100 or other proceeding to enforce a contract right.\n- Exceptions: suit for dissolution, accounts or share of property of a dissolved firm; third parties can still sue the firm; rights of the official assignee; firms without a place of business in the territories to which the Act extends.\n\nApplication to the Registrar of Firms (section 58) states the firm name, principal place of business, other places, names and addresses of partners, date of joining, and duration.\n\n**Dissolution of the firm** (ends relation among all partners) differs from dissolution of partnership (change in relation).\n\n- By agreement (section 40).\n- **Compulsory** (section 41): insolvency of all partners or all but one; business becomes unlawful.\n- On contingencies (section 42), subject to contract: expiry of the term; completion of the venture; death of a partner; insolvency of a partner.\n- By notice, in a partnership at will (section 43).\n- **By the court** (section 44): partner of unsound mind; permanent incapacity; misconduct affecting business; persistent breach of agreement; transfer of whole interest; business can be carried on only at a loss; just and equitable ground.\n\nSettlement of accounts (section 48): losses paid first from profits, then capital, then partners individually in their profit-sharing ratio. Assets are applied to pay third-party debts, then partners' advances, then capital, and the residue divided in profit-sharing ratio."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Saying a firm is a legal person. It is not; partners are personally liable.\n- Saying registration is compulsory. It is optional; section 69 imposes disabilities.\n- Treating profit sharing as conclusive proof of partnership. Mutual agency is the test.\n- Forgetting the six-month election rule for a minor admitted to benefits.\n- Writing that the death of a partner always dissolves the firm. Section 42 applies 'subject to contract between the partners'."
+        }
+      ],
+      "keyPoints": [
+        "Section 4: agreement + business + sharing profits + mutual agency. Partnership arises from contract, not status (section 5).",
+        "Section 13 defaults: no salary, equal profits, interest on capital only from profits if agreed, 6% on advances.",
+        "Section 19(2): no implied authority to arbitrate, compromise, withdraw suit, admit liability, deal in immovable property, open account in own name, enter partnership.",
+        "Liability joint and several (section 25); holding out (section 28).",
+        "Minor admitted to benefits (section 30): elect within 6 months of majority or knowledge, whichever is later.",
+        "Registration optional; section 69 disabilities. Dissolution: sections 40-44; settlement under section 48."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-law-06-partnership-q01",
+          "type": "mcq",
+          "prompt": "The true test of the existence of a partnership is:",
+          "options": [
+            "Sharing of profits",
+            "Joint ownership of property",
+            "Mutual agency",
+            "Registration with the Registrar of Firms"
+          ],
+          "answer": 2,
+          "explanation": "Sharing of profits is only evidence. Section 6 looks at the real relation; the business being carried on by all or any acting for all (mutual agency) is the decisive test."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q02",
+          "type": "mcq",
+          "prompt": "In the absence of an agreement, interest on advances made by a partner beyond his capital is payable at:",
+          "options": [
+            "No interest",
+            "6% per annum",
+            "9% per annum",
+            "12% per annum"
+          ],
+          "answer": 1,
+          "explanation": "Section 13(d) provides 6% per annum on advances beyond agreed capital."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q03",
+          "type": "mcq",
+          "prompt": "Which act is within the implied authority of a partner of a trading firm?",
+          "options": [
+            "Submitting a dispute of the firm to arbitration",
+            "Buying goods of the kind the firm deals in, on credit",
+            "Transferring immovable property of the firm",
+            "Withdrawing a suit filed by the firm"
+          ],
+          "answer": 1,
+          "explanation": "Buying stock in trade is done in the usual way of business (section 19(1)). The others are excluded by section 19(2)."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q04",
+          "type": "mcq",
+          "prompt": "A minor admitted to the benefits of a firm must elect whether to become a partner within:",
+          "options": [
+            "30 days of attaining majority",
+            "Three months of attaining majority",
+            "Six months of attaining majority or of knowing of his admission, whichever is later",
+            "One year of attaining majority"
+          ],
+          "answer": 2,
+          "explanation": "Section 30(5). If he does not give public notice, he becomes a partner on expiry of the period."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q05",
+          "type": "mcq",
+          "prompt": "Dissolution of a firm on the business becoming unlawful is:",
+          "options": [
+            "Dissolution by agreement",
+            "Compulsory dissolution under section 41",
+            "Dissolution by notice under section 43",
+            "Dissolution by the court under section 44"
+          ],
+          "answer": 1,
+          "explanation": "Section 41: a firm is compulsorily dissolved by the insolvency of all or all but one partner, or by an event making the business unlawful."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q06",
+          "type": "mcq",
+          "prompt": "A person who represents himself as a partner, and is relied on by a creditor, is liable as a partner under the doctrine of:",
+          "options": [
+            "Indoor management",
+            "Holding out",
+            "Constructive notice",
+            "Ultra vires"
+          ],
+          "answer": 1,
+          "explanation": "Section 28: partnership by holding out or estoppel."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q07",
+          "type": "mcq",
+          "prompt": "Which of these can an unregistered firm still do despite section 69?",
+          "options": [
+            "Sue a customer to recover the price of goods sold",
+            "File a suit for dissolution of the firm and accounts",
+            "Claim a set-off of ₹50,000 in a suit by a customer",
+            "Sue a partner to enforce a right under the deed while the firm continues"
+          ],
+          "answer": 1,
+          "explanation": "Section 69(3) saves a suit for dissolution, accounts or realisation of property of a dissolved firm."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q08",
+          "type": "truefalse",
+          "prompt": "Registration of a partnership firm is compulsory under the Indian Partnership Act, 1932.",
+          "answer": false,
+          "explanation": "Registration is optional, but an unregistered firm and its partners suffer the disabilities in section 69."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q09",
+          "type": "truefalse",
+          "prompt": "Members of a Hindu Undivided Family carrying on a family business are partners by status.",
+          "answer": false,
+          "explanation": "Section 5: partnership arises from contract and not from status. HUF members carrying on family business are not partners."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q10",
+          "type": "multi",
+          "prompt": "Under section 44, on which grounds may the court dissolve a firm on a partner's suit?",
+          "options": [
+            "A partner has become of unsound mind",
+            "The business can only be carried on at a loss",
+            "A partner has transferred his whole interest to a third party",
+            "A partner took a week's leave"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Section 44 lists unsound mind, permanent incapacity, misconduct, persistent breach, transfer of whole interest, perpetual losses and just and equitable grounds. Brief leave is not a ground."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: Where no provision is made for the duration of the partnership or its determination, it is a partnership at ___.",
+          "accept": [
+            "will"
+          ],
+          "explanation": "Section 7. Such a partnership can be dissolved by any partner giving written notice to all others (section 43)."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q12",
+          "type": "interview",
+          "prompt": "Explain the essential elements of a partnership. Is sharing of profits conclusive evidence of partnership?",
+          "answer": "- Section 4: relation between persons who have agreed to share profits of a business carried on by all or any of them acting for all.\n- Elements: (1) at least two persons; (2) an agreement, express or implied (partnership arises from contract, not status - section 5); (3) a business; (4) sharing of profits; (5) mutual agency.\n- Sharing of profits is not conclusive. Section 6 directs that the real relation be seen from all facts. A lender whose interest varies with profits, a servant paid a share of profits, a deceased partner's widow or child receiving a share, and a seller of goodwill receiving a share of profits are not partners by that fact alone.\n- Mutual agency is the true test (Cox v. Hickman).",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-06-partnership-q13",
+          "type": "interview",
+          "prompt": "Explain the consequences of non-registration of a partnership firm.",
+          "answer": "Section 69 disabilities:\n\n- A partner of an unregistered firm cannot sue the firm or any partner to enforce a right arising from a contract or conferred by the Act.\n- The firm cannot sue any third party to enforce a contract right.\n- The firm cannot claim a set-off exceeding ₹100 or other proceeding to enforce a contract right.\n\nExceptions (section 69(3) and (4)): suit for dissolution, accounts or realisation of property of a dissolved firm; powers of an official assignee or receiver; firms with no place of business in the territories to which the Act extends; suits or set-offs up to ₹100 in value; rights not arising from contract (e.g. tort). Third parties can always sue the unregistered firm.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-06-partnership-q14",
+          "type": "interview",
+          "prompt": "Arun, Bina and Chetan are partners in a firm dealing in textiles. Without consulting the others, Arun (a) bought cloth worth ₹4,00,000 on credit for the firm and (b) compromised a claim of ₹3,00,000 that the firm had against a customer for ₹1,50,000. Is the firm bound? Decide with reasons.",
+          "answer": "- Provision: section 18 - a partner is an agent of the firm. Section 19(1) - his act done to carry on, in the usual way, business of the kind carried on by the firm binds the firm. Section 19(2) - in the absence of usage or custom, implied authority does not extend to compromising or relinquishing any claim of the firm.\n- (a) Buying cloth on credit is usual in a textile business; the firm is bound and all partners are jointly and severally liable (section 25).\n- (b) Compromising a claim is outside implied authority under section 19(2)(c). Unless Bina and Chetan ratify or a trade custom allows it, the firm is not bound by the compromise.\n- Conclusion: the firm is bound by (a) but not by (b)."
+        },
+        {
+          "id": "ca-f-law-06-partnership-q15",
+          "type": "interview",
+          "prompt": "State the rights and liabilities of a minor admitted to the benefits of partnership, before and after attaining majority.",
+          "answer": "Section 30.\n\n- Before majority: may be admitted to benefits with consent of all partners; entitled to agreed share of profits and property; may inspect and copy accounts; may sue for accounts and share only when severing connection; liability limited to his share in the firm, no personal liability.\n- On majority: within 6 months of attaining majority or of knowing of admission, whichever is later, he must give public notice of his election.\n- If he elects to become a partner (or gives no notice): he is personally liable for all acts of the firm since his admission to benefits; his share is as agreed.\n- If he elects not to become a partner: his rights and liabilities remain those of a minor up to the notice; his share is not liable for acts after the notice; he can sue partners for his share."
+        }
+      ],
+      "resources": [
+        {
+          "title": "India Code: Central Acts",
+          "url": "https://www.indiacode.nic.in/"
+        },
+        {
+          "title": "ICAI Board of Studies",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-law-07-llp",
+      "title": "The Limited Liability Partnership Act, 2008",
+      "level": "intermediate",
+      "summary": "Nature of an LLP, partners and designated partners, incorporation, liability, and comparison with a firm and a company.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "LLP Act, 2008 as amended by the LLP (Amendment) Act, 2021, up to 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "What an LLP is",
+          "body": "A **Limited Liability Partnership** is a **body corporate** formed and incorporated under the LLP Act, 2008. It is a **legal entity separate from its partners** with **perpetual succession** (section 3). It combines the flexibility of a partnership (internal affairs governed by an agreement) with the limited liability of a company.\n\nFeatures:\n\n- Separate legal entity: can own property, sue and be sued in its own name (section 14).\n- Perpetual succession: change in partners does not affect its existence or liabilities.\n- **Limited liability**: a partner is not personally liable for an obligation of the LLP solely because he is a partner (section 28). He is liable for his own wrongful acts.\n- Mutual agency is limited: every partner is an agent of the **LLP**, but not of other partners (section 26).\n- Governed by the **LLP agreement** (section 23); where there is none, or on matters it does not cover, the **First Schedule** applies.\n- No maximum number of partners.\n- The Indian Partnership Act, 1932 does **not** apply to an LLP (section 4).\n- Name must end with 'Limited Liability Partnership' or 'LLP' (section 15)."
+        },
+        {
+          "heading": "Partners and designated partners",
+          "body": "- **Partners** (section 5): any individual or body corporate may be a partner, subject to disqualifications (e.g. unsound mind, undischarged insolvent).\n- **Minimum partners** (section 6): at least two. If the number falls below two and the LLP carries on business for **more than six months**, the person who is the only partner, and knows this, is **personally liable** for obligations incurred during that period.\n- **Designated partners** (section 7): at least **two**, who must be **individuals**, and at least **one** must be **resident in India**. Where all partners are bodies corporate, each body corporate nominates an individual. Resident in India means a person who has stayed in India for not less than **120 days** during the financial year (after the 2021 amendment; earlier 182 days).\n- Designated partners are responsible for compliance with the Act, filings and penalties (section 8).\n\nIncorporation (sections 11-12): two or more persons associated for carrying on a lawful business with a view to profit subscribe their names to an **incorporation document** and file it with the **Registrar**. On registration, the Registrar issues a **certificate of incorporation**, which is conclusive evidence of incorporation."
+        },
+        {
+          "heading": "Liability, compliance and conversion",
+          "body": "- **Liability of LLP** (section 27): the LLP is liable for a partner's wrongful act or omission in the course of business or with its authority; not liable where the partner had no authority and the other party knew it.\n- **Unlimited liability for fraud** (section 30): where an act is done to defraud creditors or for a fraudulent purpose, the LLP and the partners who acted with that intent have unlimited liability.\n- **Contribution** (section 32): may be tangible, intangible, money, promissory notes, agreements to contribute cash or property, or services.\n- **Books and filings** (section 34, 35): proper books, an annual **Statement of Account and Solvency**, and an **annual return** filed with the Registrar. Audit as prescribed (small LLPs below prescribed limits have lighter requirements).\n- **Conversion into an LLP**: from a partnership firm (section 55, Second Schedule), a private company (section 56, Third Schedule), and an unlisted public company (section 57, Fourth Schedule).\n- **Winding up**: voluntary or by the Tribunal (sections 63-64).\n\nComparison:\n\n| Basis | Partnership firm | LLP | Company |\n| --- | --- | --- | --- |\n| Governing Act | Partnership Act, 1932 | LLP Act, 2008 | Companies Act, 2013 |\n| Legal entity | No | Yes, body corporate | Yes |\n| Liability | Unlimited, joint and several | Limited to agreed contribution (except fraud) | Limited by shares / guarantee (unless unlimited company) |\n| Registration | Optional | Compulsory | Compulsory |\n| Partners / members | Minimum 2, maximum 50 (prescribed under the Companies Act, 2013) | Minimum 2, no maximum | Private: 2 to 200; public: minimum 7 |\n| Mutual agency | Each partner agent of firm and others | Partner agent of LLP only | Members are not agents |\n| Internal governance | Partnership deed | LLP agreement / First Schedule | MoA, AoA, Board |"
+        },
+        {
+          "heading": "Exam tips and common mistakes",
+          "body": "- Write 'body corporate' and 'separate legal entity' in any LLP definition answer.\n- Minimum two partners and minimum two designated partners are different rules. Designated partners must be individuals; partners may be bodies corporate.\n- The six-month rule of section 6 creates **personal** liability only for the partner who knows he is the sole partner.\n- Do not apply the Partnership Act to an LLP.\n- A partner of an LLP is not liable for another partner's wrongful act, but the LLP is."
+        }
+      ],
+      "keyPoints": [
+        "LLP: body corporate, separate legal entity, perpetual succession (section 3); Partnership Act does not apply (section 4).",
+        "Minimum 2 partners; below 2 for more than 6 months - sole partner who knows is personally liable (section 6).",
+        "Minimum 2 designated partners, individuals, at least 1 resident in India (120 days in the financial year) (section 7).",
+        "Partner is agent of the LLP, not of other partners (section 26); not personally liable solely as partner (section 28).",
+        "Fraud: unlimited liability of LLP and partners concerned (section 30).",
+        "Conversion: firm (section 55), private company (56), unlisted public company (57)."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-law-07-llp-q01",
+          "type": "mcq",
+          "prompt": "An LLP is:",
+          "options": [
+            "An association of persons without legal status",
+            "A body corporate and a legal entity separate from its partners",
+            "A registered partnership firm under the 1932 Act",
+            "A private company limited by guarantee"
+          ],
+          "answer": 1,
+          "explanation": "Section 3 of the LLP Act, 2008: an LLP is a body corporate, separate from its partners, with perpetual succession."
+        },
+        {
+          "id": "ca-f-law-07-llp-q02",
+          "type": "mcq",
+          "prompt": "The minimum number of designated partners in an LLP is:",
+          "options": [
+            "One",
+            "Two",
+            "Three",
+            "Seven"
+          ],
+          "answer": 1,
+          "explanation": "Section 7: at least two designated partners who are individuals, at least one of whom is resident in India."
+        },
+        {
+          "id": "ca-f-law-07-llp-q03",
+          "type": "mcq",
+          "prompt": "For section 7 of the LLP Act, a 'resident in India' is a person who has stayed in India during the financial year for not less than:",
+          "options": [
+            "60 days",
+            "120 days",
+            "182 days",
+            "240 days"
+          ],
+          "answer": 1,
+          "explanation": "The LLP (Amendment) Act, 2021 reduced the requirement from 182 days to 120 days in the financial year."
+        },
+        {
+          "id": "ca-f-law-07-llp-q04",
+          "type": "mcq",
+          "prompt": "Where matters are not provided for in the LLP agreement, mutual rights and duties are governed by:",
+          "options": [
+            "The Indian Partnership Act, 1932",
+            "Table F of the Companies Act, 2013",
+            "The First Schedule to the LLP Act, 2008",
+            "The Registrar's discretion"
+          ],
+          "answer": 2,
+          "explanation": "Section 23(4): in the absence of agreement on a matter, the First Schedule applies."
+        },
+        {
+          "id": "ca-f-law-07-llp-q05",
+          "type": "mcq",
+          "prompt": "Every partner of an LLP is, for the purpose of the business of the LLP, the agent of:",
+          "options": [
+            "The LLP and all other partners",
+            "The LLP but not of other partners",
+            "Other partners but not the LLP",
+            "Only the designated partners"
+          ],
+          "answer": 1,
+          "explanation": "Section 26. This is a key difference from a firm, where each partner is an agent of the firm and of the other partners."
+        },
+        {
+          "id": "ca-f-law-07-llp-q06",
+          "type": "mcq",
+          "prompt": "A private company is converted into an LLP under:",
+          "options": [
+            "Section 55 and the Second Schedule",
+            "Section 56 and the Third Schedule",
+            "Section 57 and the Fourth Schedule",
+            "Section 23 and the First Schedule"
+          ],
+          "answer": 1,
+          "explanation": "Section 55 covers firms, section 56 private companies and section 57 unlisted public companies."
+        },
+        {
+          "id": "ca-f-law-07-llp-q07",
+          "type": "mcq",
+          "prompt": "Where an LLP carries on business with intent to defraud creditors, liability is:",
+          "options": [
+            "Limited to the contribution of each partner",
+            "Unlimited for the LLP and the partners who acted with that intent",
+            "Only on the designated partners",
+            "Only on the LLP"
+          ],
+          "answer": 1,
+          "explanation": "Section 30: the LLP and the partners who acted with intent to defraud have unlimited liability for the debts and obligations concerned."
+        },
+        {
+          "id": "ca-f-law-07-llp-q08",
+          "type": "truefalse",
+          "prompt": "A body corporate can be a partner of an LLP but cannot itself be a designated partner.",
+          "answer": true,
+          "explanation": "Section 5 allows a body corporate as partner. Section 7 requires designated partners to be individuals; a body corporate partner nominates an individual to act as designated partner."
+        },
+        {
+          "id": "ca-f-law-07-llp-q09",
+          "type": "truefalse",
+          "prompt": "The Indian Partnership Act, 1932 applies to an LLP for matters not covered by the LLP agreement.",
+          "answer": false,
+          "explanation": "Section 4 of the LLP Act excludes the Partnership Act. The First Schedule to the LLP Act fills gaps."
+        },
+        {
+          "id": "ca-f-law-07-llp-q10",
+          "type": "multi",
+          "prompt": "Which statements about an LLP are correct?",
+          "options": [
+            "It has perpetual succession",
+            "There is no maximum limit on the number of partners",
+            "Registration is optional",
+            "It can own property in its own name"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "An LLP comes into existence only on registration (section 12), so registration is compulsory. The rest are correct."
+        },
+        {
+          "id": "ca-f-law-07-llp-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: The document filed with the Registrar to incorporate an LLP is called the ___ document.",
+          "accept": [
+            "incorporation"
+          ],
+          "explanation": "Section 11: two or more persons subscribe their names to an incorporation document and file it with the Registrar."
+        },
+        {
+          "id": "ca-f-law-07-llp-q12",
+          "type": "interview",
+          "prompt": "Distinguish between an LLP and a partnership firm.",
+          "answer": "| Basis | LLP | Partnership firm |\n| --- | --- | --- |\n| Act | LLP Act, 2008 | Indian Partnership Act, 1932 |\n| Legal status | Body corporate, separate legal entity | Not a separate legal entity |\n| Liability | Limited to agreed contribution, except fraud | Unlimited, joint and several |\n| Registration | Compulsory | Optional (section 69 disabilities) |\n| Agency | Partner is agent of LLP only | Partner is agent of firm and other partners |\n| Succession | Perpetual | Affected by death or insolvency, subject to contract |\n| Maximum partners | No limit | 50 (prescribed under the Companies Act, 2013) |\n| Property | Owned by the LLP | Owned by partners jointly |\n| Compliance | Annual return and statement of account and solvency | Minimal |",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-07-llp-q13",
+          "type": "interview",
+          "prompt": "P and Q were the only partners of PQ LLP. Q died on 1 April 2026. P continued the business alone and, on 15 November 2026, the LLP took a loan from a bank. The LLP defaults. The bank seeks to make P personally liable. Decide with reasons.",
+          "answer": "- Provision: section 6 - every LLP must have at least two partners. If the number falls below two and the LLP carries on business for more than six months while so reduced, the person who is the only partner during the time beyond six months, and who knows that it carries on business with him alone, is liable personally for the obligations of the LLP incurred during that period.\n- Facts: partners reduced to one on 1 April 2026; the six-month period ended on 30 September 2026. The loan was taken on 15 November 2026, after six months. P knew he was the sole partner.\n- Conclusion: P is personally liable to the bank for the loan, along with the LLP. Obligations incurred before the six months expired are the LLP's alone.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-07-llp-q14",
+          "type": "interview",
+          "prompt": "Explain the provisions relating to designated partners of an LLP.",
+          "answer": "- Section 7: every LLP must have at least two designated partners who are individuals, and at least one must be resident in India (stayed in India for at least 120 days during the financial year).\n- If all partners are bodies corporate, or some are individuals and some bodies corporate, at least two individuals who are partners, or nominees of body corporate partners, act as designated partners.\n- Designated partners are named in the incorporation document or become so with the consent of partners as per the LLP agreement; every partner may be a designated partner if the agreement so provides.\n- They must give prior consent and obtain an identification number as prescribed.\n- Section 8: they are responsible for doing all acts required for compliance with the Act, including filing documents, returns and statements, and are liable to penalties imposed on the LLP for contravention."
+        }
+      ],
+      "resources": [
+        {
+          "title": "Ministry of Corporate Affairs",
+          "url": "https://www.mca.gov.in/"
+        },
+        {
+          "title": "India Code: Central Acts",
+          "url": "https://www.indiacode.nic.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-law-08-companies",
+      "title": "The Companies Act, 2013: Basics",
+      "level": "advanced",
+      "summary": "Nature and kinds of companies, incorporation, MoA and AoA, the doctrines of ultra vires, constructive notice and indoor management, and lifting the corporate veil.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Companies Act, 2013 as amended up to 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Nature of a company",
+          "body": "Section 2(20): a company is a company incorporated under the Companies Act, 2013 or any previous company law. It is an artificial person created by law.\n\nCharacteristics:\n\n- **Separate legal entity**: distinct from its members. **Salomon v. Salomon & Co. Ltd. (1897)**: Salomon sold his business to a company in which he held almost all shares and was also a secured creditor. On winding up, the House of Lords held that the company was a different person from Salomon, so he was entitled to be paid as a secured creditor ahead of unsecured creditors.\n- **Limited liability**: members are liable only to the extent of unpaid amount on shares or the guarantee.\n- **Perpetual succession**: members may come and go, the company continues.\n- **Separate property**: company's property belongs to it, not to members.\n- **Transferability of shares** (restricted in a private company).\n- **Common seal**: optional since the 2015 amendment.\n- **Capacity to sue and be sued** in its own name."
+        },
+        {
+          "heading": "Kinds of companies",
+          "body": "| Basis | Kind | Section |\n| --- | --- | --- |\n| Liability | Limited by shares | 2(22) |\n| Liability | Limited by guarantee | 2(21) |\n| Liability | Unlimited company | 2(92) |\n| Members | Private company | 2(68) |\n| Members | Public company | 2(71) |\n| Members | One Person Company | 2(62) |\n| Control | Holding and subsidiary | 2(46), 2(87) |\n| Control | Associate company (significant influence: at least 20% of total voting power, or control of business decisions under an agreement) | 2(6) |\n| Ownership | Government company (at least 51% of paid-up share capital held by Central / State Government(s)) | 2(45) |\n| Others | Section 8 company (charitable objects, profits applied to objects, no dividend) | 8 |\n| Others | Foreign company | 2(42) |\n| Others | Listed company | 2(52) |\n| Others | Small company (paid-up capital and turnover within prescribed limits; not public, section 8 or holding / subsidiary) | 2(85) |\n| Others | Dormant company | 455 |\n\n**Private company** (section 2(68)): by its articles (i) restricts the right to transfer shares, (ii) limits members to **200** (except an OPC), excluding present and former employee-members, and joint holders counted as one, and (iii) prohibits invitation to the public to subscribe for securities.\n\n**Public company** (section 2(71)): not a private company. A **subsidiary of a public company** is deemed public even if its articles say private.\n\nMinimum members to form a company (section 3): **7** for public, **2** for private, **1** for OPC. Section 3A: if members fall below the minimum and the company carries on business for more than six months, every member aware of it is **severally liable** for debts contracted after those six months.\n\n**OPC**: only a natural person who is an Indian citizen and resident in India may form it, and must name a nominee."
+        },
+        {
+          "heading": "Incorporation, MoA and AoA",
+          "body": "**Incorporation** (section 7): file with the Registrar the MoA and AoA signed by subscribers, a declaration of compliance by a professional engaged in formation or a director / manager / secretary, declarations by subscribers and first directors, address for correspondence, particulars of subscribers and first directors, and their consent. The Registrar issues a **certificate of incorporation** with a Corporate Identity Number (CIN). Section 7(7): if a company was incorporated by furnishing false information, the Tribunal may pass orders including making members' liability unlimited, removing the name, or winding up.\n\nSection 9: from the date of incorporation the company is a body corporate with perpetual succession, capable of holding property, contracting and suing. Section 12: registered office within **30 days** of incorporation.\n\n**Memorandum of Association** (section 4) is the charter; it defines the company's relation with outsiders. Clauses:\n\n- **Name** clause: ending with 'Limited' (public) or 'Private Limited' (private).\n- **Registered office** clause: the State.\n- **Objects** clause.\n- **Liability** clause.\n- **Capital** clause (company with share capital).\n- **Subscription / association** clause; for an OPC, the **nominee** clause.\n\nAlteration: section 13, generally by special resolution, with approvals where required.\n\n**Articles of Association** (section 5): rules for internal management; subordinate to the MoA and the Act (section 6 - the Act overrides MoA and AoA). Model forms are in Schedule I (Table F for a company limited by shares). Alteration by **special resolution** (section 14). **Entrenchment** provisions may require more restrictive procedures (section 5(3)). Section 10: MoA and AoA bind the company and members as if signed by each member."
+        },
+        {
+          "heading": "Doctrines: ultra vires, constructive notice, indoor management",
+          "body": "**Ultra vires**: an act beyond the objects of the MoA is ultra vires the company and **void**; it cannot be ratified even by all members. **Ashbury Railway Carriage and Iron Co. Ltd. v. Riche (1875)**. Acts ultra vires the directors but intra vires the company can be ratified by members.\n\n**Constructive notice**: the MoA and AoA are public documents registered with the Registrar. Every person dealing with the company is deemed to know their contents. An outsider cannot plead ignorance of a restriction in them.\n\n**Indoor management**: an outsider dealing in good faith is entitled to assume that the company's **internal procedures** (meetings, quorum, resolutions) have been properly complied with. **Royal British Bank v. Turquand (1856)**: the articles allowed directors to borrow if authorised by a resolution of the general meeting; the bank was entitled to assume the resolution had been passed. The doctrine protects outsiders from the harsh effect of constructive notice. Section 176 also provides that acts of a director are valid despite a defect later discovered in his appointment.\n\nExceptions to indoor management:\n\n- the outsider had **actual or constructive knowledge** of the irregularity;\n- **suspicion** of irregularity, or negligence in not enquiring;\n- **forgery**: a forged document is a nullity;\n- act outside the apparent authority of the officer;\n- the outsider is an insider (e.g. a director who should know the procedure)."
+        },
+        {
+          "heading": "Lifting the corporate veil",
+          "body": "The separate entity principle is the rule; courts and the Act disregard it in exceptional cases to look at the persons behind the company.\n\n**Judicial grounds**:\n\n- **Fraud or improper conduct**: **Gilford Motor Co. Ltd. v. Horne (1933)** - a former employee bound by a non-solicitation covenant formed a company to solicit customers; the court treated the company as a sham and granted an injunction against both.\n- **Determining enemy character**: **Daimler Co. Ltd. v. Continental Tyre and Rubber Co. (1916)** - a company registered in England but controlled by Germans was treated as an enemy company.\n- **Evasion of tax** or welfare legislation.\n- **Sham or facade** company; company acting as agent of shareholders; protection of public policy.\n\n**Statutory grounds** (Companies Act, 2013):\n\n- section 3A: members severally liable when membership falls below the statutory minimum for over six months;\n- section 7(7): incorporation by furnishing false information;\n- sections 34 and 35: criminal and civil liability for untrue statements in a prospectus;\n- section 339: fraudulent conduct of business discovered in winding up - persons responsible may be made personally liable without limit.\n\nExam tip: start every veil answer with Salomon's principle, then give judicial and statutory exceptions with one case each."
+        }
+      ],
+      "keyPoints": [
+        "Section 2(20) company; separate legal entity (Salomon v. Salomon & Co. Ltd., 1897).",
+        "Private company 2(68): restricts transfer, maximum 200 members, no public invitation. Minimum members: public 7, private 2, OPC 1 (section 3).",
+        "MoA (section 4) clauses: name, registered office, objects, liability, capital, subscription; AoA (section 5); alteration of articles by special resolution (section 14).",
+        "Ultra vires the company = void, cannot be ratified (Ashbury Railway Carriage v. Riche).",
+        "Constructive notice protects the company; indoor management protects outsiders (Royal British Bank v. Turquand). Exceptions: knowledge, suspicion, forgery.",
+        "Veil lifted: fraud (Gilford Motor v. Horne), enemy character (Daimler v. Continental Tyre), tax evasion; statutory: sections 3A, 7(7), 34-35, 339."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-law-08-companies-q01",
+          "type": "mcq",
+          "prompt": "The case that firmly established that a company is a legal person separate from its members is:",
+          "options": [
+            "Royal British Bank v. Turquand",
+            "Salomon v. Salomon & Co. Ltd.",
+            "Ashbury Railway Carriage and Iron Co. v. Riche",
+            "Carlill v. Carbolic Smoke Ball Co."
+          ],
+          "answer": 1,
+          "explanation": "Salomon v. Salomon & Co. Ltd. (1897): even a company dominated by one person is a separate legal entity."
+        },
+        {
+          "id": "ca-f-law-08-companies-q02",
+          "type": "mcq",
+          "prompt": "The maximum number of members of a private company (other than an OPC), excluding employee-members, is:",
+          "options": [
+            "50",
+            "100",
+            "200",
+            "No limit"
+          ],
+          "answer": 2,
+          "explanation": "Section 2(68): the articles must limit members to 200, excluding present and former employees who are members; joint holders count as one."
+        },
+        {
+          "id": "ca-f-law-08-companies-q03",
+          "type": "mcq",
+          "prompt": "The minimum number of persons required to form a public company is:",
+          "options": [
+            "One",
+            "Two",
+            "Five",
+            "Seven"
+          ],
+          "answer": 3,
+          "explanation": "Section 3(1)(a): seven or more persons for a public company; two for a private company; one for an OPC."
+        },
+        {
+          "id": "ca-f-law-08-companies-q04",
+          "type": "mcq",
+          "prompt": "A private company which is a subsidiary of a public company is treated as:",
+          "options": [
+            "A private company for all purposes",
+            "A public company",
+            "A small company",
+            "An associate company"
+          ],
+          "answer": 1,
+          "explanation": "Proviso to section 2(71): a subsidiary of a public company is deemed public even if its articles retain private company restrictions."
+        },
+        {
+          "id": "ca-f-law-08-companies-q05",
+          "type": "mcq",
+          "prompt": "A company in which not less than 51% of the paid-up share capital is held by the Central Government, or a State Government, or both, is a:",
+          "options": [
+            "Section 8 company",
+            "Government company",
+            "Public financial institution",
+            "Statutory corporation"
+          ],
+          "answer": 1,
+          "explanation": "Section 2(45) defines a Government company, including its subsidiaries."
+        },
+        {
+          "id": "ca-f-law-08-companies-q06",
+          "type": "mcq",
+          "prompt": "Articles of a company may be altered by:",
+          "options": [
+            "An ordinary resolution",
+            "A special resolution",
+            "A Board resolution",
+            "Order of the Registrar only"
+          ],
+          "answer": 1,
+          "explanation": "Section 14: subject to the Act and the MoA, articles are altered by special resolution. Conversion of a public into a private company also needs Tribunal approval."
+        },
+        {
+          "id": "ca-f-law-08-companies-q07",
+          "type": "mcq",
+          "prompt": "The doctrine of indoor management was laid down in:",
+          "options": [
+            "Royal British Bank v. Turquand",
+            "Salomon v. Salomon & Co. Ltd.",
+            "Gilford Motor Co. v. Horne",
+            "Daimler Co. v. Continental Tyre and Rubber Co."
+          ],
+          "answer": 0,
+          "explanation": "Royal British Bank v. Turquand (1856): outsiders may assume internal formalities have been complied with."
+        },
+        {
+          "id": "ca-f-law-08-companies-q08",
+          "type": "mcq",
+          "prompt": "A company was held to be an enemy company because the persons in control of it were enemy aliens. The court lifted the veil in:",
+          "options": [
+            "Gilford Motor Co. v. Horne",
+            "Daimler Co. v. Continental Tyre and Rubber Co.",
+            "Ashbury Railway Carriage v. Riche",
+            "Salomon v. Salomon & Co. Ltd."
+          ],
+          "answer": 1,
+          "explanation": "Daimler Co. Ltd. v. Continental Tyre and Rubber Co. (1916): veil lifted to determine enemy character."
+        },
+        {
+          "id": "ca-f-law-08-companies-q09",
+          "type": "truefalse",
+          "prompt": "An act which is ultra vires the memorandum of a company can be ratified by a unanimous resolution of all its members.",
+          "answer": false,
+          "explanation": "Ashbury Railway Carriage v. Riche: an act ultra vires the company is void ab initio and cannot be ratified even by all members."
+        },
+        {
+          "id": "ca-f-law-08-companies-q10",
+          "type": "truefalse",
+          "prompt": "The doctrine of indoor management cannot be invoked by a person who relies on a forged document.",
+          "answer": true,
+          "explanation": "Forgery is an exception; a forged document is a nullity and cannot bind the company."
+        },
+        {
+          "id": "ca-f-law-08-companies-q11",
+          "type": "multi",
+          "prompt": "Which of these are clauses of the Memorandum of Association under section 4?",
+          "options": [
+            "Name clause",
+            "Objects clause",
+            "Liability clause",
+            "Clause on the quorum for Board meetings"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Section 4 requires name, registered office, objects, liability, capital (where applicable) and subscription clauses. Internal rules like quorum belong in the articles."
+        },
+        {
+          "id": "ca-f-law-08-companies-q12",
+          "type": "fill",
+          "prompt": "Fill the blank: A company must have a registered office capable of receiving communications within ___ days of its incorporation (section 12).",
+          "accept": [
+            "30",
+            "thirty"
+          ],
+          "explanation": "Section 12(1): within 30 days of incorporation and at all times thereafter."
+        },
+        {
+          "id": "ca-f-law-08-companies-q13",
+          "type": "interview",
+          "prompt": "Explain the doctrine of indoor management and its exceptions. How does it relate to the doctrine of constructive notice?",
+          "answer": "- **Constructive notice**: MoA and AoA are public documents; every outsider is deemed to know their contents. It protects the company against outsiders.\n- **Indoor management** (Royal British Bank v. Turquand, 1856): an outsider dealing in good faith may assume that internal requirements (meetings, quorum, resolutions) have been complied with. It protects outsiders and limits constructive notice: outsiders are deemed to know the documents but not whether internal procedures were followed. Section 176 gives a related statutory protection for acts of directors with defective appointments.\n- **Exceptions**: (1) actual or constructive knowledge of the irregularity; (2) suspicion or negligence - circumstances calling for enquiry; (3) forgery - a forged document is a nullity; (4) acts beyond the apparent authority of the officer; (5) insiders such as directors cannot claim it.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-08-companies-q14",
+          "type": "interview",
+          "prompt": "What is meant by lifting the corporate veil? State the circumstances in which the veil may be lifted.",
+          "answer": "- Rule: a company is a separate legal entity (Salomon v. Salomon & Co. Ltd.). Lifting the veil means disregarding this to identify the persons behind the company and hold them liable.\n- Judicial grounds: fraud or improper conduct (Gilford Motor Co. v. Horne - company formed to evade a restrictive covenant); determination of enemy character (Daimler Co. v. Continental Tyre); evasion of tax; sham or facade company; company acting as agent of its members; protection of public policy.\n- Statutory grounds under the Companies Act, 2013: section 3A (members below minimum for over six months - members aware are severally liable); section 7(7) (incorporation by false information); sections 34-35 (misstatement in prospectus); section 339 (fraudulent conduct of business in winding up - unlimited personal liability).",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-08-companies-q15",
+          "type": "interview",
+          "prompt": "The articles of Sunrise Ltd. allow directors to borrow up to any amount if authorised by an ordinary resolution of the general meeting. The directors borrowed ₹2 crore from Prakash without any such resolution. Prakash did not know of the omission. Sunrise Ltd. refuses to repay, claiming Prakash had constructive notice of the articles. Decide with reasons.",
+          "answer": "- Provision: constructive notice deems Prakash to know the articles, so he is taken to know that a resolution was needed. The doctrine of indoor management (Royal British Bank v. Turquand) allows an outsider acting in good faith to assume that the internal requirement - passing the resolution - was complied with.\n- Facts: the power to borrow existed under the articles subject to an internal procedure. Prakash had no knowledge of the omission and nothing suggests suspicion or forgery.\n- Analysis: the case is on all fours with Turquand. Whether a general meeting passed a resolution is an internal matter Prakash could not verify.\n- Conclusion: Sunrise Ltd. is bound and must repay Prakash. Its plea of constructive notice fails."
+        },
+        {
+          "id": "ca-f-law-08-companies-q16",
+          "type": "interview",
+          "prompt": "Distinguish between the Memorandum of Association and the Articles of Association.",
+          "answer": "| Basis | Memorandum (section 4) | Articles (section 5) |\n| --- | --- | --- |\n| Nature | Charter of the company; defines its objects and powers | Rules for internal management |\n| Relationship | Company with outsiders | Company with members, and among members |\n| Status | Supreme document, subordinate only to the Act | Subordinate to the MoA and the Act (section 6) |\n| Ultra vires acts | Acts beyond MoA are void and cannot be ratified | Acts beyond AoA but within MoA can be ratified by members |\n| Alteration | Section 13, special resolution and approvals where required (e.g. change of State) | Section 14, special resolution |\n| Model form | Schedule I, Tables A to E | Schedule I, Tables F to J |"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Ministry of Corporate Affairs",
+          "url": "https://www.mca.gov.in/"
+        },
+        {
+          "title": "India Code: Central Acts",
+          "url": "https://www.indiacode.nic.in/"
+        },
+        {
+          "title": "ICAI Board of Studies",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-law-09-negotiable-instruments",
+      "title": "The Negotiable Instruments Act, 1881",
+      "level": "advanced",
+      "summary": "Promissory notes, bills of exchange and cheques, holder in due course, negotiation, crossing, presumptions and dishonour of cheques under section 138.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Negotiable Instruments Act, 1881 as amended up to 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Negotiable instruments and their kinds",
+          "body": "Section 13: a negotiable instrument means a **promissory note, bill of exchange or cheque** payable either to order or to bearer. Features: freely transferable by delivery (bearer) or indorsement and delivery (order); the transferee for value in good faith (holder in due course) gets a title free from defects of prior parties; the holder can sue in his own name; presumptions under section 118 apply.\n\n| Basis | Promissory note (section 4) | Bill of exchange (section 5) | Cheque (section 6) |\n| --- | --- | --- | --- |\n| Nature | Unconditional **undertaking** to pay | Unconditional **order** to pay | Bill drawn on a **specified banker**, payable on demand |\n| Parties | Maker, payee | Drawer, drawee, payee | Drawer, drawee bank, payee |\n| Acceptance | Not needed | Needed (unless payable on demand) | Not needed |\n| Payable to bearer | Not allowed (section 31, RBI Act, 1934), except RBI / Government | Allowed, except on demand | Allowed |\n| Days of grace | 3 days if not on demand | 3 days if not on demand | None |\n\nEssentials of a promissory note: in writing; express promise to pay; unconditional; signed by the maker; certain maker and payee; certain sum of **money only**; stamped as required. A bank note or currency note is not a promissory note.\n\nSection 6 includes the **electronic image of a truncated cheque** and a **cheque in electronic form**.\n\nSection 18: if the amount in words and figures differs, the amount in **words** is payable. Section 17: an ambiguous instrument may be treated by the holder as either a note or a bill."
+        },
+        {
+          "heading": "Holder, holder in due course and negotiation",
+          "body": "**Holder** (section 8): a person entitled in his own name to possession and to receive the amount.\n\n**Holder in due course** (section 9): a person who, **for consideration**, became the possessor (bearer instrument) or payee / indorsee (order instrument) **before the amount became payable**, without having sufficient cause to believe that any defect existed in the title of the person from whom he derived his title.\n\nPrivileges of an HDC: gets a good title even if a prior party's title was defective (section 58 does not bar him); prior parties are liable to him until the instrument is satisfied (section 36); estoppel against denying original validity (section 120) and the payee's capacity to indorse (section 121); a holder deriving title from an HDC has his rights, unless party to the fraud (section 53).\n\n**Negotiation** (section 14): transfer making the transferee the holder. Bearer instrument - by delivery (section 47); order instrument - by **indorsement and delivery** (section 48).\n\nKinds of indorsement: **blank** (only signature; converts to bearer), **full / special** (names the indorsee), **restrictive** (stops further negotiation), **partial** (part of amount - not valid as negotiation, section 56), **conditional**, **sans recourse** (indorser excludes his liability), **facultative** (waives a right, e.g. notice of dishonour).\n\n**Capacity** (section 26): every person competent to contract may bind himself. A **minor** may draw, indorse, deliver and negotiate so as to bind all parties **except himself**.\n\n**Material alteration** (section 87) without the consent of the parties makes the instrument void against any party who did not consent, unless made to carry out the common intention of the original parties. Filling a blank in an inchoate instrument (section 20) or converting a blank indorsement into full are permitted."
+        },
+        {
+          "heading": "Crossing and presumptions",
+          "body": "**Crossing** is a direction to the drawee bank to pay only through a banker.\n\n- **General crossing** (section 123): two parallel transverse lines, with or without words like 'and company' or 'not negotiable'. Payable only through a banker.\n- **Special crossing** (section 124): the name of a banker added; payable only to that banker or its agent for collection.\n- **'Not negotiable'** (section 130): the cheque remains transferable, but the transferee gets no better title than the transferor.\n- **Account payee**: not defined in the Act; a banking-practice direction to the collecting banker to credit only the payee's account.\n- A crossing may be made by the drawer or the holder (section 125).\n\n**Presumptions** (section 118), until the contrary is proved: consideration; date; time of acceptance (within reasonable time after date and before maturity); time of transfer (before maturity); order of indorsements (as they appear); stamp; holder is a **holder in due course**. Section 139 adds a presumption that the holder of a cheque received it for discharge of a debt or liability."
+        },
+        {
+          "heading": "Dishonour of cheque: section 138",
+          "body": "Offence under section 138 arises when:\n\n- a cheque is drawn on an account **maintained by the drawer**;\n- for discharge, wholly or partly, of a **legally enforceable debt or liability**;\n- it is returned unpaid because funds are **insufficient** or it exceeds the arrangement;\n- it was presented within **six months** of its date or within its period of validity, whichever is earlier (validity is currently three months as directed by RBI);\n- the payee or holder in due course gives a **written notice** demanding payment within **30 days** of receiving information of dishonour from the bank;\n- the drawer **fails to pay within 15 days** of receipt of the notice.\n\nPunishment: imprisonment up to **two years**, or fine up to **twice the amount** of the cheque, or both.\n\nProcedure:\n\n- Complaint in writing by the payee or holder in due course within **one month** of the cause of action, i.e. expiry of the 15 days (section 142); the court may condone delay for sufficient cause.\n- Tried by a court not inferior to a Metropolitan Magistrate or Judicial Magistrate of the first class; summary trial (section 143).\n- **Interim compensation** up to **20%** of the cheque amount (section 143A).\n- In appeal against conviction, the court may order deposit of at least **20%** of the fine or compensation (section 148).\n- Offences under the Act are **compoundable** (section 147).\n- Section 141: where the drawer is a company, every person in charge of and responsible for the business is also liable, unless he proves lack of knowledge or due diligence.\n\nTimeline example: cheque dated 1 March, dishonour memo received 10 April; notice must go by 10 May; notice received 14 May; payment due by 29 May; cause of action arises 30 May; complaint by 29 June."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Writing that a promissory note can be payable to bearer. Section 31 of the RBI Act prohibits it for anyone other than RBI or the Central Government (for demand notes).\n- Mixing the 30-day notice period with the 15-day payment period.\n- Treating a cheque for a gift or for a time-barred debt as covered by section 138. It covers only legally enforceable debts.\n- Saying 'not negotiable' stops transfer. It does not; it only removes the holder in due course protection.\n- Forgetting that a minor indorser binds all parties except himself."
+        }
+      ],
+      "keyPoints": [
+        "Section 13: PN (section 4), bill of exchange (section 5), cheque (section 6) payable to order or bearer.",
+        "Holder in due course (section 9): for consideration, before maturity, in good faith without cause to suspect defect.",
+        "Section 118 presumptions; section 139 presumption for cheques; amount in words prevails (section 18).",
+        "Crossing: general (123), special (124), not negotiable (130).",
+        "Section 138: present within 6 months or validity; notice within 30 days of bank memo; 15 days to pay; complaint within 1 month (section 142).",
+        "Punishment: up to 2 years, or fine up to twice the cheque amount, or both; interim compensation up to 20% (section 143A)."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q01",
+          "type": "mcq",
+          "prompt": "Which of the following is NOT a negotiable instrument under section 13 of the Negotiable Instruments Act, 1881?",
+          "options": [
+            "Promissory note",
+            "Bill of exchange",
+            "Cheque",
+            "Currency note"
+          ],
+          "answer": 3,
+          "explanation": "Section 13 names promissory notes, bills of exchange and cheques. Section 4 expressly excludes bank notes and currency notes from being promissory notes."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q02",
+          "type": "mcq",
+          "prompt": "'I promise to pay Ramesh ₹50,000 after my marriage with Sita.' This instrument is:",
+          "options": [
+            "A valid promissory note",
+            "Not a promissory note, as the promise is conditional",
+            "A bill of exchange",
+            "A cheque"
+          ],
+          "answer": 1,
+          "explanation": "A promissory note requires an unconditional undertaking. Marriage with a particular person is an uncertain event, so the promise is conditional."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q03",
+          "type": "mcq",
+          "prompt": "When the amount on a negotiable instrument is stated differently in words and figures, the amount payable is:",
+          "options": [
+            "The amount in figures",
+            "The amount in words",
+            "The lower of the two",
+            "The higher of the two"
+          ],
+          "answer": 1,
+          "explanation": "Section 18: the amount stated in words is the amount undertaken or ordered to be paid."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q04",
+          "type": "mcq",
+          "prompt": "A cheque bearing two parallel transverse lines with the name 'State Bank of India' written between them is:",
+          "options": [
+            "Generally crossed",
+            "Specially crossed",
+            "An open cheque",
+            "A bearer cheque"
+          ],
+          "answer": 1,
+          "explanation": "Section 124: a cheque bearing the name of a banker is specially crossed to that banker; the transverse lines are not essential."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q05",
+          "type": "mcq",
+          "prompt": "Under section 138, the payee must give written notice to the drawer demanding payment within how many days of receiving information of dishonour from the bank?",
+          "options": [
+            "15 days",
+            "30 days",
+            "45 days",
+            "60 days"
+          ],
+          "answer": 1,
+          "explanation": "Proviso (b) to section 138: notice within 30 days of receiving information of dishonour. The drawer then has 15 days from receipt of notice to pay."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q06",
+          "type": "mcq",
+          "prompt": "An indorsement where the indorser writes 'without recourse to me' is called:",
+          "options": [
+            "Restrictive indorsement",
+            "Sans recourse indorsement",
+            "Facultative indorsement",
+            "Partial indorsement"
+          ],
+          "answer": 1,
+          "explanation": "A sans recourse indorsement excludes the indorser's liability to subsequent parties (section 52)."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q07",
+          "type": "mcq",
+          "prompt": "A minor indorses a bill of exchange to Kunal. On dishonour, Kunal can hold liable:",
+          "options": [
+            "All parties including the minor",
+            "All parties except the minor",
+            "Only the minor",
+            "No one"
+          ],
+          "answer": 1,
+          "explanation": "Section 26: a minor may draw, indorse, deliver and negotiate an instrument so as to bind all parties except himself."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q08",
+          "type": "truefalse",
+          "prompt": "Writing the words 'not negotiable' on a crossed cheque makes it non-transferable.",
+          "answer": false,
+          "explanation": "Section 130: the cheque remains transferable, but a transferee cannot get a better title than the transferor had."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q09",
+          "type": "truefalse",
+          "prompt": "A cheque issued as a gift, which is dishonoured for insufficient funds, attracts an offence under section 138.",
+          "answer": false,
+          "explanation": "Section 138 applies only to cheques issued for discharge of a legally enforceable debt or other liability. A gift is not a debt."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q10",
+          "type": "multi",
+          "prompt": "Which presumptions apply under section 118 until the contrary is proved?",
+          "options": [
+            "The instrument was made for consideration",
+            "The holder is a holder in due course",
+            "Transfer was made before maturity",
+            "The drawer had sufficient funds in the account"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Section 118 presumes consideration, date, time of acceptance, transfer before maturity, order of indorsements, stamping and that the holder is a holder in due course. There is no presumption about funds."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: A person who, for consideration, became the holder of an instrument before maturity, without sufficient cause to believe any defect in the transferor's title, is a holder in ___ ___.",
+          "accept": [
+            "due course"
+          ],
+          "explanation": "Section 9 defines holder in due course."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q12",
+          "type": "numeric",
+          "prompt": "Vivek's cheque of ₹3,40,000, issued to repay a loan, was dishonoured for insufficient funds. All conditions of section 138 are met. What is the maximum fine the court can impose under section 138? Answer in ₹.",
+          "answer": 680000,
+          "tolerance": 0,
+          "unit": "₹",
+          "explanation": "Section 138: fine may extend to twice the amount of the cheque.\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Cheque amount | 3,40,000 |\n| x 2 | |\n| **Maximum fine** | **6,80,000** |\n\nThe court may also impose imprisonment up to two years, or both."
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q13",
+          "type": "interview",
+          "prompt": "Who is a holder in due course? Explain the privileges available to him.",
+          "answer": "- Section 9: a person who, for consideration, became the possessor of a bearer instrument, or the payee or indorsee of an order instrument, before the amount became payable, without sufficient cause to believe that any defect existed in the title of the person from whom he derived title.\n- Privileges:\n- Gets a good title free from defects of prior parties (e.g. instrument obtained by fraud from an earlier holder).\n- Every prior party is liable to him until the instrument is duly satisfied (section 36).\n- Estoppel: maker, drawer and acceptor cannot deny the original validity of the instrument (section 120); maker and acceptor cannot deny the payee's capacity to indorse (section 121); indorser cannot deny prior signatures (section 122).\n- An inchoate stamped instrument binds the signer to an HDC for any amount within the stamp (section 20).\n- Presumption that every holder is an HDC (section 118(g)).\n- A holder taking from an HDC gets his rights unless party to fraud (section 53).",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q14",
+          "type": "interview",
+          "prompt": "Nikhil issued a cheque dated 5 January 2027 for ₹2,00,000 to Sapna to repay a loan. Sapna presented it on 20 February 2027; it was returned for insufficient funds and she received the bank memo on 22 February 2027. She sent a notice on 30 March 2027, received by Nikhil on 2 April 2027. Nikhil did not pay. Can Sapna successfully prosecute Nikhil under section 138? Decide with reasons.",
+          "answer": "- Provision: section 138 requires (a) a cheque for a legally enforceable debt, (b) presentment within its validity, (c) dishonour for insufficient funds, (d) written notice within **30 days** of receipt of the bank's information, and (e) failure to pay within 15 days of receipt of notice.\n- Facts: the cheque was for a loan and was presented within validity; dishonour memo received 22 February 2027. The 30-day notice period ended on 24 March 2027. Notice was sent on 30 March 2027, after the deadline.\n- Analysis: the notice requirement is mandatory. A late notice means the cause of action under section 138 does not arise on this dishonour.\n- Conclusion: Sapna cannot prosecute Nikhil under section 138 on this dishonour. She may still file a civil suit to recover the ₹2,00,000 loan.",
+          "top": true
+        },
+        {
+          "id": "ca-f-law-09-negotiable-instruments-q15",
+          "type": "interview",
+          "prompt": "Distinguish between a bill of exchange and a cheque.",
+          "answer": "| Basis | Bill of exchange (section 5) | Cheque (section 6) |\n| --- | --- | --- |\n| Drawee | Any person, including a banker | Always a specified banker |\n| Payable | On demand or after a fixed period | Always on demand (subject to electronic forms) |\n| Acceptance | Required if not payable on demand | Not required |\n| Days of grace | 3 days, if not payable on demand | None |\n| Crossing | Cannot be crossed | Can be crossed (sections 123-131) |\n| Stopping payment | Not possible once accepted | Drawer can countermand before payment |\n| Section 138 | Not applicable | Criminal liability on dishonour for insufficiency |"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Reserve Bank of India",
+          "url": "https://www.rbi.org.in/"
+        },
+        {
+          "title": "India Code: Central Acts",
+          "url": "https://www.indiacode.nic.in/"
+        }
+      ]
+    }
+  ]
+}

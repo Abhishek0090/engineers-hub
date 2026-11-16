@@ -1,0 +1,1674 @@
+{
+  "id": "state-management",
+  "title": "State Management and Data Fetching",
+  "area": "frontend",
+  "order": 16,
+  "icon": "ST",
+  "color": "#8b5cf6",
+  "description": "Where state should live and which tool fits: local, global, server, URL and form state, with Context, Redux Toolkit, Zustand, Jotai, TanStack Query, SWR, React Hook Form and Zod.",
+  "chapters": [
+    {
+      "id": "state-management-01-kinds-of-state",
+      "title": "The Kinds of State and Where They Live",
+      "level": "beginner",
+      "summary": "Classifying state as local, shared, global, server, URL or form state, and keeping it minimal and colocated.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Not all state is the same",
+          "body": "Most state management mistakes come from treating every piece of data as one kind of thing and putting it in one global store. Separate it by **who owns it** and **how it changes**:\n- **Local UI state**: owned by one component. An open dropdown, a hovered row, an input draft. `useState` or `useReducer`.\n- **Shared UI state**: needed by a few nearby components. Lift it to the closest common parent.\n- **Global client state**: app-wide, client-owned, changes from user actions. Theme, sidebar collapsed, a shopping cart before checkout, an editor's selection. Context for low-frequency values, or a store (Zustand, Redux Toolkit, Jotai).\n- **Server state**: data owned by a backend that you display a cached copy of. Users, products, orders. It can be stale, other users change it, and it needs fetching, caching, deduping and invalidation. TanStack Query, SWR, RTK Query, or framework data loading and Server Components.\n- **URL state**: filters, search, pagination, selected tab. It should survive refresh and be shareable. Search params.\n- **Form state**: values, validation errors, touched and dirty flags, submission status. React Hook Form or React 19 form actions."
+        },
+        {
+          "heading": "Server state is the biggest category",
+          "body": "In typical CRUD apps, most of what people put in Redux was really a cache of server data, plus hand-written `loading` and `error` flags for each request. That code is repetitive and bug-prone: no deduplication, no background refresh, stale data after mutations, race conditions.\n\nServer-state libraries treat that data as a **cache keyed by the request**, with built-in staleness, refetching, retries and invalidation. Once server data moves there, the remaining client state is usually small enough for local state, context or a tiny store. In Next.js App Router apps, Server Components fetch much of this data on the server, shrinking client state even further."
+        },
+        {
+          "heading": "Keep state minimal: derive, do not duplicate",
+          "body": "Store the smallest set of values that can produce everything else, and compute the rest during render.\n- Do not store `filteredTodos` next to `todos` and `filter`. Compute it.\n- Do not store `selectedUser` as a copy; store `selectedUserId` and look it up, so edits to the user show up automatically.\n- Do not mirror server data into local state with an effect; read it from the query cache.\n- Replace boolean combinations with a status union: `'idle' | 'loading' | 'success' | 'error'`.\n\nEvery duplicated value is a synchronization bug waiting to happen.",
+          "code": {
+            "lang": "tsx",
+            "source": "// Duplicated state: needs effects to stay in sync\nconst [items, setItems] = useState<Item[]>([]);\nconst [selected, setSelected] = useState<Item | null>(null); // stale copy after edits\n\n// Minimal state: selection derives from the source of truth\nconst [selectedId, setSelectedId] = useState<string | null>(null);\nconst selected = items.find((i) => i.id === selectedId) ?? null;"
+          }
+        },
+        {
+          "heading": "Colocate, then lift only as needed",
+          "body": "Start state as close as possible to where it is used. Lift it only when another component needs it, and only as high as the nearest common parent. Global stores are for state that is truly global.\n\nColocation helps performance (updates re-render small subtrees), readability (state next to the UI that uses it) and deletion (removing a feature removes its state). A common anti-pattern is a global store holding modal open flags and form drafts for every screen."
+        },
+        {
+          "heading": "A decision guide",
+          "body": "- Comes from the server? Server-state tool (or Server Components). Not a client store.\n- Should survive refresh or be shareable via link? URL search params.\n- Only one component uses it? `useState`.\n- A few siblings use it? Lift to the parent.\n- Many distant components read it, it changes rarely? Context.\n- Many components read it, it changes often, or it has complex update logic? A store with selectors.\n- Is it form input? A form library or uncontrolled inputs with form actions.\n- Should it persist across sessions? localStorage (via a store's persist middleware) or the server."
+        }
+      ],
+      "keyPoints": [
+        "Classify state: local, shared, global client, server, URL and form.",
+        "Server state is a cache of remote data; use a server-state library or Server Components, not a global store.",
+        "Derive values during render instead of storing duplicates.",
+        "Store ids, not copies of selected objects.",
+        "Colocate state and lift only to the nearest common parent.",
+        "Use the URL for state that must survive refresh or be shared.",
+        "Reach for a global store only for truly global, frequently changing client state."
+      ],
+      "questions": [
+        {
+          "id": "state-management-01-q01",
+          "type": "mcq",
+          "prompt": "A list of products loaded from an API, shown on several pages, is best classified as:",
+          "options": [
+            "Local UI state",
+            "Global client state",
+            "Server state",
+            "Form state"
+          ],
+          "answer": 2,
+          "explanation": "The backend owns it; the client holds a cached copy that can go stale. Use a server-state tool."
+        },
+        {
+          "id": "state-management-01-q02",
+          "type": "mcq",
+          "prompt": "A product listing's category filter and page number should survive refresh and be shareable. Where should they live?",
+          "options": [
+            "useState",
+            "A Zustand store",
+            "URL search params",
+            "localStorage"
+          ],
+          "answer": 2,
+          "explanation": "URL state survives reloads, works with back/forward and can be shared as a link."
+        },
+        {
+          "id": "state-management-01-q03",
+          "type": "mcq",
+          "prompt": "What is the bug risk in this component?",
+          "code": "const [users, setUsers] = useState<User[]>([]);\nconst [selected, setSelected] = useState<User | null>(null);\n// later: setUsers(users.map(u => u.id === id ? { ...u, name } : u));",
+          "options": [
+            "None",
+            "selected holds a stale copy and does not reflect the renamed user",
+            "setUsers mutates state",
+            "users must be a ref"
+          ],
+          "answer": 1,
+          "explanation": "Storing a copy duplicates data. Store selectedId and derive the user from users."
+        },
+        {
+          "id": "state-management-01-q04",
+          "type": "mcq",
+          "prompt": "Only a Tooltip component uses its isOpen flag. Where should it live?",
+          "options": [
+            "Redux",
+            "Context at the app root",
+            "useState inside Tooltip",
+            "The URL"
+          ],
+          "answer": 2,
+          "explanation": "Colocate state with its only user; global placement adds coupling and unnecessary re-renders."
+        },
+        {
+          "id": "state-management-01-q05",
+          "type": "mcq",
+          "prompt": "Which state shape prevents impossible combinations?",
+          "options": [
+            "isLoading, isError and isSuccess booleans",
+            "status: 'idle' | 'loading' | 'error' | 'success'",
+            "A loading counter",
+            "Three separate stores"
+          ],
+          "answer": 1,
+          "explanation": "A single union cannot be loading and successful at the same time."
+        },
+        {
+          "id": "state-management-01-q06",
+          "type": "mcq",
+          "prompt": "Two sibling components both need the same counter value. What is the simplest correct approach?",
+          "options": [
+            "A global store",
+            "Lift the state to their common parent and pass it down",
+            "Duplicate the state and sync with effects",
+            "Use a ref"
+          ],
+          "answer": 1,
+          "explanation": "Lifting state to the nearest common ancestor is the default React answer for shared state."
+        },
+        {
+          "id": "state-management-01-q07",
+          "type": "truefalse",
+          "prompt": "filteredItems should usually be stored in state alongside items and filter.",
+          "answer": false,
+          "explanation": "It is derivable. Compute it during render, memoizing only if expensive."
+        },
+        {
+          "id": "state-management-01-q08",
+          "type": "truefalse",
+          "prompt": "Moving server data into a server-state library often leaves very little global client state.",
+          "answer": true,
+          "explanation": "Most global store contents in CRUD apps were server caches plus loading flags."
+        },
+        {
+          "id": "state-management-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good candidates for URL state?",
+          "options": [
+            "Search query on a results page",
+            "Selected tab in settings",
+            "Current pagination page",
+            "An unsaved password field",
+            "A hover state"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Shareable, refresh-surviving navigation state belongs in the URL. Sensitive and ephemeral values do not."
+        },
+        {
+          "id": "state-management-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: data owned by a backend and cached on the client is called ___ state.",
+          "accept": [
+            "server",
+            "server-side",
+            "remote"
+          ],
+          "explanation": "Server state is remote, shared, asynchronous and can become stale."
+        },
+        {
+          "id": "state-management-01-q11",
+          "type": "interview",
+          "prompt": "How do you decide where a piece of state should live in a React application?",
+          "top": true,
+          "answer": "I classify it first. If it comes from the server, it is server state and goes into TanStack Query, SWR, RTK Query or Server Components, not a hand-rolled store. If it should survive refresh or be shareable, such as filters, pagination or tabs, it goes in the URL. If it is form input, a form library or uncontrolled inputs with actions. For the rest, client UI state, I start with useState in the component that uses it, lift it to the nearest common parent when siblings need it, use context for app-wide values that change rarely (theme, current user, locale), and reach for a store with selectors (Zustand, Redux Toolkit, Jotai) when many distant components read frequently changing state or the update logic is complex. Throughout, I keep state minimal and derive everything else during render.",
+          "level": "beginner"
+        },
+        {
+          "id": "state-management-01-q12",
+          "type": "interview",
+          "prompt": "What is the difference between server state and client state, and why does it matter?",
+          "answer": "Client state is owned by the browser session and changes synchronously through user actions: a modal open flag, theme, a draft. It is always up to date by definition. Server state lives in a remote system: you only hold a snapshot, it is fetched asynchronously, other users or processes can change it, and it needs caching, deduplication, background refetching, retries, pagination and invalidation after mutations. Treating server state as client state (copying API responses into Redux with loading flags) means reimplementing a cache badly: stale data, waterfalls, race conditions and lots of boilerplate. Separating them lets a dedicated library handle server state, and the remaining client state becomes small and simple.",
+          "level": "beginner"
+        },
+        {
+          "id": "state-management-01-q13",
+          "type": "interview",
+          "prompt": "What does 'derive state instead of syncing it' mean? Give an example.",
+          "answer": "If a value can be computed from existing props or state, compute it during render rather than storing it separately and keeping it updated with effects. Example: a todo list with todos and filter in state. Instead of a third state visibleTodos updated by a useEffect whenever todos or filter change, compute const visibleTodos = todos.filter(matches(filter)) in render, adding useMemo only if it is expensive. Storing it causes an extra render with stale data, effect bugs and inconsistency if one update path forgets to sync. Same idea for selection (store selectedId, not the object), totals in a cart, form validity, and full names from first and last.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "React docs: Managing State",
+          "url": "https://react.dev/learn/managing-state"
+        },
+        {
+          "title": "React docs: Choosing the State Structure",
+          "url": "https://react.dev/learn/choosing-the-state-structure"
+        },
+        {
+          "title": "React docs: Sharing State Between Components",
+          "url": "https://react.dev/learn/sharing-state-between-components"
+        }
+      ]
+    },
+    {
+      "id": "state-management-02-context-limits",
+      "title": "Lifting State, Context and Its Limits",
+      "level": "beginner",
+      "summary": "Prop drilling, when Context is enough, why it re-renders every consumer, and the patterns that keep it fast.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Prop drilling and its cheaper fixes",
+          "body": "Prop drilling is passing data through intermediate components that do not use it. A few levels are fine and keep data flow explicit. Before reaching for context, try:\n- **Composition**: pass already-built elements as `children` or slot props, so the intermediate layers never see the data. `<Layout sidebar={<UserMenu user={user} />}>` means Layout does not need `user`.\n- **Colocation**: move the state down to where it is used.\n\nContext becomes the right tool when many components at different depths need the same value."
+        },
+        {
+          "heading": "Context as a transport",
+          "body": "Context does not manage state; it broadcasts a value down the tree. The state still lives in a component (`useState` or `useReducer`), and context delivers it.\n\nA common app-level pattern is a provider component plus a custom hook that throws if used outside the provider, which gives a clear error and avoids a misleading default value.",
+          "code": {
+            "lang": "tsx",
+            "source": "type Auth = { user: User | null; login: (u: User) => void; logout: () => void };\nconst AuthContext = createContext<Auth | null>(null);\n\nexport function AuthProvider({ children }: { children: React.ReactNode }) {\n  const [user, setUser] = useState<User | null>(null);\n  const value = useMemo(\n    () => ({ user, login: setUser, logout: () => setUser(null) }),\n    [user]\n  );\n  return <AuthContext value={value}>{children}</AuthContext>;\n}\n\nexport function useAuth() {\n  const ctx = useContext(AuthContext);\n  if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>');\n  return ctx;\n}"
+          }
+        },
+        {
+          "heading": "The re-render problem",
+          "body": "When a provider's `value` changes (by `Object.is`), **every** consumer re-renders, even components that only read a field that did not change. There is no selector. `React.memo` does not stop it.\n\nTwo common traps:\n- An inline object `value={{ user, setUser }}` is a new reference on every provider render, so all consumers re-render whenever the provider's parent renders.\n- One big `AppContext` with user, theme, cart and notifications: a new notification re-renders every component that reads the theme.\n\nFor a theme or locale that changes once per session this does not matter. For a cart that updates on every click with 200 consumers, it does."
+        },
+        {
+          "heading": "Patterns that keep context fast",
+          "body": "- **Memoize the value** with `useMemo` (or rely on React Compiler).\n- **Split by concern**: separate contexts for auth, theme and cart.\n- **Split state from dispatch**: put `dispatch` (stable) in one context and the state in another, so components that only trigger updates never re-render.\n- **Keep fast-changing state local** or in a store.\n- **Context for dependency injection**: pass a stable store or client object (a QueryClient, a Zustand store instance) through context, and let components subscribe to slices with selectors. This is how Redux, TanStack Query and per-request Zustand stores work: the context value never changes; subscriptions do the updating.",
+          "code": {
+            "lang": "tsx",
+            "source": "const CartStateContext = createContext<CartState | null>(null);\nconst CartDispatchContext = createContext<React.Dispatch<CartAction> | null>(null);\n\nexport function CartProvider({ children }: { children: React.ReactNode }) {\n  const [state, dispatch] = useReducer(cartReducer, initialCart);\n  return (\n    <CartDispatchContext value={dispatch}>\n      <CartStateContext value={state}>{children}</CartStateContext>\n    </CartDispatchContext>\n  );\n}\n// AddToCartButton reads only CartDispatchContext and never re-renders on cart changes."
+          }
+        },
+        {
+          "heading": "When to graduate from context",
+          "body": "Move to a store when:\n- many components read different slices of the same frequently changing state,\n- you need selectors, devtools, middleware (persistence, logging, undo),\n- state must be read or updated outside React (a WebSocket handler, a utility module),\n- update logic is complex enough that you want it testable in isolation.\n\nZustand and Jotai are the lightweight steps; Redux Toolkit suits large teams wanting strict conventions and devtools."
+        }
+      ],
+      "keyPoints": [
+        "Try composition (children, slot props) and colocation before context.",
+        "Context transports a value; the state still lives in a component.",
+        "Every consumer re-renders when the value changes; there are no selectors and memo does not help.",
+        "Memoize provider values and split contexts by concern and update frequency.",
+        "Separate state and dispatch contexts so update-only components do not re-render.",
+        "Use context to inject stable stores or clients, and subscribe with selectors.",
+        "Graduate to a store for frequent updates, many slices, middleware or access outside React."
+      ],
+      "questions": [
+        {
+          "id": "state-management-02-q01",
+          "type": "mcq",
+          "prompt": "Layout passes `user` through three components that do not use it, just to reach UserMenu. Which refactor removes the drilling without context?",
+          "options": [
+            "Wrap Layout in memo",
+            "Pass <UserMenu user={user} /> as a slot prop or child to Layout",
+            "Store user in a ref",
+            "Use a global variable"
+          ],
+          "answer": 1,
+          "explanation": "Composition lets the parent build the element with the data it has, so intermediate components never see the prop."
+        },
+        {
+          "id": "state-management-02-q02",
+          "type": "mcq",
+          "prompt": "A ThemeToggle reads only setTheme from a context whose value is { theme, setTheme }. What happens when theme changes?",
+          "options": [
+            "ThemeToggle does not re-render",
+            "ThemeToggle re-renders because the context value changed",
+            "Only components reading theme re-render",
+            "React throws"
+          ],
+          "answer": 1,
+          "explanation": "Context has no selectors: any consumer re-renders when the value reference changes, whatever fields it reads."
+        },
+        {
+          "id": "state-management-02-q03",
+          "type": "mcq",
+          "prompt": "What does useAuth() return when called outside AuthProvider in the lesson's pattern?",
+          "options": [
+            "null",
+            "undefined",
+            "It throws a descriptive error",
+            "A default user"
+          ],
+          "answer": 2,
+          "explanation": "The default is null and the hook throws, which surfaces a missing provider immediately."
+        },
+        {
+          "id": "state-management-02-q04",
+          "type": "mcq",
+          "prompt": "Why does a memoized consumer still re-render here whenever App re-renders?",
+          "code": "function App() {\n  const [count, setCount] = useState(0);\n  const [user, setUser] = useState(null);\n  return (\n    <UserContext value={{ user, setUser }}>\n      <Page />\n    </UserContext>\n  );\n}",
+          "options": [
+            "setUser changes each render",
+            "The value object literal is new on every render",
+            "useState is misused",
+            "Page is not memoized"
+          ],
+          "answer": 1,
+          "explanation": "A new object reference counts as a changed value. useMemo with [user] fixes it."
+        },
+        {
+          "id": "state-management-02-q05",
+          "type": "mcq",
+          "prompt": "How do Redux and TanStack Query avoid re-rendering all components through context?",
+          "options": [
+            "They do not use context",
+            "Context holds a stable store or client; components subscribe to specific slices with selectors",
+            "They wrap every component in memo",
+            "They use refs only"
+          ],
+          "answer": 1,
+          "explanation": "The context value never changes. Subscriptions (via useSyncExternalStore) re-render only components whose selected data changed."
+        },
+        {
+          "id": "state-management-02-q06",
+          "type": "mcq",
+          "prompt": "Which state is a poor fit for a single app-wide context?",
+          "options": [
+            "Current locale",
+            "Color theme",
+            "A live cursor position updated 60 times per second",
+            "Authenticated user"
+          ],
+          "answer": 2,
+          "explanation": "High-frequency updates would re-render every consumer constantly. Keep it local or in a store with selectors."
+        },
+        {
+          "id": "state-management-02-q07",
+          "type": "truefalse",
+          "prompt": "dispatch from useReducer is stable, so a context that holds only dispatch never causes consumer re-renders after mount.",
+          "answer": true,
+          "explanation": "dispatch keeps the same identity for the component's lifetime, so the context value never changes."
+        },
+        {
+          "id": "state-management-02-q08",
+          "type": "truefalse",
+          "prompt": "Context is itself a state management library with selectors and middleware.",
+          "answer": false,
+          "explanation": "Context only passes values down. State, selectors and middleware come from hooks or libraries."
+        },
+        {
+          "id": "state-management-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: signs you should move from context to a store.",
+          "options": [
+            "Many components read different slices of fast-changing state",
+            "You need to update state from a WebSocket handler outside React",
+            "Only the theme is shared",
+            "You want devtools, persistence and middleware",
+            "State is used by one component"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Slices with frequent updates, outside-React access and middleware needs point to a store. Theme or single-component state does not."
+        },
+        {
+          "id": "state-management-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: wrapping the provider value in ___ keeps its reference stable between renders.",
+          "accept": [
+            "useMemo",
+            "React.useMemo",
+            "useMemo()"
+          ],
+          "explanation": "useMemo recreates the value object only when its dependencies change."
+        },
+        {
+          "id": "state-management-02-q11",
+          "type": "interview",
+          "prompt": "Is React Context a replacement for Redux?",
+          "top": true,
+          "answer": "Partly, depending on the need. Context solves passing a value through the tree without prop drilling, and with useReducer you can build a small store. But context has no selector mechanism, so every consumer re-renders on every change, and it has no devtools, middleware, time-travel debugging or way to read and write state outside React. Redux (via Redux Toolkit) is a predictable store with selectors, devtools, middleware, conventions for large teams, and RTK Query for server state. For low-frequency app-wide values like theme, locale and auth, context is enough. For frequently changing shared state read by many components, I use a store, often Zustand for simplicity or Redux Toolkit when the team wants strict structure. And most data people used to put in Redux is server state that belongs in TanStack Query or RTK Query.",
+          "level": "beginner"
+        },
+        {
+          "id": "state-management-02-q12",
+          "type": "interview",
+          "prompt": "How do you prevent unnecessary re-renders caused by context?",
+          "answer": "Memoize the provider value with useMemo (or let React Compiler do it) so it only changes when the underlying state does. Split large contexts by concern and update frequency, so a notification change does not re-render theme consumers. Put dispatch or stable callbacks in a separate context from the state they modify. Keep fast-changing values out of context entirely. Push providers down to the subtree that needs them. Use composition so expensive children are passed as children and are not re-rendered by provider state. When consumers need slices of frequently changing state, switch to a store that supports selectors, or put a stable store object in context and subscribe with useSyncExternalStore.",
+          "level": "beginner"
+        },
+        {
+          "id": "state-management-02-q13",
+          "type": "interview",
+          "prompt": "What is prop drilling, and is it always bad?",
+          "answer": "Prop drilling is passing props through components that do not use them just so a deeper component can. It is not inherently bad: two or three levels keep data flow explicit, easy to trace and type-checked. It becomes a problem when many layers depend on props they ignore, making refactors painful and coupling components. Fixes in order of preference: restructure with composition (pass children or slot elements so intermediates do not need the data), colocate state closer to its users, use context for widely needed values, or a store for complex shared state. I avoid jumping to global state just to save a few props.",
+          "level": "beginner"
+        }
+      ],
+      "resources": [
+        {
+          "title": "React docs: Passing Data Deeply with Context",
+          "url": "https://react.dev/learn/passing-data-deeply-with-context"
+        },
+        {
+          "title": "React docs: Scaling Up with Reducer and Context",
+          "url": "https://react.dev/learn/scaling-up-with-reducer-and-context"
+        },
+        {
+          "title": "React docs: useSyncExternalStore",
+          "url": "https://react.dev/reference/react/useSyncExternalStore"
+        }
+      ]
+    },
+    {
+      "id": "state-management-03-redux-toolkit",
+      "title": "Redux Toolkit and RTK Query",
+      "level": "intermediate",
+      "summary": "Modern Redux with configureStore, createSlice, typed hooks, selectors, async thunks and RTK Query caching.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Redux in one paragraph",
+          "body": "Redux keeps app state in a single store. The UI **dispatches actions** (plain objects describing what happened, like `{ type: 'cart/itemAdded', payload }`), **reducers** compute the next state as pure functions of `(state, action)`, and components **subscribe** to slices with selectors. The one-way flow and pure reducers make state changes predictable, loggable and replayable (Redux DevTools time travel).\n\nRedux Toolkit (RTK) is the official, recommended way to write Redux. It removes the old boilerplate (action type constants, action creators, switch statements, hand-written immutable updates) and includes good defaults: Immer for immutable updates, the thunk middleware, DevTools integration and dev-mode checks for mutations and non-serializable values."
+        },
+        {
+          "heading": "Store and slices",
+          "body": "`createSlice` takes a name, initial state and reducers, and generates action creators and the slice reducer. Reducers can write mutating code because RTK runs them through **Immer**, which records changes on a draft and produces a new immutable state. You may either mutate the draft or return a new value, but not both.\n\n`configureStore` combines slice reducers and adds middleware and DevTools. Define typed hooks once with `.withTypes<>()` so components get correct types everywhere.",
+          "code": {
+            "lang": "ts",
+            "source": "// features/cart/cartSlice.ts\nimport { createSlice, type PayloadAction } from '@reduxjs/toolkit';\n\ntype CartItem = { id: string; qty: number };\ntype CartState = { items: CartItem[] };\n\nconst cartSlice = createSlice({\n  name: 'cart',\n  initialState: { items: [] } as CartState,\n  reducers: {\n    itemAdded(state, action: PayloadAction<string>) {\n      const item = state.items.find((i) => i.id === action.payload);\n      if (item) item.qty += 1;               // looks mutable; Immer makes it immutable\n      else state.items.push({ id: action.payload, qty: 1 });\n    },\n    itemRemoved(state, action: PayloadAction<string>) {\n      state.items = state.items.filter((i) => i.id !== action.payload);\n    },\n  },\n});\n\nexport const { itemAdded, itemRemoved } = cartSlice.actions;\nexport default cartSlice.reducer;\n\n// app/store.ts\nimport { configureStore } from '@reduxjs/toolkit';\nimport { useDispatch, useSelector } from 'react-redux';\nexport const store = configureStore({ reducer: { cart: cartReducer } });\nexport type RootState = ReturnType<typeof store.getState>;\nexport type AppDispatch = typeof store.dispatch;\nexport const useAppDispatch = useDispatch.withTypes<AppDispatch>();\nexport const useAppSelector = useSelector.withTypes<RootState>();"
+          }
+        },
+        {
+          "heading": "Selectors and re-renders",
+          "body": "`useSelector(selector)` runs the selector after every dispatched action and re-renders the component only if the result changed by **reference** (`===`). Consequences:\n- Select the smallest value you need: `state.cart.items.length`, not the whole state.\n- A selector that returns a new object or array every time (`state.items.filter(...)`, `{ a, b }`) re-renders on **every** action. React-Redux warns about this in development.\n- Use `createSelector` (Reselect, re-exported by RTK) to memoize derived data: it recomputes only when its input selectors' results change.\n\nKeep the store normalized (entities by id plus an id list) for relational data; `createEntityAdapter` provides that structure and CRUD reducers.",
+          "code": {
+            "lang": "ts",
+            "source": "import { createSelector } from '@reduxjs/toolkit';\n\nconst selectItems = (state: RootState) => state.cart.items;\nconst selectProducts = (state: RootState) => state.products.byId;\n\nexport const selectCartTotal = createSelector(\n  [selectItems, selectProducts],\n  (items, products) => items.reduce((sum, i) => sum + i.qty * products[i.id].price, 0)\n);\n\n// in a component\nconst total = useAppSelector(selectCartTotal);"
+          }
+        },
+        {
+          "heading": "Async logic: thunks and listeners",
+          "body": "Reducers must be pure, so side effects go elsewhere.\n- `createAsyncThunk('posts/fetch', async (id) => api.get(id))` dispatches `pending`, `fulfilled` and `rejected` actions you handle in `extraReducers` with the **builder callback** (the object syntax was removed in RTK 2). It supports cancellation via `signal` and `rejectWithValue`.\n- The **listener middleware** (`createListenerMiddleware`) runs side effects in response to actions, a lighter alternative to sagas for things like autosave, analytics or debounced syncing.\n\nFor data fetching specifically, thunks plus loading flags are the old way. Use RTK Query."
+        },
+        {
+          "heading": "RTK Query",
+          "body": "RTK Query is a server-state cache built into RTK. Define an API slice with endpoints; it generates hooks like `useGetPostsQuery` and `useAddPostMutation`, and handles caching by endpoint and arguments, deduplication, loading and error states, polling, refetch on focus or reconnect, and cache lifetimes (`keepUnusedDataFor`, 60 seconds by default).\n\nInvalidation is **tag based**: queries `providesTags`, mutations `invalidatesTags`, and RTK Query automatically refetches affected queries. Optimistic updates use `onQueryStarted` with `updateQueryData` and `undo` on failure. Choose RTK Query when you already use Redux; otherwise TanStack Query is the more common standalone choice.",
+          "code": {
+            "lang": "ts",
+            "source": "import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';\n\nexport const api = createApi({\n  reducerPath: 'api',\n  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),\n  tagTypes: ['Post'],\n  endpoints: (build) => ({\n    getPosts: build.query<Post[], void>({\n      query: () => 'posts',\n      providesTags: (result = []) => [\n        ...result.map((p) => ({ type: 'Post' as const, id: p.id })),\n        { type: 'Post' as const, id: 'LIST' },\n      ],\n    }),\n    addPost: build.mutation<Post, Partial<Post>>({\n      query: (body) => ({ url: 'posts', method: 'POST', body }),\n      invalidatesTags: [{ type: 'Post', id: 'LIST' }],\n    }),\n  }),\n});\n\nexport const { useGetPostsQuery, useAddPostMutation } = api;\n// store: reducer: { [api.reducerPath]: api.reducer }, middleware: (gDM) => gDM().concat(api.middleware)"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Redux: dispatch actions, pure reducers compute state, components select slices.",
+        "Redux Toolkit is the official way to write Redux; createSlice generates actions and reducers.",
+        "Immer lets reducers write mutating code that produces immutable updates; mutate or return, not both.",
+        "useSelector re-renders when the selected value changes by reference; avoid returning new objects.",
+        "createSelector memoizes derived data; createEntityAdapter normalizes collections.",
+        "createAsyncThunk and the listener middleware handle side effects; extraReducers uses the builder callback in RTK 2.",
+        "RTK Query caches server data with providesTags and invalidatesTags."
+      ],
+      "questions": [
+        {
+          "id": "state-management-03-q01",
+          "type": "mcq",
+          "prompt": "Why does this reducer work even though it looks like a mutation?",
+          "code": "todoToggled(state, action) {\n  const todo = state.find((t) => t.id === action.payload);\n  todo.completed = !todo.completed;\n}",
+          "options": [
+            "Redux allows mutation",
+            "createSlice wraps reducers with Immer, which turns draft mutations into a new immutable state",
+            "It does not work",
+            "Because it returns undefined"
+          ],
+          "answer": 1,
+          "explanation": "Immer tracks changes on a draft proxy and produces a new state with structural sharing."
+        },
+        {
+          "id": "state-management-03-q02",
+          "type": "mcq",
+          "prompt": "How often does this component re-render?",
+          "code": "const done = useAppSelector((s) => s.todos.filter((t) => t.done));",
+          "options": [
+            "Only when todos change",
+            "After every dispatched action in the app, because filter returns a new array each time",
+            "Never",
+            "Only on mount"
+          ],
+          "answer": 1,
+          "explanation": "useSelector compares results with ===. A fresh array is always different. Memoize with createSelector."
+        },
+        {
+          "id": "state-management-03-q03",
+          "type": "mcq",
+          "prompt": "What is wrong with this Immer reducer?",
+          "code": "itemAdded(state, action) {\n  state.items.push(action.payload);\n  return { ...state, count: state.count + 1 };\n}",
+          "options": [
+            "Nothing",
+            "It both mutates the draft and returns a new value, which Immer forbids",
+            "push is not allowed",
+            "It must be async"
+          ],
+          "answer": 1,
+          "explanation": "An Immer producer must either modify the draft or return a new state, not both. Write state.count += 1 instead."
+        },
+        {
+          "id": "state-management-03-q04",
+          "type": "mcq",
+          "prompt": "Which actions does createAsyncThunk('users/fetch', ...) dispatch?",
+          "options": [
+            "users/fetch only",
+            "users/fetch/pending, users/fetch/fulfilled, users/fetch/rejected",
+            "start, success, failure",
+            "None; it returns a promise only"
+          ],
+          "answer": 1,
+          "explanation": "The thunk dispatches lifecycle actions you handle in extraReducers."
+        },
+        {
+          "id": "state-management-03-q05",
+          "type": "mcq",
+          "prompt": "In RTK Query, how does adding a post make the post list refetch?",
+          "options": [
+            "You call refetch manually",
+            "The mutation's invalidatesTags matches tags provided by the list query, so RTK Query refetches it",
+            "Polling",
+            "The store reloads"
+          ],
+          "answer": 1,
+          "explanation": "Tag-based invalidation links mutations to the cached queries they affect."
+        },
+        {
+          "id": "state-management-03-q06",
+          "type": "mcq",
+          "prompt": "In RTK 2, how must extraReducers be written?",
+          "options": [
+            "As an object keyed by action type",
+            "With the builder callback: (builder) => builder.addCase(...)",
+            "As a switch statement",
+            "extraReducers was removed"
+          ],
+          "answer": 1,
+          "explanation": "RTK 2 removed the object syntax for extraReducers and createReducer in favor of the type-safe builder callback."
+        },
+        {
+          "id": "state-management-03-q07",
+          "type": "truefalse",
+          "prompt": "Redux reducers may call APIs and generate random ids.",
+          "answer": false,
+          "explanation": "Reducers must be pure. Side effects go in thunks, listeners or the code that dispatches; ids can be generated in a prepare callback."
+        },
+        {
+          "id": "state-management-03-q08",
+          "type": "truefalse",
+          "prompt": "configureStore sets up Redux DevTools and the thunk middleware by default.",
+          "answer": true,
+          "explanation": "It also adds development checks for state mutation and non-serializable values."
+        },
+        {
+          "id": "state-management-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: what does RTK Query handle for you?",
+          "options": [
+            "Caching responses by endpoint and arguments",
+            "Deduplicating identical in-flight requests",
+            "Loading and error state",
+            "Server-side database migrations",
+            "Refetching after tag invalidation"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "RTK Query is a client-side data fetching and caching layer, not a backend tool."
+        },
+        {
+          "id": "state-management-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the RTK function that creates memoized selectors is ___.",
+          "accept": [
+            "createSelector",
+            "createSelector()",
+            "reselect"
+          ],
+          "explanation": "createSelector (from Reselect, re-exported by RTK) recomputes only when inputs change."
+        },
+        {
+          "id": "state-management-03-q11",
+          "type": "interview",
+          "prompt": "Explain the Redux data flow and why Redux Toolkit is recommended.",
+          "top": true,
+          "answer": "State lives in one store. Components dispatch actions describing events; the store runs the root reducer, which delegates to slice reducers that compute the next state purely from the previous state and the action; subscribers re-run their selectors and re-render if the selected value changed. Middleware sits between dispatch and the reducer for side effects and logging. This makes changes predictable, traceable in DevTools and testable. Redux Toolkit is the official approach because classic Redux needed a lot of boilerplate and made immutable updates error-prone. RTK's createSlice generates actions and reducers, Immer allows readable updates, configureStore sets up middleware, DevTools and safety checks, createAsyncThunk and listeners handle async logic, createEntityAdapter normalizes data, and RTK Query replaces hand-written fetching code.",
+          "level": "intermediate"
+        },
+        {
+          "id": "state-management-03-q12",
+          "type": "interview",
+          "prompt": "How do you optimize a Redux app that re-renders too much?",
+          "answer": "First profile to see which components render and why. Common fixes: select the smallest value needed rather than large objects; never return new objects or arrays from inline selectors, and use createSelector for derived data, or shallowEqual as the equality function when returning a small object; normalize state with createEntityAdapter so list items select their entity by id and update independently; pass ids to list rows and let each row select its own data; keep form drafts and transient UI state local instead of in Redux; and move server data to RTK Query, whose hooks only re-render on relevant cache changes. Also batch related changes into one action rather than many dispatches.",
+          "level": "intermediate"
+        },
+        {
+          "id": "state-management-03-q13",
+          "type": "interview",
+          "prompt": "When would you choose Redux Toolkit over Zustand today?",
+          "answer": "Redux Toolkit fits large applications and teams that benefit from enforced structure: one store with conventions (slices, actions as events), excellent DevTools with action history and time travel, middleware ecosystem, the listener middleware for complex workflows, and RTK Query integrated for server state with tag invalidation. It also helps when many developers need consistent patterns or when the app has heavy event-driven logic. Zustand is better when you want minimal API and boilerplate, multiple small stores, simple selectors, and fast onboarding, and it still supports devtools and persistence via middleware. For most new mid-size apps where server state lives in TanStack Query, the remaining client state is small and Zustand is enough; for big enterprise apps with complex client workflows, RTK is a safe choice.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Redux Toolkit: Getting Started",
+          "url": "https://redux.js.org/toolkit/introduction/getting-started"
+        },
+        {
+          "title": "RTK Query Overview",
+          "url": "https://redux.js.org/toolkit/rtk-query/overview"
+        },
+        {
+          "title": "Redux Essentials tutorial",
+          "url": "https://redux.js.org/tutorials/essentials/part-1-overview-concepts"
+        }
+      ]
+    },
+    {
+      "id": "state-management-04-zustand-jotai",
+      "title": "Lightweight Stores: Zustand and Jotai",
+      "level": "intermediate",
+      "summary": "Top-down stores with Zustand and bottom-up atoms with Jotai: selectors, middleware, derived state and pitfalls.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Zustand basics",
+          "body": "Zustand creates a store with a hook. State and actions live together in one object; `set` merges partial updates (shallowly at the top level) and `get` reads current state inside actions. No provider is needed for client-only apps; the store lives at module scope.\n\nComponents subscribe with a **selector** and re-render only when the selected value changes (by `Object.is`). Selecting the whole store re-renders on every change.\n\nThe store also works outside React: `useCartStore.getState()`, `useCartStore.setState()` and `useCartStore.subscribe()` let WebSocket handlers or utilities read and update it.",
+          "code": {
+            "lang": "ts",
+            "source": "import { create } from 'zustand';\n\ntype CartState = {\n  items: Record<string, number>;\n  add: (id: string) => void;\n  remove: (id: string) => void;\n  clear: () => void;\n};\n\nexport const useCartStore = create<CartState>()((set) => ({\n  items: {},\n  add: (id) => set((s) => ({ items: { ...s.items, [id]: (s.items[id] ?? 0) + 1 } })),\n  remove: (id) =>\n    set((s) => {\n      const { [id]: _, ...rest } = s.items;\n      return { items: rest };\n    }),\n  clear: () => set({ items: {} }),\n}));\n\n// Component: re-renders only when the count changes\nconst count = useCartStore((s) => Object.keys(s.items).length);\nconst add = useCartStore((s) => s.add);"
+          }
+        },
+        {
+          "heading": "Selector pitfalls and useShallow",
+          "body": "A selector that returns a new object or array on every call (`(s) => ({ a: s.a, b: s.b })` or `(s) => s.items.filter(...)`) is never equal to the previous result. In Zustand v5 this causes an infinite render loop error, because v5 uses React's `useSyncExternalStore` without a custom equality function.\n\nFixes:\n- Select primitives separately: two `useStore` calls.\n- Wrap the selector with `useShallow` from `zustand/react/shallow`, which compares top-level keys or array items shallowly.\n- Derive expensive values with memoization outside the selector, or select the source data and compute in render.",
+          "code": {
+            "lang": "ts",
+            "source": "import { useShallow } from 'zustand/react/shallow';\n\n// Bad in v5: new object every time -> infinite loop error\n// const { items, clear } = useCartStore((s) => ({ items: s.items, clear: s.clear }));\n\nconst { items, clear } = useCartStore(\n  useShallow((s) => ({ items: s.items, clear: s.clear }))\n);"
+          }
+        },
+        {
+          "heading": "Zustand middleware",
+          "body": "- `devtools`: connects to Redux DevTools with named actions.\n- `persist`: saves state to localStorage (or any storage) with `partialize` to choose fields and `version` plus `migrate` for schema changes. With SSR, the server renders without persisted values, so components can mismatch on hydration; render persisted-dependent UI after hydration (`persist.hasHydrated()` or `onFinishHydration`) or use `skipHydration` and rehydrate in an effect.\n- `immer`: write mutating updates.\n- `subscribeWithSelector`: subscribe outside React to a slice.\n\nIn Next.js and other SSR frameworks, a module-level store is shared by **all requests on the server**, which can leak one user's data into another's render. For per-user state on the server, create the store per request with `createStore` from `zustand/vanilla` inside a provider and pass it through context."
+        },
+        {
+          "heading": "Jotai: atoms, bottom-up",
+          "body": "Jotai models state as **atoms**: small independent units. A primitive atom holds a value; a **derived atom** computes from other atoms with `get`, and Jotai tracks dependencies automatically. Components use `useAtom` (value and setter), `useAtomValue` (read only) or `useSetAtom` (write only, does not re-render on changes). A component re-renders only when the atoms it reads change.\n\nThe model resembles `useState` that you can share anywhere, plus a dependency graph like spreadsheet cells. Async atoms return promises and integrate with Suspense. Utilities include `atomWithStorage` for persistence and `selectAtom` for slices. A `Provider` scopes atom values to a subtree (useful for per-request SSR state and tests); without one, a default store is used.",
+          "code": {
+            "lang": "ts",
+            "source": "import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';\n\nconst priceAtom = atom(100);\nconst qtyAtom = atom(2);\nconst totalAtom = atom((get) => get(priceAtom) * get(qtyAtom)); // derived, read-only\n\nconst incrementQtyAtom = atom(null, (get, set) => set(qtyAtom, get(qtyAtom) + 1)); // write-only action\n\nfunction Total() {\n  const total = useAtomValue(totalAtom); // re-renders when price or qty changes\n  return <p>{total}</p>;\n}\n\nfunction AddButton() {\n  const increment = useSetAtom(incrementQtyAtom); // never re-renders from state changes\n  return <button onClick={increment}>+</button>;\n}"
+          }
+        },
+        {
+          "heading": "Zustand vs Jotai vs Redux Toolkit",
+          "body": "- **Zustand**: top-down, one or a few stores, actions next to state, selectors. Great default for app-level client state; easy to use outside React.\n- **Jotai**: bottom-up atoms, fine-grained dependency tracking, derived and async state compose naturally. Great for complex interdependent UI state (editors, form builders, dashboards with many linked controls).\n- **Redux Toolkit**: one store with strict conventions, strongest devtools and middleware, RTK Query included. Great for large teams and complex event-driven logic.\n\nAll three use `useSyncExternalStore` (or equivalent) to avoid tearing under concurrent rendering. None of them should hold server data that a query cache handles better."
+        }
+      ],
+      "keyPoints": [
+        "Zustand: create a hook-based store; set merges top-level fields; no provider needed on the client.",
+        "Subscribe with selectors; components re-render only when the selected value changes.",
+        "In Zustand v5, selectors returning new objects cause infinite loops; use useShallow or select primitives.",
+        "persist, devtools, immer and subscribeWithSelector cover common needs; persist needs hydration care with SSR.",
+        "Module-level stores are shared across server requests; create per-request stores for user data in SSR.",
+        "Jotai atoms are bottom-up; derived atoms track dependencies; useSetAtom avoids re-renders.",
+        "Pick Zustand for simple app state, Jotai for interdependent fine-grained state, RTK for large structured apps."
+      ],
+      "questions": [
+        {
+          "id": "state-management-04-q01",
+          "type": "mcq",
+          "prompt": "What happens with this selector in Zustand v5?",
+          "code": "const { user, logout } = useAuthStore((s) => ({ user: s.user, logout: s.logout }));",
+          "options": [
+            "Works fine",
+            "A new object each time causes an infinite render loop error; wrap with useShallow",
+            "Returns undefined",
+            "Only re-renders when user changes"
+          ],
+          "answer": 1,
+          "explanation": "The selector output never equals the previous one by Object.is. useShallow compares the object's fields."
+        },
+        {
+          "id": "state-management-04-q02",
+          "type": "mcq",
+          "prompt": "State is { count: 1, name: 'a' }. After set({ count: 2 }), what is the state?",
+          "options": [
+            "{ count: 2 }",
+            "{ count: 2, name: 'a' }",
+            "{ count: 2, name: undefined }",
+            "An error"
+          ],
+          "answer": 1,
+          "explanation": "Zustand's set merges at the top level. Nested objects are not deep-merged."
+        },
+        {
+          "id": "state-management-04-q03",
+          "type": "mcq",
+          "prompt": "A WebSocket handler outside React needs to add a message to a Zustand store. How?",
+          "options": [
+            "It cannot",
+            "useChatStore.getState().addMessage(msg)",
+            "Dispatch a DOM event",
+            "Render a hidden component"
+          ],
+          "answer": 1,
+          "explanation": "Zustand stores expose getState, setState and subscribe for use outside components."
+        },
+        {
+          "id": "state-management-04-q04",
+          "type": "mcq",
+          "prompt": "Which Jotai hook should a button use when it only updates an atom?",
+          "options": [
+            "useAtom",
+            "useAtomValue",
+            "useSetAtom",
+            "useStore"
+          ],
+          "answer": 2,
+          "explanation": "useSetAtom returns the setter without subscribing to the value, so the button does not re-render on changes."
+        },
+        {
+          "id": "state-management-04-q05",
+          "type": "mcq",
+          "prompt": "When does a component using useAtomValue(totalAtom) re-render, given totalAtom = atom((get) => get(price) * get(qty))?",
+          "options": [
+            "On any atom change in the app",
+            "When price or qty changes and the total value changes",
+            "Never",
+            "Only when totalAtom is set directly"
+          ],
+          "answer": 1,
+          "explanation": "Jotai tracks the derived atom's dependencies and notifies only readers whose atoms changed."
+        },
+        {
+          "id": "state-management-04-q06",
+          "type": "mcq",
+          "prompt": "In a Next.js app, a module-level Zustand store holds the logged-in user's profile, set during server rendering. What is the risk?",
+          "options": [
+            "None",
+            "The store is shared across all requests on the server, so one user's data can appear in another user's render",
+            "Zustand cannot run on the server",
+            "It disables caching"
+          ],
+          "answer": 1,
+          "explanation": "Module scope is per server process, not per request. Create a store per request via a provider and context."
+        },
+        {
+          "id": "state-management-04-q07",
+          "type": "truefalse",
+          "prompt": "Zustand requires wrapping the app in a Provider.",
+          "answer": false,
+          "explanation": "Client-side stores are module-level hooks. A provider is only used for per-request or scoped stores."
+        },
+        {
+          "id": "state-management-04-q08",
+          "type": "truefalse",
+          "prompt": "Jotai derived atoms automatically track which atoms they read.",
+          "answer": true,
+          "explanation": "Calling get(atom) inside a read function registers a dependency, like a spreadsheet formula."
+        },
+        {
+          "id": "state-management-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: ways to avoid unnecessary re-renders with Zustand.",
+          "options": [
+            "Select only the fields you need",
+            "Use useShallow when selecting multiple fields as an object",
+            "Call useStore() with no selector",
+            "Select actions separately (they are stable)",
+            "Return a freshly filtered array from the selector"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "No selector subscribes to everything, and new arrays break equality."
+        },
+        {
+          "id": "state-management-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the Zustand middleware that saves state to localStorage is called ___.",
+          "accept": [
+            "persist",
+            "persist()",
+            "persist middleware"
+          ],
+          "explanation": "persist stores state in a storage engine, with partialize, version and migrate options."
+        },
+        {
+          "id": "state-management-04-q11",
+          "type": "interview",
+          "prompt": "Compare Zustand and Jotai. When would you use each?",
+          "top": true,
+          "answer": "Both are small, hook-based, and use selectors or subscriptions to avoid needless re-renders. Zustand is top-down: you define a store object with state and actions, components select slices, and the store is accessible outside React with getState and setState. It suits app-level client state like a cart, UI preferences or a wizard, and teams coming from Redux find it familiar. Jotai is bottom-up: state is many small atoms, and derived atoms compute from others with automatic dependency tracking, including async atoms with Suspense. It suits highly interdependent, fine-grained state like editors, canvas tools, form builders or dashboards with linked filters, where atoms can be created dynamically per item. Neither replaces a server-state cache.",
+          "level": "intermediate"
+        },
+        {
+          "id": "state-management-04-q12",
+          "type": "interview",
+          "prompt": "How do you use Zustand safely with SSR in Next.js?",
+          "answer": "For purely client state that does not depend on the request (UI toggles), a module-level store is fine as long as the server never writes user-specific data into it. For state initialized from request data, I create the store per request: a vanilla store factory with createStore, a client provider component that creates the store once with useRef or useState and the initial data passed from a Server Component as props, and a custom hook that reads the store from context with useStore and a selector. That avoids cross-request leaks and lets each render hydrate with its own data. With persist, I account for hydration: the server has no localStorage, so I render persisted UI after hydration or use skipHydration and rehydrate in an effect to avoid mismatches. I also keep server data itself in Server Components or TanStack Query rather than the store.",
+          "level": "intermediate"
+        },
+        {
+          "id": "state-management-04-q13",
+          "type": "interview",
+          "prompt": "Why do modern state libraries use useSyncExternalStore?",
+          "answer": "With concurrent rendering, React can render part of the tree, pause, and continue after an external store has changed, so different components could show different versions of the same state in one frame, which is called tearing. useSyncExternalStore subscribes to an external store and reads a snapshot in a way React can keep consistent: if the store changes during a concurrent render, React re-renders synchronously so all components see the same snapshot. It also supports a server snapshot for SSR. Zustand, Redux and Jotai-style integrations use it, which is also why snapshots must be stable references: returning a new object each read looks like a change and causes loops.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Zustand docs: Introduction",
+          "url": "https://zustand.docs.pmnd.rs/learn/getting-started/introduction"
+        },
+        {
+          "title": "Jotai docs: atom",
+          "url": "https://jotai.org/docs/core/atom"
+        }
+      ]
+    },
+    {
+      "id": "state-management-05-tanstack-query",
+      "title": "Server State with TanStack Query and SWR",
+      "level": "intermediate",
+      "summary": "Query keys, staleTime and gcTime, status flags, defaults, dependent and paginated queries, and how SWR compares.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "The mental model",
+          "body": "TanStack Query (formerly React Query) is an async state manager for server data. Each query is identified by a **query key** and fetched by a **query function**. Results live in a `QueryClient` cache shared by every component; components using the same key share one request and one cache entry.\n\nSetup: create one `QueryClient` and provide it with `QueryClientProvider`. In SSR frameworks, create it inside a component (`useState(() => new QueryClient())`) so each browser session gets one instance and the server never shares a cache between requests.",
+          "code": {
+            "lang": "tsx",
+            "source": "import { useQuery } from '@tanstack/react-query';\n\nfunction useTodos(filter: 'all' | 'done') {\n  return useQuery({\n    queryKey: ['todos', { filter }],\n    queryFn: async ({ signal }) => {\n      const res = await fetch(`/api/todos?filter=${filter}`, { signal });\n      if (!res.ok) throw new Error('Failed to load todos'); // fetch does not reject on HTTP errors\n      return (await res.json()) as Todo[];\n    },\n    staleTime: 30_000,\n  });\n}\n\nfunction TodoList() {\n  const { data, isPending, isError, error, isFetching } = useTodos('all');\n  if (isPending) return <Spinner />;\n  if (isError) return <ErrorBox error={error} />;\n  return <List todos={data} refreshing={isFetching} />;\n}"
+          }
+        },
+        {
+          "heading": "Query keys",
+          "body": "Query keys are arrays, hashed deterministically (object key order does not matter). The key must include **every variable the query function depends on**: ids, filters, page numbers, locale. Then changing a variable automatically fetches and caches the new data separately, and switching back is instant.\n\nStructure keys hierarchically, general to specific: `['todos']`, `['todos', 'list', { filter }]`, `['todos', 'detail', id]`. Invalidation matches **by prefix**, so invalidating `['todos']` covers all of them. Many teams centralize keys in a key factory or use the `queryOptions` helper to share key and function together with full type inference."
+        },
+        {
+          "heading": "staleTime, gcTime and the important defaults",
+          "body": "- **staleTime** (default `0`): how long data is considered fresh. Fresh data is served from cache without refetching. Stale data is still shown immediately but refetched in the background on triggers.\n- **gcTime** (default 5 minutes; called `cacheTime` before v5): how long an **unused** (no observers) query stays in cache before garbage collection.\n\nWith default staleTime 0, stale queries refetch automatically when a new component mounts using them, when the window regains focus, and when the network reconnects. Failed queries retry 3 times with exponential backoff on the client. Setting a sensible `staleTime` (seconds to minutes) is the single most common tuning step, and it is essential with SSR so the client does not refetch immediately after hydration.\n\nStatus flags in v5:\n- `status`: `'pending'` (no data yet), `'error'`, `'success'`.\n- `fetchStatus`: `'fetching'`, `'paused'` (offline), `'idle'`.\n- `isPending` means no data yet; `isFetching` means any request in flight, including background refetches; `isLoading` is `isPending && isFetching` (first load in progress)."
+        },
+        {
+          "heading": "Common query patterns",
+          "body": "- **Dependent queries**: `enabled: !!userId` waits until a prerequisite exists.\n- **Pagination without flicker**: `placeholderData: keepPreviousData` shows the previous page while the next loads; `isPlaceholderData` tells you it is old.\n- **Transform or select**: `select: (data) => data.filter(...)` derives data and re-renders only when the selected result changes.\n- **Infinite scroll**: `useInfiniteQuery` with `initialPageParam` (required in v5) and `getNextPageParam`, then `fetchNextPage` and `hasNextPage`.\n- **Prefetching**: `queryClient.prefetchQuery` on hover or in a route loader.\n- **Suspense**: `useSuspenseQuery` suspends instead of returning pending state, so `data` is always defined.\n- **initialData vs placeholderData**: initialData is treated as real cached data (persisted, respects staleTime); placeholderData is shown temporarily and never cached.",
+          "code": {
+            "lang": "tsx",
+            "source": "import { keepPreviousData, useQuery } from '@tanstack/react-query';\n\nfunction Projects() {\n  const [page, setPage] = useState(1);\n  const { data, isPlaceholderData } = useQuery({\n    queryKey: ['projects', page],\n    queryFn: () => fetchProjects(page),\n    placeholderData: keepPreviousData,\n  });\n  return (\n    <>\n      <ProjectList projects={data?.items ?? []} dimmed={isPlaceholderData} />\n      <button disabled={isPlaceholderData || !data?.hasMore} onClick={() => setPage((p) => p + 1)}>Next</button>\n    </>\n  );\n}"
+          }
+        },
+        {
+          "heading": "SWR",
+          "body": "SWR (from Vercel) follows the same stale-while-revalidate idea with a smaller API: `const { data, error, isLoading, isValidating, mutate } = useSWR(key, fetcher)`. The key is usually the URL string (or an array); passing `null` disables the request, which is how conditional fetching works. Defaults include deduping identical requests within 2 seconds, revalidating on focus and reconnect, and retrying on error. `mutate` updates or revalidates cached data, with `optimisticData` and `rollbackOnError` options; `useSWRMutation` handles remote mutations and `useSWRInfinite` handles pagination.\n\nChoosing: SWR is lighter and simpler for read-heavy apps. TanStack Query has richer mutation handling, cache manipulation APIs, devtools, infinite queries, offline support and framework adapters beyond React. Both are far better than hand-written fetching in effects."
+        }
+      ],
+      "keyPoints": [
+        "Queries are cached by key in a shared QueryClient; same key means one request and one cache entry.",
+        "Include every variable the query depends on in the key; structure keys general to specific.",
+        "staleTime (default 0) controls freshness; gcTime (default 5 minutes) controls cleanup of unused queries.",
+        "Stale queries refetch on mount, window focus and reconnect; failed queries retry 3 times by default.",
+        "isPending means no data yet; isFetching includes background refetches; isLoading is both.",
+        "Use enabled for dependent queries, keepPreviousData for pagination, select for derived data.",
+        "SWR offers the same stale-while-revalidate model with a smaller API."
+      ],
+      "questions": [
+        {
+          "id": "state-management-05-q01",
+          "type": "mcq",
+          "prompt": "What is the bug?",
+          "code": "function useUser(id: string) {\n  return useQuery({\n    queryKey: ['user'],\n    queryFn: () => fetchUser(id),\n  });\n}",
+          "options": [
+            "queryFn must be async",
+            "The key does not include id, so different users share one cache entry and changing id does not refetch",
+            "useQuery needs a string key",
+            "Nothing"
+          ],
+          "answer": 1,
+          "explanation": "Keys must contain every dependency of the query function: ['user', id]."
+        },
+        {
+          "id": "state-management-05-q02",
+          "type": "mcq",
+          "prompt": "With default settings, a user switches browser tabs and comes back to a page with a todos query. What happens?",
+          "options": [
+            "Nothing",
+            "The stale query refetches in the background while showing cached data",
+            "The page reloads",
+            "The cache is cleared"
+          ],
+          "answer": 1,
+          "explanation": "staleTime defaults to 0 and refetchOnWindowFocus defaults to true."
+        },
+        {
+          "id": "state-management-05-q03",
+          "type": "mcq",
+          "prompt": "A component using ['todos'] unmounts and no other component uses that query. When is the data removed from the cache by default?",
+          "options": [
+            "Immediately",
+            "After gcTime, 5 minutes by default",
+            "After staleTime",
+            "Never"
+          ],
+          "answer": 1,
+          "explanation": "Inactive queries are garbage collected after gcTime. staleTime only controls freshness."
+        },
+        {
+          "id": "state-management-05-q04",
+          "type": "mcq",
+          "prompt": "A query already has data and is refetching in the background. Which flags are true?",
+          "options": [
+            "isPending and isFetching",
+            "isFetching only (status is success)",
+            "isLoading",
+            "isError"
+          ],
+          "answer": 1,
+          "explanation": "isPending means no data yet. A background refetch with data has status success and isFetching true."
+        },
+        {
+          "id": "state-management-05-q05",
+          "type": "mcq",
+          "prompt": "The fetch returns HTTP 500 but the query shows success with an error JSON body. Why?",
+          "code": "queryFn: () => fetch('/api/items').then((r) => r.json())",
+          "options": [
+            "TanStack Query ignores status codes",
+            "fetch only rejects on network errors; the queryFn must throw when !res.ok",
+            "500 is cached",
+            "retry is disabled"
+          ],
+          "answer": 1,
+          "explanation": "A query errors only when the queryFn throws or rejects. Check res.ok and throw."
+        },
+        {
+          "id": "state-management-05-q06",
+          "type": "mcq",
+          "prompt": "How do you run a projects query only after the user query has loaded a userId?",
+          "options": [
+            "Call useQuery inside an if",
+            "Pass enabled: !!userId to the dependent query",
+            "Use useEffect to call fetch",
+            "Put both in one queryFn always"
+          ],
+          "answer": 1,
+          "explanation": "enabled keeps the query idle until its prerequisite exists, while still following the rules of hooks."
+        },
+        {
+          "id": "state-management-05-q07",
+          "type": "truefalse",
+          "prompt": "Two components that call useQuery with the same key at the same time trigger only one network request.",
+          "answer": true,
+          "explanation": "Queries are deduplicated by key; both components observe the same cache entry."
+        },
+        {
+          "id": "state-management-05-q08",
+          "type": "truefalse",
+          "prompt": "placeholderData is persisted to the cache just like initialData.",
+          "answer": false,
+          "explanation": "placeholderData is displayed temporarily and not stored; initialData is treated as real cached data."
+        },
+        {
+          "id": "state-management-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: default TanStack Query v5 behaviors on the client.",
+          "options": [
+            "staleTime is 0",
+            "gcTime is 5 minutes",
+            "Failed queries retry 3 times",
+            "Queries refetch on window focus when stale",
+            "Mutations are retried 3 times"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Mutations do not retry by default; queries do."
+        },
+        {
+          "id": "state-management-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in v5, the option previously named cacheTime is called ___.",
+          "accept": [
+            "gcTime",
+            "gc time"
+          ],
+          "explanation": "v5 renamed cacheTime to gcTime to make clear it is about garbage collection of unused queries."
+        },
+        {
+          "id": "state-management-05-q11",
+          "type": "interview",
+          "prompt": "Explain staleTime vs gcTime in TanStack Query.",
+          "top": true,
+          "answer": "staleTime is how long fetched data is considered fresh. While fresh, components get it from cache with no refetch; once stale, it is still returned instantly but refetched in the background on triggers like a new mount, window focus or reconnect. The default 0 means data is stale immediately, so it refetches often. gcTime is how long a query with no active observers stays in memory before being garbage collected, 5 minutes by default; it does not affect freshness. Example: staleTime 1 minute and gcTime 10 minutes means navigating back within a minute shows data with no request, within 10 minutes shows cached data instantly plus a background refetch, and after 10 minutes unused it must load from scratch. I set staleTime based on how quickly the data really changes, and above 0 for SSR-hydrated data.",
+          "level": "intermediate"
+        },
+        {
+          "id": "state-management-05-q12",
+          "type": "interview",
+          "prompt": "Why use TanStack Query instead of fetching in useEffect and storing results in state?",
+          "answer": "Fetching in effects means rebuilding a cache by hand and usually incompletely: loading and error state per request, race conditions when inputs change, no deduplication when several components need the same data, no caching between navigations, no background refresh, retries, window-focus refetching, pagination helpers or offline handling, and manual updates after mutations. TanStack Query gives all that declaratively by key, plus invalidation, optimistic updates, prefetching, SSR hydration, Suspense support and devtools. The code becomes smaller and the UX better because cached data shows instantly while fresh data loads. It also separates server state from client state, which simplifies the rest of the app.",
+          "level": "intermediate"
+        },
+        {
+          "id": "state-management-05-q13",
+          "type": "interview",
+          "prompt": "How do you design query keys for a large app?",
+          "answer": "Keys are hierarchical arrays from general to specific, so invalidation can target any level by prefix: ['todos'] for everything, ['todos', 'list', { status, page }] for lists, ['todos', 'detail', id] for single items. Every variable used by the query function goes into the key. I centralize them in a key factory per feature (todoKeys.all, todoKeys.list(filters), todoKeys.detail(id)) or better, queryOptions factories that bundle key, queryFn and options, giving type-safe reuse across useQuery, prefetchQuery, setQueryData and invalidateQueries. Objects in keys are hashed deterministically, so property order does not matter. Avoid putting non-serializable values or entire large objects in keys.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "TanStack Query: Overview",
+          "url": "https://tanstack.com/query/latest/docs/framework/react/overview"
+        },
+        {
+          "title": "TanStack Query: Important Defaults",
+          "url": "https://tanstack.com/query/latest/docs/framework/react/guides/important-defaults"
+        },
+        {
+          "title": "SWR: Getting Started",
+          "url": "https://swr.vercel.app/docs/getting-started"
+        }
+      ]
+    },
+    {
+      "id": "state-management-06-forms-rhf-zod",
+      "title": "Form State with React Hook Form and Zod",
+      "level": "intermediate",
+      "summary": "Uncontrolled-first form state, schema validation shared with the server, controlled components, field arrays and server errors.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Why forms deserve their own tool",
+          "body": "Form state has many parts: values, default values, validation errors per field, touched and dirty flags, submission state, async validation, and server errors. Storing each field in `useState` re-renders the whole form on every keystroke and leads to lots of glue code.\n\n**React Hook Form (RHF)** keeps inputs **uncontrolled** and registers them through refs, reading values from the DOM when needed. Typing in one field does not re-render the form. It subscribes components only to the parts of `formState` they read. Validation can use built-in rules or a schema resolver.\n\n**Zod** defines a schema once and gives you runtime validation plus a TypeScript type (`z.infer`). The same schema can validate on the client (UX) and on the server in a Server Action or API (security)."
+        },
+        {
+          "heading": "A typed form with a Zod resolver",
+          "body": "`useForm` takes `resolver: zodResolver(schema)` from `@hookform/resolvers` and `defaultValues`. `register('name')` returns `{ name, onChange, onBlur, ref }` to spread on an input. `handleSubmit(onValid)` validates and calls your function with typed data. `formState.errors` holds messages; `isSubmitting` is true while an async submit handler runs.\n\nValidation timing is set by `mode`: `'onSubmit'` (default), `'onBlur'`, `'onChange'`, `'onTouched'` or `'all'`. After the first submit, fields revalidate on change by default (`reValidateMode`).",
+          "code": {
+            "lang": "tsx",
+            "source": "import { useForm } from 'react-hook-form';\nimport { zodResolver } from '@hookform/resolvers/zod';\nimport { z } from 'zod';\n\nexport const signupSchema = z\n  .object({\n    email: z.email('Enter a valid email'),\n    password: z.string().min(8, 'At least 8 characters'),\n    confirm: z.string(),\n    age: z.coerce.number().int().min(18, 'You must be 18+'),\n  })\n  .refine((d) => d.password === d.confirm, { message: 'Passwords do not match', path: ['confirm'] });\n\ntype SignupInput = z.input<typeof signupSchema>;\ntype SignupValues = z.output<typeof signupSchema>;\n\nexport function SignupForm() {\n  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<SignupInput, unknown, SignupValues>({\n    resolver: zodResolver(signupSchema),\n    defaultValues: { email: '', password: '', confirm: '', age: '' },\n    mode: 'onTouched',\n  });\n\n  async function onSubmit(values: SignupValues) {\n    const res = await signup(values);\n    if (res.error === 'EMAIL_TAKEN') setError('email', { message: 'Email already registered' });\n  }\n\n  return (\n    <form onSubmit={handleSubmit(onSubmit)} noValidate>\n      <input {...register('email')} aria-invalid={!!errors.email} />\n      {errors.email && <p role=\"alert\">{errors.email.message}</p>}\n      <input type=\"password\" {...register('password')} />\n      <input type=\"password\" {...register('confirm')} />\n      {errors.confirm && <p role=\"alert\">{errors.confirm.message}</p>}\n      <input type=\"number\" {...register('age')} />\n      <button disabled={isSubmitting}>Sign up</button>\n    </form>\n  );\n}"
+          }
+        },
+        {
+          "heading": "Controlled components, watching and arrays",
+          "body": "- **Controller / useController**: third-party inputs that do not expose a ref to a native input (a Radix Select, a date picker, MUI components) need `<Controller name control render={({ field }) => ...} />`, which wires `value` and `onChange`.\n- **watch vs useWatch**: `watch('country')` re-renders the whole form host on changes; `useWatch({ control, name: 'country' })` inside a small child component isolates the re-render to that child.\n- **formState is a proxy**: RHF only tracks the properties you read, so destructure what you need (`errors`, `isDirty`) during render.\n- **useFieldArray**: dynamic lists (line items, phone numbers) with `append`, `remove`, `move`. Use `field.id` as the React key, not the index.\n- **reset(values)**: load data from the server into the form (for example after a query resolves) and reset dirty state."
+        },
+        {
+          "heading": "Validate on both sides",
+          "body": "Client validation is for user experience; it can be bypassed. The server must validate again. Sharing the Zod schema keeps rules identical:\n- In a Server Action, `signupSchema.safeParse(Object.fromEntries(formData))` returns `{ success, data }` or `{ success: false, error }`.\n- Return field errors to the client (Zod 4 provides `z.flattenError(error)` and `z.treeifyError(error)` helpers) and map them to fields with `setError` or render them from `useActionState` state.\n- Coerce types explicitly: FormData values are strings, so use `z.coerce.number()` or `valueAsNumber`.\n\nFor simple forms in React 19 and Next.js, uncontrolled inputs with `<form action>` plus `useActionState` and server-side Zod validation may be enough without RHF. RHF earns its place with complex client-side validation, dynamic fields, multi-step wizards and large forms."
+        },
+        {
+          "heading": "Accessibility and UX details",
+          "body": "- Associate labels with inputs (`<label htmlFor>`), and connect error messages with `aria-describedby`; set `aria-invalid` on invalid fields.\n- Focus the first invalid field on submit (RHF does this by default with `shouldFocusError`).\n- Disable the submit button while submitting but avoid disabling it while the form is invalid without explanation; show errors instead.\n- Preserve user input on server errors.\n- Do not validate aggressively on every keystroke before a field is touched; `onTouched` or `onBlur` modes feel less hostile."
+        }
+      ],
+      "keyPoints": [
+        "React Hook Form keeps inputs uncontrolled via refs, avoiding re-renders on every keystroke.",
+        "zodResolver connects a Zod schema; z.infer, z.input and z.output give types from the same source.",
+        "register spreads name, onChange, onBlur and ref; handleSubmit validates before calling your handler.",
+        "Use Controller for third-party controlled inputs and useWatch to isolate re-renders.",
+        "useFieldArray manages dynamic lists; key rows by field.id.",
+        "Validate on the server with the same schema and map server errors back with setError.",
+        "Simple React 19 forms may only need form actions plus server-side validation."
+      ],
+      "questions": [
+        {
+          "id": "state-management-06-q01",
+          "type": "mcq",
+          "prompt": "Why does a form with 30 fields built with useState for each value feel slow, and how does React Hook Form help?",
+          "options": [
+            "useState is async; RHF is sync",
+            "Each keystroke re-renders the whole form; RHF keeps inputs uncontrolled and subscribes to state selectively",
+            "RHF uses a web worker",
+            "useState cannot hold strings"
+          ],
+          "answer": 1,
+          "explanation": "Controlled state at the form level re-renders every field per keystroke. RHF reads values from the DOM via refs."
+        },
+        {
+          "id": "state-management-06-q02",
+          "type": "mcq",
+          "prompt": "A Radix Select component does not work with {...register('country')}. What should you use?",
+          "options": [
+            "useState",
+            "Controller (or useController) to bind value and onChange",
+            "watch",
+            "A hidden input only"
+          ],
+          "answer": 1,
+          "explanation": "register expects a native input ref. Controller adapts controlled components to RHF."
+        },
+        {
+          "id": "state-management-06-q03",
+          "type": "mcq",
+          "prompt": "Where does the 'Passwords do not match' error appear?",
+          "code": "z.object({ password: z.string(), confirm: z.string() })\n  .refine((d) => d.password === d.confirm, {\n    message: 'Passwords do not match',\n    path: ['confirm'],\n  })",
+          "options": [
+            "As a form-level root error",
+            "On the confirm field",
+            "On the password field",
+            "Nowhere"
+          ],
+          "answer": 1,
+          "explanation": "path assigns the refinement error to a specific field, so errors.confirm.message is set."
+        },
+        {
+          "id": "state-management-06-q04",
+          "type": "mcq",
+          "prompt": "In a Server Action, `z.number().parse(formData.get('age'))` always fails. Why?",
+          "options": [
+            "FormData values are strings (or Files), so use z.coerce.number()",
+            "Zod cannot run on the server",
+            "age must be a bigint",
+            "parse is async"
+          ],
+          "answer": 0,
+          "explanation": "FormData never contains numbers; coerce converts the string before validating."
+        },
+        {
+          "id": "state-management-06-q05",
+          "type": "mcq",
+          "prompt": "The server reports that an email is already taken. How do you show it on the email field with RHF?",
+          "options": [
+            "throw an Error",
+            "setError('email', { message: 'Email already registered' })",
+            "reset()",
+            "trigger('email')"
+          ],
+          "answer": 1,
+          "explanation": "setError attaches a manual error to a field, rendered through formState.errors like any other."
+        },
+        {
+          "id": "state-management-06-q06",
+          "type": "mcq",
+          "prompt": "A shipping section depends on the selected country. How do you avoid re-rendering the whole form when country changes?",
+          "options": [
+            "Use watch in the form root",
+            "Use useWatch({ control, name: 'country' }) inside the shipping subcomponent",
+            "Make country a controlled useState",
+            "Disable validation"
+          ],
+          "answer": 1,
+          "explanation": "useWatch subscribes at the component level, isolating re-renders to that child."
+        },
+        {
+          "id": "state-management-06-q07",
+          "type": "truefalse",
+          "prompt": "If the client validates with Zod, the server does not need to validate again.",
+          "answer": false,
+          "explanation": "Client checks can be bypassed by calling the endpoint directly. Always validate on the server."
+        },
+        {
+          "id": "state-management-06-q08",
+          "type": "truefalse",
+          "prompt": "With useFieldArray you should use field.id, not the index, as the React key.",
+          "answer": true,
+          "explanation": "field.id is a stable generated id; index keys misattach inputs when rows are removed or reordered."
+        },
+        {
+          "id": "state-management-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: what does register('email') return to spread on an input?",
+          "options": [
+            "name",
+            "onChange",
+            "onBlur",
+            "ref",
+            "value"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "register wires the uncontrolled input through ref and events; it does not pass value."
+        },
+        {
+          "id": "state-management-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: to get a TypeScript type from a Zod schema, use z.___<typeof schema>.",
+          "accept": [
+            "infer",
+            "z.infer",
+            "output"
+          ],
+          "explanation": "z.infer (an alias of z.output) derives the parsed output type; z.input gives the pre-transform type."
+        },
+        {
+          "id": "state-management-06-q11",
+          "type": "interview",
+          "prompt": "How would you build a complex form with validation in React?",
+          "top": true,
+          "answer": "Define a Zod schema as the single source of rules and types, including cross-field refinements and coercion. Use React Hook Form with zodResolver, defaultValues for every field and a validation mode like onTouched. Native inputs use register; third-party controlled components use Controller; dynamic sections use useFieldArray keyed by field.id; dependent sections use useWatch in subcomponents so only they re-render. Submit with handleSubmit, show isSubmitting, and on the server parse the same schema again in the Server Action or API. Map server-side errors back to fields with setError, and keep user input on failure. For accessibility: labels, aria-invalid, aria-describedby for errors and focus on the first invalid field. For multi-step wizards, one form instance with per-step validation via trigger, or a store holding completed steps.",
+          "level": "intermediate"
+        },
+        {
+          "id": "state-management-06-q12",
+          "type": "interview",
+          "prompt": "Controlled vs uncontrolled forms: how does React Hook Form's approach differ from Formik's?",
+          "answer": "Formik stores all values in React state and controls every input, so each keystroke updates state and re-renders the form (mitigated with FastField but still heavy for large forms). React Hook Form registers uncontrolled inputs with refs and reads values from the DOM on validation and submit, so typing does not re-render the form. formState is a proxy that subscribes components only to what they read, and useWatch or useFormState isolate subscriptions further. The result is better performance and less code for most forms. The trade-off is that controlled third-party components need Controller adapters, and logic that reacts to every keystroke must explicitly subscribe. Formik also has seen little active development in recent years, so RHF is the common choice.",
+          "level": "intermediate"
+        },
+        {
+          "id": "state-management-06-q13",
+          "type": "interview",
+          "prompt": "When would you skip a form library and use React 19 form actions instead?",
+          "answer": "For simple forms such as login, contact, settings with a handful of fields, or anything that maps directly to a Server Action, React 19 is often enough: an uncontrolled form with action={formAction}, useActionState to receive server-side validation errors and pending state, useFormStatus for the submit button, HTML constraint attributes for basic client checks, and Zod validation on the server. It works before hydration and has no client dependency. I add React Hook Form when I need rich client-side validation and instant feedback, dynamic field arrays, dependent fields, multi-step wizards, complex controlled widgets, or large forms where re-render control matters. The two can be combined: RHF handles client state and then calls the Server Action with validated data.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "React Hook Form: Get Started",
+          "url": "https://react-hook-form.com/get-started"
+        },
+        {
+          "title": "Zod documentation",
+          "url": "https://zod.dev/"
+        },
+        {
+          "title": "React docs: useActionState",
+          "url": "https://react.dev/reference/react/useActionState"
+        }
+      ]
+    },
+    {
+      "id": "state-management-07-mutations-optimistic",
+      "title": "Mutations, Invalidation and Optimistic Updates",
+      "level": "advanced",
+      "summary": "useMutation, cache invalidation strategies, optimistic updates with rollback, and SSR hydration with TanStack Query.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "useMutation",
+          "body": "Mutations create, update or delete server data. `useMutation({ mutationFn })` returns `mutate` (fire and forget, errors go to callbacks) and `mutateAsync` (returns a promise you must catch), plus `isPending`, `isError`, `isSuccess`, `data`, `error`, `variables` and `reset`.\n\nCallbacks run in order: `onMutate` before the request, then `onSuccess` or `onError`, then `onSettled` (always). They can be defined on the hook (always run while mounted) and on the `mutate` call (run only if the component is still mounted when the mutation finishes). Mutations do not retry by default."
+        },
+        {
+          "heading": "Updating the cache after a mutation",
+          "body": "Three strategies, often combined:\n- **Invalidate**: `queryClient.invalidateQueries({ queryKey: ['todos'] })` marks all matching queries stale (prefix match) and refetches the ones currently on screen. Simple and always correct; costs a round trip.\n- **Update from the response**: if the server returns the updated entity, `queryClient.setQueryData(['todos', 'detail', id], updated)` writes it directly, avoiding a refetch. Update immutably.\n- **Optimistic update**: change the cache before the server responds, roll back on error, and invalidate on settle to sync.\n\nReturn the promise from `invalidateQueries` in `onSuccess` or `onSettled` if you want the mutation to stay pending until the refetch completes, which avoids a flash of old data.",
+          "code": {
+            "lang": "tsx",
+            "source": "const queryClient = useQueryClient();\n\nconst addTodo = useMutation({\n  mutationFn: (text: string) => api.post<Todo>('/todos', { text }),\n  onSuccess: (created) => {\n    queryClient.setQueryData(['todos', 'detail', created.id], created);\n    return queryClient.invalidateQueries({ queryKey: ['todos', 'list'] }); // awaited: stays pending until lists refetch\n  },\n});\n\naddTodo.mutate('Write tests');"
+          }
+        },
+        {
+          "heading": "Optimistic updates via the cache",
+          "body": "The cache-based approach updates every component showing the data:\n1. `onMutate`: cancel outgoing refetches for the key (`cancelQueries`) so they do not overwrite the optimistic value, snapshot the previous data with `getQueryData`, write the optimistic data with `setQueryData`, and return the snapshot.\n2. `onError`: restore the snapshot (it arrives as the third callback argument, the value returned from onMutate).\n3. `onSettled`: invalidate to sync with the server's truth.\n\nUse temporary ids for created items and replace them when the response arrives.",
+          "code": {
+            "lang": "tsx",
+            "source": "const toggleTodo = useMutation({\n  mutationFn: (todo: Todo) => api.patch(`/todos/${todo.id}`, { done: !todo.done }),\n  onMutate: async (todo) => {\n    await queryClient.cancelQueries({ queryKey: ['todos', 'list'] });\n    const previous = queryClient.getQueryData<Todo[]>(['todos', 'list']);\n    queryClient.setQueryData<Todo[]>(['todos', 'list'], (old = []) =>\n      old.map((t) => (t.id === todo.id ? { ...t, done: !t.done } : t))\n    );\n    return { previous };\n  },\n  onError: (_err, _todo, ctx) => {\n    if (ctx?.previous) queryClient.setQueryData(['todos', 'list'], ctx.previous);\n    toast.error('Could not update the todo');\n  },\n  onSettled: () => queryClient.invalidateQueries({ queryKey: ['todos', 'list'] }),\n});"
+          }
+        },
+        {
+          "heading": "Optimistic updates via the UI",
+          "body": "A simpler v5 approach skips the cache: while the mutation is pending, render the `variables` as an extra item (for example with lower opacity). If the mutation fails, the pending item disappears or shows a retry button using the same variables. On success, invalidation brings the real item in.\n\nThis works well when the optimistic item is shown in one place. To show pending mutations elsewhere, `useMutationState` with a shared `mutationKey` reads them from any component. React 19's `useOptimistic` gives the same pattern for Actions and Server Functions.\n\nWhen to be optimistic: high-success, low-risk, easily reversible actions (likes, toggles, reordering, chat messages). When not to: payments, irreversible deletes, actions with server-side validation likely to fail, or where showing a false success is harmful.",
+          "code": {
+            "lang": "tsx",
+            "source": "const { mutate, isPending, variables, isError } = useMutation({\n  mutationFn: (text: string) => api.post('/todos', { text }),\n  onSettled: () => queryClient.invalidateQueries({ queryKey: ['todos', 'list'] }),\n});\n\nreturn (\n  <ul>\n    {todos.map((t) => <li key={t.id}>{t.text}</li>)}\n    {isPending && <li className=\"opacity-50\">{variables}</li>}\n    {isError && <li className=\"text-red-600\">{variables} <button onClick={() => mutate(variables!)}>Retry</button></li>}\n  </ul>\n);"
+          }
+        },
+        {
+          "heading": "SSR and hydration",
+          "body": "With SSR (Next.js App Router or other frameworks), you can prefetch on the server and hand the cache to the client:\n1. On the server, create a **new QueryClient per request** (never share one across requests), `await queryClient.prefetchQuery(...)`.\n2. Render `<HydrationBoundary state={dehydrate(queryClient)}>` around the Client Components that use those queries.\n3. On the client, `useQuery` with the same key finds the data immediately.\n\nSet a `staleTime` above 0 in the client defaults so queries do not refetch right after hydration. In the App Router, also consider whether a plain Server Component fetch is enough; TanStack Query is most valuable when the client will keep interacting with that data (refetching, paginating, mutating). Streaming of pending queries is possible by dehydrating pending queries too.",
+          "code": {
+            "lang": "tsx",
+            "source": "// app/todos/page.tsx (Server Component)\nimport { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';\nimport { todosQueryOptions } from './queries';\nimport { TodoList } from './todo-list'; // 'use client', calls useQuery(todosQueryOptions())\n\nexport default async function TodosPage() {\n  const queryClient = new QueryClient();\n  await queryClient.prefetchQuery(todosQueryOptions());\n  return (\n    <HydrationBoundary state={dehydrate(queryClient)}>\n      <TodoList />\n    </HydrationBoundary>\n  );\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "useMutation exposes mutate, mutateAsync, isPending, variables and lifecycle callbacks.",
+        "invalidateQueries marks matching queries stale by prefix and refetches active ones.",
+        "setQueryData writes server responses into the cache to skip refetches; update immutably.",
+        "Cache-based optimistic updates: cancelQueries, snapshot, setQueryData, roll back on error, invalidate on settle.",
+        "UI-based optimistic updates render pending variables; useMutationState shares them across components.",
+        "Be optimistic only for low-risk, reversible, high-success actions.",
+        "For SSR: new QueryClient per request, prefetchQuery, dehydrate into HydrationBoundary, staleTime above 0."
+      ],
+      "questions": [
+        {
+          "id": "state-management-07-q01",
+          "type": "mcq",
+          "prompt": "Why call cancelQueries in onMutate before writing optimistic data?",
+          "options": [
+            "To save bandwidth",
+            "So an in-flight refetch does not resolve afterward and overwrite the optimistic value with old data",
+            "It is required by TypeScript",
+            "To clear the cache"
+          ],
+          "answer": 1,
+          "explanation": "A background refetch started before the mutation would return pre-mutation data and clobber the optimistic update."
+        },
+        {
+          "id": "state-management-07-q02",
+          "type": "mcq",
+          "prompt": "Which queries does invalidateQueries({ queryKey: ['todos'] }) affect?",
+          "options": [
+            "Only the exact key ['todos']",
+            "All queries whose key starts with 'todos', such as ['todos', 'list', {...}] and ['todos', 'detail', 5]",
+            "All queries in the cache",
+            "None until the page reloads"
+          ],
+          "answer": 1,
+          "explanation": "Invalidation matches by prefix by default; use exact: true for an exact match."
+        },
+        {
+          "id": "state-management-07-q03",
+          "type": "mcq",
+          "prompt": "What is the problem with this handler?",
+          "code": "async function onSave() {\n  await updateUser.mutateAsync(form);\n  router.push('/users');\n}",
+          "options": [
+            "mutateAsync does not exist",
+            "If the mutation fails, the rejected promise is unhandled; wrap it in try/catch or use mutate with callbacks",
+            "router.push must come first",
+            "Nothing"
+          ],
+          "answer": 1,
+          "explanation": "mutateAsync rejects on error and the caller must handle it, unlike mutate which routes errors to callbacks."
+        },
+        {
+          "id": "state-management-07-q04",
+          "type": "mcq",
+          "prompt": "In onError of an optimistic update, where does the snapshot come from?",
+          "options": [
+            "queryClient.getQueryData",
+            "The value returned from onMutate, passed as the third argument",
+            "The mutation's data",
+            "localStorage"
+          ],
+          "answer": 1,
+          "explanation": "onMutate returns the previous data, and TanStack Query passes that result to onError and onSettled for rollback."
+        },
+        {
+          "id": "state-management-07-q05",
+          "type": "mcq",
+          "prompt": "A Next.js page prefetches todos on the server and hydrates them, but the client immediately refetches. Why?",
+          "options": [
+            "HydrationBoundary is broken",
+            "Default staleTime is 0, so hydrated data is already stale on mount; set a staleTime above 0",
+            "The key is different on the server",
+            "prefetchQuery does not cache"
+          ],
+          "answer": 1,
+          "explanation": "With staleTime 0, mounting with stale data triggers a refetch. A small staleTime prevents the duplicate request."
+        },
+        {
+          "id": "state-management-07-q06",
+          "type": "mcq",
+          "prompt": "Which action is the worst candidate for an optimistic update?",
+          "options": [
+            "Liking a post",
+            "Toggling a todo",
+            "Submitting a payment",
+            "Reordering a list"
+          ],
+          "answer": 2,
+          "explanation": "Payments can fail for many reasons and showing a false success is harmful. Show a pending state instead."
+        },
+        {
+          "id": "state-management-07-q07",
+          "type": "truefalse",
+          "prompt": "Returning the invalidateQueries promise from onSettled keeps the mutation pending until the refetch completes.",
+          "answer": true,
+          "explanation": "Mutation callbacks that return promises are awaited, which avoids briefly showing stale data after success."
+        },
+        {
+          "id": "state-management-07-q08",
+          "type": "truefalse",
+          "prompt": "It is safe to create one QueryClient at module scope on the server and reuse it for all requests.",
+          "answer": false,
+          "explanation": "A shared server QueryClient would leak data between users and grow forever. Create one per request."
+        },
+        {
+          "id": "state-management-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: steps in a cache-based optimistic update with rollback.",
+          "options": [
+            "cancelQueries for the affected key",
+            "Snapshot previous data with getQueryData",
+            "Write optimistic data with setQueryData",
+            "Restore the snapshot in onError",
+            "Disable refetchOnWindowFocus globally"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Then invalidate in onSettled. Global focus refetch settings are unrelated."
+        },
+        {
+          "id": "state-management-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: to write data directly into the cache for a key, call queryClient.___(key, updater).",
+          "accept": [
+            "setQueryData",
+            "setQueryData()"
+          ],
+          "explanation": "setQueryData updates the cached value synchronously and notifies observers."
+        },
+        {
+          "id": "state-management-07-q11",
+          "type": "interview",
+          "prompt": "How do you implement optimistic updates with TanStack Query, including error handling?",
+          "top": true,
+          "answer": "Two approaches. Cache-based: in onMutate, await cancelQueries for affected keys so in-flight refetches cannot overwrite the update, snapshot the current data with getQueryData, apply the change with setQueryData (immutably, using temporary ids for new items), and return the snapshot. In onError, restore the snapshot from the onMutate result and show a toast. In onSettled, invalidate the keys so the cache converges to the server's truth, returning the promise to keep the mutation pending until then. UI-based: leave the cache alone and render the mutation's variables as a pending item while isPending, with a retry option on error, then invalidate on settle; useMutationState shows pending items in other components. I only use optimism for actions that almost always succeed and can be reverted, and handle concurrent mutations on the same data by cancelling and only invalidating when the last one settles.",
+          "level": "advanced"
+        },
+        {
+          "id": "state-management-07-q12",
+          "type": "interview",
+          "prompt": "Invalidation vs setQueryData after a mutation: how do you choose?",
+          "answer": "Invalidation is the safe default: mark related queries stale and refetch the active ones, so every list, count and derived view reflects the server, including side effects you did not anticipate (sorting, server-computed fields, other entities changed by triggers). The cost is an extra request and a brief delay. setQueryData with the mutation response avoids the round trip and updates instantly, which is great for detail views of the edited entity. But manually updating every list, filter and pagination variant that contains the entity is error-prone. In practice I combine them: write the returned entity to its detail key, then invalidate list keys, and use optimistic updates only where perceived latency matters.",
+          "level": "advanced"
+        },
+        {
+          "id": "state-management-07-q13",
+          "type": "interview",
+          "prompt": "How does TanStack Query work with server rendering in the Next.js App Router?",
+          "answer": "On the server, inside a Server Component, create a new QueryClient for the request, prefetchQuery the data with the same queryOptions the client uses, and render a HydrationBoundary with dehydrate(queryClient) around the Client Components. On the client, a QueryClientProvider created once per browser session with useState holds the cache; useQuery finds the hydrated data immediately and does not show a loading state. Set staleTime above 0 so the data is not refetched instantly. Pending queries can also be dehydrated and streamed for Suspense-based rendering. I ask whether it is needed at all: if the data is display-only, a Server Component fetch with Next.js caching is simpler; TanStack Query pays off when the client will refetch, paginate, poll or mutate that data.",
+          "level": "advanced"
+        },
+        {
+          "id": "state-management-07-q14",
+          "type": "interview",
+          "prompt": "Two quick toggles of the same todo are sent while the first request is still in flight. What can go wrong and how do you handle it?",
+          "answer": "Optimistic updates for both apply locally, but responses can arrive out of order, and if each mutation invalidates on settle, the refetch triggered by the first one might return data that does not yet include the second change, briefly flipping the UI back. Mitigations: cancelQueries in each onMutate so earlier refetches do not overwrite newer optimistic state; only invalidate when no other mutation on that key is pending (check queryClient.isMutating({ mutationKey }) === 1 in onSettled); use a mutationKey with a scope so mutations on the same entity run serially; or send idempotent, absolute updates (set done = true) instead of relative toggles so order matters less. On the server, versioning or updatedAt checks prevent lost updates.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "TanStack Query: Optimistic Updates",
+          "url": "https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates"
+        },
+        {
+          "title": "TanStack Query: Query Invalidation",
+          "url": "https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation"
+        },
+        {
+          "title": "TanStack Query: Advanced Server Rendering",
+          "url": "https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr"
+        }
+      ]
+    },
+    {
+      "id": "state-management-08-url-state-architecture",
+      "title": "URL State and Choosing the Right Architecture",
+      "level": "advanced",
+      "summary": "Search params as state, server-first data flow with Server Components, and how to pick and combine state tools in a real app.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "The URL as a state store",
+          "body": "Search params are the most underused state store. State in the URL survives refresh, works with back and forward, can be bookmarked and shared, and is readable by the server for SSR. Good candidates: search queries, filters, sorting, pagination, selected tab, open item in a master-detail view, map viewport.\n\nIn Next.js, read params in a page via the `searchParams` prop (a Promise) on the server, or `useSearchParams()` in Client Components; update with `router.replace` or `router.push`, or `window.history.replaceState`, which Next.js integrates with its router for updates that do not need a server round trip.\n\nGotchas:\n- Everything is a string: parse and validate (numbers, enums, dates) and handle invalid values.\n- Debounce text input before writing to the URL, and use `replace` instead of `push` for every keystroke so history is not flooded.\n- Updating search params on a server-rendered page triggers a new server render; that is a feature for filters but a cost for purely visual state.\n- Keep sensitive data out of URLs; they end up in logs, analytics and referrers.",
+          "code": {
+            "lang": "tsx",
+            "source": "'use client';\nimport { useRouter, usePathname, useSearchParams } from 'next/navigation';\n\nexport function SortSelect() {\n  const router = useRouter();\n  const pathname = usePathname();\n  const params = useSearchParams();\n  const sort = params.get('sort') ?? 'newest';\n\n  function setSort(value: string) {\n    const next = new URLSearchParams(params);\n    next.set('sort', value);\n    next.delete('page'); // reset pagination when sort changes\n    router.replace(`${pathname}?${next.toString()}`, { scroll: false });\n  }\n\n  return (\n    <select value={sort} onChange={(e) => setSort(e.target.value)}>\n      <option value=\"newest\">Newest</option>\n      <option value=\"price\">Price</option>\n    </select>\n  );\n}"
+          }
+        },
+        {
+          "heading": "Typed URL state with nuqs",
+          "body": "The `nuqs` library provides a `useState`-like hook for search params: `const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))`. It handles parsing and serialization, default values, batching multiple updates, throttling URL writes, and choosing between shallow (client-only) and server-triggering updates. Server-side cache helpers parse the same params in Server Components with the same parsers, so client and server agree on types. It requires wrapping the app in its framework adapter (for example the Next.js App Router adapter).",
+          "code": {
+            "lang": "tsx",
+            "source": "'use client';\nimport { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';\n\nexport function useProductFilters() {\n  return useQueryStates({\n    q: parseAsString.withDefault(''),\n    page: parseAsInteger.withDefault(1),\n    category: parseAsString,\n  });\n}\n\n// const [{ q, page }, setFilters] = useProductFilters();\n// setFilters({ q: 'shoes', page: 1 });"
+          }
+        },
+        {
+          "heading": "Server-first data flow",
+          "body": "With React Server Components (Next.js App Router), much server state never needs a client cache:\n- Pages read search params and fetch data on the server, cached with `'use cache'` where appropriate.\n- Mutations go through Server Actions, which revalidate (updateTag, revalidatePath) and return fresh UI in the same response.\n- Client state shrinks to interaction details: open menus, drafts, optimistic values (`useOptimistic`), and URL updates that trigger new server renders.\n\nClient-side server-state libraries remain valuable for highly interactive data: infinite feeds, polling dashboards, collaborative views, offline support, and complex optimistic workflows. Mixing is fine: Server Components for initial and mostly static data, TanStack Query where the client must keep the data alive."
+        },
+        {
+          "heading": "A reference architecture",
+          "body": "For a typical SaaS dashboard:\n- **Server Components** fetch page data; **Server Actions** mutate it.\n- **URL** holds filters, sort, pagination and selected entity ids.\n- **TanStack Query** handles client-driven data: live tables with polling, infinite lists, prefetch on hover, optimistic edits.\n- **React Hook Form + Zod** handle complex forms; the Zod schema is shared with Server Actions.\n- **Zustand** (or context for tiny cases) holds global client UI state: sidebar, command palette, unsaved editor state, user preferences persisted to localStorage.\n- **Local state** for everything else.\n\nThe rule that keeps it maintainable: every piece of data has **one owner**. Do not copy query data into Zustand, do not mirror URL params into useState, and do not put form drafts into the global store."
+        },
+        {
+          "heading": "Evaluating a state library",
+          "body": "Questions to ask before adding one:\n- What category of state does it solve that we have? (If it is server state, use a server-state tool.)\n- Does it support selectors or fine-grained subscriptions to limit re-renders?\n- Does it work with SSR and Server Components without cross-request leaks?\n- Devtools, TypeScript inference, middleware (persistence, undo)?\n- Bundle size, maintenance activity, team familiarity, and migration cost.\n- Can it be adopted incrementally and removed if wrong?\n\nThe right answer for many apps is fewer libraries, not more: React state, URL, a server-state cache and a form library cover most needs."
+        }
+      ],
+      "keyPoints": [
+        "Put shareable, refresh-surviving state (filters, sort, page, tabs) in the URL.",
+        "Search params are strings: parse, validate, debounce text input and use replace for frequent updates.",
+        "nuqs gives typed useState-like hooks for search params with shared server parsers.",
+        "With Server Components and Server Actions, much server state needs no client cache.",
+        "Keep TanStack Query for interactive client data: polling, infinite lists, optimistic workflows.",
+        "Every piece of data should have exactly one owner; never mirror it into another store.",
+        "Evaluate libraries by the state category they solve, subscriptions, SSR safety and cost."
+      ],
+      "questions": [
+        {
+          "id": "state-management-08-q01",
+          "type": "mcq",
+          "prompt": "A search box writes every keystroke to the URL with router.push. What is the problem?",
+          "options": [
+            "None",
+            "Every keystroke adds a history entry (and may trigger a server render); debounce and use replace",
+            "push does not update the URL",
+            "Search params cannot contain text"
+          ],
+          "answer": 1,
+          "explanation": "The back button would step through every character. Debounce updates and replace the current entry."
+        },
+        {
+          "id": "state-management-08-q02",
+          "type": "mcq",
+          "prompt": "What is the type of `params.get('page')` from useSearchParams()?",
+          "options": [
+            "number",
+            "string | null",
+            "number | undefined",
+            "unknown"
+          ],
+          "answer": 1,
+          "explanation": "URLSearchParams returns strings or null. Parse and validate it, for example with a parser or Zod."
+        },
+        {
+          "id": "state-management-08-q03",
+          "type": "mcq",
+          "prompt": "A component copies TanStack Query data into a Zustand store with useEffect so other components can read it. What is the better approach?",
+          "options": [
+            "Keep doing it",
+            "Have other components call the same useQuery (shared key) or a custom hook; the query cache is already shared",
+            "Use localStorage",
+            "Put it in context"
+          ],
+          "answer": 1,
+          "explanation": "The query cache is the single owner of server data. Copies go stale and need syncing."
+        },
+        {
+          "id": "state-management-08-q04",
+          "type": "mcq",
+          "prompt": "Which state should NOT go in the URL?",
+          "options": [
+            "Current page number",
+            "Selected sort order",
+            "A one-time password reset token being typed",
+            "Active tab"
+          ],
+          "answer": 2,
+          "explanation": "URLs end up in logs, history, analytics and referrers; sensitive values must stay out."
+        },
+        {
+          "id": "state-management-08-q05",
+          "type": "mcq",
+          "prompt": "In a Next.js App Router page, the product list depends on ?category=. Where is the simplest place to fetch it?",
+          "options": [
+            "In a Client Component with useEffect",
+            "In the Server Component page using the awaited searchParams prop",
+            "In a Zustand store action",
+            "In proxy.ts"
+          ],
+          "answer": 1,
+          "explanation": "The page can read searchParams and fetch on the server; changing the URL re-renders it with new data."
+        },
+        {
+          "id": "state-management-08-q06",
+          "type": "mcq",
+          "prompt": "Changing a filter should reset pagination. What is the cleanest implementation with URL state?",
+          "options": [
+            "A useEffect watching the filter that sets page to 1",
+            "Update filter and delete (or reset) page in the same URL update",
+            "Keep page in useState",
+            "Reload the page"
+          ],
+          "answer": 1,
+          "explanation": "One atomic update avoids an intermediate render with an invalid page and an extra history entry."
+        },
+        {
+          "id": "state-management-08-q07",
+          "type": "truefalse",
+          "prompt": "Using Server Components and Server Actions can remove the need for a client-side server-state library in many pages.",
+          "answer": true,
+          "explanation": "Data is fetched on the server and mutations revalidate it; client caches remain useful for highly interactive data."
+        },
+        {
+          "id": "state-management-08-q08",
+          "type": "truefalse",
+          "prompt": "Mirroring search params into useState and syncing them with effects is a recommended pattern.",
+          "answer": false,
+          "explanation": "It creates two owners and sync bugs. Read from the URL directly (or use nuqs) and write back to it."
+        },
+        {
+          "id": "state-management-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: benefits of storing list filters in the URL.",
+          "options": [
+            "Shareable links reproduce the same view",
+            "State survives refresh",
+            "Back and forward buttons work naturally",
+            "The server can render the filtered list",
+            "Values are automatically typed as numbers"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Search params are strings; typing requires parsing."
+        },
+        {
+          "id": "state-management-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the Next.js client hook that reads the current query string is ___.",
+          "accept": [
+            "useSearchParams",
+            "useSearchParams()"
+          ],
+          "explanation": "useSearchParams from next/navigation returns a read-only URLSearchParams in Client Components."
+        },
+        {
+          "id": "state-management-08-q11",
+          "type": "interview",
+          "prompt": "Design the state management for a product search page with filters, infinite results, a cart and a checkout form.",
+          "top": true,
+          "answer": "Filters, sort and query live in the URL (typed with nuqs or validated params), so results are shareable and survive refresh, and the server can render the first page. The first page of results is fetched on the server; further pages use TanStack Query's useInfiniteQuery keyed by the filters, seeded with the server data, with keepPreviousData-style placeholders to avoid flicker when filters change. The cart is global client state that must persist and be readable anywhere: a small Zustand store with persist (or a server cart via Server Actions with useOptimistic if carts sync across devices), with selectors so the header badge only re-renders on count changes. Checkout uses React Hook Form with a Zod schema shared by the Server Action that validates again and creates the order, mapping server errors back with setError. Hover states, open drawers and the search input draft stay local. No data is duplicated across these owners.",
+          "level": "advanced"
+        },
+        {
+          "id": "state-management-08-q12",
+          "type": "interview",
+          "prompt": "How has React Server Components changed client-side state management?",
+          "answer": "Much of what client state libraries held was server data fetched in effects or thunks. With Server Components, pages fetch on the server close to the database, stream it with Suspense, and cache it with framework tools; Server Actions perform mutations and revalidate, returning fresh UI in the same round trip. The URL becomes the main input for server renders. As a result, client state shrinks to interaction state (menus, drafts, optimistic values via useOptimistic), and global stores get smaller or disappear. Client server-state libraries like TanStack Query are still valuable for data that must stay live on the client: polling, infinite scrolling, collaborative and offline scenarios. A new concern is SSR safety: module-level stores and query clients must not be shared across requests.",
+          "level": "advanced"
+        },
+        {
+          "id": "state-management-08-q13",
+          "type": "interview",
+          "prompt": "Your team wants to add Redux to an app that already uses Context, TanStack Query and Zustand. How do you respond?",
+          "answer": "I would first ask what problem Redux would solve, by category. If it is server data, TanStack Query already handles it. If it is global client state, Zustand already covers selectors, devtools and persistence, so another store adds duplicate concepts, bundle size and a second source of truth. Redux could make sense if there is complex event-driven client logic that benefits from a strict action log, middleware and time-travel debugging, or if the team is consolidating on one convention; then the plan should migrate Zustand stores into it rather than run both. I would audit current state: what lives where, any duplicated data, and the actual pain points (re-renders, debugging, inconsistent patterns). Often the fix is conventions and moving misplaced state, not a new library. I would write the decision down with criteria so it is not revisited ad hoc.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Next.js docs: useSearchParams",
+          "url": "https://nextjs.org/docs/app/api-reference/functions/use-search-params"
+        },
+        {
+          "title": "nuqs on GitHub",
+          "url": "https://github.com/47ng/nuqs"
+        },
+        {
+          "title": "React docs: Managing State",
+          "url": "https://react.dev/learn/managing-state"
+        }
+      ]
+    }
+  ]
+}

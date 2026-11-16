@@ -137,6 +137,7 @@ export function sanitizeProgress(input: unknown): Progress {
     version: 1,
     xp: num(o.xp, 0),
     goalId: typeof o.goalId === "string" ? o.goalId : null,
+    ...(typeof o.program === "string" ? { program: o.program } : {}),
     dailyGoalXp: Math.min(500, Math.max(10, num(o.dailyGoalXp, base.dailyGoalXp))),
     streak: {
       count: num(streak.count, 0),

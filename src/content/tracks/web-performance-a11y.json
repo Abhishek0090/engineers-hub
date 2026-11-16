@@ -1,0 +1,1699 @@
+{
+  "id": "web-performance-a11y",
+  "title": "Performance and Accessibility",
+  "area": "frontend",
+  "order": 18,
+  "icon": "PF",
+  "color": "#ef4444",
+  "description": "Make sites fast and usable by everyone: Core Web Vitals, the rendering path, bundles, caching and React performance, plus WCAG 2.2, semantic HTML, ARIA, keyboard support and SEO basics.",
+  "chapters": [
+    {
+      "id": "web-performance-a11y-01-core-web-vitals",
+      "title": "Core Web Vitals: LCP, INP and CLS",
+      "level": "beginner",
+      "summary": "Learn what the three Core Web Vitals measure, their thresholds, how field and lab data differ, and the most common causes and fixes for each.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Why Core Web Vitals exist",
+          "body": "Core Web Vitals are Google's user-centric metrics for loading, responsiveness and visual stability. They are measured on real users in Chrome and published in the Chrome User Experience Report (CrUX), and they are part of Google Search's page experience signals.\n\nThe current set:\n\n- **LCP (Largest Contentful Paint)**: loading. When the largest image or text block in the viewport rendered. Good is 2.5 s or less, poor is over 4 s.\n- **INP (Interaction to Next Paint)**: responsiveness. Roughly the worst latency from a click, tap or key press until the next frame paints, across the whole visit. Good is 200 ms or less, poor is over 500 ms.\n- **CLS (Cumulative Layout Shift)**: visual stability. How much visible content moves unexpectedly. Good is 0.1 or less, poor is over 0.25.\n\nINP replaced FID (First Input Delay) as a Core Web Vital in March 2024. FID only measured the input delay of the first interaction; INP covers every interaction and the full time to the next paint.\n\nA page passes when each metric is good at the **75th percentile** of page loads, separately for mobile and desktop."
+        },
+        {
+          "heading": "Field data vs lab data",
+          "body": "**Field data** (real user monitoring, RUM) comes from actual visitors on their own devices and networks: CrUX, PageSpeed Insights' top section, Search Console's Core Web Vitals report, or your own collection with the `web-vitals` library. This is what Google uses and what users experience.\n\n**Lab data** comes from a controlled run: Lighthouse, Chrome DevTools Performance panel, WebPageTest. It is reproducible and great for debugging, but it uses one device and network profile, and it cannot measure INP without real interactions; Lighthouse reports **Total Blocking Time (TBT)** as a lab proxy for responsiveness.\n\nIt is common for a page to score 95 in Lighthouse and still fail INP in the field, because real users have slower phones and interact with heavy parts of the page. Always validate with field data.",
+          "code": {
+            "lang": "ts",
+            "source": "import { onLCP, onINP, onCLS } from 'web-vitals';\n\nfunction send(metric: { name: string; value: number; id: string; rating: string }) {\n  navigator.sendBeacon('/analytics/vitals', JSON.stringify(metric));\n}\n\nonLCP(send);\nonINP(send);\nonCLS(send);"
+          }
+        },
+        {
+          "heading": "Improving LCP",
+          "body": "The LCP element is usually a hero image, a large heading or a video poster. LCP time breaks into four parts: **time to first byte**, **resource load delay** (time until the browser starts fetching the LCP resource), **resource load duration** and **element render delay**.\n\nCommon fixes:\n\n- Fast server response: CDN, caching HTML at the edge, avoiding slow server-side data waterfalls\n- Make the LCP image discoverable in the initial HTML (not injected by JavaScript or hidden in a CSS background) and add `fetchpriority=\"high\"`\n- Never `loading=\"lazy\"` the LCP image\n- Serve modern formats (AVIF, WebP) at the right size with `srcset`\n- Remove render-blocking CSS and JavaScript from the head; inline critical CSS\n- For client-rendered SPAs, render the main content on the server (SSR or static generation) so it does not wait for the JavaScript bundle",
+          "code": {
+            "lang": "html",
+            "source": "<!-- LCP hero: in the HTML, high priority, sized, not lazy -->\n<img\n  src=\"/hero-1200.avif\"\n  srcset=\"/hero-600.avif 600w, /hero-1200.avif 1200w\"\n  sizes=\"100vw\"\n  width=\"1200\" height=\"600\"\n  fetchpriority=\"high\"\n  alt=\"Team reviewing a dashboard\">"
+          }
+        },
+        {
+          "heading": "Improving INP",
+          "body": "An interaction's latency has three phases: **input delay** (the main thread is busy when the user clicks), **processing time** (your event handlers run) and **presentation delay** (style, layout and paint of the next frame).\n\nThe root cause is almost always long tasks on the main thread: JavaScript running for more than 50 ms without yielding.\n\n- Do less in event handlers: update the visible UI first, defer analytics and non-urgent work\n- Break long tasks and yield to the main thread with `scheduler.yield()` (with a `setTimeout` fallback)\n- In React, mark expensive non-urgent updates with `useTransition` or `useDeferredValue`\n- Reduce JavaScript shipped and run at startup (hydration of large pages competes with early clicks)\n- Keep the DOM small and avoid layout thrashing (reading layout then writing styles in a loop)\n- Audit third-party scripts such as tag managers, chat widgets and A/B testing tools",
+          "code": {
+            "lang": "ts",
+            "source": "async function yieldToMain() {\n  if ('scheduler' in globalThis && 'yield' in (globalThis as any).scheduler) {\n    return (globalThis as any).scheduler.yield();\n  }\n  return new Promise((resolve) => setTimeout(resolve, 0));\n}\n\nbutton.addEventListener('click', async () => {\n  showSpinner();              // visible feedback first\n  await yieldToMain();        // let the browser paint\n  for (const chunk of chunks) {\n    process(chunk);\n    await yieldToMain();      // keep each task short\n  }\n});"
+          }
+        },
+        {
+          "heading": "Improving CLS",
+          "body": "A layout shift happens when a visible element changes position between frames without a recent user input. Shifts within 500 ms after a user interaction do not count. CLS takes the largest burst (session window) of shifts during the page's life.\n\nCommon causes and fixes:\n\n- Images and videos without dimensions: set `width` and `height` attributes or CSS `aspect-ratio` so the browser reserves space\n- Ads, embeds and banners injected late: reserve a fixed-size slot with `min-height`\n- Content inserted above existing content (cookie banners, \"new posts\" bars): overlay it or insert below the viewport\n- Web fonts swapping and changing text size: use `font-display: optional` or matched fallback metrics (`size-adjust`), and preload key fonts\n- Animations of `top`, `left`, `width` or `height`: animate `transform` and `opacity` instead, which do not trigger layout\n\nPages restored from the back/forward cache show instantly with no shifts, so avoid things that block bfcache such as `unload` handlers.",
+          "code": {
+            "lang": "css",
+            "source": ".video-embed { aspect-ratio: 16 / 9; width: 100%; }\n.ad-slot { min-height: 250px; }\n\n/* animate without layout shifts */\n.toast { transform: translateY(100%); transition: transform 200ms; }\n.toast.open { transform: translateY(0); }"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Core Web Vitals: LCP (loading, good at most 2.5 s), INP (responsiveness, good at most 200 ms), CLS (stability, good at most 0.1).",
+        "INP replaced FID in March 2024 and covers all interactions, not just the first.",
+        "Pass/fail is judged at the 75th percentile of real page loads, separately for mobile and desktop.",
+        "Field data (CrUX, web-vitals RUM) is the truth; lab tools like Lighthouse are for debugging and use TBT instead of INP.",
+        "LCP: fast TTFB, discoverable hero image with fetchpriority high, never lazy-load it, avoid client-only rendering.",
+        "INP: break up long tasks, yield to the main thread, ship and run less JavaScript.",
+        "CLS: reserve space for media and ads, avoid inserting content above, animate transform and opacity."
+      ],
+      "questions": [
+        {
+          "id": "web-performance-a11y-01-q01",
+          "type": "mcq",
+          "prompt": "Which metric replaced First Input Delay as a Core Web Vital in March 2024?",
+          "options": [
+            "Total Blocking Time",
+            "Interaction to Next Paint",
+            "Time to Interactive",
+            "First Contentful Paint"
+          ],
+          "answer": 1,
+          "explanation": "INP measures the latency of all interactions through to the next paint, which reflects real responsiveness far better than FID's first-input delay."
+        },
+        {
+          "id": "web-performance-a11y-01-q02",
+          "type": "mcq",
+          "prompt": "What is the 'good' threshold for LCP?",
+          "options": [
+            "1.0 s or less",
+            "2.5 s or less",
+            "4.0 s or less",
+            "200 ms or less"
+          ],
+          "answer": 1,
+          "explanation": "LCP is good at 2.5 s or less, needs improvement up to 4 s, and is poor above 4 s, judged at the 75th percentile."
+        },
+        {
+          "id": "web-performance-a11y-01-q03",
+          "type": "mcq",
+          "prompt": "Your hero image is the LCP element and has `loading=\"lazy\"`. What should you do?",
+          "options": [
+            "Keep it lazy to save bandwidth",
+            "Remove lazy loading and add fetchpriority=\"high\"",
+            "Move it to a CSS background",
+            "Load it with JavaScript after hydration"
+          ],
+          "answer": 1,
+          "explanation": "Lazy loading delays the fetch until layout confirms the image is in view, adding load delay. The LCP image should be fetched as early and as high-priority as possible."
+        },
+        {
+          "id": "web-performance-a11y-01-q04",
+          "type": "mcq",
+          "prompt": "Which lab metric does Lighthouse use as a proxy for responsiveness, since it cannot measure INP without real interactions?",
+          "options": [
+            "Speed Index",
+            "Total Blocking Time",
+            "First Meaningful Paint",
+            "Time to First Byte"
+          ],
+          "answer": 1,
+          "explanation": "TBT sums the blocking portion (beyond 50 ms) of long tasks between FCP and load; long tasks are the main cause of poor INP."
+        },
+        {
+          "id": "web-performance-a11y-01-q05",
+          "type": "mcq",
+          "prompt": "Which change most directly reduces CLS from images?",
+          "options": [
+            "Converting them to WebP",
+            "Setting width and height attributes (or aspect-ratio) so space is reserved",
+            "Lazy loading all images",
+            "Using a CDN"
+          ],
+          "answer": 1,
+          "explanation": "With intrinsic dimensions known up front the browser reserves the box before the image downloads, so surrounding content does not move."
+        },
+        {
+          "id": "web-performance-a11y-01-q06",
+          "type": "mcq",
+          "prompt": "A click handler runs 400 ms of synchronous JavaScript before updating the UI. Which INP phase is this?",
+          "options": [
+            "Input delay",
+            "Processing time",
+            "Presentation delay",
+            "Time to first byte"
+          ],
+          "answer": 1,
+          "explanation": "Processing time is the duration of the event handlers for the interaction. Input delay is waiting for other tasks to finish before handlers can start."
+        },
+        {
+          "id": "web-performance-a11y-01-q07",
+          "type": "truefalse",
+          "prompt": "Core Web Vitals pass/fail status is based on the average value across all visits.",
+          "answer": false,
+          "explanation": "Google uses the 75th percentile, so at least 75% of visits must have a good experience. Averages hide the slow tail."
+        },
+        {
+          "id": "web-performance-a11y-01-q08",
+          "type": "truefalse",
+          "prompt": "Layout shifts that happen within 500 ms of a user's click are excluded from CLS.",
+          "answer": true,
+          "explanation": "Shifts caused by expected responses to input (like expanding an accordion) are flagged with hadRecentInput and not counted."
+        },
+        {
+          "id": "web-performance-a11y-01-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are likely causes of poor INP?",
+          "options": [
+            "Long JavaScript tasks during hydration",
+            "Heavy third-party tag manager scripts",
+            "Missing image dimensions",
+            "Expensive re-renders on every keystroke",
+            "A slow DNS lookup"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "INP suffers when the main thread is busy or handlers do too much work. Image dimensions affect CLS and DNS lookups affect loading metrics."
+        },
+        {
+          "id": "web-performance-a11y-01-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the Google library ___ reports LCP, INP and CLS from real users via onLCP, onINP and onCLS.",
+          "accept": [
+            "web-vitals",
+            "web vitals",
+            "webvitals"
+          ],
+          "explanation": "The web-vitals library handles edge cases like bfcache restores and visibility changes, matching how Chrome reports to CrUX."
+        },
+        {
+          "id": "web-performance-a11y-01-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "What are Core Web Vitals and how would you improve each one?",
+          "answer": "- They are three field metrics judged at the 75th percentile: LCP for loading (good at most 2.5 s), INP for responsiveness (at most 200 ms, replaced FID in 2024) and CLS for visual stability (at most 0.1).\n- LCP: reduce TTFB with caching and a CDN, make the LCP resource discoverable in HTML with fetchpriority high and no lazy loading, serve right-sized AVIF/WebP, remove render-blocking resources, and server-render the main content.\n- INP: find long tasks with the Performance panel or the Long Animation Frames API, break them up and yield to the main thread, defer non-urgent work, use useTransition in React, and cut JavaScript and third-party scripts.\n- CLS: dimensions or aspect-ratio on media, reserved slots for ads and embeds, no content injected above the fold, font fallbacks with matched metrics, and transform-based animations.\n- Measure with RUM (web-vitals) to confirm improvements in the field, not just Lighthouse.",
+          "level": "beginner"
+        },
+        {
+          "id": "web-performance-a11y-01-q12",
+          "type": "interview",
+          "prompt": "Lighthouse gives our page 98, but Search Console says it fails Core Web Vitals. How is that possible?",
+          "answer": "Lighthouse is a single lab run on one simulated device and network, usually loading the page without interacting. Search Console uses CrUX field data from real Chrome users at the 75th percentile. Real users have slower mid-range Android phones, worse networks, logged-in states with more content, cookie banners, ads and third-party scripts that may not load in the lab. INP in particular cannot be measured by a page load; it depends on what users click, often after hydration or on heavy filters. I would look at which metric fails in CrUX or PageSpeed Insights, add RUM with the web-vitals library including attribution (the element, interaction target or script responsible), segment by page type and device, and then reproduce with throttled DevTools traces of those specific interactions.",
+          "level": "intermediate"
+        },
+        {
+          "id": "web-performance-a11y-01-q13",
+          "type": "interview",
+          "prompt": "Explain INP. How is it different from FID and what is the typical root cause of a bad score?",
+          "answer": "INP observes every click, tap and key press during a visit and reports roughly the worst one (it ignores one outlier for every 50 interactions), measured from input until the next frame is painted. That includes input delay, handler processing time and presentation delay. FID only measured the input delay of the first interaction, so a page could pass FID while being sluggish for every later interaction. The usual root cause is long tasks on the main thread: large hydration work, expensive renders, synchronous handlers doing too much, layout thrashing or third-party scripts. Fixes are to yield to the main thread, give visual feedback first and defer the rest, reduce JavaScript, and use concurrent React features for non-urgent updates.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "web.dev: Web Vitals",
+          "url": "https://web.dev/articles/vitals"
+        },
+        {
+          "title": "web.dev: Interaction to Next Paint (INP)",
+          "url": "https://web.dev/articles/inp"
+        },
+        {
+          "title": "web.dev: Optimize Largest Contentful Paint",
+          "url": "https://web.dev/articles/optimize-lcp"
+        }
+      ]
+    },
+    {
+      "id": "web-performance-a11y-02-critical-rendering-path",
+      "title": "The Critical Rendering Path and Resource Loading",
+      "level": "beginner",
+      "summary": "Follow how the browser turns HTML, CSS and JavaScript into pixels, what blocks rendering, and how to control loading with defer, async, preload and preconnect.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "From bytes to pixels",
+          "body": "The critical rendering path is the sequence of steps the browser takes before it can show the first pixels:\n\n- **Parse HTML into the DOM**, incrementally as bytes stream in\n- **Parse CSS into the CSSOM**\n- **Combine them into the render tree** (only visible nodes with computed styles)\n- **Layout** (also called reflow): compute each box's size and position\n- **Paint**: fill in pixels for text, colors, borders and images into layers\n- **Composite**: the GPU combines layers into the final frame\n\nAfter the first render, any change that affects geometry triggers layout again, changes to colors trigger paint, and changes to `transform` or `opacity` on their own layer can skip straight to compositing, which is why they animate smoothly.\n\nOptimizing the critical path means getting the minimum HTML and CSS needed for the first view to the browser as fast as possible, with nothing unnecessary blocking it."
+        },
+        {
+          "heading": "What blocks rendering",
+          "body": "- **CSS is render-blocking**: the browser will not paint until stylesheets in the head are downloaded and parsed, to avoid a flash of unstyled content. Keep critical CSS small (inline it for the first view if needed) and load non-critical CSS later. Stylesheets with a non-matching `media` attribute (like `media=\"print\"`) do not block rendering.\n- **Classic scripts are parser-blocking**: a `<script src>` without attributes stops HTML parsing until it downloads and executes, because it might call `document.write` or read the DOM. A script after a stylesheet must also wait for that CSS.\n- **Fonts** can block text rendering for up to about 3 seconds in some browsers unless you set `font-display`.\n\nThe browser's **preload scanner** looks ahead in the raw HTML to start downloading images, scripts and styles early, even while parsing is blocked. Resources injected by JavaScript or referenced only from CSS are invisible to it, which delays them."
+        },
+        {
+          "heading": "defer, async and modules",
+          "body": "Script loading attributes change when scripts download and execute:\n\n- No attribute: download and execute immediately, blocking the parser\n- `async`: download in parallel, execute as soon as it arrives (interrupting parsing), in no guaranteed order. Good for independent scripts such as analytics.\n- `defer`: download in parallel, execute after the document is parsed, in document order, before `DOMContentLoaded`. Good for your app scripts.\n- `type=\"module\"` scripts are deferred by default; add `async` to run them as soon as they and their imports load\n\nPutting scripts at the end of `<body>` was the old workaround; `defer` in the head is better because the download starts earlier.",
+          "code": {
+            "lang": "html",
+            "source": "<head>\n  <link rel=\"stylesheet\" href=\"/app.css\">            <!-- render-blocking -->\n  <link rel=\"stylesheet\" href=\"/print.css\" media=\"print\">  <!-- not blocking -->\n  <script src=\"/app.js\" defer></script>              <!-- runs after parse, in order -->\n  <script src=\"https://analytics.example.com/a.js\" async></script>\n  <script type=\"module\" src=\"/main.js\"></script>     <!-- deferred by default -->\n</head>"
+          }
+        },
+        {
+          "heading": "Resource hints: preload, preconnect, prefetch",
+          "body": "Resource hints tell the browser about resources earlier than it would discover them:\n\n- `<link rel=\"preconnect\" href=\"https://cdn.example.com\">` opens the DNS, TCP and TLS connection early to a critical third-party origin. Use for a few important origins only.\n- `<link rel=\"dns-prefetch\">` does only DNS resolution, cheaper, a fallback for less critical origins\n- `<link rel=\"preload\" as=\"font\" crossorigin>` fetches a resource needed for the current page with high priority: late-discovered fonts, the LCP image referenced in CSS. Unused preloads waste bandwidth and trigger console warnings.\n- `<link rel=\"modulepreload\">` preloads ES modules and their parsing\n- `<link rel=\"prefetch\">` fetches something likely needed for the next navigation at low priority\n- `fetchpriority=\"high\" | \"low\"` adjusts priority of images, scripts and fetches\n\nThe Speculation Rules API (`<script type=\"speculationrules\">`) can prefetch or even prerender likely next pages in Chromium browsers, making navigations near-instant.",
+          "code": {
+            "lang": "html",
+            "source": "<link rel=\"preconnect\" href=\"https://images.example-cdn.com\">\n<link rel=\"preload\" href=\"/fonts/inter-var.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>\n<link rel=\"prefetch\" href=\"/checkout\">\n\n<script type=\"speculationrules\">\n{ \"prerender\": [{ \"where\": { \"href_matches\": \"/products/*\" }, \"eagerness\": \"moderate\" }] }\n</script>"
+          }
+        },
+        {
+          "heading": "Network and server fundamentals",
+          "body": "Before the browser can render anything it needs the HTML. **Time to First Byte (TTFB)** includes redirects, DNS, connection setup, TLS and server processing. A good TTFB is around 0.8 s or less.\n\n- Avoid redirect chains (`http` to `https` to `www` costs a round trip each)\n- Serve from a CDN close to users; cache HTML at the edge where possible\n- Compress text with Brotli (or gzip); Brotli typically beats gzip for HTML, CSS and JS\n- HTTP/2 and HTTP/3 multiplex many requests over one connection, so bundling everything into one file matters less than in the HTTP/1.1 era, while too many tiny files still has overhead\n- Stream HTML so the browser can start parsing the head while the server computes the body (React streaming SSR does this)\n- **103 Early Hints** lets the server send preload and preconnect hints before the final response is ready\n\nBudget: everything needed for the first view should ideally arrive in the first few round trips."
+        }
+      ],
+      "keyPoints": [
+        "Rendering pipeline: DOM, CSSOM, render tree, layout, paint, composite.",
+        "CSS in the head blocks rendering; classic scripts block parsing.",
+        "defer runs scripts after parsing in order; async runs as soon as loaded in any order; module scripts defer by default.",
+        "The preload scanner discovers resources in raw HTML; JS-injected or CSS-only resources are found late.",
+        "preconnect warms connections, preload fetches current-page critical resources, prefetch fetches next-page resources.",
+        "Animating transform and opacity can skip layout and paint.",
+        "Reduce TTFB with CDNs, edge caching, no redirect chains, Brotli, streaming and Early Hints."
+      ],
+      "questions": [
+        {
+          "id": "web-performance-a11y-02-q01",
+          "type": "mcq",
+          "prompt": "What is the difference between `async` and `defer` on a script tag?",
+          "options": [
+            "No difference",
+            "async executes as soon as downloaded in any order; defer executes after parsing in document order",
+            "defer executes immediately; async waits for load",
+            "async only works for modules"
+          ],
+          "answer": 1,
+          "explanation": "Both download in parallel. async interrupts parsing when ready and ignores order, while defer waits until the document is parsed and keeps order."
+        },
+        {
+          "id": "web-performance-a11y-02-q02",
+          "type": "mcq",
+          "prompt": "Why does a large stylesheet in the head delay first paint?",
+          "options": [
+            "CSS is parser-blocking for images",
+            "CSS is render-blocking: the browser waits for the CSSOM before painting",
+            "Stylesheets are executed like scripts",
+            "It doesn't"
+          ],
+          "answer": 1,
+          "explanation": "Painting without CSS would flash unstyled content, so browsers block rendering until stylesheets that apply are loaded."
+        },
+        {
+          "id": "web-performance-a11y-02-q03",
+          "type": "mcq",
+          "prompt": "A web font is only referenced from a CSS file, so it is discovered late. Which hint helps most?",
+          "options": [
+            "dns-prefetch",
+            "<link rel=\"preload\" as=\"font\" type=\"font/woff2\" crossorigin>",
+            "prefetch",
+            "async"
+          ],
+          "answer": 1,
+          "explanation": "Preload starts the high-priority fetch from the HTML. Fonts need the crossorigin attribute even on the same origin, or the preload is not reused."
+        },
+        {
+          "id": "web-performance-a11y-02-q04",
+          "type": "mcq",
+          "prompt": "Which CSS property change is cheapest to animate?",
+          "options": [
+            "width",
+            "top",
+            "transform",
+            "margin-left"
+          ],
+          "answer": 2,
+          "explanation": "transform (and opacity) can be handled by the compositor without recalculating layout or repainting, while geometry properties trigger layout every frame."
+        },
+        {
+          "id": "web-performance-a11y-02-q05",
+          "type": "mcq",
+          "prompt": "When is `<link rel=\"prefetch\">` the right choice?",
+          "options": [
+            "For the LCP image of the current page",
+            "For a resource likely needed on the next navigation, fetched at low priority",
+            "For critical CSS",
+            "To open a connection early"
+          ],
+          "answer": 1,
+          "explanation": "Prefetch fills the HTTP cache for a future page at idle priority. For current-page critical resources use preload; for connections use preconnect."
+        },
+        {
+          "id": "web-performance-a11y-02-q06",
+          "type": "mcq",
+          "prompt": "Which step of the pipeline computes the size and position of every box?",
+          "options": [
+            "Paint",
+            "Layout",
+            "Composite",
+            "Parse"
+          ],
+          "answer": 1,
+          "explanation": "Layout (reflow) computes geometry from the render tree. Paint then fills pixels, and compositing combines layers."
+        },
+        {
+          "id": "web-performance-a11y-02-q07",
+          "type": "truefalse",
+          "prompt": "Scripts with type=\"module\" are deferred by default.",
+          "answer": true,
+          "explanation": "Module scripts do not block parsing and execute after the document is parsed, unless marked async."
+        },
+        {
+          "id": "web-performance-a11y-02-q08",
+          "type": "truefalse",
+          "prompt": "Preloading many resources is always good because it starts downloads earlier.",
+          "answer": false,
+          "explanation": "Preloads compete for bandwidth with truly critical resources, and unused preloads waste data. Preload only what the current view needs and is discovered late."
+        },
+        {
+          "id": "web-performance-a11y-02-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which reduce Time to First Byte?",
+          "options": [
+            "Serving HTML from a CDN edge cache",
+            "Eliminating redirect chains",
+            "Adding loading=\"lazy\" to images",
+            "Faster server-side data fetching or caching",
+            "Using 103 Early Hints"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "TTFB covers redirects, connection and server time. Lazy loading affects later resources, and Early Hints helps the browser start other fetches during server think time but does not change when the HTML's first byte arrives."
+        },
+        {
+          "id": "web-performance-a11y-02-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `<link rel=\"___\" href=\"https://cdn.example.com\">` sets up DNS, TCP and TLS to an origin before any request is made.",
+          "accept": [
+            "preconnect"
+          ],
+          "explanation": "preconnect saves one or more round trips on the first request to that origin. Limit it to a few critical origins."
+        },
+        {
+          "id": "web-performance-a11y-02-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "What happens between typing a URL and seeing the page? Focus on what you can optimize.",
+          "answer": "- The browser resolves DNS, opens a TCP (or QUIC) connection and negotiates TLS, possibly following redirects. Optimize with a CDN, no redirect chains, HTTP/2 or 3, and preconnect for third-party origins.\n- The server produces HTML. Optimize TTFB with caching, edge rendering and streaming.\n- The browser parses HTML into the DOM while the preload scanner fetches discovered resources. CSS builds the CSSOM and blocks rendering; classic scripts block parsing. Optimize with small or inlined critical CSS, defer or async scripts, and resources in the HTML rather than injected late.\n- Render tree, layout, paint and composite produce the first frame; the LCP element should be in the initial HTML with high priority.\n- JavaScript then hydrates and attaches handlers; keep it small so interactions are responsive.",
+          "level": "beginner"
+        },
+        {
+          "id": "web-performance-a11y-02-q12",
+          "type": "interview",
+          "prompt": "Explain render-blocking and parser-blocking resources and how you eliminate them.",
+          "answer": "Render-blocking resources stop the browser from painting; parser-blocking ones stop it from building the DOM. Stylesheets in the head are render-blocking because painting without them would flash unstyled content. Classic synchronous scripts are parser-blocking because they may read or modify the document, and they also wait for preceding CSS. To fix: inline the small critical CSS for above-the-fold content and load the rest asynchronously or split per route; mark stylesheets for other media with a media attribute; use defer for app scripts and async for independent ones, or module scripts; self-host and preload fonts with font-display; and remove or delay third-party scripts. Lighthouse's render-blocking audit and the DevTools network waterfall show which resources sit on the critical path.",
+          "level": "intermediate"
+        },
+        {
+          "id": "web-performance-a11y-02-q13",
+          "type": "interview",
+          "prompt": "When would you use preload, prefetch, preconnect and speculation rules?",
+          "answer": "Preconnect is for a few third-party origins the page will definitely use early, like an image CDN or font host, saving connection setup. Preload is for resources the current page needs soon but discovers late: fonts referenced in CSS, an LCP background image, a critical script chunk; it must be used sparingly because it raises priority. Prefetch is for resources of the likely next page, fetched at idle priority, for example the next step in a checkout. Speculation rules go further and prefetch or prerender whole pages in Chromium based on URL patterns and eagerness (for example on hover), making navigations instant at the cost of extra server load and bandwidth, so I apply them to high-probability links and exclude pages with side effects such as logout.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "web.dev: Critical rendering path",
+          "url": "https://web.dev/learn/performance"
+        },
+        {
+          "title": "MDN: Critical rendering path",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Critical_rendering_path"
+        },
+        {
+          "title": "MDN: Speculation Rules API",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API"
+        }
+      ]
+    },
+    {
+      "id": "web-performance-a11y-03-a11y-foundations",
+      "title": "Accessibility Foundations: WCAG 2.2 and Semantic HTML",
+      "level": "beginner",
+      "summary": "Understand who accessibility serves, how WCAG 2.2 is organized, and why semantic HTML elements give you most of accessibility for free.",
+      "estMinutes": 25,
+      "lesson": [
+        {
+          "heading": "Who accessibility is for",
+          "body": "Web accessibility (a11y) means people with disabilities can perceive, understand, navigate and interact with your product. That includes people who are blind or have low vision (screen readers, magnifiers, high contrast), who are deaf or hard of hearing (captions), who have motor impairments (keyboard only, switch devices, voice control), and who have cognitive or learning disabilities. Many limitations are temporary or situational: a broken arm, bright sunlight, a noisy train.\n\nThe WHO estimates about 1.3 billion people, roughly 1 in 6, live with a significant disability. Accessibility is also a legal requirement in many places: the European Accessibility Act applies to many consumer products and services since June 2025, and in the US, ADA lawsuits over inaccessible websites are common.\n\nAccessible products are usually better for everyone: clear labels, good contrast, keyboard shortcuts and captions help all users."
+        },
+        {
+          "heading": "WCAG 2.2 in a nutshell",
+          "body": "The Web Content Accessibility Guidelines (WCAG) from the W3C are the standard most laws reference. WCAG 2.2 became a W3C Recommendation in October 2023. It is organized around four principles, **POUR**:\n\n- **Perceivable**: text alternatives, captions, sufficient contrast, content that adapts to zoom and reflow\n- **Operable**: everything works with a keyboard, users have enough time, nothing causes seizures, navigation is clear\n- **Understandable**: readable text, predictable behavior, help with input errors\n- **Robust**: works with current and future assistive technologies (valid roles, names and states)\n\nEach guideline has testable **success criteria** at three levels: A (minimum), AA (the usual legal and contractual target) and AAA (enhanced). WCAG 2.2 added criteria including Focus Not Obscured, Dragging Movements, Target Size (Minimum) of 24 by 24 CSS pixels, Consistent Help, Redundant Entry and Accessible Authentication, and removed 4.1.1 Parsing as obsolete."
+        },
+        {
+          "heading": "Semantic HTML does most of the work",
+          "body": "Browsers expose an **accessibility tree** to assistive technology, built from your HTML. Each node has a role (button, link, heading), a name (its label), a state (checked, expanded, disabled) and a value. Native elements come with all of this, plus keyboard behavior, for free.\n\n- `<button>` is focusable, activates with Enter and Space, and announces as a button. A `<div onClick>` does none of that.\n- `<a href>` is for navigation, `<button>` for actions. A link without href is not focusable.\n- Headings `<h1>` to `<h6>` in logical order: screen reader users navigate by headings constantly\n- Landmarks `<header>`, `<nav>`, `<main>`, `<aside>`, `<footer>` let users jump between regions\n- Lists `<ul>`, `<ol>` announce item counts; tables with `<th scope>` announce headers for each cell\n- Form controls with `<label>`; groups with `<fieldset>` and `<legend>`",
+          "code": {
+            "lang": "html",
+            "source": "<!-- Bad: no role, no focus, no keyboard -->\n<div class=\"btn\" onclick=\"save()\">Save</div>\n\n<!-- Good -->\n<button type=\"button\" onclick=\"save()\">Save</button>\n\n<body>\n  <a href=\"#main\" class=\"skip-link\">Skip to content</a>\n  <header>...</header>\n  <nav aria-label=\"Main\">...</nav>\n  <main id=\"main\">\n    <h1>Billing</h1>\n    <section aria-labelledby=\"inv\"><h2 id=\"inv\">Invoices</h2>...</section>\n  </main>\n  <footer>...</footer>\n</body>"
+          }
+        },
+        {
+          "heading": "Text alternatives and forms",
+          "body": "**Images** need `alt` text that conveys their purpose in context:\n\n- Informative image: describe the information (`alt=\"Revenue grew 40% in Q3\"`)\n- Functional image (inside a link or button): describe the action (`alt=\"Search\"`)\n- Decorative image: empty `alt=\"\"` so screen readers skip it; never omit alt, or the file name may be read\n- Complex charts: short alt plus a nearby text or table equivalent\n\n**Forms** are where many users get stuck:\n\n- Every input has a visible `<label>` associated by `for`/`id` or wrapping; placeholders are not labels\n- Use the right `type` (`email`, `tel`) and `autocomplete` (`email`, `current-password`, `one-time-code`) so browsers and password managers help (WCAG 1.3.5)\n- Errors: identify the field in text, not color alone, link the message with `aria-describedby`, set `aria-invalid=\"true\"`, and move focus or summarize errors on submit\n- Mark required fields visibly and with `required`",
+          "code": {
+            "lang": "html",
+            "source": "<label for=\"email\">Email</label>\n<input id=\"email\" type=\"email\" autocomplete=\"email\" required\n       aria-invalid=\"true\" aria-describedby=\"email-err\">\n<p id=\"email-err\">Enter an email like name@example.com</p>\n\n<fieldset>\n  <legend>Shipping speed</legend>\n  <label><input type=\"radio\" name=\"ship\" value=\"std\"> Standard</label>\n  <label><input type=\"radio\" name=\"ship\" value=\"exp\"> Express</label>\n</fieldset>"
+          }
+        },
+        {
+          "heading": "Page-level essentials",
+          "body": "A few page-wide settings matter a lot:\n\n- `<html lang=\"en\">` so screen readers use the right pronunciation; mark passages in other languages with `lang` too\n- A unique, descriptive `<title>` per page (and update it on client-side route changes)\n- Do not disable zoom: avoid `maximum-scale=1` or `user-scalable=no` in the viewport meta tag\n- Content must reflow at 320 CSS px wide (equivalent to 400% zoom) without horizontal scrolling for text (WCAG 1.4.10)\n- Respect user preferences: `prefers-reduced-motion` for animations, `prefers-color-scheme` for themes\n- Do not convey information by color alone; add text, icons or patterns\n- Captions for video, transcripts for audio, and no autoplaying audio",
+          "code": {
+            "lang": "css",
+            "source": "@media (prefers-reduced-motion: reduce) {\n  *, *::before, *::after {\n    animation-duration: 0.01ms !important;\n    transition-duration: 0.01ms !important;\n    scroll-behavior: auto !important;\n  }\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Accessibility serves permanent, temporary and situational disabilities and is a legal requirement in many markets.",
+        "WCAG 2.2 is organized by POUR: perceivable, operable, understandable, robust; AA is the usual target.",
+        "WCAG 2.2 added criteria such as Target Size (Minimum) 24x24 px, Focus Not Obscured and Accessible Authentication.",
+        "Semantic HTML gives roles, names, states and keyboard behavior for free; use button for actions and a href for navigation.",
+        "Use headings in order and landmarks so screen reader users can navigate by structure.",
+        "Alt text conveys purpose; decorative images get alt=\"\".",
+        "Every input needs a programmatic label; errors are announced in text and linked with aria-describedby."
+      ],
+      "questions": [
+        {
+          "id": "web-performance-a11y-03-q01",
+          "type": "mcq",
+          "prompt": "What do the four WCAG principles (POUR) stand for?",
+          "options": [
+            "Performant, Optimized, Usable, Responsive",
+            "Perceivable, Operable, Understandable, Robust",
+            "Predictable, Open, Universal, Readable",
+            "Perceivable, Organized, Usable, Reliable"
+          ],
+          "answer": 1,
+          "explanation": "Every WCAG guideline falls under one of these four principles."
+        },
+        {
+          "id": "web-performance-a11y-03-q02",
+          "type": "mcq",
+          "prompt": "Which conformance level do most laws and contracts require?",
+          "options": [
+            "Level A",
+            "Level AA",
+            "Level AAA",
+            "No level"
+          ],
+          "answer": 1,
+          "explanation": "AA is the common target (for example in EN 301 549, which underpins EU requirements, and in US Section 508). AAA is not required for whole sites because some criteria cannot be met for all content."
+        },
+        {
+          "id": "web-performance-a11y-03-q03",
+          "type": "mcq",
+          "prompt": "What is the correct alt text for a purely decorative divider image?",
+          "options": [
+            "alt=\"divider\"",
+            "alt=\"\"",
+            "Omit the alt attribute",
+            "alt=\"image\""
+          ],
+          "answer": 1,
+          "explanation": "An empty alt tells assistive technology to ignore the image. Without alt, screen readers may read the file name."
+        },
+        {
+          "id": "web-performance-a11y-03-q04",
+          "type": "mcq",
+          "prompt": "Why is `<div onclick>` a poor replacement for `<button>`?",
+          "options": [
+            "Divs cannot have click handlers",
+            "It is not focusable, has no button role and does not respond to Enter or Space",
+            "Buttons are faster to render",
+            "Divs cannot be styled"
+          ],
+          "answer": 1,
+          "explanation": "You would need role, tabindex and key handlers to approximate a button. The native element provides all of it and is more robust."
+        },
+        {
+          "id": "web-performance-a11y-03-q05",
+          "type": "mcq",
+          "prompt": "Which WCAG 2.2 criterion sets a minimum size of 24 by 24 CSS pixels for pointer targets (with exceptions)?",
+          "options": [
+            "2.5.8 Target Size (Minimum)",
+            "1.4.3 Contrast (Minimum)",
+            "2.4.7 Focus Visible",
+            "1.3.1 Info and Relationships"
+          ],
+          "answer": 0,
+          "explanation": "Target Size (Minimum) is a new AA criterion in 2.2. Smaller targets are allowed if spaced so a 24 px circle around each does not overlap others, among other exceptions."
+        },
+        {
+          "id": "web-performance-a11y-03-q06",
+          "type": "mcq",
+          "prompt": "Which viewport meta setting harms accessibility?",
+          "options": [
+            "width=device-width",
+            "initial-scale=1",
+            "user-scalable=no",
+            "viewport-fit=cover"
+          ],
+          "answer": 2,
+          "explanation": "Disabling zoom prevents low-vision users from enlarging content, failing WCAG 1.4.4 Resize Text."
+        },
+        {
+          "id": "web-performance-a11y-03-q07",
+          "type": "truefalse",
+          "prompt": "A placeholder attribute is an acceptable replacement for a visible label.",
+          "answer": false,
+          "explanation": "Placeholders vanish on input, usually have low contrast and are inconsistently announced. Use a real label; placeholders may add example formats."
+        },
+        {
+          "id": "web-performance-a11y-03-q08",
+          "type": "truefalse",
+          "prompt": "WCAG 2.2 removed success criterion 4.1.1 Parsing.",
+          "answer": true,
+          "explanation": "Modern browsers and assistive technologies handle parsing errors consistently, so 4.1.1 was marked obsolete and removed in 2.2."
+        },
+        {
+          "id": "web-performance-a11y-03-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which HTML elements are landmarks screen reader users can jump between?",
+          "options": [
+            "<main>",
+            "<nav>",
+            "<div>",
+            "<header> (as page banner)",
+            "<span>"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "main, nav, header (banner when not nested in sectioning content), footer, aside and labelled sections/forms map to landmark roles. Generic div and span do not."
+        },
+        {
+          "id": "web-performance-a11y-03-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: `<html ___=\"en\">` tells screen readers which language to pronounce the page in.",
+          "accept": [
+            "lang"
+          ],
+          "explanation": "The lang attribute satisfies WCAG 3.1.1 Language of Page and affects speech synthesis, hyphenation and translation."
+        },
+        {
+          "id": "web-performance-a11y-03-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "What is semantic HTML and why does it matter for accessibility?",
+          "answer": "Semantic HTML means choosing elements for their meaning, not their look: button for actions, a with href for navigation, headings for structure, lists, tables with headers, label for form fields, and landmarks like main and nav. Browsers map these elements into the accessibility tree with the correct role, accessible name and state, and give them keyboard behavior and focus handling for free. Screen reader users navigate by headings, landmarks and form controls, so structure directly determines how usable the page is. It also helps SEO, reader modes and maintainability. Reimplementing these with divs and ARIA is more code and usually less robust, so I start with native elements and add ARIA only when HTML has no equivalent.",
+          "level": "beginner"
+        },
+        {
+          "id": "web-performance-a11y-03-q12",
+          "type": "interview",
+          "prompt": "Explain WCAG: its structure, levels and what changed in 2.2.",
+          "answer": "WCAG is the W3C standard for accessible web content. It is organized in four principles (perceivable, operable, understandable, robust), each with guidelines, and each guideline has testable success criteria at levels A, AA and AAA. Most laws and contracts require 2.1 or 2.2 AA. WCAG 2.2 (October 2023) is backwards compatible with 2.1 and added nine criteria, including Focus Not Obscured (focused elements must not be fully hidden by sticky headers), Dragging Movements (provide a single-pointer alternative to drag), Target Size Minimum (24 by 24 CSS px), Consistent Help, Redundant Entry (do not ask for the same information twice in a process) and Accessible Authentication (no cognitive tests like memorizing or transcribing codes without an alternative, so allow paste and password managers). It also removed 4.1.1 Parsing.",
+          "level": "intermediate"
+        },
+        {
+          "id": "web-performance-a11y-03-q13",
+          "type": "interview",
+          "prompt": "How do you make a form accessible?",
+          "answer": "- Every control has a visible label programmatically associated with it; related controls such as radio groups use fieldset and legend.\n- Use correct input types and autocomplete tokens so browsers, password managers and assistive tech can help, and never block paste.\n- Mark required fields both visually and with the required attribute, and give instructions before the field, not only in placeholders.\n- On errors, describe the problem and how to fix it in text, tie it to the field with aria-describedby and aria-invalid, and on submit move focus to the first invalid field or to an error summary with links.\n- Make it fully keyboard operable with visible focus, sufficient contrast, and enough time; avoid CAPTCHAs that rely on cognitive tests, or provide alternatives.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "W3C: WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/"
+        },
+        {
+          "title": "W3C WAI: What's New in WCAG 2.2",
+          "url": "https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/"
+        },
+        {
+          "title": "web.dev: Learn Accessibility",
+          "url": "https://web.dev/learn/accessibility"
+        }
+      ]
+    },
+    {
+      "id": "web-performance-a11y-04-images-fonts-caching",
+      "title": "Images, Fonts, Caching and CDNs",
+      "level": "intermediate",
+      "summary": "Serve right-sized modern images, load fonts without blocking or shifting text, and design HTTP caching and CDN rules that make repeat visits nearly free.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Responsive, modern images",
+          "body": "Images are usually the largest bytes on a page and often the LCP element.\n\n- **Formats**: AVIF compresses best, WebP is close and universally supported; use `<picture>` with fallbacks or let an image CDN negotiate via the `Accept` header. SVG for icons and logos.\n- **Sizing**: never ship a 3000 px image into a 400 px slot. `srcset` with width descriptors plus `sizes` lets the browser pick the right file for the layout width and device pixel ratio.\n- **Dimensions**: always set `width` and `height` (or `aspect-ratio`) to prevent layout shift.\n- **Lazy loading**: `loading=\"lazy\"` for below-the-fold images; never for the LCP image.\n- **Priority**: `fetchpriority=\"high\"` on the LCP image only.\n- `decoding=\"async\"` lets decoding happen off the critical path.\n\nFrameworks automate this: `next/image` generates sizes and formats, lazy loads by default and sets dimensions; mark the hero with the `priority` prop (newer versions use `preload`) so it is not lazy loaded.",
+          "code": {
+            "lang": "html",
+            "source": "<picture>\n  <source type=\"image/avif\" srcset=\"/p/shoe-400.avif 400w, /p/shoe-800.avif 800w\">\n  <source type=\"image/webp\" srcset=\"/p/shoe-400.webp 400w, /p/shoe-800.webp 800w\">\n  <img src=\"/p/shoe-800.jpg\"\n       srcset=\"/p/shoe-400.jpg 400w, /p/shoe-800.jpg 800w\"\n       sizes=\"(min-width: 1024px) 400px, 50vw\"\n       width=\"800\" height=\"800\"\n       loading=\"lazy\" decoding=\"async\"\n       alt=\"Red running shoe, side view\">\n</picture>"
+          }
+        },
+        {
+          "heading": "Web fonts without the pain",
+          "body": "Fonts cause two problems: invisible text while they load (FOIT) and layout shifts when the fallback swaps to the web font.\n\n- Use **WOFF2** only; it is supported everywhere relevant and compresses best\n- **Subset** to the characters you need (`unicode-range`) and prefer one **variable font** over many static weights\n- **Self-host** fonts on your origin to avoid an extra connection (and privacy issues of third-party font hosts)\n- **Preload** the one or two fonts used above the fold\n- `font-display: swap` shows fallback text immediately then swaps; `optional` uses the web font only if it arrives very quickly, avoiding shifts entirely; avoid `block` for body text\n- Reduce swap shifts with fallback metric overrides: `size-adjust`, `ascent-override`, `descent-override` on a local fallback `@font-face`. `next/font` does this automatically and self-hosts Google Fonts at build time.",
+          "code": {
+            "lang": "css",
+            "source": "@font-face {\n  font-family: 'Inter';\n  src: url('/fonts/inter-var.woff2') format('woff2');\n  font-weight: 100 900;\n  font-display: swap;\n}\n\n/* metric-matched fallback reduces CLS on swap */\n@font-face {\n  font-family: 'Inter Fallback';\n  src: local('Arial');\n  size-adjust: 107%;\n  ascent-override: 90%;\n}\n\nbody { font-family: 'Inter', 'Inter Fallback', sans-serif; }"
+          }
+        },
+        {
+          "heading": "HTTP caching headers",
+          "body": "`Cache-Control` decides who may store a response and for how long:\n\n- `max-age=N`: fresh for N seconds in any cache; `s-maxage=N` overrides it for shared caches (CDNs)\n- `public` / `private`: `private` means only the browser may store it (personalized content)\n- `no-cache`: may be stored but must be **revalidated** with the server before each use; `no-store`: never store (sensitive data)\n- `immutable`: the content will never change, so skip revalidation even on reload\n- `stale-while-revalidate=N`: serve stale content for up to N seconds while fetching a fresh copy in the background\n\nRevalidation uses validators: the server sends `ETag` or `Last-Modified`; the browser asks with `If-None-Match` or `If-Modified-Since`; an unchanged resource returns `304 Not Modified` with no body.\n\nThe standard strategy: **fingerprinted static assets** (`app.3f9a1c.js`) get `public, max-age=31536000, immutable`, since a new version gets a new URL. **HTML** gets `no-cache` (or a short max-age with stale-while-revalidate) so users always see the latest asset references.",
+          "code": {
+            "lang": "text",
+            "source": "# hashed JS/CSS/fonts/images\nCache-Control: public, max-age=31536000, immutable\n\n# HTML documents\nCache-Control: no-cache\nETag: \"a1b2c3\"\n\n# API data that may be slightly stale, cached at CDN\nCache-Control: public, s-maxage=60, stale-while-revalidate=300\n\n# personal account page\nCache-Control: private, no-store"
+          }
+        },
+        {
+          "heading": "CDNs and edge caching",
+          "body": "A CDN stores copies of responses in data centers close to users, cutting round-trip latency and offloading your origin.\n\n- Static assets are the easy win; caching HTML at the edge (full-page or ISR-style) gives the biggest TTFB improvements\n- The **cache key** is usually the URL; vary on as little as possible. `Vary: Accept-Encoding` is fine, `Vary: Cookie` or `User-Agent` fragments the cache\n- **Invalidation**: purge by URL or tag when content changes, or rely on short s-maxage with stale-while-revalidate\n- Never cache personalized responses publicly; mark them `private` and make sure `Set-Cookie` responses are not shared\n- Compression (Brotli), HTTP/3, image transformation and edge functions are typically available at the CDN layer\n\nThe browser also has a **back/forward cache (bfcache)** that keeps whole pages in memory for instant back navigation; `Cache-Control: no-store` on the document and `unload` listeners can make a page ineligible."
+        },
+        {
+          "heading": "Service workers and offline caching",
+          "body": "A service worker is a script that sits between your page and the network and can serve responses from the Cache Storage API. Common strategies:\n\n- **Cache first**: for versioned static assets\n- **Network first, fallback to cache**: for HTML and API data that should be fresh but work offline\n- **Stale while revalidate**: serve cached immediately, update in the background\n\nTools like Workbox (or framework plugins) generate these strategies. Service workers add complexity: a buggy one can pin users to stale versions, so always plan an update and kill-switch path. For most sites, correct HTTP caching plus a CDN covers performance; add a service worker when you need offline support or PWA capabilities."
+        }
+      ],
+      "keyPoints": [
+        "Serve AVIF/WebP at the right size with srcset and sizes; always set width and height.",
+        "Lazy load below-the-fold images, never the LCP image; give the LCP image fetchpriority high.",
+        "Fonts: self-hosted WOFF2, subset or variable, preload the critical ones, font-display swap or optional, metric-matched fallbacks.",
+        "Fingerprinted assets: public, max-age=31536000, immutable. HTML: no-cache with ETag revalidation.",
+        "no-cache means revalidate before use; no-store means never store.",
+        "s-maxage and stale-while-revalidate control CDN caching; never publicly cache personalized responses.",
+        "Service workers enable offline caching strategies but need a careful update story."
+      ],
+      "questions": [
+        {
+          "id": "web-performance-a11y-04-q01",
+          "type": "mcq",
+          "prompt": "What does `Cache-Control: no-cache` mean?",
+          "options": [
+            "Never store the response",
+            "The response may be stored but must be revalidated with the server before each use",
+            "Cache for one hour",
+            "Only CDNs may cache it"
+          ],
+          "answer": 1,
+          "explanation": "no-cache forces revalidation (often a cheap 304). no-store is the directive that forbids storing."
+        },
+        {
+          "id": "web-performance-a11y-04-q02",
+          "type": "mcq",
+          "prompt": "Which caching header fits `main.8f3a2c.js`, whose filename changes on every build?",
+          "options": [
+            "no-store",
+            "no-cache",
+            "public, max-age=31536000, immutable",
+            "private, max-age=60"
+          ],
+          "answer": 2,
+          "explanation": "The content at a fingerprinted URL never changes, so it can be cached for a year without revalidation. New code gets a new URL referenced by fresh HTML."
+        },
+        {
+          "id": "web-performance-a11y-04-q03",
+          "type": "mcq",
+          "prompt": "What does the `sizes` attribute tell the browser?",
+          "options": [
+            "The file sizes in bytes",
+            "How wide the image will be displayed at different viewport widths, so it can choose from srcset",
+            "The maximum zoom level",
+            "The intrinsic image dimensions"
+          ],
+          "answer": 1,
+          "explanation": "With width descriptors in srcset, the browser combines sizes with device pixel ratio to pick the smallest adequate file before layout happens."
+        },
+        {
+          "id": "web-performance-a11y-04-q04",
+          "type": "mcq",
+          "prompt": "Which font-display value avoids layout shifts by only using the web font if it loads almost immediately?",
+          "options": [
+            "block",
+            "swap",
+            "optional",
+            "fallback"
+          ],
+          "answer": 2,
+          "explanation": "optional gives a very short block period and no swap period; if the font is not ready, the fallback is used for that page view, so text never shifts."
+        },
+        {
+          "id": "web-performance-a11y-04-q05",
+          "type": "mcq",
+          "prompt": "A CDN serves one user's account page to another user. What is the likely misconfiguration?",
+          "options": [
+            "Missing Brotli",
+            "A personalized response was marked public (or lacked private/no-store) and cached under a shared key",
+            "The ETag was wrong",
+            "HTTP/3 was disabled"
+          ],
+          "answer": 1,
+          "explanation": "Shared caches may store responses unless told otherwise. Personalized responses need private or no-store, and cookies should not be part of public cached content."
+        },
+        {
+          "id": "web-performance-a11y-04-q06",
+          "type": "mcq",
+          "prompt": "What does a 304 Not Modified response indicate?",
+          "options": [
+            "The resource moved",
+            "The cached copy is still valid; no body is sent",
+            "The server failed",
+            "The client must not cache"
+          ],
+          "answer": 1,
+          "explanation": "After a conditional request with If-None-Match or If-Modified-Since, 304 confirms the browser's copy is current, saving the transfer."
+        },
+        {
+          "id": "web-performance-a11y-04-q07",
+          "type": "truefalse",
+          "prompt": "stale-while-revalidate lets a cache serve a stale response immediately while it fetches a fresh one in the background.",
+          "answer": true,
+          "explanation": "It hides revalidation latency for content where being slightly out of date for a short window is acceptable."
+        },
+        {
+          "id": "web-performance-a11y-04-q08",
+          "type": "truefalse",
+          "prompt": "Adding loading=\"lazy\" to every image, including the hero, improves LCP.",
+          "answer": false,
+          "explanation": "Lazy loading delays the hero image fetch and typically worsens LCP. Only lazy load images outside the initial viewport."
+        },
+        {
+          "id": "web-performance-a11y-04-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which practices improve web font performance?",
+          "options": [
+            "Using WOFF2",
+            "Preloading the main above-the-fold font",
+            "Loading 8 static weights from a third-party host",
+            "Subsetting with unicode-range",
+            "Using font-display: block for body text"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Compact formats, early fetching and fewer bytes help. Many weights from another origin add bytes and connections, and block hides text."
+        },
+        {
+          "id": "web-performance-a11y-04-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the Cache-Control directive ___ sets a max age that applies only to shared caches such as CDNs.",
+          "accept": [
+            "s-maxage",
+            "s-max-age"
+          ],
+          "explanation": "s-maxage lets you cache longer at the CDN (where you can purge) than in browsers (where you cannot)."
+        },
+        {
+          "id": "web-performance-a11y-04-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "Design a caching strategy for a web app's HTML, static assets and API responses.",
+          "answer": "- Build assets with content hashes in filenames and serve them with `public, max-age=31536000, immutable` from a CDN; deploys never need purging because URLs change.\n- HTML references those hashed URLs, so it must stay fresh: `no-cache` with an ETag in the browser, and at the CDN either no caching for dynamic pages or `s-maxage` plus `stale-while-revalidate` with purge on publish for content pages.\n- Public API data that tolerates slight staleness (product catalogs) gets short `s-maxage` with stale-while-revalidate; personalized or sensitive responses get `private` or `no-store`.\n- Keep cache keys clean (no Vary on Cookie), and use tag-based purging for content updates.\n- Check bfcache eligibility, and add a service worker only if offline support is a requirement.",
+          "level": "intermediate"
+        },
+        {
+          "id": "web-performance-a11y-04-q12",
+          "type": "interview",
+          "prompt": "How do you optimize images on a content-heavy site?",
+          "answer": "I would route images through an image CDN or the framework's optimizer so each request gets AVIF or WebP at the needed width, then use srcset and sizes so phones download small files. Every image gets width and height or aspect-ratio to avoid CLS. The LCP image is in the server-rendered HTML with fetchpriority high and no lazy loading; images below the fold use loading lazy and decoding async. Icons become SVG sprites or inline SVG, and decorative large images get more aggressive compression. Then I would verify with the Network panel and Lighthouse that no image is served much larger than displayed, and track LCP in the field per template.",
+          "level": "intermediate"
+        },
+        {
+          "id": "web-performance-a11y-04-q13",
+          "type": "interview",
+          "prompt": "After a deploy, some users see a broken page: new HTML but old JavaScript, or the reverse. What went wrong and how do you prevent it?",
+          "answer": "The likely cause is caching assets by a stable URL (app.js) with a long max-age, or caching HTML too long so it references chunks that were deleted. The fix is the immutable-asset pattern: content-hashed filenames cached for a year, HTML revalidated on every request, and keeping old asset versions available for a while after deploying (users with an open tab will lazily request old chunks). For SPAs, handle chunk load errors by reloading the page once. If a service worker is involved, make sure it updates its precache on new deploys and does not serve stale HTML indefinitely.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MDN: HTTP caching",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching"
+        },
+        {
+          "title": "web.dev: Responsive images",
+          "url": "https://web.dev/learn/design/responsive-images"
+        },
+        {
+          "title": "web.dev: Best practices for fonts",
+          "url": "https://web.dev/articles/font-best-practices"
+        }
+      ]
+    },
+    {
+      "id": "web-performance-a11y-05-bundles-code-splitting",
+      "title": "JavaScript Bundles: Code Splitting, Lazy Loading and Analysis",
+      "level": "intermediate",
+      "summary": "Understand why JavaScript is the most expensive byte, split bundles by route and interaction, tree-shake effectively, and find bloat with bundle analyzers and budgets.",
+      "estMinutes": 30,
+      "lesson": [
+        {
+          "heading": "Why JavaScript costs more than other bytes",
+          "body": "A 200 KB image and a 200 KB script are not equal. The image is decoded off the main thread; the script must be downloaded, **parsed, compiled and executed on the main thread**, where it blocks rendering and input handling. On a mid-range phone, that execution can take several times longer than on a developer laptop.\n\nThat is why bundle size affects both LCP (for client-rendered content) and INP (hydration and long tasks while the user tries to interact). Server-rendering HTML helps the first paint, but hydration still runs all the component code for interactive parts of the page.\n\nThe goal: ship only the JavaScript needed for the current page and interaction, as late as acceptable. Measure in compressed and uncompressed size; parse and execute cost follows the uncompressed size."
+        },
+        {
+          "heading": "Code splitting with dynamic import",
+          "body": "Bundlers (Vite/Rollup, webpack, Turbopack, esbuild) create a separate chunk for every dynamic `import()`. The chunk loads only when that code runs.\n\nWhere to split:\n\n- **By route**: each page loads its own code; frameworks like Next.js and React Router (with lazy routes) do this automatically\n- **By interaction**: modals, rich text editors, charts, emoji pickers and maps load when opened\n- **By visibility**: below-the-fold widgets load when scrolled near\n- **Heavy libraries**: load a PDF or Excel exporter only when the user clicks Export\n\nIn React, `React.lazy(() => import('./Chart'))` plus `<Suspense fallback>` renders a lazily loaded component; `next/dynamic` wraps the same idea with SSR control. Avoid over-splitting into many tiny chunks; each request and waterfall has a cost. Prefetch a chunk on hover or intent to hide the delay.",
+          "code": {
+            "lang": "tsx",
+            "source": "import { lazy, Suspense, useState } from 'react';\nconst ChartPanel = lazy(() => import('./ChartPanel'));   // separate chunk\n\nexport function Report() {\n  const [show, setShow] = useState(false);\n  return (\n    <>\n      <button onClick={() => setShow(true)}\n              onMouseEnter={() => import('./ChartPanel')}>  {/* prefetch on intent */}\n        Show chart\n      </button>\n      {show && (\n        <Suspense fallback={<p>Loading chart...</p>}>\n          <ChartPanel />\n        </Suspense>\n      )}\n    </>\n  );\n}\n\n// on demand, inside a handler\nasync function exportXlsx(rows: Row[]) {\n  const { utils, writeFile } = await import('xlsx');\n  const wb = utils.book_new();\n  utils.book_append_sheet(wb, utils.json_to_sheet(rows), 'Report');\n  writeFile(wb, 'report.xlsx');\n}"
+          }
+        },
+        {
+          "heading": "Tree shaking and dependency hygiene",
+          "body": "**Tree shaking** removes unused exports at build time. It works on static ES module `import`/`export` syntax, not on CommonJS `require`.\n\n- Import specific functions: `import { debounce } from 'lodash-es'` rather than `import _ from 'lodash'` (CommonJS, whole library)\n- Packages declare `\"sideEffects\": false` in package.json so bundlers can drop unused modules safely\n- Barrel files (`index.ts` re-exporting everything) can defeat tree shaking or slow builds; Next.js has `optimizePackageImports` for common libraries\n- Check the cost before adding a dependency with bundlephobia or pkg-size, and prefer platform APIs: `Intl.DateTimeFormat` and `Intl.NumberFormat` instead of heavy date and number libraries, `fetch` instead of an HTTP client, native `<dialog>` instead of a modal library\n- Watch for duplicate versions of the same package in the bundle, and polyfills you no longer need for your browser targets",
+          "code": {
+            "lang": "ts",
+            "source": "// Pulls in all of lodash (CommonJS, ~70 KB min)\nimport _ from 'lodash';\n_.debounce(fn, 300);\n\n// Tree-shakeable ES module import\nimport { debounce } from 'lodash-es';\n\n// Or just the platform\nconst fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });\nfmt.format(19.99);   // \"$19.99\""
+          }
+        },
+        {
+          "heading": "Analyzing bundles",
+          "body": "You cannot fix what you cannot see. Bundle analyzers draw a treemap of every chunk and module:\n\n- `@next/bundle-analyzer` for Next.js (and the newer built-in analyzer for Turbopack builds in recent versions)\n- `rollup-plugin-visualizer` for Vite\n- `webpack-bundle-analyzer`, or `source-map-explorer` for any build with source maps\n\nWhat to look for: large libraries in the main or shared chunk that only one page uses, duplicate packages, locale data (moment.js locales are a classic), polyfills, and accidentally bundled server code or JSON fixtures.\n\nChrome DevTools **Coverage** panel shows how much of each loaded script actually executed during a session, a good hint for what to split out.",
+          "code": {
+            "lang": "ts",
+            "source": "// next.config.ts\nimport bundleAnalyzer from '@next/bundle-analyzer';\nconst withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE === 'true' });\nexport default withBundleAnalyzer({ /* next config */ });\n\n// ANALYZE=true npm run build   -> opens treemaps per bundle"
+          }
+        },
+        {
+          "heading": "Budgets and keeping it fixed",
+          "body": "Bundles grow one reasonable-looking dependency at a time, so set **performance budgets** and enforce them in CI:\n\n- Size budgets per route or chunk (for example, 170 KB compressed JavaScript for the critical path on mobile is a commonly cited starting point)\n- Tools: `size-limit` fails CI when a bundle exceeds its limit and comments the diff on PRs; Lighthouse CI asserts metric and resource budgets\n- Track field Core Web Vitals over time and alert on regressions\n\nArchitecture choices matter more than micro-optimizations: React Server Components send zero component JavaScript for server-only parts, islands architectures (Astro) hydrate only interactive widgets, and moving third-party scripts off the main thread (Partytown) or loading them after interaction reduces startup cost.",
+          "code": {
+            "lang": "json",
+            "source": "{\n  \"size-limit\": [\n    { \"path\": \".next/static/chunks/main-*.js\", \"limit\": \"90 KB\" },\n    { \"path\": \"dist/assets/index-*.js\", \"limit\": \"170 KB\", \"gzip\": true }\n  ],\n  \"scripts\": { \"size\": \"size-limit\" }\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "JavaScript is parsed, compiled and executed on the main thread, so it costs more than equal-sized images.",
+        "Every dynamic import() becomes a separate chunk; split by route, interaction and visibility.",
+        "React.lazy with Suspense or next/dynamic lazy loads components; prefetch on intent to hide delays.",
+        "Tree shaking needs ES modules; import named functions and prefer packages with sideEffects: false.",
+        "Prefer platform APIs (Intl, fetch, dialog) over heavy libraries; check package cost before adding.",
+        "Use bundle analyzers and the DevTools Coverage panel to find bloat and unused code.",
+        "Enforce budgets in CI (size-limit, Lighthouse CI) and favor architectures that ship less JS, like Server Components."
+      ],
+      "questions": [
+        {
+          "id": "web-performance-a11y-05-q01",
+          "type": "mcq",
+          "prompt": "What does a bundler typically do with `import('./Editor')`?",
+          "options": [
+            "Inlines it in the main bundle",
+            "Creates a separate chunk loaded when the import runs",
+            "Ignores it",
+            "Loads it on the server only"
+          ],
+          "answer": 1,
+          "explanation": "Dynamic import is the split point that Vite, webpack and other bundlers use to create on-demand chunks."
+        },
+        {
+          "id": "web-performance-a11y-05-q02",
+          "type": "mcq",
+          "prompt": "Why does `import _ from 'lodash'` often bloat bundles?",
+          "options": [
+            "lodash is malicious",
+            "The default lodash package is CommonJS, which bundlers cannot tree-shake, so the whole library is included",
+            "Default imports are slower",
+            "lodash requires polyfills"
+          ],
+          "answer": 1,
+          "explanation": "Tree shaking relies on static ES module exports. Use lodash-es with named imports, per-method imports, or native alternatives."
+        },
+        {
+          "id": "web-performance-a11y-05-q03",
+          "type": "mcq",
+          "prompt": "What must wrap a component created with React.lazy?",
+          "options": [
+            "ErrorBoundary only",
+            "A Suspense boundary that shows a fallback while it loads",
+            "React.memo",
+            "A context provider"
+          ],
+          "answer": 1,
+          "explanation": "React.lazy suspends while its chunk loads, so a Suspense ancestor is needed to render a fallback. Pair it with an error boundary for failed loads."
+        },
+        {
+          "id": "web-performance-a11y-05-q04",
+          "type": "mcq",
+          "prompt": "Which tool shows how much of each loaded script was actually executed during a session?",
+          "options": [
+            "Lighthouse SEO audit",
+            "Chrome DevTools Coverage panel",
+            "The Network panel's size column",
+            "npm ls"
+          ],
+          "answer": 1,
+          "explanation": "Coverage marks used and unused bytes per file, revealing code that could be split out or removed."
+        },
+        {
+          "id": "web-performance-a11y-05-q05",
+          "type": "mcq",
+          "prompt": "A 300 KB charting library is only used on the admin analytics page but appears in the shared chunk. Best fix?",
+          "options": [
+            "Minify it more",
+            "Import it dynamically from the analytics page so it lands in that route's chunk",
+            "Add it to a CDN script tag on every page",
+            "Increase the budget"
+          ],
+          "answer": 1,
+          "explanation": "Moving the import behind a route or interaction split point keeps it out of code every visitor downloads."
+        },
+        {
+          "id": "web-performance-a11y-05-q06",
+          "type": "mcq",
+          "prompt": "What does `\"sideEffects\": false` in a library's package.json allow?",
+          "options": [
+            "Running the library in workers",
+            "Bundlers to drop modules whose exports are unused, since importing them has no side effects",
+            "Disabling minification",
+            "Skipping TypeScript checks"
+          ],
+          "answer": 1,
+          "explanation": "Without this hint the bundler must assume that importing a module may run important code (like polyfills or CSS), so it keeps it."
+        },
+        {
+          "id": "web-performance-a11y-05-q07",
+          "type": "truefalse",
+          "prompt": "Splitting code into hundreds of tiny chunks is always better for performance.",
+          "answer": false,
+          "explanation": "Each chunk adds request overhead and can create loading waterfalls. Split at meaningful boundaries such as routes and heavy features."
+        },
+        {
+          "id": "web-performance-a11y-05-q08",
+          "type": "truefalse",
+          "prompt": "React Server Components that never become client components add no component code to the client JavaScript bundle.",
+          "answer": true,
+          "explanation": "Their output is sent as a serialized tree; only components marked 'use client' (and their imports) ship JavaScript to the browser."
+        },
+        {
+          "id": "web-performance-a11y-05-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are good candidates for lazy loading?",
+          "options": [
+            "A rich text editor shown when the user clicks Edit",
+            "The header navigation",
+            "A map widget below the fold",
+            "An export-to-PDF library used on button click",
+            "The CSS for above-the-fold content"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Code needed only after an interaction or scroll is ideal for splitting. Navigation and critical CSS are needed immediately."
+        },
+        {
+          "id": "web-performance-a11y-05-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: build-time removal of unused ES module exports is called tree ___.",
+          "accept": [
+            "shaking",
+            "tree shaking",
+            "tree-shaking"
+          ],
+          "explanation": "Tree shaking performs dead-code elimination based on the static import and export graph."
+        },
+        {
+          "id": "web-performance-a11y-05-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "Our main bundle is 1.2 MB and the app feels slow on phones. How would you approach it?",
+          "answer": "- Measure first: run a bundle analyzer, the Coverage panel and a throttled Performance trace to see what is big and what executes at startup, plus field INP and LCP to know the user impact.\n- Split by route if it is not already, then by interaction: editors, charts, modals, exporters and admin features behind dynamic imports.\n- Fix dependency issues: replace or slim heavy libraries (moment to Intl or date-fns, lodash to lodash-es), dedupe versions, drop unneeded polyfills by updating browser targets, and remove dead code.\n- Reduce what hydrates: move non-interactive UI to Server Components or static HTML.\n- Defer third-party scripts until after load or interaction.\n- Add size-limit budgets in CI so it does not regress, and verify improvement in field metrics.",
+          "level": "intermediate"
+        },
+        {
+          "id": "web-performance-a11y-05-q12",
+          "type": "interview",
+          "prompt": "How does tree shaking work and what breaks it?",
+          "answer": "Tree shaking is dead-code elimination based on the module graph. Because ES module imports and exports are static, the bundler can see which exports are used and drop the rest, and the minifier removes the now-unreachable code. It breaks when code is CommonJS (require and module.exports are dynamic), when modules have side effects the bundler must preserve (no sideEffects field, or top-level code that mutates globals), when you import a whole namespace and access it dynamically, when Babel or TypeScript is configured to transpile modules to CommonJS before bundling, and sometimes through large barrel files that import everything. The fixes are ESM builds, sideEffects declarations, named imports and leaving module transformation to the bundler.",
+          "level": "intermediate"
+        },
+        {
+          "id": "web-performance-a11y-05-q13",
+          "type": "interview",
+          "prompt": "How do you prevent performance regressions over time in a large team?",
+          "answer": "Performance has to be enforced by automation and visibility, not occasional audits. I would add bundle size budgets with size-limit that comment diffs on every PR and fail on large increases, and Lighthouse CI on key pages with budgets for LCP, TBT and CLS against a production build. Field data from the web-vitals library goes to a dashboard segmented by page and device, with alerts when p75 crosses thresholds. New dependencies above a size threshold require a short justification in review. Third-party scripts get an owner and a review process. Finally, I would share the metrics regularly and tie performance goals to product outcomes like conversion so they get prioritized.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "web.dev: Reduce JavaScript payloads with code splitting",
+          "url": "https://web.dev/articles/reduce-javascript-payloads-with-code-splitting"
+        },
+        {
+          "title": "React: lazy",
+          "url": "https://react.dev/reference/react/lazy"
+        },
+        {
+          "title": "Next.js: Lazy Loading",
+          "url": "https://nextjs.org/docs/app/guides/lazy-loading"
+        }
+      ]
+    },
+    {
+      "id": "web-performance-a11y-06-keyboard-focus-aria",
+      "title": "Keyboard Access, Focus Management and ARIA",
+      "level": "intermediate",
+      "summary": "Make every interaction work with a keyboard, manage focus in dialogs and single-page navigation, and apply the rules of ARIA correctly when HTML is not enough.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Keyboard accessibility basics",
+          "body": "Many people never use a mouse: screen reader users, people with motor impairments, power users. WCAG 2.1.1 requires all functionality to be available from a keyboard.\n\nExpected keys: **Tab** and **Shift+Tab** move between interactive elements, **Enter** activates links and buttons, **Space** activates buttons and toggles checkboxes, **arrow keys** move within composite widgets (radio groups, menus, tabs, listboxes), **Escape** closes popups.\n\n- Tab order follows DOM order; keep visual and DOM order aligned (CSS `order` or absolute positioning can make them diverge)\n- `tabindex=\"0\"` adds a custom element to the tab order; `tabindex=\"-1\"` makes it focusable by script only; **never use positive tabindex**, which breaks the natural order\n- Focus must be **visible** (2.4.7). Style `:focus-visible` instead of removing outlines; it shows focus rings for keyboard users without showing them on mouse clicks\n- No keyboard traps: users must be able to Tab out of every component (2.1.2)\n- WCAG 2.2's Focus Not Obscured: sticky headers and cookie banners must not completely cover the focused element; `scroll-padding-top` helps",
+          "code": {
+            "lang": "css",
+            "source": "/* Never: *:focus { outline: none; } */\n:focus-visible {\n  outline: 3px solid #1a73e8;\n  outline-offset: 2px;\n}\nhtml { scroll-padding-top: 80px; } /* keep focus clear of a sticky header */\n\n.skip-link { position: absolute; left: -9999px; }\n.skip-link:focus { left: 1rem; top: 1rem; }"
+          }
+        },
+        {
+          "heading": "The rules of ARIA",
+          "body": "ARIA (Accessible Rich Internet Applications) attributes change what the accessibility tree reports. They change **semantics only**, never behavior: `role=\"button\"` does not make a div focusable or respond to Enter.\n\nThe W3C's rules of ARIA use, in short:\n\n- **Rule 1**: if a native HTML element or attribute has the semantics and behavior you need, use it instead of ARIA\n- **Rule 2**: do not change native semantics unless you really have to (no `<h2 role=\"tab\">`; wrap instead)\n- **Rule 3**: all interactive ARIA controls must be usable with the keyboard\n- **Rule 4**: do not use `role=\"presentation\"` or `aria-hidden=\"true\"` on a focusable element\n- **Rule 5**: all interactive elements must have an accessible name\n\nThe WebAIM Million survey consistently finds that pages using ARIA have more detected accessibility errors on average than pages without it: no ARIA is better than bad ARIA.",
+          "code": {
+            "lang": "html",
+            "source": "<!-- Icon-only button: needs a name -->\n<button type=\"button\" aria-label=\"Close dialog\">\n  <svg aria-hidden=\"true\" focusable=\"false\">...</svg>\n</button>\n\n<!-- Disclosure: state exposed with aria-expanded -->\n<button type=\"button\" aria-expanded=\"false\" aria-controls=\"faq-1\">Shipping times</button>\n<div id=\"faq-1\" hidden>Orders ship within 2 business days.</div>\n\n<!-- Name from visible text elsewhere -->\n<section aria-labelledby=\"billing-h\"><h2 id=\"billing-h\">Billing</h2></section>"
+          }
+        },
+        {
+          "heading": "Names, descriptions, states and live regions",
+          "body": "Key ARIA attributes:\n\n- **Naming**: `aria-labelledby` (points to visible text, highest priority), `aria-label` (string, invisible; avoid when visible text exists, and keep the visible label text inside the name for voice control users, WCAG 2.5.3)\n- **Descriptions**: `aria-describedby` for help text and error messages\n- **States**: `aria-expanded`, `aria-pressed` (toggle buttons), `aria-selected`, `aria-checked`, `aria-current=\"page\"` for the current nav link, `aria-invalid`, `aria-disabled` (keeps the element focusable, unlike `disabled`)\n- **Hiding**: `aria-hidden=\"true\"` removes content from the accessibility tree but not from view; the `hidden` attribute or `display: none` hides it from everyone\n- **Live regions** announce dynamic changes without moving focus: `role=\"status\"` (polite, for \"Saved\" or \"3 results\") and `role=\"alert\"` (assertive, for urgent errors). The region must exist in the DOM before its content changes, or many screen readers miss the update.",
+          "code": {
+            "lang": "tsx",
+            "source": "// Render the live region once, update its text later\n<div role=\"status\" aria-live=\"polite\" className=\"sr-only\">\n  {resultsCount !== null && `${resultsCount} results found`}\n</div>\n\n<nav aria-label=\"Main\">\n  <a href=\"/\" aria-current={path === '/' ? 'page' : undefined}>Home</a>\n</nav>\n\n<button aria-pressed={isBold} onClick={toggleBold}>Bold</button>"
+          }
+        },
+        {
+          "heading": "Focus management in dialogs and SPAs",
+          "body": "When content appears or the view changes, decide where focus goes.\n\n**Modal dialogs** must: move focus into the dialog on open (to the first field or the dialog itself), keep Tab inside it while open, close with Escape, make the background inert, and return focus to the element that opened it on close. The native `<dialog>` element with `showModal()` handles the inert background, Escape and the top layer for you; you still check initial focus and focus return. The `inert` attribute makes any subtree unfocusable and hidden from assistive technology.\n\n**Client-side route changes** do not trigger the browser's page load announcement. After navigating, update `document.title` and move focus to the new page's `<h1>` (with `tabindex=\"-1\"`) or a wrapper, or announce the change via a live region. Next.js's App Router includes a route announcer.\n\n**Deleting items or closing panels**: move focus to a logical place (the next item, or the list heading) rather than letting it fall back to `<body>`.",
+          "code": {
+            "lang": "tsx",
+            "source": "function ConfirmDialog({ open, onClose }: { open: boolean; onClose: () => void }) {\n  const ref = useRef<HTMLDialogElement>(null);\n  useEffect(() => {\n    const dialog = ref.current!;\n    if (open && !dialog.open) dialog.showModal();   // focus moves in, background inert\n    if (!open && dialog.open) dialog.close();       // browser restores focus to opener\n  }, [open]);\n  return (\n    <dialog ref={ref} aria-labelledby=\"dlg-title\" onClose={onClose}>\n      <h2 id=\"dlg-title\">Delete project?</h2>\n      <button onClick={onClose}>Cancel</button>\n      <button onClick={confirmDelete}>Delete</button>\n    </dialog>\n  );\n}"
+          }
+        },
+        {
+          "heading": "Composite widgets and the APG",
+          "body": "For complex widgets (tabs, menus, comboboxes, tree views, grids), follow the **ARIA Authoring Practices Guide (APG)**, which documents the roles, states and keyboard interactions screen reader users expect.\n\nComposite widgets usually have **one tab stop** for the whole widget, with arrow keys moving inside. Two techniques:\n\n- **Roving tabindex**: the active item has `tabindex=\"0\"`, others `-1`; arrow keys move focus and update the values\n- **aria-activedescendant**: focus stays on the container or input (common in comboboxes) and this attribute points to the active option's id\n\nBuilding these correctly is hard. Prefer native elements (`<select>`, `<details>`, `<dialog>`, `<input type=\"date\">` where acceptable) or proven headless libraries such as Radix UI, React Aria or Headless UI that implement APG patterns, and test them with a keyboard and a screen reader.",
+          "code": {
+            "lang": "html",
+            "source": "<div role=\"tablist\" aria-label=\"Account\">\n  <button role=\"tab\" id=\"t1\" aria-selected=\"true\"  aria-controls=\"p1\" tabindex=\"0\">Profile</button>\n  <button role=\"tab\" id=\"t2\" aria-selected=\"false\" aria-controls=\"p2\" tabindex=\"-1\">Security</button>\n</div>\n<div role=\"tabpanel\" id=\"p1\" aria-labelledby=\"t1\" tabindex=\"0\">...</div>\n<div role=\"tabpanel\" id=\"p2\" aria-labelledby=\"t2\" hidden>...</div>\n<!-- Left/Right arrows move between tabs; Tab moves into the panel -->"
+          }
+        }
+      ],
+      "keyPoints": [
+        "All functionality must work with the keyboard; tab order follows DOM order and focus must be visible.",
+        "Use tabindex 0 and -1 only; never positive tabindex. Style :focus-visible instead of removing outlines.",
+        "ARIA changes semantics, not behavior; first rule of ARIA: use native HTML when it exists.",
+        "Every interactive element needs an accessible name; icon buttons need aria-label or visually hidden text.",
+        "Live regions (role status or alert) must exist before their content changes.",
+        "Modals: focus in, trap Tab, Escape to close, inert background, return focus; native dialog with showModal does most of it.",
+        "Composite widgets follow APG patterns with roving tabindex or aria-activedescendant; prefer native or proven headless libraries."
+      ],
+      "questions": [
+        {
+          "id": "web-performance-a11y-06-q01",
+          "type": "mcq",
+          "prompt": "What does adding `role=\"button\"` to a div give you?",
+          "options": [
+            "Focusability, Enter/Space handling and the button role",
+            "Only the button role in the accessibility tree; focus and keyboard handling must be added manually",
+            "Nothing at all",
+            "A native button element"
+          ],
+          "answer": 1,
+          "explanation": "ARIA only changes semantics. You also need tabindex=\"0\" and key handlers, which is why a native button is better."
+        },
+        {
+          "id": "web-performance-a11y-06-q02",
+          "type": "mcq",
+          "prompt": "Why should you avoid `tabindex=\"3\"`?",
+          "options": [
+            "It is invalid HTML",
+            "Positive values jump ahead of the natural DOM order, creating a confusing tab sequence",
+            "It makes the element unfocusable",
+            "It only works in Safari"
+          ],
+          "answer": 1,
+          "explanation": "Elements with positive tabindex are visited first in numeric order before everything else, which almost never matches the visual order."
+        },
+        {
+          "id": "web-performance-a11y-06-q03",
+          "type": "mcq",
+          "prompt": "A 'Saved' message appears after an autosave, but screen reader users never hear it. What fixes it?",
+          "options": [
+            "Add tabindex=\"0\" to the message",
+            "Render a role=\"status\" live region up front and update its text when saving completes",
+            "Use aria-hidden=\"true\"",
+            "Show it in red"
+          ],
+          "answer": 1,
+          "explanation": "Live regions announce content changes without moving focus. They must be in the DOM before the update for reliable announcement."
+        },
+        {
+          "id": "web-performance-a11y-06-q04",
+          "type": "mcq",
+          "prompt": "Which is required when a modal dialog closes?",
+          "options": [
+            "Focus moves to the top of the page",
+            "Focus returns to the element that opened it",
+            "Focus stays where it was inside the dialog",
+            "The page reloads"
+          ],
+          "answer": 1,
+          "explanation": "Returning focus to the trigger preserves the user's place. Otherwise keyboard and screen reader users are dropped at the start of the document."
+        },
+        {
+          "id": "web-performance-a11y-06-q05",
+          "type": "mcq",
+          "prompt": "What is wrong with `<button aria-hidden=\"true\">Delete</button>`?",
+          "options": [
+            "Nothing",
+            "The button is still focusable but hidden from assistive technology, so screen reader users land on an unnamed, unannounced element",
+            "aria-hidden only works on images",
+            "Buttons cannot have ARIA"
+          ],
+          "answer": 1,
+          "explanation": "This breaks the fourth rule of ARIA. Use inert, hidden or disabled states instead of hiding focusable elements."
+        },
+        {
+          "id": "web-performance-a11y-06-q06",
+          "type": "mcq",
+          "prompt": "In a tablist using roving tabindex, how many tabs are in the Tab order at once?",
+          "options": [
+            "All of them",
+            "One, the active tab",
+            "None",
+            "Two"
+          ],
+          "answer": 1,
+          "explanation": "The widget is a single tab stop; arrow keys move between tabs. This keeps Tab navigation fast across the page."
+        },
+        {
+          "id": "web-performance-a11y-06-q07",
+          "type": "truefalse",
+          "prompt": "`:focus-visible` lets you show focus rings for keyboard users while avoiding them on mouse clicks for most elements.",
+          "answer": true,
+          "explanation": "Browsers apply heuristics so :focus-visible matches keyboard focus (and always for text inputs). It is the right replacement for outline: none hacks."
+        },
+        {
+          "id": "web-performance-a11y-06-q08",
+          "type": "truefalse",
+          "prompt": "After a client-side route change in an SPA, screen readers automatically announce the new page just like a full page load.",
+          "answer": false,
+          "explanation": "No page load event happens, so you must update the title and move focus or announce the change. Some frameworks, such as Next.js, include a route announcer."
+        },
+        {
+          "id": "web-performance-a11y-06-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: what does `dialog.showModal()` on a native <dialog> provide?",
+          "options": [
+            "Makes content outside the dialog inert",
+            "Closes the dialog on Escape",
+            "Renders in the top layer above other content",
+            "Writes your aria-labelledby automatically",
+            "Moves focus into the dialog"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "showModal handles inertness, Escape, top layer and initial focus. You still give the dialog an accessible name."
+        },
+        {
+          "id": "web-performance-a11y-06-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the attribute `aria-___=\"page\"` marks the link to the current page in a navigation menu.",
+          "accept": [
+            "current"
+          ],
+          "explanation": "aria-current=\"page\" lets screen readers announce 'current page' in addition to the visual highlight."
+        },
+        {
+          "id": "web-performance-a11y-06-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "How do you build an accessible modal dialog?",
+          "answer": "- Prefer the native dialog element with showModal(), which renders in the top layer, makes the rest of the page inert, supports Escape and moves focus inside.\n- Give it a name with aria-labelledby pointing to its heading, and aria-describedby for important text if needed.\n- Put initial focus on the most sensible element: the first field, or the least destructive button for confirmations.\n- Keep Tab inside while open (native modal does this; custom implementations need a focus trap plus inert or aria-modal).\n- On close, return focus to the trigger, and keep a visible close button.\n- Prevent background scroll, make sure it works at 400% zoom and on small screens, and test with a keyboard and a screen reader. If using a library, choose one that follows the APG dialog pattern, such as Radix or React Aria.",
+          "level": "intermediate"
+        },
+        {
+          "id": "web-performance-a11y-06-q12",
+          "type": "interview",
+          "top": true,
+          "prompt": "What is ARIA, and when should you use it or avoid it?",
+          "answer": "ARIA is a set of roles, states and properties that modify how elements are exposed in the accessibility tree. It only changes semantics; it adds no behavior, focus or keyboard handling. The first rule is to use native HTML when it exists: a button, a link, a select, a checkbox, details or dialog. I use ARIA to fill real gaps: naming icon-only buttons with aria-label, exposing state like aria-expanded, aria-pressed or aria-current, linking help and errors with aria-describedby, announcing updates with live regions, and building composite widgets such as tabs and comboboxes following the APG, with full keyboard support. Misused ARIA is worse than none, for example role=button without keyboard support or aria-hidden on focusable elements, which is why surveys find more errors on pages that use ARIA.",
+          "level": "intermediate"
+        },
+        {
+          "id": "web-performance-a11y-06-q13",
+          "type": "interview",
+          "prompt": "How would you audit a page for keyboard accessibility?",
+          "answer": "I put the mouse away and go through every task with only the keyboard. I check that Tab reaches every interactive element in an order that matches the visual layout, that focus is always clearly visible and never hidden behind sticky headers, and that there is a skip link to main content. Every control must work with the expected keys: Enter and Space for buttons, arrows inside menus, tabs and radio groups, Escape for popups. I open and close modals and menus to verify focus moves in, stays trapped where appropriate and returns to the trigger, and that there are no keyboard traps. I also check custom widgets like date pickers, drag and drop (which needs a non-drag alternative under WCAG 2.2) and hover-only content such as tooltips, which must also appear on focus and be dismissible.",
+          "level": "intermediate"
+        }
+      ],
+      "resources": [
+        {
+          "title": "W3C: ARIA Authoring Practices Guide (APG)",
+          "url": "https://www.w3.org/WAI/ARIA/apg/"
+        },
+        {
+          "title": "W3C: Using ARIA (rules of ARIA use)",
+          "url": "https://www.w3.org/TR/using-aria/"
+        },
+        {
+          "title": "MDN: The dialog element",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog"
+        }
+      ]
+    },
+    {
+      "id": "web-performance-a11y-07-react-performance-profiling",
+      "title": "React Rendering Performance, Lighthouse and Profiling",
+      "level": "advanced",
+      "summary": "Diagnose slow pages with Lighthouse, the Chrome Performance panel and the React Profiler, then fix wasted renders, long lists and blocking updates in React.",
+      "estMinutes": 40,
+      "lesson": [
+        {
+          "heading": "A measurement-first workflow",
+          "body": "Performance work without measurement is guessing. A reliable loop:\n\n- **Find the problem in field data**: which pages, devices and metrics are poor (CrUX, RUM with web-vitals attribution showing the LCP element or the slow interaction target)\n- **Reproduce in the lab** with realistic conditions: DevTools CPU throttling (4x to 6x slowdown) and network throttling, a production build, a representative account and data size\n- **Profile** to find the cause, fix one thing, re-measure, and confirm in the field after release\n\n**Lighthouse** (in DevTools, PageSpeed Insights or Lighthouse CI) runs a simulated mobile page load and reports a performance score weighted mostly by TBT, LCP and CLS, plus FCP and Speed Index, along with diagnostics such as render-blocking resources, unused JavaScript and oversized images. Use the score as a trend indicator, not a goal in itself; the score varies between runs, so compare medians of several runs."
+        },
+        {
+          "heading": "Reading the Chrome Performance panel",
+          "body": "Record a trace while performing the slow interaction. Key parts:\n\n- The **Main** track flame chart shows tasks on the main thread; tasks over 50 ms are marked as long tasks with red corners\n- Each task breaks down into scripting (yellow), rendering and layout (purple) and painting (green); bottom-up and call tree tabs show which functions consumed the time\n- The **Interactions** track shows each interaction with its input delay, processing time and presentation delay, mirroring INP\n- Purple layout blocks with \"Forced reflow\" warnings point to **layout thrashing**: reading geometry (`offsetHeight`, `getBoundingClientRect`) after writing styles in the same loop\n- The **Long Animation Frames (LoAF) API** reports long frames in the field with script attribution, so you can find the slow script in production\n\nThe DevTools Performance panel also shows live local Core Web Vitals and can compare them with CrUX field data for the URL.",
+          "code": {
+            "lang": "ts",
+            "source": "// Layout thrashing: read/write interleaved, forces layout every iteration\nitems.forEach((el) => {\n  const h = el.offsetHeight;          // read (forces layout)\n  el.style.height = h * 2 + 'px';     // write (invalidates layout)\n});\n\n// Batched: all reads, then all writes\nconst heights = items.map((el) => el.offsetHeight);\nitems.forEach((el, i) => { el.style.height = heights[i] * 2 + 'px'; });\n\n// Field attribution of long frames\nnew PerformanceObserver((list) => {\n  for (const entry of list.getEntries()) console.log(entry.duration, (entry as any).scripts);\n}).observe({ type: 'long-animation-frame', buffered: true });"
+          }
+        },
+        {
+          "heading": "Why React components re-render",
+          "body": "A component re-renders when its **state changes**, when its **parent re-renders** (by default all children re-render, regardless of props), or when a **context** it reads changes. Rendering is calling your function and diffing the result; it only becomes a problem when it is expensive or very frequent (typing, scrolling, drag).\n\nUse the **React DevTools Profiler** to record an interaction: it shows which components rendered, how long each took, and with \"Highlight updates\" and \"Record why each component rendered\" enabled, why.\n\nTools to avoid wasted work:\n\n- `React.memo(Component)` skips re-rendering when props are shallowly equal\n- `useMemo` caches an expensive computation or keeps an object reference stable; `useCallback` keeps a function reference stable for memoized children or effect dependencies\n- **React Compiler** (stable since late 2025) memoizes components and values automatically at build time, making most manual useMemo/useCallback unnecessary in code it compiles\n\nOften better than memoization: **move state down** to the component that uses it, or **lift content up** by passing children, so fewer components are affected by an update.",
+          "code": {
+            "lang": "tsx",
+            "source": "// Problem: typing re-renders the whole page including ExpensiveChart\nfunction Page() {\n  const [query, setQuery] = useState('');\n  return (<>\n    <input value={query} onChange={(e) => setQuery(e.target.value)} />\n    <ExpensiveChart data={data} />\n  </>);\n}\n\n// Fix 1: move state down\nfunction SearchBox() {\n  const [query, setQuery] = useState('');\n  return <input value={query} onChange={(e) => setQuery(e.target.value)} />;\n}\nfunction Page() { return (<><SearchBox /><ExpensiveChart data={data} /></>); }\n\n// Fix 2: memoize the child (and keep its props stable)\nconst ExpensiveChart = memo(function ExpensiveChart({ data }: Props) { /* ... */ });"
+          }
+        },
+        {
+          "heading": "Context, lists and keys",
+          "body": "**Context**: every consumer re-renders when the provider's value changes. A provider with `value={{ user, setUser }}` creates a new object each render, re-rendering all consumers. Memoize the value, split contexts by update frequency (for example state and dispatch separately), or use a store with selectors (Zustand, Redux, `useSyncExternalStore`) so components subscribe to slices.\n\n**Long lists**: rendering thousands of rows costs DOM nodes, layout and memory. **Virtualize** with TanStack Virtual or react-window so only visible rows exist in the DOM. CSS `content-visibility: auto` lets the browser skip rendering off-screen sections with no JavaScript.\n\n**Keys**: use stable, unique IDs. Index keys break state and cause extra work when items are inserted, removed or reordered, because React matches the wrong elements.",
+          "code": {
+            "lang": "tsx",
+            "source": "import { useVirtualizer } from '@tanstack/react-virtual';\n\nfunction Rows({ rows }: { rows: Row[] }) {\n  const parentRef = useRef<HTMLDivElement>(null);\n  const v = useVirtualizer({ count: rows.length, getScrollElement: () => parentRef.current, estimateSize: () => 40 });\n  return (\n    <div ref={parentRef} style={{ height: 600, overflow: 'auto' }}>\n      <div style={{ height: v.getTotalSize(), position: 'relative' }}>\n        {v.getVirtualItems().map((item) => (\n          <div key={rows[item.index].id}\n               style={{ position: 'absolute', top: 0, transform: `translateY(${item.start}px)`, height: 40 }}>\n            {rows[item.index].name}\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n}"
+          }
+        },
+        {
+          "heading": "Concurrent features and server rendering",
+          "body": "React 18+ can interrupt rendering so urgent updates (typing, clicking) are not blocked by expensive ones:\n\n- `useTransition`: wrap a state update in `startTransition` to mark it non-urgent; React keeps the UI responsive and gives you `isPending` for feedback\n- `useDeferredValue`: render with a lagging copy of a value, so an expensive list filters on the deferred query while the input updates instantly\n\nThese help INP directly by keeping input handling fast.\n\nOn the loading side: **Server Components** keep non-interactive UI off the client bundle, **streaming SSR with Suspense** sends HTML progressively so the shell and LCP content render before slow data arrives, and **selective hydration** prioritizes hydrating the parts users interact with. Avoid request waterfalls (component fetches data, renders child, child fetches) by fetching in parallel on the server or with route-level loaders.",
+          "code": {
+            "lang": "tsx",
+            "source": "function ProductSearch({ products }: { products: Product[] }) {\n  const [query, setQuery] = useState('');\n  const deferredQuery = useDeferredValue(query);\n  const results = useMemo(\n    () => products.filter((p) => p.name.toLowerCase().includes(deferredQuery.toLowerCase())),\n    [products, deferredQuery],\n  );\n  return (\n    <>\n      <input value={query} onChange={(e) => setQuery(e.target.value)} />   {/* stays instant */}\n      <ResultsList items={results} stale={query !== deferredQuery} />\n    </>\n  );\n}"
+          }
+        }
+      ],
+      "keyPoints": [
+        "Find problems in field data, reproduce with throttling on a production build, profile, fix, re-measure.",
+        "Lighthouse is a lab tool weighted mostly by TBT, LCP and CLS; treat its score as a trend, not the goal.",
+        "The Performance panel shows long tasks, interaction phases and forced reflows; LoAF attributes slow frames in the field.",
+        "React re-renders on state change, parent render or context change; the Profiler shows what rendered and why.",
+        "Prefer moving state down or passing children before memo, useMemo and useCallback; React Compiler automates memoization.",
+        "Split or memoize context values; virtualize long lists; use stable keys.",
+        "useTransition and useDeferredValue keep input responsive; Server Components and streaming improve loading."
+      ],
+      "questions": [
+        {
+          "id": "web-performance-a11y-07-q01",
+          "type": "mcq",
+          "prompt": "By default, what happens to child components when a parent re-renders in React?",
+          "options": [
+            "Only children with changed props re-render",
+            "All children re-render unless they are memoized and their props are unchanged",
+            "No children re-render",
+            "Only the first child re-renders"
+          ],
+          "answer": 1,
+          "explanation": "React re-renders the subtree by default. React.memo (or the React Compiler) is what enables skipping when props are equal."
+        },
+        {
+          "id": "web-performance-a11y-07-q02",
+          "type": "mcq",
+          "prompt": "A memoized child still re-renders on every parent render. Its props are `onSelect={() => select(id)}`. Why?",
+          "options": [
+            "memo is broken",
+            "A new function is created each render, so the shallow prop comparison fails",
+            "Functions cannot be props",
+            "Children always re-render"
+          ],
+          "answer": 1,
+          "explanation": "Inline functions and object literals have new identities every render. Stabilize with useCallback or useMemo, or let the React Compiler handle it."
+        },
+        {
+          "id": "web-performance-a11y-07-q03",
+          "type": "mcq",
+          "prompt": "Which code pattern causes forced synchronous layout (layout thrashing)?",
+          "options": [
+            "Batching style writes",
+            "Alternating reads of offsetHeight with style writes in a loop",
+            "Using transform for animation",
+            "Using CSS grid"
+          ],
+          "answer": 1,
+          "explanation": "Each read after a write forces the browser to recompute layout immediately. Read everything first, then write, or use requestAnimationFrame."
+        },
+        {
+          "id": "web-performance-a11y-07-q04",
+          "type": "mcq",
+          "prompt": "A table renders 10,000 rows and scrolling is janky. What is the most effective fix?",
+          "options": [
+            "Wrap each row in React.memo",
+            "Virtualize the list so only visible rows are in the DOM",
+            "Use index keys",
+            "Increase the CPU throttle"
+          ],
+          "answer": 1,
+          "explanation": "The cost is mostly DOM size, layout and memory. Virtualization keeps a few dozen rows mounted regardless of data size."
+        },
+        {
+          "id": "web-performance-a11y-07-q05",
+          "type": "mcq",
+          "prompt": "Typing in a search input feels laggy because each keystroke filters a large list. Which React API keeps the input responsive?",
+          "options": [
+            "useLayoutEffect",
+            "useDeferredValue (or startTransition for the filter update)",
+            "useRef",
+            "forwardRef"
+          ],
+          "answer": 1,
+          "explanation": "Deferring the expensive render lets React handle the urgent input update first and interrupt the stale list render."
+        },
+        {
+          "id": "web-performance-a11y-07-q06",
+          "type": "mcq",
+          "prompt": "Every consumer of an AuthContext re-renders whenever the provider's parent renders. What is the likely cause?",
+          "options": [
+            "Context cannot be optimized",
+            "The provider value is a new object literal on every render",
+            "Consumers use useContext",
+            "The context has a default value"
+          ],
+          "answer": 1,
+          "explanation": "Context compares values by identity. Memoize the value with useMemo, or split state and actions into separate contexts."
+        },
+        {
+          "id": "web-performance-a11y-07-q07",
+          "type": "truefalse",
+          "prompt": "Wrapping every component in React.memo and every function in useCallback is a best practice that always improves performance.",
+          "answer": false,
+          "explanation": "Memoization has its own cost and complexity and only helps when props are actually stable and renders are expensive. Profile first; the React Compiler can automate it safely."
+        },
+        {
+          "id": "web-performance-a11y-07-q08",
+          "type": "truefalse",
+          "prompt": "Lighthouse lab results can differ between runs, so you should compare several runs rather than a single score.",
+          "answer": true,
+          "explanation": "Network and CPU variability, extensions and background work change results. Use medians and run on consistent hardware, as Lighthouse CI does."
+        },
+        {
+          "id": "web-performance-a11y-07-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which are reasons a React component re-renders?",
+          "options": [
+            "Its state changed",
+            "Its parent re-rendered",
+            "A context it consumes changed",
+            "A sibling's state changed (with no shared parent update)",
+            "The window was resized with no listener"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "State, parent renders and consumed context trigger renders. Unrelated siblings and browser events without subscribed state do not."
+        },
+        {
+          "id": "web-performance-a11y-07-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: main-thread tasks longer than ___ ms are classified as long tasks.",
+          "accept": [
+            "50",
+            "50ms",
+            "50 ms"
+          ],
+          "explanation": "50 ms comes from the RAIL model: to respond within 100 ms, a task should not occupy the thread for more than about 50 ms."
+        },
+        {
+          "id": "web-performance-a11y-07-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "How do you find and fix unnecessary re-renders in a React app?",
+          "answer": "I start with evidence: React DevTools Profiler with 'record why each component rendered', recording the slow interaction on a production-like build with CPU throttling. I look for components that render often and take significant time. Fixes in order of preference: restructure so fewer components depend on the changing state (move state down, pass expensive subtrees as children), fix context providers that create new value objects or split fast-changing context, subscribe to store slices with selectors, then React.memo for expensive children with stable props via useMemo and useCallback. If the project uses the React Compiler, much of the manual memoization is handled automatically. For big lists I virtualize. I verify with the Profiler and with INP in the field that the change helped.",
+          "level": "advanced"
+        },
+        {
+          "id": "web-performance-a11y-07-q12",
+          "type": "interview",
+          "prompt": "Walk me through debugging a slow interaction reported by users: clicking 'Apply filters' freezes the page for a second.",
+          "answer": "- Confirm with field data (INP attribution from the web-vitals library or LoAF) which interaction and element, on which devices.\n- Reproduce on a production build with 4x CPU throttling and record a Performance trace; the Interactions track shows input delay, processing and presentation.\n- If processing is long, the flame chart shows which handlers and renders run: maybe filtering 20k items synchronously, a whole-page re-render through context, or a synchronous analytics call.\n- If presentation delay is long, the DOM may be huge or layout is forced repeatedly.\n- Fixes: update visible state first and yield, mark the heavy render as a transition, memoize or move filtering to a worker or the server, virtualize the results, batch DOM reads and writes.\n- Re-measure in the lab, then watch INP after release.",
+          "level": "advanced"
+        },
+        {
+          "id": "web-performance-a11y-07-q13",
+          "type": "interview",
+          "prompt": "What do useTransition and useDeferredValue do, and when would you use each?",
+          "answer": "Both use concurrent rendering to mark some work as non-urgent, so React can keep urgent updates like typing responsive and interrupt stale renders. useTransition gives you startTransition to wrap a state update you control, plus an isPending flag, for example switching tabs or applying filters where the old UI can stay visible with a pending indicator. useDeferredValue takes a value and returns a version that lags behind during heavy renders; it is useful when you receive the value from props or cannot wrap the setter, such as rendering search results from a query. Neither makes the expensive work cheaper; they schedule it. If a single render is still very slow, I combine them with memoization, virtualization or moving work off the main thread.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Chrome DevTools: Analyze runtime performance",
+          "url": "https://developer.chrome.com/docs/devtools/performance"
+        },
+        {
+          "title": "React: useTransition",
+          "url": "https://react.dev/reference/react/useTransition"
+        },
+        {
+          "title": "React Compiler",
+          "url": "https://react.dev/learn/react-compiler"
+        }
+      ]
+    },
+    {
+      "id": "web-performance-a11y-08-contrast-screen-readers-seo",
+      "title": "Contrast, Screen Readers, Accessibility Testing and SEO Basics",
+      "level": "advanced",
+      "summary": "Meet color contrast requirements, test with real screen readers and automated tools, build accessibility into the development process, and cover the technical SEO fundamentals that overlap with it.",
+      "estMinutes": 35,
+      "lesson": [
+        {
+          "heading": "Color and contrast",
+          "body": "WCAG contrast is a ratio between the relative luminance of foreground and background, from 1:1 to 21:1.\n\n- **1.4.3 Contrast (Minimum), AA**: 4.5:1 for normal text; 3:1 for large text (at least 18 pt, about 24 px, or 14 pt bold, about 18.67 px)\n- **1.4.6 Contrast (Enhanced), AAA**: 7:1 normal, 4.5:1 large\n- **1.4.11 Non-text Contrast, AA**: 3:1 for UI component boundaries and states (input borders, toggle states, focus indicators) and meaningful graphics (chart lines, icons)\n- **1.4.1 Use of Color**: color cannot be the only way to convey information. A red border on an invalid field needs a text message or icon; links in body text need an underline or other non-color cue\n\nDisabled controls and pure decoration are exempt. Check contrast for every state: hover, focus, placeholder text, text over images or gradients, and dark mode. Design tokens with pre-validated color pairs keep a whole product compliant. Remember Windows high contrast (forced colors) mode: use `forced-colors` media queries and avoid conveying state with background images only.",
+          "code": {
+            "lang": "css",
+            "source": "/* #767676 on white is about 4.54:1, the lightest gray that passes AA for body text */\n.muted { color: #767676; background: #ffffff; }\n\n/* error state not by color alone */\n.field[aria-invalid='true'] { border-color: #b3261e; }\n.field-error::before { content: '! '; }\n\n@media (forced-colors: active) {\n  .toggle[aria-checked='true'] { outline: 2px solid CanvasText; }\n}"
+          }
+        },
+        {
+          "heading": "How screen readers work and how to test with them",
+          "body": "Screen readers read the accessibility tree, not the pixels. Users navigate by headings (H key in NVDA and JAWS browse mode), landmarks, links, form fields and tables, or read linearly. They hear role, name, state and value: \"Subscribe, checkbox, not checked\".\n\nThe main combinations:\n\n- **NVDA** (free) or **JAWS** with Chrome or Firefox on Windows\n- **VoiceOver** with Safari on macOS and iOS (built in)\n- **TalkBack** with Chrome on Android\n\nA basic test script: navigate by headings and landmarks to understand the page structure; Tab through and check every control announces a sensible name, role and state; operate forms, including errors; open dialogs and menus; trigger dynamic updates and confirm they are announced. Listen for \"unlabeled button\", \"clickable\" divs, duplicated or missing announcements, and images announced by file name.\n\nVisually hidden text (an `sr-only` class) provides extra context for screen readers without visual clutter, for example \"Edit **invoice 1042**\" instead of a row of identical \"Edit\" buttons.",
+          "code": {
+            "lang": "css",
+            "source": "/* visible to screen readers, hidden visually */\n.sr-only {\n  position: absolute;\n  width: 1px; height: 1px;\n  padding: 0; margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border: 0;\n}\n/* <button>Edit<span class=\"sr-only\"> invoice 1042</span></button> */"
+          }
+        },
+        {
+          "heading": "Automated accessibility testing and its limits",
+          "body": "Automated tools catch a meaningful share of issues quickly but cannot judge everything: whether alt text is accurate, focus order makes sense, or a custom widget is usable. Deque estimates axe-core finds around 57% of issues by volume; many experts quote 30-40% of WCAG criteria as automatable.\n\nLayers to add:\n\n- **Linting**: eslint-plugin-jsx-a11y catches missing alt, invalid ARIA, click handlers on non-interactive elements\n- **Component tests**: Testing Library role queries plus `vitest-axe` or `jest-axe` assertions\n- **E2E**: `@axe-core/playwright` scans full pages in real browsers, including states like open modals\n- **Audits**: Lighthouse accessibility, axe DevTools, WAVE, and the browser accessibility tree inspector\n- **Manual**: keyboard-only pass, screen reader pass, 200% and 400% zoom, reduced motion, and testing with disabled users when possible\n\nTreat axe violations like failing tests in CI; a zero-violations baseline makes regressions visible immediately.",
+          "code": {
+            "lang": "ts",
+            "source": "import { test, expect } from '@playwright/test';\nimport AxeBuilder from '@axe-core/playwright';\n\ntest('checkout has no detectable a11y violations', async ({ page }) => {\n  await page.goto('/checkout');\n  const results = await new AxeBuilder({ page })\n    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])\n    .analyze();\n  expect(results.violations).toEqual([]);\n});"
+          }
+        },
+        {
+          "heading": "Technical SEO fundamentals",
+          "body": "Search engines need to crawl, render, understand and rank your pages. Much of this overlaps with accessibility and performance.\n\n- **Indexable HTML**: content and links should be in server-rendered or static HTML. Google renders JavaScript, but rendering may be delayed and other crawlers and social previews often do not run JS. Use real `<a href>` links so crawlers can follow them.\n- **Titles and descriptions**: unique `<title>` per page with the main topic first; a meta description that summarizes the page (it affects click-through, not ranking directly)\n- **Headings and semantics**: one clear `<h1>`, logical heading hierarchy, descriptive link text (not \"click here\"), alt text\n- **Canonical URLs**: `<link rel=\"canonical\">` to consolidate duplicates (tracking parameters, sorting variants)\n- **Crawl control**: `robots.txt` controls crawling; `<meta name=\"robots\" content=\"noindex\">` controls indexing. Blocking a page in robots.txt does not remove it from the index and prevents Google from seeing the noindex.\n- **Sitemaps** list canonical URLs; `hreflang` links language and region variants\n- **Structured data** (JSON-LD with schema.org types like Product, Article, BreadcrumbList) can enable rich results\n- **Page experience**: Core Web Vitals, HTTPS and mobile-friendliness are part of Google's ranking systems, though relevance matters far more",
+          "code": {
+            "lang": "html",
+            "source": "<head>\n  <title>Trail Running Shoes for Women | Acme Outdoor</title>\n  <meta name=\"description\" content=\"Lightweight, grippy trail shoes tested on rocky terrain. Free returns.\">\n  <link rel=\"canonical\" href=\"https://acme.example/women/trail-shoes\">\n  <meta property=\"og:title\" content=\"Trail Running Shoes for Women\">\n  <meta property=\"og:image\" content=\"https://acme.example/og/trail.jpg\">\n  <script type=\"application/ld+json\">\n  {\"@context\": \"https://schema.org\", \"@type\": \"Product\", \"name\": \"Ridge Runner 3\",\n   \"offers\": {\"@type\": \"Offer\", \"price\": \"129.00\", \"priceCurrency\": \"USD\"}}\n  </script>\n</head>"
+          }
+        },
+        {
+          "heading": "Building accessibility and performance into the process",
+          "body": "Audits at the end of a project find hundreds of issues that are expensive to fix. Sustainable teams shift left:\n\n- **Design**: accessible color tokens, focus styles, target sizes and annotated designs (heading levels, labels, focus order, error states) before development starts\n- **Component library**: accessible primitives (dialogs, menus, comboboxes) built once on APG patterns or a proven headless library, documented in Storybook with the a11y addon\n- **Definition of done**: keyboard operable, screen reader names checked, axe clean, performance budget met\n- **CI**: lint rules, axe in component and E2E tests, Lighthouse CI and bundle budgets\n- **Monitoring**: field Core Web Vitals and periodic manual audits against WCAG 2.2 AA, with an accessibility statement and a way for users to report problems\n\nOverlay widgets that claim to make a site accessible with one script tag do not fix underlying issues and are widely criticized by disabled users and accessibility professionals."
+        }
+      ],
+      "keyPoints": [
+        "AA contrast: 4.5:1 for normal text, 3:1 for large text and for UI components, focus indicators and meaningful graphics.",
+        "Never use color alone to convey information; add text, icons or underlines.",
+        "Test with real screen readers: NVDA or JAWS on Windows, VoiceOver on Apple, TalkBack on Android.",
+        "Automated tools (axe, Lighthouse, jsx-a11y) catch only part of the issues; manual keyboard and screen reader testing is required.",
+        "SEO basics: server-rendered content, real links, unique titles, canonical URLs, sitemaps, structured data and good Core Web Vitals.",
+        "robots.txt controls crawling, meta robots noindex controls indexing; do not combine them for the same page.",
+        "Shift left: accessible design tokens and components, definition of done, CI checks and field monitoring; avoid overlay widgets."
+      ],
+      "questions": [
+        {
+          "id": "web-performance-a11y-08-q01",
+          "type": "mcq",
+          "prompt": "What is the WCAG AA minimum contrast ratio for normal-size body text?",
+          "options": [
+            "3:1",
+            "4.5:1",
+            "7:1",
+            "2:1"
+          ],
+          "answer": 1,
+          "explanation": "1.4.3 requires 4.5:1 for normal text and 3:1 for large text at AA. 7:1 is the AAA enhanced level."
+        },
+        {
+          "id": "web-performance-a11y-08-q02",
+          "type": "mcq",
+          "prompt": "Which WCAG criterion requires 3:1 contrast for input borders and focus indicators?",
+          "options": [
+            "1.4.3 Contrast (Minimum)",
+            "1.4.11 Non-text Contrast",
+            "1.4.1 Use of Color",
+            "2.4.7 Focus Visible"
+          ],
+          "answer": 1,
+          "explanation": "Non-text Contrast covers visual information needed to identify components and their states, plus meaningful graphics."
+        },
+        {
+          "id": "web-performance-a11y-08-q03",
+          "type": "mcq",
+          "prompt": "An invalid form field is shown only with a red border. Which criterion does this fail?",
+          "options": [
+            "1.4.1 Use of Color",
+            "2.1.1 Keyboard",
+            "3.1.1 Language of Page",
+            "2.5.8 Target Size"
+          ],
+          "answer": 0,
+          "explanation": "Users who cannot distinguish red, and screen reader users, get no information. Add an error message in text, linked to the field."
+        },
+        {
+          "id": "web-performance-a11y-08-q04",
+          "type": "mcq",
+          "prompt": "You want a page out of Google's index. What should you do?",
+          "options": [
+            "Block it in robots.txt",
+            "Add <meta name=\"robots\" content=\"noindex\"> and allow crawling so Google can see it",
+            "Remove it from the sitemap only",
+            "Add rel=canonical to itself"
+          ],
+          "answer": 1,
+          "explanation": "If robots.txt blocks crawling, Google cannot see the noindex directive and may keep the URL indexed from external links."
+        },
+        {
+          "id": "web-performance-a11y-08-q05",
+          "type": "mcq",
+          "prompt": "Which screen reader and browser pairing is most representative on iOS?",
+          "options": [
+            "NVDA with Chrome",
+            "VoiceOver with Safari",
+            "TalkBack with Chrome",
+            "JAWS with Edge"
+          ],
+          "answer": 1,
+          "explanation": "VoiceOver is built into iOS and is used with Safari (all iOS browsers use WebKit). TalkBack is Android's screen reader."
+        },
+        {
+          "id": "web-performance-a11y-08-q06",
+          "type": "mcq",
+          "prompt": "What is the purpose of `<link rel=\"canonical\">`?",
+          "options": [
+            "Preloading the page",
+            "Telling search engines which URL is the preferred version among duplicates",
+            "Linking to the homepage",
+            "Blocking crawlers"
+          ],
+          "answer": 1,
+          "explanation": "Canonicals consolidate ranking signals from parameter variants and duplicate URLs onto one preferred URL."
+        },
+        {
+          "id": "web-performance-a11y-08-q07",
+          "type": "truefalse",
+          "prompt": "If axe reports zero violations, the page is WCAG 2.2 AA compliant.",
+          "answer": false,
+          "explanation": "Automated tools cannot evaluate many criteria, such as meaningful alt text, logical focus order or understandable error messages. Manual testing is required."
+        },
+        {
+          "id": "web-performance-a11y-08-q08",
+          "type": "truefalse",
+          "prompt": "Accessibility overlay widgets that inject a toolbar script are a reliable way to make a site compliant.",
+          "answer": false,
+          "explanation": "Overlays cannot fix inaccessible markup and behavior at the source, can interfere with users' own assistive technology, and have not protected sites from lawsuits."
+        },
+        {
+          "id": "web-performance-a11y-08-q09",
+          "type": "multi",
+          "prompt": "Select all that apply: which practices help both accessibility and SEO?",
+          "options": [
+            "Descriptive link text instead of 'click here'",
+            "A logical heading structure with one h1",
+            "Meaningful alt text on informative images",
+            "Hiding text in tiny gray font for keywords",
+            "Unique, descriptive page titles"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Clear structure and descriptive text help screen reader users and search engines understand content. Hidden keyword text is spam and harms both."
+        },
+        {
+          "id": "web-performance-a11y-08-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: structured data for rich results is usually added as a script of type application/___ using schema.org vocabulary.",
+          "accept": [
+            "ld+json",
+            "ld json",
+            "json-ld"
+          ],
+          "explanation": "JSON-LD is Google's recommended structured data format because it is separate from visible markup and easy to generate."
+        },
+        {
+          "id": "web-performance-a11y-08-q11",
+          "type": "interview",
+          "top": true,
+          "prompt": "How do you test a web application for accessibility?",
+          "answer": "- Automated checks in layers: eslint-plugin-jsx-a11y in the editor, axe assertions in component tests, @axe-core/playwright scans of key pages and states in E2E, and Lighthouse or axe DevTools for audits. These catch maybe a third to a half of issues.\n- Keyboard-only pass through every flow: reachability, logical order, visible focus, no traps, dialogs and menus managing focus.\n- Screen reader pass with at least NVDA plus Chrome and VoiceOver plus Safari: headings, landmarks, names, roles, states, form errors and live announcements.\n- Visual checks: contrast in all states and themes, 200% and 400% zoom and reflow at 320 px, reduced motion, forced colors mode.\n- Content review: alt text quality, link text, error messages.\n- Ideally, usability sessions with disabled users, and an accessibility statement with a feedback channel.",
+          "level": "intermediate"
+        },
+        {
+          "id": "web-performance-a11y-08-q12",
+          "type": "interview",
+          "prompt": "How would you make a client-rendered React SPA SEO-friendly?",
+          "answer": "The most robust step is rendering content on the server: move to a framework with SSR or static generation (Next.js, Remix/React Router, Astro) so each URL returns meaningful HTML, titles and meta tags without waiting for JavaScript. Each route needs a unique title, meta description, canonical URL and Open Graph tags, managed through the framework's metadata API. Navigation must use real anchor elements with href, not click handlers, so crawlers can discover pages. I would add an XML sitemap, a correct robots.txt, structured data where relevant, proper 404 status codes instead of soft 404s, and hreflang for localized versions. Then I would verify with Search Console's URL inspection to see the rendered HTML Google gets, and keep Core Web Vitals in good shape.",
+          "level": "advanced"
+        },
+        {
+          "id": "web-performance-a11y-08-q13",
+          "type": "interview",
+          "prompt": "Your company must reach WCAG 2.2 AA within six months on a large existing product. How do you plan it?",
+          "answer": "I would start with an audit of representative templates and critical flows (signup, checkout, account) using automated scans plus expert manual testing, producing issues mapped to WCAG criteria with severity. Since most issues come from shared components, I would fix the design system first: color tokens, focus styles, form fields, dialogs, menus and tables, which fixes many pages at once. Then fix critical flows by priority of user impact and legal risk. In parallel I would prevent new issues: lint rules and axe checks in CI, accessibility in the definition of done, design review checklists and training for designers, engineers and QA. Progress is tracked with an issue dashboard, and the plan ends with a re-audit, an accessibility statement and an ongoing process, since compliance is not a one-time project.",
+          "level": "advanced"
+        }
+      ],
+      "resources": [
+        {
+          "title": "W3C WAI: Understanding Contrast (Minimum)",
+          "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+        },
+        {
+          "title": "Google Search Central: SEO Starter Guide",
+          "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
+        },
+        {
+          "title": "axe-core on GitHub",
+          "url": "https://github.com/dequelabs/axe-core"
+        }
+      ]
+    }
+  ]
+}

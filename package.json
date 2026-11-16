@@ -2,7 +2,7 @@
   "name": "software-engineers-hub",
   "version": "0.1.0",
   "private": true,
-  "description": "Software Engineers Hub: chapter-wise full stack study and interview prep, Duolingo style",
+  "description": "StudyHub: chapter-wise study and exam prep (software engineering, CA), Duolingo style",
   "author": "Abhishek Pal",
   "scripts": {
     "dev": "next dev",

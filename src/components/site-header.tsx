@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { AUTHOR, SITE_NAME } from "@/lib/catalog";
+
 import { Logo } from "./logo";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -34,7 +36,7 @@ export function SiteFooter({ dataSource }: { dataSource?: string }) {
   return (
     <footer className="site-footer">
       <div className="container row wrap" style={{ justifyContent: "space-between" }}>
-        <span>Software Engineers Hub. Built by Abhishek Pal for daily full stack practice.</span>
+        <span>{SITE_NAME}. Built by {AUTHOR} for daily practice.</span>
         {dataSource ? <span>Data source: {dataSource === "mongo" ? "MongoDB" : "static JSON"}</span> : null}
       </div>
     </footer>

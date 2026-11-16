@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PracticePlayer } from "@/components/practice-player";
+import { programConfig } from "@/lib/catalog";
 import { getRepository } from "@/lib/data/repository";
 
-export const metadata: Metadata = { title: "Mock interview" };
+export const metadata: Metadata = { title: "Practice round" };
 
 // Random helpers live outside the component: each request is a new round.
 function pickRandom<T>(pool: T[], n: number): T[] {
@@ -16,17 +17,26 @@ function pickRandom<T>(pool: T[], n: number): T[] {
   return a.slice(0, n);
 }
 
-function nextRoundHref(track?: string, level?: string) {
-  const p = new URLSearchParams({ r: String(Date.now()) });
+function nextRoundHref(program: string, track?: string, level?: string) {
+  const p = new URLSearchParams({ r: String(Date.now()), program });
   if (track) p.set("track", track);
   if (level) p.set("level", level);
   return `/interview/mock?${p}`;
 }
 
-export default async function MockInterviewPage({ searchParams }: { searchParams: Promise<{ track?: string; level?: string }> }) {
+export default async function MockInterviewPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ track?: string; level?: string; program?: string }>;
+}) {
   const { track, level } = await searchParams;
   const all = await (await getRepository()).listInterviewQuestions();
-  const pool = all.filter((i) => (!track || i.trackId === track) && (!level || (i.level ?? i.chapterLevel) === level));
+  // A track link implies its program; otherwise use the program passed by the bank.
+  const program = (track && all.find((i) => i.trackId === track)?.program) || programConfig((await searchParams).program).id;
+  const terms = programConfig(program).terms;
+  const pool = all.filter(
+    (i) => i.program === program && (!track || i.trackId === track) && (!level || (i.level ?? i.chapterLevel) === level),
+  );
   const picked = pickRandom(pool, 5);
 
   if (!picked.length) {
@@ -42,9 +52,9 @@ export default async function MockInterviewPage({ searchParams }: { searchParams
     <PracticePlayer
       autoStart
       items={picked.map((i) => ({ question: i, context: `${i.trackTitle} - ${i.chapterTitle}` }))}
-      title="Mock interview"
+      title={terms.round}
       exitHref="/interview"
-      next={{ href: nextRoundHref(track, level), label: "New mock round" }}
+      next={{ href: nextRoundHref(program, track, level), label: `New ${terms.roundShort.toLowerCase()}` }}
     />
   );
 }

@@ -1,0 +1,2057 @@
+{
+  "id": "ca-fin-dt",
+  "title": "Direct Tax Laws and International Taxation (Final P4)",
+  "area": "ca-final",
+  "order": 123,
+  "icon": "DT",
+  "color": "#92400e",
+  "description": "CA Final Paper 4 under the Income-tax Act, 2025 as amended by the Finance Act 2026 (tax year 2026-27, May 2027 attempt onward): advanced PGBP and capital gains, corporate and entity taxation, TDS, procedures, GAAR, transfer pricing and international taxation.",
+  "chapters": [
+    {
+      "id": "ca-fin-dt-01-pgbp",
+      "title": "Advanced Business Income (PGBP)",
+      "level": "beginner",
+      "summary": "Special PGBP provisions at Final level: depreciation planning, disallowances, payment-based deductions and the unified presumptive scheme in section 58 of the 2025 Act.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "What changes at Final level",
+          "body": "At Intermediate you computed business income line by line. At Final the examiner expects you to apply the special provisions inside a larger problem: a company deciding between tax regimes, a firm with disallowances, or a non-resident with presumptive income. The charging provision for business income is section 26 of the Income-tax Act, 2025 (corresponds to section 28 of the 1961 Act).\n\nThe 2025 Act uses one **tax year** (the financial year in which income is earned) in place of the old \"previous year\" and \"assessment year\". For the May 2027 attempt the relevant period is **tax year 2026-27** (1 April 2026 to 31 March 2027).\n\nFinal-level PGBP topics you must handle quickly:\n- Depreciation on block of assets, half-rate rule, additional depreciation and the effect of opting for a concessional regime.\n- Disallowances for non-deduction of tax at source, cash payments and payments to related persons (corresponds to sections 40(a), 40A(2) and 40A(3) of the 1961 Act).\n- Deductions allowed only on actual payment (corresponds to section 43B of the 1961 Act), including the 15/45-day rule for micro and small enterprises.\n- Presumptive taxation, now unified in **section 58** of the 2025 Act (corresponds to sections 44AD, 44ADA and 44AE of the 1961 Act)."
+        },
+        {
+          "heading": "Depreciation and payment-based deductions",
+          "body": "Depreciation is allowed on the written down value of each block (corresponds to section 32 of the 1961 Act). If an asset is put to use for less than 180 days in the year of acquisition, only half the normal rate applies. Additional depreciation of 20% of actual cost (10% if used for less than 180 days, with the balance 10% in the next year) is available for new plant and machinery used in manufacture, but not to an assessee that opts for a concessional regime such as the 22% company regime.\n\nFormat for a block:\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Opening WDV of block | xxx |\n| Add: Actual cost of assets acquired | xxx |\n| Less: Moneys payable on assets sold (not below nil) | (xxx) |\n| WDV before depreciation | xxx |\n| Depreciation: full rate on (WDV - assets used < 180 days) | xxx |\n| Depreciation: half rate on assets used < 180 days | xxx |\n\nPayment-based deductions: tax and duty, employer contribution to PF and other funds, bonus and commission to employees, interest on loans from banks and financial institutions and leave encashment are allowed only in the year of actual payment. Payment on or before the due date for filing the return of the year saves the deduction for that year. Amounts payable to a **micro or small enterprise** must be paid within the time allowed by the MSMED Act (15 days, or up to 45 days under a written agreement); otherwise the deduction moves to the year of actual payment."
+        },
+        {
+          "heading": "Disallowances that the examiner loves",
+          "body": "- **No TDS on payment to a resident**: 30% of the expenditure is disallowed; allowed in the year in which the tax is deducted and paid.\n- **No TDS on payment to a non-resident**: the whole amount is disallowed until the tax is deducted and paid.\n- **Cash payment above ₹10,000** to a person in a day (₹35,000 for payments to transporters for hire of goods carriages): the whole payment is disallowed.\n- **Excessive payment to a related person**: the excess over fair market value is disallowed.\n- **Remuneration and interest to partners**: allowed only within the limits for firms (covered in chapter 3).\n\nCommon mistake: applying the 30% rule to a non-resident payment. For non-residents the disallowance is 100%."
+        },
+        {
+          "heading": "Presumptive taxation under section 58",
+          "body": "Section 58 of the 2025 Act brings the three old presumptive schemes into one tabular provision. The substantive rules for tax year 2026-27 follow the 1961 Act schemes:\n\n| Scheme (1961 Act reference) | Eligible person | Limit | Presumptive income |\n| --- | --- | --- | --- |\n| Business (44AD) | Resident individual, HUF, firm other than LLP | Turnover up to ₹2 crore; ₹3 crore if cash receipts do not exceed 5% | 8% of turnover; 6% of turnover received through banking or digital modes |\n| Profession (44ADA) | Resident individual, firm other than LLP, in specified professions | Gross receipts up to ₹50 lakh; ₹75 lakh if cash receipts do not exceed 5% | 50% of gross receipts |\n| Goods carriages (44AE) | Any person owning not more than 10 goods carriages | 10 vehicles | ₹1,000 per ton of gross vehicle weight per month for heavy vehicles; ₹7,500 per month for others |\n\nUnder presumptive taxation all deductions (including depreciation) are deemed allowed; the WDV is reduced as if depreciation had been claimed. Advance tax for the business and profession schemes is payable in one instalment by 15 March.\n\n**Worked example.** Turnover ₹1,80,00,000, of which ₹1,20,00,000 is received by account payee cheque, UPI or bank transfer and ₹60,00,000 in cash. Cash is 33% of turnover, so the limit is ₹2 crore and the assessee is eligible. Presumptive income = 6% x 1,20,00,000 + 8% x 60,00,000 = ₹12,00,000.\n\nCommon mistakes: treating an LLP or a company as eligible; using the ₹3 crore limit when cash receipts exceed 5%; claiming depreciation separately."
+        }
+      ],
+      "keyPoints": [
+        "Business income is charged under section 26 of the 2025 Act (corresponds to section 28 of the 1961 Act); the period is the tax year.",
+        "Half depreciation if an asset is used for less than 180 days in the year of acquisition; additional depreciation 20% (10% if under 180 days) on new P&M for manufacturers outside concessional regimes.",
+        "No TDS: 30% disallowance for resident payees, 100% for non-resident payees.",
+        "Cash payment above ₹10,000 per person per day (₹35,000 for transporters) is fully disallowed.",
+        "Payment-based deductions are allowed if paid by the return due date; MSME dues unpaid beyond 15/45 days are allowed only in the year of payment.",
+        "Section 58 presumptive: 8%/6% of turnover (limit ₹2 crore or ₹3 crore), 50% of professional receipts (₹50 lakh or ₹75 lakh), ₹1,000 per ton or ₹7,500 per vehicle per month."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-dt-01-pgbp-case1",
+          "title": "Case: Mehra and Sons",
+          "body": "Mehra and Sons is a partnership firm (not an LLP) trading in electrical goods. Its accounts are audited and the due date for its return of income for tax year 2026-27 is 31 October 2027. Net profit as per profit and loss account: **₹42,00,000**. The following items were debited:\n\n| Item | Amount (₹) | Facts |\n| --- | --- | --- |\n| Bonus to employees for 2026-27 | 3,00,000 | Paid on 5 November 2027 |\n| Purchase from a micro enterprise (supplier) | 2,40,000 | Written agreement allows 45 days; goods accepted on 10 January 2027; paid on 20 May 2027 |\n| Interest on term loan from a scheduled bank | 1,20,000 | Paid on 25 September 2027 |\n| Employer contribution to PF for March 2027 | 60,000 | Deposited on 10 October 2027 |\n\nIgnore all other adjustments."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-dt-01-pgbp-q01",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-01-pgbp-case1",
+          "prompt": "Which item debited by Mehra and Sons must be added back in computing its business income for tax year 2026-27?",
+          "options": [
+            "Bonus of ₹3,00,000 and purchase of ₹2,40,000 from the micro enterprise",
+            "Bonus of ₹3,00,000 only",
+            "Interest of ₹1,20,000 and PF contribution of ₹60,000",
+            "All four items"
+          ],
+          "answer": 0,
+          "explanation": "Bonus was paid after the return due date (31 October 2027), so it is allowed only in tax year 2027-28. The micro enterprise was not paid within 45 days of acceptance and also not within the year, so the deduction moves to the year of payment. Bank interest and employer PF contribution were paid before the due date, so they are allowed in 2026-27."
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q02",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-01-pgbp-case1",
+          "prompt": "Compute the business income of Mehra and Sons for tax year 2026-27. Answer in rupees.",
+          "answer": 4740000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| Net profit as per P&L | 42,00,000 |\n| Add: Bonus paid after return due date | 3,00,000 |\n| Add: Micro enterprise dues not paid within 45 days | 2,40,000 |\n| Interest to bank and employer PF (paid before due date) | Nil |\n| **Business income** | **47,40,000** |"
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q03",
+          "type": "truefalse",
+          "caseId": "ca-fin-dt-01-pgbp-case1",
+          "prompt": "The ₹2,40,000 added back for the micro enterprise will be allowed as a deduction in tax year 2027-28, the year in which it is actually paid.",
+          "answer": true,
+          "explanation": "The MSME rule does not deny the expense forever. It shifts the deduction to the year of actual payment, which here is tax year 2027-28 (payment on 20 May 2027)."
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q04",
+          "type": "mcq",
+          "prompt": "Under section 58 of the Income-tax Act, 2025, which of these persons can opt for presumptive taxation of business income at 8% or 6% of turnover?",
+          "options": [
+            "A resident partnership firm that is not an LLP",
+            "A resident LLP",
+            "A private limited company",
+            "A non-resident individual"
+          ],
+          "answer": 0,
+          "explanation": "The business presumptive scheme (corresponds to section 44AD of the 1961 Act) is available to a resident individual, resident HUF and resident firm other than an LLP. Companies, LLPs and non-residents are excluded."
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q05",
+          "type": "numeric",
+          "prompt": "Ravi, a resident individual trader, opts for presumptive taxation under section 58. Compute his presumptive business income for tax year 2026-27. Answer in rupees.",
+          "data": "| Particulars | Amount (₹) |\n| --- | --- |\n| Turnover received through UPI and bank transfer | 1,20,00,000 |\n| Turnover received in cash | 60,00,000 |\n| Total turnover | 1,80,00,000 |",
+          "answer": 1200000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Cash receipts are 33% of turnover, so the turnover limit is ₹2 crore; ₹1.8 crore is within it.\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| 6% of digital turnover ₹1,20,00,000 | 7,20,000 |\n| 8% of cash turnover ₹60,00,000 | 4,80,000 |\n| **Presumptive income** | **12,00,000** |"
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q06",
+          "type": "numeric",
+          "prompt": "Sunrise Pvt Ltd (manufacturer, not opting for any concessional regime) has the following plant and machinery block (rate 15%) for tax year 2026-27. Compute total depreciation including additional depreciation for the year. Answer in rupees.",
+          "data": "| Particulars | Amount (₹) |\n| --- | --- |\n| Opening WDV of block on 1 April 2026 | 10,00,000 |\n| New machine acquired and put to use on 10 June 2026 | 4,00,000 |\n| New machine acquired and put to use on 20 November 2026 | 2,00,000 |\n| Sale proceeds of an old machine (sold in August 2026) | 1,50,000 |",
+          "answer": 302500,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| Opening WDV | 10,00,000 |\n| Add: Additions (4,00,000 + 2,00,000) | 6,00,000 |\n| Less: Sale proceeds | (1,50,000) |\n| WDV before depreciation | 14,50,000 |\n| Normal depreciation 15% on 12,50,000 | 1,87,500 |\n| Normal depreciation 7.5% on 2,00,000 (used < 180 days) | 15,000 |\n| Additional depreciation 20% on 4,00,000 | 80,000 |\n| Additional depreciation 10% on 2,00,000 (used < 180 days) | 20,000 |\n| **Total depreciation** | **3,02,500** |\n\nThe balance 10% additional depreciation on the November machine (₹20,000) is allowed in tax year 2027-28."
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q07",
+          "type": "numeric",
+          "prompt": "Compute the total amount disallowed in computing business income of a resident trader for tax year 2026-27. Answer in rupees.",
+          "data": "- Professional fees of ₹5,00,000 paid to a resident chartered accountant; tax was required to be deducted but was not deducted.\n- Payment of ₹25,000 in cash to a supplier of goods in a single day (not a transporter); no exception applies.",
+          "answer": 175000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| 30% of ₹5,00,000 (no TDS on resident payee) | 1,50,000 |\n| Cash payment exceeding ₹10,000 in a day: whole amount | 25,000 |\n| **Total disallowance** | **1,75,000** |"
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q08",
+          "type": "mcq",
+          "prompt": "A resident company pays ₹20,00,000 as fees for technical services to a non-resident without deducting tax at source. What is the disallowance in the tax year of payment?",
+          "options": [
+            "₹20,00,000",
+            "₹6,00,000",
+            "₹2,00,000",
+            "Nil, because TDS can be paid later"
+          ],
+          "answer": 0,
+          "explanation": "For payments to non-residents, the full amount is disallowed (corresponds to section 40(a)(i) of the 1961 Act). It is allowed in the year in which tax is deducted and paid. The 30% rule applies only to resident payees."
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q09",
+          "type": "multi",
+          "prompt": "Which of these are allowed only on actual payment (payment by the return due date is enough)? Select all that apply.",
+          "options": [
+            "Bonus or commission to employees",
+            "Interest on a loan from a scheduled bank",
+            "Leave encashment to employees",
+            "Purchase of raw material from a large company on credit",
+            "Employer contribution to a provident fund"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Bonus, bank interest, leave encashment and employer contributions to funds are payment-based deductions (corresponds to section 43B of the 1961 Act). Credit purchases from a large company are allowed on accrual; only dues to micro and small enterprises carry the time-limit rule."
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the unified presumptive taxation provision of the Income-tax Act, 2025 is section ___.",
+          "accept": [
+            "58",
+            "section 58",
+            "s 58",
+            "s.58"
+          ],
+          "explanation": "Section 58 of the 2025 Act combines the schemes that were in sections 44AD, 44ADA and 44AE of the 1961 Act, in a tabular format."
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q11",
+          "type": "mcq",
+          "prompt": "Dr Anita, a resident doctor, has gross receipts of ₹70,00,000 in tax year 2026-27, of which ₹2,00,000 is in cash. Can she opt for the professional presumptive scheme, and at what income?",
+          "options": [
+            "Yes, presumptive income ₹35,00,000",
+            "No, because receipts exceed ₹50 lakh",
+            "Yes, presumptive income ₹5,60,000",
+            "Yes, presumptive income ₹42,00,000"
+          ],
+          "answer": 0,
+          "explanation": "Cash receipts are 2.86% of gross receipts (not more than 5%), so the higher limit of ₹75 lakh applies. Presumptive income is 50% of ₹70,00,000 = ₹35,00,000."
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q12",
+          "type": "practical",
+          "top": true,
+          "prompt": "Krishna Traders (resident individual) has turnover of ₹2,60,00,000 in tax year 2026-27. Cash receipts are ₹10,00,000; the rest is received through banking channels. Actual net profit as per books is ₹11,50,000. Advise whether he can declare presumptive income under section 58, compute it, and state the consequences if he declares only the book profit.",
+          "answer": "**Eligibility**\n\nCash receipts = ₹10,00,000 / ₹2,60,00,000 = 3.85%, which does not exceed 5%. The turnover limit is therefore ₹3 crore, and ₹2.6 crore is within it. He is eligible.\n\n**Presumptive income**\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| 6% of ₹2,50,00,000 (banking channels) | 15,00,000 |\n| 8% of ₹10,00,000 (cash) | 80,000 |\n| **Presumptive income** | **15,80,000** |\n\n**If he declares book profit of ₹11,50,000 (lower than presumptive income)**\n\n- His income is below the presumptive rate and his total income exceeds the basic exemption limit, so he must maintain books of account and get them audited (corresponds to sections 44AB and 44AD(5) of the 1961 Act).\n- If he declared presumptive income in any earlier year and now declares lower profit, he cannot opt for the scheme again for the next five tax years.\n\n**Advice**: compare the tax on ₹15,80,000 with the tax on ₹11,50,000 plus audit cost and the five-year lock-out. Declaring the higher presumptive income avoids audit and keeps flexibility."
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q13",
+          "type": "interview",
+          "prompt": "Explain the effect of the MSME payment rule on deductions for purchases, with an example of how it shifts the deduction between tax years.",
+          "answer": "- Amounts payable to a micro or small enterprise must be paid within the period allowed by section 15 of the MSMED Act: 15 days from acceptance, or up to 45 days if agreed in writing.\n- If not paid within that time, the deduction is allowed only in the tax year of actual payment, even if paid before the return due date (corresponds to section 43B(h) of the 1961 Act).\n- Example: goods accepted on 1 March 2027, 45-day agreement, paid on 30 April 2027. The 45 days end on 15 April 2027, so payment is late; the deduction moves from tax year 2026-27 to 2027-28.\n- If paid by 15 April 2027 it would be allowed in 2026-27.\n- The rule does not apply to medium enterprises or to traders who are not registered as micro or small enterprises in the relevant category."
+        },
+        {
+          "id": "ca-fin-dt-01-pgbp-q14",
+          "type": "interview",
+          "prompt": "Why does a company that opts for the 22% concessional regime lose additional depreciation, and how should it treat the unabsorbed amount?",
+          "answer": "- The concessional regime (corresponds to section 115BAA of the 1961 Act) is granted on the condition that the company forgoes specified incentives, including additional depreciation, deductions for specified businesses (corresponds to section 35AD) and most Chapter VI-A style profit-linked deductions.\n- Depreciation is computed at normal rates only; the block WDV is reduced by the normal depreciation.\n- Unabsorbed additional depreciation relating to earlier years that cannot be set off is deemed allowed: the WDV of the block is adjusted, and it cannot be carried forward against future income.\n- In exam answers, recompute depreciation without the additional component before comparing the regimes."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 4 study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Acts and rules",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-dt-02-capital-gains",
+      "title": "Capital Gains: Special Cases, Exemptions and Business Reorganisation",
+      "level": "intermediate",
+      "summary": "Final-level capital gains: deemed consideration, slump sale, buyback after Finance Act 2026, reinvestment exemptions and tax-neutral reorganisations.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Rates and holding periods for tax year 2026-27",
+          "body": "The rate structure introduced from 23 July 2024 continues under the Income-tax Act, 2025. Section numbers below are given as the corresponding 1961 Act provisions; check the 2025 Act numbering in the ICAI study material.\n\n| Asset | Long-term if held for more than | STCG | LTCG |\n| --- | --- | --- | --- |\n| Listed equity share, equity-oriented fund unit, business trust unit (STT paid) | 12 months | 20% (corresponds to s.111A) | 12.5% on gain above ₹1,25,000 (corresponds to s.112A) |\n| Other listed securities | 12 months | Normal rates | 12.5% without indexation |\n| Unlisted shares, land, building, other assets | 24 months | Normal rates | 12.5% without indexation (corresponds to s.112) |\n\nA resident individual or HUF transferring land or building acquired before 23 July 2024 may compute tax at 20% with indexation where that is lower. Specified mutual funds and market linked debentures are always short-term.\n\n**Finance Act 2026: buyback.** Consideration received on a buyback of shares is now taxed as **capital gains** in the hands of all shareholders (it was taxed as deemed dividend from 1 October 2024 to 31 March 2026). The cost of the shares is deducted. Promoters bear an additional tax so that the effective rate is 22% for a promoter that is a domestic company and 30% for other promoters."
+        },
+        {
+          "heading": "Special cases of full value of consideration",
+          "body": "- **Stamp duty value of land or building** (corresponds to s.50C): if the stamp duty value exceeds the actual consideration by more than 10%, the stamp duty value is the full value of consideration.\n- **Depreciable assets** (corresponds to s.50): gain on a block is always short-term, whatever the holding period.\n- **Slump sale** (corresponds to s.50B): transfer of an undertaking for a lump sum. Gain = full value of consideration (the higher of actual consideration and fair market value under the rules) less **net worth**. Long-term if the undertaking was held for more than 36 months. No indexation.\n- **Unquoted shares** (corresponds to s.50CA): FMV is the consideration if actual price is lower.\n- **Conversion of firm assets on reconstitution** (corresponds to s.45(4) and s.9B): taxed in the hands of the firm.\n\nNet worth in a slump sale:\n\n| Particulars | Value taken |\n| --- | --- |\n| Depreciable assets | WDV as per tax records |\n| Other assets | Book value (revaluation ignored) |\n| Less: Liabilities of the undertaking | Book value |\n| **Net worth** | **Aggregate** |"
+        },
+        {
+          "heading": "Reinvestment exemptions",
+          "body": "| Exemption (1961 Act ref.) | Who | Asset sold | Invest in | Amount |\n| --- | --- | --- | --- | --- |\n| s.54 | Individual, HUF | Long-term residential house | One residential house in India (two houses once in a lifetime if LTCG up to ₹2 crore) | Lower of LTCG and cost of new house; cap ₹10 crore |\n| s.54EC | Any person | Long-term land or building | Specified bonds within 6 months | Up to ₹50 lakh; lock-in 5 years |\n| s.54F | Individual, HUF | Any long-term asset other than a house | One residential house | LTCG x cost of new house / net consideration; cost capped at ₹10 crore |\n| s.54B | Individual, HUF | Agricultural land used for 2 years | Agricultural land | Lower of gain and cost of new land |\n\nUnutilised amounts must be deposited in the Capital Gains Account Scheme before the return due date.\n\n**Worked example (s.54 and s.54EC).** Sale of a house (acquired 1 August 2024) on 10 September 2026 for ₹1,80,00,000; brokerage ₹1,80,000; cost ₹1,10,00,000; stamp duty value ₹1,95,00,000 (only 8.3% above consideration, so actual price is taken). LTCG = ₹68,20,000. New house bought for ₹50,00,000 and bonds for ₹8,00,000. Taxable LTCG = 68,20,000 - 50,00,000 - 8,00,000 = ₹10,20,000."
+        },
+        {
+          "heading": "Business reorganisation",
+          "body": "Transfers that are not regarded as transfer (corresponds to s.47) let groups restructure tax-neutrally:\n- Transfer of capital assets in a scheme of **amalgamation** to an Indian amalgamated company; and the shareholder's exchange of shares in the amalgamating company for shares in the amalgamated company.\n- Transfer in a **demerger** to an Indian resulting company, and issue of shares by the resulting company to shareholders of the demerged company.\n- Conversion of a **private company or unlisted public company into an LLP** if turnover did not exceed ₹60 lakh and total assets did not exceed ₹5 crore in the three preceding years, shareholders become partners in the same proportion, and no shareholder receives other consideration.\n- **Succession** of a sole proprietary concern or firm by a company, subject to conditions such as the proprietor holding at least 50% of voting power for 5 years.\n\nThe holding period and cost of the old shares carry over to the new shares. Carry forward of losses and unabsorbed depreciation on amalgamation (corresponds to s.72A) requires the amalgamating company to have been in business for 3 years, to hold at least 75% of the book value of fixed assets for 2 years, and the amalgamated company to hold 75% of those assets and continue the business for 5 years.\n\nCommon mistakes: applying s.54F when the assessee owns more than one other house; indexing a slump sale; forgetting that reorganisation exemptions fail if conditions are later breached (the exempt gain is then taxed in the year of breach)."
+        }
+      ],
+      "keyPoints": [
+        "STCG on STT-paid equity 20%; LTCG 12.5% above ₹1,25,000; other LTCG 12.5% without indexation.",
+        "Finance Act 2026: buyback consideration is taxed as capital gains; promoters face an effective 22% (corporate) or 30% (others).",
+        "Stamp duty value replaces consideration only if it exceeds it by more than 10% (corresponds to s.50C).",
+        "Slump sale gain = FVC less net worth (tax WDV for depreciable assets, book value for others); LTCA if held over 36 months.",
+        "s.54 and s.54F capped at ₹10 crore; s.54EC bonds up to ₹50 lakh within 6 months, 5-year lock-in.",
+        "Amalgamation, demerger and qualifying company-to-LLP conversions are not transfers; holding period carries over."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-dt-02-capital-gains-case1",
+          "title": "Case: Orion Industries restructures",
+          "body": "Orion Industries Ltd (an Indian company, in business since 2015) has two divisions. On 1 December 2026 it sells its **packaging division** to Delta Ltd for a lump sum of **₹12 crore**, without assigning values to individual assets. The division was set up in 2018. The fair market value of its assets under the valuation rules is ₹11 crore.\n\nBalance sheet of the packaging division on the date of sale:\n\n| Item | Book value (₹ crore) | Tax WDV (₹ crore) |\n| --- | --- | --- |\n| Plant and machinery (depreciable) | 3.50 | 3.00 |\n| Land (revalued upward by ₹0.50 crore last year) | 2.50 | - |\n| Inventory | 1.50 | - |\n| Trade receivables | 1.00 | - |\n| Trade payables and other liabilities | 2.50 | - |\n\nOrion then plans to amalgamate its remaining business into its holding company, Polaris Ltd, an Indian company, in 2027."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-dt-02-capital-gains-q01",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-02-capital-gains-case1",
+          "prompt": "Compute the capital gain on the slump sale of the packaging division. Answer in ₹ lakh.",
+          "answer": 700,
+          "tolerance": 0.5,
+          "unit": "₹ lakh",
+          "explanation": "Net worth uses tax WDV for depreciable assets and book value without revaluation for others.\n\n| Particulars | ₹ crore |\n| --- | --- |\n| Plant and machinery (tax WDV) | 3.00 |\n| Land (book value 2.50 less revaluation 0.50) | 2.00 |\n| Inventory | 1.50 |\n| Trade receivables | 1.00 |\n| Less: Liabilities | (2.50) |\n| **Net worth** | **5.00** |\n\nFull value of consideration = higher of ₹12 crore and FMV ₹11 crore = ₹12 crore. LTCG = 12.00 - 5.00 = ₹7 crore = ₹700 lakh. The division was held for more than 36 months, so the gain is long-term; no indexation."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q02",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-02-capital-gains-case1",
+          "prompt": "At what rate is the slump sale gain of Orion Industries taxed (before surcharge and cess)?",
+          "options": [
+            "12.5% without indexation",
+            "20% with indexation",
+            "Normal corporate rate as short-term gain",
+            "10% without indexation"
+          ],
+          "answer": 0,
+          "explanation": "The undertaking was held for more than 36 months, so the gain is long-term and taxed at 12.5% without indexation (corresponds to s.112 and s.50B of the 1961 Act)."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q03",
+          "type": "truefalse",
+          "caseId": "ca-fin-dt-02-capital-gains-case1",
+          "prompt": "On the later amalgamation into Polaris Ltd, the transfer of Orion's capital assets to Polaris will not be regarded as a transfer, because Polaris is an Indian company.",
+          "answer": true,
+          "explanation": "A transfer of capital assets by an amalgamating company to an Indian amalgamated company in a scheme of amalgamation is not regarded as a transfer (corresponds to s.47(vi) of the 1961 Act)."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q04",
+          "type": "numeric",
+          "prompt": "Mr Arjun, resident, sold a residential house on 10 September 2026. Compute his taxable long-term capital gain for tax year 2026-27 after exemptions. Answer in rupees.",
+          "data": "| Particulars | Amount (₹) |\n| --- | --- |\n| Sale consideration | 1,80,00,000 |\n| Stamp duty value | 1,95,00,000 |\n| Brokerage paid | 1,80,000 |\n| Cost of acquisition (house bought on 1 August 2024) | 1,10,00,000 |\n| New residential house purchased in India on 15 December 2026 | 50,00,000 |\n| Specified bonds bought on 20 January 2027 | 8,00,000 |",
+          "answer": 1020000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Stamp duty value is 108.3% of consideration (within the 10% tolerance), so actual consideration is used. The house was held for more than 24 months, so the gain is long-term; it was acquired after 23 July 2024, so no indexation option.\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Sale consideration | 1,80,00,000 |\n| Less: Brokerage | (1,80,000) |\n| Less: Cost of acquisition | (1,10,00,000) |\n| LTCG | 68,20,000 |\n| Less: Exemption for new house (corresponds to s.54) | (50,00,000) |\n| Less: Exemption for bonds within 6 months (corresponds to s.54EC) | (8,00,000) |\n| **Taxable LTCG** | **10,20,000** |"
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q05",
+          "type": "numeric",
+          "prompt": "Ms Kavya, resident, has long-term capital gains of ₹3,40,000 on STT-paid listed equity shares in tax year 2026-27 and salary income well above the basic exemption limit. Compute the tax on these gains including 4% cess. Answer in rupees.",
+          "answer": 27950,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| LTCG | 3,40,000 |\n| Less: Exempt slab | (1,25,000) |\n| Taxable | 2,15,000 |\n| Tax at 12.5% | 26,875 |\n| Add: Cess 4% | 1,075 |\n| **Total** | **27,950** |"
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q06",
+          "type": "numeric",
+          "prompt": "Mr Dev, resident, owning one residential house, sells unlisted shares held for 4 years. Compute the exemption available for investment in a new house (corresponds to s.54F). Answer in rupees.",
+          "data": "| Particulars | Amount (₹) |\n| --- | --- |\n| Net consideration | 80,00,000 |\n| Long-term capital gain | 40,00,000 |\n| Cost of new residential house | 60,00,000 |",
+          "answer": 3000000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Exemption = LTCG x cost of new house / net consideration = 40,00,000 x 60,00,000 / 80,00,000 = ₹30,00,000. He owns only one other house on the date of transfer, so the condition is met. Taxable LTCG = ₹10,00,000."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q07",
+          "type": "mcq",
+          "prompt": "Under the Finance Act 2026, how is the consideration received by a non-promoter resident shareholder on a buyback of shares by a listed company taxed?",
+          "options": [
+            "As capital gains, after deducting the cost of the shares",
+            "As dividend under income from other sources, with the cost treated as a capital loss",
+            "Exempt in the shareholder's hands, as the company pays buyback tax",
+            "As business income at normal rates"
+          ],
+          "answer": 0,
+          "explanation": "The Finance Act 2026 moved buyback consideration back to capital gains for all shareholders. The deemed dividend approach (with the cost as a capital loss) applied only to buybacks from 1 October 2024 to 31 March 2026."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q08",
+          "type": "mcq",
+          "prompt": "A private company converts into an LLP. Which condition must be met for the conversion not to be a transfer?",
+          "options": [
+            "Total sales did not exceed ₹60 lakh in any of the three preceding years",
+            "The company has been in existence for at least 10 years",
+            "Shareholders receive cash equal to their share capital",
+            "The LLP must be listed on a recognised stock exchange"
+          ],
+          "answer": 0,
+          "explanation": "The conditions (corresponds to s.47(xiiib) of the 1961 Act) include turnover not exceeding ₹60 lakh and total assets not exceeding ₹5 crore in each of the three preceding years, all shareholders becoming partners in the same proportion, and no consideration other than profit share and capital contribution."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q09",
+          "type": "multi",
+          "prompt": "Which of these transactions are not regarded as transfer for capital gains purposes? Select all that apply.",
+          "options": [
+            "Transfer of assets by an amalgamating company to an Indian amalgamated company under a scheme",
+            "Issue of shares by an Indian resulting company to shareholders of the demerged company",
+            "Distribution of assets by a company to shareholders on liquidation",
+            "Sale of a business undertaking for a lump sum",
+            "Gift of a capital asset by an individual to a relative"
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "explanation": "Amalgamation and demerger transfers and gifts by an individual are excluded from transfer. Distribution on liquidation is taxed in the shareholders' hands (corresponds to s.46), and a slump sale is a taxable transfer (corresponds to s.50B)."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in a slump sale the cost of acquisition of the undertaking is its ___ (two words).",
+          "accept": [
+            "net worth",
+            "networth"
+          ],
+          "explanation": "The cost of acquisition and improvement of the undertaking is deemed to be its net worth, computed using tax WDV for depreciable assets and book value (ignoring revaluation) for other assets."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q11",
+          "type": "mcq",
+          "prompt": "Land is sold for ₹90,00,000. Its stamp duty value is ₹1,00,00,000. What is the full value of consideration?",
+          "options": [
+            "₹1,00,00,000",
+            "₹90,00,000",
+            "₹99,00,000",
+            "₹95,00,000"
+          ],
+          "answer": 0,
+          "explanation": "110% of ₹90,00,000 is ₹99,00,000. The stamp duty value of ₹1,00,00,000 exceeds it, so the stamp duty value is the full value of consideration."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q12",
+          "type": "practical",
+          "top": true,
+          "prompt": "Explain, with a computation format, how capital gain is computed when a firm is reconstituted and a retiring partner receives a capital asset of the firm.",
+          "answer": "**Provisions** (corresponds to s.45(4) and s.9B of the 1961 Act)\n\n- When a partner receives money or a capital asset on reconstitution of the firm and the amount exceeds the partner's capital account balance, the excess is chargeable as capital gains in the hands of the **firm**.\n- Separately, a capital asset given to a partner on dissolution or reconstitution is deemed a transfer by the firm at fair market value (s.9B treatment as business income or capital gains, as the asset may be).\n\n**Format under s.45(4)**\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Money received + FMV of capital asset received by partner | xxx |\n| Less: Balance in partner's capital account (ignoring revaluation and self-generated goodwill) | (xxx) |\n| **Capital gain chargeable on firm** | **xxx** |\n\n- The gain is attributed to remaining assets of the firm under the prescribed rules; it is short-term or long-term according to the asset to which it is attributed.\n- In the hands of the partner, the receipt is exempt as share of the firm's assets."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q13",
+          "type": "interview",
+          "prompt": "State the conditions for carry forward of the amalgamating company's accumulated loss and unabsorbed depreciation by the amalgamated company.",
+          "answer": "(corresponds to s.72A of the 1961 Act)\n\n- Available for amalgamation of a company owning an industrial undertaking, ship or hotel, or specified banks and others.\n- Amalgamating company: engaged in the business for 3 or more years in which the loss arose, and held at least 75% of the book value of fixed assets continuously for 2 years before amalgamation.\n- Amalgamated company: holds at least 75% of the book value of fixed assets acquired for 5 years, continues the business for at least 5 years, and fulfils the other prescribed conditions.\n- The loss is deemed to be the loss of the amalgamated company for the year of amalgamation, giving a fresh period of carry forward.\n- If conditions are breached later, the set-off already allowed is deemed income of the year of breach."
+        },
+        {
+          "id": "ca-fin-dt-02-capital-gains-q14",
+          "type": "interview",
+          "prompt": "Distinguish between the exemptions for reinvestment in a residential house when the asset sold is a house and when it is any other long-term asset.",
+          "answer": "- **House sold** (corresponds to s.54): exemption is the lower of LTCG and cost of the new house; no ownership restriction on other houses; option of two houses once if LTCG does not exceed ₹2 crore.\n- **Other asset sold** (corresponds to s.54F): exemption is proportionate, LTCG x cost of new house / net consideration; the assessee must not own more than one residential house (other than the new one) on the date of transfer.\n- Both: available to individuals and HUFs; purchase within 1 year before or 2 years after, or construction within 3 years; unutilised amount to be deposited in the Capital Gains Account Scheme by the return due date; cost counted only up to ₹10 crore.\n- Both are withdrawn if the new house is sold within 3 years."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 4 study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-dt-03-companies-firms",
+      "title": "Taxation of Companies (MAT and Alternate Regimes), Firms, LLPs and AOPs",
+      "level": "intermediate",
+      "summary": "Corporate tax rates and regime choice, MAT at 14% as a final tax after Finance Act 2026, and the special rules for firms, LLPs and AOPs.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Corporate rates and regimes",
+          "body": "| Company | Rate | Surcharge | Effective rate (with 4% cess) |\n| --- | --- | --- | --- |\n| Domestic, turnover up to ₹400 crore in tax year 2024-25 | 25% | 7% if income > ₹1 crore; 12% if > ₹10 crore | 25% to 29.12% |\n| Other domestic | 30% | 7% / 12% | 31.2% to 34.944% |\n| Concessional regime (corresponds to s.115BAA) | 22% | Flat 10% | 25.168% |\n| New manufacturing company (corresponds to s.115BAB) | 15% | Flat 10% | 17.16% |\n| Foreign company | 35% | 2% if > ₹1 crore; 5% if > ₹10 crore | 36.4% to 38.22% |\n\nThe concessional regime requires the company to forgo specified incentives: additional depreciation, deductions for specified businesses and scientific research above normal levels, and profit-linked deductions (other than a few, such as the deduction for new employment). Brought forward losses attributable to those incentives cannot be set off. The option, once exercised, cannot be withdrawn.\n\n**Exam format for regime choice**: compute tax under the normal provisions (and MAT if higher), compute tax under the concessional regime after removing the forgone incentives, and recommend the lower outflow, noting the loss of MAT credit and incentives."
+        },
+        {
+          "heading": "Minimum alternate tax after Finance Act 2026",
+          "body": "MAT and the alternate minimum tax for non-corporate assessees are consolidated in **section 206** of the Income-tax Act, 2025 (corresponds to sections 115JB and 115JC of the 1961 Act). The Finance Act 2026 made three changes from 1 April 2026:\n\n- **Rate**: MAT reduced from 15% to **14%** of book profit (plus surcharge and cess as applicable).\n- **Final tax**: no new MAT credit arises for MAT paid from tax year 2026-27.\n- **Old credit**: MAT credit accumulated up to 31 March 2026 can be carried forward up to the 15th year. A **domestic** company may set it off only if it moves to the new (concessional) regime, and only up to **one-fourth of its tax liability** in a year. A foreign company may set off credit to the extent normal tax exceeds MAT.\n\nMAT does not apply to companies in the concessional regimes, and it has been extended to exclude all non-residents taxed on a presumptive basis.\n\nBook profit starts from the net profit in the statement of profit and loss prepared under the Companies Act, adjusted only for the items specified (add income-tax provision, reserves, provision for unascertained liabilities, provision for diminution in value of assets, expenditure on exempt income; deduct exempt income credited, lower of brought forward loss and unabsorbed depreciation as per books, amounts withdrawn from reserves if added earlier)."
+        },
+        {
+          "heading": "Firms, LLPs and AOPs",
+          "body": "**Firms and LLPs** are taxed at 30% (surcharge 12% if income exceeds ₹1 crore). Interest and remuneration to partners are deductible only within limits (corresponds to s.40(b)):\n- Interest on capital: up to 12% simple interest per year, if authorised by the deed.\n- Remuneration: only to working partners, authorised by the deed, within:\n\n| Book profit | Maximum remuneration |\n| --- | --- |\n| First ₹6,00,000 or loss | Higher of ₹3,00,000 or 90% of book profit |\n| Balance | 60% of book profit |\n\nBook profit is net profit before deducting partner remuneration (after deducting allowable interest). In the partner's hands, the share of profit is exempt; interest and remuneration (to the extent allowed to the firm) are business income.\n\n**LLPs and AMT**: an LLP or other non-corporate person claiming specified deductions (profit-linked deductions or deduction for specified business) pays alternate minimum tax of 18.5% of adjusted total income where regular tax is lower. AMT credit rules differ from the new MAT rules; check the ICAI material.\n\n**AOP/BOI**: if members' shares are indeterminate, the AOP pays tax at the maximum marginal rate on its whole income. If shares are determinate and no member's income exceeds the basic exemption, slab rates apply; where any member is taxable at a higher rate, special rules apply. A member's share of AOP income is excluded from the member's tax on which the AOP has paid tax.\n\n**Worked example.** Book profit ₹15,00,000; remuneration paid ₹12,00,000. Allowable = 90% of 6,00,000 + 60% of 9,00,000 = ₹10,80,000. Disallowed ₹1,20,000."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Applying the 7%/12% surcharge to a concessional regime company (the surcharge is a flat 10%).\n- Computing MAT credit for tax year 2026-27 (no new credit arises after the Finance Act 2026).\n- Allowing remuneration to a sleeping partner, or interest above 12%.\n- Taking book profit after deducting remuneration in the s.40(b) computation.\n- Forgetting the turnover test year for the 25% rate: it is turnover of the second preceding tax year."
+        }
+      ],
+      "keyPoints": [
+        "Domestic company: 25% (turnover up to ₹400 crore) or 30%; concessional 22% + 10% surcharge = 25.168%; new manufacturing 15% = 17.16%.",
+        "Foreign company: 35% plus surcharge 2% or 5% and 4% cess.",
+        "MAT is in section 206 of the 2025 Act; 14% of book profit from tax year 2026-27 and a final tax.",
+        "Old MAT credit: domestic company sets off only under the new regime, capped at 25% of tax liability; carry forward to the 15th year.",
+        "Partner remuneration limit: higher of ₹3,00,000 or 90% on first ₹6,00,000 of book profit, 60% of the balance; interest up to 12%.",
+        "AOP with indeterminate shares pays tax at the maximum marginal rate."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-dt-03-companies-firms-case1",
+          "title": "Case: Vardhan Components Pvt Ltd chooses a regime",
+          "body": "Vardhan Components Pvt Ltd is a domestic company with turnover of ₹600 crore in tax year 2024-25. For tax year 2026-27:\n\n| Particulars | ₹ crore |\n| --- | --- |\n| Total income under normal provisions (after additional depreciation of ₹2 crore) | 8.00 |\n| Total income if the concessional regime is opted (additional depreciation not allowed) | 10.00 |\n| Book profit for MAT | 12.00 |\n\nThe company has no brought forward losses and no MAT credit. Assume no other incentive is lost by opting for the concessional regime."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-dt-03-companies-firms-q01",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-03-companies-firms-case1",
+          "prompt": "Compute the tax liability of Vardhan Components under the normal provisions (ignore MAT). Answer in rupees.",
+          "answer": 26707200,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Turnover of ₹600 crore exceeds ₹400 crore, so the rate is 30%. Income ₹8 crore is between ₹1 crore and ₹10 crore, so surcharge is 7%.\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Tax at 30% on 8,00,00,000 | 2,40,00,000 |\n| Surcharge 7% | 16,80,000 |\n| | 2,56,80,000 |\n| Cess 4% | 10,27,200 |\n| **Tax** | **2,67,07,200** |"
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q02",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-03-companies-firms-case1",
+          "prompt": "Compute the MAT liability of Vardhan Components at the rate applicable after the Finance Act 2026. Answer in rupees.",
+          "answer": 19568640,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Book profit ₹12 crore exceeds ₹10 crore, so surcharge is 12%.\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| MAT at 14% on 12,00,00,000 | 1,68,00,000 |\n| Surcharge 12% | 20,16,000 |\n| | 1,88,16,000 |\n| Cess 4% | 7,52,640 |\n| **MAT** | **1,95,68,640** |\n\nNormal tax (₹2,67,07,200) is higher, so MAT does not apply under the normal regime."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q03",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-03-companies-firms-case1",
+          "prompt": "Compute the tax liability of Vardhan Components if it opts for the concessional 22% regime. Answer in rupees.",
+          "answer": 25168000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| Tax at 22% on 10,00,00,000 | 2,20,00,000 |\n| Surcharge flat 10% | 22,00,000 |\n| | 2,42,00,000 |\n| Cess 4% | 9,68,000 |\n| **Tax** | **2,51,68,000** |\n\nThe concessional regime saves ₹15,39,200 compared with the normal provisions (2,67,07,200 - 2,51,68,000), even after losing additional depreciation, and MAT does not apply."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q04",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-03-companies-firms-case1",
+          "prompt": "If Vardhan Components had brought forward MAT credit of ₹40 lakh from years before 1 April 2026, how could it use the credit under the Finance Act 2026 rules?",
+          "options": [
+            "Only after moving to the new regime, up to one-fourth of its tax liability each year",
+            "Against normal tax to the extent normal tax exceeds MAT, without any cap",
+            "It lapses on 1 April 2026",
+            "It is refunded in cash in tax year 2026-27"
+          ],
+          "answer": 0,
+          "explanation": "As reported in the Finance Act 2026 changes, a domestic company can set off MAT credit accumulated up to 31 March 2026 only when it is in the new regime, capped at 25% of the tax liability for the year. The unlimited set-off of normal tax over MAT now applies only to foreign companies."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q05",
+          "type": "numeric",
+          "prompt": "Compute the remuneration to working partners allowable as a deduction to a firm whose book profit for tax year 2026-27 is ₹15,00,000 (the deed authorises remuneration of ₹12,00,000). Answer in rupees.",
+          "answer": 1080000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Book profit slab | Limit (₹) |\n| --- | --- |\n| First ₹6,00,000: higher of ₹3,00,000 or 90% (₹5,40,000) | 5,40,000 |\n| Balance ₹9,00,000 at 60% | 5,40,000 |\n| **Allowable remuneration** | **10,80,000** |\n\n₹1,20,000 (12,00,000 - 10,80,000) is disallowed."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q06",
+          "type": "numeric",
+          "prompt": "A domestic company (turnover ₹150 crore in tax year 2024-25, normal regime) has total income of ₹2 crore and book profit of ₹5 crore for tax year 2026-27. Compute its final tax liability. Answer in rupees.",
+          "answer": 7789600,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Normal (₹) | MAT (₹) |\n| --- | --- | --- |\n| Base | 25% x 2,00,00,000 = 50,00,000 | 14% x 5,00,00,000 = 70,00,000 |\n| Surcharge 7% | 3,50,000 | 4,90,000 |\n| Cess 4% | 2,14,000 | 2,99,600 |\n| Total | 55,64,000 | 77,89,600 |\n\nMAT is higher, so the liability is **₹77,89,600**. Under the Finance Act 2026 no MAT credit arises for the excess."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q07",
+          "type": "mcq",
+          "prompt": "Which provision of the Income-tax Act, 2025 contains both minimum alternate tax for companies and alternate minimum tax for other persons?",
+          "options": [
+            "Section 206",
+            "Section 58",
+            "Section 165",
+            "Section 202"
+          ],
+          "answer": 0,
+          "explanation": "Section 206 consolidates the MAT and AMT provisions (sections 115JB and 115JC of the 1961 Act). Section 58 is presumptive taxation, section 165 is arm's length price and section 202 is the individual new regime."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q08",
+          "type": "truefalse",
+          "prompt": "A company that has opted for the 22% concessional regime must still compare its tax with MAT at 14% of book profit.",
+          "answer": false,
+          "explanation": "MAT does not apply to companies in the concessional regimes (corresponds to s.115BAA and s.115BAB of the 1961 Act)."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q09",
+          "type": "multi",
+          "prompt": "Which adjustments are made to net profit in computing book profit for MAT? Select all that apply.",
+          "options": [
+            "Add back provision for income-tax",
+            "Add back provision for diminution in value of assets",
+            "Deduct depreciation at income-tax rates",
+            "Add back amounts transferred to reserves",
+            "Deduct lower of brought forward loss and unabsorbed depreciation as per books"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "explanation": "Book profit uses depreciation as per books, not tax depreciation. Income-tax, reserves and provision for diminution are added back; the lower of book loss and book unabsorbed depreciation is deducted."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the maximum rate of interest on partners' capital allowed as a deduction to a firm is ___% simple interest per year.",
+          "accept": [
+            "12",
+            "12%"
+          ],
+          "explanation": "Interest above 12% simple interest per year is disallowed (corresponds to s.40(b)(iv) of the 1961 Act)."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q11",
+          "type": "mcq",
+          "prompt": "Members of an AOP have not specified their shares in its income. At what rate is the AOP taxed?",
+          "options": [
+            "Maximum marginal rate on the whole income",
+            "Slab rates applicable to individuals",
+            "Flat 30% without surcharge",
+            "25% like a small company"
+          ],
+          "answer": 0,
+          "explanation": "Where individual shares are indeterminate or unknown, the AOP is taxed at the maximum marginal rate on its total income."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q12",
+          "type": "practical",
+          "top": true,
+          "prompt": "Shree Associates, a firm of three working partners, shows net profit of ₹18,00,000 for tax year 2026-27 after debiting interest on capital at 15% (₹3,00,000) and partner remuneration of ₹9,00,000. All payments are authorised by the deed. Compute the total income of the firm and its tax.",
+          "answer": "**Step 1: Interest**\n\nInterest allowed at 12%: 3,00,000 x 12/15 = ₹2,40,000. Disallowed ₹60,000.\n\n**Step 2: Book profit**\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Net profit | 18,00,000 |\n| Add: Remuneration debited | 9,00,000 |\n| Add: Excess interest | 60,000 |\n| **Book profit** | **27,60,000** |\n\n**Step 3: Allowable remuneration**\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| 90% of first 6,00,000 | 5,40,000 |\n| 60% of balance 21,60,000 | 12,96,000 |\n| Limit | 18,36,000 |\n| Actual paid | 9,00,000 |\n| **Allowed (lower)** | **9,00,000** |\n\n**Step 4: Total income and tax**\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Book profit | 27,60,000 |\n| Less: Remuneration allowed | (9,00,000) |\n| **Total income** | **18,60,000** |\n| Tax at 30% | 5,58,000 |\n| Cess 4% | 22,320 |\n| **Tax liability** | **5,80,320** |\n\nNo surcharge as income does not exceed ₹1 crore."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q13",
+          "type": "interview",
+          "top": true,
+          "prompt": "Explain the changes made to MAT by the Finance Act 2026 and their effect on a company's choice between the normal and concessional regimes.",
+          "answer": "- MAT rate reduced from 15% to 14% of book profit from 1 April 2026 (section 206 of the 2025 Act, corresponds to s.115JB).\n- MAT becomes a final tax: no new credit accumulates for MAT paid from tax year 2026-27.\n- Credit accumulated up to 31 March 2026 can be carried forward to the 15th year; a domestic company can use it only after moving to the new (concessional) regime, limited to one-fourth of tax liability each year. Foreign companies can set off credit to the extent normal tax exceeds MAT.\n- Effect: staying in the normal regime only to preserve MAT credit no longer works; companies with large credits have a reason to switch, subject to the cap and the loss of incentives.\n- MAT exemption extended to all non-residents taxed on a presumptive basis."
+        },
+        {
+          "id": "ca-fin-dt-03-companies-firms-q14",
+          "type": "interview",
+          "prompt": "How are a partner's share of profit, interest and remuneration from a firm taxed in the partner's hands?",
+          "answer": "- Share of profit from a firm assessed as a firm is exempt in the partner's hands (corresponds to s.10(2A)).\n- Interest on capital and remuneration are taxed as profits and gains of business or profession, but only to the extent allowed as a deduction to the firm (corresponds to s.28(v)). Any disallowed excess is not taxed in the partner's hands.\n- Expenses incurred by the partner to earn the interest or remuneration (for example interest on money borrowed to contribute capital) are deductible.\n- The same treatment applies to partners of an LLP."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 4 study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-dt-04-trusts",
+      "title": "Taxation of Trusts and Charitable Institutions",
+      "level": "intermediate",
+      "summary": "Registration, the 85% application rule, accumulation, anonymous donations, commercial receipts and accreted income for not-for-profit organisations.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Where the provisions sit",
+          "body": "The Income-tax Act, 2025 groups the rules for registered not-for-profit organisations (NPOs) in a separate part, broadly sections 332 to 355. Registration is in section 332 (corresponds to sections 12A and 12AB of the 1961 Act), and the provisions on income, application and violations correspond to sections 11, 12 and 13 of the 1961 Act. Funds and institutions earlier approved under section 10(23C) are listed in Schedule VII; the Finance Act 2026 provides that funds covered by entries 10 to 16 of that Schedule no longer need separate NPO registration.\n\nBecause exact sub-section references are still settling in study material, this chapter names the provision and gives the 1961 Act section.\n\nRegistration framework:\n- Provisional registration for 3 years for a new trust, from the date of application.\n- Regular registration for 5 years, renewable (a longer period applies to smaller trusts; verify the current rule).\n- Registration can be cancelled for **specified violations**, such as applying income other than for objects, carrying on business in violation of conditions, or benefit to specified persons."
+        },
+        {
+          "heading": "Income, application and accumulation",
+          "body": "A registered trust's income from property held for charitable or religious purposes is exempt to the extent it is **applied** in India for its objects. The key tests:\n\n| Rule | Detail |\n| --- | --- |\n| Application | At least 85% of income must be applied in the year |\n| Free accumulation | 15% of income may be set apart without conditions |\n| Deemed application | If income is not received, or for other reasons, it may be applied in the next year by option |\n| Specified accumulation | Shortfall may be accumulated for up to 5 years for a stated purpose, by filing the prescribed form before the return due date, and investing in specified modes |\n| Corpus donations | Exempt if received with a specific direction to form part of corpus and invested in specified modes |\n| Application from corpus or loan | Not application when spent; allowed when the corpus or loan is reinvested or repaid |\n| Donations to other trusts | Only 85% of such donation counts as application; corpus donations to other trusts are not application |\n| Depreciation | Not allowed on an asset whose cost was claimed as application |\n\n**Worked example.** Voluntary contributions (non-corpus) ₹50,00,000 and rent ₹30,00,000: income ₹80,00,000. Applied ₹60,00,000. Free accumulation 15% = ₹12,00,000. Taxable = 80,00,000 - 60,00,000 - 12,00,000 = ₹8,00,000 (unless specifically accumulated)."
+        },
+        {
+          "heading": "Special charges and denial of exemption",
+          "body": "- **Anonymous donations** (corresponds to s.115BBC): taxed at 30% to the extent they exceed the higher of 5% of total donations or ₹1,00,000. Wholly religious trusts are outside this rule; partly religious trusts are taxed on anonymous donations for non-religious purposes.\n- **Business activity**: a trust for advancement of any other object of general public utility may carry on trade or commerce only if receipts from such activity do not exceed **20%** of total receipts of the year (corresponds to the proviso to s.2(15)). If exceeded, it is not charitable for that year.\n- **Benefit to specified persons** (author, trustees, substantial contributors and their relatives): income used for their benefit loses exemption (corresponds to s.13(1)(c)); the tax on such income is at the maximum marginal rate.\n- **Investments outside specified modes**: income from them is not exempt.\n- **Accreted income** (corresponds to s.115TD): if the trust converts into a non-charitable form, merges with a non-charitable entity (or a merger fails the conditions), or its registration is cancelled, the fair market value of assets less liabilities is taxed at the maximum marginal rate. The Finance Act 2026 adds a merger provision for NPOs with the same or similar objects, modelled on s.12AC.\n\n**Compliance**: audit of accounts where total income before exemption exceeds the basic exemption limit; the Finance Act 2026 moves the return due date for non-audit trusts to 31 August."
+        },
+        {
+          "heading": "Exam approach and common mistakes",
+          "body": "Format for income of a trust:\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Income from property (gross receipts less revenue outgoings) | xxx |\n| Voluntary contributions (other than corpus) | xxx |\n| **Income** | **xxx** |\n| Less: Applied for objects (revenue and capital) | (xxx) |\n| Less: 15% free accumulation | (xxx) |\n| Less: Specified accumulation (if form filed) | (xxx) |\n| **Taxable income** | **xxx** |\n\nCommon mistakes: including corpus donations in income; allowing depreciation on assets already treated as application; applying the 85% test on receipts after deducting accumulation; treating the 20% commercial receipts limit as profit rather than receipts."
+        }
+      ],
+      "keyPoints": [
+        "NPO provisions sit in sections 332 to 355 of the 2025 Act (registration: section 332; corresponds to ss.11, 12, 12A, 12AB, 13).",
+        "Apply at least 85% of income; 15% may be accumulated freely; shortfall may be accumulated for up to 5 years by filing the form.",
+        "Corpus donations are exempt if invested in specified modes; spending from corpus counts as application only on reinvestment.",
+        "Anonymous donations above the higher of 5% of total donations or ₹1,00,000 are taxed at 30%.",
+        "General public utility trusts lose charitable status if business receipts exceed 20% of total receipts.",
+        "Accreted income on conversion, failed merger or cancellation is taxed at the maximum marginal rate."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-dt-04-trusts-case1",
+          "title": "Case: Seva Sadan Trust",
+          "body": "Seva Sadan Trust is registered as a charitable NPO running a free clinic. For tax year 2026-27:\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Rent from property held under trust | 30,00,000 |\n| Voluntary contributions (no direction) | 50,00,000 |\n| Corpus donations with a specific direction (invested in a bank FD) | 20,00,000 |\n| Expenses on running the clinic | 45,00,000 |\n| Purchase of medical equipment | 15,00,000 |\n| Salary to the founder's son as clinic administrator at twice the market rate | 6,00,000 (market rate ₹3,00,000) |\n\nThe trust has not filed any form for specified accumulation. The salary of ₹6,00,000 is included in the clinic expenses of ₹45,00,000."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-dt-04-trusts-q01",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-04-trusts-case1",
+          "prompt": "What is the 'income' of Seva Sadan Trust against which the 85% application test is applied?",
+          "options": [
+            "₹80,00,000",
+            "₹1,00,00,000",
+            "₹30,00,000",
+            "₹65,00,000"
+          ],
+          "answer": 0,
+          "explanation": "Income = rent ₹30,00,000 + non-corpus voluntary contributions ₹50,00,000 = ₹80,00,000. Corpus donations with a specific direction and invested in specified modes are excluded."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q02",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-04-trusts-case1",
+          "prompt": "Ignoring the excess salary issue, compute the income of Seva Sadan Trust chargeable to tax for tax year 2026-27 under the application rules. Answer in rupees.",
+          "answer": 800000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| Income | 80,00,000 |\n| Less: Applied - clinic expenses | (45,00,000) |\n| Less: Applied - medical equipment | (15,00,000) |\n| Less: Free accumulation 15% of 80,00,000 | (12,00,000) |\n| **Taxable** | **8,00,000** |\n\nNo form for specified accumulation was filed, so the shortfall is taxable."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q03",
+          "type": "truefalse",
+          "caseId": "ca-fin-dt-04-trusts-case1",
+          "prompt": "The excess salary of ₹3,00,000 paid to the founder's son is a benefit to a specified person, and income to that extent loses exemption.",
+          "answer": true,
+          "explanation": "Payment to a relative of the author in excess of what is reasonable for services is a use of income for the benefit of a specified person (corresponds to s.13(1)(c) and 13(2)(c) of the 1961 Act). The excess loses exemption and is taxed at the maximum marginal rate; it can also be a specified violation."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q04",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-04-trusts-case1",
+          "prompt": "Seva Sadan Trust claims depreciation of ₹2,25,000 on the medical equipment in the same year. How is this treated?",
+          "options": [
+            "Not allowed, because the cost was already claimed as application",
+            "Allowed as application in addition to the cost",
+            "Allowed only at half rate",
+            "Allowed if the trust accumulates 15%"
+          ],
+          "answer": 0,
+          "explanation": "Depreciation on an asset whose cost has been claimed as application is not allowed, to prevent a double deduction."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q05",
+          "type": "numeric",
+          "prompt": "A charitable (not religious) trust receives total donations of ₹60,00,000 in tax year 2026-27, including anonymous donations of ₹5,00,000. Compute the tax on anonymous donations including 4% cess. Answer in rupees.",
+          "answer": 62400,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| Anonymous donations | 5,00,000 |\n| Less: Higher of 5% of 60,00,000 (3,00,000) and 1,00,000 | (3,00,000) |\n| Taxable anonymous donations | 2,00,000 |\n| Tax at 30% | 60,000 |\n| Cess 4% | 2,400 |\n| **Total** | **62,400** |"
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q06",
+          "type": "numeric",
+          "prompt": "A trust for advancement of general public utility has total receipts of ₹2 crore, of which ₹45 lakh is from a commercial activity. Compute commercial receipts as a percentage of total receipts. Answer as a % to 2 decimals.",
+          "answer": 22.5,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "45,00,000 / 2,00,00,000 x 100 = 22.50%. This exceeds the 20% limit, so the activity is not a charitable purpose for that year and the exemption is lost for the year."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q07",
+          "type": "mcq",
+          "prompt": "A trust spends ₹10,00,000 out of its corpus fund on a school building in tax year 2026-27. When is this treated as application of income?",
+          "options": [
+            "When the amount is reinvested or deposited back into the corpus",
+            "In tax year 2026-27, when spent",
+            "Never",
+            "Only if the trust files the specified accumulation form"
+          ],
+          "answer": 0,
+          "explanation": "Application out of corpus is not application in the year of spending. It is allowed as application when the trust reinvests or deposits back an equal amount into the corpus in specified modes, within the time allowed."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q08",
+          "type": "multi",
+          "prompt": "Which events can attract tax on accreted income of a registered trust? Select all that apply.",
+          "options": [
+            "Conversion into a form not eligible for registration",
+            "Merger with an entity with dissimilar objects or not registered",
+            "Cancellation of registration",
+            "Applying 90% of income in a year",
+            "Failure to apply for renewal of registration within time"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Accreted income is taxed on conversion, merger that fails conditions, cancellation and failure to renew registration within the time allowed (corresponds to s.115TD). Applying more than 85% is compliance, not a trigger."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: a registered trust may accumulate ___% of its income without any conditions.",
+          "accept": [
+            "15",
+            "15%"
+          ],
+          "explanation": "Up to 15% of income may be set apart freely; the remaining 85% must be applied or specifically accumulated."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q10",
+          "type": "mcq",
+          "prompt": "Which section of the Income-tax Act, 2025 deals with registration of NPOs (corresponds to sections 12A and 12AB of the 1961 Act)?",
+          "options": [
+            "Section 332",
+            "Section 206",
+            "Section 58",
+            "Section 393"
+          ],
+          "answer": 0,
+          "explanation": "Registration of NPOs is in section 332 of the 2025 Act. Section 206 is MAT, section 58 is presumptive taxation, section 393 is TDS."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q11",
+          "type": "truefalse",
+          "prompt": "A donation by one registered trust to another registered trust towards its corpus is treated as application of income by the donor trust.",
+          "answer": false,
+          "explanation": "Corpus donations to another trust are not treated as application. Non-corpus donations to another registered trust count as application only to the extent of 85%."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q12",
+          "type": "practical",
+          "prompt": "Gyan Jyoti Trust (registered, education) has income of ₹1,20,00,000 for tax year 2026-27 and applies ₹80,00,000. It wants to build a new hostel over three years. Advise it on avoiding tax on the shortfall and compute the minimum amount to be specifically accumulated.",
+          "answer": "| Particulars | Amount (₹) |\n| --- | --- |\n| Income | 1,20,00,000 |\n| Required application 85% | 1,02,00,000 |\n| Actual application | 80,00,000 |\n| **Shortfall to be specifically accumulated** | **22,00,000** |\n\nAdvice:\n- Pass a resolution stating the purpose (hostel construction) and the period (not more than 5 years).\n- File the prescribed form for accumulation before the due date of the return and file the return by the due date.\n- Invest the accumulated ₹22,00,000 in specified modes (for example scheduled bank deposits).\n- Apply the amount for the stated purpose within 5 years; any unapplied amount, or amount used for other purposes, is taxed in the year of failure.\n- The 15% (₹18,00,000) is free accumulation and needs no conditions."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q13",
+          "type": "interview",
+          "top": true,
+          "prompt": "Explain the conditions under which an educational or medical trust's income from property held under trust is exempt.",
+          "answer": "- The trust must be registered under section 332 of the 2025 Act (corresponds to s.12AB) and file its return and audit report on time.\n- At least 85% of income must be applied in India for its objects during the year; the balance may be accumulated (15% freely, more with the prescribed form for up to 5 years).\n- Funds must be invested in specified modes (corresponds to s.11(5)).\n- No part of income or property may be used for the benefit of specified persons (corresponds to s.13).\n- For general public utility trusts, business receipts must not exceed 20% of total receipts.\n- Anonymous donations above the exempt limit are taxed at 30%.\n- Corpus donations with a specific direction are exempt if invested in specified modes."
+        },
+        {
+          "id": "ca-fin-dt-04-trusts-q14",
+          "type": "interview",
+          "prompt": "What is accreted income and how is it computed and taxed?",
+          "answer": "- Accreted income is the fair market value of the total assets of a registered trust minus its total liabilities, computed by the prescribed method on the specified date (corresponds to s.115TD).\n- Assets acquired out of agricultural income and assets whose income was not exempt are excluded.\n- It is charged at the maximum marginal rate in addition to normal income tax, on conversion into a non-charitable form, merger failing the conditions, cancellation of registration, failure to apply for registration, or transfer of assets on dissolution to non-charitable entities.\n- The trust and the trustees are liable; interest applies if not paid within the time allowed.\n- The Finance Act 2026 aligns these rules with the new NPO merger provision."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 4 study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-dt-05-tds-advance-tax",
+      "title": "TDS, TCS, Advance Tax, Interest and Fees",
+      "level": "intermediate",
+      "summary": "The consolidated TDS and TCS tables of the 2025 Act, Finance Act 2026 rate changes, advance tax instalments and interest for defaults.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Structure under the 2025 Act",
+          "body": "The Income-tax Act, 2025 replaces the long list of TDS sections (192 to 196D of the 1961 Act) with tables in **section 393** and puts TCS in **section 394**. Definitions used in these sections (such as \"work\") are in section 402; the Finance Act 2026 amended section 402(47) so that **supply of manpower** is treated as work, attracting contractor rates of 1% or 2% instead of the professional rate.\n\nKey rates and thresholds for residents (named by the 1961 Act section they correspond to):\n\n| Payment (1961 ref.) | Threshold | Rate |\n| --- | --- | --- |\n| Contractor (194C) | ₹30,000 single, ₹1,00,000 aggregate | 1% individual/HUF, 2% others |\n| Professional fees (194J) | ₹50,000 per year | 10% |\n| Technical services, call centre (194J) | ₹50,000 per year | 2% |\n| Rent: land, building, furniture (194-I) | ₹50,000 per month or part | 10% |\n| Rent: plant and machinery (194-I) | ₹50,000 per month or part | 2% |\n| Commission (194H) | ₹20,000 per year | 2% |\n| Purchase of goods (194Q) | Above ₹50 lakh, buyer turnover > ₹10 crore | 0.1% |\n| Non-residents (195) | No threshold | Rates in force or DTAA rate |\n\nWithout PAN, tax is deducted at the higher of the normal rate and 20% (corresponds to s.206AA). The higher rate for non-filers (old s.206AB) was omitted from 1 April 2025."
+        },
+        {
+          "heading": "TCS changes by the Finance Act 2026",
+          "body": "| Item | Before 1 April 2026 | From 1 April 2026 |\n| --- | --- | --- |\n| Overseas tour programme package | 5% up to ₹10 lakh, 20% above | **2% with no threshold** |\n| LRS remittance for education or medical treatment | 5% above ₹10 lakh | **2%** above ₹10 lakh |\n| LRS remittance for other purposes | 20% above ₹10 lakh | No change |\n| Alcoholic liquor, scrap, coal, lignite, iron ore | 1% | **2%** |\n| Tendu leaves | 5% | **2%** |\n\nLate payment of TDS or TCS carries interest: 1% per month (or part) from the date tax was deductible to the date deducted, and 1.5% per month from the date deducted to the date paid. A fee of ₹200 per day applies for late filing of TDS/TCS statements, capped at the tax deductible (corresponds to s.234E). The Finance Act 2026 also allows Form 15G/15H to be filed once with a depository and shared with payers."
+        },
+        {
+          "heading": "Advance tax and interest",
+          "body": "Advance tax is payable when tax liability after TDS/TCS is ₹10,000 or more. A resident senior citizen with no business income is exempt.\n\n| Due date | Cumulative % (non-presumptive) |\n| --- | --- |\n| 15 June | 15% |\n| 15 September | 45% |\n| 15 December | 75% |\n| 15 March | 100% |\n\nPresumptive assessees under section 58 pay 100% by 15 March.\n\n**Interest for default in payment of advance tax** (corresponds to s.234B): if advance tax paid is less than 90% of assessed tax, 1% per month or part on the shortfall, from 1 April following the tax year to the date of determination of income (or payment of self-assessment tax).\n\n**Interest for deferment** (corresponds to s.234C): 1% per month on the shortfall for 3 months for each of the first three instalments, and 1 month for the last. No interest for the June instalment if 12% was paid, and for September if 36% was paid. Shortfall is rounded down to the nearest ₹100.\n\n**Interest for late return** (corresponds to s.234A): 1% per month or part on tax unpaid, from the day after the due date to the date of filing.\n\n**Worked example (234C).** Tax due ₹4,00,000; paid cumulatively ₹30,000, ₹1,20,000, ₹2,50,000 and ₹4,00,000.\n\n| Instalment | Required | Paid | Shortfall | Interest |\n| --- | --- | --- | --- | --- |\n| June (15%) | 60,000 | 30,000 (below 12%) | 30,000 | 900 |\n| September (45%) | 1,80,000 | 1,20,000 (below 36%) | 60,000 | 1,800 |\n| December (75%) | 3,00,000 | 2,50,000 | 50,000 | 1,500 |\n| March (100%) | 4,00,000 | 4,00,000 | Nil | Nil |\n| **Total** | | | | **4,200** |"
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Computing rent TDS threshold on annual rent; it is ₹50,000 per month or part of a month.\n- Treating manpower supply as professional services after the Finance Act 2026.\n- Applying the 12%/36% safe limits to the December instalment (there is no safe limit for December).\n- Counting interest under s.201(1A) from the date of payment instead of the date the tax was deductible.\n- Forgetting that interest on late deduction and on late payment are two separate periods with different rates."
+        }
+      ],
+      "keyPoints": [
+        "TDS is in the tables of section 393 and TCS in section 394 of the 2025 Act; definitions in section 402.",
+        "Finance Act 2026: manpower supply is 'work' (contractor TDS 1%/2%); overseas tour package TCS 2% flat; LRS education/medical 2%; liquor, scrap and minerals 2%.",
+        "Rent TDS: ₹50,000 per month threshold; 10% building, 2% plant.",
+        "Advance tax: 15/45/75/100% by 15 June, September, December, March; section 58 assessees 100% by 15 March.",
+        "Interest: 1% per month for 234A, 234B, 234C; TDS default 1% (not deducted) and 1.5% (not paid).",
+        "Late statement fee ₹200 per day, capped at TDS amount."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-case1",
+          "title": "Case: Prakash Industries Ltd",
+          "body": "Prakash Industries Ltd (resident, turnover ₹80 crore) made these payments to residents in tax year 2026-27:\n\n| Payment | Amount | Facts |\n| --- | --- | --- |\n| Rent for office building | ₹70,000 per month for 12 months | Landlord is an individual with PAN |\n| Supply of security guards by an agency (a firm) | ₹12,00,000 for the year | Invoices of ₹1,00,000 per month |\n| Legal fees to an advocate | ₹4,00,000 | Advocate has PAN |\n| TDS of ₹50,000 on a payment | Deductible on 10 June 2026 | Deducted on 25 August 2026 and paid on 15 October 2026 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q01",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-05-tds-advance-tax-case1",
+          "prompt": "Compute TDS on the office rent paid by Prakash Industries for the year. Answer in rupees.",
+          "answer": 84000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Rent exceeds ₹50,000 per month, so TDS applies at 10% for land and building: 70,000 x 12 x 10% = ₹84,000."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q02",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-05-tds-advance-tax-case1",
+          "prompt": "At what rate should Prakash Industries deduct tax on the payment to the security agency after the Finance Act 2026?",
+          "options": [
+            "2%, as payment to a contractor other than an individual or HUF",
+            "10%, as fees for professional services",
+            "1%, as payment to an individual contractor",
+            "No TDS, as it is a service contract"
+          ],
+          "answer": 0,
+          "explanation": "The Finance Act 2026 treats supply of manpower as 'work' under section 402(47), so contractor rates apply. The agency is a firm, so the rate is 2%."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q03",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-05-tds-advance-tax-case1",
+          "prompt": "Compute interest payable by Prakash Industries for the delay in deducting and paying the TDS of ₹50,000. Answer in rupees.",
+          "answer": 3000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Period | Months (part = full) | Rate | Interest (₹) |\n| --- | --- | --- | --- |\n| 10 June to 25 August (not deducted) | 3 | 1% | 1,500 |\n| 25 August to 15 October (deducted, not paid) | 2 | 1.5% | 1,500 |\n| **Total** | | | **3,000** |"
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q04",
+          "type": "truefalse",
+          "caseId": "ca-fin-dt-05-tds-advance-tax-case1",
+          "prompt": "Prakash Industries must deduct tax at 10% on the legal fees of ₹4,00,000 paid to the advocate.",
+          "answer": true,
+          "explanation": "Legal fees are fees for professional services; the payment exceeds the ₹50,000 threshold, so TDS at 10% applies (corresponds to s.194J)."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q05",
+          "type": "numeric",
+          "prompt": "Compute interest for deferment of advance tax (corresponds to s.234C) for tax year 2026-27. Answer in rupees.",
+          "data": "Tax on returned income less TDS: ₹4,00,000. Cumulative advance tax paid: by 15 June ₹30,000; by 15 September ₹1,20,000; by 15 December ₹2,50,000; by 15 March ₹4,00,000.",
+          "answer": 4200,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Instalment | Required | Paid | Shortfall | Interest |\n| --- | --- | --- | --- | --- |\n| June | 60,000 | 30,000 (< 12%) | 30,000 | 30,000 x 1% x 3 = 900 |\n| September | 1,80,000 | 1,20,000 (< 36%) | 60,000 | 60,000 x 1% x 3 = 1,800 |\n| December | 3,00,000 | 2,50,000 | 50,000 | 50,000 x 1% x 3 = 1,500 |\n| March | 4,00,000 | 4,00,000 | Nil | Nil |\n| **Total** | | | | **4,200** |"
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q06",
+          "type": "numeric",
+          "prompt": "Assessed tax (after TDS) for tax year 2026-27 is ₹5,00,000. Advance tax paid is ₹4,00,000. The balance is paid as self-assessment tax on 31 July 2027 with the return. Compute interest for default in payment of advance tax (corresponds to s.234B). Answer in rupees.",
+          "answer": 4000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Advance tax paid (₹4,00,000) is 80% of assessed tax, below 90%, so interest applies. Shortfall ₹1,00,000 x 1% x 4 months (April to July 2027) = ₹4,000."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q07",
+          "type": "mcq",
+          "prompt": "What is the TCS rate on sale of an overseas tour programme package of ₹6,00,000 to a resident individual in tax year 2026-27?",
+          "options": [
+            "2%",
+            "5%",
+            "20%",
+            "Nil, as it is below ₹10 lakh"
+          ],
+          "answer": 0,
+          "explanation": "The Finance Act 2026 replaced the 5%/20% structure with a flat 2% on overseas tour packages, without any threshold."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q08",
+          "type": "mcq",
+          "prompt": "Which provision of the Income-tax Act, 2025 contains the TCS table?",
+          "options": [
+            "Section 394",
+            "Section 393",
+            "Section 263",
+            "Section 159"
+          ],
+          "answer": 0,
+          "explanation": "TCS is in section 394; TDS is in section 393; section 263 deals with return of income; section 159 is double taxation relief."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q09",
+          "type": "multi",
+          "prompt": "Which persons pay advance tax in a single instalment by 15 March, or not at all? Select all that apply.",
+          "options": [
+            "A resident individual opting for presumptive business income under section 58",
+            "A resident senior citizen (age 65) with only pension and interest income (not liable to advance tax)",
+            "A company with tax liability of ₹5 crore",
+            "A professional opting for presumptive income at 50% of receipts",
+            "A salaried employee with ₹50,000 tax due after TDS"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Presumptive business and profession assessees pay the whole advance tax by 15 March. A resident senior citizen without business income is not liable. Companies and the salaried employee follow the four-instalment schedule."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the fee for late filing of a TDS statement is ₹___ per day of default.",
+          "accept": [
+            "200",
+            "₹200",
+            "Rs 200"
+          ],
+          "explanation": "₹200 per day, subject to a maximum of the TDS amount (corresponds to s.234E)."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q11",
+          "type": "mcq",
+          "prompt": "A payee resident in India does not furnish PAN. The normal TDS rate is 10%. What rate applies?",
+          "options": [
+            "20%",
+            "10%",
+            "30%",
+            "40%"
+          ],
+          "answer": 0,
+          "explanation": "Tax is deducted at the higher of the normal rate and 20% where PAN is not furnished (corresponds to s.206AA)."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q12",
+          "type": "practical",
+          "top": true,
+          "prompt": "Mrs Rao (resident, age 45, business income, new regime) estimates tax of ₹3,60,000 for tax year 2026-27. TDS of ₹60,000 is expected. Prepare her advance tax schedule, and compute interest under s.234C if she pays nothing until 15 December and then pays ₹3,00,000 on 15 December.",
+          "answer": "Advance tax liability = 3,60,000 - 60,000 = ₹3,00,000.\n\n**Schedule**\n\n| Due date | Cumulative % | Amount (₹) |\n| --- | --- | --- |\n| 15 June 2026 | 15% | 45,000 |\n| 15 September 2026 | 45% | 1,35,000 |\n| 15 December 2026 | 75% | 2,25,000 |\n| 15 March 2027 | 100% | 3,00,000 |\n\n**Interest (corresponds to s.234C)**\n\n| Instalment | Shortfall (₹) | Months | Interest (₹) |\n| --- | --- | --- | --- |\n| June | 45,000 | 3 | 1,350 |\n| September | 1,35,000 | 3 | 4,050 |\n| December | Nil (paid 3,00,000) | - | Nil |\n| March | Nil | - | Nil |\n| **Total** | | | **5,400** |\n\nNo interest under s.234B as 100% is paid before 31 March."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q13",
+          "type": "interview",
+          "prompt": "What are the consequences of failure to deduct or pay TDS?",
+          "answer": "- The payer is an assessee in default for the tax not deducted or not paid (corresponds to s.201(1)); no default if the payee has included the income in a return and paid tax, with an accountant's certificate.\n- Interest at 1% per month from the date deductible to the date deducted, and 1.5% per month from the date deducted to the date paid (s.201(1A)).\n- Disallowance in computing business income: 30% for resident payees, 100% for non-resident payees, until TDS is paid.\n- Penalty equal to the tax not deducted (corresponds to s.271C), now rationalised by the Finance Act 2026 with the penalty imposed in the common order.\n- Prosecution for failure to pay tax deducted, subject to the Finance Act 2026 decriminalisation of certain defaults (for example TDS on payments in kind).\n- Fee of ₹200 per day for late statements."
+        },
+        {
+          "id": "ca-fin-dt-05-tds-advance-tax-q14",
+          "type": "interview",
+          "prompt": "Explain the TCS changes on foreign remittances and overseas tour packages made by the Finance Act 2026.",
+          "answer": "- Overseas tour programme packages: flat 2% from the first rupee, replacing 5% up to ₹10 lakh and 20% above.\n- LRS remittances for education and medical treatment: 2% on amounts above ₹10 lakh (earlier 5%).\n- Other LRS remittances: 20% above ₹10 lakh, unchanged.\n- TCS on liquor, scrap and specified minerals raised from 1% to 2%; tendu leaves reduced from 5% to 2%.\n- No TCS where the buyer is liable to deduct TDS on the same transaction.\n- TCS is credited against the buyer's tax liability; it is not an additional tax."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 4 study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: TDS and TCS",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-dt-06-assessment-appeals",
+      "title": "Assessment, Appeals, Revision, Penalties and Prosecution",
+      "level": "intermediate",
+      "summary": "Scrutiny and reassessment, appeals and revision, and the penalty and prosecution regime as rationalised by the Finance Act 2026.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Assessment and reassessment",
+          "body": "Return filing is in section 263 of the Income-tax Act, 2025 (corresponds to s.139 of the 1961 Act). The Finance Act 2026 set the due dates as 31 July for individuals filing the simplest returns, 31 August for non-audit business cases and trusts, and 31 October (30 November for transfer pricing cases) for audit cases. A revised return can be filed up to 31 March after the end of the tax year, (earlier 31 December); a revision after the old window attracts a fee of ₹1,000 where total income is up to ₹5 lakh and ₹5,000 in other cases.\n\nTypes of assessment (named by the corresponding 1961 Act section; check 2025 Act numbering in study material):\n- **Summary processing** (s.143(1)): arithmetical errors, incorrect claims apparent from the return, disallowance of items in the audit report.\n- **Scrutiny** (s.143(3)): notice within 3 months from the end of the financial year in which the return is filed; conducted in faceless mode.\n- **Best judgment** (s.144): on failure to file a return or comply with notices.\n- **Income escaping assessment** (s.147 to 151): an inquiry and show-cause stage precedes the notice. Notice may be issued up to 3 years from the end of the relevant year, or up to 5 years if escaped income is ₹50 lakh or more, with approval of the specified authority.\n- **Search assessments**: the Finance Act 2026 extends the time limit for specified persons to 18 months from the initiation of search.\n\n**Updated return**: may be filed within 48 months from the end of the relevant year by paying additional tax of 25%, 50%, 60% or 70% of tax and interest (within 12, 24, 36 or 48 months). The Finance Act 2026 allows an updated return even after reassessment proceedings start, at a further 10% additional tax, and grants no penalty on the additional income disclosed."
+        },
+        {
+          "heading": "Appeals and revision",
+          "body": "| Forum | Against | Time limit |\n| --- | --- | --- |\n| Joint Commissioner (Appeals) or Commissioner (Appeals) | Assessment and penalty orders | 30 days from service of order |\n| Income Tax Appellate Tribunal | Order of CIT(A), DRP-directed orders, revision orders | 2 months from receipt of order |\n| High Court | Substantial question of law from ITAT orders | 120 days |\n| Supreme Court | High Court judgment (certified fit) | As per the Supreme Court rules |\n\n**Pre-deposit for stay**: the Finance Act 2026 announcement reduces the pre-deposit for stay of demand pending first appeal from 20% to **10%**, computed on core tax demand only, and interest on penalty is held in abeyance during the first appeal.\n\n**Revision**:\n- By the Principal Commissioner when an order is **erroneous and prejudicial to the interests of revenue** (corresponds to s.263): within 2 years from the end of the financial year of the order; the assessee must be heard.\n- On the assessee's application or suo motu, in favour of the assessee (corresponds to s.264): application within 1 year; cannot be made where an appeal is pending or the time for appeal has not expired and the right is not waived.\n\n**Dispute Resolution Panel** is available to eligible assessees (foreign companies and transfer pricing cases) against draft orders."
+        },
+        {
+          "heading": "Penalties after the Finance Act 2026",
+          "body": "**Under-reporting and misreporting of income** (corresponds to s.270A):\n\n| Situation | Penalty |\n| --- | --- |\n| Under-reported income | 50% of tax payable on under-reported income |\n| Under-reported income in consequence of misreporting (misrepresentation, unrecorded investments, false entries, etc.) | 200% of such tax |\n\nTax payable on under-reported income = tax on (returned income + under-reported income) minus tax on returned income.\n\nFinance Act 2026 changes:\n- **One common order**: assessment and penalty are decided together in a single order after hearing.\n- **Immunity** from penalty and prosecution (corresponds to s.270AA), earlier only for under-reporting, is extended to misreporting on payment of tax plus an amount equal to 100% of tax (sections 478 and 479 of the 2025 Act).\n- **Special income** (cash credits, unexplained investments, money, expenditure; corresponds to s.115BBE): rate reduced from 60% to **30%** (section 195 of the 2025 Act); the separate 10% penalty is merged into the 200% misreporting penalty.\n- **Technical defaults** (failure to get accounts audited, furnish transfer pricing report, file statements of financial transactions) are converted from penalties into a fee per day with a cap.\n- Crypto-asset statement: ₹200 per day for non-filing, ₹50,000 for inaccurate statements not corrected (section 509).\n\n**Prosecution** (corresponds to s.275A to 280): non-production of books and TDS defaults on payments in kind are decriminalised; minor offences carry only a fine; other offences carry simple imprisonment of up to 2 years (or 6 months where the earlier maximum was 2 years); courts may convert imprisonment into a fine."
+        },
+        {
+          "heading": "Exam approach and common mistakes",
+          "body": "- Always compute penalty on the **tax** effect, not on the income.\n- Separate under-reported income into the misreporting and non-misreporting components; apply 200% and 50% respectively.\n- For revision questions, test both limbs of \"erroneous\" and \"prejudicial\"; an order adopting one of two possible views is not erroneous.\n- In reassessment questions, first fix the time limit (3 years, or 5 years for ₹50 lakh and above), then the procedure (inquiry, show-cause, order, notice).\n- Do not apply the old 60% rate on unexplained income for tax year 2026-27."
+        }
+      ],
+      "keyPoints": [
+        "Return filing: section 263 of the 2025 Act; due dates 31 July, 31 August (non-audit business and trusts), 31 October (audit).",
+        "Reassessment: 3 years, or 5 years where escaped income is ₹50 lakh or more.",
+        "Updated return: within 48 months; additional tax 25%, 50%, 60%, 70%; allowed after reassessment starts with a further 10%.",
+        "Appeals: CIT(A) 30 days; ITAT 2 months; High Court 120 days; pre-deposit reduced to 10% of core demand.",
+        "Penalty: 50% of tax on under-reported income; 200% for misreporting; immunity now covers misreporting on paying 100% of tax.",
+        "Unexplained income taxed at 30% under section 195 of the 2025 Act after the Finance Act 2026."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-case1",
+          "title": "Case: Nair Builders (a firm)",
+          "body": "Nair Builders, a partnership firm, filed its return for tax year 2026-27 declaring total income of ₹50,00,000. In scrutiny the Assessing Officer made these additions:\n\n| Addition | Amount (₹) | Nature |\n| --- | --- | --- |\n| Disallowance of excess depreciation (a bona fide claim, fully disclosed) | 8,00,000 | Under-reporting, not misreporting |\n| Unrecorded sales found in a survey | 12,00,000 | Misreporting (suppression of facts) |\n\nAssessed income ₹70,00,000. Take the firm's tax at 30% plus 4% cess (31.2%); no surcharge."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q01",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-06-assessment-appeals-case1",
+          "prompt": "Compute the penalty on Nair Builders for the under-reported income that is not misreporting (the depreciation addition). Answer in rupees.",
+          "answer": 124800,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Tax on ₹8,00,000 at 31.2% = ₹2,49,600. Penalty at 50% = **₹1,24,800**."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q02",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-06-assessment-appeals-case1",
+          "prompt": "Compute the penalty on Nair Builders for the misreported income (unrecorded sales). Answer in rupees.",
+          "answer": 748800,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Tax on ₹12,00,000 at 31.2% = ₹3,74,400. Penalty at 200% = **₹7,48,800**."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q03",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-06-assessment-appeals-case1",
+          "prompt": "Under the Finance Act 2026 rules, how would the penalty proceedings for Nair Builders be conducted?",
+          "options": [
+            "The penalty is decided in the same common order as the assessment, after hearing",
+            "A separate penalty order must be passed within 6 months after the appeal is decided",
+            "Penalty can be levied only by the Commissioner (Appeals)",
+            "No penalty can be levied once tax is paid"
+          ],
+          "answer": 0,
+          "explanation": "The Finance Act 2026 combines assessment and penalty proceedings into a single common order, after giving the assessee an opportunity of hearing."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q04",
+          "type": "truefalse",
+          "caseId": "ca-fin-dt-06-assessment-appeals-case1",
+          "prompt": "After the Finance Act 2026, Nair Builders can seek immunity from penalty even for the misreported income by paying the tax and an additional amount equal to 100% of that tax, if no appeal is filed.",
+          "answer": true,
+          "explanation": "Immunity (corresponds to s.270AA) was extended to misreporting cases on payment of tax plus 100% of tax, under sections 478 and 479 of the 2025 Act, subject to conditions such as not filing an appeal and no prosecution having been initiated."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q05",
+          "type": "numeric",
+          "prompt": "An updated return is filed after 24 months but within 36 months from the end of the relevant period. Aggregate tax and interest on the additional income is ₹2,00,000. Compute the additional tax payable. Answer in rupees.",
+          "answer": 120000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "The additional tax is 60% of aggregate tax and interest where the updated return is filed after 24 months and within 36 months: 60% x 2,00,000 = ₹1,20,000. (25% within 12 months, 50% within 24 months, 70% within 48 months.)"
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q06",
+          "type": "mcq",
+          "prompt": "Income of ₹30 lakh escaped assessment for a year. What is the time limit for issuing the reassessment notice?",
+          "options": [
+            "3 years from the end of the relevant year",
+            "5 years from the end of the relevant year",
+            "10 years from the end of the relevant year",
+            "No time limit"
+          ],
+          "answer": 0,
+          "explanation": "The extended 5-year limit applies only where escaped income is ₹50 lakh or more. For ₹30 lakh the limit is 3 years."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q07",
+          "type": "mcq",
+          "prompt": "What is the rate of tax on unexplained cash credits for tax year 2026-27 after the Finance Act 2026?",
+          "options": [
+            "30%",
+            "60%",
+            "78%",
+            "Normal slab rates"
+          ],
+          "answer": 0,
+          "explanation": "Section 195 of the 2025 Act (corresponds to s.115BBE) now taxes such income at 30%, down from 60%. The separate 10% penalty was merged into the 200% misreporting penalty."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q08",
+          "type": "multi",
+          "prompt": "Which are correct statements about revision by the Principal Commissioner of an order prejudicial to revenue? Select all that apply.",
+          "options": [
+            "The order must be both erroneous and prejudicial to the interests of revenue",
+            "The assessee must be given an opportunity of being heard",
+            "An order passed without making inquiries that should have been made is deemed erroneous",
+            "The assessee can apply for this revision",
+            "It can be done at any time without limit"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Both conditions must exist, the assessee must be heard, and failure to inquire is deemed erroneous (corresponds to s.263 and its Explanation 2). The assessee applies under the other revision provision (s.264). The time limit is 2 years from the end of the financial year of the order."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: an appeal to the Income Tax Appellate Tribunal must be filed within ___ months of receiving the order.",
+          "accept": [
+            "2",
+            "two",
+            "60 days"
+          ],
+          "explanation": "An appeal to the ITAT lies within two months from the date the order is communicated (corresponds to s.253(3))."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q10",
+          "type": "mcq",
+          "prompt": "Which return due date applies for tax year 2026-27 to a partnership firm whose accounts are not required to be audited?",
+          "options": [
+            "31 August 2027",
+            "31 July 2027",
+            "31 October 2027",
+            "30 November 2027"
+          ],
+          "answer": 0,
+          "explanation": "The Finance Act 2026 moved the due date for non-audit business cases and trusts to 31 August; 31 July remains for individuals filing the simplest returns."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q11",
+          "type": "practical",
+          "top": true,
+          "prompt": "Explain the procedure for reassessment of income escaping assessment, from information to order, as applicable for the May 2027 attempt.",
+          "answer": "(Provisions corresponding to ss.147 to 151 of the 1961 Act; check 2025 Act numbering.)\n\n| Step | What happens |\n| --- | --- |\n| 1. Information | The AO has information suggesting income has escaped (flagged by risk management, audit objection, search or survey material, etc.) |\n| 2. Inquiry and show-cause | The AO may conduct inquiry and must give the assessee an opportunity of being heard by a show-cause notice, with the information |\n| 3. Order | The AO decides by an order whether it is a fit case, with approval of the specified authority |\n| 4. Notice | Notice is issued within 3 years from the end of the relevant year, or within 5 years if escaped income is ₹50 lakh or more |\n| 5. Return | The assessee files a return in response; an updated return can now be filed with a further 10% additional tax |\n| 6. Assessment | Reassessment order, which may cover other escaped income noticed during proceedings |\n\nThe Finance Act 2026 clarifies that the notice is issued by the jurisdictional AO, and penalty is decided in the common order."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q12",
+          "type": "interview",
+          "prompt": "Distinguish between revision in favour of revenue and revision in favour of the assessee.",
+          "answer": "- **Prejudicial to revenue** (corresponds to s.263): suo motu by the Principal Commissioner or Commissioner; order must be erroneous and prejudicial; within 2 years from the end of the financial year of the order; hearing required; appeal lies to ITAT.\n- **In favour of assessee** (corresponds to s.264): on application within 1 year of the order, or suo motu; cannot be used where an appeal is pending or the appeal time has not expired (unless waived); the order cannot be prejudicial to the assessee; no appeal against it, but writ jurisdiction is available.\n- Section 263 can cover matters not considered in appeal; it cannot touch issues decided by the CIT(A)."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q13",
+          "type": "interview",
+          "prompt": "Summarise the prosecution and penalty rationalisation made by the Finance Act 2026.",
+          "answer": "- Assessment and penalty combined into one order; interest on penalty held in abeyance during the first appeal.\n- Immunity extended to misreporting on payment of tax plus 100% of tax; not available where prosecution has been initiated.\n- Technical defaults (audit, TP report, SFT) moved from penalties to fees per day with a cap.\n- Non-production of books and TDS on payments in kind decriminalised; minor offences only fine.\n- Imprisonment made simple and capped at 2 years (6 months where earlier 2 years); courts may convert imprisonment into fine.\n- Unexplained income taxed at 30%; the separate 10% penalty merged into the 200% misreporting penalty.\n- New penalties for crypto-asset statement defaults."
+        },
+        {
+          "id": "ca-fin-dt-06-assessment-appeals-q14",
+          "type": "mcq",
+          "prompt": "Which forum hears an appeal against an order of the Commissioner (Appeals)?",
+          "options": [
+            "Income Tax Appellate Tribunal",
+            "High Court directly",
+            "Dispute Resolution Panel",
+            "Board for Advance Rulings"
+          ],
+          "answer": 0,
+          "explanation": "Orders of the Commissioner (Appeals) are appealable to the ITAT. The High Court hears appeals from the ITAT on substantial questions of law."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 4 study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-dt-07-gaar",
+      "title": "General Anti-Avoidance Rule and Tax Planning",
+      "level": "advanced",
+      "summary": "Tax planning, avoidance and evasion; GAAR in Chapter XI of the 2025 Act: impermissible avoidance arrangements, tainted elements, the ₹3 crore threshold and consequences.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Planning, avoidance and evasion",
+          "body": "| Concept | Meaning | Legal status |\n| --- | --- | --- |\n| Tax planning | Arranging affairs within the letter and spirit of the law to use incentives the law intends (choosing a regime, claiming s.54-type exemptions) | Legitimate |\n| Tax avoidance | Arrangements that comply with the letter of the law but defeat its intent, often with little commercial substance | Legal but countered by SAAR and GAAR |\n| Tax evasion | Suppressing income, inflating expenses, false documents | Illegal: penalty and prosecution |\n\nIndian courts have moved between positions. In *McDowell and Co. Ltd v CTO* (1985) the Supreme Court said colourable devices cannot be part of tax planning. In *Union of India v Azadi Bachao Andolan* (2003) it upheld treaty-based planning under the India-Mauritius treaty. In *Vodafone International Holdings B.V. v Union of India* (2012) it looked at the transaction as a whole and held the offshore share transfer not taxable under the law then in force, which led to the retrospective indirect transfer amendment. GAAR, effective from 1 April 2017 under the 1961 Act, gives a statutory basis for the substance-over-form approach.\n\n**Specific anti-avoidance rules (SAAR)** target known schemes: transfer pricing, thin capitalisation (interest limitation), clubbing, deemed dividend, s.50C stamp duty value, bonus and dividend stripping. **GAAR** is a general rule for arrangements that escape the SAARs."
+        },
+        {
+          "heading": "GAAR in the Income-tax Act, 2025",
+          "body": "GAAR is in **Chapter XI** of the Income-tax Act, 2025, sections 178 onwards (corresponds to sections 95 to 102 of the 1961 Act):\n- **Section 178**: applicability; GAAR may be invoked notwithstanding anything in the Act, and the arrangement may be declared an impermissible avoidance arrangement (IAA).\n- **Section 179**: an IAA is an arrangement whose **main purpose is to obtain a tax benefit** and which has at least one **tainted element**:\n  - creates rights or obligations not ordinarily created between persons dealing at arm's length;\n  - results in misuse or abuse of the provisions of the Act;\n  - lacks commercial substance or is deemed to lack it (in whole or part);\n  - is entered into or carried out by means or in a manner not ordinarily employed for bona fide purposes.\n- **Section 180**: arrangements deemed to lack commercial substance (round trip financing, accommodating party, elements that offset each other, disguising location or ownership).\n- **Section 181**: consequences: disregarding or recharacterising the arrangement, disregarding an accommodating party, treating parties as one, reallocating income and expenditure, relocating residence or situs, denying treaty benefits, and recharacterising equity as debt and the reverse.\n\nAn arrangement is presumed to have the main purpose of obtaining a tax benefit if a step or part has that purpose, even if the whole does not. Section 159(6) makes Chapter XI apply even where a tax treaty is more beneficial."
+        },
+        {
+          "heading": "Thresholds, exclusions and procedure",
+          "body": "Under the rules (corresponding to rule 10U of the 1962 Rules, to be read with the new rules):\n- GAAR does not apply where the **aggregate tax benefit** to all parties in a tax year does not exceed **₹3 crore**.\n- Excluded: FPIs not claiming treaty benefits; non-resident investors in FPIs; income from transfer of investments made before 1 April 2017.\n\nProcedure:\n1. The Assessing Officer refers the matter to the Principal Commissioner.\n2. The Principal Commissioner hears the assessee; if not satisfied with the objection, refers it to the **Approving Panel** (a High Court judge as chair, an officer of Principal Chief Commissioner rank and an academic or scholar).\n3. The Panel's directions bind the AO and the assessee; the AO passes the order with the Panel's approval.\n4. Time limits apply to each stage; the period is excluded from the assessment time limit.\n\n**Tax benefit** includes reduction, avoidance or deferral of tax, increase in refund, reduction in income or increase in loss, including under a treaty.\n\n**Worked example.** A group routes service income of ₹15 crore through a shell entity in a nil-tax jurisdiction instead of the Indian company taxed at 25.168%. Tax benefit = 15,00,00,000 x 25.168% = ₹3,77,52,000, which exceeds ₹3 crore, so GAAR can be considered."
+        },
+        {
+          "heading": "GAAR and treaties; common mistakes",
+          "body": "Treaty abuse is now also countered by the **principal purpose test (PPT)** brought into many of India's treaties by the Multilateral Instrument (MLI). The PPT denies a treaty benefit if obtaining it was one of the principal purposes of the arrangement, unless granting it is in line with the object of the treaty. GAAR (main purpose) and PPT (one of the principal purposes) can apply together; the CBDT has clarified that where both GAAR and a SAAR apply, the more appropriate provision is used.\n\nCommon mistakes:\n- Treating any tax saving as avoidance; legitimate use of exemptions intended by law is planning.\n- Applying the ₹3 crore threshold per party instead of aggregate for all parties.\n- Forgetting that GAAR overrides a treaty under section 159(6).\n- Writing \"GAAR applies\" without naming a tainted element."
+        }
+      ],
+      "keyPoints": [
+        "GAAR is in Chapter XI of the 2025 Act (section 178 onwards; corresponds to ss.95 to 102 of the 1961 Act); section 179 defines an IAA.",
+        "IAA = main purpose of tax benefit + one tainted element (non-arm's length rights, misuse of provisions, lack of commercial substance, non-bona fide manner).",
+        "GAAR does not apply if aggregate tax benefit to all parties in a tax year is ₹3 crore or less.",
+        "Investments made before 1 April 2017 and FPIs not claiming treaty benefits are excluded.",
+        "Approving Panel directions bind both the AO and the assessee.",
+        "Section 159(6): GAAR applies even if a tax treaty is more beneficial; MLI adds a principal purpose test."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-dt-07-gaar-case1",
+          "title": "Case: Sundar Group's offshore holding structure",
+          "body": "Sundar Group sets up S Ltd in Country X in 2025 with nominal paid-up capital and no employees or office of its own (it uses a corporate service provider's address). S Ltd acquires 40% of an unlisted Indian company, Sundar Retail Pvt Ltd, from the Indian promoter family's Cayman entity in January 2026, funded by an interest-free loan from the Cayman entity. In tax year 2026-27, S Ltd sells these shares and claims that the capital gain of ₹20 crore is not taxable in India under the India-Country X tax treaty, which (assume) gives the right to tax such gains only to the country of residence. The Cayman entity acquired the shares in 2015.\n\nThe Assessing Officer believes the main purpose of interposing S Ltd was to obtain treaty benefits."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-dt-07-gaar-q01",
+          "type": "multi",
+          "caseId": "ca-fin-dt-07-gaar-case1",
+          "prompt": "Which tainted elements can the Assessing Officer point to in Sundar Group's arrangement? Select all that apply.",
+          "options": [
+            "Lack of commercial substance: S Ltd has no employees, office or business purpose",
+            "Location of the asset disguised through an interposed entity",
+            "Interest-free funding not ordinarily granted between parties at arm's length",
+            "Payment of stamp duty on the share transfer",
+            "Use of a corporate service provider's address, which is normal for all bona fide companies"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "No substance, disguising location or ownership through a conduit (deemed lack of commercial substance under section 180), and non-arm's length interest-free funding are tainted elements. Stamp duty payment is neutral, and using a service provider's address is not by itself a tainted element."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q02",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-07-gaar-case1",
+          "prompt": "Can S Ltd rely on grandfathering for investments made before 1 April 2017?",
+          "options": [
+            "No, because S Ltd made its investment in January 2026",
+            "Yes, because the Cayman entity acquired the shares in 2015",
+            "Yes, because Country X is a treaty country",
+            "No, because grandfathering applies only to listed shares"
+          ],
+          "answer": 0,
+          "explanation": "The exclusion applies to income from transfer of investments made before 1 April 2017 by the transferor. S Ltd acquired the shares in 2026, so it cannot claim grandfathering, regardless of when the Cayman entity acquired them."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q03",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-07-gaar-case1",
+          "prompt": "Assume the gain would be taxable in India at 12.5% (ignore surcharge and cess) if the treaty benefit is denied. Compute the tax benefit claimed by S Ltd. Answer in ₹ lakh.",
+          "answer": 250,
+          "tolerance": 0.5,
+          "unit": "₹ lakh",
+          "explanation": "Tax benefit = 12.5% x ₹20 crore = ₹2.5 crore = ₹250 lakh. On its own it is below ₹3 crore, but the threshold is applied to the aggregate tax benefit to all parties to the arrangement in the tax year, so any benefit to other group parties is added before testing."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q04",
+          "type": "truefalse",
+          "caseId": "ca-fin-dt-07-gaar-case1",
+          "prompt": "If GAAR is invoked, S Ltd can argue that the India-Country X treaty prevails over Chapter XI because a treaty overrides domestic law where it is more beneficial.",
+          "answer": false,
+          "explanation": "Section 159(6) of the 2025 Act (corresponds to s.90(2A) of the 1961 Act) provides that Chapter XI (GAAR) applies even if it is not beneficial to the assessee, so the treaty cannot be used to override GAAR."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q05",
+          "type": "numeric",
+          "prompt": "An arrangement shifts service income of ₹15 crore from an Indian company taxed at an effective 25.168% to an entity paying no tax. Compute the tax benefit. Answer in rupees.",
+          "answer": 37752000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "15,00,00,000 x 25.168% = ₹3,77,52,000. This exceeds the ₹3 crore threshold."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q06",
+          "type": "numeric",
+          "prompt": "An arrangement gives a tax benefit of ₹1.2 crore to Party A and ₹1.5 crore to Party B in tax year 2026-27. Compute the aggregate tax benefit for the GAAR threshold test. Answer in ₹ lakh.",
+          "answer": 270,
+          "tolerance": 0.5,
+          "unit": "₹ lakh",
+          "explanation": "Aggregate tax benefit = 120 + 150 = ₹270 lakh (₹2.7 crore). It does not exceed ₹3 crore, so GAAR does not apply to this arrangement for that year."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q07",
+          "type": "mcq",
+          "prompt": "Which section of the Income-tax Act, 2025 defines an impermissible avoidance arrangement?",
+          "options": [
+            "Section 179",
+            "Section 165",
+            "Section 206",
+            "Section 195"
+          ],
+          "answer": 0,
+          "explanation": "Section 179 (in Chapter XI) defines an IAA. Section 165 deals with arm's length price, 206 with MAT and 195 with tax on special income."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q08",
+          "type": "mcq",
+          "prompt": "Who constitutes the Approving Panel under GAAR?",
+          "options": [
+            "A chairperson who is or has been a High Court judge, an IRS officer of Principal Chief Commissioner rank, and an academic or scholar",
+            "Three members of the ITAT",
+            "The Assessing Officer, the TPO and the Commissioner (Appeals)",
+            "Two CBDT members and a Supreme Court judge"
+          ],
+          "answer": 0,
+          "explanation": "The Approving Panel has a judicial chair (a current or former High Court judge), a senior tax officer and an academic or scholar with special knowledge of direct taxes, business accounts or international trade."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: GAAR does not apply if the aggregate tax benefit to all parties in a tax year does not exceed ₹___ crore.",
+          "accept": [
+            "3",
+            "three"
+          ],
+          "explanation": "The ₹3 crore threshold is prescribed in the rules (corresponds to rule 10U(1)(a) of the 1962 Rules)."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q10",
+          "type": "mcq",
+          "prompt": "Which of these is tax planning rather than tax avoidance?",
+          "options": [
+            "A domestic company opting for the 22% concessional regime after comparing tax outflows",
+            "Routing a loan through a related shell company to create round-trip interest deductions",
+            "Interposing a conduit entity in a treaty country with no substance to claim treaty relief",
+            "Sale and immediate buyback of shares at a loss solely to set off a gain"
+          ],
+          "answer": 0,
+          "explanation": "Choosing a regime the law offers is legitimate planning. Round tripping, conduit entities and wash sales are classic avoidance schemes that GAAR or SAARs target."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q11",
+          "type": "truefalse",
+          "prompt": "An arrangement is presumed to have the main purpose of obtaining a tax benefit if obtaining the benefit is the main purpose of a step in it, even if it is not the main purpose of the whole arrangement.",
+          "answer": true,
+          "explanation": "The law treats an arrangement as having a main purpose of tax benefit if the main purpose of a step or part of it is to obtain a tax benefit."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q12",
+          "type": "practical",
+          "top": true,
+          "prompt": "Explain the consequences that may be applied once an arrangement is declared an impermissible avoidance arrangement, with one example for each of three consequences.",
+          "answer": "(Section 181 of the 2025 Act; corresponds to s.98 of the 1961 Act.) The tax consequences are determined as appropriate, including:\n\n| Consequence | Example |\n| --- | --- |\n| Disregarding, combining or recharacterising any step or the whole arrangement | A series of share transfers through intermediate entities treated as a direct sale by the Indian seller |\n| Treating the arrangement as if it had not been entered into | Round trip loan ignored; interest deduction denied |\n| Disregarding an accommodating party or treating parties as one | Conduit company in a treaty country ignored; income taxed in the hands of the real owner |\n| Reallocating income, expenditure, relief or rebate among parties | Expenses booked in a loss company reallocated to the profit company |\n| Treating the place of residence or situs of an asset differently | Asset deemed situated in India |\n| Denying treaty benefit | Capital gains exemption under a tax treaty denied |\n| Recharacterising equity as debt or the reverse, capital as revenue | Interest on 'loan' treated as dividend, deduction denied |\n\nThe consequences are determined in the assessment, following the Approving Panel's directions."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q13",
+          "type": "interview",
+          "prompt": "Distinguish GAAR from SAAR and explain when each is applied.",
+          "answer": "- **SAAR** targets a specific, defined scheme with objective conditions (transfer pricing, interest limitation for thin capitalisation, s.50C stamp duty value, dividend and bonus stripping). It applies automatically when conditions are met.\n- **GAAR** (Chapter XI of the 2025 Act) is a general, purpose-based rule: main purpose of tax benefit plus a tainted element; it involves a procedure with the Principal Commissioner and the Approving Panel and a ₹3 crore threshold.\n- GAAR can apply where SAARs do not cover the arrangement. The CBDT has clarified that the provisions are not mutually exclusive; GAAR can be invoked where the SAAR does not address the abuse fully.\n- GAAR applies over treaties (section 159(6)); SAARs apply subject to treaty provisions unless the treaty itself permits them."
+        },
+        {
+          "id": "ca-fin-dt-07-gaar-q14",
+          "type": "interview",
+          "prompt": "What did the Supreme Court decide in Union of India v Azadi Bachao Andolan, and how does the present law differ?",
+          "answer": "- The Court (2003) upheld the CBDT circular that a Mauritius tax residency certificate was sufficient evidence of residence and beneficial ownership under the India-Mauritius treaty, and that treaty shopping was not by itself illegal; it was for the government to renegotiate treaties.\n- Present position: India amended the Mauritius and Singapore treaties to tax capital gains on shares acquired from 1 April 2017; GAAR was introduced with a main purpose test overriding treaties; the MLI added a principal purpose test; a TRC is necessary but not sufficient.\n- So a conduit structure without substance can now be denied treaty benefits under GAAR or PPT, even with a TRC."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 4 study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department",
+          "url": "https://www.incometaxindia.gov.in/"
+        },
+        {
+          "title": "OECD: Base erosion and profit shifting",
+          "url": "https://www.oecd.org/tax/beps/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-dt-08-transfer-pricing",
+      "title": "Transfer Pricing and Related International Provisions",
+      "level": "advanced",
+      "summary": "Associated enterprises, international and specified domestic transactions, ALP methods and range, safe harbour and APA after Finance Act 2026, secondary adjustment and interest limitation.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Scope: who and what",
+          "body": "Transfer pricing is in **sections 161 to 173** of the Income-tax Act, 2025 (corresponds to sections 92 to 92F of the 1961 Act). Section 161 requires income from an international transaction or specified domestic transaction to be computed having regard to the **arm's length price (ALP)**; section 165 deals with determination of ALP.\n\n**Associated enterprises** (corresponds to s.92A): one enterprise participates in the management, control or capital of the other, directly or indirectly. Deemed AE tests include:\n- holding 26% or more of voting power;\n- a loan of 51% or more of the book value of total assets of the borrower;\n- guarantee of 10% or more of total borrowings;\n- appointing more than half the board or one or more executive directors;\n- complete dependence on the other for know-how, patents or similar for manufacture;\n- 90% or more of raw materials supplied by the other (or persons specified by it) at prices it influences.\n\n**International transaction** (corresponds to s.92B): a transaction between two or more AEs, at least one a non-resident, in tangible or intangible property, services, lending or borrowing, cost sharing, or business restructuring. A transaction with an unrelated person is deemed to be with an AE if the terms are determined in substance by the AE.\n\n**Specified domestic transaction** (corresponds to s.92BA): certain domestic transactions (such as with related parties of a business claiming profit-linked deductions) where the aggregate exceeds **₹20 crore**."
+        },
+        {
+          "heading": "Methods and the range concept",
+          "body": "| Method | Use |\n| --- | --- |\n| Comparable Uncontrolled Price (CUP) | Same or similar product with reliable price data |\n| Resale Price Method (RPM) | Distributors who resell without much value addition: ALP = resale price less normal gross margin |\n| Cost Plus Method (CPM) | Contract manufacturers and service providers: ALP = cost plus normal gross mark-up |\n| Profit Split Method (PSM) | Integrated transactions, unique intangibles |\n| Transactional Net Margin Method (TNMM) | Net profit indicator relative to costs, sales or assets; most common |\n| Other method | Any method that gives a price that has been or would be charged in comparable uncontrolled conditions |\n\nThe **most appropriate method** is chosen by the functions, assets and risks (FAR) analysis.\n\n**Range and mean** (corresponding rule 10CA):\n- If there are **6 or more** comparables (using TNMM, CPM, RPM or CUP), the arm's length range is the **35th to 65th percentile**. If the transaction price is within the range it is accepted; otherwise the **median** is the ALP.\n- If fewer than 6 comparables, the **arithmetic mean** is the ALP, with a tolerance: if the transaction price does not differ from the mean by more than **3%** of the transaction price (1% for wholesale traders), the transaction price is accepted.\n\n**Worked example (RPM).** Goods bought from an AE at ₹950 per unit and resold to unrelated customers at ₹1,200. Normal gross margin of comparables: 25% of sales. ALP = 1,200 x 75% = ₹900. For 10,000 units the adjustment is (950 - 900) x 10,000 = ₹5,00,000."
+        },
+        {
+          "heading": "Compliance, safe harbour and APA",
+          "body": "- **Documentation** (corresponds to s.92D): where aggregate international transactions exceed ₹1 crore; master file and country-by-country reporting for large groups.\n- **Accountant's report** (corresponds to s.92E): by the specified date (one month before the return due date of 30 November).\n- **Reference to TPO** (corresponds to s.92CA): the AO may refer ALP computation to the Transfer Pricing Officer; the TPO's order binds the AO.\n- **Dispute Resolution Panel**: available against the draft order in TP cases.\n\n**Safe harbour (Finance Act 2026 changes)**: software development, IT-enabled services, KPO and contract R&D are combined into a single category of **IT services**, with a common safe harbour margin of **15.5%**; the threshold rises from ₹300 crore to **₹2,000 crore**; approval is automated and can continue for up to 5 years. A safe harbour of 15% on cost applies to data centre services provided by a related Indian entity to a foreign cloud services company.\n\n**Advance Pricing Agreement** (corresponds to s.92CC): unilateral, bilateral or multilateral; valid up to 5 future years with rollback for up to 4 previous years. The Finance Act 2026 targets completion of unilateral APAs for IT services within 2 years (extendable by 6 months) and extends modified returns under an APA to associated entities.\n\n**Secondary adjustment** (corresponds to s.92CE): where a primary adjustment exceeds ₹1 crore, the excess money must be repatriated within 90 days; otherwise it is treated as an advance to the AE and interest is imputed (or the assessee may pay additional tax of 18% plus surcharge on the excess money and be relieved of repatriation).\n\n**Interest limitation** (corresponds to s.94B): interest paid by an Indian company or PE to a non-resident AE (or on debt guaranteed by an AE) exceeding ₹1 crore is disallowed to the extent it exceeds **30% of EBITDA**; the disallowed interest can be carried forward for 8 years. Banks and insurance companies are excluded."
+        },
+        {
+          "heading": "Penalties and common mistakes",
+          "body": "Penalty rules (as in the 1961 Act): failure to keep documentation or furnish information is 2% of the value of each international transaction; the Finance Act 2026 converts failure to furnish the accountant's report into a fee per day with a cap. A TP adjustment is under-reported income; if it arises from misreporting (for example failure to record the transaction), the 200% penalty applies.\n\nCommon mistakes:\n- Using the 3% tolerance when 6 or more comparables exist (use the 35th-65th percentile range and the median).\n- Allowing a downward adjustment: an ALP adjustment cannot reduce income or increase loss.\n- Applying the interest limitation to interest paid to resident lenders not guaranteed by an AE.\n- Forgetting that the AE test is about the relationship at any time during the year."
+        }
+      ],
+      "keyPoints": [
+        "Transfer pricing: sections 161 to 173 of the 2025 Act; section 161 computes income with regard to ALP, section 165 determines ALP.",
+        "AE tests include 26% voting power, loan of 51% of book value of assets, guarantee of 10% of borrowings, 90% raw material supply.",
+        "6 or more comparables: 35th-65th percentile range, median as ALP; fewer: arithmetic mean with 3% tolerance (1% for wholesale traders).",
+        "Finance Act 2026: single IT services safe harbour at 15.5%, threshold ₹2,000 crore; APA up to 5 years plus 4-year rollback.",
+        "Secondary adjustment if primary adjustment exceeds ₹1 crore; repatriate within 90 days.",
+        "Interest to non-resident AE exceeding ₹1 crore: disallowed above 30% of EBITDA; carry forward 8 years."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-case1",
+          "title": "Case: Zenith India Pvt Ltd",
+          "body": "Zenith India Pvt Ltd is a wholly owned subsidiary of Zenith GmbH, Germany. In tax year 2026-27:\n\n| Transaction | Facts |\n| --- | --- |\n| Import of finished goods from Zenith GmbH for resale | 10,000 units at ₹950 each; resold to unrelated Indian dealers at ₹1,200 each. Comparable independent distributors earn a gross margin of 25% on sales |\n| Import of components from Zenith GmbH | 50,000 units at ₹106 each. Five comparable uncontrolled prices: ₹98, ₹100, ₹102, ₹104, ₹106 |\n| Loan from Zenith GmbH | Interest paid ₹4.5 crore; Zenith India's EBITDA ₹10 crore; no other interest |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q01",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-08-transfer-pricing-case1",
+          "prompt": "Using the resale price method, compute the transfer pricing adjustment on the finished goods imported by Zenith India. Answer in rupees.",
+          "answer": 500000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Per unit (₹) |\n| --- | --- |\n| Resale price | 1,200 |\n| Less: Normal gross margin 25% | (300) |\n| ALP of purchase | 900 |\n| Price paid to AE | 950 |\n| Excess | 50 |\n\nAdjustment = 50 x 10,000 = **₹5,00,000**."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q02",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-08-transfer-pricing-case1",
+          "prompt": "Compute the transfer pricing adjustment for the components imported by Zenith India. Answer in rupees.",
+          "answer": 200000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Only 5 comparables, so the arithmetic mean applies: (98 + 100 + 102 + 104 + 106) / 5 = ₹102.\n\nTolerance = 3% of transaction price ₹106 = ₹3.18. Difference = 106 - 102 = ₹4, which exceeds ₹3.18, so the transaction price is not accepted and the ALP is ₹102.\n\nAdjustment = 4 x 50,000 = **₹2,00,000**."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q03",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-08-transfer-pricing-case1",
+          "prompt": "Compute the interest disallowed under the interest limitation rule for Zenith India. Answer in ₹ lakh.",
+          "answer": 150,
+          "tolerance": 0.5,
+          "unit": "₹ lakh",
+          "explanation": "Interest to a non-resident AE exceeds ₹1 crore, so the rule applies.\n\n| Particulars | ₹ crore |\n| --- | --- |\n| Interest paid | 4.50 |\n| Allowable: 30% of EBITDA ₹10 crore | 3.00 |\n| **Disallowed** | **1.50** |\n\n₹1.5 crore = ₹150 lakh, which can be carried forward for 8 tax years."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q04",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-08-transfer-pricing-case1",
+          "prompt": "If Zenith India's total primary adjustment exceeded ₹1 crore and the excess money is not repatriated within 90 days, what is the consequence?",
+          "options": [
+            "The excess money is deemed an advance to Zenith GmbH and interest income is imputed",
+            "The adjustment is reversed",
+            "Zenith GmbH is taxed in India on the excess as dividend",
+            "Nothing, repatriation is optional with no consequence"
+          ],
+          "answer": 0,
+          "explanation": "Under the secondary adjustment provision (corresponds to s.92CE), unrepatriated excess money is treated as an advance and interest is computed on it, unless the assessee opts to pay additional tax on the excess money."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q05",
+          "type": "mcq",
+          "prompt": "A Indian company holds 20% of the voting power of a foreign company and has guaranteed 12% of its total borrowings. Are they associated enterprises?",
+          "options": [
+            "Yes, because the guarantee is 10% or more of total borrowings",
+            "No, because voting power is below 26%",
+            "No, guarantees are not relevant to AE status",
+            "Yes, but only if the board is common"
+          ],
+          "answer": 0,
+          "explanation": "Any one deeming condition is enough. A guarantee of 10% or more of total borrowings makes them AEs even though the voting power is below 26%."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q06",
+          "type": "mcq",
+          "prompt": "There are 8 valid comparables using TNMM. The transaction price is outside the 35th-65th percentile range. What is the ALP?",
+          "options": [
+            "The median of the data set",
+            "The arithmetic mean",
+            "The 35th percentile",
+            "The 65th percentile"
+          ],
+          "answer": 0,
+          "explanation": "With 6 or more comparables, the range concept applies. If the transaction price falls outside the range, the median (50th percentile) is taken as the ALP."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q07",
+          "type": "truefalse",
+          "prompt": "A transfer pricing adjustment can reduce the income of the assessee if the transaction price was higher than the ALP for a sale by the assessee.",
+          "answer": false,
+          "explanation": "ALP provisions do not apply where the computation would reduce income or increase loss (corresponds to s.92(3) of the 1961 Act)."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q08",
+          "type": "multi",
+          "prompt": "Which changes to safe harbour were announced in the Budget 2026 and given effect for tax year 2026-27? Select all that apply.",
+          "options": [
+            "Software, ITES, KPO and contract R&D combined into a single IT services category",
+            "Common safe harbour margin of 15.5% for IT services",
+            "Eligibility threshold raised from ₹300 crore to ₹2,000 crore",
+            "Safe harbour abolished for IT services",
+            "Automated approval continuing for up to 5 years"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "The Finance Act 2026 package unified IT services, set a 15.5% margin, raised the threshold to ₹2,000 crore and automated approval for up to 5 years. Check the notified rules for exact conditions."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: specified domestic transactions are subject to transfer pricing only if their aggregate value exceeds ₹___ crore in the tax year.",
+          "accept": [
+            "20",
+            "twenty"
+          ],
+          "explanation": "The threshold for specified domestic transactions is ₹20 crore (corresponds to s.92BA)."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q10",
+          "type": "mcq",
+          "prompt": "Which section of the Income-tax Act, 2025 deals with determination of arm's length price?",
+          "options": [
+            "Section 165",
+            "Section 161",
+            "Section 179",
+            "Section 58"
+          ],
+          "answer": 0,
+          "explanation": "Section 165 deals with determination of ALP (corresponds to s.92C). Section 161 is the charging rule for computation with regard to ALP (corresponds to s.92)."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q11",
+          "type": "practical",
+          "top": true,
+          "prompt": "An Indian company provides software development services to its US parent at cost plus 12%. Operating cost is ₹40 crore. Comparable companies earn net cost-plus margins (OP/TC) of 14%, 15%, 16%, 17%, 18%, 19%, 20%. Compute the ALP using TNMM and the adjustment, and comment on whether the safe harbour would have helped.",
+          "answer": "**Step 1: Range**\n\n7 comparables (6 or more), so the 35th to 65th percentile range applies. Sorted: 14, 15, 16, 17, 18, 19, 20.\n\n- 35th percentile: 7 x 35% = 2.45, rounded up to the 3rd value = 16%\n- 65th percentile: 7 x 65% = 4.55, rounded up to the 5th value = 18%\n- Median: 4th value = 17%\n\n**Step 2: Test**\n\nThe company's margin of 12% is below the range (16% to 18%), so ALP margin = median 17%.\n\n| Particulars | ₹ crore |\n| --- | --- |\n| Operating cost | 40.00 |\n| ALP revenue at cost + 17% | 46.80 |\n| Actual revenue at cost + 12% | 44.80 |\n| **Adjustment** | **2.00** |\n\n**Step 3: Safe harbour**\n\nAfter the Finance Act 2026, IT services with transactions up to ₹2,000 crore may opt for the safe harbour margin of 15.5%. Revenue at cost + 15.5% = ₹46.20 crore, so the company would have to show ₹1.40 crore more income but would avoid the ₹2 crore adjustment, TPO scrutiny and penalty exposure. The election must be made in time and is automated for up to 5 years."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q12",
+          "type": "interview",
+          "prompt": "What is an Advance Pricing Agreement and what are its advantages?",
+          "answer": "- An agreement between the CBDT (with the Central Government's approval) and a person that determines the ALP or the method for determining it for specified international transactions (corresponds to s.92CC).\n- Types: unilateral (only Indian authority), bilateral or multilateral (with foreign competent authorities, giving relief in both countries).\n- Valid for up to 5 consecutive future years, with rollback for up to 4 earlier years.\n- Binding on the person and the tax authorities for the covered transactions unless law or facts change; a modified return must be filed (the Finance Act 2026 extends this to associated entities).\n- Advantages: certainty, lower litigation, reduced compliance; the Finance Act 2026 aims to finish IT services unilateral APAs in 2 years."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q13",
+          "type": "interview",
+          "prompt": "Explain the interest limitation rule and the reason for it.",
+          "answer": "- Based on BEPS Action 4, it limits base erosion through excessive interest to related non-residents (corresponds to s.94B).\n- Applies to an Indian company or a PE of a foreign company that pays interest or similar consideration exceeding ₹1 crore to a non-resident AE, or on debt from a lender guaranteed by an AE.\n- Excess interest = total interest minus 30% of EBITDA (or the interest to AEs, if lower) is disallowed.\n- Disallowed interest can be carried forward for 8 tax years and deducted within the 30% limit of those years.\n- Banks and insurance businesses and certain finance companies in IFSC are excluded."
+        },
+        {
+          "id": "ca-fin-dt-08-transfer-pricing-q14",
+          "type": "mcq",
+          "prompt": "When is the arithmetic mean used to determine the ALP?",
+          "options": [
+            "When fewer than 6 comparables are available, or when PSM or other method is used",
+            "Always, for all methods",
+            "Only for specified domestic transactions",
+            "Only when the TPO asks for it"
+          ],
+          "answer": 0,
+          "explanation": "The arithmetic mean with 3% (or 1%) tolerance applies where the range concept does not: fewer than 6 comparables, or where PSM or the 'other method' is the most appropriate method."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 4 study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: Transfer pricing",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-dt-09-non-residents-dtaa",
+      "title": "Non-resident Taxation and Double Taxation Relief",
+      "level": "advanced",
+      "summary": "Business connection, significant economic presence and PE; special rates and presumptive schemes for non-residents; DTAA relief, model conventions and BEPS including Pillar Two concepts.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Source rules: business connection and SEP",
+          "body": "A non-resident is taxed in India only on income received in India or accruing or deemed to accrue in India. Deemed accrual is in **section 9** of the Income-tax Act, 2025 (same number as the 1961 Act).\n\n**Business connection** includes:\n- an agent in India who habitually concludes contracts, or habitually plays the principal role leading to conclusion of contracts, on behalf of the non-resident (dependent agent);\n- an agent who habitually maintains a stock of goods from which deliveries are made;\n- **significant economic presence (SEP)**: transactions in goods, services or property (including downloading data or software) with any person in India where aggregate payments exceed **₹2 crore** in the year, or systematic and continuous soliciting of business or interaction with **3 lakh or more users** in India. Only income attributable to the SEP transactions or activities is taxed.\n\nActivities confined to purchase of goods for export, collecting news for transmission abroad, shooting films (for non-resident non-citizens) and certain fund management activities by eligible offshore funds do not create a business connection.\n\n**Royalty, fees for technical services and interest** paid by a resident are deemed to accrue in India (subject to exceptions for use outside India).\n\n**Treaty interaction**: under a DTAA, business profits are taxable in India only if the enterprise has a **permanent establishment (PE)** here. SEP generally does not override a treaty unless the treaty's PE definition is met."
+        },
+        {
+          "heading": "Special rates and presumptive schemes",
+          "body": "Rates for non-residents (named by 1961 Act section; plus surcharge and cess):\n\n| Income (1961 ref.) | Rate |\n| --- | --- |\n| Dividend (115A) | 20% |\n| Interest (115A, general) | 20% |\n| Royalty and fees for technical services (115A) | 20% |\n| Foreign company business income | 35% |\n\nPresumptive schemes for non-residents (now within the 2025 Act's presumptive provisions):\n\n| Business (1961 ref.) | Deemed profit |\n| --- | --- |\n| Services or plant for exploration of mineral oils (44BB) | 10% of receipts |\n| Operation of aircraft (44BBA) | 5% of receipts |\n| Turnkey power projects (44BBB) | 10% of receipts |\n| Shipping business (44B) | 7.5% of receipts |\n| Operating cruise ships (44BBC) | 20% of receipts |\n\nThe Finance Act 2026 extends the MAT exemption to all non-residents taxed on a presumptive basis.\n\nA treaty rate applies if more beneficial (section 159 of the 2025 Act), provided the non-resident furnishes a **tax residency certificate (TRC)** and the prescribed information (Form 10F under the 1962 Rules). Treaty rates are generally applied without adding surcharge and cess."
+        },
+        {
+          "heading": "Double taxation relief",
+          "body": "**Bilateral relief** (section 159; corresponds to s.90 and 90A): the Central Government enters into agreements. The assessee may apply the treaty or the Act, whichever is more beneficial (GAAR and other specified provisions apply even if not beneficial). Methods: exemption or credit.\n\n**Unilateral relief** (section 160; corresponds to s.91): where there is no treaty, a resident who has paid tax in a foreign country on income accruing there gets a deduction of the foreign tax at the **lower of the Indian rate and the foreign rate** on the doubly taxed income. The Indian rate is the average rate: tax (with surcharge and cess) divided by total income.\n\n**Worked example.** Resident individual (new regime), Indian income ₹30,00,000, income from Country Z (no treaty) ₹10,00,000 on which ₹2,50,000 tax (25%) was paid.\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Total income | 40,00,000 |\n| Tax under new regime slabs | 7,80,000 |\n| Cess 4% | 31,200 |\n| Total tax | 8,11,200 |\n| Average Indian rate (8,11,200 / 40,00,000) | 20.28% |\n| Relief: 10,00,000 x lower of 20.28% and 25% | 2,02,800 |\n| **Net tax** | **6,08,400** |\n\nNew regime slabs for tax year 2026-27: up to ₹4 lakh nil; ₹4-8 lakh 5%; ₹8-12 lakh 10%; ₹12-16 lakh 15%; ₹16-20 lakh 20%; ₹20-24 lakh 25%; above ₹24 lakh 30%."
+        },
+        {
+          "heading": "Model conventions, PE and BEPS",
+          "body": "**Model conventions**: the OECD Model (residence-based, favoured by capital exporters), the UN Model (more source taxation, favoured by developing countries, for example wider service PE and fees for technical services), and the US Model.\n\n**Permanent establishment** types: fixed place (office, branch, factory, workshop, mine), construction PE (beyond a time threshold such as 6 or 12 months), service PE (employees furnishing services beyond a time threshold), dependent agent PE. Preparatory or auxiliary activities do not create a PE.\n\n**BEPS**: the OECD/G20 project produced 15 actions, including Action 1 (digital economy), 4 (interest limitation), 5 (harmful tax practices), 6 (treaty abuse: PPT), 7 (PE avoidance), 8-10 (transfer pricing and value creation), 13 (CbCR) and 15 (the Multilateral Instrument). India has signed and ratified the MLI.\n\n**Pillar One and Pillar Two**: Pillar One reallocates part of residual profits of very large multinationals to market jurisdictions. **Pillar Two (GloBE rules)** sets a **15% global minimum effective tax rate** for groups with consolidated revenue of **EUR 750 million** or more. Mechanisms: a qualified domestic minimum top-up tax (QDMTT) in the source country, the income inclusion rule (IIR) at the parent, and the undertaxed profits rule (UTPR) as a backstop; plus the treaty-based subject to tax rule (STTR). Exam questions test concepts, not computations."
+        }
+      ],
+      "keyPoints": [
+        "Deemed accrual is section 9 of the 2025 Act; SEP: payments above ₹2 crore or 3 lakh users in India.",
+        "Non-resident rates: dividend, interest, royalty and FTS 20%; foreign company 35%.",
+        "Presumptive: oil exploration 10%, aircraft 5%, turnkey power 10%, shipping 7.5%, cruise 20%; MAT not applicable to presumptive non-residents.",
+        "Section 159 (bilateral relief): treaty or Act, whichever is more beneficial; TRC needed; GAAR applies regardless.",
+        "Section 160 (unilateral relief): foreign income x lower of Indian average rate and foreign rate.",
+        "Pillar Two: 15% minimum ETR for groups with revenue of EUR 750 million or more; QDMTT, IIR, UTPR, STTR."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-case1",
+          "title": "Case: Kensho Corporation, Japan",
+          "body": "Kensho Corporation, a Japanese company with no office in India, has these dealings with India in tax year 2026-27:\n\n| Item | Facts |\n| --- | --- |\n| Royalty from Indian licensee for a manufacturing patent | ₹50,00,000 |\n| Supervision of installation at a client's Indian plant | 4 engineers in India for 5 months |\n| Online sales of software subscriptions to Indian customers | ₹3 crore from 4,000 customers |\n\nAssume the India-Japan treaty taxes royalty in the source country at 10%, and the treaty treats a building site or installation project, or supervisory activities connected with it, as a PE only if it lasts more than 6 months. Kensho has a valid TRC and has furnished the required information."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q01",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-09-non-residents-dtaa-case1",
+          "prompt": "Compute Indian tax on the royalty received by Kensho Corporation, applying the more beneficial of the Act and the treaty. Answer in rupees.",
+          "answer": 500000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Under the Act: 20% plus surcharge and cess. Under the treaty: 10% of gross royalty, without surcharge and cess. The treaty is more beneficial: 10% x 50,00,000 = **₹5,00,000**."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q02",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-09-non-residents-dtaa-case1",
+          "prompt": "Does the installation supervision create a PE of Kensho Corporation in India under the assumed treaty terms?",
+          "options": [
+            "No, because the activity lasts 5 months, below the 6-month threshold",
+            "Yes, because engineers were physically present in India",
+            "Yes, because SEP overrides the treaty",
+            "No, because supervision is never a PE"
+          ],
+          "answer": 0,
+          "explanation": "Under the assumed treaty, an installation project or supervisory activity is a PE only if it lasts more than 6 months. At 5 months there is no PE, so the business profits from supervision are not taxable in India under the treaty."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q03",
+          "type": "truefalse",
+          "caseId": "ca-fin-dt-09-non-residents-dtaa-case1",
+          "prompt": "Kensho's online sales of ₹3 crore to Indian customers create a significant economic presence under the Act, but the profits are still not taxable in India if Kensho has no PE under the treaty.",
+          "answer": true,
+          "explanation": "Payments exceed ₹2 crore, so there is an SEP (business connection) under section 9. However, Kensho can choose the treaty, under which business profits are taxable only if there is a PE. SEP does not by itself create a treaty PE."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q04",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-09-non-residents-dtaa-case1",
+          "prompt": "Which document is essential for Kensho to claim the treaty rate on royalty?",
+          "options": [
+            "A tax residency certificate from the Japanese tax authority",
+            "A no objection certificate from RBI",
+            "A certificate from the Indian licensee's auditor",
+            "Registration under GST"
+          ],
+          "answer": 0,
+          "explanation": "A TRC issued by the government of the country of residence is necessary (with the prescribed information) to claim treaty benefits (section 159 of the 2025 Act)."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q05",
+          "type": "numeric",
+          "prompt": "Mr Iyer, resident (new regime), has Indian income of ₹30,00,000 and income from Country Z (no treaty with India) of ₹10,00,000, on which he paid tax of ₹2,50,000 in Country Z. Compute unilateral relief for tax year 2026-27. Answer in rupees.",
+          "answer": 202800,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| Total income | 40,00,000 |\n| Tax: 0 + 20,000 + 40,000 + 60,000 + 80,000 + 1,00,000 + 30% of 16,00,000 (4,80,000) | 7,80,000 |\n| Cess 4% | 31,200 |\n| Total | 8,11,200 |\n| Indian average rate | 20.28% |\n| Foreign rate (2,50,000 / 10,00,000) | 25% |\n| **Relief: 10,00,000 x 20.28%** | **2,02,800** |\n\nNo surcharge as income does not exceed ₹50 lakh."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q06",
+          "type": "numeric",
+          "prompt": "A foreign company provides services in connection with exploration of mineral oils in India and receives ₹20 crore in tax year 2026-27. It opts for presumptive taxation (corresponds to s.44BB). Compute its tax including surcharge and cess, with no other income. Answer in rupees.",
+          "answer": 7425600,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| Deemed profit 10% of 20,00,00,000 | 2,00,00,000 |\n| Tax at 35% | 70,00,000 |\n| Surcharge 2% (income above ₹1 crore up to ₹10 crore) | 1,40,000 |\n| | 71,40,000 |\n| Cess 4% | 2,85,600 |\n| **Total** | **74,25,600** |\n\nMAT does not apply to a non-resident taxed on a presumptive basis."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q07",
+          "type": "mcq",
+          "prompt": "Which section of the Income-tax Act, 2025 provides relief under a double taxation avoidance agreement?",
+          "options": [
+            "Section 159",
+            "Section 160",
+            "Section 9",
+            "Section 179"
+          ],
+          "answer": 0,
+          "explanation": "Section 159 covers agreements with foreign countries or specified territories (corresponds to s.90 and 90A). Section 160 is unilateral relief (corresponds to s.91)."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q08",
+          "type": "multi",
+          "prompt": "Which are features of the Pillar Two GloBE rules? Select all that apply.",
+          "options": [
+            "A 15% minimum effective tax rate per jurisdiction",
+            "Applies to groups with consolidated revenue of EUR 750 million or more",
+            "Income inclusion rule applied at the ultimate parent",
+            "A qualified domestic minimum top-up tax collected by the source country",
+            "A 2% levy on e-commerce supplies"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "GloBE uses a 15% minimum ETR, a EUR 750 million revenue threshold, the IIR, the UTPR and QDMTTs. A 2% levy on e-commerce supplies was India's old equalisation levy, not part of Pillar Two."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: significant economic presence exists if a non-resident interacts systematically with at least ___ lakh users in India.",
+          "accept": [
+            "3",
+            "three"
+          ],
+          "explanation": "The notified thresholds are payments of ₹2 crore or 3 lakh users."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q10",
+          "type": "mcq",
+          "prompt": "Which model convention generally gives more taxing rights to the source country?",
+          "options": [
+            "UN Model",
+            "OECD Model",
+            "US Model",
+            "All give identical source rights"
+          ],
+          "answer": 0,
+          "explanation": "The UN Model favours source taxation (wider PE concepts, service PE, more withholding rights), suited to developing countries. The OECD Model favours residence taxation."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q11",
+          "type": "practical",
+          "top": true,
+          "prompt": "Explain with reasons whether income of a non-resident from each activity is taxable in India: (a) a dependent agent in India who habitually concludes contracts for the non-resident; (b) purchase of goods in India for export; (c) an Indian subsidiary that buys goods from its foreign parent on its own account and resells them.",
+          "answer": "| Activity | Taxable? | Reason |\n| --- | --- | --- |\n| (a) Dependent agent habitually concluding contracts | Yes, income attributable to the agent's activities | Business connection under section 9; under most treaties a dependent agent PE |\n| (b) Purchase of goods for export | No | Operations confined to purchase of goods in India for export do not create a business connection |\n| (c) Subsidiary buying and reselling on its own account | No PE of the parent merely by reason of the subsidiary | A subsidiary is a separate entity; it acts for itself, not as agent. The subsidiary is taxed on its own profit and the purchase price is tested for ALP |\n\nIn (a), the non-resident may use the treaty if more beneficial, but the agent PE clause (strengthened by the MLI in many treaties) will usually apply."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q12",
+          "type": "interview",
+          "prompt": "Explain BEPS Action 6 and the principal purpose test.",
+          "answer": "- Action 6 addresses treaty abuse, including treaty shopping through conduit entities.\n- Minimum standard: a statement in the preamble that treaties are not meant to create opportunities for non-taxation, plus a PPT, or a limitation on benefits clause, or both.\n- PPT: a treaty benefit is denied if, considering all facts, obtaining it was one of the principal purposes of the arrangement, unless granting it accords with the object and purpose of the treaty.\n- Implemented in many Indian treaties through the MLI.\n- Interaction: PPT works with domestic GAAR (Chapter XI of the 2025 Act), and section 159(6) allows GAAR to apply even where the treaty is more beneficial."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q13",
+          "type": "interview",
+          "prompt": "How does a resident claim credit for foreign taxes paid, and what is the treatment where there is a dispute about the foreign tax?",
+          "answer": "- Credit is claimed under section 159 (treaty) or section 160 (unilateral) of the 2025 Act, in the year in which the income is offered to tax in India.\n- The prescribed statement of foreign income and tax (Form 67 under the 1962 Rules; check the new rules) is filed on or before the end of the relevant assessment period, with proof of tax paid.\n- Credit is the lower of the Indian tax and the foreign tax on that income, computed source by source and country by country.\n- Disputed foreign tax: credit is allowed in the year the dispute is settled, on evidence of settlement and payment, within 6 months of the end of the month of settlement.\n- No credit for interest, fee or penalty paid abroad."
+        },
+        {
+          "id": "ca-fin-dt-09-non-residents-dtaa-q14",
+          "type": "mcq",
+          "prompt": "A foreign company earns fees for technical services of ₹1 crore from an Indian company. There is no treaty. What is the tax rate before surcharge and cess?",
+          "options": [
+            "20% on gross amount",
+            "35% on net profit",
+            "10% on gross amount",
+            "40% on gross amount"
+          ],
+          "answer": 0,
+          "explanation": "Royalty and fees for technical services of a non-resident are taxed at 20% on the gross amount (corresponds to s.115A), where the non-resident has no PE to which the income is effectively connected."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 4 study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department: DTAA",
+          "url": "https://www.incometaxindia.gov.in/"
+        },
+        {
+          "title": "OECD: Base erosion and profit shifting",
+          "url": "https://www.oecd.org/tax/beps/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-dt-10-equalisation-levy-other",
+      "title": "Equalisation Levy and Other International Taxation Provisions",
+      "level": "advanced",
+      "summary": "The rise and repeal of equalisation levy, indirect transfers, place of effective management, foreign tax credit, advance rulings and Finance Act 2026 incentives for non-residents.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Income-tax Act 2025 as amended by Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Equalisation levy: history and current status",
+          "body": "Equalisation levy (EL) was imposed by the Finance Act, 2016 (Chapter VIII), outside the Income-tax Act, to tax digital transactions of non-residents without a PE in India.\n\n| Levy | Rate | Period | Status |\n| --- | --- | --- | --- |\n| Online advertisement services by a non-resident to a resident in business or a PE | 6% | 1 June 2016 to 31 March 2025 | **Abolished from 1 April 2025** (Finance Act 2025) |\n| Consideration to an e-commerce operator for e-commerce supply or services | 2% | 1 April 2020 to 31 July 2024 | **Abolished from 1 August 2024** (Finance (No. 2) Act 2024) |\n\nSo for tax year 2026-27 **no equalisation levy is payable** on any new transaction. Income that was subject to EL was exempt from income-tax (corresponds to s.10(50)); that exemption also ceased with the levy. Past-year disputes and EL returns for earlier periods are still administered under Chapter VIII of the Finance Act, 2016.\n\nThe policy gap is now covered by:\n- **Significant economic presence** in section 9 (₹2 crore payments or 3 lakh users);\n- TDS on royalty and fees for technical services paid to non-residents;\n- international work on Pillar One and Pillar Two.\n\nExam tip: if a question asks for EL on a transaction in tax year 2026-27, the answer is **nil**; explain why and consider whether the income is taxable under section 9 instead."
+        },
+        {
+          "heading": "Indirect transfer and place of effective management",
+          "body": "**Indirect transfer** (corresponds to Explanation 5 to s.9(1)(i)): a share or interest in a company or entity registered outside India is deemed situated in India if it derives its value substantially from assets in India. Substantial = the value of Indian assets:\n- exceeds **₹10 crore**, and\n- is at least **50%** of the value of all assets of the foreign company or entity.\n\nOnly the gain attributable to Indian assets is taxed:\n\nTaxable gain = total gain x FMV of Indian assets / FMV of all assets\n\nExemptions: a small shareholder holding (with associated enterprises) not more than 5% of voting power or capital and without management or control rights; transfers in specified foreign amalgamations and demergers; investments in certain Category I and II FPIs. An Indian concern through which value is derived must report the transfer (corresponds to s.285A).\n\n**Place of effective management (POEM)**: a company is resident in India if it is an Indian company or its POEM in the tax year is in India. POEM is the place where key management and commercial decisions necessary for the business as a whole are in substance made. CBDT guidelines apply it only to companies with turnover above **₹50 crore**, and distinguish companies engaged in active business outside India (POEM presumed outside India if the board meets mainly outside India) from others."
+        },
+        {
+          "heading": "Foreign tax credit, advance rulings and other provisions",
+          "body": "**Foreign tax credit** (under sections 159 and 160 of the 2025 Act): credit is the lower of the foreign tax and the Indian tax on that income; computed income by income and country by country; claimed in the year the income is taxed in India.\n\n**Advance rulings**: the Board for Advance Rulings gives binding rulings to non-residents, specified residents with transactions with non-residents, and others for a determined tax liability, including on whether an arrangement is an IAA under GAAR. Appeals against BAR rulings lie to the High Court.\n\n**Fund management** (corresponds to s.9A): an eligible investment fund's management activity through an eligible fund manager in India does not create a business connection or residence, if conditions are met (minimum 25 investors, no single investor with large stake, fund manager not an employee, etc.).\n\n**Finance Act 2026 incentives** (announced in the Budget):\n- Tax holiday up to 2047 for foreign companies providing cloud services to customers outside India using data centres in India; Indian customers to be served through an Indian reseller. Safe harbour of 15% on cost for a related Indian data centre entity.\n- Five-year exemption for non-residents supplying capital goods, equipment or tooling to toll manufacturers of electronics in bonded zones.\n- Five-year exemption on non-India income of non-resident experts coming to India under notified schemes, if non-resident in the preceding 5 years.\n- IFSC units: deduction for 20 consecutive years out of 25; after that, IFSC business income taxed at 15%.\n- One-time foreign asset disclosure scheme (FAST-DS 2026) with immunity under the Black Money Act; prosecution immunity for undisclosed non-immovable foreign assets below ₹20 lakh, retrospectively from 1 October 2024."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Computing EL for transactions after its repeal.\n- Taxing the whole gain on an indirect transfer instead of the proportion attributable to Indian assets.\n- Ignoring the ₹10 crore and 50% tests together; both must be met.\n- Assuming POEM applies to every foreign company; the turnover threshold of ₹50 crore applies under CBDT guidelines.\n- Treating the IFSC deduction as 10 out of 15 years; it is now 20 consecutive years out of 25."
+        }
+      ],
+      "keyPoints": [
+        "Equalisation levy: 2% on e-commerce abolished from 1 August 2024; 6% on online advertising abolished from 1 April 2025; nil EL in tax year 2026-27.",
+        "Indirect transfer: Indian assets above ₹10 crore and at least 50% of total assets; tax only the proportionate gain; small shareholders up to 5% exempt.",
+        "POEM decides residence of foreign companies; CBDT guidelines apply above ₹50 crore turnover.",
+        "Foreign tax credit: lower of foreign tax and Indian tax, income by income and country by country.",
+        "Finance Act 2026: cloud services tax holiday to 2047, toll manufacturing and expert exemptions, IFSC 20 of 25 years then 15%.",
+        "Advance rulings are given by the Board for Advance Rulings; appeal to the High Court."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-case1",
+          "title": "Case: Atlas Holdings BV",
+          "body": "Atlas Holdings BV, a foreign company, owns 100% of Atlas India Pvt Ltd. On 15 January 2027 Atlas Global Inc (a non-resident) sells **10%** of the shares of Atlas Holdings BV, with management rights, to an unrelated buyer for **₹100 crore**; its cost was ₹60 crore.\n\n| Particulars (as on the valuation date) | FMV (₹ crore) |\n| --- | --- |\n| Value of Atlas Holdings BV's shares in Atlas India Pvt Ltd | 600 |\n| Value of all assets of Atlas Holdings BV | 1,000 |\n\nIn the same tax year, Atlas India Pvt Ltd pays ₹50 lakh to a non-resident social media company for online advertisements targeted at Indian customers."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q01",
+          "type": "mcq",
+          "caseId": "ca-fin-dt-10-equalisation-levy-other-case1",
+          "prompt": "Do the shares of Atlas Holdings BV derive their value substantially from assets in India?",
+          "options": [
+            "Yes: Indian assets exceed ₹10 crore and are 60% of total assets",
+            "No: Indian assets must be at least 75% of total assets",
+            "No: the transfer is of a foreign company's shares",
+            "Yes, but only because the buyer is unrelated"
+          ],
+          "answer": 0,
+          "explanation": "Indian assets of ₹600 crore exceed ₹10 crore and are 60% (at least 50%) of total assets, so both tests are met and the shares are deemed situated in India."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q02",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-10-equalisation-levy-other-case1",
+          "prompt": "Compute the capital gain of Atlas Global Inc chargeable in India on the indirect transfer. Answer in ₹ crore.",
+          "answer": 24,
+          "tolerance": 0.01,
+          "unit": "₹ crore",
+          "explanation": "| Particulars | ₹ crore |\n| --- | --- |\n| Sale consideration | 100 |\n| Less: Cost | (60) |\n| Total gain | 40 |\n| Proportion attributable to India: 600 / 1,000 | 60% |\n| **Gain taxable in India** | **24** |\n\nThe small shareholder exemption does not apply: the seller held 10% (more than 5%) with management rights."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q03",
+          "type": "numeric",
+          "caseId": "ca-fin-dt-10-equalisation-levy-other-case1",
+          "prompt": "Compute the equalisation levy payable by Atlas India Pvt Ltd on the ₹50 lakh paid for online advertisements in tax year 2026-27. Answer in rupees.",
+          "answer": 0,
+          "tolerance": 0,
+          "unit": "₹",
+          "explanation": "The 6% equalisation levy on online advertisement services was abolished from 1 April 2025. No EL is payable in tax year 2026-27. The payment should instead be examined for TDS and for whether the income is taxable in India under section 9 or a treaty."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q04",
+          "type": "truefalse",
+          "caseId": "ca-fin-dt-10-equalisation-levy-other-case1",
+          "prompt": "Atlas India Pvt Ltd may have a reporting obligation in respect of the indirect transfer of shares of Atlas Holdings BV.",
+          "answer": true,
+          "explanation": "An Indian concern through which the foreign entity derives substantial value must furnish prescribed information about the indirect transfer (corresponds to s.285A), with a penalty for failure."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q05",
+          "type": "numeric",
+          "prompt": "A resident company earns ₹6,00,000 from Country Y (treaty country) and pays ₹1,20,000 tax there. Its Indian tax on that income at the applicable average rate is 15.6%. Compute the foreign tax credit. Answer in rupees.",
+          "answer": 93600,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Indian tax on the income = 6,00,000 x 15.6% = ₹93,600. Foreign tax = ₹1,20,000. Credit is the lower: **₹93,600**."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q06",
+          "type": "mcq",
+          "prompt": "From which date was the 2% equalisation levy on e-commerce supply or services abolished?",
+          "options": [
+            "1 August 2024",
+            "1 April 2025",
+            "1 April 2020",
+            "1 April 2026"
+          ],
+          "answer": 0,
+          "explanation": "The Finance (No. 2) Act 2024 ended the 2% levy for consideration received or receivable from 1 August 2024. The 6% levy on online advertisements ended from 1 April 2025."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q07",
+          "type": "mcq",
+          "prompt": "A foreign company with turnover of ₹30 crore has its board meetings in India. Under the CBDT guidelines on POEM, which statement is correct?",
+          "options": [
+            "The POEM guidelines do not apply because turnover does not exceed ₹50 crore",
+            "It is automatically resident in India",
+            "It is resident only if it has an Indian subsidiary",
+            "POEM is decided only by the place of incorporation"
+          ],
+          "answer": 0,
+          "explanation": "The CBDT has stated that the POEM provisions do not apply to a company with turnover or gross receipts of ₹50 crore or less in a year."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q08",
+          "type": "multi",
+          "prompt": "Which were announced in the Budget 2026 for non-residents and international business? Select all that apply.",
+          "options": [
+            "Tax holiday up to 2047 for foreign companies providing cloud services to overseas customers from Indian data centres",
+            "Five-year exemption for non-residents supplying capital goods to electronics toll manufacturers in bonded zones",
+            "IFSC deduction for 20 consecutive years out of 25",
+            "Reintroduction of the 6% equalisation levy",
+            "Five-year exemption of non-India income of eligible non-resident experts under notified schemes"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "The equalisation levy was not reintroduced. The other four are Budget 2026 measures; check the enacted provisions and notified schemes for conditions."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: for an indirect transfer, Indian assets must be at least ___% of the value of all assets of the foreign company.",
+          "accept": [
+            "50",
+            "50%",
+            "fifty"
+          ],
+          "explanation": "The two tests are value above ₹10 crore and at least 50% of the value of all assets."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q10",
+          "type": "mcq",
+          "prompt": "Who gives advance rulings on income-tax matters for non-residents?",
+          "options": [
+            "Board for Advance Rulings",
+            "Authority for Advance Rulings under GST",
+            "ITAT",
+            "Approving Panel"
+          ],
+          "answer": 0,
+          "explanation": "The Board for Advance Rulings replaced the Authority for Advance Rulings for income-tax; appeals against its rulings lie to the High Court."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q11",
+          "type": "practical",
+          "top": true,
+          "prompt": "A student argues: 'Since equalisation levy is abolished, a foreign digital company selling online advertising to Indian businesses now pays no tax in India.' Evaluate this statement for tax year 2026-27.",
+          "answer": "**Equalisation levy**\n\n- The 6% EL on online advertising ended on 1 April 2025, and the 2% EL on e-commerce on 1 August 2024. No EL applies in tax year 2026-27.\n\n**Income-tax may still apply**\n\n| Route | Effect |\n| --- | --- |\n| Significant economic presence (section 9) | If payments from India exceed ₹2 crore or there are 3 lakh users, a business connection exists; income attributable to it is taxable |\n| Treaty | If the company is resident in a treaty country and has no PE in India, business profits are not taxable in India despite SEP |\n| Royalty or FTS characterisation | If the payment is royalty or FTS under the Act or treaty, it is taxable on a gross basis (20% under the Act, or the treaty rate) |\n| TDS | The Indian payer must consider TDS (section 393) and Form 15CA/15CB-type reporting |\n\n**Conclusion**: the statement is too broad. Tax depends on SEP, treaty access (TRC, PE, PPT and GAAR) and the character of the payment. Global measures under Pillar One and Pillar Two may also apply to large groups."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q12",
+          "type": "interview",
+          "prompt": "Explain the exemptions from the indirect transfer provisions.",
+          "answer": "- **Small shareholders**: a transferor who, with AEs, did not hold the right of management or control and did not hold more than 5% of voting power or share capital of the foreign company in the 12 months before transfer.\n- **Foreign amalgamation or demerger**: transfer of shares of a foreign company deriving value from India in a scheme where at least 25% of shareholders of the amalgamating company remain, and no capital gains tax is levied in the foreign country.\n- **Specified investment funds**: investments held by non-residents in Category I or II FPIs and similar entities.\n- **Threshold**: no taxation where Indian assets do not exceed ₹10 crore or are less than 50% of global assets.\n- Even where taxable, only the gain proportionate to Indian assets is taxed."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q13",
+          "type": "interview",
+          "prompt": "Why was equalisation levy introduced, and why was it withdrawn?",
+          "answer": "- Introduced in 2016 (6% on online ads) to tax digital businesses that earn from Indian markets without a PE, following BEPS Action 1, as a levy outside the Income-tax Act and so outside treaties.\n- Extended in 2020 with the 2% levy on e-commerce operators.\n- Concerns: unilateral nature, risk of trade retaliation (a US Section 301 investigation), double taxation (no treaty credit), and overlap with SEP.\n- India agreed to the OECD transitional approach linked to Pillar One, withdrew the 2% levy from 1 August 2024 and the 6% levy from 1 April 2025.\n- The source-taxation goal now rests on SEP, royalty or FTS rules and international consensus measures."
+        },
+        {
+          "id": "ca-fin-dt-10-equalisation-levy-other-q14",
+          "type": "mcq",
+          "prompt": "What is the taxable gain in India when a non-resident sells shares of a foreign company whose Indian assets are ₹8 crore out of total assets of ₹12 crore?",
+          "options": [
+            "Nil, because Indian assets do not exceed ₹10 crore",
+            "Two-thirds of the gain",
+            "The entire gain",
+            "One-third of the gain"
+          ],
+          "answer": 0,
+          "explanation": "Although Indian assets are 66.7% of total assets, their value of ₹8 crore does not exceed ₹10 crore. Both tests must be met, so the shares are not deemed situated in India."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 4 study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Income Tax Department",
+          "url": "https://www.incometaxindia.gov.in/"
+        },
+        {
+          "title": "OECD: Base erosion and profit shifting",
+          "url": "https://www.oecd.org/tax/beps/"
+        }
+      ]
+    }
+  ]
+}

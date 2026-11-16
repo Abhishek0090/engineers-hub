@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Software Engineers Hub by Abhishek Pal.
+// StudyHub by Abhishek Pal.
 // Builds share/setup-software-engineers-hub.mjs: one self-contained script that creates
 // or updates the whole project on another machine (code, content JSON, config, package-lock.json).
 // Run: npm run share
@@ -107,7 +107,7 @@ function run(req, opts, scriptPath) {
     console.error("A different project already exists in " + target + ". Run this somewhere else.");
     process.exit(1);
   }
-  console.log("Software Engineers Hub (by Abhishek Pal) - " + (MODE === "sync" ? "FULL SYNC" : fresh ? "creating project" : "updating project"));
+  console.log("StudyHub (by Abhishek Pal) - " + (MODE === "sync" ? "FULL SYNC" : fresh ? "creating project" : "updating project"));
   console.log("Folder: " + target + "\n");
   const hashOf = (p) => (existsSync(join(target, p)) ? sha(readFileSync(join(target, p))) : "none");
   const depsBefore = hashOf("package.json") + hashOf("package-lock.json");
@@ -189,14 +189,14 @@ const SYNC = "sync-software-engineers-hub.mjs";
 
 const HEADERS = {
   setup: [
-    `// Software Engineers Hub by Abhishek Pal - setup / update script (${files.length} files, built ${built} UTC).`,
+    `// StudyHub by Abhishek Pal - setup / update script (${files.length} files, built ${built} UTC).`,
     `// New machine:  put this file in any folder and run  node ${SETUP}`,
     `//               it creates a "${pkg.name}" folder there.`,
     `// Update:       run it inside the existing ${pkg.name} folder (the one with package.json).`,
     "// Then:         npm install   and   npm run dev",
   ],
   sync: [
-    `// Software Engineers Hub by Abhishek Pal - FULL SYNC (${files.length} files, built ${built} UTC).`,
+    `// StudyHub by Abhishek Pal - FULL SYNC (${files.length} files, built ${built} UTC).`,
     "// Makes an existing project identical to this version, whatever version it had before.",
     `// Run inside the project folder (the one with package.json):  node ${SYNC}`,
     "// Files that are no longer part of the project are moved to .sync-backup/ (never deleted).",
@@ -231,7 +231,7 @@ const trackFiles = files.filter((f) => f.p.startsWith("src/content/tracks/")).le
 
 writeFileSync(
   join(OUT_DIR, "HOW-TO-SETUP.md"),
-  `# Software Engineers Hub - set up or update on another laptop
+  `# StudyHub - set up or update on another laptop
 
 By Abhishek Pal. Chapter-wise full stack study and interview prep (${trackFiles} tracks).
 

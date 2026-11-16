@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { recordSession, XP_CORRECT, XP_PARTIAL } from "@/lib/progress";
-import type { Question } from "@/lib/types";
+import { programConfig } from "@/lib/catalog";
+import { isSelfRated, type Question } from "@/lib/types";
 
 import { CodeBlock } from "./code-block";
 import { FilledIcon, Icon } from "./icons";
@@ -37,7 +38,25 @@ const TYPE_LABEL: Record<Question["type"], string> = {
   multi: "Select all that apply",
   fill: "Fill in the blank",
   interview: "Interview question",
+  numeric: "Calculation",
+  practical: "Practical problem",
 };
+/** "interview" questions take their label from the program ("Interview question", "Theory question"). */
+const typeLabel = (q: Question) => (q.type === "interview" ? programConfig(q.program).terms.question : TYPE_LABEL[q.type]);
+
+/** Reads "1,25,000", "₹ 1,25,000", "Rs. 500", "(2,000)", "12.5%" as numbers. */
+export function parseNumber(raw: string): number | null {
+  let s = raw.trim().replace(/^(rs\.?|inr|₹)\s*/i, "").replace(/[,\s₹%]/g, "");
+  let sign = 1;
+  if (/^\(.*\)$/.test(s)) {
+    sign = -1;
+    s = s.slice(1, -1);
+  }
+  if (!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(s)) return null;
+  return sign * Number(s);
+}
+const toleranceOf = (q: { answer: number; tolerance?: number }) => q.tolerance ?? Math.max(0.01, Math.abs(q.answer) * 0.001);
+const formatNumber = (n: number) => n.toLocaleString("en-IN", { maximumFractionDigits: 4 });
 const PERFECT_BONUS = 10;
 const NO_SHUFFLE = /\b(all|none|both|neither) of the above\b|^(a|b) and (b|c)$|^both\b/i;
 
@@ -69,8 +88,8 @@ const normalize = (s: string) =>
     .trim();
 
 function buildSession(items: PracticeItem[], mode: Mode): PracticeItem[] {
-  const graded = items.filter((i) => i.question.type !== "interview");
-  const interview = items.filter((i) => i.question.type === "interview");
+  const graded = items.filter((i) => !isSelfRated(i.question));
+  const interview = items.filter((i) => isSelfRated(i.question));
   let picked: PracticeItem[];
   if (mode === "graded") picked = shuffle(graded);
   else if (mode === "interview") picked = shuffle(interview);
@@ -89,7 +108,10 @@ function correctText(q: Question): string {
       return q.answer ? "True" : "False";
     case "fill":
       return q.accept[0];
+    case "numeric":
+      return q.unit === "₹" ? `₹${formatNumber(q.answer)}` : `${formatNumber(q.answer)}${q.unit ? ` ${q.unit}` : ""}`;
     case "interview":
+    case "practical":
       return "";
   }
 }
@@ -103,6 +125,7 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
   const [multi, setMulti] = useState<number[]>([]);
   const [tf, setTf] = useState<boolean | null>(null);
   const [fill, setFill] = useState("");
+  const [num, setNum] = useState("");
   const [draft, setDraft] = useState("");
   const [outcomes, setOutcomes] = useState<Record<string, Outcome>>({});
   const [combo, setCombo] = useState(0);
@@ -112,8 +135,15 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
   const fillRef = useRef<HTMLInputElement>(null);
 
   const counts = useMemo(() => {
-    const interview = items.filter((i) => i.question.type === "interview").length;
-    return { total: items.length, interview, graded: items.length - interview };
+    const interview = items.filter((i) => isSelfRated(i.question)).length;
+    const written = programConfig(items[0]?.question.program).terms.written;
+    return {
+      total: items.length,
+      interview,
+      graded: items.length - interview,
+      written,
+      writtenTitle: written[0].toUpperCase() + written.slice(1),
+    };
   }, [items]);
 
   const start = useCallback(
@@ -143,6 +173,7 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
     setMulti([]);
     setTf(null);
     setFill("");
+    setNum("");
     setDraft("");
   };
 
@@ -152,7 +183,8 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
       (q.type === "multi" && multi.length > 0) ||
       (q.type === "truefalse" && tf !== null) ||
       (q.type === "fill" && fill.trim().length > 0) ||
-      q.type === "interview");
+      (q.type === "numeric" && parseNumber(num) !== null) ||
+      isSelfRated(q));
 
   const record = (o: Outcome) => {
     if (!q) return;
@@ -168,7 +200,7 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
 
   const check = () => {
     if (!q || !canCheck || phase !== "answer") return;
-    if (q.type === "interview") {
+    if (isSelfRated(q)) {
       setPhase("reveal");
       return;
     }
@@ -177,6 +209,10 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
     if (q.type === "truefalse") ok = tf === q.answer;
     if (q.type === "multi") ok = multi.length === q.answers.length && q.answers.every((a) => multi.includes(a));
     if (q.type === "fill") ok = q.accept.some((a) => normalize(a) === normalize(fill));
+    if (q.type === "numeric") {
+      const n = parseNumber(num);
+      ok = n !== null && Math.abs(n - q.answer) <= toleranceOf(q) + 1e-9;
+    }
     record(ok ? "right" : "wrong");
     setPhase("feedback");
   };
@@ -232,14 +268,13 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
       if (q.type === "mcq" && n <= q.options.length) setChoice(n - 1);
       if (q.type === "multi" && n <= q.options.length) setMulti((m) => (m.includes(n - 1) ? m.filter((x) => x !== n - 1) : [...m, n - 1]));
       if (q.type === "truefalse" && n <= 2) setTf(n === 1);
-      if (q.type === "interview" && phase === "answer") return;
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   });
 
   useEffect(() => {
-    if (q?.type === "fill" && phase === "answer") fillRef.current?.focus();
+    if ((q?.type === "fill" || q?.type === "numeric") && phase === "answer") fillRef.current?.focus();
   }, [q, phase]);
 
   const exit = (e: React.MouseEvent) => {
@@ -263,7 +298,7 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
           <h1 className="page-title" style={{ marginTop: 12 }}>{title}</h1>
           {subtitle ? <p className="muted" style={{ marginTop: 6 }}>{subtitle}</p> : null}
           <p className="faint" style={{ marginTop: 6, fontWeight: 700 }}>
-            {counts.graded} quiz questions, {counts.interview} interview questions
+            {counts.graded} quiz questions, {counts.interview} {counts.written} questions
           </p>
           <div className="stack" style={{ marginTop: 28, gap: 12 }}>
             <button type="button" className="btn btn-lg btn-accent btn-block" onClick={() => start("all")}>
@@ -282,7 +317,7 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
               ) : null}
               {counts.interview > 0 ? (
                 <button type="button" className="btn btn-ghost grow" onClick={() => start("interview")}>
-                  Interview only
+                  {counts.writtenTitle} only
                 </button>
               ) : null}
             </div>
@@ -351,7 +386,7 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
               {wrong.map((w) => (
                 <div key={w.question.id} className="card" style={{ padding: 16 }}>
                   <p style={{ fontWeight: 600 }}><Inline text={w.question.prompt} /></p>
-                  {w.question.type !== "interview" ? (
+                  {!isSelfRated(w.question) ? (
                     <p style={{ marginTop: 6, color: "var(--ok)", fontWeight: 700 }}>Answer: <Inline text={correctText(w.question)} /></p>
                   ) : null}
                   {w.question.explanation ? <p className="muted" style={{ marginTop: 6, fontSize: 14 }}><Inline text={w.question.explanation} /></p> : null}
@@ -392,12 +427,23 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
 
       <div className="player-body">
         <div className="row wrap" style={{ justifyContent: "space-between" }}>
-          <span className="q-type">{TYPE_LABEL[q.type]}</span>
+          <span className="q-type">{typeLabel(q)}</span>
           {combo >= 2 ? <span className="combo">{combo} in a row</span> : null}
         </div>
         {item.context ? <p className="faint" style={{ fontSize: 13, fontWeight: 700, marginTop: 4 }}>{item.context}</p> : null}
+        {q.caseBody ? (
+          <details className="q-case q-data" open={phase === "answer"}>
+            <summary>{q.caseTitle ?? "Case"}</summary>
+            <RichText text={q.caseBody} />
+          </details>
+        ) : null}
         <h1 className="q-prompt"><Inline text={q.prompt} /></h1>
         {q.code ? <CodeBlock source={q.code} /> : null}
+        {q.data ? (
+          <div className="q-data">
+            <RichText text={q.data} />
+          </div>
+        ) : null}
 
         {q.type === "mcq" ? (
           <div className="options" role="radiogroup">
@@ -474,12 +520,46 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
           </div>
         ) : null}
 
-        {q.type === "interview" ? (
+        {q.type === "numeric" ? (
+          <div className="numeric-input">
+            <label className="sr-only" htmlFor="num">Your answer</label>
+            {q.unit === "₹" ? <span className="unit">₹</span> : null}
+            <input
+              id="num"
+              ref={fillRef}
+              className="input"
+              style={{ fontFamily: "var(--font-mono)", fontSize: 18 }}
+              inputMode="decimal"
+              value={num}
+              disabled={phase !== "answer"}
+              autoComplete="off"
+              placeholder="Your answer, e.g. 1,25,000"
+              onChange={(e) => setNum(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  check();
+                }
+              }}
+            />
+            {q.unit && q.unit !== "₹" ? <span className="unit">{q.unit}</span> : null}
+          </div>
+        ) : null}
+
+        {isSelfRated(q) ? (
           <div style={{ marginTop: 20 }} className="stack">
             {phase === "answer" ? (
               <>
-                <label className="label" htmlFor="draft">Answer out loud or jot down your points (optional)</label>
-                <textarea id="draft" className="input" value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="Key points you would mention..." />
+                <label className="label" htmlFor="draft">
+                  {q.type === "practical" ? "Work it out on paper, or note your final figures here (optional)" : "Answer out loud or jot down your points (optional)"}
+                </label>
+                <textarea
+                  id="draft"
+                  className="input"
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  placeholder={q.type === "practical" ? "Your working and answer..." : "Key points you would mention..."}
+                />
               </>
             ) : (
               <>
@@ -490,7 +570,7 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
                   </div>
                 ) : null}
                 <div className="answer-box">
-                  <p className="label" style={{ color: "var(--brand)" }}>Model answer</p>
+                  <p className="label" style={{ color: "var(--brand)" }}>{q.type === "practical" ? "Model solution" : "Model answer"}</p>
                   <RichText text={q.answer} />
                 </div>
                 <p className="muted" style={{ fontWeight: 700 }}>How did your answer compare?</p>
@@ -530,9 +610,9 @@ export function PracticePlayer({ items, title, subtitle, exitHref, chapterId, ne
             </div>
           ) : (
             <>
-              <span className="kbd-hint">{q.type === "interview" ? "Think first, then compare with the model answer." : "Enter to check"}</span>
+              <span className="kbd-hint">{isSelfRated(q) ? "Think first, then compare with the model answer." : "Enter to check"}</span>
               <button type="button" className="btn btn-lg btn-accent" disabled={!canCheck} onClick={check}>
-                {q.type === "interview" ? "Reveal answer" : "Check"}
+                {isSelfRated(q) ? (q.type === "practical" ? "Show solution" : "Reveal answer") : "Check"}
               </button>
             </>
           )}

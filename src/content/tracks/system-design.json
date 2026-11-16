@@ -183,7 +183,8 @@
           "type": "interview",
           "prompt": "What questions do you ask in the first five minutes when given 'Design a chat application'?",
           "answer": "- Scope: 1:1 only or group chats? Max group size? Media messages? Read receipts, typing indicators, online presence?\n- Platforms: mobile, web, both? Multi-device sync?\n- Scale: DAU, messages per user per day, peak concurrent connections.\n- Latency: what end-to-end delivery time is acceptable (for example under 500 ms)?\n- Ordering and delivery guarantees: must messages be strictly ordered per conversation? At-least-once with dedupe?\n- Retention: store history forever, or ephemeral? End-to-end encryption?\n- Then I summarise the agreed scope ('1:1 and groups up to 500, text plus images, history stored, 100M DAU') before estimating.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "system-design-01-q13",
@@ -377,7 +378,8 @@
           "type": "interview",
           "prompt": "Walk through how you would scale a monolithic web app from 1,000 to 10 million users.",
           "answer": "- Start: one server running app plus database. First split the database onto its own machine so they scale independently.\n- Put a load balancer in front of 2+ stateless app servers; move sessions to Redis and files to S3. This also removes the app single point of failure.\n- Add a CDN for static assets and a Redis cache for hot reads (cache-aside).\n- Add database read replicas and route read-only queries to them; tolerate replication lag where acceptable.\n- Move slow or bursty work (emails, image processing) to a queue with workers.\n- Add autoscaling on request rate or latency, plus monitoring and alerting.\n- When writes outgrow a single primary, partition: first by functional domain (separate databases per service), then shard hot tables by a key like user_id.\n- Multi-AZ everywhere, and eventually multi-region if latency or availability targets demand it. At each step I measure first and fix the current bottleneck rather than prematurely distributing.",
-          "level": "beginner"
+          "level": "beginner",
+          "top": true
         },
         {
           "id": "system-design-02-q12",
@@ -589,7 +591,8 @@
           "type": "interview",
           "prompt": "Explain the trade-offs between write-through, write-behind and cache-aside.",
           "answer": "- Cache-aside: app reads cache, loads DB on miss, deletes key on write. Pros: simple, caches only what is read, cache failure is non-fatal. Cons: first read is slow, small window of staleness, app code holds cache logic.\n- Write-through: every write updates cache and DB synchronously. Pros: cache always fresh for written keys, reads after writes hit. Cons: higher write latency, caches data that may never be read, still needs TTL/eviction.\n- Write-behind: write to cache, flush to DB asynchronously in batches. Pros: very low write latency, batching reduces DB load (good for counters, metrics). Cons: data loss risk on cache failure, complex ordering and consistency, DB lags.\n- Choice: cache-aside for general reads; write-through when read-after-write must hit cache; write-behind only for loss-tolerant high-write data like view counts.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "system-design-03-q13",
@@ -602,7 +605,7 @@
       "resources": [
         {
           "title": "MDN: HTTP caching",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching"
         },
         {
           "title": "AWS: Caching best practices",
@@ -790,7 +793,8 @@
           "type": "interview",
           "prompt": "Explain consistent hashing and why virtual nodes are used.",
           "answer": "Consistent hashing maps both nodes and keys onto the same circular hash space (for example 0 to 2^32-1). A key is owned by the first node found moving clockwise from the key's hash. When a node joins, it takes over only the keys between itself and its predecessor; when one leaves, only its keys move to the successor. So about 1/N of keys move instead of nearly all with modulo hashing. With few physical nodes, random positions produce uneven arcs, so some nodes own much more data. Virtual nodes place each physical server at many points (for example 100-256) on the ring, which evens out load, spreads a failed node's keys across many survivors instead of one neighbour, and lets bigger machines take more vnodes. Replication is often done by storing a key on the next R distinct physical nodes clockwise.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "system-design-04-q13",
@@ -988,7 +992,8 @@
           "type": "interview",
           "prompt": "Explain the CAP theorem to a junior engineer and correct the common misconceptions about it.",
           "answer": "- Statement: in a distributed store, when the network partitions, you must choose between consistency (every read returns the latest write or an error) and availability (every request to a live node gets a non-error answer).\n- Misconception 1: 'pick two of three'. Partitions are not a choice, so the real decision is C vs A during a partition.\n- Misconception 2: CAP's C equals ACID's C. CAP means linearizability; ACID's C means constraints hold.\n- Misconception 3: systems are permanently CP or AP. Many are tunable per operation (Cassandra QUORUM vs ONE, DynamoDB strongly consistent reads).\n- Misconception 4: CAP covers latency. It does not; PACELC adds that even without partitions, stronger consistency costs latency.\n- Practical takeaway: decide per data type what users can tolerate during failure.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         },
         {
           "id": "system-design-05-q12",
@@ -1192,7 +1197,8 @@
           "type": "interview",
           "prompt": "Design an order checkout flow across Order, Payment, Inventory and Shipping services without distributed transactions.",
           "answer": "- Use an orchestrated saga (Temporal or Step Functions, or an order-service state machine) for visibility.\n- Steps: create order (PENDING) -> reserve inventory (with TTL) -> charge payment (idempotency key = orderId) -> confirm reservation -> create shipment -> mark order CONFIRMED.\n- Compensations: payment fails -> release inventory, mark order FAILED; shipping fails -> refund payment, release stock.\n- Each service writes its state change and an outbox event atomically; events flow through Kafka/SQS; all handlers are idempotent (dedup on orderId + step).\n- Timeouts and retries with backoff at each step; DLQ plus alerting for stuck sagas; a reconciliation job checks for orders stuck in PENDING.\n- User experience: return 202 with orderId and poll or push status updates; send confirmation email from the OrderConfirmed event.\n- Trade-off: eventual consistency and more moving parts, but services stay independently deployable and available.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "system-design-06-q12",
@@ -1206,7 +1212,8 @@
           "type": "interview",
           "prompt": "A client calls POST /payments, the request times out, and the client retries. How do you guarantee the customer is charged once?",
           "answer": "- Require an Idempotency-Key header generated by the client per logical payment (UUID), reused on retries.\n- Server: in one transaction, insert the key with status IN_PROGRESS (unique constraint), perform the charge, store the response and mark COMPLETED.\n- On a retry with the same key: if COMPLETED, return the stored response; if IN_PROGRESS, return 409 or wait/poll; never start a second charge.\n- Validate that the request body matches the original for that key (reject reuse with different params).\n- Pass the same idempotency key downstream to the payment provider (Stripe supports it), so even our own retries to the provider are safe.\n- Expire keys after a window (for example 24 hours) and scope them per user.",
-          "level": "intermediate"
+          "level": "intermediate",
+          "top": true
         }
       ],
       "resources": [
@@ -1399,7 +1406,8 @@
           "type": "interview",
           "prompt": "Design a rate limiter for a public API: 1,000 requests per minute per API key, enforced across 50 gateway instances.",
           "answer": "- Requirements: per-key limits, low added latency (< 2 ms), accurate within a few percent, highly available, tiers configurable per customer.\n- Algorithm: token bucket (capacity = burst allowance, refill = 1000/60 per s) or sliding window counter. Token bucket gives friendly bursts.\n- Storage: Redis cluster, key ratelimit:{apiKey}, state updated with an atomic Lua script (read, refill, decrement, set TTL). Sharding by key spreads load.\n- Flow: gateway authenticates the key, loads its tier from a local cache, calls Redis, then forwards or returns 429 with Retry-After and RateLimit headers.\n- Scale: 50 instances x requests share Redis; at very high QPS, use local token pre-allocation (each node takes batches of tokens) to cut Redis round trips.\n- Failure: if Redis is unreachable, fail open with a conservative local in-memory limit, and alert.\n- Extras: separate limits per endpoint for expensive calls, global limit to protect backends, IP-based limits at the edge (WAF) for unauthenticated floods, metrics on 429 rate per customer.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "system-design-07-q12",
@@ -1601,7 +1609,8 @@
           "type": "interview",
           "prompt": "Design a URL shortener like bit.ly.",
           "answer": "- Requirements: shorten (custom alias, expiry), redirect, click stats. Redirect p99 < 50 ms, 99.99% available. 100M links/month, 100:1 reads.\n- API: POST /links {longUrl, alias?, expiresAt?} -> {code}; GET /{code} -> 302 Location; GET /links/{code}/stats.\n- Codes: 7-char base62. Use a Snowflake-style or range-allocated counter permuted through a reversible bit shuffle (unique, non-sequential), or random codes with a unique constraint and retry.\n- Storage: links table keyed by code in DynamoDB or Postgres (~6 TB over 10 years); replicate across AZs.\n- Read path: edge/CDN may cache 302s briefly; Redis cache-aside with LRU for hot links (high hit ratio); DB on miss; negative caching for unknown codes.\n- Analytics: emit click events to Kafka, aggregate into ClickHouse; dashboards read aggregates.\n- Expiry: check expires_at on read, background job purges.\n- Abuse: creation rate limits, malware URL scanning, takedown flag checked on redirect.\n- Scale-out: stateless app tier behind LB, multi-region read replicas with geo-DNS for low-latency redirects.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "system-design-08-q12",
@@ -1629,7 +1638,7 @@
         },
         {
           "title": "MDN: Redirections in HTTP",
-          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections"
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Redirections"
         }
       ]
     },
@@ -1802,21 +1811,24 @@
           "type": "interview",
           "prompt": "Design the Twitter/X home timeline for 300M DAU.",
           "answer": "- Requirements: post, follow, home timeline (reverse-chron or ranked), timeline load p99 < 300 ms, eventual consistency acceptable (seconds).\n- Estimates: ~600M posts/day (~7k/s), ~30B timeline reads/day (~350k/s peak). Very read-heavy.\n- Storage: posts in a sharded store keyed by post id (Snowflake ids, time-sortable); social graph in sharded follower/followee tables; media in S3 + CDN.\n- Write path: post saved -> PostCreated event -> fan-out workers push post id into followers' Redis timelines (capped ~800 ids), skipping inactive users. Accounts above ~100k followers are not fanned out.\n- Read path: timeline service reads cached ids, merges recent posts from followed celebrities (cached per celebrity), ranks, hydrates via batched post/user cache lookups, filters blocks/deletes, returns cursor page.\n- Cold users: rebuild timeline on demand from follow list.\n- Reliability: replicated Redis, fan-out via Kafka for replay; timelines are rebuildable cache, posts DB is source of truth.\n- Extras: search via an inverted index fed by events; trends via stream processing; observability on fan-out lag.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "system-design-09-q12",
           "type": "interview",
           "prompt": "Design a chat application like WhatsApp or Slack DMs with 100M DAU.",
           "answer": "- Requirements: 1:1 and groups (up to 500), text and media, delivery/read receipts, presence, history, multi-device. Delivery under 500 ms; no message loss.\n- Connections: clients keep WebSockets to stateless-ish gateway servers behind an L4 LB; ~50M concurrent connections / ~100k per server ~ 500 gateways. Session registry in Redis: userId -> gatewayIds.\n- Send flow: client sends {clientMsgId, conversationId, body}; chat service checks membership, assigns per-conversation seq (atomic counter per conversation), persists to Cassandra (partition conversation_id, clustering seq), acks to sender with seq.\n- Delivery: for each recipient, look up gateways and publish via pub/sub; offline -> push notification via APNs/FCM. Clients ack delivery; receipts stored as last-delivered/last-read seq per member.\n- Sync: on reconnect, client sends last seq per conversation and fetches gaps.\n- Media: upload to S3 via pre-signed URL, message carries the object key; CDN for downloads.\n- Presence: heartbeats with TTL keys, fan-out only to interested viewers.\n- Reliability: at-least-once delivery with dedupe by clientMsgId; multi-AZ Cassandra; gateways drain connections gracefully on deploy with jittered reconnect.\n- Optional: end-to-end encryption, which moves search client-side.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         },
         {
           "id": "system-design-09-q13",
           "type": "interview",
           "prompt": "Design a notification system that sends 1 billion notifications per day across push, email and SMS.",
           "answer": "- Scale: ~12k/s average, peaks of 100k/s+ during campaigns.\n- Ingest: services publish NotificationRequested events (userId, type, data, priority, idempotencyKey) to Kafka, or call an API that enqueues.\n- Processing service: dedupe on idempotencyKey (Redis set with TTL), load user preferences and device tokens (cached), apply per-user and per-type rate limits and quiet hours, render template with localisation, then enqueue to per-channel, per-priority queues.\n- Channel workers: push (APNs/FCM with HTTP/2 connection pools), email (SES/SendGrid), SMS (Twilio), in-app (store + WebSocket). Each has retries with exponential backoff, provider failover where possible, and a DLQ.\n- Scheduling: delayed/scheduled sends via a scheduler table polled by time bucket or a delay queue, respecting user time zone.\n- Tracking: status events (sent, delivered, opened, bounced) into an analytics store; invalid tokens and hard bounces update user records.\n- Isolation: critical (OTP, security) path has dedicated queues and capacity; bulk campaigns are throttled.\n- Observability: per-channel success rate, latency, queue lag, provider error rates.",
-          "level": "advanced"
+          "level": "advanced",
+          "top": true
         }
       ],
       "resources": [

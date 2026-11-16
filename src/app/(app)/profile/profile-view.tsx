@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { FilledIcon, Icon } from "@/components/icons";
 import { useProgress } from "@/components/progress-provider";
+import { programConfig, progressProgram } from "@/lib/catalog";
 import { currentStreak, dayKey, levelFromXp, trackStats } from "@/lib/progress";
 import type { Goal, TrackSummary } from "@/lib/types";
 
@@ -46,6 +47,8 @@ export function ProfileView({
   const { progress, update, reset, synced } = useProgress();
   const lvl = levelFromXp(progress.xp);
   const goal = goals.find((g) => g.id === progress.goalId);
+  const program = programConfig(progressProgram(progress));
+  const programTracks = tracks.filter((t) => t.program === program.id);
   const activeDays = Object.values(progress.history).filter((v) => v > 0).length;
   const questionsDone = Object.values(progress.chapters).reduce((n, c) => n + c.attempts, 0);
 
@@ -82,8 +85,8 @@ export function ProfileView({
           </div>
 
           <div className="card stack" style={{ gap: 14 }}>
-            <h2 style={{ fontSize: 18, fontWeight: 700 }}>Track progress</h2>
-            {tracks.map((t) => {
+            <h2 style={{ fontSize: 18, fontWeight: 700 }}>Track progress: {program.short}</h2>
+            {programTracks.map((t) => {
               const s = trackStats(t, progress);
               return (
                 <Link key={t.id} href={`/learn/${t.id}`} className="track-row">
@@ -133,7 +136,7 @@ export function ProfileView({
               <dt>Sessions</dt>
               <dd>{questionsDone}</dd>
               <dt>Practiced</dt>
-              <dd>{progress.practiced.length} interview questions</dd>
+              <dd>{progress.practiced.length} written questions</dd>
             </dl>
             <button
               type="button"

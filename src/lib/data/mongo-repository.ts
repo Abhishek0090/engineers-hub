@@ -7,7 +7,7 @@ import type { Collection, Db, Document, MongoClient } from "mongodb";
 
 import type { Goal, Progress, Track, UserRecord } from "@/lib/types";
 
-import { byOrder, interviewItems, locateQuestions, summarizeTrack } from "./derive";
+import { byOrder, expandTrack, interviewItems, locateQuestions, summarizeTrack } from "./derive";
 import type { Repository } from "./repository";
 
 type WithId<T> = Omit<T, "id"> & { _id: string };
@@ -42,7 +42,7 @@ export async function createMongoRepository(): Promise<Repository> {
   const progress = db.collection<Progress & { _id: string } & Document>("progress");
 
   const allTracks = async () =>
-    (await tracks.find().toArray()).map((d) => fromDoc<Track>(d as WithId<Track>)!).sort(byOrder);
+    (await tracks.find().toArray()).map((d) => expandTrack(fromDoc<Track>(d as WithId<Track>)!)).sort(byOrder);
   const summaries = async (col: Collection<WithId<Track>>) =>
     (await col.find().toArray()).map((d) => summarizeTrack(fromDoc<Track>(d as WithId<Track>)!)).sort(byOrder);
 
@@ -51,7 +51,8 @@ export async function createMongoRepository(): Promise<Repository> {
     persistsProgress: true,
     listTracks: () => summaries(tracks),
     async getTrack(trackId) {
-      return fromDoc<Track>((await tracks.findOne({ _id: trackId })) as WithId<Track> | null);
+      const track = fromDoc<Track>((await tracks.findOne({ _id: trackId })) as WithId<Track> | null);
+      return track ? expandTrack(track) : null;
     },
     async listGoals() {
       const docs = await goals.find().toArray();

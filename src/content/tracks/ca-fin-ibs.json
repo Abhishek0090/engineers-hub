@@ -1,0 +1,1911 @@
+{
+  "id": "ca-fin-ibs",
+  "title": "Integrated Business Solutions (Final P6)",
+  "area": "ca-final",
+  "order": 125,
+  "icon": "IBS",
+  "color": "#9d174d",
+  "description": "Open-book multidisciplinary case studies for CA Final Paper 6: seven industry cases that mix FR, AFM, audit, direct and indirect tax, corporate law and strategic management, plus a chapter on how to read, plan and answer the paper.",
+  "chapters": [
+    {
+      "id": "ca-fin-ibs-01-approach",
+      "title": "How the IBS Paper Works and How to Answer It",
+      "level": "beginner",
+      "summary": "The Paper 6 pattern, how to read a long multidisciplinary case, how to split four hours, and how to present answers that score.",
+      "estMinutes": 35,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "ICAI Paper 6 assessment pattern announced January 2024 (5 cases of 25 marks, attempt any 4, open book, 4 hours)",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "What Paper 6 tests",
+          "body": "Paper 6, Integrated Business Solutions (multidisciplinary case study with strategic management), is the last paper of CA Final Group II under the new scheme. It does not add a new subject. It tests whether you can apply what you learnt in the other Final papers to one business at a time, the way a CA in practice or industry would.\n\n| Feature | Pattern |\n| --- | --- |\n| Marks and duration | 100 marks, 4 hours |\n| Book policy | Open book: you may carry printed or handwritten material |\n| Structure | 5 case studies of 25 marks each; attempt any 4 |\n| Inside each case | Case-based MCQs (about 10 marks) and descriptive questions (about 15 marks), a 40:60 weightage |\n| Knowledge base | Financial Reporting, AFM, Advanced Auditing and Professional Ethics, Direct Tax and International Taxation, Indirect Tax, with Strategic Management integrated into the cases |\n\nCompany law and allied laws appear through audit and reporting issues: section 143 reporting, section 186 loans, section 188 related party transactions, CSR under section 135, and schemes of arrangement under sections 230-232. Check the latest ICAI announcement before your attempt; the pattern above is the one ICAI has announced for the new scheme."
+        },
+        {
+          "heading": "Reading a long case",
+          "body": "A case runs to 4-8 pages: a company background, financial tables in annexures, and 5-8 \"issues\" raised by the CFO, auditor or board. Read in this order:\n\n- Read the questions first (MCQs and descriptives). They tell you which annexures matter.\n- Skim the background: industry, listed or unlisted, Ind AS or AS, holding structure, year end.\n- Tag each paragraph in the margin with its subject: FR, AFM, AUD, DT, IDT, LAW, SM. One paragraph often carries two tags (an import of machinery is AFM for the hedge and IDT for customs and IGST credit).\n- Circle every figure the questions need and note its unit (₹ crore vs ₹ lakh, USD million).\n- Note dates: year end, date of event, appointed date, days overdue. Many answers turn on a date.\n\nCase selection: in the first 15 minutes skim all five cases and drop the one with the most unfamiliar subject mix, not the longest one."
+        },
+        {
+          "heading": "Time plan for four hours",
+          "body": "Marks per minute decide the plan: 100 marks in 240 minutes is about 0.42 marks per minute, so a 2-mark MCQ is worth under 5 minutes.\n\n| Block | Minutes |\n| --- | --- |\n| Skim all 5 cases and choose 4 | 15 |\n| Case 1 to Case 4 (about 54 minutes each) | 215 |\n| Final review: MCQ answers marked, units, conclusions | 10 |\n| **Total** | **240** |\n\nWithin one case of about 54 minutes: 10 minutes to read and tag, 12-15 minutes for the MCQs, and the rest for the descriptive parts. Answer the MCQs of a case while its facts are fresh. If a computation is not converging after 8 minutes, write the approach and the formula, state an assumption and move on; partial marks are given for the correct method."
+        },
+        {
+          "heading": "Presenting descriptive answers",
+          "body": "Examiners mark for the right issue, the right provision and a clear conclusion. Use this frame for every descriptive part:\n\n- **Issue**: one line on what is being decided.\n- **Provision**: name the standard, section or concept (Ind AS 115, SA 570, section 186 of the Companies Act, the concessional regime for domestic companies corresponding to section 115BAA of the 1961 Act).\n- **Analysis**: apply the facts of the case, with working notes in a table.\n- **Conclusion**: the answer to the question asked, with the figure and its unit.\n\nStrategy questions (SM) score when you name a framework (SWOT, Porter's five forces, Ansoff, BCG, value chain, balanced scorecard) and apply it to the company's facts. A generic list of SWOT words with no link to the case scores little.\n\nOpen book is a trap if you rely on it: there is no time to read a chapter in the hall. Carry a slim index of standards, sections and formats you have already practised."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Writing everything you know about a standard instead of applying it to the case facts.\n- Mixing units: the case gives ₹ crore in one annexure and ₹ lakh in another.\n- Ignoring the date: an event after the year end is an Ind AS 10 question, not a current year transaction.\n- Answering from the old law: the Income-tax Act 2025 uses \"tax year\" and new section numbers; cite the provision by name and, if unsure of the new number, give the 1961 Act section it corresponds to.\n- Spending 20 minutes on a 4-mark part, then rushing the fourth case.\n- Leaving MCQs blank: there is no negative marking."
+        }
+      ],
+      "keyPoints": [
+        "Paper 6: 100 marks, 4 hours, open book, 5 cases of 25 marks, attempt any 4.",
+        "Each case: about 10 marks MCQs and 15 marks descriptive (40:60 weightage).",
+        "Read the questions first, then tag paragraphs by subject: FR, AFM, AUD, DT, IDT, LAW, SM.",
+        "Budget about 54 minutes per case after 15 minutes of selection and 10 minutes of review.",
+        "Descriptive frame: issue, provision, analysis with working notes, conclusion with figure and unit.",
+        "SM answers score when a named framework is applied to the case facts."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-ibs-01-approach-case1",
+          "title": "Case: Saffron Textiles Ltd (practice reading)",
+          "body": "Saffron Textiles Ltd (STL) is a listed Ind AS company in Surat making polyester yarn and fabric. It has opted for the concessional tax regime for domestic companies (22% plus 10% surcharge and 4% cess, an effective rate of 25.168%). Extract of results for FY 2026-27:\n\n| Particulars | ₹ crore |\n| --- | --- |\n| Revenue from operations | 480 |\n| EBITDA | 72 |\n| Depreciation | 20 |\n| Finance cost | 18 |\n| Profit before tax | 34 |\n\nIssues raised at the March 2027 board meeting:\n\n- STL will import an air-jet loom line from Japan for USD 5 million, payable three months after shipment.\n- A garment exporter owes STL ₹6 crore, overdue for 200 days. It has filed for insolvency.\n- The board wants to enter technical textiles (airbags and medical fabrics), products STL has never made, sold to automotive and hospital buyers it has never served.\n- An independent director resigned in February 2027, citing concerns about related party purchases from a promoter firm."
+        }
+      ],
+      "questions": [
+        {
+          "type": "mcq",
+          "prompt": "Under the new scheme, how many of the five case studies in Paper 6 must a candidate answer?",
+          "options": [
+            "All five, 20 marks each",
+            "Any four, 25 marks each",
+            "Any three, 33 marks each",
+            "Two compulsory and two of the remaining three"
+          ],
+          "answer": 1,
+          "explanation": "ICAI's pattern for Paper 6 gives five case studies of 25 marks each, of which any four are answered, for 100 marks in four hours.",
+          "id": "ca-fin-ibs-01-approach-q01"
+        },
+        {
+          "type": "mcq",
+          "prompt": "Within a 25-mark case, how are marks split between MCQs and descriptive questions under the announced pattern?",
+          "options": [
+            "About 10 marks MCQ and 15 marks descriptive",
+            "About 15 marks MCQ and 10 marks descriptive",
+            "25 marks descriptive, no MCQs",
+            "About 5 marks MCQ and 20 marks descriptive"
+          ],
+          "answer": 0,
+          "explanation": "ICAI announced a 40:60 weightage between MCQs and descriptive questions; 40% of 25 is 10 marks of MCQs (typically five MCQs of 2 marks) and 15 marks of descriptive parts.",
+          "id": "ca-fin-ibs-01-approach-q02"
+        },
+        {
+          "type": "truefalse",
+          "prompt": "Because Paper 6 is open book, a candidate can rely on looking up standards and sections in the hall instead of practising them beforehand.",
+          "answer": false,
+          "explanation": "At about 54 minutes per case there is no time to learn a provision in the hall. Open book helps you confirm a section number or a format you already know; it does not replace preparation.",
+          "id": "ca-fin-ibs-01-approach-q03"
+        },
+        {
+          "type": "numeric",
+          "prompt": "A candidate keeps 15 minutes to skim and choose cases and 10 minutes for final review out of the 240 minutes. How many minutes are left for each of the four cases? Round to the nearest minute.",
+          "answer": 54,
+          "tolerance": 0.5,
+          "unit": "minutes",
+          "explanation": "Time for cases = 240 - 15 - 10 = 215 minutes. Per case = 215 / 4 = 53.75 minutes, about **54 minutes**.",
+          "id": "ca-fin-ibs-01-approach-q04"
+        },
+        {
+          "type": "multi",
+          "prompt": "Select the statements that correctly describe Paper 6.",
+          "options": [
+            "Strategic Management is integrated into the case studies",
+            "The cases draw on FR, AFM, audit, direct tax and indirect tax",
+            "Candidates may carry study material into the exam hall",
+            "Each case is restricted to a single subject",
+            "MCQs carry negative marking"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Paper 6 is multidisciplinary: one case mixes FR, AFM, audit, direct and indirect tax and strategy, and it is open book. Cases are not single-subject and ICAI MCQs carry no negative marking.",
+          "id": "ca-fin-ibs-01-approach-q05"
+        },
+        {
+          "type": "fill",
+          "prompt": "Fill the blank: Paper 6 is an ___ book examination.",
+          "accept": [
+            "open"
+          ],
+          "explanation": "Paper 6 is an open-book, case-study-based paper of four hours.",
+          "id": "ca-fin-ibs-01-approach-q06"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-01-approach-case1",
+          "prompt": "In Ansoff's matrix, the move into technical textiles is best described as:",
+          "options": [
+            "Market penetration",
+            "Market development",
+            "Product development",
+            "Diversification (related)"
+          ],
+          "answer": 3,
+          "explanation": "Airbags and medical fabrics are new products for STL, sold to new customer groups (automotive and hospitals). New product plus new market is diversification; it is related because it uses STL's existing fibre and weaving know-how.",
+          "id": "ca-fin-ibs-01-approach-q07"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-01-approach-case1",
+          "prompt": "Compute STL's current tax expense on the profit before tax shown, assuming taxable income equals PBT. Answer in ₹ crore to 2 decimals.",
+          "answer": 8.56,
+          "tolerance": 0.01,
+          "unit": "₹ crore",
+          "explanation": "Tax = 34 x 25.168% = 8.55712, about **₹8.56 crore**. The effective rate is 22% x 1.10 (surcharge) x 1.04 (cess) = 25.168%.",
+          "id": "ca-fin-ibs-01-approach-q08"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-01-approach-case1",
+          "prompt": "How should STL treat the ₹6 crore receivable from the garment exporter under Ind AS 109?",
+          "options": [
+            "No allowance until the insolvency process ends",
+            "12-month ECL only, as trade receivables are short term",
+            "Lifetime ECL, treating the receivable as credit-impaired",
+            "Write back the revenue originally recognised"
+          ],
+          "answer": 2,
+          "explanation": "Trade receivables without a significant financing component use the simplified approach (lifetime ECL always). With 200 days overdue and insolvency filed, the receivable is credit-impaired; measure lifetime ECL on the expected recoveries. Revenue is not reversed: the sale was valid when made.",
+          "id": "ca-fin-ibs-01-approach-q09"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-01-approach-case1",
+          "prompt": "Which pair of subjects does the loom import issue mainly test?",
+          "options": [
+            "AFM (forex exposure and hedging) and indirect tax (customs duty and IGST credit)",
+            "Audit and corporate law only",
+            "Direct tax only",
+            "Strategic management only"
+          ],
+          "answer": 0,
+          "explanation": "A USD payable three months later is a transaction exposure to hedge (AFM). The import attracts basic customs duty and IGST, and the IGST is available as input tax credit (indirect tax). The capitalised cost also matters for FR and tax depreciation, but the main tags are AFM and IDT.",
+          "id": "ca-fin-ibs-01-approach-q10"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-01-approach-case1",
+          "prompt": "Compute STL's interest coverage ratio as EBITDA divided by finance cost. Answer in times to 2 decimals.",
+          "answer": 4,
+          "tolerance": 0.01,
+          "unit": "times",
+          "explanation": "Interest coverage = EBITDA / finance cost = 72 / 18 = **4.00 times**.",
+          "id": "ca-fin-ibs-01-approach-q11"
+        },
+        {
+          "type": "practical",
+          "prompt": "Prepare an answer plan for the Saffron Textiles practice case: tag each of the four issues with subjects and the provision or framework you would cite, and allocate your 54 minutes.",
+          "answer": "| Issue | Subjects | Provision or framework |\n| --- | --- | --- |\n| Loom import USD 5 million | AFM, IDT, FR | Forward cover vs money market hedge; customs duty and IGST credit; Ind AS 16 cost and Ind AS 21 for the payable |\n| ₹6 crore overdue receivable | FR, AUD | Ind AS 109 simplified approach, credit-impaired; SA 540 for the estimate |\n| Technical textiles | SM | Ansoff (related diversification), SWOT, Porter's five forces of the new industry |\n| Independent director resignation | LAW, AUD | SEBI LODR disclosure of reasons; section 188 and Ind AS 24 for promoter purchases; SA 550 related parties |\n\nTime plan (54 minutes): read and tag 10, MCQs 14, descriptive parts 26 (by marks), review 4.",
+          "id": "ca-fin-ibs-01-approach-q12"
+        },
+        {
+          "type": "interview",
+          "top": true,
+          "prompt": "How should a candidate read and approach a long multidisciplinary case in Paper 6?",
+          "answer": "- Read the questions first so you know which annexures and figures matter.\n- Skim the background for the facts that change the answer: Ind AS or AS, listed or unlisted, year end, tax regime, holding structure.\n- Tag each paragraph by subject (FR, AFM, AUD, DT, IDT, LAW, SM); one issue can carry two tags.\n- Circle figures with units and dates (overdue days, appointed date, put-to-use date).\n- Answer MCQs of the case while the facts are fresh, then the descriptive parts in order of marks.\n- Keep to about 54 minutes per case; write the method and an assumption when a computation stalls.",
+          "id": "ca-fin-ibs-01-approach-q13"
+        },
+        {
+          "type": "interview",
+          "prompt": "What makes a descriptive answer in Paper 6 score well?",
+          "answer": "A scoring answer follows issue, provision, analysis, conclusion. It names the exact standard or section (for example Ind AS 115 on variable consideration, SA 701 for key audit matters, section 186 of the Companies Act), applies it to the case facts with a working note table, and ends with a clear conclusion including the figure and unit. For strategy, it names a framework and applies it to the company. It states assumptions where the case is silent, cites the Income-tax Act 2025 provision by name (with the 1961 section it corresponds to if the new number is uncertain), and avoids reproducing theory that the question does not ask for.",
+          "id": "ca-fin-ibs-01-approach-q14"
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI: announcements and exam notifications",
+          "url": "https://www.icai.org/"
+        },
+        {
+          "title": "ICAI BoS: Final Paper 6 study material and case studies",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-ibs-02-manufacturing",
+      "title": "Case Set: Manufacturing (Auto Components)",
+      "level": "intermediate",
+      "summary": "A capacity expansion at a listed auto component maker: WACC, NPV, import hedging, Ind AS 16 and 23, customs and IGST credit, tax depreciation, section 186, fraud reporting and the EV threat.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Ind AS as notified by MCA; Companies Act 2013; SAs issued by ICAI; Income-tax Act 2025 (tax year 2026-27, Finance Act 2026); CGST/IGST Acts after the September 2025 rate rationalisation",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Capex decisions: WACC and NPV",
+          "body": "A manufacturing case almost always contains a capex proposal. The AFM part asks for the discount rate and the NPV; the SM part asks whether the project fits the strategy.\n\n- Cost of equity by CAPM: Ke = Rf + beta x (Rm - Rf).\n- Post-tax cost of debt: Kd x (1 - t). For a company in the concessional regime t = 25.168%.\n- WACC uses market value weights where the case gives them.\n- NPV = PV of incremental post-tax cash flows (including post-tax salvage and working capital release) - initial outlay.\n\nA negative NPV does not end the answer. If the project protects the core business or opens a new market (an EV line for an engine-parts maker), discuss the real option: the right to expand later has value that a single NPV misses. Say whether the strategic value plausibly exceeds the negative NPV."
+        },
+        {
+          "heading": "Cost of an imported machine: Ind AS 16, Ind AS 23 and customs",
+          "body": "Cost of property, plant and equipment (Ind AS 16) = purchase price + non-refundable import duties + directly attributable costs (installation, testing, professional fees). Recoverable taxes such as IGST for which input tax credit is taken are excluded.\n\nCustoms on import (rates are given in the case; use them):\n\n| Item | Base |\n| --- | --- |\n| Assessable value | CIF value at the CBIC notified exchange rate |\n| Basic customs duty (BCD) | % of assessable value |\n| Social welfare surcharge (SWS) | 10% of BCD |\n| IGST | % of (assessable value + BCD + SWS) |\n\nBCD and SWS are costs. IGST paid on import is available as input tax credit on capital goods, unless the company claims tax depreciation on the IGST component (section 16(3) of the CGST Act bars both).\n\nInd AS 23: borrowing costs on a qualifying asset are capitalised from commencement (expenditure incurred, borrowing costs incurred and activities started) until the asset is substantially ready. For specific borrowings, capitalise actual cost less investment income on temporary investment of unused funds."
+        },
+        {
+          "heading": "Tax depreciation and the concessional regime",
+          "body": "Under the Income-tax Act 2025 the block of assets method continues. Two points are tested again and again:\n\n- An asset put to use for less than 180 days in the tax year gets half the normal rate (plant and machinery: 7.5% instead of 15%).\n- A company in the concessional regime (corresponds to section 115BAA of the 1961 Act, 22% base rate) cannot claim additional depreciation on new plant (corresponds to section 32(1)(iia)).\n\nActual cost for tax excludes the GST credit taken. Interest on a loan for the asset up to the date it is first put to use is added to actual cost, and later interest is a revenue deduction."
+        },
+        {
+          "heading": "Audit and company law issues in a plant case",
+          "body": "- **Inventory**: slow-moving dies and spares are written down to NRV (Ind AS 2). The auditor attends the count (SA 501) and tests ageing.\n- **Loans to group companies (section 186)**: limit is the higher of 60% of paid-up capital, free reserves and securities premium, or 100% of free reserves and securities premium. Above the limit a special resolution is needed. A loan to a wholly owned subsidiary is exempt from the limit and special resolution under the proviso to section 186(3), but the board resolution with consent of all directors present (section 186(5)), disclosure in the financial statements (section 186(4)) and the register still apply.\n- **Fraud (section 143(12))**: fraud by officers or employees of ₹1 crore or more is reported by the auditor to the Central Government; below ₹1 crore it is reported to the audit committee or board and disclosed in the Board's report.\n- **Key audit matters (SA 701)**: for a listed company, a large capitalisation project is a typical KAM."
+        },
+        {
+          "heading": "Strategy: the auto component industry",
+          "body": "Porter's five forces in auto components: buyer power is high (a few OEMs buy most of the output and demand annual price cuts), supplier power is moderate (steel and aluminium are commodities), rivalry is intense, and the threat of substitutes is rising because EVs remove engine and transmission parts. A company that makes ICE parts faces a strategic drift risk.\n\nResponses to discuss: product development into EV parts (motors, battery housings), cost leadership through automation, a technology joint venture, or diversification into non-auto engineering. Link each option to the case figures: capacity, margin, balance sheet strength."
+        }
+      ],
+      "keyPoints": [
+        "Ke = Rf + beta x (Rm - Rf); Kd post-tax = Kd x (1 - 25.168%) under the concessional regime.",
+        "Ind AS 16 cost includes BCD and SWS but excludes IGST credited.",
+        "Ind AS 23: capitalise specific borrowing cost from commencement to ready date, less temporary investment income.",
+        "Tax: half rate if used under 180 days; no additional depreciation in the concessional regime.",
+        "Section 186: loan to a wholly owned subsidiary needs no special resolution, but board approval and disclosure still apply.",
+        "Section 143(12): fraud of ₹1 crore or more goes to the Central Government."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-ibs-02-manufacturing-case1",
+          "title": "Case: Vardhan Auto Components Ltd - EV line expansion",
+          "body": "Vardhan Auto Components Ltd (VACL) is a listed Ind AS company in Pune. About 70% of its revenue comes from engine and transmission parts sold to four passenger-vehicle OEMs. It has opted for the concessional tax regime (effective rate 25.168%).\n\n| Extract, FY 2025-26 | ₹ crore |\n| --- | --- |\n| Revenue | 1,200 |\n| EBITDA | 168 |\n| Market capitalisation | 1,600 |\n| Debt (market value) | 400 |\n\nThe board is evaluating an EV component line (motor housings and battery trays) costing ₹150 crore. Expected incremental post-tax cash flows (₹ crore): Year 1: 30, Year 2: 40, Year 3: 45, Year 4: 45, Year 5: 40, plus post-tax salvage of 20 at the end of Year 5.\n\nCapital market data: risk-free rate 7%, VACL beta 1.2, market risk premium 7%, pre-tax cost of debt 9.5%. The CFO proposes to use 14% (WACC rounded up) as the hurdle rate.\n\nThe main machine is imported from Germany for USD 10 million, payable six months after shipment. Rates: spot ₹88.00/USD, six-month forward ₹89.20/USD, rupee borrowing rate 8% p.a., USD deposit rate 5% p.a.\n\nTwo OEM customers have announced that 40% of their models will be electric by 2030 and have asked VACL for a 3% annual price reduction on existing parts."
+        },
+        {
+          "id": "ca-fin-ibs-02-manufacturing-case2",
+          "title": "Case: Vardhan Auto Components Ltd - year-end issues FY 2026-27",
+          "body": "The following matters arose while finalising VACL's FY 2026-27 accounts and tax computation.\n\n1. **Import and capitalisation.** The German machine arrived in May 2026. Assessable value at the CBIC notified rate: ₹88 crore. Duty rates to be assumed: BCD 7.5%, SWS 10% of BCD, IGST 18%. VACL takes credit of the IGST. Installation and trial run cost ₹4.74 crore (net of GST credit). The machine was put to use on 31 January 2027.\n2. **Borrowing.** A specific term loan of ₹100 crore at 9% p.a. was drawn on 1 April 2026. Installation activity and expenditure began on 1 June 2026 and the line was ready for use on 31 January 2027. Unused funds earned ₹0.40 crore in a liquid fund during June 2026 to January 2027.\n3. **Inventory.** Dies for a discontinued model carry a cost of ₹14 crore; the scrap value is ₹5 crore.\n4. **Loan.** In December 2026 VACL lent ₹60 crore at 8% p.a. to its wholly owned subsidiary VACL Electric Pvt Ltd. Paid-up capital ₹50 crore, free reserves ₹400 crore, securities premium ₹90 crore; existing loans and investments ₹420 crore.\n5. **Fraud.** During the audit, the statutory auditor found that a stores manager had diverted scrap sales of ₹1.4 crore over two years."
+        }
+      ],
+      "questions": [
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-02-manufacturing-case1",
+          "prompt": "Compute VACL's WACC using market value weights. Answer as a % to 2 decimals.",
+          "answer": 13.74,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "| Component | Working | Cost | Weight | Weighted |\n| --- | --- | --- | --- | --- |\n| Equity | 7 + 1.2 x 7 | 15.40% | 0.80 | 12.3200% |\n| Debt | 9.5 x (1 - 0.25168) | 7.1090% | 0.20 | 1.4218% |\n| **WACC** | | | | **13.74%** |\n\nWeights: 1,600 / 2,000 = 0.8 and 400 / 2,000 = 0.2.",
+          "id": "ca-fin-ibs-02-manufacturing-q01"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-02-manufacturing-case1",
+          "prompt": "Compute the NPV of the EV line at the 14% hurdle rate. Use discount factors to 4 decimals and answer in ₹ crore to 2 decimals (negative if the NPV is negative).",
+          "answer": -4.73,
+          "tolerance": 0.05,
+          "unit": "₹ crore",
+          "explanation": "| Year | Cash flow | DF at 14% | PV |\n| --- | --- | --- | --- |\n| 1 | 30 | 0.8772 | 26.32 |\n| 2 | 40 | 0.7695 | 30.78 |\n| 3 | 45 | 0.6750 | 30.37 |\n| 4 | 45 | 0.5921 | 26.64 |\n| 5 | 60 (40 + 20 salvage) | 0.5194 | 31.16 |\n| | | **PV of inflows** | **145.27** |\n| | | Less: outlay | (150.00) |\n| | | **NPV** | **-4.73** |\n\nThe NPV is negative by about ₹4.73 crore on stand-alone cash flows.",
+          "id": "ca-fin-ibs-02-manufacturing-q02"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-02-manufacturing-case1",
+          "prompt": "Compute the rupee outflow at the end of six months if VACL uses a money market hedge for the USD 10 million payable. Answer in ₹ crore to 2 decimals.",
+          "answer": 89.29,
+          "tolerance": 0.01,
+          "unit": "₹ crore",
+          "explanation": "- USD to deposit today = 10,000,000 / (1 + 5% x 6/12) = USD 9.756098 million.\n- Rupees borrowed today = 9.756098 million x ₹88 = ₹85.8537 crore.\n- Repayment after six months = 85.8537 x (1 + 8% x 6/12) = **₹89.29 crore**.\n\nForward cover costs 10 million x 89.20 = ₹89.20 crore.",
+          "id": "ca-fin-ibs-02-manufacturing-q03"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-02-manufacturing-case1",
+          "prompt": "Which hedge should VACL choose for the import payable and why?",
+          "options": [
+            "Forward cover, because it costs about ₹9 lakh less than the money market hedge",
+            "Money market hedge, because borrowing in rupees is always cheaper",
+            "Leave it unhedged, because the rupee is expected to appreciate",
+            "Forward cover, because it costs about ₹90 lakh less"
+          ],
+          "answer": 0,
+          "explanation": "Forward outflow ₹89.20 crore vs money market hedge ₹89.29 crore. The forward is cheaper by about ₹8.8 lakh. Leaving a large capex payable unhedged is speculation, not policy.",
+          "id": "ca-fin-ibs-02-manufacturing-q04"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-02-manufacturing-case1",
+          "prompt": "Applying Porter's five forces, which force is the strongest pressure on VACL's margins today?",
+          "options": [
+            "Bargaining power of buyers (four OEMs demanding price cuts)",
+            "Bargaining power of suppliers of steel",
+            "Threat of new entrants, as entry barriers are low",
+            "Rivalry from foreign component makers only"
+          ],
+          "answer": 0,
+          "explanation": "Four OEMs take most of VACL's output and are demanding 3% annual price cuts: concentrated buyers with low switching costs (they can multi-source) have high bargaining power. The EV shift adds a substitute threat over the medium term.",
+          "id": "ca-fin-ibs-02-manufacturing-q05"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-02-manufacturing-case2",
+          "prompt": "Compute the borrowing cost VACL should capitalise under Ind AS 23 for FY 2026-27. Answer in ₹ crore to 2 decimals.",
+          "answer": 5.6,
+          "tolerance": 0.01,
+          "unit": "₹ crore",
+          "explanation": "| Particulars | ₹ crore |\n| --- | --- |\n| Interest 1 June 2026 to 31 January 2027: 100 x 9% x 8/12 | 6.00 |\n| Less: income on temporary investment of unused funds | (0.40) |\n| **Capitalised** | **5.60** |\n\nInterest for April-May (before commencement) and February-March (after the asset is ready), ₹1.50 crore each, is charged to profit or loss.",
+          "id": "ca-fin-ibs-02-manufacturing-q06"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-02-manufacturing-case2",
+          "prompt": "Compute the IGST paid on import of the machine, which VACL takes as input tax credit. Answer in ₹ crore to 2 decimals.",
+          "answer": 17.15,
+          "tolerance": 0.01,
+          "unit": "₹ crore",
+          "explanation": "| Particulars | ₹ crore |\n| --- | --- |\n| Assessable value | 88.00 |\n| BCD 7.5% | 6.60 |\n| SWS 10% of BCD | 0.66 |\n| Value for IGST | 95.26 |\n| **IGST 18%** | **17.1468** |\n\nIGST is about ₹17.15 crore. BCD and SWS (₹7.26 crore) are part of cost; IGST credited is not.",
+          "id": "ca-fin-ibs-02-manufacturing-q07"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-02-manufacturing-case2",
+          "prompt": "Ignoring interest, the machine's actual cost for tax is ₹100 crore (88 + 6.60 + 0.66 + 4.74). What depreciation can VACL claim on it for tax year 2026-27?",
+          "options": [
+            "₹7.50 crore: half of 15% as it was used for less than 180 days, and no additional depreciation in the concessional regime",
+            "₹15.00 crore: full year rate",
+            "₹17.50 crore: 7.5% normal plus 10% additional depreciation",
+            "₹35.00 crore: 15% normal plus 20% additional depreciation"
+          ],
+          "answer": 0,
+          "explanation": "Put to use on 31 January 2027, so fewer than 180 days in the tax year: rate 7.5%. A company in the concessional regime (corresponds to section 115BAA of the 1961 Act) cannot claim additional depreciation. Depreciation = 100 x 7.5% = ₹7.50 crore.",
+          "id": "ca-fin-ibs-02-manufacturing-q08"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-02-manufacturing-case2",
+          "prompt": "Which statement about the ₹60 crore loan to VACL Electric Pvt Ltd is correct?",
+          "options": [
+            "No special resolution is needed as the borrower is a wholly owned subsidiary, but a board resolution with consent of all directors present and disclosure in the financial statements are required",
+            "A special resolution is mandatory because existing loans and investments exceed 60% of paid-up capital and free reserves",
+            "The loan is void because a company cannot lend to its subsidiary",
+            "Only the shareholders' ordinary resolution is required"
+          ],
+          "answer": 0,
+          "explanation": "Limit = higher of 60% x (50 + 400 + 90) = ₹324 crore or 100% x (400 + 90) = ₹490 crore. Even apart from the limit, the proviso to section 186(3) exempts loans to a wholly owned subsidiary from the special resolution. Section 186(5) board approval and section 186(4) disclosure still apply.",
+          "id": "ca-fin-ibs-02-manufacturing-q09"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-02-manufacturing-case2",
+          "prompt": "What must the statutory auditor do about the ₹1.4 crore scrap fraud?",
+          "options": [
+            "Report it to the Central Government under section 143(12) after seeking the board's or audit committee's reply within the prescribed time",
+            "Only disclose it in the Board's report",
+            "Report it to the audit committee only, as it is below ₹5 crore",
+            "Ignore it, as management has detected it"
+          ],
+          "answer": 0,
+          "explanation": "Fraud by an employee of ₹1 crore or more is reported by the auditor to the Central Government. Under the Companies (Audit and Auditors) Rules the auditor first sends the report to the board or audit committee, considers their reply, and then forwards it with comments to the Central Government within the prescribed time.",
+          "id": "ca-fin-ibs-02-manufacturing-q10"
+        },
+        {
+          "type": "truefalse",
+          "prompt": "IGST paid on import of a capital asset is included in its Ind AS 16 cost even when the company takes input tax credit of it.",
+          "answer": false,
+          "explanation": "Ind AS 16 includes only non-refundable taxes. IGST credited is recoverable, so it is excluded from cost. Claiming depreciation on the IGST component while also taking credit is barred by section 16(3) of the CGST Act.",
+          "id": "ca-fin-ibs-02-manufacturing-q11"
+        },
+        {
+          "type": "multi",
+          "prompt": "Which of these form part of the Ind AS 16 cost of a new production line?",
+          "options": [
+            "Basic customs duty on the imported machine",
+            "Installation and trial run costs",
+            "Borrowing cost on a specific loan during construction (Ind AS 23)",
+            "Operating losses in the first three months after the line is ready",
+            "Staff training cost on the new line"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Non-refundable duties, directly attributable installation and testing costs, and eligible borrowing costs are capitalised. Initial operating losses and staff training are expensed under Ind AS 16.",
+          "id": "ca-fin-ibs-02-manufacturing-q12"
+        },
+        {
+          "type": "fill",
+          "prompt": "Fill the blank: a listed company's auditor communicates the most significant matters of the audit, such as a large capitalisation project, as key audit matters under SA ___.",
+          "accept": [
+            "701"
+          ],
+          "explanation": "SA 701, Communicating Key Audit Matters in the Independent Auditor's Report, applies to audits of listed entities and where the auditor decides to communicate KAMs.",
+          "id": "ca-fin-ibs-02-manufacturing-q13"
+        },
+        {
+          "type": "practical",
+          "top": true,
+          "prompt": "Using the VACL year-end facts, compute the Ind AS 16 cost of the German machine at 31 January 2027 and pass the journal entry for the inventory write-down.",
+          "data": "Assessable value ₹88 crore; BCD 7.5%; SWS 10% of BCD; IGST 18% (credit taken); installation and trial run ₹4.74 crore; borrowing cost eligible for capitalisation ₹5.60 crore. Dies for a discontinued model: cost ₹14 crore, scrap value ₹5 crore.",
+          "answer": "**Cost of machine (Ind AS 16)**\n\n| Particulars | ₹ crore |\n| --- | --- |\n| Assessable value | 88.00 |\n| BCD 7.5% | 6.60 |\n| SWS 10% of BCD | 0.66 |\n| Installation and trial run | 4.74 |\n| Borrowing cost capitalised (Ind AS 23) | 5.60 |\n| **Cost** | **105.60** |\n\nIGST of ₹17.15 crore is excluded as credit is taken.\n\n**Inventory write-down (Ind AS 2)**: cost ₹14 crore, NRV ₹5 crore.\n\n| Entry | Dr ₹ crore | Cr ₹ crore |\n| --- | --- | --- |\n| Cost of materials / inventory write-down expense Dr | 9.00 | |\n| To Inventory (dies) | | 9.00 |\n\nDisclose the write-down as required by Ind AS 2.",
+          "id": "ca-fin-ibs-02-manufacturing-q14"
+        },
+        {
+          "type": "interview",
+          "top": true,
+          "prompt": "VACL's EV line shows a negative NPV. Advise the board whether to proceed, combining AFM and strategic analysis.",
+          "answer": "- Stand-alone NPV at 14% is about ₹-4.73 crore, so on cash flows alone the project destroys a little value.\n- But the base business faces a substitute threat: OEMs plan 40% EV models by 2030, and buyer power is already forcing 3% price cuts. Doing nothing means a shrinking ICE revenue base (strategic drift).\n- The EV line is a product development move (Ansoff) and carries a real option: it gives VACL qualification with OEMs for future EV platforms. If the value of that option to expand exceeds about ₹5 crore, the project is worth taking.\n- Reduce the gap: negotiate OEM volume commitments, seek PLI-type incentives if eligible, phase the capex, hedge the import at the cheaper forward rate.\n- Recommendation: proceed with a phased investment and milestones, and report KPIs (EV revenue share, margin) on a balanced scorecard.",
+          "id": "ca-fin-ibs-02-manufacturing-q15"
+        },
+        {
+          "type": "interview",
+          "prompt": "Explain the auditor's reporting duty on fraud under section 143(12) of the Companies Act 2013.",
+          "answer": "If the auditor, in the course of audit, has reason to believe that an offence of fraud is being or has been committed against the company by its officers or employees, the auditor reports it. For fraud of ₹1 crore or more, the auditor sends the report to the board or audit committee seeking their reply within the prescribed time, and then forwards the report with the reply and comments to the Central Government within the prescribed time. Below ₹1 crore, the auditor reports to the audit committee or board, and the company discloses the details in the Board's report. The duty also applies to cost auditors and secretarial auditors. Under SA 240, the auditor also evaluates the effect on the financial statements and on other audit areas.",
+          "id": "ca-fin-ibs-02-manufacturing-q16"
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS: Final Paper 6 study material and case studies",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "MCA: Companies Act and Ind AS rules",
+          "url": "https://www.mca.gov.in/"
+        },
+        {
+          "title": "CBIC GST portal: Acts, rules and notifications",
+          "url": "https://cbic-gst.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-ibs-03-nbfc",
+      "title": "Case Set: Banking and NBFC",
+      "level": "intermediate",
+      "summary": "A middle-layer NBFC: Ind AS 109 staging and ECL, effective interest rate, capital adequacy, duration gap, GST credit for lenders, tax on provisions, NBFC audit reporting and co-lending strategy.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Ind AS as notified by MCA; Companies Act 2013; SAs issued by ICAI; Income-tax Act 2025 (tax year 2026-27, Finance Act 2026); CGST/IGST Acts after the September 2025 rate rationalisation; RBI scale-based regulation for NBFCs",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Ind AS 109 for lenders: staging and ECL",
+          "body": "An NBFC under Ind AS measures loans at amortised cost (business model: hold to collect; cash flows: solely payments of principal and interest) and books expected credit loss (ECL).\n\n| Stage | Trigger | Allowance | Interest income on |\n| --- | --- | --- | --- |\n| Stage 1 | Performing, no significant increase in credit risk (SICR) | 12-month ECL | Gross carrying amount |\n| Stage 2 | SICR since initial recognition; rebuttable presumption at more than 30 days past due | Lifetime ECL | Gross carrying amount |\n| Stage 3 | Credit-impaired; rebuttable presumption of default at more than 90 days past due | Lifetime ECL | Net carrying amount (gross less allowance) |\n\nSimplified ECL = EAD x PD x LGD, with PD for 12 months in Stage 1 and lifetime PD in Stage 2. In Stage 3 PD is 100%.\n\n**Effective interest rate (EIR)**: processing fees received and directly attributable costs are part of the EIR and amortised over the loan life, not taken to profit on day one."
+        },
+        {
+          "heading": "Capital adequacy and ALM",
+          "body": "RBI requires NBFCs in the base layer above the deposit threshold and in the middle and upper layers to maintain a capital to risk-weighted assets ratio (CRAR) of at least 15%, with Tier 1 capital of at least 10%.\n\nCRAR = (Tier 1 + Tier 2) / risk-weighted assets x 100.\n\nAsset liability management (AFM link): an NBFC that borrows short and lends long carries interest rate risk.\n\n- Duration gap DGAP = DA - (L / A) x DL.\n- Approximate change in equity value: change in E = -DGAP x A x change in rate (ignoring 1 + r, as many exam questions instruct).\n- Positive DGAP: equity falls when rates rise. Fix by lengthening liabilities (longer-tenor NCDs) or using interest rate swaps (pay fixed, receive floating)."
+        },
+        {
+          "heading": "Tax and GST for lenders",
+          "body": "**GST**: interest on loans is exempt; processing fees, foreclosure charges and other fee income are taxable (typically 18%). Because the NBFC makes both exempt and taxable supplies, its input tax credit is restricted. Section 17(4) of the CGST Act gives a banking company or financial institution, including an NBFC, the option to avail 50% of eligible ITC every month, the balance lapsing. Credits blocked by section 17(5) are excluded first. The 50% restriction does not apply to tax on supplies from another registered person with the same PAN.\n\n**Income tax**: an ECL allowance is a book provision. It is not deductible as such; the tax computation allows actual bad debts written off and the specific deduction for provisions for bad and doubtful debts available to notified financial entities (corresponds to sections 36(1)(vii) and 36(1)(viia) of the 1961 Act). This creates a deferred tax asset under Ind AS 12 when recovery is probable."
+        },
+        {
+          "heading": "Audit and regulation of an NBFC",
+          "body": "- An NBFC must hold a certificate of registration under section 45-IA of the RBI Act. CARO 2020 clause 3(xvi) asks the auditor whether the company is required to be registered and has obtained registration.\n- RBI directions require the statutory auditor of an NBFC to report additional matters (registration, net owned fund, compliance with prudential norms) and to report exceptions directly to RBI.\n- ECL is an accounting estimate with high estimation uncertainty: apply SA 540 (test the model, PD and LGD data, management overlays), and SA 620 if an expert's work is used. ECL is a usual key audit matter (SA 701) for a listed lender.\n- Related party loans and evergreening (fresh loans to repay old ones) are classic red flags; test for loans that roll over just before 90 days past due."
+        },
+        {
+          "heading": "Strategy for a mid-sized NBFC",
+          "body": "Funding cost is the NBFC's main weakness against banks; local underwriting and speed are its strengths. Strategic options commonly examined:\n\n- **Co-lending with banks**: the bank funds most of the loan, the NBFC originates and services it and keeps a minimum share. This is a strategic alliance that lowers the NBFC's funding cost and lets it grow without equivalent capital.\n- **Focus strategy** (Porter): niche segments such as used commercial vehicles or rural MSMEs where banks lack reach.\n- **Digital lending**: faster processing, but RBI's digital lending rules on disclosures and fund flows apply.\n\nA good answer uses SWOT with the case figures (CRAR headroom, Stage 3 ratio, funding mix) and then recommends one option."
+        }
+      ],
+      "keyPoints": [
+        "Stage 1: 12-month ECL; Stage 2 (>30 dpd presumption): lifetime ECL; Stage 3 (>90 dpd): lifetime ECL, interest on net amount.",
+        "ECL = EAD x PD x LGD; processing fees go into the EIR.",
+        "CRAR for NBFC: minimum 15%, Tier 1 at least 10%.",
+        "DGAP = DA - (L/A) x DL; change in E = -DGAP x A x change in r.",
+        "Section 17(4) CGST: lenders may take 50% of eligible ITC each month; exclude section 17(5) credits first.",
+        "ECL is a book provision for tax; deferred tax asset under Ind AS 12.",
+        "CARO 3(xvi): registration under section 45-IA of the RBI Act."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-ibs-03-nbfc-case1",
+          "title": "Case: Kaveri Finserv Ltd - loan book and capital",
+          "body": "Kaveri Finserv Ltd (KFL) is a non-deposit-taking NBFC in the middle layer, lending for used commercial vehicles and to small businesses in Tamil Nadu and Karnataka. It follows Ind AS and closes its books on 31 March 2027.\n\n**Loan book at 31 March 2027 (₹ crore)**\n\n| Stage | Gross loans (EAD) | PD | LGD |\n| --- | --- | --- | --- |\n| Stage 1 | 4,000 | 1.5% (12-month) | 40% |\n| Stage 2 | 600 | 18% (lifetime) | 45% |\n| Stage 3 | 250 | 100% | 60% |\n\nOpening ECL allowance was ₹180 crore.\n\n**Capital and ALM data (₹ crore)**\n\n| Item | Amount |\n| --- | --- |\n| Tier 1 capital | 900 |\n| Tier 2 capital | 150 |\n| Risk-weighted assets | 5,600 |\n| Total rate-sensitive assets (duration 2.5 years) | 5,000 |\n| Total rate-sensitive liabilities (duration 1.8 years) | 4,200 |\n\nThe treasury head expects rates to rise by 1% next year. A borrower with a ₹3 crore loan was 45 days past due at year end; another borrower was 95 days past due."
+        },
+        {
+          "id": "ca-fin-ibs-03-nbfc-case2",
+          "title": "Case: Kaveri Finserv Ltd - tax, audit and strategy",
+          "body": "Further information for FY 2026-27:\n\n- KFL earns interest income of ₹780 crore and processing and foreclosure fees of ₹42 crore.\n- GST paid on inputs and input services during the year: ₹4.20 crore, of which ₹0.30 crore relates to motor cars used by senior staff (blocked under section 17(5)). KFL has opted for the 50% option under section 17(4).\n- The board's tax computation adds back the ECL charge for the year.\n- The auditors noted that KFL's registration certificate is in order and that two loans to a promoter group firm were renewed every 85 days.\n- KFL's average cost of borrowing is 9.8% against 7.5% for large private banks. A private bank has offered a co-lending arrangement in which the bank funds 80% of each loan and KFL funds 20% and services the loan."
+        }
+      ],
+      "questions": [
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-03-nbfc-case1",
+          "prompt": "Compute KFL's total ECL allowance required at 31 March 2027. Answer in ₹ crore to 1 decimal.",
+          "answer": 222.6,
+          "tolerance": 0.05,
+          "unit": "₹ crore",
+          "explanation": "| Stage | EAD x PD x LGD | ECL |\n| --- | --- | --- |\n| Stage 1 | 4,000 x 1.5% x 40% | 24.0 |\n| Stage 2 | 600 x 18% x 45% | 48.6 |\n| Stage 3 | 250 x 100% x 60% | 150.0 |\n| **Total** | | **222.6** |\n\nThe charge for the year is 222.6 - 180 = ₹42.6 crore.",
+          "id": "ca-fin-ibs-03-nbfc-q01"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-03-nbfc-case1",
+          "prompt": "Compute KFL's CRAR. Answer as a % to 2 decimals.",
+          "answer": 18.75,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "CRAR = (900 + 150) / 5,600 x 100 = **18.75%**. Tier 1 ratio = 900 / 5,600 = 16.07%. Both exceed the RBI minimums of 15% and 10%.",
+          "id": "ca-fin-ibs-03-nbfc-q02"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-03-nbfc-case1",
+          "prompt": "Using the duration gap approach (ignore 1 + r), compute the approximate change in the market value of KFL's equity if rates rise by 1%. Answer in ₹ crore to 1 decimal, negative for a fall.",
+          "answer": -49.4,
+          "tolerance": 0.05,
+          "unit": "₹ crore",
+          "explanation": "DGAP = 2.5 - (4,200 / 5,000) x 1.8 = 2.5 - 1.512 = 0.988 years.\n\nChange in E = -0.988 x 5,000 x 1% = **₹-49.4 crore**. A positive gap means equity value falls when rates rise.",
+          "id": "ca-fin-ibs-03-nbfc-q03"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-03-nbfc-case1",
+          "prompt": "How should KFL stage the ₹3 crore loan that is 45 days past due, absent other information?",
+          "options": [
+            "Stage 2, with lifetime ECL, as it is more than 30 days past due",
+            "Stage 1, as it is less than 90 days past due",
+            "Stage 3, as any overdue loan is credit-impaired",
+            "Written off, as it is overdue"
+          ],
+          "answer": 0,
+          "explanation": "Ind AS 109 has a rebuttable presumption that credit risk has increased significantly when payments are more than 30 days past due. The loan moves to Stage 2 (lifetime ECL) but interest is still on the gross amount. Stage 3 applies at more than 90 days past due (the 95-day borrower).",
+          "id": "ca-fin-ibs-03-nbfc-q04"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-03-nbfc-case1",
+          "prompt": "Which conclusion on KFL's capital position is correct?",
+          "options": [
+            "KFL meets the 15% CRAR and 10% Tier 1 minimums with headroom",
+            "KFL breaches CRAR because Tier 2 cannot be counted",
+            "KFL breaches the Tier 1 minimum of 18%",
+            "CRAR does not apply to non-deposit-taking NBFCs in the middle layer"
+          ],
+          "answer": 0,
+          "explanation": "CRAR 18.75% is above 15% and Tier 1 16.07% is above 10%. Tier 2 counts (up to the amount of Tier 1). Middle-layer NBFCs are subject to the capital requirement.",
+          "id": "ca-fin-ibs-03-nbfc-q05"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-03-nbfc-case2",
+          "prompt": "Compute the input tax credit KFL can avail for FY 2026-27 under the 50% option. Answer in ₹ crore to 2 decimals.",
+          "answer": 1.95,
+          "tolerance": 0.01,
+          "unit": "₹ crore",
+          "explanation": "| Particulars | ₹ crore |\n| --- | --- |\n| GST paid on inputs and input services | 4.20 |\n| Less: blocked credit on motor cars, section 17(5) | (0.30) |\n| Eligible ITC | 3.90 |\n| **50% under section 17(4)** | **1.95** |\n\nThe other ₹1.95 crore lapses and is a cost.",
+          "id": "ca-fin-ibs-03-nbfc-q06"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-03-nbfc-case2",
+          "prompt": "How is the ECL charge treated in KFL's income-tax computation?",
+          "options": [
+            "Added back as a book provision; deduction is allowed for actual write-offs and the specific deduction for provisions available to notified financial entities",
+            "Fully allowed because it follows Ind AS 109",
+            "Allowed only if the auditor certifies the ECL model",
+            "Ignored, because NBFCs pay tax on cash profits"
+          ],
+          "answer": 0,
+          "explanation": "Ind AS provisions are not automatically deductible. The tax law allows bad debts actually written off and a specific deduction for provisions for bad and doubtful debts of certain financial entities (corresponds to sections 36(1)(vii) and 36(1)(viia) of the 1961 Act). The timing difference creates a deferred tax asset under Ind AS 12.",
+          "id": "ca-fin-ibs-03-nbfc-q07"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-03-nbfc-case2",
+          "prompt": "What does the renewal of the promoter group loans every 85 days most likely indicate to the auditor?",
+          "options": [
+            "Possible evergreening to avoid Stage 3 and NPA classification, requiring testing of the borrower's repayment capacity and related party disclosures",
+            "Good collection performance",
+            "A routine treasury practice with no audit significance",
+            "A GST compliance issue"
+          ],
+          "answer": 0,
+          "explanation": "Renewing just before 90 days past due can hide credit impairment (evergreening). The auditor applies SA 550 (related parties), SA 540 (ECL estimate) and SA 240 (fraud risk), checks whether fresh funds actually repaid old dues, and considers reporting under the RBI directions.",
+          "id": "ca-fin-ibs-03-nbfc-q08"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-03-nbfc-case2",
+          "prompt": "In strategic terms, the co-lending offer is best described as:",
+          "options": [
+            "A strategic alliance that lowers KFL's blended funding cost while it keeps origination and customer relationships",
+            "Forward integration by KFL into banking",
+            "A divestment of KFL's loan book",
+            "Cost leadership through scale economies in borrowing"
+          ],
+          "answer": 0,
+          "explanation": "The bank and KFL combine complementary strengths: the bank's cheap funds and KFL's local reach. KFL funds only 20% of each loan, so its blended funding cost falls and capital goes further. It is a contractual alliance, not integration or divestment.",
+          "id": "ca-fin-ibs-03-nbfc-q09"
+        },
+        {
+          "type": "numeric",
+          "prompt": "Compute the effective interest rate of this loan. Answer as a % to 2 decimals.",
+          "data": "KFL disburses a one-year bullet loan of ₹10,00,000 at 12% interest payable at maturity with the principal. It collects a processing fee of 2% (₹20,000) upfront, deducted from the disbursement. Ignore GST on the fee.",
+          "answer": 14.29,
+          "tolerance": 0.01,
+          "unit": "%",
+          "explanation": "Net amount lent = 10,00,000 - 20,000 = ₹9,80,000. Receipt at maturity = 10,00,000 + 1,20,000 = ₹11,20,000.\n\nEIR = 11,20,000 / 9,80,000 - 1 = **14.29%**. The fee is recognised over the loan life through the EIR, not as income on day one.",
+          "id": "ca-fin-ibs-03-nbfc-q10"
+        },
+        {
+          "type": "truefalse",
+          "prompt": "A loan in Stage 2 under Ind AS 109 carries a 12-month ECL allowance because it is still performing.",
+          "answer": false,
+          "explanation": "Stage 2 loans have had a significant increase in credit risk and carry lifetime ECL. Only Stage 1 uses 12-month ECL. Interest is still computed on the gross carrying amount in Stage 2.",
+          "id": "ca-fin-ibs-03-nbfc-q11"
+        },
+        {
+          "type": "multi",
+          "prompt": "Which of these are indicators of a significant increase in credit risk for an NBFC borrower?",
+          "options": [
+            "Payments more than 30 days past due",
+            "Downgrade of the borrower's external rating",
+            "Restructuring of the loan due to the borrower's financial difficulty",
+            "An increase in the NBFC's own cost of funds",
+            "Borrower opening a new branch with its own funds"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Days past due, rating downgrades and restructuring for financial difficulty all signal deterioration in the borrower's credit risk. The lender's own funding cost and the borrower's expansion from own funds do not.",
+          "id": "ca-fin-ibs-03-nbfc-q12"
+        },
+        {
+          "type": "fill",
+          "prompt": "Fill the blank: an NBFC must obtain a certificate of registration under section ___ of the RBI Act, 1934.",
+          "accept": [
+            "45-IA",
+            "45IA",
+            "45 IA"
+          ],
+          "explanation": "Section 45-IA of the RBI Act requires registration with RBI before an NBFC commences business. CARO 2020 clause 3(xvi) asks the auditor to report on it.",
+          "id": "ca-fin-ibs-03-nbfc-q13"
+        },
+        {
+          "type": "practical",
+          "top": true,
+          "prompt": "Pass the year-end journal entry for KFL's ECL and show the presentation of the loan book in the balance sheet.",
+          "data": "Gross loans: Stage 1 ₹4,000 crore, Stage 2 ₹600 crore, Stage 3 ₹250 crore. Required ECL: Stage 1 ₹24.0 crore, Stage 2 ₹48.6 crore, Stage 3 ₹150.0 crore. Opening allowance ₹180 crore.",
+          "answer": "**Journal entry (₹ crore)**\n\n| Entry | Dr | Cr |\n| --- | --- | --- |\n| Impairment on financial instruments (P&L) Dr | 42.60 | |\n| To ECL allowance on loans | | 42.60 |\n\nCharge = 222.60 - 180.00 = 42.60.\n\n**Presentation (Schedule III, Division III)**\n\n| Loans at amortised cost | ₹ crore |\n| --- | --- |\n| Gross loans (4,000 + 600 + 250) | 4,850.00 |\n| Less: impairment loss allowance | (222.60) |\n| **Net loans** | **4,627.40** |\n\nNotes disclose the stage-wise movement of gross loans and allowance, the ECL methodology and the Stage 3 ratio (250 / 4,850 = 5.15%).",
+          "id": "ca-fin-ibs-03-nbfc-q14"
+        },
+        {
+          "type": "interview",
+          "top": true,
+          "prompt": "What are the key audit considerations in the audit of ECL of an NBFC?",
+          "answer": "- Understand the ECL model and governance: staging rules, SICR criteria, definitions of default (SA 315).\n- Test data feeding the model: days past due, collateral values, restructuring flags; test IT controls over the loan system.\n- Evaluate PD, LGD and EAD assumptions against history and forward-looking information; check management overlays (SA 540, with a retrospective review of last year's estimate).\n- Look for evergreening and related party loans (SA 550, SA 240).\n- Use an auditor's expert for model validation where needed (SA 620).\n- Check Ind AS 107 disclosures and report ECL as a key audit matter for a listed NBFC (SA 701).\n- Report the additional matters required by RBI's directions for NBFC auditors and CARO 3(xvi).",
+          "id": "ca-fin-ibs-03-nbfc-q15"
+        },
+        {
+          "type": "interview",
+          "prompt": "Using SWOT, advise KFL whether to accept the co-lending offer.",
+          "answer": "- **Strengths**: local underwriting in used CV and MSME loans, CRAR of 18.75% with headroom.\n- **Weaknesses**: borrowing cost 9.8% vs 7.5% for banks; Stage 3 ratio of about 5%.\n- **Opportunities**: co-lending lowers the blended cost (80% of each loan funded at bank cost), lets KFL grow faster per rupee of capital and earn servicing income.\n- **Threats**: dependence on one bank, sharing of customer data, and the bank's tighter credit criteria may exclude part of KFL's segment.\n\nRecommendation: accept, but negotiate exclusivity limits, a clear servicing fee, and keep a share of non-co-lent business to retain its niche. Track asset quality and funding cost on a balanced scorecard.",
+          "id": "ca-fin-ibs-03-nbfc-q16"
+        }
+      ],
+      "resources": [
+        {
+          "title": "RBI: NBFC regulations and master directions",
+          "url": "https://www.rbi.org.in/"
+        },
+        {
+          "title": "CBIC GST portal: Acts, rules and notifications",
+          "url": "https://cbic-gst.gov.in/"
+        },
+        {
+          "title": "ICAI BoS: Final Paper 6 study material and case studies",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-ibs-04-infra-realty",
+      "title": "Case Set: Infrastructure and Real Estate",
+      "level": "intermediate",
+      "summary": "An EPC and real estate developer: Ind AS 115 over-time revenue, onerous contracts, DSCR covenants, RERA escrow, GST on under-construction flats, stamp duty value rules, section 186 for infrastructure companies and going concern.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Ind AS as notified by MCA; Companies Act 2013; SAs issued by ICAI; Income-tax Act 2025 (tax year 2026-27, Finance Act 2026); CGST/IGST Acts after the September 2025 rate rationalisation; Real Estate (Regulation and Development) Act 2016",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Revenue over time for EPC contracts",
+          "body": "Ind AS 115 recognises revenue over time if any one of these is met: the customer simultaneously receives and consumes the benefits; the entity's work creates or enhances an asset the customer controls as it is created (a highway built on government land); or the asset has no alternative use and the entity has an enforceable right to payment for work done to date.\n\nProgress is measured by an output or input method. The common input method is cost-to-cost:\n\n| Step | Formula |\n| --- | --- |\n| Progress | Cost incurred to date / total estimated cost |\n| Cumulative revenue | Transaction price x progress |\n| Revenue this year | Cumulative revenue - revenue recognised in earlier years |\n\nCosts that do not reflect performance (uninstalled materials, wasted material, unexpected rework) are excluded from the progress measure.\n\n**Onerous contracts**: when the unavoidable cost of a contract exceeds its consideration, the whole expected loss is recognised at once. The loss already embedded in revenue and cost to date is part of it; the balance is a provision under Ind AS 37."
+        },
+        {
+          "heading": "Project finance: DSCR and covenants",
+          "body": "Infrastructure SPVs borrow against project cash flows. Lenders test the debt service coverage ratio:\n\nDSCR = cash flow available for debt service / (interest + principal due).\n\nA DSCR below the covenant (often 1.20-1.30) is an event of default under the loan agreement.\n\nInd AS 1: if a covenant breach on or before the reporting date makes a long-term loan repayable on demand, the loan is classified as current, even if the lender agrees after the reporting date not to demand repayment. It stays non-current only if the lender gave, by the reporting date, a grace period of at least twelve months after the reporting date.\n\nFor the auditor, a breach is also an indicator for going concern (SA 570) and for impairment of the SPV investment (Ind AS 36)."
+        },
+        {
+          "heading": "Real estate: RERA, GST and the stamp duty value rule",
+          "body": "**RERA** (section 4(2)(l)(D) of the RERA Act 2016): 70% of the amounts realised from allottees for a project are deposited in a separate bank account and used only for construction and land cost of that project. Withdrawals are in proportion to completion, certified by an engineer, an architect and a practising chartered accountant.\n\n**GST on residential flats** (rates notified under the CGST Act; verify before the exam):\n\n| Supply | GST |\n| --- | --- |\n| Affordable residential apartment under construction | 1% effective, no ITC |\n| Other residential apartment under construction | 5% effective (7.5% on value after a deemed one-third deduction for land), no ITC |\n| Sale of a flat after the completion certificate | Not a supply (Schedule III: sale of building), no GST |\n\n**Stamp duty value rule for the seller** (corresponds to section 43CA of the 1961 Act): if a builder transfers land or building held as stock for less than the stamp duty value, and the stamp duty value exceeds 110% of the consideration, the stamp duty value is taken as the full value of consideration. The buyer may be taxed on the difference (corresponds to section 56(2)(x))."
+        },
+        {
+          "heading": "Company law and audit points",
+          "body": "- **Section 186(11) and Schedule VI**: a company engaged in providing infrastructural facilities (roads, highways, ports, power, water supply and others listed in Schedule VI) is exempt from section 186 (except sub-section (1)) for loans, guarantees and securities. Infrastructure groups therefore lend to SPVs without the 60%/100% limit.\n- **Ind AS 23**: a real estate project under development is a qualifying asset, so borrowing costs are included in inventory until the project is substantially ready.\n- **Going concern (SA 570)**: stalled projects, RERA penalties, DSCR breaches and refund claims from allottees are classic indicators. The auditor evaluates management's plans (asset sales, funding from special situation funds) and modifies the report or adds a material uncertainty paragraph as needed.\n- **Accounting estimates (SA 540)**: total estimated cost to complete drives revenue; test the budget, change orders and site progress reports."
+        },
+        {
+          "heading": "Strategy: asset-heavy vs asset-light",
+          "body": "Real estate developers that buy land outright lock up capital. The asset-light alternative is a joint development agreement (JDA): the landowner contributes land and receives a share of flats or revenue; the developer contributes construction and brand. This improves return on capital employed but brings tax (capital gains for the landowner on the JDA) and GST questions.\n\nIn infrastructure, the hybrid annuity model (HAM) shares risk: the authority pays part of the project cost during construction and annuities later, so the developer carries less traffic risk than in a BOT toll project.\n\nA strategy answer compares risk, capital need and return for each model and links it to the case's balance sheet (debt level, DSCR)."
+        }
+      ],
+      "keyPoints": [
+        "Over time if the customer controls the asset as it is built; progress = cost to date / total estimated cost.",
+        "Onerous contract: recognise the full expected loss at once; balance beyond loss to date is an Ind AS 37 provision.",
+        "DSCR = CFADS / (interest + principal); covenant breach at the reporting date makes the loan current under Ind AS 1.",
+        "RERA: 70% of collections into a separate account; withdrawals certified by engineer, architect and CA.",
+        "GST: 1% affordable, 5% other under-construction flats, no ITC; no GST after completion certificate.",
+        "Stamp duty value rule: if SDV exceeds 110% of consideration, SDV is the consideration (corresponds to section 43CA).",
+        "Section 186(11): infrastructure companies are exempt from section 186 except sub-section (1)."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-ibs-04-infra-realty-case1",
+          "title": "Case: Meridian Infra and Realty Ltd - EPC and toll SPV",
+          "body": "Meridian Infra and Realty Ltd (MIRL) is a listed Ind AS company in Hyderabad with two segments: EPC contracts for roads and metro works, and residential real estate. It owns 100% of Meridian Tollways Pvt Ltd (MTPL), a BOT toll road SPV.\n\n**EPC contracts at 31 March 2027 (₹ crore)**\n\n| Contract | Price | Total estimated cost | Cost incurred to date | Revenue recognised earlier |\n| --- | --- | --- | --- | --- |\n| State highway (government land) | 500 | 400 | 140 | Nil (started this year) |\n| Metro depot | 300 | 330 (revised in March 2027) | 132 | Nil (started this year) |\n\nThe metro depot estimate rose from ₹270 crore to ₹330 crore after a design change that the client has refused to pay for.\n\n**MTPL, FY 2026-27 (₹ crore)**: cash flow available for debt service 90; interest due 40; principal due 30. The loan agreement requires a minimum DSCR of 1.30; a breach makes the loan repayable on demand. The lender's waiver letter was received on 20 April 2027, after the year end."
+        },
+        {
+          "id": "ca-fin-ibs-04-infra-realty-case2",
+          "title": "Case: Meridian Infra and Realty Ltd - Meridian Heights project",
+          "body": "Meridian Heights is a residential project in Pune registered under RERA. It is not an affordable housing project. Facts for FY 2026-27:\n\n- Amounts realised from allottees during the year: ₹400 crore.\n- An under-construction flat was booked for ₹1.20 crore (excluding GST), including the land share; no separate land value is charged.\n- In Tower A the completion certificate was received in October 2026; 12 flats were sold after that date.\n- One unsold flat (held as stock-in-trade) was sold in February 2027 for ₹2.00 crore; its stamp duty value on the date of the agreement was ₹2.25 crore. No part of the consideration was received before the agreement date.\n- MIRL gave a corporate guarantee of ₹500 crore for MTPL's loan. MIRL's paid-up capital, free reserves and securities premium total ₹800 crore.\n- Two older projects in Nagpur have stalled for 18 months; 140 allottees have filed refund claims before the RERA authority."
+        }
+      ],
+      "questions": [
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-04-infra-realty-case1",
+          "prompt": "Compute the revenue MIRL recognises in FY 2026-27 on the state highway contract. Answer in ₹ crore.",
+          "answer": 175,
+          "tolerance": 0.5,
+          "unit": "₹ crore",
+          "explanation": "The highway is built on government land, so the customer controls the asset as it is created: revenue over time.\n\n| Step | ₹ crore |\n| --- | --- |\n| Progress = 140 / 400 | 35% |\n| Revenue = 500 x 35% | **175** |\n| Cost | 140 |\n| Margin | 35 |",
+          "id": "ca-fin-ibs-04-infra-realty-q01"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-04-infra-realty-case1",
+          "prompt": "Compute the total loss MIRL recognises in FY 2026-27 on the metro depot contract (loss on work done plus any onerous contract provision). Answer in ₹ crore.",
+          "answer": 30,
+          "tolerance": 0.5,
+          "unit": "₹ crore",
+          "explanation": "| Step | ₹ crore |\n| --- | --- |\n| Progress = 132 / 330 | 40% |\n| Revenue = 300 x 40% | 120 |\n| Cost to date | (132) |\n| Loss on work done | (12) |\n| Provision for remaining loss: total loss (330 - 300) 30 - 12 | (18) |\n| **Total loss recognised** | **(30)** |\n\nThe whole expected loss of ₹30 crore is recognised at once; the ₹18 crore balance is an onerous contract provision under Ind AS 37.",
+          "id": "ca-fin-ibs-04-infra-realty-q02"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-04-infra-realty-case1",
+          "prompt": "Compute MTPL's DSCR for FY 2026-27. Answer in times to 2 decimals.",
+          "answer": 1.29,
+          "tolerance": 0.01,
+          "unit": "times",
+          "explanation": "DSCR = 90 / (40 + 30) = **1.29 times**, below the 1.30 covenant.",
+          "id": "ca-fin-ibs-04-infra-realty-q03"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-04-infra-realty-case1",
+          "prompt": "How should MTPL classify its term loan at 31 March 2027?",
+          "options": [
+            "Current, because the covenant was breached at the reporting date and the waiver came after the year end",
+            "Non-current, because the waiver was received before the financial statements were approved",
+            "Non-current, because the breach is small",
+            "Split equally between current and non-current"
+          ],
+          "answer": 0,
+          "explanation": "Under Ind AS 1, a breach on or before the reporting date that makes the loan payable on demand requires current classification unless, by the reporting date, the lender agreed to a grace period of at least twelve months. A waiver received on 20 April 2027 is a non-adjusting event; disclose it.",
+          "id": "ca-fin-ibs-04-infra-realty-q04"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-04-infra-realty-case1",
+          "prompt": "Which Ind AS 115 criterion supports recognising revenue over time on the state highway contract?",
+          "options": [
+            "MIRL's work creates an asset that the customer controls as it is created",
+            "The customer pays a mobilisation advance",
+            "The contract is longer than one year",
+            "MIRL has a fixed price contract"
+          ],
+          "answer": 0,
+          "explanation": "The highway is on government land, so the government controls the work in progress as it is built. An advance, contract length or price type does not by itself determine over-time recognition.",
+          "id": "ca-fin-ibs-04-infra-realty-q05"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-04-infra-realty-case2",
+          "prompt": "How much of the year's collections must MIRL deposit in the Meridian Heights RERA separate account? Answer in ₹ crore.",
+          "answer": 280,
+          "tolerance": 0.5,
+          "unit": "₹ crore",
+          "explanation": "RERA requires 70% of amounts realised from allottees to be kept in a separate account: 400 x 70% = **₹280 crore**. Withdrawals must be in proportion to completion, certified by an engineer, an architect and a practising CA.",
+          "id": "ca-fin-ibs-04-infra-realty-q06"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-04-infra-realty-case2",
+          "prompt": "Compute the GST payable on the under-construction flat booked for ₹1.20 crore. Answer in ₹ lakh to 2 decimals.",
+          "answer": 6,
+          "tolerance": 0.01,
+          "unit": "₹ lakh",
+          "explanation": "Value of construction service = total amount less deemed land value of one-third = 120 x 2/3 = ₹80 lakh.\n\nGST at 7.5% (CGST 3.75% + SGST 3.75%) = 80 x 7.5% = **₹6.00 lakh**, an effective 5% of ₹120 lakh. No ITC is available at this rate.",
+          "id": "ca-fin-ibs-04-infra-realty-q07"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-04-infra-realty-case2",
+          "prompt": "What is the full value of consideration for computing MIRL's business income on the unsold flat? Answer in ₹ crore to 2 decimals.",
+          "answer": 2.25,
+          "tolerance": 0.005,
+          "unit": "₹ crore",
+          "explanation": "SDV / consideration = 2.25 / 2.00 = 112.5%, above the 110% tolerance. Under the stamp duty value rule for stock-in-trade (corresponds to section 43CA of the 1961 Act), the SDV of **₹2.25 crore** is the full value of consideration. Had the SDV been ₹2.18 crore (109%), the actual ₹2.00 crore would apply.",
+          "id": "ca-fin-ibs-04-infra-realty-q08"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-04-infra-realty-case2",
+          "prompt": "Does MIRL's ₹500 crore guarantee for MTPL's loan need a special resolution under section 186?",
+          "options": [
+            "No: MIRL provides infrastructural facilities, so section 186(11) exempts the guarantee from section 186 except sub-section (1)",
+            "Yes: ₹500 crore exceeds 60% of ₹800 crore",
+            "Yes: all guarantees above ₹100 crore need a special resolution",
+            "No: guarantees are never covered by section 186"
+          ],
+          "answer": 0,
+          "explanation": "Roads are infrastructural facilities under Schedule VI. Section 186(11) exempts loans, guarantees and securities given by such companies from section 186 except sub-section (1) (two layers of investment companies). The guarantee is also exempt from special resolution because MTPL is wholly owned. Section 188 and Ind AS 24 disclosures still apply.",
+          "id": "ca-fin-ibs-04-infra-realty-q09"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-04-infra-realty-case2",
+          "prompt": "What is the GST position on the 12 Tower A flats sold after the completion certificate?",
+          "options": [
+            "No GST: sale of a building after the completion certificate is neither a supply of goods nor services",
+            "GST at 5% without ITC",
+            "GST at 1% as they are completed",
+            "GST at 18% with ITC"
+          ],
+          "answer": 0,
+          "explanation": "Schedule III of the CGST Act treats sale of land and, subject to the construction exception, sale of a building as neither goods nor services. Once the completion certificate is issued, the sale of a flat attracts stamp duty, not GST. MIRL must reverse common ITC attributable to these exempt supplies.",
+          "id": "ca-fin-ibs-04-infra-realty-q10"
+        },
+        {
+          "type": "truefalse",
+          "prompt": "An onerous contract loss is recognised gradually as the contract progresses, in line with the percentage of completion.",
+          "answer": false,
+          "explanation": "When total estimated cost exceeds the contract price, the entire expected loss is recognised immediately: the part embedded in work done plus a provision for the rest under Ind AS 37.",
+          "id": "ca-fin-ibs-04-infra-realty-q11"
+        },
+        {
+          "type": "multi",
+          "prompt": "Under Ind AS 115, which of these conditions lead to revenue being recognised over time? Select all that apply.",
+          "options": [
+            "The customer simultaneously receives and consumes the benefits as the entity performs",
+            "The entity's performance creates or enhances an asset the customer controls as it is created",
+            "The asset has no alternative use to the entity and the entity has an enforceable right to payment for performance to date",
+            "The customer has paid more than 50% of the price in advance",
+            "The contract runs for more than twelve months"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Paragraph 35 of Ind AS 115 lists three criteria; meeting any one gives over-time recognition. Advances and contract duration are not criteria.",
+          "id": "ca-fin-ibs-04-infra-realty-q12"
+        },
+        {
+          "type": "fill",
+          "prompt": "Fill the blank: under the RERA Act 2016, ___ percent of the amounts realised from allottees must be deposited in a separate account for the project.",
+          "accept": [
+            "70",
+            "seventy",
+            "70%"
+          ],
+          "explanation": "Section 4(2)(l)(D) of the RERA Act requires 70% of amounts realised for the project from allottees to be deposited in a separate account in a scheduled bank.",
+          "id": "ca-fin-ibs-04-infra-realty-q13"
+        },
+        {
+          "type": "practical",
+          "top": true,
+          "prompt": "Prepare the extract of MIRL's statement of profit and loss for the two EPC contracts and the journal entry for the onerous contract provision.",
+          "data": "State highway: price ₹500 crore, total estimated cost ₹400 crore, cost incurred ₹140 crore. Metro depot: price ₹300 crore, total estimated cost ₹330 crore, cost incurred ₹132 crore. Both started in FY 2026-27.",
+          "answer": "**Extract, FY 2026-27 (₹ crore)**\n\n| Particulars | Highway | Metro depot | Total |\n| --- | --- | --- | --- |\n| Revenue from contracts | 175 | 120 | 295 |\n| Contract costs | (140) | (132) | (272) |\n| Onerous contract provision | - | (18) | (18) |\n| **Contract result** | **35** | **(30)** | **5** |\n\nWorkings: highway progress 140/400 = 35%; metro progress 132/330 = 40%, total loss 330 - 300 = 30, loss to date 12, provision 18.\n\n**Journal entry**\n\n| Entry | Dr ₹ crore | Cr ₹ crore |\n| --- | --- | --- |\n| Provision for onerous contract expense Dr | 18 | |\n| To Provision for onerous contract (Ind AS 37) | | 18 |\n\nDisclose the change in estimate (Ind AS 8) and the disputed design change claim as a contingent asset only if inflow is probable.",
+          "id": "ca-fin-ibs-04-infra-realty-q14"
+        },
+        {
+          "type": "interview",
+          "top": true,
+          "prompt": "As auditor of MIRL, how would you evaluate going concern given the stalled Nagpur projects and MTPL's covenant breach?",
+          "answer": "- Identify events and conditions (SA 570): stalled projects for 18 months, 140 refund claims before RERA, DSCR of 1.29 against 1.30 with the loan current at year end, and the ₹500 crore guarantee that could crystallise.\n- Obtain management's assessment for at least twelve months from the reporting date and its cash flow forecast; test assumptions on collections, asset sales and fresh funding.\n- Read the lender's waiver (20 April 2027) as subsequent evidence (SA 560) and check its conditions.\n- Evaluate provisions for refunds and interest to allottees (Ind AS 37) and whether the guarantee needs recognition under Ind AS 109.\n- Conclude: if a material uncertainty exists and is adequately disclosed, add a \"Material Uncertainty Related to Going Concern\" section (SA 570, SA 706 style); if disclosure is inadequate, qualify or give an adverse opinion (SA 705).",
+          "id": "ca-fin-ibs-04-infra-realty-q15"
+        },
+        {
+          "type": "interview",
+          "prompt": "Should MIRL move its real estate segment to an asset-light joint development model? Discuss.",
+          "answer": "- Today MIRL buys land outright, so capital is locked in land for years and debt is high (MTPL already breaches its DSCR).\n- Under a JDA the landowner contributes land for a share of flats or revenue. MIRL's capital need falls sharply, ROCE improves and project starts are faster.\n- Costs: lower margin per project (land share given away), dependence on landowner disputes, and tax and GST complexity (the landowner's capital gains on the JDA, GST on development rights and on flats given to the landowner).\n- Strategic fit: MIRL's strengths are construction and brand, not land banking; the JDA lets it play to them (resource-based view).\n- Recommendation: use JDAs for new launches in Pune, keep RERA compliance tight to protect the brand, and use released capital to reduce debt.",
+          "id": "ca-fin-ibs-04-infra-realty-q16"
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal: Acts, rules and notifications",
+          "url": "https://cbic-gst.gov.in/"
+        },
+        {
+          "title": "MCA: Companies Act and Ind AS rules",
+          "url": "https://www.mca.gov.in/"
+        },
+        {
+          "title": "India Code: central Acts",
+          "url": "https://www.indiacode.nic.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-ibs-05-it-startup",
+      "title": "Case Set: IT Services and a Startup",
+      "level": "intermediate",
+      "summary": "A SaaS startup raising venture capital: Ind AS 115 for software bundles, Ind AS 102 ESOPs, the VC valuation method, export of services under GST, ESOP perquisite tax, startup company law relaxations, SA 402 and scale-up strategy.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Ind AS as notified by MCA; Companies Act 2013; SAs issued by ICAI; Income-tax Act 2025 (tax year 2026-27, Finance Act 2026); CGST/IGST Acts after the September 2025 rate rationalisation",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Revenue from software bundles (Ind AS 115)",
+          "body": "Software contracts bundle a licence, implementation and support. Apply the five steps: identify the contract, identify distinct performance obligations, determine the price, allocate it on relative standalone selling prices (SSP), and recognise revenue as each obligation is satisfied.\n\n| Obligation | Typical timing |\n| --- | --- |\n| Term licence to use software as it exists (right to use) | Point in time, when the customer can use it |\n| SaaS subscription (right to access hosted software) | Over time, straight-line over the term |\n| Implementation that does not significantly customise the software | Separate obligation, over time as performed |\n| Post-contract support and updates | Over time, over the support period |\n\nIf implementation significantly modifies the software, licence and implementation are not distinct and form one obligation.\n\nWorked allocation: price ₹60 lakh; SSPs ₹40 lakh, ₹15 lakh and ₹25 lakh (total ₹80 lakh). Allocation = 60 x SSP / 80, giving ₹30 lakh, ₹11.25 lakh and ₹18.75 lakh."
+        },
+        {
+          "heading": "ESOPs: accounting, tax and company law",
+          "body": "**Ind AS 102 (equity-settled)**: measure options at grant-date fair value; recognise the expense over the vesting period, based on the best estimate of options expected to vest, with a true-up each year. Market conditions are not trued up; service and non-market conditions are.\n\n| Year | Cumulative expense |\n| --- | --- |\n| Year n | Options expected to vest x fair value x n / vesting years |\n| Expense for the year | Cumulative to date - cumulative to last year |\n\n**Tax in the employee's hands**: on allotment, the perquisite is the fair market value on the date of exercise less the amount paid. For employees of an eligible startup the tax on this perquisite is deferred to the earliest of the end of the deferral window (48 months), sale of the shares, or leaving the employer.\n\n**Companies Act**: ESOPs cannot normally be granted to promoters or to directors holding more than 10% of equity, but a DPIIT-recognised startup may grant them to such persons for up to ten years from incorporation (Companies (Share Capital and Debentures) Rules)."
+        },
+        {
+          "heading": "Valuing a startup: the VC method",
+          "body": "Early-stage companies have losses, so DCF is unreliable. The venture capital method works back from an exit:\n\n- Exit value = expected metric in exit year x exit multiple (for SaaS, often EV / revenue).\n- Post-money value today = exit value / (1 + target return)^years.\n- Required stake = investment / post-money value. Pre-money = post-money - investment.\n- If later rounds will dilute the investor, required stake today = stake at exit / retention ratio.\n\nTarget returns of 30-50% reflect the high failure rate. Discuss sensitivity: a lower multiple or a delayed exit cuts the post-money value sharply."
+        },
+        {
+          "heading": "GST and tax on cross-border IT services",
+          "body": "**Export of services** (section 2(6) of the IGST Act) requires: supplier in India, recipient outside India, place of supply outside India, payment received in convertible foreign exchange (or in INR where RBI permits), and the supplier and recipient not being merely establishments of the same person. Exports are zero-rated (section 16 of the IGST Act): supply under LUT without tax and claim refund of unused ITC, or pay IGST and claim refund.\n\n**Angel tax**: the old rule taxing share premium above fair value received by a closely held company (section 56(2)(viib) of the 1961 Act) was omitted from tax year 2024-25 (AY 2025-26). It is not carried into the Income-tax Act 2025, so a premium round is not taxed in the startup's hands on that ground.\n\n**Audit**: when a startup uses a cloud provider for billing or payroll, the auditor of the startup (user auditor) applies SA 402 and relies on a Type 2 service organisation report (design and operating effectiveness of controls) plus complementary user entity controls."
+        },
+        {
+          "heading": "Strategy for scaling a SaaS business",
+          "body": "- **Unit economics**: customer acquisition cost (CAC), lifetime value (LTV), net revenue retention and churn decide whether growth creates value. An LTV/CAC ratio of 3 or more is a common benchmark.\n- **Network effects and switching costs** create defensibility (Porter: they raise entry barriers).\n- **Blue ocean**: target a niche (for example, compliance software for mid-sized hospitals) where rivals are absent, instead of fighting large incumbents.\n- **Balanced scorecard**: financial (ARR, burn rate), customer (churn, NPS), internal process (uptime, deployment speed), learning and growth (engineering attrition, ESOP coverage).\n\nCommon mistake: recommending aggressive growth when the case shows the runway (cash / monthly burn) is under 12 months."
+        }
+      ],
+      "keyPoints": [
+        "Allocate the bundle price on relative SSP; licence at a point in time, support over time.",
+        "Ind AS 102: grant-date fair value x options expected to vest, spread over vesting, trued up for service conditions.",
+        "ESOP perquisite = FMV on exercise date - exercise price; deferred for eligible startup employees.",
+        "VC method: post-money = exit value / (1 + target return)^n; stake = investment / post-money.",
+        "Export of services: five conditions of section 2(6) IGST Act; zero-rated under LUT or with refund.",
+        "Angel tax (section 56(2)(viib) of the 1961 Act) omitted from AY 2025-26.",
+        "Startups may grant ESOPs to promoters for ten years from incorporation; SA 402 for cloud service providers."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-ibs-05-it-startup-case1",
+          "title": "Case: CodeNest Technologies Pvt Ltd - contracts, ESOPs and funding",
+          "body": "CodeNest Technologies Pvt Ltd (CNT), Bengaluru, was incorporated in 2021 and is recognised by DPIIT as a startup. It sells hospital management software to clinics in India and the USA and follows Ind AS (it is a subsidiary of a listed investor). Year end 31 March.\n\n**Contract with Medilink Hospitals (signed 1 October 2026), total price ₹60 lakh**\n\n| Element | Standalone selling price (₹ lakh) | Timing |\n| --- | --- | --- |\n| Three-year term licence (software as it exists; no significant customisation) | 40 | Delivered 1 October 2026 |\n| Implementation and data migration | 15 | Completed 31 December 2026 |\n| Support and updates for one year | 25 | 1 October 2026 to 30 September 2027 |\n\n**ESOPs**: on 1 April 2026 CNT granted 1,000 options each to 50 employees, vesting after three years of service. Grant-date fair value ₹300 per option. At 31 March 2027 CNT expects 10% of the options to lapse because of attrition.\n\n**Series B**: a VC fund will invest ₹25 crore. It expects CNT's revenue in Year 5 to be ₹200 crore and an exit at 6 times revenue, and targets a 40% annual return."
+        },
+        {
+          "id": "ca-fin-ibs-05-it-startup-case2",
+          "title": "Case: CodeNest Technologies Pvt Ltd - tax, law and audit",
+          "body": "Further facts for FY 2026-27:\n\n- CNT provides software support to Carewell Inc, an unrelated US hospital group, from Bengaluru, invoiced in USD and paid into CNT's bank account in USD. CNT has furnished an LUT.\n- In Series A (2023) CNT issued shares at a premium; the founders ask whether the Series B premium can be taxed in CNT's hands.\n- Riya, an employee, exercised 2,000 vested options from an earlier plan at ₹100 per share in January 2027, when the FMV was ₹800 per share.\n- The founders (holding 35% each) want ESOPs for themselves.\n- CNT's billing, revenue records and payroll run on a third-party cloud ERP. The statutory auditor plans to rely on the ERP provider's controls."
+        }
+      ],
+      "questions": [
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-05-it-startup-case1",
+          "prompt": "Compute the revenue CNT recognises in FY 2026-27 from the Medilink contract. Answer in ₹ lakh to 3 decimals.",
+          "answer": 50.625,
+          "tolerance": 0.01,
+          "unit": "₹ lakh",
+          "explanation": "| Obligation | Allocation (60 x SSP / 80) | Recognised in FY 2026-27 |\n| --- | --- | --- |\n| Term licence (point in time, 1 Oct 2026) | 30.00 | 30.000 |\n| Implementation (done by 31 Dec 2026) | 11.25 | 11.250 |\n| Support (6 of 12 months) | 18.75 | 9.375 |\n| **Total** | **60.00** | **50.625** |\n\nThe balance ₹9.375 lakh is a contract liability (deferred revenue) at year end.",
+          "id": "ca-fin-ibs-05-it-startup-q01"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-05-it-startup-case1",
+          "prompt": "Compute CNT's ESOP expense for FY 2026-27 under Ind AS 102. Answer in ₹ lakh.",
+          "answer": 45,
+          "tolerance": 0.1,
+          "unit": "₹ lakh",
+          "explanation": "Options expected to vest = 50 x 1,000 x 90% = 45,000.\n\nExpense for Year 1 = 45,000 x ₹300 x 1/3 = **₹45 lakh** (Dr Employee benefits expense, Cr Share-based payment reserve).",
+          "id": "ca-fin-ibs-05-it-startup-q02"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-05-it-startup-case1",
+          "prompt": "Using the VC method, compute the stake the fund should ask for in exchange for ₹25 crore. Answer as a % to 2 decimals.",
+          "answer": 11.2,
+          "tolerance": 0.02,
+          "unit": "%",
+          "explanation": "- Exit value = 200 x 6 = ₹1,200 crore.\n- Post-money value today = 1,200 / 1.4^5 = 1,200 / 5.37824 = ₹223.12 crore.\n- Required stake = 25 / 223.12 = **11.20%**.\n- Pre-money value = 223.12 - 25 = ₹198.12 crore.",
+          "id": "ca-fin-ibs-05-it-startup-q03"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-05-it-startup-case1",
+          "prompt": "Why is the implementation service a separate performance obligation in the Medilink contract?",
+          "options": [
+            "It does not significantly modify the software, so the customer can benefit from the licence and the service separately",
+            "It is invoiced separately",
+            "It is performed by a different team",
+            "It has a lower margin than the licence"
+          ],
+          "answer": 0,
+          "explanation": "A good or service is distinct if the customer can benefit from it on its own or with readily available resources, and it is separately identifiable in the contract. Implementation without significant customisation meets both tests. Invoicing, team or margin do not decide distinctness.",
+          "id": "ca-fin-ibs-05-it-startup-q04"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-05-it-startup-case1",
+          "prompt": "If the fund expects its stake to be diluted by a later round in which existing holders retain 80% of their holding, what stake should it ask for now?",
+          "options": [
+            "About 14.01%",
+            "About 8.96%",
+            "About 11.20%, as dilution does not matter",
+            "About 50%"
+          ],
+          "answer": 0,
+          "explanation": "Required stake at exit is 11.20%. With a retention ratio of 0.8, the stake today must be 11.20 / 0.8 = 14.01% so that after dilution the fund still holds the stake it needs.",
+          "id": "ca-fin-ibs-05-it-startup-q05"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-05-it-startup-case2",
+          "prompt": "What is the GST position of CNT's support services to Carewell Inc?",
+          "options": [
+            "Export of services, zero-rated; CNT supplies under LUT without IGST and may claim refund of unused ITC",
+            "Taxable at 18% IGST as CNT is located in India",
+            "Exempt supply, so ITC must be reversed",
+            "Not a supply because the recipient is outside India"
+          ],
+          "answer": 0,
+          "explanation": "Supplier in India, recipient outside India, place of supply (location of recipient) outside India, payment in convertible foreign exchange, and the parties are unrelated: all section 2(6) conditions are met. Exports are zero-rated under section 16 of the IGST Act, not exempt, so ITC is not reversed.",
+          "id": "ca-fin-ibs-05-it-startup-q06"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-05-it-startup-case2",
+          "prompt": "Can the Series B share premium be taxed in CNT's hands as income because it exceeds fair market value?",
+          "options": [
+            "No: the angel tax provision (section 56(2)(viib) of the 1961 Act) was omitted from AY 2025-26",
+            "Yes: premium above FMV is always income of a closely held company",
+            "Yes, unless the investor is a foreign fund",
+            "Only the premium above ₹25 crore is taxable"
+          ],
+          "answer": 0,
+          "explanation": "The Finance (No. 2) Act 2024 omitted section 56(2)(viib) from AY 2025-26 (tax year 2024-25 onward), and the Income-tax Act 2025 does not reintroduce it. Share premium is a capital receipt for CNT; FEMA pricing rules still apply to foreign investors.",
+          "id": "ca-fin-ibs-05-it-startup-q07"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-05-it-startup-case2",
+          "prompt": "Compute the perquisite value taxable in Riya's hands on the exercise of options. Answer in ₹ lakh.",
+          "answer": 14,
+          "tolerance": 0.01,
+          "unit": "₹ lakh",
+          "explanation": "Perquisite = (FMV on exercise date - exercise price) x shares = (800 - 100) x 2,000 = ₹14,00,000 = **₹14 lakh**. As CNT is an eligible startup, tax on it may be deferred to the earliest of the end of the 48-month window, sale of the shares or Riya leaving CNT. Her cost for capital gains is the FMV of ₹800 per share.",
+          "id": "ca-fin-ibs-05-it-startup-q08"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-05-it-startup-case2",
+          "prompt": "Can CNT grant ESOPs to the founders, who hold 35% each?",
+          "options": [
+            "Yes, because CNT is a DPIIT-recognised startup within ten years of incorporation",
+            "No, promoters can never receive ESOPs",
+            "Yes, but only if CNT is listed",
+            "Yes, with Central Government approval only"
+          ],
+          "answer": 0,
+          "explanation": "The Companies (Share Capital and Debentures) Rules bar ESOPs to promoters and to directors holding more than 10% of equity, but relax this for a startup up to ten years from incorporation. CNT was incorporated in 2021, so it qualifies until 2031 if it stays a recognised startup.",
+          "id": "ca-fin-ibs-05-it-startup-q09"
+        },
+        {
+          "type": "truefalse",
+          "prompt": "Under Ind AS 102, a company re-estimates the number of options expected to vest each year for employees leaving before vesting, and adjusts the cumulative expense.",
+          "answer": true,
+          "explanation": "Service conditions are non-market vesting conditions. The entity revises its estimate of options expected to vest at each reporting date and on vesting trues up to the actual number. The grant-date fair value is not remeasured.",
+          "id": "ca-fin-ibs-05-it-startup-q10"
+        },
+        {
+          "type": "multi",
+          "prompt": "Which conditions must all be met for a supply of services to be an export of services under section 2(6) of the IGST Act?",
+          "options": [
+            "The supplier is located in India",
+            "The recipient is located outside India",
+            "The place of supply is outside India",
+            "Payment is received in convertible foreign exchange or in INR where RBI permits",
+            "The supplier has no domestic customers"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Section 2(6) also requires that supplier and recipient are not merely establishments of a distinct person. Having domestic customers does not affect export status.",
+          "id": "ca-fin-ibs-05-it-startup-q11"
+        },
+        {
+          "type": "fill",
+          "prompt": "Fill the blank: when a user entity relies on a cloud provider's controls, its auditor applies SA ___, Audit Considerations Relating to an Entity Using a Service Organisation.",
+          "accept": [
+            "402"
+          ],
+          "explanation": "SA 402 covers the user auditor's work, including the use of Type 1 and Type 2 reports from the service auditor.",
+          "id": "ca-fin-ibs-05-it-startup-q12"
+        },
+        {
+          "type": "practical",
+          "top": true,
+          "prompt": "Pass the Ind AS 102 journal entries for CNT's ESOP for all three years.",
+          "data": "50,000 options granted on 1 April 2026; grant-date fair value ₹300; vesting after three years of service. Expected lapses: 10% at 31 March 2027, 15% at 31 March 2028. Actual options vested on 31 March 2029: 41,000.",
+          "answer": "**Workings (₹ lakh)**\n\n| Year end | Options expected or vested | Cumulative expense | Expense for the year |\n| --- | --- | --- | --- |\n| 31 Mar 2027 | 45,000 | 45,000 x 300 x 1/3 = 45.00 | 45.00 |\n| 31 Mar 2028 | 42,500 | 42,500 x 300 x 2/3 = 85.00 | 40.00 |\n| 31 Mar 2029 | 41,000 | 41,000 x 300 = 123.00 | 38.00 |\n\n**Journal entry each year**\n\n| Entry | Dr | Cr |\n| --- | --- | --- |\n| Employee benefits expense Dr | 45.00 / 40.00 / 38.00 | |\n| To Share-based payment reserve (equity) | | 45.00 / 40.00 / 38.00 |\n\nOn exercise: Dr Bank (exercise price) and Dr Share-based payment reserve; Cr Equity share capital and Cr Securities premium. Lapsed vested options: transfer the reserve to retained earnings (no reversal through profit or loss).",
+          "id": "ca-fin-ibs-05-it-startup-q13"
+        },
+        {
+          "type": "interview",
+          "top": true,
+          "prompt": "CNT has 14 months of cash runway and plans to double its US sales team. Advise on strategy and funding.",
+          "answer": "- Check unit economics first: if LTV/CAC is below 3 or churn is high, doubling sales spend burns cash without value.\n- Raise the Series B (post-money about ₹223.12 crore at the fund's terms) before runway falls under 12 months, since negotiating power drops as cash runs down.\n- Focus (Porter) or blue ocean: concentrate on the clinic segment where CNT already wins rather than chasing large hospital chains against incumbents.\n- Protect the export model: keep LUT compliance and FEMA realisation timelines so GST refunds and cash flow are not delayed.\n- Use a balanced scorecard: ARR growth and burn multiple (financial), churn and NPS (customer), uptime and release cadence (process), engineer attrition and ESOP coverage (learning).\n- Recommendation: expand the US team in phases tied to pipeline milestones, funded by the Series B.",
+          "id": "ca-fin-ibs-05-it-startup-q14"
+        },
+        {
+          "type": "interview",
+          "prompt": "Explain how the statutory auditor of CNT should use the cloud ERP provider's controls report.",
+          "answer": "Under SA 402 the auditor first understands the services, their significance to financial reporting (billing, revenue and payroll) and the controls at CNT that interact with the ERP. A Type 1 report covers only the design of controls at a point in time; to rely on operating effectiveness the auditor needs a Type 2 report covering a period that overlaps the audit year. The auditor evaluates the service auditor's competence and independence, the scope, exceptions noted and any carve-out of sub-service organisations, and tests the complementary user entity controls listed in the report (for example, user access reviews at CNT). Where the period does not cover the year, the auditor gets a bridge letter and performs additional procedures. The auditor's report does not refer to the service auditor's report (SA 402).",
+          "id": "ca-fin-ibs-05-it-startup-q15"
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal: Acts, rules and notifications",
+          "url": "https://cbic-gst.gov.in/"
+        },
+        {
+          "title": "Income Tax Department: Acts and rules",
+          "url": "https://www.incometaxindia.gov.in/"
+        },
+        {
+          "title": "MCA: Companies Act and Ind AS rules",
+          "url": "https://www.mca.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-ibs-06-fmcg-retail",
+      "title": "Case Set: FMCG and Retail",
+      "level": "intermediate",
+      "summary": "A consumer products company selling through distributors and its own stores: variable consideration, returns, loyalty points, payments to retailers, working capital, CSR, GST on discounts and samples, royalty TDS, inventory audit and portfolio strategy.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Ind AS as notified by MCA; Companies Act 2013; SAs issued by ICAI; Income-tax Act 2025 (tax year 2026-27, Finance Act 2026); CGST/IGST Acts after the September 2025 rate rationalisation",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Revenue in FMCG: variable consideration",
+          "body": "FMCG revenue is full of variable consideration: volume rebates, trade schemes, expected returns, cash discounts. Ind AS 115 requires the entity to estimate it (expected value or most likely amount) and include it only to the extent a significant reversal is highly unlikely.\n\n| Item | Treatment |\n| --- | --- |\n| Expected returns | Reduce revenue; recognise a refund liability; recognise an asset (right to recover goods) at former carrying amount less recovery costs, and reduce cost of sales |\n| Volume rebates and trade schemes | Reduce revenue; refund liability to the distributor |\n| Loyalty points | Separate performance obligation (material right); allocate price on relative SSP, defer revenue until points are redeemed or expire |\n| Slotting or listing fees paid to retailers | Consideration payable to a customer: reduce revenue unless in exchange for a distinct good or service at fair value |\n| Free samples to consumers | Marketing expense, not revenue |\n\nWorked example: retail sales ₹100 crore with points whose SSP is ₹5 crore. Allocation to points = 100 x 5 / 105 = ₹4.76 crore, deferred."
+        },
+        {
+          "heading": "Working capital and value metrics",
+          "body": "FMCG companies often run on negative or very low working capital because distributors pay quickly and suppliers give credit.\n\n- Inventory days = inventory / cost of goods sold x 365.\n- Receivable days = trade receivables / revenue x 365.\n- Payable days = trade payables / purchases x 365.\n- Cash conversion cycle (CCC) = inventory days + receivable days - payable days.\n\nEVA = NOPAT - WACC x capital employed. A brand-heavy business has high EVA because its capital base is small. In the exam, compute the metric and then interpret it: a short CCC funds growth internally; stretching payables too far risks supplier relations and MSME payment rules (45-day limit under the MSMED Act and the related tax disallowance)."
+        },
+        {
+          "heading": "GST: discounts, schemes and samples",
+          "body": "- **Discounts before or at supply** shown on the invoice reduce the taxable value (section 15(3)(a) of the CGST Act).\n- **Post-supply discounts** reduce value only if agreed before or at supply, linked to specific invoices, and the recipient reverses the related ITC (section 15(3)(b)); the supplier issues a tax credit note under section 34. Otherwise, issue a financial credit note without reducing GST.\n- **Free samples and gifts**: ITC on goods given as free samples or gifts is blocked (section 17(5)(h)); so is ITC on goods lost, stolen, destroyed or written off. Gifts to employees up to ₹50,000 a year are not a supply.\n- **Buy one get one free** is one supply of two items at one price, not a free supply; ITC is available on both.\n\n**Royalty to a foreign brand owner**: tax is deducted at the rate in the Act or, if lower, the DTAA rate when the payee furnishes a tax residency certificate and the prescribed details (the treaty override corresponds to section 90(2) of the 1961 Act). The payment also falls under transfer pricing if the payee is an associated enterprise."
+        },
+        {
+          "heading": "Audit and company law in FMCG",
+          "body": "- **Revenue cut-off** at year end (dispatches to distributors in the last week, stock pushed into the channel) is a fraud risk: SA 240 presumes a risk of fraud in revenue recognition.\n- **Inventory at depots and stores**: attend counts (SA 501), test expiry and NRV. CARO 2020 clause 3(ii)(a) asks whether discrepancies of 10% or more in aggregate for each class of inventory were noticed on physical verification and properly dealt with.\n- **CSR (section 135)**: applies if, in the immediately preceding financial year, net worth is ₹500 crore or more, or turnover ₹1,000 crore or more, or net profit ₹5 crore or more. Spend at least 2% of average net profits (computed under section 198) of the three immediately preceding financial years. Unspent amounts go to a Schedule VII fund within six months, or to an Unspent CSR Account for ongoing projects."
+        },
+        {
+          "heading": "Strategy: brands and portfolios",
+          "body": "- **BCG matrix**: a leading brand in a mature category is a cash cow (high share, low growth); a new health-food brand with small share in a fast-growing category is a question mark. Cash cows fund question marks; dogs are harvested or divested.\n- **Generic strategies**: mass brands compete on cost leadership (distribution reach, scale purchasing); premium brands on differentiation.\n- **Distribution**: modern trade and quick commerce grow faster than general trade but demand higher margins and listing fees. Direct-to-consumer channels give data but cost more per order.\n\nAnswer pattern: classify the case's brands, show the cash flows between them, and recommend where to invest, citing the case figures."
+        }
+      ],
+      "keyPoints": [
+        "Expected returns and rebates reduce revenue; refund liability plus an asset for goods expected back.",
+        "Loyalty points: allocate on relative SSP and defer until redemption.",
+        "Payments to retailers reduce revenue unless for a distinct good or service.",
+        "CCC = inventory days + receivable days - payable days.",
+        "Section 15(3)(b): post-supply discount reduces value only if pre-agreed, invoice-linked and ITC reversed.",
+        "Section 17(5)(h): no ITC on free samples, gifts, or goods destroyed or written off.",
+        "CSR: 2% of average net profits of the three preceding years; CARO 3(ii)(a): 10% inventory discrepancy test."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-ibs-06-fmcg-retail-case1",
+          "title": "Case: Annapurna Consumer Products Ltd - revenue and working capital",
+          "body": "Annapurna Consumer Products Ltd (ACPL), Indore, is a listed Ind AS company selling packaged staples (atta, spices) and a new millet snack brand. It sells through 900 distributors and runs 120 own retail stores. Its brand is licensed from its Singapore parent.\n\n**FY 2026-27 data (₹ crore)**\n\n| Item | Amount |\n| --- | --- |\n| Invoiced sales to distributors | 500 |\n| Expected returns (based on history) | 2% of invoiced sales |\n| Cost of goods as % of sales | 60% |\n| Volume rebates expected to be earned by distributors | 3% of invoiced sales |\n| Sales in own stores (loyalty points issued) | 100 |\n| Standalone selling price of points issued | 5 |\n| Listing fees paid to a supermarket chain (no distinct service) | 4 |\n\n**Working capital at 31 March 2027 (₹ crore)**: inventory 75, trade receivables 25, trade payables 100. Cost of goods sold 600, purchases 610, revenue for ratio purposes 475.\n\n**Portfolio**: the atta brand has 28% share in a category growing 3% a year; the millet snack has 2% share in a category growing 25% a year."
+        },
+        {
+          "id": "ca-fin-ibs-06-fmcg-retail-case2",
+          "title": "Case: Annapurna Consumer Products Ltd - tax, CSR and audit",
+          "body": "Further facts:\n\n- Net profits of ACPL computed under section 198: FY 2023-24 ₹210 crore, FY 2024-25 ₹240 crore, FY 2025-26 ₹270 crore.\n- ACPL pays a brand royalty of ₹20 crore for FY 2026-27 to its Singapore parent. The parent has a tax residency certificate; assume the DTAA rate on royalty is 10% and lower than the rate under the Act.\n- ACPL announced a year-end scheme: a 4% discount to distributors on March 2027 purchases, decided on 25 April 2027 and paid by credit notes.\n- Free sample packs (GST paid on inputs ₹0.60 crore) were distributed in a promotion.\n- Physical verification at three depots showed shortages of 12% in the spice category; the auditor noted heavy dispatches in the last five days of March 2027."
+        }
+      ],
+      "questions": [
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-06-fmcg-retail-case1",
+          "prompt": "Compute the revenue ACPL recognises on distributor sales for FY 2026-27, before the listing fee adjustment. Answer in ₹ crore.",
+          "answer": 475,
+          "tolerance": 0.5,
+          "unit": "₹ crore",
+          "explanation": "| Particulars | ₹ crore |\n| --- | --- |\n| Invoiced sales | 500 |\n| Less: expected returns 2% | (10) |\n| Less: expected volume rebates 3% | (15) |\n| **Revenue** | **475** |\n\nRefund liabilities of ₹25 crore are recognised. An asset for goods expected to be returned of 10 x 60% = ₹6 crore is recognised and cost of sales reduced by the same amount.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q01"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-06-fmcg-retail-case1",
+          "prompt": "How much of the ₹100 crore store sales is deferred as a contract liability for loyalty points? Answer in ₹ crore to 2 decimals.",
+          "answer": 4.76,
+          "tolerance": 0.01,
+          "unit": "₹ crore",
+          "explanation": "Allocate on relative SSP: points = 100 x 5 / (100 + 5) = **₹4.76 crore**, deferred until redemption or expiry. Goods = ₹95.24 crore, recognised at the point of sale.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q02"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-06-fmcg-retail-case1",
+          "prompt": "How should ACPL account for the ₹4 crore listing fee paid to the supermarket chain?",
+          "options": [
+            "Reduce revenue, as it is consideration payable to a customer with no distinct service received",
+            "Advertising expense",
+            "Capitalise as an intangible asset",
+            "Prepaid expense amortised over three years"
+          ],
+          "answer": 0,
+          "explanation": "The supermarket is ACPL's customer. Under Ind AS 115, consideration payable to a customer reduces the transaction price unless it pays for a distinct good or service at fair value. The case states no distinct service.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q03"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-06-fmcg-retail-case1",
+          "prompt": "Compute ACPL's cash conversion cycle using year-end balances and a 365-day year. Answer in days to 2 decimals.",
+          "answer": 5,
+          "tolerance": 0.02,
+          "unit": "days",
+          "explanation": "| Metric | Working | Days |\n| --- | --- | --- |\n| Inventory days | 75 / 600 x 365 | 45.63 |\n| Receivable days | 25 / 475 x 365 | 19.21 |\n| Payable days | 100 / 610 x 365 | (59.84) |\n| **CCC** | | **5.00** |\n\nA five-day cycle means suppliers fund almost all of ACPL's inventory and receivables.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q04"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-06-fmcg-retail-case1",
+          "prompt": "Using the BCG matrix, how should ACPL classify its two brands?",
+          "options": [
+            "Atta: cash cow; millet snack: question mark",
+            "Atta: star; millet snack: dog",
+            "Atta: dog; millet snack: star",
+            "Both are stars"
+          ],
+          "answer": 0,
+          "explanation": "Atta has high relative share (28%) in a low-growth category (3%): cash cow. The millet snack has low share (2%) in a high-growth category (25%): question mark. Cash from atta can fund the snack until it gains share or is dropped.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q05"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-06-fmcg-retail-case2",
+          "prompt": "Compute ACPL's minimum CSR spend for FY 2026-27. Answer in ₹ crore to 2 decimals.",
+          "answer": 4.8,
+          "tolerance": 0.01,
+          "unit": "₹ crore",
+          "explanation": "Average net profit of the three immediately preceding years = (210 + 240 + 270) / 3 = ₹240 crore. CSR = 2% x 240 = **₹4.80 crore** (section 135(5)).",
+          "id": "ca-fin-ibs-06-fmcg-retail-q06"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-06-fmcg-retail-case2",
+          "prompt": "Compute the tax ACPL must deduct on the ₹20 crore royalty, applying the DTAA rate. Answer in ₹ crore to 2 decimals.",
+          "answer": 2,
+          "tolerance": 0.01,
+          "unit": "₹ crore",
+          "explanation": "The payee may apply the DTAA where it is more beneficial (treaty override, corresponding to section 90(2) of the 1961 Act), given a tax residency certificate and the prescribed details. TDS = 20 x 10% = **₹2.00 crore**. No surcharge or cess is added to a treaty rate. The royalty is also an international transaction with an associated enterprise, so it must be at arm's length.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q07"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-06-fmcg-retail-case2",
+          "prompt": "Can ACPL reduce the GST value of March 2027 sales by the 4% discount decided on 25 April 2027?",
+          "options": [
+            "No: the discount was not agreed before or at the time of supply, so it does not reduce value under section 15(3)(b); a financial credit note without GST is issued",
+            "Yes: any discount given by credit note reduces value",
+            "Yes, if distributors agree in writing after the event",
+            "No GST effect either way because discounts are exempt"
+          ],
+          "answer": 0,
+          "explanation": "Section 15(3)(b) requires the post-supply discount to be established in terms of an agreement entered into at or before the time of supply and linked to specific invoices, with the recipient reversing the related ITC. A discount decided after the supply fails the first condition.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q08"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-06-fmcg-retail-case2",
+          "prompt": "What should the auditor report under CARO 2020 about the spice shortages?",
+          "options": [
+            "Whether discrepancies of 10% or more in aggregate for the class were noticed and whether they were properly dealt with in the books (clause 3(ii)(a))",
+            "Nothing, as CARO does not cover inventory",
+            "Only shortages above 20% are reportable",
+            "Report the shortage to the Central Government as fraud"
+          ],
+          "answer": 0,
+          "explanation": "A 12% shortage in a class of inventory crosses the 10% aggregate threshold in clause 3(ii)(a). The auditor states whether it was properly dealt with. Fraud reporting under section 143(12) arises only if the auditor has reason to believe a fraud has occurred.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q09"
+        },
+        {
+          "type": "truefalse",
+          "prompt": "ACPL can take input tax credit of the ₹0.60 crore GST paid on inputs used for free sample packs.",
+          "answer": false,
+          "explanation": "Section 17(5)(h) of the CGST Act blocks ITC on goods disposed of by way of gift or free samples. The ₹0.60 crore is a cost of the promotion.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q10"
+        },
+        {
+          "type": "multi",
+          "prompt": "Which of these reduce ACPL's revenue under Ind AS 115?",
+          "options": [
+            "Expected volume rebates to distributors",
+            "Expected sales returns",
+            "Listing fees paid to a retailer for no distinct service",
+            "Cost of free sample packs given to consumers",
+            "Freight on outward deliveries"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Rebates and returns are variable consideration; listing fees are consideration payable to a customer. Free samples are a marketing expense and outward freight is a selling or fulfilment cost.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q11"
+        },
+        {
+          "type": "fill",
+          "prompt": "Fill the blank: SA ___ requires the auditor to presume that there are risks of fraud in revenue recognition.",
+          "accept": [
+            "240"
+          ],
+          "explanation": "SA 240 sets a rebuttable presumption of fraud risk in revenue recognition, which drives cut-off testing at year end.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q12"
+        },
+        {
+          "type": "practical",
+          "top": true,
+          "prompt": "Pass the journal entries for ACPL's distributor sales with expected returns and rebates for FY 2026-27.",
+          "data": "Invoiced sales ₹500 crore (cash received or receivable); expected returns 2%; cost of goods 60% of sales; expected volume rebates 3%. Ignore GST.",
+          "answer": "**Journal entries (₹ crore)**\n\n| Entry | Dr | Cr |\n| --- | --- | --- |\n| Trade receivables / Bank Dr | 500 | |\n| To Revenue from operations | | 475 |\n| To Refund liability - returns | | 10 |\n| To Refund liability - volume rebates | | 15 |\n| Cost of goods sold Dr | 294 | |\n| Right to recover returned goods (asset) Dr | 6 | |\n| To Inventory | | 300 |\n\nWorkings: returns 500 x 2% = 10; rebates 500 x 3% = 15; inventory issued 500 x 60% = 300; asset for goods expected back 10 x 60% = 6.\n\nAt each reporting date update the estimates; any change adjusts revenue (and the asset and cost of sales).",
+          "id": "ca-fin-ibs-06-fmcg-retail-q13"
+        },
+        {
+          "type": "interview",
+          "top": true,
+          "prompt": "The auditor notes heavy dispatches to distributors in the last five days of March 2027. What procedures should the auditor perform?",
+          "answer": "- Treat it as a fraud risk in revenue recognition (SA 240) and a possible channel-stuffing scheme to meet targets.\n- Test cut-off: match the last week's invoices with delivery proofs and transfer of control terms; goods in transit at year end are revenue only if control passed.\n- Examine April 2027 credit notes and returns (SA 560): a spike indicates revenue that should not have been recognised.\n- Confirm balances and scheme terms with selected distributors (SA 505); compare distributor stock levels with normal days of stock.\n- Review management's estimate of returns and rebates (SA 540), and the related schemes announced after year end.\n- Communicate findings to those charged with governance (SA 260) and consider the effect on the opinion (SA 705) if material misstatement remains.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q14"
+        },
+        {
+          "type": "interview",
+          "prompt": "Recommend a portfolio strategy for ACPL's atta and millet snack brands.",
+          "answer": "- Atta is a cash cow (28% share, 3% growth): defend share with cost leadership in sourcing and distribution, keep investment to maintenance, and harvest cash.\n- The millet snack is a question mark (2% share, 25% growth): it needs heavy investment to become a star or should be dropped. Test it in modern trade and quick commerce where health snacks grow fastest; set a share target (say 6-8% in two years).\n- Fund the snack from atta cash flows, keeping ACPL's short cash cycle (about five days).\n- Watch costs that reduce revenue (listing fees, rebates) and track brand-level contribution, not just sales.\n- Exit trigger: if the snack does not reach the share target, divest or reposition it, so cash is not trapped in a future dog.",
+          "id": "ca-fin-ibs-06-fmcg-retail-q15"
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal: Acts, rules and notifications",
+          "url": "https://cbic-gst.gov.in/"
+        },
+        {
+          "title": "MCA: Companies Act and Ind AS rules",
+          "url": "https://www.mca.gov.in/"
+        },
+        {
+          "title": "Income Tax Department: Acts and rules",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-ibs-07-pharma-health",
+      "title": "Case Set: Pharma and Healthcare",
+      "level": "advanced",
+      "summary": "An export-oriented pharma company with a hospital arm: Ind AS 38 development costs, Ind AS 36 impairment after a USFDA warning letter, export receivable hedging, transfer pricing, material related party transactions, R&D tax deductions, healthcare GST and use of experts.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Ind AS as notified by MCA; Companies Act 2013; SAs issued by ICAI; Income-tax Act 2025 (tax year 2026-27, Finance Act 2026); CGST/IGST Acts after the September 2025 rate rationalisation; SEBI LODR Regulations",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "R&D and intangibles (Ind AS 38)",
+          "body": "Research costs are always expensed. Development costs are capitalised only from the date all six criteria are demonstrated: technical feasibility, intention to complete, ability to use or sell, how the asset will generate probable future economic benefits, availability of resources to complete, and reliable measurement of cost. Costs expensed earlier are not reinstated.\n\nIn pharma, the criteria are usually met late, often at regulatory filing or approval, because of the risk of failure in trials. In-process R&D acquired in a business combination is recognised separately at fair value under Ind AS 103, even though internal R&D of the same kind would be expensed.\n\n| Cost | Treatment |\n| --- | --- |\n| Research (molecule screening) | Expense |\n| Development before all criteria met | Expense |\n| Development after all criteria met | Capitalise; amortise from availability for use |\n| Intangible not yet available for use | Test for impairment annually |"
+        },
+        {
+          "heading": "Impairment after a regulatory action (Ind AS 36)",
+          "body": "A USFDA warning letter or import alert on a plant is an impairment indicator for the cash-generating unit (CGU) that serves the US market.\n\n- Recoverable amount = higher of fair value less costs of disposal (FVLCD) and value in use (VIU).\n- Impairment loss = carrying amount - recoverable amount.\n- Allocate the loss first to goodwill of the CGU, then to other assets pro rata to carrying amounts, without reducing any asset below the highest of its FVLCD, VIU and zero.\n\nThe same event drives other answers in a multidisciplinary case: inventory NRV (Ind AS 2) for stock that cannot be shipped, provisions or contingent liabilities (Ind AS 37) for remediation and customer claims, disclosure of a key audit matter (SA 701), consideration of non-compliance with laws and regulations (SA 250) and going concern (SA 570) if the US market is most of revenue."
+        },
+        {
+          "heading": "Hedging export receivables",
+          "body": "An exporter with USD receivables fears rupee appreciation.\n\n| Method | Steps |\n| --- | --- |\n| Forward cover | Sell USD forward: rupees = USD x forward rate |\n| Money market hedge | Borrow USD today equal to PV of the receivable, convert at spot, invest rupees till the due date; the receivable repays the USD loan |\n| Option | Buy a USD put: protects downside, keeps upside, costs a premium |\n\nMoney market hedge: USD borrowed = receivable / (1 + USD rate x t); rupees at maturity = USD borrowed x spot x (1 + INR rate x t). Choose the method that gives the higher rupee inflow. Under Ind AS 109 the exporter can designate the forward as a cash flow hedge of a highly probable forecast sale."
+        },
+        {
+          "heading": "Tax and law for pharma groups",
+          "body": "- **Transfer pricing**: sales of APIs or formulations to a foreign subsidiary are international transactions with an associated enterprise. The price must be at arm's length (comparable uncontrolled price method where similar third-party sales exist). An adjustment increases Indian income: (ALP - actual price) x quantity.\n- **R&D deductions**: revenue expenditure on scientific research related to the business and capital expenditure on it (other than land) are deductible in full (correspond to sections 35(1)(i) and 35(1)(iv) of the 1961 Act). These remain available in the concessional regime; the weighted deductions and deductions for payments to research associations do not.\n- **Material related party transactions (SEBI LODR regulation 23)**: a transaction is material if it exceeds ₹1,000 crore or 10% of the listed entity's annual consolidated turnover, whichever is lower. Material RPTs need prior audit committee approval and shareholders' approval (related parties do not vote). Transactions with a wholly owned subsidiary whose accounts are consolidated are exempt from shareholders' approval.\n- **Healthcare GST**: health care services by a clinical establishment, an authorised medical practitioner or paramedics are exempt; check the current notification for exceptions such as high-tariff non-ICU rooms."
+        },
+        {
+          "heading": "Strategy and audit in pharma",
+          "body": "- **Ansoff**: entering complex generics or biosimilars is product development; selling existing generics in new regulated markets is market development.\n- **Strategic alliances**: in-licensing molecules from biotech startups, contract manufacturing (CDMO) for global innovators; both reduce R&D risk.\n- **Value chain**: R&D and regulatory compliance are the primary sources of competitive advantage in regulated markets; a quality failure destroys it.\n- **Using experts (SA 620)**: valuations of acquired IPR&D, VIU models and litigation assessments need an auditor's expert; the auditor evaluates the expert's competence, objectivity and work, and retains sole responsibility for the opinion."
+        }
+      ],
+      "keyPoints": [
+        "Ind AS 38: capitalise development only after all six criteria are met; no reinstatement of earlier expense.",
+        "Ind AS 36: loss = carrying amount - higher of FVLCD and VIU; goodwill first, then pro rata.",
+        "Money market hedge for a receivable: borrow PV in USD, convert at spot, invest in INR.",
+        "Transfer pricing adjustment = (ALP - actual price) x quantity.",
+        "LODR regulation 23: material RPT above lower of ₹1,000 crore or 10% of consolidated turnover.",
+        "R&D revenue and capital expenditure (other than land) deductible in full, also in the concessional regime.",
+        "SA 620 for experts; SA 250 for regulatory non-compliance; SA 701 KAM for impairment."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-ibs-07-pharma-health-case1",
+          "title": "Case: Sanjeevani Pharma Ltd - R&D, impairment and exports",
+          "body": "Sanjeevani Pharma Ltd (SPL), Ahmedabad, is a listed Ind AS company making generic formulations. 55% of its revenue comes from the USA. It holds 80% of Sanjeevani Inc (USA); a US partner holds 20%.\n\n**R&D in FY 2026-27 (₹ crore)**: research on new molecules 30. Development of a complex injectable: 45 spent evenly over the year; all six Ind AS 38 criteria were demonstrated on 1 October 2026, and ₹18 crore was spent from that date.\n\n**USFDA action**: in February 2027 the USFDA issued a warning letter to SPL's Baroda plant, the only plant approved for the US. Data for the US formulations CGU at 31 March 2027 (₹ crore):\n\n| Asset | Carrying amount |\n| --- | --- |\n| Goodwill | 25 |\n| Plant and machinery | 150 |\n| Product intangibles (ANDAs) | 75 |\n| **Total** | **250** |\n\nValue in use ₹210 crore; fair value less costs of disposal ₹200 crore. The FVLCD of each individual asset is below its share of the loss.\n\n**Export receivable**: USD 20 million due from a US distributor in three months. Spot ₹86.80/USD, three-month forward ₹87.50/USD, USD borrowing rate 6% p.a., rupee deposit rate 7.5% p.a."
+        },
+        {
+          "id": "ca-fin-ibs-07-pharma-health-case2",
+          "title": "Case: Sanjeevani Pharma Ltd - group transactions and hospitals",
+          "body": "Further facts:\n\n- SPL sold 50,000 kg of an API to Sanjeevani Inc at ₹400 per kg. SPL sells the same API under similar terms to an unrelated US buyer at ₹460 per kg.\n- SPL's consolidated turnover for FY 2025-26 was ₹8,000 crore. Sales to Sanjeevani Inc in FY 2027-28 are expected to be ₹900 crore.\n- SPL bought R&D lab equipment for ₹12 crore and land for a new lab for ₹20 crore. SPL is in the concessional tax regime.\n- SPL's subsidiary Sanjeevani Hospitals Pvt Ltd runs two multi-speciality hospitals.\n- The auditor plans to rely on a valuation firm's VIU model for the US CGU."
+        }
+      ],
+      "questions": [
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-07-pharma-health-case1",
+          "prompt": "Compute the total R&D expense SPL charges to profit or loss in FY 2026-27. Answer in ₹ crore.",
+          "answer": 57,
+          "tolerance": 0.5,
+          "unit": "₹ crore",
+          "explanation": "| Cost | ₹ crore | Treatment |\n| --- | --- | --- |\n| Research | 30 | Expense |\n| Development before 1 October 2026 (45 - 18) | 27 | Expense |\n| Development from 1 October 2026 | 18 | Capitalise (intangible under development) |\n| **Charged to P&L** | **57** | |\n\nThe ₹27 crore expensed earlier is not reinstated.",
+          "id": "ca-fin-ibs-07-pharma-health-q01"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-07-pharma-health-case1",
+          "prompt": "Compute the impairment loss allocated to plant and machinery in the US formulations CGU. Answer in ₹ crore.",
+          "answer": 10,
+          "tolerance": 0.05,
+          "unit": "₹ crore",
+          "explanation": "Recoverable amount = higher of 210 and 200 = 210. Loss = 250 - 210 = 40.\n\n| Asset | Carrying | Loss | Revised |\n| --- | --- | --- | --- |\n| Goodwill | 25 | (25) | 0 |\n| Plant (15 x 150/225) | 150 | **(10)** | 140 |\n| ANDAs (15 x 75/225) | 75 | (5) | 70 |\n| Total | 250 | (40) | 210 |",
+          "id": "ca-fin-ibs-07-pharma-health-q02"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-07-pharma-health-case1",
+          "prompt": "Compute the rupee inflow at the end of three months under a money market hedge for the USD 20 million receivable. Answer in ₹ crore to 2 decimals.",
+          "answer": 174.24,
+          "tolerance": 0.02,
+          "unit": "₹ crore",
+          "explanation": "- USD borrowed today = 20 / (1 + 6% x 3/12) = USD 19.7044 million.\n- Converted at spot 86.80 = ₹171.0345 crore.\n- Invested at 7.5% for 3 months: 171.0345 x 1.01875 = **₹174.24 crore**.\n\nThe receivable of USD 20 million repays the USD loan with interest. Forward cover gives 20 x 87.50 = ₹175.00 crore, so the forward is better by about ₹0.76 crore.",
+          "id": "ca-fin-ibs-07-pharma-health-q03"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-07-pharma-health-case1",
+          "prompt": "Which is NOT a direct consequence of the USFDA warning letter for SPL's FY 2026-27 financial statements and audit?",
+          "options": [
+            "Reclassification of the Baroda plant as investment property",
+            "Impairment testing of the US formulations CGU under Ind AS 36",
+            "Review of NRV of US-bound inventory under Ind AS 2",
+            "Consideration of non-compliance with laws and regulations under SA 250"
+          ],
+          "answer": 0,
+          "explanation": "The plant is still used in production, so it remains property, plant and equipment. The warning letter triggers an impairment test, an NRV review of stock that may not be shipped, SA 250 procedures, a likely key audit matter and possibly going concern considerations.",
+          "id": "ca-fin-ibs-07-pharma-health-q04"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-07-pharma-health-case1",
+          "prompt": "SPL's board plans to supply its existing generics to Brazil and Mexico for the first time. In Ansoff's terms this is:",
+          "options": [
+            "Market development",
+            "Product development",
+            "Market penetration",
+            "Unrelated diversification"
+          ],
+          "answer": 0,
+          "explanation": "Existing products sold in new markets is market development. It also reduces SPL's dependence on the US, where 55% of revenue now sits behind one plant under a warning letter.",
+          "id": "ca-fin-ibs-07-pharma-health-q05"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-07-pharma-health-case2",
+          "prompt": "Compute the transfer pricing adjustment on the API sales to Sanjeevani Inc, using the comparable uncontrolled price method. Answer in ₹ lakh.",
+          "answer": 30,
+          "tolerance": 0.05,
+          "unit": "₹ lakh",
+          "explanation": "Arm's length price (CUP) = ₹460 per kg. Adjustment = (460 - 400) x 50,000 kg = ₹30,00,000 = **₹30 lakh**, added to SPL's total income. Differences in terms, volume or market between the controlled and uncontrolled sales would need adjustment before using the CUP.",
+          "id": "ca-fin-ibs-07-pharma-health-q06"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-07-pharma-health-case2",
+          "prompt": "What approvals do the FY 2027-28 sales of ₹900 crore to Sanjeevani Inc need under SEBI LODR?",
+          "options": [
+            "Prior audit committee approval and shareholders' approval, as ₹900 crore exceeds the materiality threshold of ₹800 crore and the subsidiary is not wholly owned",
+            "Board approval only, as the threshold is ₹1,000 crore",
+            "No approval, as transactions with subsidiaries are always exempt",
+            "Central Government approval"
+          ],
+          "answer": 0,
+          "explanation": "Threshold = lower of ₹1,000 crore and 10% of ₹8,000 crore = ₹800 crore. ₹900 crore is a material RPT. The exemption from shareholders' approval covers transactions with wholly owned subsidiaries only; Sanjeevani Inc is 80% owned. Related parties cannot vote on the resolution.",
+          "id": "ca-fin-ibs-07-pharma-health-q07"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-07-pharma-health-case2",
+          "prompt": "How much deduction can SPL claim for the capital expenditure on its new R&D lab in the concessional regime?",
+          "options": [
+            "₹12 crore: capital expenditure on scientific research is deductible in full, but land is excluded",
+            "₹32 crore: equipment and land",
+            "Nil: the concessional regime bars all R&D deductions",
+            "₹18 crore: 150% weighted deduction on equipment"
+          ],
+          "answer": 0,
+          "explanation": "Capital expenditure on scientific research related to the business, other than on land, is deductible in full (corresponds to section 35(1)(iv) of the 1961 Act), and this deduction is not withdrawn in the concessional regime. Weighted deductions are not available in that regime.",
+          "id": "ca-fin-ibs-07-pharma-health-q08"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-07-pharma-health-case2",
+          "prompt": "What is the GST position of inpatient treatment provided by Sanjeevani Hospitals?",
+          "options": [
+            "Health care services by a clinical establishment are exempt, subject to exceptions in the notification",
+            "Taxable at 18% with ITC",
+            "Taxable at 5% for all patients",
+            "Outside GST because hospitals are charitable"
+          ],
+          "answer": 0,
+          "explanation": "Health care services by a clinical establishment are exempt under the services exemption notification. Exceptions exist (for example, certain non-ICU room rent above a per-day limit has been taxed); check the current notification. The hospital's exempt supplies restrict its ITC.",
+          "id": "ca-fin-ibs-07-pharma-health-q09"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-07-pharma-health-case2",
+          "prompt": "What must the auditor do before using the valuation firm's VIU model?",
+          "options": [
+            "Evaluate the expert's competence, capabilities and objectivity, agree the scope, and evaluate the adequacy of the work and its assumptions under SA 620",
+            "Accept the model as the expert is qualified",
+            "Refer to the expert in the audit opinion to share responsibility",
+            "Ask management to obtain a second valuation and use the average"
+          ],
+          "answer": 0,
+          "explanation": "SA 620 requires the auditor to assess the expert's competence and objectivity, understand their field, agree the nature and scope of work, and evaluate the relevance and reasonableness of findings, assumptions and source data. The auditor keeps sole responsibility and does not refer to the expert in an unmodified report.",
+          "id": "ca-fin-ibs-07-pharma-health-q10"
+        },
+        {
+          "type": "truefalse",
+          "prompt": "In-process R&D acquired in a business combination is recognised as a separate intangible asset at fair value, even though similar internally generated research would be expensed.",
+          "answer": true,
+          "explanation": "Ind AS 103 and Ind AS 38 treat acquired IPR&D as a separately identifiable asset with a fair value at acquisition. Subsequent research spend on it follows the normal Ind AS 38 rules.",
+          "id": "ca-fin-ibs-07-pharma-health-q11"
+        },
+        {
+          "type": "multi",
+          "prompt": "Which criteria must be demonstrated before development costs are capitalised under Ind AS 38?",
+          "options": [
+            "Technical feasibility of completing the asset",
+            "Intention to complete and use or sell it",
+            "Availability of technical, financial and other resources to complete it",
+            "Ability to measure the expenditure reliably",
+            "Approval of the product by a foreign regulator"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Ind AS 38 lists six criteria, including the four selected plus ability to use or sell and probable future economic benefits. Regulatory approval is often the practical evidence in pharma but is not itself a listed criterion.",
+          "id": "ca-fin-ibs-07-pharma-health-q12"
+        },
+        {
+          "type": "fill",
+          "prompt": "Fill the blank: under Ind AS 36, recoverable amount is the higher of fair value less costs of disposal and ___.",
+          "accept": [
+            "value in use",
+            "VIU"
+          ],
+          "explanation": "Recoverable amount is the higher of FVLCD and value in use (the present value of future cash flows expected from the asset or CGU).",
+          "id": "ca-fin-ibs-07-pharma-health-q13"
+        },
+        {
+          "type": "practical",
+          "top": true,
+          "prompt": "Compute and allocate the impairment loss for SPL's US formulations CGU and pass the journal entry.",
+          "data": "Carrying amounts: goodwill ₹25 crore, plant ₹150 crore, ANDAs ₹75 crore. Value in use ₹210 crore; FVLCD ₹200 crore. No individual asset's FVLCD limits the allocation.",
+          "answer": "**Recoverable amount** = higher of VIU 210 and FVLCD 200 = ₹210 crore. **Loss** = 250 - 210 = ₹40 crore.\n\n| Asset | Carrying | Allocation | Revised |\n| --- | --- | --- | --- |\n| Goodwill | 25 | 25 (first) | 0 |\n| Plant and machinery | 150 | 15 x 150/225 = 10 | 140 |\n| ANDAs | 75 | 15 x 75/225 = 5 | 70 |\n| **Total** | **250** | **40** | **210** |\n\n| Entry | Dr ₹ crore | Cr ₹ crore |\n| --- | --- | --- |\n| Impairment loss (P&L) Dr | 40 | |\n| To Goodwill | | 25 |\n| To Plant and machinery | | 10 |\n| To Product intangibles | | 5 |\n\nThe goodwill impairment is never reversed; impairment of other assets may reverse if the warning letter is closed out. Disclose the event, key assumptions and sensitivity (Ind AS 36).",
+          "id": "ca-fin-ibs-07-pharma-health-q14"
+        },
+        {
+          "type": "interview",
+          "top": true,
+          "prompt": "Discuss the multidisciplinary impact of the USFDA warning letter on SPL.",
+          "answer": "- **FR**: impairment of the US CGU (₹40 crore), NRV of US-bound inventory (Ind AS 2), provisions for remediation only when an obligation exists (Ind AS 37), disclosure of the event and its uncertainty.\n- **Audit**: SA 250 (non-compliance with regulations), key audit matter on impairment (SA 701), SA 620 for the VIU model, SA 570 since 55% of revenue depends on the US.\n- **AFM**: lower USD inflows change the hedging need; avoid over-hedging forecast sales that may not occur.\n- **Law**: SEBI LODR requires prompt disclosure of the warning letter as material information.\n- **SM**: weakness in the value chain (quality systems); options are remediation with consultants, shifting US filings to a second plant, and market development in other regulated markets to reduce concentration.",
+          "id": "ca-fin-ibs-07-pharma-health-q15"
+        },
+        {
+          "type": "interview",
+          "prompt": "Explain how SPL should decide between forward cover and a money market hedge for its USD receivable, and how it could account for the hedge.",
+          "answer": "Compare the rupee inflow at maturity: forward cover gives USD 20 million x 87.50 = ₹175.00 crore; the money market hedge gives about ₹174.24 crore, so the forward is better. The choice also depends on credit lines (the money market hedge uses a USD borrowing limit), counterparty risk and whether the receivable is certain. An option (USD put) costs a premium but keeps upside if the rupee weakens. Under Ind AS 109 SPL may designate the forward as a cash flow hedge of a highly probable forecast sale, with documentation of the risk management objective and effectiveness; gains and losses go to OCI and are reclassified when the sale affects profit. For a recognised receivable, the forward and the receivable's exchange differences offset in profit or loss without hedge accounting.",
+          "id": "ca-fin-ibs-07-pharma-health-q16"
+        }
+      ],
+      "resources": [
+        {
+          "title": "SEBI: LODR Regulations",
+          "url": "https://www.sebi.gov.in/"
+        },
+        {
+          "title": "Income Tax Department: Acts and rules",
+          "url": "https://www.incometaxindia.gov.in/"
+        },
+        {
+          "title": "CBIC GST portal: Acts, rules and notifications",
+          "url": "https://cbic-gst.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-fin-ibs-08-group-restructuring",
+      "title": "Case Set: Group Restructuring (Merger and Demerger)",
+      "level": "advanced",
+      "summary": "A group merges two fellow subsidiaries and demerges a division: swap ratios and EPS, Ind AS 103 common control accounting, tax neutrality conditions, cost of shares after demerger, GST on transfer of a going concern, NCLT schemes, fast-track mergers and portfolio strategy.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Ind AS as notified by MCA; Companies Act 2013; SAs issued by ICAI; Income-tax Act 2025 (tax year 2026-27, Finance Act 2026); CGST/IGST Acts after the September 2025 rate rationalisation; Companies (Compromises, Arrangements and Amalgamations) Rules",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Merger valuation: swap ratio and EPS",
+          "body": "The swap (exchange) ratio is the number of acquirer shares issued for each target share. It is based on market price, EPS, net asset value, DCF, or a weighted mix, usually certified by a registered valuer (section 247 of the Companies Act).\n\n| Measure | Formula |\n| --- | --- |\n| Swap ratio (market price basis) | Target MPS / Acquirer MPS |\n| Shares issued | Target shares x swap ratio |\n| Post-merger EPS | (Acquirer earnings + target earnings + synergy) / (acquirer shares + shares issued) |\n| Maximum ratio for no EPS dilution | ((Combined earnings / acquirer EPS) - acquirer shares) / target shares |\n| EPS of target holders after merger | Post-merger EPS x swap ratio |\n\nWorked check: if the acquirer P/E exceeds the target P/E and the ratio is based on market prices, the acquirer's EPS rises (bootstrapping) even without synergy. Explain that this gain is accounting, not value, unless synergies exist."
+        },
+        {
+          "heading": "Accounting: common control (Ind AS 103 Appendix C)",
+          "body": "When the combining entities are controlled by the same party before and after the combination (fellow subsidiaries, or a parent and subsidiary), Ind AS 103 Appendix C requires the **pooling of interests method**:\n\n- Assets and liabilities are taken at their carrying amounts; no fair values and no new goodwill.\n- The identity of reserves is preserved (general reserve stays general reserve).\n- The difference between the share capital issued plus other consideration and the share capital of the transferor is transferred to **capital reserve**, shown separately.\n- Prior period figures are restated as if the combination had occurred from the beginning of the preceding period (or from when common control began, if later).\n\nA merger between unrelated parties uses the acquisition method instead: fair values, goodwill or bargain purchase gain."
+        },
+        {
+          "heading": "Tax neutrality of mergers and demergers",
+          "body": "The Income-tax Act 2025 carries forward the conditions of the 1961 Act (section numbers below are of the 1961 Act).\n\n**Amalgamation** (section 2(1B)): all property and all liabilities of the amalgamating company pass to the amalgamated company, and shareholders holding at least three-fourths in value of the shares of the amalgamating company (other than shares already held by the amalgamated company) become its shareholders. Transfers are then not taxed as capital gains for the company or the shareholders (section 47(vi), (vii)). Accumulated losses and unabsorbed depreciation of the amalgamating company can be carried forward only if the section 72A conditions are met.\n\n**Demerger** (section 2(19AA)): all property and liabilities of the undertaking transferred at book values, the resulting company issues shares to the demerged company's shareholders on a proportionate basis, shareholders holding at least three-fourths in value of the demerged company's shares become shareholders of the resulting company, and the undertaking is transferred as a going concern.\n\n**Cost of shares after demerger** (sections 49(2C) and 49(2D)): cost of shares in the resulting company = original cost x net book value of assets transferred / net worth of the demerged company before demerger; the cost of the original shares is reduced by that amount.\n\n**GST**: transfer of a business as a going concern (whole or an independent part) is an exempt service; unutilised ITC moves to the transferee under section 18(3) of the CGST Act (Form GST ITC-02)."
+        },
+        {
+          "heading": "Company law: schemes of arrangement",
+          "body": "- Sections 230-232: application to the NCLT, meetings of shareholders and creditors (approval by majority representing three-fourths in value), notices to the Central Government (Regional Director), Registrar, income-tax authorities, RBI, SEBI and the stock exchanges, CCI and others as applicable.\n- Objections to a scheme can be raised only by persons holding at least 10% of the shareholding or at least 5% of the total outstanding debt as per the latest audited financial statements (proviso to section 230(4)).\n- No scheme is sanctioned unless the company's auditor certifies that the accounting treatment proposed in it conforms to the accounting standards under section 133.\n- **Fast-track merger (section 233)**: available for mergers between two or more small companies, between a holding company and its wholly owned subsidiary, and other classes notified by the Central Government. It is approved by the Regional Director instead of the NCLT, after approval by members holding 90% of total shares and creditors representing nine-tenths in value.\n- Listed companies also need stock exchange observation letters under SEBI's scheme framework."
+        },
+        {
+          "heading": "Strategy: why groups restructure",
+          "body": "- **Vertical integration** (merging a supplier into its customer) secures inputs and margins; horizontal mergers add scale and market share; conglomerate mergers diversify risk but can create a conglomerate discount.\n- **Demerger and divestment**: separating a business with different growth, risk and capital needs lets each company attract the right investors, removes the conglomerate discount and sharpens management focus (BCG: separate the star from the cash cow).\n- **Turnaround and retrenchment**: selling or closing dogs releases capital.\n\nIn the exam, pair the strategic rationale with the numbers: EPS accretion or dilution, synergy needed to justify the ratio, and the tax and legal route that keeps the restructuring tax-neutral."
+        }
+      ],
+      "keyPoints": [
+        "Swap ratio (market basis) = target MPS / acquirer MPS; post-merger EPS = combined earnings / combined shares.",
+        "Common control: pooling of interests, carrying amounts, reserves preserved, difference to capital reserve.",
+        "Amalgamation and demerger: three-fourths in value of shareholders must become shareholders (sections 2(1B), 2(19AA) of the 1961 Act).",
+        "Cost after demerger = original cost x net book value transferred / net worth before demerger.",
+        "Transfer of a going concern is exempt from GST; ITC moves under section 18(3) via ITC-02.",
+        "Section 230(4): objections only from 10% shareholders or 5% debt holders; auditor's certificate on accounting treatment.",
+        "Section 233 fast track: small companies, holding and wholly owned subsidiary, and notified classes; approved by the Regional Director."
+      ],
+      "cases": [
+        {
+          "id": "ca-fin-ibs-08-group-restructuring-case1",
+          "title": "Case: Bharat Diversified group - merger of Tarang into Aditya",
+          "body": "Bharat Holdings Ltd (BHL) controls two listed subsidiaries: Aditya Industries Ltd (AIL), which makes packaging films, and Tarang Polymers Ltd (TPL), which makes polypropylene resin, about half of which is sold to AIL. BHL proposes to merge TPL into AIL with effect from 1 April 2027. Both companies follow Ind AS; both remain under BHL's control after the merger.\n\n| Data | AIL | TPL |\n| --- | --- | --- |\n| Profit after tax (₹ crore) | 300 | 60 |\n| Number of shares (crore, face value ₹10) | 10 | 4 |\n| Market price per share (₹) | 450 | 180 |\n\n**TPL's balance sheet at the merger date (₹ crore)**: total assets 380; liabilities 160; share capital 40; general reserve 120; retained earnings 60.\n\nThe swap ratio will be based on market prices. Assume no synergy unless stated."
+        },
+        {
+          "id": "ca-fin-ibs-08-group-restructuring-case2",
+          "title": "Case: Bharat Diversified group - demerger of specialty chemicals",
+          "body": "AIL also has a specialty chemicals division that grows at 20% a year but earns a low return now, while films are mature. Analysts value AIL at a discount to a sum-of-the-parts valuation. The board proposes to demerge the chemicals division into a new company, Aditya Specialty Ltd (ASL), which will issue one share for each AIL share and seek listing.\n\n- Net book value of assets of the chemicals division: ₹300 crore. AIL's net worth immediately before the demerger: ₹1,200 crore.\n- Meera, a shareholder, bought AIL shares at ₹500 each.\n- AIL has unutilised ITC of ₹6 crore relating to the chemicals division.\n- A minority shareholder group holding 4% of AIL's shares wants to object to the scheme before the NCLT."
+        }
+      ],
+      "questions": [
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-08-group-restructuring-case1",
+          "prompt": "Compute the number of AIL shares to be issued to TPL's shareholders using the market price swap ratio. Answer in crore shares to 2 decimals.",
+          "answer": 1.6,
+          "tolerance": 0.005,
+          "unit": "crore shares",
+          "explanation": "Swap ratio = 180 / 450 = 0.4 AIL share for each TPL share (2 for 5).\n\nShares issued = 4 crore x 0.4 = **1.60 crore shares**.",
+          "id": "ca-fin-ibs-08-group-restructuring-q01"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-08-group-restructuring-case1",
+          "prompt": "Compute AIL's EPS after the merger, assuming no synergy. Answer in ₹ to 2 decimals.",
+          "answer": 31.03,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "Post-merger EPS = (300 + 60) / (10 + 1.60) = 360 / 11.60 = **₹31.03**, against ₹30.00 before. EPS rises because AIL's P/E (450/30 = 15) is higher than TPL's (180/15 = 12); this is bootstrapping, not value creation.",
+          "id": "ca-fin-ibs-08-group-restructuring-q02"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-08-group-restructuring-case1",
+          "prompt": "Compute the maximum swap ratio AIL can offer without diluting its pre-merger EPS. Answer to 2 decimals (AIL shares per TPL share).",
+          "answer": 0.5,
+          "tolerance": 0.005,
+          "unit": "shares",
+          "explanation": "For EPS to stay at ₹30: total shares = 360 / 30 = 12 crore. Shares that can be issued = 12 - 10 = 2 crore. Maximum ratio = 2 / 4 = **0.50**.",
+          "id": "ca-fin-ibs-08-group-restructuring-q03"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-08-group-restructuring-case1",
+          "prompt": "Under Ind AS 103 Appendix C, compute the capital reserve AIL records on the merger. Answer in ₹ crore.",
+          "answer": 24,
+          "tolerance": 0.05,
+          "unit": "₹ crore",
+          "explanation": "Share capital issued = 1.60 crore shares x ₹10 = ₹16 crore. TPL's share capital = ₹40 crore.\n\nCapital reserve = 40 - 16 = **₹24 crore**. TPL's general reserve (₹120 crore) and retained earnings (₹60 crore) are carried over in the same form.",
+          "id": "ca-fin-ibs-08-group-restructuring-q04"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-08-group-restructuring-case1",
+          "prompt": "From AIL's point of view, the merger with TPL is best described as:",
+          "options": [
+            "Vertical merger (backward integration), securing AIL's resin supply",
+            "Horizontal merger of two competitors",
+            "Conglomerate merger of unrelated businesses",
+            "Reverse merger to obtain a listing"
+          ],
+          "answer": 0,
+          "explanation": "TPL supplies resin, a key input, to AIL. Merging a supplier is backward vertical integration: it secures supply and captures the supplier's margin. Both companies are already listed, so it is not a reverse merger for listing.",
+          "id": "ca-fin-ibs-08-group-restructuring-q05"
+        },
+        {
+          "type": "numeric",
+          "caseId": "ca-fin-ibs-08-group-restructuring-case2",
+          "prompt": "Compute the cost of acquisition of each ASL share received by Meera on the demerger. Answer in ₹.",
+          "answer": 125,
+          "tolerance": 0.05,
+          "unit": "₹",
+          "explanation": "Cost of ASL share = cost of AIL share x net book value transferred / net worth before demerger = 500 x 300 / 1,200 = **₹125** (corresponds to section 49(2C) of the 1961 Act). Cost of the AIL share is reduced to 500 - 125 = ₹375 (section 49(2D)).",
+          "id": "ca-fin-ibs-08-group-restructuring-q06"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-08-group-restructuring-case2",
+          "prompt": "Which condition must the demerger meet for it to be tax-neutral?",
+          "options": [
+            "Shareholders holding at least three-fourths in value of AIL's shares become shareholders of ASL",
+            "ASL must pay cash consideration to AIL equal to fair value",
+            "Only the assets, not the liabilities, of the division are transferred",
+            "ASL must be a wholly owned subsidiary of AIL"
+          ],
+          "answer": 0,
+          "explanation": "Section 2(19AA) of the 1961 Act (carried forward in the 2025 Act) requires transfer of all property and liabilities of the undertaking at book values, proportionate issue of shares to AIL's shareholders, at least three-fourths in value of shareholders becoming ASL shareholders, and transfer as a going concern. Cash consideration to the company would defeat it.",
+          "id": "ca-fin-ibs-08-group-restructuring-q07"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-08-group-restructuring-case2",
+          "prompt": "What is the GST position of the transfer of the chemicals division and its ₹6 crore unutilised ITC?",
+          "options": [
+            "Transfer of a going concern is an exempt service; the ITC is transferred to ASL under section 18(3) by filing ITC-02",
+            "GST at 18% on the net book value of ₹300 crore",
+            "The ITC lapses on demerger",
+            "GST applies only to the movable assets transferred"
+          ],
+          "answer": 0,
+          "explanation": "Services by way of transfer of a going concern, as a whole or an independent part, are exempt. Section 18(3) of the CGST Act allows unutilised ITC to be transferred to the transferee where there is a change in constitution due to demerger or transfer of business, with liabilities transferred specifically; Form GST ITC-02 is filed.",
+          "id": "ca-fin-ibs-08-group-restructuring-q08"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-08-group-restructuring-case2",
+          "prompt": "Can the shareholder group holding 4% of AIL's shares object to the scheme before the NCLT?",
+          "options": [
+            "No: objections may be made only by persons holding at least 10% of the shareholding or 5% of the total outstanding debt",
+            "Yes: any shareholder may object",
+            "Yes, if it holds at least 2%",
+            "No: only creditors can object to a demerger"
+          ],
+          "answer": 0,
+          "explanation": "The proviso to section 230(4) restricts objections to persons holding not less than 10% of the shareholding or having outstanding debt of not less than 5% of total outstanding debt as per the latest audited financial statements. The group can still vote at the meeting and seek redress through other means such as SEBI.",
+          "id": "ca-fin-ibs-08-group-restructuring-q09"
+        },
+        {
+          "type": "mcq",
+          "caseId": "ca-fin-ibs-08-group-restructuring-case2",
+          "prompt": "What is the main strategic rationale for the demerger?",
+          "options": [
+            "Unlocking value by removing the conglomerate discount and letting each business attract investors suited to its growth and risk",
+            "Avoiding audit of the chemicals division",
+            "Increasing AIL's EPS by moving profits",
+            "Reducing the number of shareholders"
+          ],
+          "answer": 0,
+          "explanation": "Chemicals is a high-growth, low-return business (a question mark or star in BCG terms) inside a mature films company (cash cow). Separately listed, each gets its own valuation, capital structure and management focus; the sum-of-the-parts discount should narrow.",
+          "id": "ca-fin-ibs-08-group-restructuring-q10"
+        },
+        {
+          "type": "truefalse",
+          "prompt": "The amalgamated company can always carry forward and set off the accumulated business losses of the amalgamating company, whatever its line of business.",
+          "answer": false,
+          "explanation": "Carry forward is allowed only where the amalgamating company owns an industrial undertaking (or other specified business) and the conditions of section 72A of the 1961 Act are met: for example, minimum years of business and asset holding by the amalgamating company, and the amalgamated company holding the assets and continuing the business for five years.",
+          "id": "ca-fin-ibs-08-group-restructuring-q11"
+        },
+        {
+          "type": "multi",
+          "prompt": "Which mergers can use the fast-track route under section 233 of the Companies Act?",
+          "options": [
+            "Between two or more small companies",
+            "Between a holding company and its wholly owned subsidiary",
+            "Other classes of companies notified by the Central Government",
+            "Between any two unrelated listed companies"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Section 233 covers small companies, a holding company with its wholly owned subsidiary, and classes notified by the Central Government (start-ups and certain other unlisted classes have been notified). Unrelated listed companies go through the NCLT route under sections 230-232.",
+          "id": "ca-fin-ibs-08-group-restructuring-q12"
+        },
+        {
+          "type": "fill",
+          "prompt": "Fill the blank: under Ind AS 103 Appendix C, business combinations of entities under common control are accounted for using the ___ method.",
+          "accept": [
+            "pooling of interests",
+            "pooling of interest",
+            "pooling"
+          ],
+          "explanation": "Appendix C requires the pooling of interests method: carrying amounts, preserved reserves, and the share capital difference to capital reserve.",
+          "id": "ca-fin-ibs-08-group-restructuring-q13"
+        },
+        {
+          "type": "practical",
+          "top": true,
+          "prompt": "Pass the journal entry in AIL's books to record the merger of TPL under the pooling of interests method.",
+          "data": "TPL at the merger date (₹ crore): total assets 380; liabilities 160; share capital 40; general reserve 120; retained earnings 60. AIL issues 1.6 crore equity shares of ₹10 each to TPL's shareholders.",
+          "answer": "**Journal entry in AIL's books (₹ crore)**\n\n| Entry | Dr | Cr |\n| --- | --- | --- |\n| Assets of TPL (at carrying amounts) Dr | 380 | |\n| To Liabilities of TPL | | 160 |\n| To Equity share capital (1.6 crore x ₹10) | | 16 |\n| To General reserve | | 120 |\n| To Retained earnings | | 60 |\n| To Capital reserve (40 - 16) | | 24 |\n| **Total** | **380** | **380** |\n\nNotes: no goodwill is recognised and assets are not fair valued. Intra-group balances (resin sales to AIL, payables and receivables) are eliminated and unrealised profit in AIL's inventory is removed. Comparatives are restated as if the merger had occurred from the beginning of the preceding period, as common control existed throughout. Disclose the capital reserve separately.",
+          "id": "ca-fin-ibs-08-group-restructuring-q14"
+        },
+        {
+          "type": "interview",
+          "top": true,
+          "prompt": "What is the role of the statutory auditor in a scheme of merger or demerger?",
+          "answer": "- Under the proviso to section 230(7) and section 232(3), the NCLT does not sanction a scheme unless the company's auditor certifies that the accounting treatment proposed in the scheme conforms to the accounting standards prescribed under section 133. The auditor checks the scheme's accounting clause against Ind AS 103 (Appendix C for common control) or the acquisition method.\n- After sanction, the auditor audits the accounting in the year of the merger: appointed date vs effective date, Ind AS 10 if the NCLT order comes after year end, restated comparatives, elimination of intra-group items, and the capital reserve.\n- The auditor considers related party aspects (SA 550), the valuer's report as management's expert, and subsequent events (SA 560).\n- For listed companies, SEBI's scheme framework requires an auditor's certificate on the accounting treatment with the stock exchange filing.",
+          "id": "ca-fin-ibs-08-group-restructuring-q15"
+        },
+        {
+          "type": "interview",
+          "prompt": "Evaluate the AIL-TPL merger from the viewpoint of AIL's and TPL's shareholders.",
+          "answer": "- At the market-based ratio of 0.40, AIL's EPS rises from ₹30.00 to about ₹31.03, but only because AIL's P/E (15) exceeds TPL's (12); without synergy, this is bootstrapping.\n- TPL holders get 0.40 x 31.03 = ₹12.41 of EPS per old share against ₹15.00 before, a fall; they accept because they share in AIL's higher multiple and any synergy.\n- AIL can go up to a ratio of 0.50 without EPS dilution; the ratio of 0.40 leaves room for negotiation and a valuer's fairness opinion is needed.\n- Real gains come from vertical integration: secure resin supply, removal of double margins and logistics savings.\n- Risks: cyclical resin prices now fall on AIL's books; minority holders of both companies need fair treatment, and the auditor's certificate and NCLT approval are required before the merger takes effect.",
+          "id": "ca-fin-ibs-08-group-restructuring-q16"
+        }
+      ],
+      "resources": [
+        {
+          "title": "MCA: Companies Act and Ind AS rules",
+          "url": "https://www.mca.gov.in/"
+        },
+        {
+          "title": "SEBI: LODR Regulations",
+          "url": "https://www.sebi.gov.in/"
+        },
+        {
+          "title": "Income Tax Department: Acts and rules",
+          "url": "https://www.incometaxindia.gov.in/"
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 // Renders the small text format used in content JSON:
-//   blank line = new paragraph, "- " lines = bullets, `code` and **bold** inline.
+//   blank line = new paragraph, "- " lines = bullets, `code` and **bold** inline,
+//   consecutive "| a | b |" lines = a table (first row is the header, "| --- |" rows are skipped).
 import { Fragment, type ReactNode } from "react";
 
 export function Inline({ text }: { text: string }) {
@@ -23,6 +24,7 @@ export function RichText({ text, className = "prose" }: { text: string; classNam
   const lines = text.replace(/\r\n/g, "\n").split("\n");
   let para: string[] = [];
   let list: string[] = [];
+  let table: string[][] = [];
   const flushPara = () => {
     if (para.length) blocks.push(<p key={blocks.length}><Inline text={para.join(" ")} /></p>);
     para = [];
@@ -40,8 +42,41 @@ export function RichText({ text, className = "prose" }: { text: string; classNam
       );
     list = [];
   };
+  const flushTable = () => {
+    if (table.length) {
+      const [head, ...body] = table;
+      const numeric = (cell: string) => /^\(?-?₹?\s?[\d,.]+%?\)?$/.test(cell.replace(/\*\*/g, ""));
+      blocks.push(
+        <div key={blocks.length} className="table-wrap">
+          <table>
+            <thead>
+              <tr>{head.map((c, i) => <th key={i}><Inline text={c} /></th>)}</tr>
+            </thead>
+            <tbody>
+              {body.map((row, r) => (
+                <tr key={r}>
+                  {row.map((c, i) => (
+                    <td key={i} className={numeric(c) ? "num" : undefined}><Inline text={c} /></td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>,
+      );
+    }
+    table = [];
+  };
   for (const raw of lines) {
     const line = raw.trim();
+    if (line.startsWith("|")) {
+      flushPara();
+      flushList();
+      const cells = line.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+      if (!cells.every((c) => /^:?-{3,}:?$/.test(c))) table.push(cells);
+      continue;
+    }
+    flushTable();
     if (!line) {
       flushPara();
       flushList();
@@ -55,5 +90,6 @@ export function RichText({ text, className = "prose" }: { text: string; classNam
   }
   flushPara();
   flushList();
+  flushTable();
   return <div className={className}>{blocks}</div>;
 }

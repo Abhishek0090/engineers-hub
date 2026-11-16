@@ -1,7 +1,10 @@
 // Shared content and progress types. The JSON files in src/content and the MongoDB
 // collections both follow these shapes, so either data source can back the app.
 
-export type Area = "fundamentals" | "frontend" | "backend" | "database" | "devops" | "career";
+/** A program is a separate curriculum (software engineering, CA exam prep...). Defined in src/content/site.json. */
+export type Program = string;
+/** Area ids are defined in src/content/site.json; each area belongs to one program. */
+export type Area = string;
 export type Level = "beginner" | "intermediate" | "advanced";
 
 export interface LessonSection {
@@ -18,6 +21,15 @@ interface QuestionBase {
   explanation?: string;
   /** Marks a famous, frequently asked question; shown first in the track's Most asked section. */
   top?: boolean;
+  /** Problem data shown under the prompt (rich text, supports tables). */
+  data?: string;
+  /** Id of a chapter case study the question belongs to. */
+  caseId?: string;
+  /** Copied from the case when content loads, so any screen can show it without the chapter. */
+  caseTitle?: string;
+  caseBody?: string;
+  /** Set when content loads, from the track's area. */
+  program?: Program;
 }
 export interface McqQuestion extends QuestionBase {
   type: "mcq";
@@ -41,7 +53,37 @@ export interface InterviewQuestion extends QuestionBase {
   type: "interview";
   answer: string;
 }
-export type Question = McqQuestion | MultiQuestion | TrueFalseQuestion | FillQuestion | InterviewQuestion;
+/** A computation with one final figure, graded within a tolerance. */
+export interface NumericQuestion extends QuestionBase {
+  type: "numeric";
+  answer: number;
+  /** Absolute tolerance. Default: 0.1% of the answer (at least 0.01). */
+  tolerance?: number;
+  unit?: string;
+}
+/** A multi-step problem (journal entries, computations, reports) with a model solution; self-graded. */
+export interface PracticalQuestion extends QuestionBase {
+  type: "practical";
+  answer: string;
+}
+export type Question =
+  | McqQuestion
+  | MultiQuestion
+  | TrueFalseQuestion
+  | FillQuestion
+  | InterviewQuestion
+  | NumericQuestion
+  | PracticalQuestion;
+
+/** Questions the learner grades against a model answer. */
+export const isSelfRated = (q: Question): q is InterviewQuestion | PracticalQuestion =>
+  q.type === "interview" || q.type === "practical";
+
+export interface CaseStudy {
+  id: string;
+  title: string;
+  body: string;
+}
 
 export interface Resource {
   title: string;
@@ -58,6 +100,14 @@ export interface Chapter {
   keyPoints: string[];
   questions: Question[];
   resources?: Resource[];
+  /** Case studies shared by several questions (questions point at them with caseId). */
+  cases?: CaseStudy[];
+  /** Exam attempts this chapter is written for, e.g. "May 2027 onward". */
+  applicableFor?: string;
+  /** Law or standards version, e.g. "Income-tax Act 2025 as amended by Finance Act 2026". */
+  lawAsOf?: string;
+  /** Not yet reviewed by a subject expert; the study page shows a warning. */
+  draft?: boolean;
 }
 
 export interface Track {
@@ -79,16 +129,20 @@ export interface ChapterSummary {
   summary: string;
   estMinutes: number;
   questionCount: number;
+  /** Self-rated questions: interview (theory) and practical. */
   interviewCount: number;
 }
 
 export interface TrackSummary extends Omit<Track, "chapters"> {
   chapters: ChapterSummary[];
   questionCount: number;
+  program: Program;
 }
 
 export interface Goal {
   id: string;
+  /** Defaults to "software". */
+  program?: Program;
   title: string;
   tagline: string;
   description: string;
@@ -98,6 +152,7 @@ export interface Goal {
 }
 
 export interface InterviewItem extends InterviewQuestion {
+  program: Program;
   trackId: string;
   trackTitle: string;
   trackColor: string;
@@ -135,6 +190,8 @@ export interface Progress {
   version: 1;
   xp: number;
   goalId: string | null;
+  /** Program of the current goal; everything in the app follows it. */
+  program?: Program;
   dailyGoalXp: number;
   streak: { count: number; lastDay: string | null; best: number };
   /** XP earned per day, keyed YYYY-MM-DD (local time). */

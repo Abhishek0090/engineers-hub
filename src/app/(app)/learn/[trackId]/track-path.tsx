@@ -7,6 +7,7 @@ import { useProgress } from "@/components/progress-provider";
 import { QaCard } from "@/components/qa-card";
 import { LEVELS } from "@/lib/catalog";
 import { chapterState, type ChapterState, trackStats } from "@/lib/progress";
+import { programConfig } from "@/lib/catalog";
 import type { InterviewItem, TrackSummary } from "@/lib/types";
 
 
@@ -31,6 +32,7 @@ export function TrackPath({
 }) {
   const { progress } = useProgress();
   const stats = trackStats(track, progress);
+  const terms = programConfig(track.program).terms;
   const currentId = stats.next?.id;
   let index = 0;
 
@@ -107,17 +109,15 @@ export function TrackPath({
             <section id="most-asked" className="stack" style={{ gap: 12, marginTop: 56 }} aria-labelledby="most-asked-title">
               <div className="row wrap" style={{ justifyContent: "space-between", alignItems: "flex-end" }}>
                 <div>
-                  <span className="eyebrow">Interview prep</span>
+                  <span className="eyebrow">{terms.prepEyebrow}</span>
                   <h2 id="most-asked-title" style={{ fontSize: 24, fontWeight: 700, marginTop: 4 }}>
-                    Most asked {track.title} questions
+                    {terms.mostAsked} {track.title} questions
                   </h2>
-                  <p className="muted" style={{ marginTop: 4, fontSize: 15 }}>
-                    The questions interviewers ask most, beginner to advanced. Open one, answer it out loud, then compare.
-                  </p>
+                  <p className="muted" style={{ marginTop: 4, fontSize: 15 }}>{terms.prepText}</p>
                 </div>
                 <div className="row wrap" style={{ gap: 10 }}>
                   <Link href={`/interview/mock?track=${track.id}`} className="btn btn-sm">
-                    <Icon name="mic" size={16} /> Mock round
+                    <Icon name="mic" size={16} /> {terms.roundShort}
                   </Link>
                   {interviewTotal > topQuestions.length ? (
                     <Link href="/interview" className="btn btn-sm btn-ghost">
@@ -158,8 +158,10 @@ export function TrackPath({
             <a href="#most-asked" className="card card-link row">
               <FilledIcon name="star" size={24} style={{ color: "var(--gold)" }} />
               <div className="grow">
-                <h3 style={{ fontWeight: 700, fontSize: 16 }}>Most asked questions</h3>
-                <p className="faint" style={{ fontSize: 13, fontWeight: 600 }}>{topQuestions.length} top {track.title} interview questions</p>
+                <h3 style={{ fontWeight: 700, fontSize: 16 }}>{terms.mostAsked} questions</h3>
+                <p className="faint" style={{ fontSize: 13, fontWeight: 600 }}>
+                  {topQuestions.length} top {track.title} {terms.kind} questions
+                </p>
               </div>
             </a>
           ) : null}

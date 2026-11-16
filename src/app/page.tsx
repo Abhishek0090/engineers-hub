@@ -3,14 +3,14 @@ import Link from "next/link";
 import { FilledIcon, Icon, type IconName } from "@/components/icons";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getSession } from "@/lib/auth/current-user";
-import { AREAS, GOAL_ICONS } from "@/lib/catalog";
+import { AREAS, GOAL_ICONS, goalProgram, PROGRAMS, SITE_NAME, SITE_TAGLINE } from "@/lib/catalog";
 import { getRepository } from "@/lib/data/repository";
 
 const STEPS: { title: string; text: string; icon: IconName }[] = [
-  { title: "Pick a goal", text: "Interview cracking, full stack mastery, frontend, backend or self development. Your path follows the goal.", icon: "target" },
-  { title: "Study a chapter", text: "Short lessons with code, key points and links to the official docs. One chapter is 15 to 30 minutes.", icon: "book" },
-  { title: "Practice like a game", text: "Multiple choice, true or false, fill the blank, output prediction and interview questions. Earn XP, keep the streak.", icon: "bolt" },
-  { title: "Fix your mistakes", text: "Every wrong answer goes to your review queue until you get it right. Then run mock interviews from the question bank.", icon: "refresh" },
+  { title: "Pick a goal", text: "Crack a software interview or clear a CA level. The whole app follows your goal: path, question bank and review.", icon: "target" },
+  { title: "Study a chapter", text: "Short lessons with worked examples, formats, key points and links to official sources. One chapter is 15 to 45 minutes.", icon: "book" },
+  { title: "Practice like a game", text: "Multiple choice, calculations, practical problems, case studies and model answers. Earn XP, keep the streak.", icon: "bolt" },
+  { title: "Fix your mistakes", text: "Every wrong answer goes to your review queue until you get it right. Then run timed rounds from the question bank.", icon: "refresh" },
 ];
 
 const STACK = [
@@ -25,6 +25,15 @@ export default async function LandingPage() {
   const chapterCount = tracks.reduce((n, t) => n + t.chapters.length, 0);
   const questionCount = tracks.reduce((n, t) => n + t.questionCount, 0);
   const startHref = session ? "/learn" : "/login";
+  const programStats = PROGRAMS.map((p) => {
+    const list = tracks.filter((t) => t.program === p.id);
+    return {
+      ...p,
+      tracks: list.length,
+      chapters: list.reduce((n, t) => n + t.chapters.length, 0),
+      questions: list.reduce((n, t) => n + t.questionCount, 0),
+    };
+  }).filter((p) => p.tracks > 0);
 
   return (
     <>
@@ -33,14 +42,21 @@ export default async function LandingPage() {
         <section className="hero">
           <div className="container hero-grid">
             <div>
-              <span className="eyebrow">Full stack prep, one chapter a day</span>
+              <span className="eyebrow">{SITE_NAME}: {SITE_TAGLINE.toLowerCase()}</span>
               <h1 style={{ marginTop: 14 }}>
-                Become the engineer <span className="hl">who gets the offer.</span>
+                Study a little every day. <span className="hl">Walk in prepared.</span>
               </h1>
               <p className="hero-lede">
-                Chapter-wise lessons and {questionCount.toLocaleString("en-US")}+ practice questions for Next.js, React, Node.js, MongoDB, PostgreSQL,
-                Prisma, Drizzle, Docker and more. Study, practice, keep your streak and walk into interviews prepared.
+                Chapter-wise lessons and {questionCount.toLocaleString("en-US")}+ practice questions across {programStats.length} programs. Pick a goal,
+                keep your streak, and let the review queue turn mistakes into marks.
               </p>
+              <div className="program-pills">
+                {programStats.map((p) => (
+                  <a key={p.id} href={`#program-${p.id}`} className="program-pill" style={{ ["--pc" as string]: p.color }}>
+                    <Icon name={p.icon} size={16} /> {p.label}
+                  </a>
+                ))}
+              </div>
               <div className="hero-cta">
                 <Link href={startHref} className="btn btn-lg btn-accent">
                   Start learning <Icon name="arrowRight" size={18} />
@@ -93,7 +109,29 @@ export default async function LandingPage() {
             <div className="stat"><b>{tracks.length}</b><span>Tracks</span></div>
             <div className="stat"><b>{chapterCount}</b><span>Chapters</span></div>
             <div className="stat"><b>{questionCount.toLocaleString("en-US")}</b><span>Practice questions</span></div>
-            <div className="stat"><b>{interview.length.toLocaleString("en-US")}</b><span>Interview questions with answers</span></div>
+            <div className="stat"><b>{interview.length.toLocaleString("en-US")}</b><span>Model answers</span></div>
+          </div>
+        </section>
+
+        <section id="programs" className="section container">
+          <div className="section-head">
+            <span className="eyebrow">Programs</span>
+            <h2 className="section-title" style={{ marginTop: 8 }}>One app, separate curricula</h2>
+            <p>Each program has its own goals, tracks and question bank. Your streak and XP carry across.</p>
+          </div>
+          <div className="grid grid-2">
+            {programStats.map((p) => (
+              <a key={p.id} id={`program-${p.id}`} href={`#curriculum-${p.id}`} className="card card-link program-card" style={{ ["--pc" as string]: p.color }}>
+                <span className="program-icon"><Icon name={p.icon} size={26} /></span>
+                <h3>{p.label}</h3>
+                <p className="muted">{p.heroLine}</p>
+                <div className="program-stats">
+                  <span><b>{p.tracks}</b> tracks</span>
+                  <span><b>{p.chapters}</b> chapters</span>
+                  <span><b>{p.questions.toLocaleString("en-US")}</b> questions</span>
+                </div>
+              </a>
+            ))}
           </div>
         </section>
 
@@ -103,25 +141,34 @@ export default async function LandingPage() {
             <h2 className="section-title" style={{ marginTop: 8 }}>Prep for what you actually want</h2>
             <p>Each goal is an ordered path through the tracks. Switch any time; your progress stays.</p>
           </div>
-          <div className="grid grid-3">
-            {goals.map((g) => (
-              <div key={g.id} className="card">
-                <span className="feature-icon"><Icon name={GOAL_ICONS[g.icon] ?? "target"} size={24} /></span>
-                <h3 style={{ fontSize: 20, fontWeight: 700 }}>{g.title}</h3>
-                <p className="muted" style={{ marginTop: 6 }}>{g.tagline}</p>
-                <p className="faint" style={{ marginTop: 12, fontSize: 14, fontWeight: 700 }}>
-                  {g.trackIds.length} tracks, {g.dailyGoalXp} XP a day
-                </p>
+          {PROGRAMS.map((p) => {
+            const list = goals.filter((g) => goalProgram(g) === p.id);
+            if (!list.length) return null;
+            return (
+              <div key={p.id} className="area-block">
+                <div className="area-title">{p.label}</div>
+                <div className="grid grid-3">
+                  {list.map((g) => (
+                    <div key={g.id} className="card">
+                      <span className="feature-icon"><Icon name={GOAL_ICONS[g.icon] ?? "target"} size={24} /></span>
+                      <h3 style={{ fontSize: 20, fontWeight: 700 }}>{g.title}</h3>
+                      <p className="muted" style={{ marginTop: 6 }}>{g.tagline}</p>
+                      <p className="faint" style={{ marginTop: 12, fontSize: 14, fontWeight: 700 }}>
+                        {g.trackIds.length} tracks, {g.dailyGoalXp} XP a day
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </section>
 
         <section id="how" className="section container">
           <div className="section-head">
             <span className="eyebrow">How it works</span>
             <h2 className="section-title" style={{ marginTop: 8 }}>Small steps, every day</h2>
-            <p>The same loop that makes language apps stick, applied to software engineering.</p>
+            <p>The same loop that makes language apps stick, applied to interviews and professional exams.</p>
           </div>
           <div className="grid grid-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))" }}>
             {STEPS.map((s, i) => (
@@ -139,14 +186,23 @@ export default async function LandingPage() {
         <section id="curriculum" className="section container">
           <div className="section-head">
             <span className="eyebrow">Curriculum</span>
-            <h2 className="section-title" style={{ marginTop: 8 }}>Everything a full stack engineer is asked</h2>
-            <p>Every track runs from beginner to advanced, chapter by chapter.</p>
+            <h2 className="section-title" style={{ marginTop: 8 }}>Every track, chapter by chapter</h2>
+            <p>Every track runs from beginner to advanced. Grouped by program and area.</p>
           </div>
-          {AREAS.map((area) => {
+          {AREAS.map((area, i) => {
             const list = tracks.filter((t) => t.area === area.id);
             if (!list.length) return null;
+            const firstOfProgram = AREAS.findIndex((a) => a.program === area.program && tracks.some((t) => t.area === a.id)) === i;
+            const program = PROGRAMS.find((p) => p.id === area.program);
             return (
               <div key={area.id} className="area-block">
+                {firstOfProgram && program ? (
+                  <div id={`curriculum-${program.id}`} className="section-head" style={{ marginTop: 40 }}>
+                    <span className="eyebrow">{program.label}</span>
+                    <h2 className="section-title" style={{ marginTop: 8 }}>{program.blurb}</h2>
+                    <p>{program.heroLine}</p>
+                  </div>
+                ) : null}
                 <div className="area-title">
                   <Icon name={area.icon} size={18} /> {area.label}
                 </div>
@@ -173,7 +229,7 @@ export default async function LandingPage() {
 
         <section className="section container" style={{ paddingTop: 0 }}>
           <div className="section-head">
-            <span className="eyebrow">Stack covered</span>
+            <span className="eyebrow">Software stack covered</span>
             <h2 className="section-title" style={{ marginTop: 8 }}>From the browser to production</h2>
           </div>
           <div className="tech-cloud">

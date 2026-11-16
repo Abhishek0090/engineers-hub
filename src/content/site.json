@@ -1,0 +1,69 @@
+{
+  "name": "StudyHub",
+  "tagline": "Learn anything, one chapter a day",
+  "description": "Chapter-wise study and exam prep, Duolingo style: lessons, practice quizzes, streaks and a review queue for software engineering and CA exams.",
+  "author": "Abhishek Pal",
+  "defaultProgram": "software",
+  "programs": [
+    {
+      "id": "software",
+      "label": "Software engineering",
+      "short": "Software",
+      "icon": "code",
+      "color": "#7c5cff",
+      "blurb": "Full stack study and interview prep: JavaScript to system design.",
+      "heroLine": "Next.js, React, Node.js, databases, DevOps and system design, beginner to senior.",
+      "terms": {
+        "nav": "Interview",
+        "question": "Interview question",
+        "bank": "Interview bank",
+        "bankHint": "Search questions, run a mock round",
+        "round": "Mock interview",
+        "roundShort": "Mock round",
+        "mostAsked": "Most asked",
+        "kind": "interview",
+        "written": "interview",
+        "prepEyebrow": "Interview prep",
+        "prepText": "The questions interviewers ask most, beginner to advanced. Open one, answer it out loud, then compare.",
+        "search": "Search: closures, indexes, hydration, JWT...",
+        "doneText": "Pick another goal or run mock interviews from the question bank."
+      }
+    },
+    {
+      "id": "ca",
+      "idPrefix": "ca-",
+      "label": "Chartered Accountancy (ICAI)",
+      "short": "CA",
+      "icon": "calculator",
+      "color": "#0f766e",
+      "blurb": "CA Foundation, Intermediate and Final prep under the ICAI new scheme.",
+      "heroLine": "Foundation, Inter and Final: worked formats, calculations, case-based MCQs and model theory answers.",
+      "terms": {
+        "nav": "Theory",
+        "question": "Theory question",
+        "bank": "Theory question bank",
+        "bankHint": "Search model answers, run a theory round",
+        "round": "Theory round",
+        "roundShort": "Theory round",
+        "mostAsked": "Most examined",
+        "kind": "theory",
+        "written": "written",
+        "prepEyebrow": "Exam prep",
+        "prepText": "Descriptive questions that keep coming back in the exam. Write your answer, then compare with the model answer.",
+        "search": "Search: consideration, residential status, SA 700...",
+        "doneText": "Pick another goal or revise theory from the question bank."
+      }
+    }
+  ],
+  "areas": [
+    { "id": "fundamentals", "program": "software", "label": "Fundamentals", "icon": "lightbulb", "blurb": "How the web works, Git, DSA and system design" },
+    { "id": "frontend", "program": "software", "label": "Frontend", "icon": "layout", "blurb": "HTML, CSS, JavaScript, TypeScript, React and Next.js" },
+    { "id": "backend", "program": "software", "label": "Backend", "icon": "server", "blurb": "Node.js, APIs, authentication and security" },
+    { "id": "database", "program": "software", "label": "Databases", "icon": "database", "blurb": "MongoDB, PostgreSQL, Prisma, Drizzle and Redis" },
+    { "id": "devops", "program": "software", "label": "DevOps and Cloud", "icon": "container", "blurb": "Docker, CI/CD, Kubernetes and AWS" },
+    { "id": "career", "program": "software", "label": "Career", "icon": "user", "blurb": "Behavioral rounds, resumes and growth" },
+    { "id": "ca-foundation", "program": "ca", "label": "CA Foundation", "icon": "calculator", "blurb": "Accounting, Business Laws, Quantitative Aptitude and Business Economics" },
+    { "id": "ca-inter", "program": "ca", "label": "CA Intermediate", "icon": "scale", "blurb": "Advanced Accounting, Law, Tax, Costing, Audit, FM and SM" },
+    { "id": "ca-final", "program": "ca", "label": "CA Final", "icon": "cap", "blurb": "Financial Reporting, AFM, Audit, Direct and Indirect Tax, IBS" }
+  ]
+}
