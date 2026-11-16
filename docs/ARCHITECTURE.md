@@ -156,7 +156,7 @@ for example), then add a branch for it in `getRepository()`. No page or componen
   `passwordHash`. Hashes have the form `scrypt$<salt>$<hash>`; create one with
   `npm run hash-password -- "password"`.
 - **Login:** `POST /api/auth/login` checks the hash with a timing-safe compare and sets
-  `seh_session`: an HttpOnly, SameSite=Lax cookie (Secure in production) that lasts 30 days.
+  `studyhub_session`: an HttpOnly, SameSite=Lax cookie (Secure in production) that lasts 30 days.
 - **Cookie format:** `base64url(payload).base64url(HMAC-SHA256(payload, AUTH_SECRET))`. The payload
   holds the user id, username, name, role and expiry. Verification uses Web Crypto, so it runs in
   `proxy.ts` and in route handlers alike.
@@ -186,7 +186,7 @@ Rules live in [src/lib/progress.ts](../src/lib/progress.ts) as pure functions:
 - A chapter is **mastered** at a best practice score of 80% or more.
 - Levels need 100 XP, then 150, 200 and so on.
 
-`ProgressProvider` keeps progress in localStorage under `seh:progress:<userId>`. When
+`ProgressProvider` keeps progress in localStorage under `studyhub:progress:<userId>` (it reads the pre-rename `seh:progress:<userId>` key once if the new one is missing). When
 `/api/progress` reports `persist: true` (MongoDB mode), it loads the server copy (the newer
 `updatedAt` wins) and saves changes back with a 600 ms debounce. The API runs every body through
 `sanitizeProgress()` before storing it.
@@ -215,7 +215,7 @@ chapter practice, review and mock interviews.
 ## UI and theming
 
 - Colors, radii and shadows are CSS custom properties on `:root`. Dark is the default; light comes
-  from `prefers-color-scheme` or the theme toggle, saved under `seh:theme`. An inline script in the
+  from `prefers-color-scheme` or the theme toggle, saved under `studyhub:theme`. An inline script in the
   root layout applies the saved theme before first paint.
 - The brand is a blue-to-red gradient (`--grad`) used on primary buttons, the logo, progress bars,
   the current path node and highlights.
@@ -252,7 +252,8 @@ worker is not registered by `next dev`.
 
 `npm run share` runs `scripts/build-docs.mjs` (refreshing [CURRICULUM.md](CURRICULUM.md)) and then
 packs every project file, including `docs/`, content and `package-lock.json`, into
-`share/setup-software-engineers-hub.mjs` and `share/sync-software-engineers-hub.mjs`. The files are
+`share/setup-studyhub.mjs` and `share/sync-studyhub.mjs`. They also recognise a copy made before the
+rename (package name `software-engineers-hub`) and convert it. The files are
 gzip and base64 in comment lines at the end of each script, with a SHA-256 checksum. A paste that
 gets cut off is detected and reported instead of producing a broken project. `node_modules`, `.next`,
 `.env` files and `share/` itself are left out.

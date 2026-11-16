@@ -1,11 +1,11 @@
 {
- "name": "sync-software-engineers-hub",
- "generatedAt": "2026-11-16 11:39 UTC",
+ "name": "sync-studyhub",
+ "generatedAt": "2026-11-16 13:56 UTC",
  "parts": 1,
  "partsDone": [
   1
  ],
  "files": [
-  "sync-software-engineers-hub.mjs"
+  "sync-studyhub.mjs"
  ]
 }

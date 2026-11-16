@@ -107,7 +107,7 @@ Pages you have opened work offline. Logging out clears them from the device.
 npm run share
 ```
 
-Writes `share/setup-software-engineers-hub.mjs` (new machine), `share/sync-software-engineers-hub.mjs`
+Writes `share/setup-studyhub.mjs` (new machine), `share/sync-studyhub.mjs`
 (update an existing copy) and `share/HOW-TO-SETUP.md`. Each script holds the whole project compressed
 and verifies every file after writing.
 

@@ -2,7 +2,7 @@
 // Token format: base64url(JSON payload) + "." + base64url(signature)
 import type { PublicUser } from "@/lib/types";
 
-export const SESSION_COOKIE = "seh_session";
+export const SESSION_COOKIE = "studyhub_session";
 export const SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
 export interface SessionPayload {
@@ -18,8 +18,8 @@ const DEV_SECRET = "dev-only-secret-change-me-in-env-AUTH_SECRET";
 function secret(): string {
   const s = process.env.AUTH_SECRET;
   if (s && s.length >= 16) return s;
-  if (process.env.NODE_ENV === "production" && !process.env.__SEH_WARNED) {
-    process.env.__SEH_WARNED = "1";
+  if (process.env.NODE_ENV === "production" && !process.env.__STUDYHUB_WARNED) {
+    process.env.__STUDYHUB_WARNED = "1";
     console.warn("[auth] AUTH_SECRET is missing or short; using the development secret. Set it in production.");
   }
   return DEV_SECRET;

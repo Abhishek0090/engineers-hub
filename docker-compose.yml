@@ -1,11 +1,11 @@
-# Local MongoDB for Software Engineers Hub.
+# Local MongoDB for StudyHub.
 #   npm run db:up      start MongoDB on localhost:27017
 #   npm run db:seed    copy the JSON content and users into it
 # then set DATA_SOURCE=mongo in .env.local and restart `npm run dev`.
 services:
   mongo:
     image: mongo:8
-    container_name: seh-mongo
+    container_name: studyhub-mongo
     restart: unless-stopped
     ports:
       - "27017:27017"
@@ -19,7 +19,7 @@ services:
 
   mongo-express:
     image: mongo-express:latest
-    container_name: seh-mongo-express
+    container_name: studyhub-mongo-express
     profiles: ["tools"]
     ports:
       - "8081:8081"

@@ -6,7 +6,7 @@ import { Icon } from "./icons";
 
 type Theme = "dark" | "light";
 
-export const THEME_SCRIPT = `try{var t=localStorage.getItem("seh:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}`;
+export const THEME_SCRIPT = `try{var t=localStorage.getItem("studyhub:theme")||localStorage.getItem("seh:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}`;
 
 function currentTheme(): Theme {
   const set = document.documentElement.dataset.theme;
@@ -24,7 +24,7 @@ export function ThemeToggle() {
     const next: Theme = currentTheme() === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = next;
     try {
-      localStorage.setItem("seh:theme", next);
+      localStorage.setItem("studyhub:theme", next);
     } catch {}
     setTheme(next);
   };

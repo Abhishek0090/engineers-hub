@@ -17,11 +17,13 @@ interface ProgressContextValue {
 
 const ProgressContext = createContext<ProgressContextValue | null>(null);
 
-const storageKey = (userId: string) => `seh:progress:${userId}`;
+const storageKey = (userId: string) => `studyhub:progress:${userId}`;
+/** Key used before the rename to StudyHub; read once and migrated. */
+const legacyKey = (userId: string) => `seh:progress:${userId}`;
 
 function readLocal(userId: string): Progress | null {
   try {
-    const raw = localStorage.getItem(storageKey(userId));
+    const raw = localStorage.getItem(storageKey(userId)) ?? localStorage.getItem(legacyKey(userId));
     return raw ? sanitizeProgress(JSON.parse(raw)) : null;
   } catch {
     return null;

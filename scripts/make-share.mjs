@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // StudyHub by Abhishek Pal.
-// Builds share/setup-software-engineers-hub.mjs: one self-contained script that creates
+// Builds share/setup-studyhub.mjs: one self-contained script that creates
 // or updates the whole project on another machine (code, content JSON, config, package-lock.json).
 // Run: npm run share
 import { createHash } from "node:crypto";
@@ -57,11 +57,11 @@ const payloadLines = payload.match(/.{1,100}/g).map((line) => "//~ " + line);
 
 // Runtime of the generated scripts. Kept as a plain function so it is syntax-checked here too;
 // it is serialised with Function.prototype.toString().
-//   mode "setup": creates the project (in ./software-engineers-hub) or updates it in place.
+//   mode "setup": creates the project (in ./studyhub) or updates it in place.
 //   mode "sync":  only updates an existing project and makes it identical to this version:
 //                 files that are no longer part of the project are moved to .sync-backup/.
 function run(req, opts, scriptPath) {
-  const { PROJECT, OBSOLETE, GENERATED, PAYLOAD_HASH, MODE } = opts;
+  const { PROJECT, LEGACY_NAMES, OBSOLETE, GENERATED, PAYLOAD_HASH, MODE } = opts;
   const { spawnSync } = req("node:child_process");
   const { createHash } = req("node:crypto");
   const { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, writeFileSync } = req("node:fs");
@@ -89,7 +89,9 @@ function run(req, opts, scriptPath) {
 
   const isProject = (dir) => {
     try {
-      return JSON.parse(readFileSync(join(dir, "package.json"), "utf8")).name === PROJECT;
+      const name = JSON.parse(readFileSync(join(dir, "package.json"), "utf8")).name;
+      // Copies made before the rename (package name "software-engineers-hub") still count.
+      return name === PROJECT || LEGACY_NAMES.includes(name);
     } catch {
       return false;
     }
@@ -184,8 +186,9 @@ function run(req, opts, scriptPath) {
   console.log("  npm run dev      -> http://localhost:3000");
 }
 
-const SETUP = "setup-software-engineers-hub.mjs";
-const SYNC = "sync-software-engineers-hub.mjs";
+const SETUP = "setup-studyhub.mjs";
+const SYNC = "sync-studyhub.mjs";
+const LEGACY_NAMES = ["software-engineers-hub"];
 
 const HEADERS = {
   setup: [
@@ -204,7 +207,7 @@ const HEADERS = {
 };
 
 function buildScript(mode) {
-  const opts = { PROJECT: pkg.name, OBSOLETE, GENERATED, PAYLOAD_HASH: payloadHash, MODE: mode };
+  const opts = { PROJECT: pkg.name, LEGACY_NAMES, OBSOLETE, GENERATED, PAYLOAD_HASH: payloadHash, MODE: mode };
   return [
     "#!/usr/bin/env node",
     ...HEADERS[mode],

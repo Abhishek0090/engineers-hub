@@ -12,20 +12,20 @@ import type { Repository } from "./repository";
 
 type WithId<T> = Omit<T, "id"> & { _id: string };
 
-const globalForMongo = globalThis as unknown as { __sehMongo?: Promise<MongoClient> };
+const globalForMongo = globalThis as unknown as { __studyhubMongo?: Promise<MongoClient> };
 
 async function connect(): Promise<Db> {
   const uri = process.env.MONGODB_URI;
   if (!uri) throw new Error("DATA_SOURCE=mongo but MONGODB_URI is not set. See .env.example.");
-  if (!globalForMongo.__sehMongo) {
+  if (!globalForMongo.__studyhubMongo) {
     // One client per process; reused across hot reloads in development.
-    globalForMongo.__sehMongo = import("mongodb").then(({ MongoClient }) => new MongoClient(uri).connect());
-    globalForMongo.__sehMongo.catch(() => {
-      globalForMongo.__sehMongo = undefined;
+    globalForMongo.__studyhubMongo = import("mongodb").then(({ MongoClient }) => new MongoClient(uri).connect());
+    globalForMongo.__studyhubMongo.catch(() => {
+      globalForMongo.__studyhubMongo = undefined;
     });
   }
-  const client = await globalForMongo.__sehMongo;
-  return client.db(process.env.MONGODB_DB || "software_engineers_hub");
+  const client = await globalForMongo.__studyhubMongo;
+  return client.db(process.env.MONGODB_DB || "studyhub");
 }
 
 const fromDoc = <T extends { id: string }>(doc: WithId<T> | null): T | null => {

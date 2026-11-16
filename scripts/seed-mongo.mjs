@@ -23,7 +23,7 @@ for (const file of [".env.local", ".env"]) {
 }
 
 const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
-const dbName = process.env.MONGODB_DB || "software_engineers_hub";
+const dbName = process.env.MONGODB_DB || "studyhub";
 const content = join(ROOT, "src", "content");
 const read = (p) => JSON.parse(readFileSync(join(content, p), "utf8"));
 
