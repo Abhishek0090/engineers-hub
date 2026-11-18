@@ -1,0 +1,2183 @@
+{
+  "id": "ca-i-adv-accounting",
+  "title": "Advanced Accounting (Inter P1)",
+  "area": "ca-inter",
+  "order": 110,
+  "icon": "AA",
+  "color": "#1d4ed8",
+  "description": "CA Intermediate Paper 1 (ICAI new scheme, attempts from May 2027): Accounting Standards, company financial statements, buyback, reconstruction, amalgamation, branches and consolidation, with ICAI-style numericals and case-based MCQs.",
+  "chapters": [
+    {
+      "id": "ca-i-adv-accounting-01-framework",
+      "title": "Accounting Standards, Framework and Applicability",
+      "level": "beginner",
+      "summary": "How Accounting Standards are made in India, what the Framework says about financial statements, and which entities must follow which standards.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Companies (Accounting Standards) Rules, 2021 and ICAI Framework for Preparation and Presentation of Financial Statements, as in force in 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Accounting Standards and how they are made",
+          "body": "Accounting Standards (AS) are written policy documents that set out how transactions are recognised, measured, presented and disclosed. In India the **Accounting Standards Board (ASB)** of ICAI drafts them.\n\nThe usual process:\n\n- ASB identifies the area and forms a study group.\n- A preliminary draft is discussed with specified bodies (regulators, industry associations) and an **Exposure Draft** is issued for public comment.\n- Comments are considered and the final draft goes to the **ICAI Council** for approval.\n- For companies, the **Central Government notifies** standards under **section 133 of the Companies Act, 2013** after consulting the **National Financial Reporting Authority (NFRA)**. The standards that apply to non-Ind AS companies are now in the **Companies (Accounting Standards) Rules, 2021**.\n\nIndia has two sets: **Ind AS** (converged with IFRS, with a few **carve-outs**, i.e. departures from IFRS for Indian conditions) and **AS** (the older standards). This paper (Inter P1) tests AS; Ind AS is a Final subject.\n\n| Point | Convergence | Adoption |\n| --- | --- | --- |\n| Meaning | Standards brought close to IFRS, with local changes | IFRS taken as issued |\n| India | Ind AS (converged, with carve-outs) | Not followed |"
+        },
+        {
+          "heading": "The Framework in brief",
+          "body": "The **Framework for the Preparation and Presentation of Financial Statements** is not an AS. It guides standard setters and preparers where no AS applies. If the Framework and an AS conflict, the AS prevails.\n\n- **Users**: investors, employees, lenders, suppliers, customers, government, public.\n- **Underlying assumptions**: going concern, accrual, consistency.\n- **Qualitative characteristics**: understandability, relevance, reliability, comparability (materiality is a threshold for relevance).\n- **Elements**: asset, liability, equity, income, expenses.\n- **Recognition**: an item is recognised when it is probable that future economic benefit will flow and it has a cost or value that can be measured reliably.\n- **Measurement bases**: historical cost, current cost, realisable (settlement) value, present value.\n\n**Capital maintenance** decides what profit is. Profit is the excess of closing capital over opening capital (after owner transactions):\n\n| Concept | Capital to be maintained |\n| --- | --- |\n| Financial capital (money) | Opening equity in nominal rupees |\n| Financial capital (constant purchasing power) | Opening equity x general price index change |\n| Physical capital | Operating capacity, measured at current replacement cost |"
+        },
+        {
+          "heading": "Who applies which standards",
+          "body": "**Companies**: companies covered by the Ind AS roadmap (listed companies, unlisted companies with net worth of ₹250 crore or more, their holding, subsidiary, JV and associate companies, and specified NBFCs, banks and insurers as notified) follow Ind AS. All other companies follow AS under the Companies (AS) Rules, 2021.\n\nA **Small and Medium-sized Company (SMC)** gets some exemptions and relaxations (for example AS 17 does not apply, AS 20 diluted EPS is not required). A company is an SMC if it:\n\n- is not listed and not in the process of listing (equity or debt) in India or abroad;\n- is not a bank, financial institution or insurance company;\n- had turnover (excluding other income) not exceeding **₹250 crore** in the immediately preceding accounting year;\n- had borrowings (including public deposits) not exceeding **₹50 crore** at any time during the immediately preceding accounting year; and\n- is not a holding or subsidiary of a company that is not an SMC.\n\n**Non-company entities** (firms, LLPs, trusts carrying on business) follow ICAI's AS, classified by ICAI announcement into a large category that applies all AS in full and MSME categories with exemptions. ICAI revised this classification in recent years, so check the current ICAI announcement before applying exact thresholds."
+        },
+        {
+          "heading": "Worked example: capital maintenance",
+          "body": "A trader starts with ₹10,00,000 cash, buys 1,000 units at ₹1,000 and sells all of them for ₹13,00,000. The general price index rises from 100 to 110 during the year. Replacement cost at year end is ₹1,200 per unit.\n\n| Concept | Closing capital | Capital to maintain | Profit |\n| --- | --- | --- | --- |\n| Financial (nominal) | 13,00,000 | 10,00,000 | 3,00,000 |\n| Financial (constant purchasing power) | 13,00,000 | 11,00,000 | 2,00,000 |\n| Physical | 13,00,000 | 12,00,000 | 1,00,000 |\n\nThe ₹1,00,000 under CPP and ₹2,00,000 under physical capital are capital maintenance adjustments, credited to equity, not profit."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Treating the Framework as an Accounting Standard. It is guidance and gives way to an AS.\n- Saying ICAI notifies AS for companies. ICAI formulates; the Central Government notifies under section 133.\n- Testing SMC status on current-year figures. The turnover and borrowing tests use the **immediately preceding** accounting year, and borrowings are tested **at any time** during that year, not only at year end.\n- Forgetting that a subsidiary of a non-SMC is never an SMC, however small.\n- Calling prudence a licence for secret reserves. The Framework rejects deliberate understatement."
+        }
+      ],
+      "keyPoints": [
+        "ASB of ICAI formulates AS; Central Government notifies them for companies under section 133 after consulting NFRA.",
+        "Framework: assumptions going concern, accrual, consistency; QCs understandability, relevance, reliability, comparability.",
+        "Five elements: asset, liability, equity, income, expenses.",
+        "Measurement bases: historical cost, current cost, realisable value, present value.",
+        "Profit depends on capital maintenance: financial (nominal or CPP) or physical (current cost).",
+        "SMC: unlisted, not bank/FI/insurer, preceding-year turnover up to ₹250 crore, borrowings up to ₹50 crore at any time, not holding/subsidiary of a non-SMC."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-adv-accounting-01-framework-case1",
+          "title": "Case: Vardhan Traders",
+          "body": "Vardhan Traders started business on 1 April 2026 with equity capital of ₹20,00,000, all in cash. On the same day it bought 4,000 units of a product at ₹500 each. By 31 March 2027 it had sold all 4,000 units for ₹26,00,000 in cash. There were no other transactions.\n\n| Data | Value |\n| --- | --- |\n| General price index on 1 April 2026 | 120 |\n| General price index on 31 March 2027 | 132 |\n| Replacement cost per unit on 31 March 2027 | ₹560 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-adv-accounting-01-framework-q01",
+          "type": "mcq",
+          "prompt": "Under the Companies Act, 2013, who prescribes the Accounting Standards that companies must follow?",
+          "options": [
+            "The Central Government, in consultation with NFRA",
+            "The ICAI Council, without government involvement",
+            "SEBI, for all companies",
+            "The Registrar of Companies of each state"
+          ],
+          "answer": 0,
+          "explanation": "Section 133 empowers the Central Government to prescribe standards as recommended by ICAI, in consultation with NFRA. ICAI formulates them; notification is by the government."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q02",
+          "type": "mcq",
+          "prompt": "Which of the following is NOT a principal qualitative characteristic of financial statements under the Framework?",
+          "options": [
+            "Understandability",
+            "Relevance",
+            "Reliability",
+            "Profitability"
+          ],
+          "answer": 3,
+          "explanation": "The four principal qualitative characteristics are understandability, relevance, reliability and comparability. Profitability is a result, not a quality of information."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q03",
+          "type": "mcq",
+          "prompt": "Assets carried at the amount of cash that could currently be obtained by selling them in an orderly disposal are measured at:",
+          "options": [
+            "Historical cost",
+            "Current cost",
+            "Realisable (settlement) value",
+            "Present value"
+          ],
+          "answer": 2,
+          "explanation": "Realisable value is the cash obtainable by an orderly sale; for liabilities the equivalent is settlement value. Current cost is the cost to acquire the same asset now."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q04",
+          "type": "mcq",
+          "prompt": "Which set lists the fundamental accounting assumptions under AS 1 and the Framework?",
+          "options": [
+            "Going concern, consistency, accrual",
+            "Prudence, materiality, substance over form",
+            "Going concern, prudence, matching",
+            "Accrual, materiality, comparability"
+          ],
+          "answer": 0,
+          "explanation": "Going concern, consistency and accrual are the fundamental assumptions. If one is not followed, the fact must be disclosed. Prudence, substance over form and materiality are considerations in selecting policies."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q05",
+          "type": "truefalse",
+          "prompt": "The prudence concept in the Framework permits an enterprise to create secret reserves by deliberately understating income.",
+          "answer": false,
+          "explanation": "Prudence means caution in judgements under uncertainty. It does not allow deliberate understatement of assets or income or overstatement of liabilities, because that makes statements unreliable."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q06",
+          "type": "multi",
+          "prompt": "Which of the following are elements of financial statements as defined in the Framework? Select all that apply.",
+          "options": [
+            "Asset",
+            "Liability",
+            "Equity",
+            "Income",
+            "Expenses",
+            "Cash flow"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "explanation": "The Framework defines five elements: asset, liability and equity (financial position) and income and expenses (performance). Cash flow is reported but is not a defined element."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q07",
+          "type": "fill",
+          "prompt": "Fill the blank: the assumption that an enterprise will continue in operation for the foreseeable future is the ___ assumption.",
+          "accept": [
+            "going concern",
+            "going-concern"
+          ],
+          "explanation": "Going concern means there is neither the intention nor the need to liquidate or curtail operations materially, so assets are not carried at break-up values."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q08",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-01-framework-case1",
+          "prompt": "Compute the profit for 2026-27 under the financial capital maintenance concept in nominal monetary units. Answer in rupees.",
+          "answer": 600000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Closing capital (cash) | 26,00,000 |\n| Less: Opening capital in nominal terms | (20,00,000) |\n| **Profit** | **6,00,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q09",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-01-framework-case1",
+          "prompt": "Compute the profit under the financial capital maintenance concept in units of constant purchasing power. Answer in rupees.",
+          "answer": 400000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Capital to maintain = 20,00,000 x 132/120 = ₹22,00,000.\n\n| Particulars | ₹ |\n| --- | --- |\n| Closing capital | 26,00,000 |\n| Less: Opening capital restated | (22,00,000) |\n| **Profit** | **4,00,000** |\n\nThe ₹2,00,000 restatement is a capital maintenance adjustment in equity."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q10",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-01-framework-case1",
+          "prompt": "Compute the profit under the physical capital maintenance concept. Answer in rupees.",
+          "answer": 360000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "To maintain operating capacity the business must be able to buy back 4,000 units at ₹560 = ₹22,40,000.\n\n| Particulars | ₹ |\n| --- | --- |\n| Closing capital | 26,00,000 |\n| Less: Capital to maintain physical capacity | (22,40,000) |\n| **Profit** | **3,60,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q11",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-01-framework-case1",
+          "prompt": "Which capital maintenance concept requires Vardhan Traders to measure its capital using the current cost basis?",
+          "options": [
+            "Physical capital maintenance",
+            "Financial capital maintenance in nominal units",
+            "Financial capital maintenance in constant purchasing power",
+            "None; the Framework allows only historical cost"
+          ],
+          "answer": 0,
+          "explanation": "Physical capital is productive capacity, which is measured by what it costs today to replace the inputs. Financial capital can be measured in nominal or constant purchasing power units without current cost."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q12",
+          "type": "mcq",
+          "prompt": "Which of these companies qualifies as a Small and Medium-sized Company (SMC) for 2026-27? All figures relate to 2025-26 and none is a bank, FI or insurer.",
+          "options": [
+            "Unlisted private company: turnover ₹240 crore, maximum borrowings during the year ₹45 crore, not a holding or subsidiary of a non-SMC",
+            "Unlisted public company: turnover ₹120 crore, borrowings ₹62 crore on one day in October, ₹30 crore at year end",
+            "Private company: turnover ₹40 crore, no borrowings, wholly owned subsidiary of a listed company",
+            "Company with turnover ₹20 crore whose equity shares are in the process of listing on a stock exchange"
+          ],
+          "answer": 0,
+          "explanation": "Only the first meets every test. The second crossed ₹50 crore borrowings at some time during the year. The third is a subsidiary of a non-SMC (a listed company). The fourth is in the process of listing."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "State, with reasons, whether each company must follow Ind AS, or AS as a non-SMC, or AS as an SMC, for the accounting year 2026-27. Figures relate to 2025-26 unless stated. None is a bank, NBFC, FI or insurer.",
+          "data": "| Company | Facts |\n| --- | --- |\n| P Pvt Ltd | Unlisted; turnover ₹180 crore; maximum borrowings ₹30 crore; net worth ₹60 crore; no group links |\n| Q Ltd | Unlisted; turnover ₹120 crore; borrowings peaked at ₹62 crore in October; net worth ₹90 crore; no group links |\n| R Pvt Ltd | Turnover ₹40 crore; no borrowings; 70% subsidiary of an unlisted company that has a net worth of ₹300 crore |\n| S Ltd | Unlisted; net worth ₹300 crore |",
+          "answer": "| Company | Standards | Reason |\n| --- | --- | --- |\n| P Pvt Ltd | AS, as an SMC | Unlisted, turnover within ₹250 crore, borrowings within ₹50 crore throughout, net worth below ₹250 crore, no non-SMC parent |\n| Q Ltd | AS, as a non-SMC | Borrowings exceeded ₹50 crore at a time during the preceding year; the test is 'at any time', not year-end. Net worth below ₹250 crore so Ind AS not mandatory |\n| R Pvt Ltd | Ind AS | Its holding company has net worth of ₹250 crore or more and so follows Ind AS; Ind AS extends to its subsidiaries |\n| S Ltd | Ind AS | Unlisted company with net worth of ₹250 crore or more is covered by the Ind AS roadmap |\n\nIn the exam, state the SMC conditions first (not listed, not bank/FI/insurer, turnover up to ₹250 crore, borrowings up to ₹50 crore at any time, not holding/subsidiary of a non-SMC) and then apply each one."
+        },
+        {
+          "id": "ca-i-adv-accounting-01-framework-q14",
+          "type": "interview",
+          "top": true,
+          "prompt": "Explain the process followed in India for formulating Accounting Standards.",
+          "answer": "- The Accounting Standards Board (ASB) of ICAI identifies areas needing a standard and sets up study groups.\n- The study group prepares a preliminary draft, considering IFRS/Ind AS, Indian laws and practice.\n- ASB discusses the draft with representatives of specified bodies such as regulators, industry chambers and government departments.\n- An Exposure Draft is issued for public comment; ASB considers the comments and finalises the draft.\n- The final draft is submitted to the ICAI Council, which may modify and approves the standard.\n- For companies, the standard is recommended to the Central Government, which notifies it under section 133 of the Companies Act, 2013 after consulting NFRA (now part of the Companies (Accounting Standards) Rules, 2021). For non-company entities, ICAI announces applicability."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Intermediate study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: Accounting Standards Board",
+          "url": "https://www.icai.org/"
+        },
+        {
+          "title": "MCA: Companies Act and Rules",
+          "url": "https://www.mca.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-adv-accounting-02-assets-as",
+      "title": "AS on Assets and Inventories (AS 2, 10, 13, 16, 26, 28)",
+      "level": "beginner",
+      "summary": "Value inventories, property, plant and equipment, borrowing costs, investments, intangibles and impairment as the asset-based Accounting Standards require.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "AS 2, AS 10, AS 13, AS 16, AS 26 and AS 28 as notified in the Companies (Accounting Standards) Rules, 2021",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "AS 2: Valuation of inventories",
+          "body": "Inventories are valued at the **lower of cost and net realisable value (NRV)**, item by item or by groups of similar items.\n\n- **Cost** = cost of purchase (price, duties not recoverable, freight, less trade discounts) + cost of conversion (direct labour, variable and fixed production overheads) + other costs to bring inventory to its present location and condition.\n- **Fixed production overheads** are absorbed on **normal capacity**. Unabsorbed overhead from low production is an expense of the period. If actual production is higher than normal, the actual production is used so inventory is not above cost.\n- **Excluded from cost**: abnormal wastage, storage costs (unless needed in the production process before a further stage), administrative overheads not contributing to present location and condition, selling and distribution costs.\n- **NRV** = estimated selling price less estimated costs of completion and costs to sell.\n- **Raw materials** are not written down below cost if the finished goods in which they will be used are expected to sell at or above cost. If they are written down, replacement cost may be the best measure of NRV.\n- Cost formulas: FIFO or weighted average cost. Specific identification for items not ordinarily interchangeable.\n\nAS 2 does not apply to WIP under construction contracts (AS 7), shares and other financial instruments held as stock-in-trade, and producers' livestock, agricultural and forest products and mineral ores measured at NRV under trade practice."
+        },
+        {
+          "heading": "AS 10 (PPE) and AS 16 (Borrowing costs)",
+          "body": "**AS 10**: an item of PPE is recognised when future economic benefits are probable and cost can be measured reliably. Cost includes purchase price (with non-refundable duties, less discounts), directly attributable costs (site preparation, delivery, installation, testing, professional fees) and the initial estimate of **dismantling and site restoration** cost. Opening ceremonies, advertising, administration and initial operating losses are excluded.\n\n- After recognition: **cost model** or **revaluation model** for an entire class.\n- Revaluation increase goes to **revaluation surplus** in owners' equity, except to the extent it reverses a decrease earlier charged to profit or loss. A decrease goes to profit or loss, except to the extent of an existing surplus for the same asset.\n- Each significant component is depreciated separately.\n\n**AS 16**: borrowing costs directly attributable to a **qualifying asset** (one that takes a substantial period, ordinarily 12 months or more, to get ready for use or sale) are capitalised.\n\n- **Specific borrowings**: actual cost less income on temporary investment of those funds.\n- **General borrowings**: weighted average rate of general borrowings (capitalisation rate) x weighted expenditure on the asset; capped at actual general borrowing cost.\n- Capitalisation starts when expenditure, borrowing costs and activities to prepare the asset are all in progress; is suspended during extended periods of interruption; ceases when substantially all activities are complete."
+        },
+        {
+          "heading": "AS 13, AS 26 and AS 28",
+          "body": "**AS 13 Investments**: current investments at the **lower of cost and fair value** (category-wise or individually, not on overall portfolio). Long-term investments at **cost**, less provision for a **decline other than temporary**. On reclassification from long-term to current, transfer at lower of cost and carrying amount; from current to long-term, at lower of cost and fair value.\n\n**AS 26 Intangible assets**: research expenditure is expensed. Development expenditure is capitalised only when the enterprise can show technical feasibility, intention to complete, ability to use or sell, how the asset will generate benefits, adequate resources, and reliable measurement. Internally generated goodwill, brands and mastheads are not recognised. There is a rebuttable presumption that useful life does not exceed **10 years** from the date the asset is available for use.\n\n**AS 28 Impairment**: an asset is impaired when its carrying amount exceeds its **recoverable amount** = higher of **net selling price** and **value in use** (present value of future cash flows). The loss goes to profit or loss, or against revaluation surplus for a revalued asset."
+        },
+        {
+          "heading": "Worked example: general borrowings under AS 16",
+          "body": "General borrowings outstanding all year: 12% loan ₹10,00,000 and 10% loan ₹15,00,000. A factory (qualifying asset) is financed from these. Spending: ₹6,00,000 on 1 April and ₹4,00,000 on 1 October. Year ends 31 March.\n\nCapitalisation rate = (1,20,000 + 1,50,000) / 25,00,000 = **10.8%**\n\n| Date | Spent (₹) | Months | Weighted (₹) |\n| --- | --- | --- | --- |\n| 1 April | 6,00,000 | 12/12 | 6,00,000 |\n| 1 October | 4,00,000 | 6/12 | 2,00,000 |\n| **Total** | | | **8,00,000** |\n\nBorrowing cost capitalised = 8,00,000 x 10.8% = **₹86,400**. The rest of the ₹2,70,000 interest is expensed."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Absorbing fixed overheads on actual production when it is below normal capacity. Use normal capacity and expense the unabsorbed part.\n- Writing down raw materials when finished goods still sell above cost.\n- Capitalising interest on the full borrowing for the full year when spending happened during the year.\n- Forgetting to deduct income on temporary investment of specific borrowings.\n- Comparing carrying amount with net selling price only. Recoverable amount is the **higher** of NSP and value in use.\n- Carrying current investments at fair value when it is above cost."
+        }
+      ],
+      "keyPoints": [
+        "AS 2: lower of cost and NRV; fixed overheads on normal capacity; selling, admin and abnormal waste excluded.",
+        "Raw materials are not written down if the finished product sells at or above cost.",
+        "AS 10: cost includes initial estimate of dismantling; revaluation surplus goes to equity.",
+        "AS 16: specific borrowing cost less temporary investment income; general borrowing = capitalisation rate x weighted expenditure.",
+        "AS 13: current investments at lower of cost and fair value; long-term at cost less permanent decline.",
+        "AS 26: research expensed; development capitalised on six criteria; 10-year presumption.",
+        "AS 28: recoverable amount = higher of net selling price and value in use."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-case1",
+          "title": "Case: Kaveri Polymers Ltd",
+          "body": "Kaveri Polymers Ltd makes one product. Data for the year ended 31 March 2027:\n\n| Item | Data |\n| --- | --- |\n| Raw material in stock | 5,000 kg at cost ₹200 per kg; replacement cost ₹180 per kg |\n| Finished goods in stock | 2,000 units |\n| Material cost per unit | ₹300 |\n| Direct labour per unit | ₹100 |\n| Variable production overhead per unit | ₹50 |\n| Fixed production overheads for the year | ₹24,00,000 |\n| Normal capacity | 40,000 units |\n| Actual production | 30,000 units |\n| Expected selling price per unit | ₹560 |\n| Selling costs per unit | ₹30 |\n\nA moulding machine has a carrying amount of ₹40,00,000. Its net selling price is ₹32,00,000 and its value in use is ₹35,00,000."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q01",
+          "type": "mcq",
+          "prompt": "Under AS 2, which of the following is included in the cost of inventories?",
+          "options": [
+            "Storage costs necessary in the production process before a further production stage",
+            "Abnormal amounts of wasted materials",
+            "Administrative overheads that do not contribute to bringing inventory to its present location",
+            "Selling and distribution costs"
+          ],
+          "answer": 0,
+          "explanation": "Storage is normally excluded, but storage that is a necessary part of production (for example, maturing before the next stage) is included. The other three are always excluded."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q02",
+          "type": "mcq",
+          "prompt": "A qualifying asset under AS 16 is one that:",
+          "options": [
+            "Necessarily takes a substantial period of time (ordinarily 12 months or more) to get ready for its intended use or sale",
+            "Is financed wholly by specific borrowings",
+            "Costs more than ₹1 crore",
+            "Is inventory manufactured in large quantities on a repetitive basis"
+          ],
+          "answer": 0,
+          "explanation": "AS 16 defines a qualifying asset by the time needed to get it ready, ordinarily 12 months or more. Inventories routinely produced in large quantities over short periods are not qualifying assets."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q03",
+          "type": "mcq",
+          "prompt": "Under AS 26, expenditure on research (the research phase of an internal project) is:",
+          "options": [
+            "Recognised as an expense when incurred",
+            "Capitalised and amortised over 10 years",
+            "Capitalised once technical feasibility is shown",
+            "Deferred until the project is abandoned or completed"
+          ],
+          "answer": 0,
+          "explanation": "No intangible asset arises from research because the enterprise cannot show that future benefits are probable. Only development expenditure meeting all the criteria can be capitalised."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q04",
+          "type": "mcq",
+          "prompt": "Under AS 13, current investments are carried in the financial statements at:",
+          "options": [
+            "Lower of cost and fair value",
+            "Cost less provision for permanent decline",
+            "Fair value, with gains taken to profit",
+            "Cost, with no adjustment"
+          ],
+          "answer": 0,
+          "explanation": "Current investments are at the lower of cost and fair value, computed individually or by category. Cost less provision for a decline other than temporary applies to long-term investments."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q05",
+          "type": "truefalse",
+          "prompt": "Under AS 10, an increase in carrying amount on first revaluation of land is credited to the Statement of Profit and Loss.",
+          "answer": false,
+          "explanation": "A revaluation increase is credited directly to owners' interests under the heading revaluation surplus. It goes to profit or loss only to the extent it reverses a revaluation decrease of the same asset previously recognised in profit or loss."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q06",
+          "type": "multi",
+          "prompt": "Which of the following form part of the cost of an item of PPE under AS 10? Select all that apply.",
+          "options": [
+            "Non-refundable import duties",
+            "Costs of site preparation",
+            "Installation and assembly costs",
+            "Initial estimate of dismantling and site restoration costs",
+            "Cost of the opening ceremony of the new plant",
+            "Initial operating losses while demand builds up"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Purchase price with non-refundable duties, directly attributable costs such as site preparation and installation, and the initial estimate of dismantling are included. Opening ceremonies and initial operating losses are not necessary to bring the asset to working condition."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q07",
+          "type": "fill",
+          "prompt": "Fill the blank: under AS 28, recoverable amount is the higher of an asset's net selling price and its ___.",
+          "accept": [
+            "value in use",
+            "value-in-use"
+          ],
+          "explanation": "Value in use is the present value of estimated future cash flows from continuing use and disposal at the end of useful life."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q08",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-02-assets-as-case1",
+          "prompt": "At what amount should the finished goods stock be valued at 31 March 2027? Answer in rupees.",
+          "answer": 1020000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Fixed overhead per unit on normal capacity = 24,00,000 / 40,000 = ₹60.\n\n| Cost per unit | ₹ |\n| --- | --- |\n| Material | 300 |\n| Labour | 100 |\n| Variable overhead | 50 |\n| Fixed overhead | 60 |\n| **Cost** | **510** |\n\nNRV = 560 - 30 = ₹530. Lower of cost and NRV = ₹510. Value = 2,000 x 510 = **₹10,20,000**."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q09",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-02-assets-as-case1",
+          "prompt": "What amount of fixed production overhead must be recognised as an expense of the year (unabsorbed overhead)? Answer in rupees.",
+          "answer": 600000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Absorbed = 30,000 units x ₹60 = ₹18,00,000. Unabsorbed = 24,00,000 - 18,00,000 = **₹6,00,000**, charged to profit or loss because production was below normal capacity."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q10",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-02-assets-as-case1",
+          "prompt": "At what amount should the raw material stock be valued?",
+          "options": [
+            "₹10,00,000, because the finished goods are expected to sell above cost",
+            "₹9,00,000, at replacement cost",
+            "₹9,50,000, the average of cost and replacement cost",
+            "₹9,00,000, because replacement cost is always NRV for raw materials"
+          ],
+          "answer": 0,
+          "explanation": "Raw materials are not written down below cost when the finished product will sell at or above cost. Finished goods cost ₹510 and NRV is ₹530, so raw material stays at 5,000 x ₹200 = ₹10,00,000."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q11",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-02-assets-as-case1",
+          "prompt": "Compute the impairment loss on the moulding machine under AS 28. Answer in rupees.",
+          "answer": 500000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Recoverable amount = higher of NSP ₹32,00,000 and value in use ₹35,00,000 = ₹35,00,000. Impairment loss = 40,00,000 - 35,00,000 = **₹5,00,000**."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q12",
+          "type": "numeric",
+          "prompt": "On 1 April 2026 a company borrowed ₹50,00,000 at 12% p.a. specifically to build a warehouse (a qualifying asset), completed on 31 March 2027. Funds not yet needed were temporarily invested and earned ₹40,000. How much borrowing cost is capitalised for 2026-27? Answer in rupees.",
+          "answer": 560000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Interest 50,00,000 x 12% | 6,00,000 |\n| Less: Income on temporary investment | (40,000) |\n| **Capitalised** | **5,60,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Compute the borrowing cost to be capitalised for 2026-27 under AS 16 and the amount charged to profit or loss.",
+          "data": "General borrowings outstanding throughout 2026-27: 11% term loan ₹20,00,000 and 9% debentures ₹30,00,000. A building (qualifying asset) is financed from general funds. Spending on the building: ₹10,00,000 on 1 April 2026, ₹8,00,000 on 1 July 2026 and ₹6,00,000 on 1 January 2027. Construction continues beyond 31 March 2027.",
+          "answer": "**Step 1: Capitalisation rate**\n\n| Loan | Amount (₹) | Interest (₹) |\n| --- | --- | --- |\n| 11% term loan | 20,00,000 | 2,20,000 |\n| 9% debentures | 30,00,000 | 2,70,000 |\n| **Total** | **50,00,000** | **4,90,000** |\n\nRate = 4,90,000 / 50,00,000 = **9.8%**\n\n**Step 2: Weighted expenditure**\n\n| Date | Spent (₹) | Period | Weighted (₹) |\n| --- | --- | --- | --- |\n| 1 April 2026 | 10,00,000 | 12/12 | 10,00,000 |\n| 1 July 2026 | 8,00,000 | 9/12 | 6,00,000 |\n| 1 January 2027 | 6,00,000 | 3/12 | 1,50,000 |\n| **Total** | | | **17,50,000** |\n\n**Step 3**: Borrowing cost capitalised = 17,50,000 x 9.8% = **₹1,71,500** (below the actual ₹4,90,000, so no cap applies).\n\nCharged to profit or loss = 4,90,000 - 1,71,500 = **₹3,18,500**."
+        },
+        {
+          "id": "ca-i-adv-accounting-02-assets-as-q14",
+          "type": "interview",
+          "prompt": "State the conditions under AS 26 for recognising an intangible asset arising from development.",
+          "answer": "An intangible asset from development is recognised only if the enterprise can demonstrate all of the following:\n\n- technical feasibility of completing the asset so it will be available for use or sale;\n- its intention to complete the asset and use or sell it;\n- its ability to use or sell the asset;\n- how the asset will generate probable future economic benefits, for example a market for the output or the asset, or its usefulness if used internally;\n- availability of adequate technical, financial and other resources to complete development and use or sell the asset;\n- its ability to measure reliably the expenditure attributable to the asset during development.\n\nExpenditure before these criteria are met is expensed and cannot be reinstated later. If the research and development phases cannot be separated, all expenditure is treated as research."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Advanced Accounting study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "MCA: Companies (Accounting Standards) Rules",
+          "url": "https://www.mca.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-adv-accounting-03-revenue-liabilities",
+      "title": "AS on Revenue, Liabilities and Provisions (AS 4, 5, 7, 9, 12, 15, 22, 29)",
+      "level": "intermediate",
+      "summary": "Recognise revenue and contract profits, government grants, provisions, post-balance-sheet events, employee benefits and deferred tax under the Accounting Standards.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "AS 4, 5, 7, 9, 12, 15, 22 and 29 as notified in the Companies (Accounting Standards) Rules, 2021",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "AS 9 and AS 7: revenue and construction contracts",
+          "body": "**AS 9**: revenue from sale of goods is recognised when the seller has transferred the significant risks and rewards of ownership, has no effective control over the goods, and there is no significant uncertainty about the consideration. Services: proportionate completion or completed service contract method. Interest on time proportion basis, royalties on accrual, dividends when the right to receive is established.\n\n**AS 7**: when the outcome of a construction contract can be estimated reliably, revenue and costs are recognised by **stage of completion** (percentage of completion method), commonly measured as cost incurred to date / total estimated cost.\n\n- When it is probable that total contract costs will exceed total revenue, the **expected loss is recognised as an expense immediately**, whatever the stage of completion.\n- When the outcome cannot be estimated reliably, revenue is recognised only to the extent of recoverable costs incurred.\n\n| Step | Formula |\n| --- | --- |\n| Stage of completion | Cost to date / (Cost to date + Estimated cost to complete) |\n| Revenue recognised | Contract price x Stage |\n| Profit (if profitable) | Revenue - Cost of work done |\n| Loss (if loss-making) | Full expected loss now |"
+        },
+        {
+          "heading": "AS 12, AS 29 and AS 4",
+          "body": "**AS 12 Government grants** are recognised when there is reasonable assurance that the conditions will be met and the grant will be received.\n\n- Grant in the nature of **promoters' contribution**: credited to **capital reserve** (capital approach).\n- Grant for a specific depreciable asset: either **deducted from the gross value** of the asset, or treated as **deferred income** taken to profit and loss over the useful life in proportion to depreciation.\n- Grant for a non-depreciable asset with no obligation: capital reserve.\n- Revenue grants: income over the periods of related costs.\n\n**AS 29**: a **provision** is recognised when there is a present obligation from a past event, an outflow is probable, and a reliable estimate can be made. A **contingent liability** is disclosed (unless remote). A **contingent asset** is not recognised; it is usually disclosed in the report of the approving authority. No provision for future operating losses.\n\n**AS 4**: events after the balance sheet date that give evidence of conditions **existing at** the balance sheet date are **adjusting** (for example insolvency of a debtor who was already in difficulty). Events about conditions arising **after** that date are **non-adjusting** and disclosed if material. Dividends proposed or declared after the balance sheet date are **not** recognised as a liability."
+        },
+        {
+          "heading": "AS 5, AS 15 and AS 22",
+          "body": "**AS 5**: prior period items are income or expenses arising in the current period from **errors or omissions** in earlier periods; shown separately. A **change in accounting estimate** (for example useful life) is not a prior period item; its effect goes to current and future periods. A **change in accounting policy** is made only if required by statute or an AS, or for a more appropriate presentation.\n\n**AS 15 Employee benefits**: short-term benefits are expensed as the service is rendered. Post-employment plans:\n\n- **Defined contribution** (for example provident fund to a government scheme): expense = contribution payable.\n- **Defined benefit** (for example gratuity): liability = present value of defined benefit obligation **less** fair value of plan assets, using the **projected unit credit method**. Under AS 15, actuarial gains and losses are recognised **immediately in profit or loss**.\n\n**AS 22 Taxes on income**: tax expense = current tax + deferred tax. Deferred tax arises only on **timing differences** (originate in one period, reverse later), not on permanent differences. Deferred tax assets need **reasonable certainty** of future taxable income; where there are unabsorbed depreciation or carried forward losses, **virtual certainty supported by convincing evidence**. Use rates enacted or substantively enacted at the balance sheet date."
+        },
+        {
+          "heading": "Worked example: AS 7",
+          "body": "Fixed-price contract ₹1,00,00,000. Cost to date ₹42,00,000; estimated further cost ₹28,00,000.\n\n| Particulars | ₹ |\n| --- | --- |\n| Total estimated cost | 70,00,000 |\n| Stage of completion = 42 / 70 | 60% |\n| Revenue = 1,00,00,000 x 60% | 60,00,000 |\n| Less: Cost of work done | (42,00,000) |\n| **Profit recognised** | **18,00,000** |\n\nIf total estimated cost had been ₹1,10,00,000, the full expected loss of ₹10,00,000 would be recognised now."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Recognising only the 'stage' share of an expected loss. AS 7 needs the whole expected loss now.\n- Treating a final dividend proposed after year end as a current liability.\n- Creating deferred tax on permanent differences such as penalties or exempt income.\n- Taking actuarial losses on gratuity to reserves. Under AS 15 they go to profit or loss.\n- Recognising a contingent asset because it is probable. Only when realisation is virtually certain is the asset no longer contingent.\n- Calling a revised useful life a prior period item."
+        }
+      ],
+      "keyPoints": [
+        "AS 7: stage = cost to date / total estimated cost; expected loss recognised in full immediately.",
+        "AS 9: goods when significant risks and rewards pass and no significant uncertainty on consideration.",
+        "AS 12: promoters' contribution grant to capital reserve; depreciable asset grant deducted from cost or deferred income.",
+        "AS 29: provision = present obligation + probable outflow + reliable estimate; contingent assets not recognised.",
+        "AS 4: proposed dividends after the balance sheet date are not a liability.",
+        "AS 15: DB liability = PV of DBO - FV of plan assets; actuarial gains and losses in profit or loss.",
+        "AS 22: deferred tax on timing differences only; virtual certainty for DTA on unabsorbed depreciation and losses."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-case1",
+          "title": "Case: Neelkanth Infra Ltd",
+          "body": "Neelkanth Infra Ltd signed a fixed-price contract on 1 April 2026 to build a bridge for ₹2,40,00,000. Details at 31 March 2027 (end of year 1):\n\n| Item | ₹ |\n| --- | --- |\n| Contract costs incurred to date (all relating to work done) | 90,00,000 |\n| Estimated further costs to complete | 1,60,00,000 |\n\nThe outcome of the contract can be estimated reliably. The company measures stage of completion by the cost incurred to date as a proportion of total estimated cost."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q01",
+          "type": "mcq",
+          "prompt": "Under AS 9, revenue from the sale of goods is recognised when:",
+          "options": [
+            "Significant risks and rewards of ownership have passed to the buyer and there is no significant uncertainty about the consideration",
+            "The sale order is received from the customer",
+            "Cash is received from the customer",
+            "Goods are manufactured and ready for despatch"
+          ],
+          "answer": 0,
+          "explanation": "AS 9 ties recognition to transfer of significant risks and rewards (and loss of effective control) with no significant uncertainty about collection. Order, production or cash receipt alone does not meet it."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q02",
+          "type": "mcq",
+          "prompt": "Which of the following events after the balance sheet date (31 March) is an adjusting event under AS 4?",
+          "options": [
+            "Insolvency in May of a debtor who was already in serious financial difficulty at 31 March",
+            "Destruction of a warehouse by fire in April",
+            "A fall in the market value of investments in May caused by events in May",
+            "Declaration of a final dividend by the board in May"
+          ],
+          "answer": 0,
+          "explanation": "The debtor's insolvency confirms a condition (inability to pay) that existed at the balance sheet date, so the receivable is adjusted. The fire and market fall relate to conditions arising later. Dividends after year end are not a liability."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q03",
+          "type": "mcq",
+          "prompt": "A government grant given as promoters' contribution towards the total capital outlay of a new project, with no repayment obligation, is accounted for under AS 12 by:",
+          "options": [
+            "Crediting it to capital reserve",
+            "Crediting it to the Statement of Profit and Loss in the year of receipt",
+            "Deducting it from the cost of plant only",
+            "Showing it as a current liability"
+          ],
+          "answer": 0,
+          "explanation": "Grants in the nature of promoters' contribution are treated as part of shareholders' funds (capital approach) and credited to capital reserve."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q04",
+          "type": "mcq",
+          "prompt": "A company has unabsorbed depreciation under tax laws. Under AS 22, a deferred tax asset on it can be recognised only when:",
+          "options": [
+            "There is virtual certainty, supported by convincing evidence, of sufficient future taxable income",
+            "There is reasonable certainty of future taxable income",
+            "Management expects profits next year",
+            "The tax rate is expected to rise"
+          ],
+          "answer": 0,
+          "explanation": "For unabsorbed depreciation and carry forward losses, AS 22 needs virtual certainty backed by convincing evidence, a stricter test than the reasonable certainty used for other timing differences."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q05",
+          "type": "truefalse",
+          "prompt": "Under AS 29, a provision should be recognised for operating losses expected in the next financial year.",
+          "answer": false,
+          "explanation": "Future operating losses do not arise from a past event and there is no present obligation, so no provision is made. They may indicate impairment under AS 28."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q06",
+          "type": "multi",
+          "prompt": "Under AS 29, which conditions must ALL be met before a provision is recognised? Select all that apply.",
+          "options": [
+            "The enterprise has a present obligation as a result of a past event",
+            "It is probable that an outflow of resources will be required to settle it",
+            "A reliable estimate of the amount can be made",
+            "Management intends to spend the money in future",
+            "The obligation depends on future actions of the enterprise"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Present obligation from a past event, probable outflow and reliable estimate are the three conditions. An intention, or an obligation the enterprise can avoid by future actions, is not a present obligation."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q07",
+          "type": "fill",
+          "prompt": "Fill the blank: under AS 22, differences between taxable income and accounting income that originate in one period and reverse in later periods are called ___ differences.",
+          "accept": [
+            "timing",
+            "timing differences"
+          ],
+          "explanation": "Timing differences create deferred tax. Permanent differences originate in one period and never reverse, so they create no deferred tax."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q08",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-03-revenue-liabilities-case1",
+          "prompt": "Compute the stage of completion at 31 March 2027. Answer as a percentage, rounded to the nearest whole number.",
+          "answer": 36,
+          "tolerance": 0.5,
+          "unit": "%",
+          "explanation": "Total estimated cost = 90,00,000 + 1,60,00,000 = ₹2,50,00,000. Stage = 90,00,000 / 2,50,00,000 = **36%**."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q09",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-03-revenue-liabilities-case1",
+          "prompt": "Compute the contract revenue to be recognised for the year ended 31 March 2027. Answer in rupees.",
+          "answer": 8640000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Revenue = 2,40,00,000 x 36% = **₹86,40,000**."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q10",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-03-revenue-liabilities-case1",
+          "prompt": "Compute the total loss to be recognised on the contract in the Statement of Profit and Loss for the year ended 31 March 2027. Enter the loss as a positive figure in rupees.",
+          "answer": 1000000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Expected loss = Total cost 2,50,00,000 - Contract price 2,40,00,000 = ₹10,00,000. AS 7 requires the full expected loss to be recognised immediately, so the year 1 loss is **₹10,00,000**, not 36% of it."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q11",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-03-revenue-liabilities-case1",
+          "prompt": "What is the provision for foreseeable (future) loss to be created at 31 March 2027, over and above the loss on work done to date?",
+          "options": [
+            "₹6,40,000",
+            "₹3,60,000",
+            "₹10,00,000",
+            "Nil"
+          ],
+          "answer": 0,
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Revenue recognised | 86,40,000 |\n| Less: Cost of work done | (90,00,000) |\n| Loss on work done | (3,60,000) |\n| Provision for future loss (balancing) | (6,40,000) |\n| **Total expected loss** | **(10,00,000)** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q12",
+          "type": "numeric",
+          "prompt": "For 2026-27 a company's depreciation is ₹8,00,000 in the books and ₹12,00,000 under tax law. A penalty of ₹2,00,000 charged in the books is not deductible for tax. Tax rate is 25%. Compute the deferred tax liability to be created for the year. Answer in rupees.",
+          "answer": 100000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Timing difference = 12,00,000 - 8,00,000 = ₹4,00,000 (reverses in later years). DTL = 4,00,000 x 25% = **₹1,00,000**. The penalty is a permanent difference and creates no deferred tax."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "From the actuarial data for a gratuity plan (defined benefit), compute the expense to be recognised in the Statement of Profit and Loss under AS 15 and the net liability in the Balance Sheet at 31 March 2027.",
+          "data": "| Item | ₹ |\n| --- | --- |\n| PV of obligation, 1 April 2026 | 20,00,000 |\n| Current service cost | 3,00,000 |\n| Interest cost (8% on opening obligation) | 1,60,000 |\n| Benefits paid | 2,00,000 |\n| PV of obligation, 31 March 2027 (actuary) | 24,00,000 |\n| Fair value of plan assets, 1 April 2026 | 15,00,000 |\n| Expected return on plan assets (9%) | 1,35,000 |\n| Contributions paid by employer | 4,00,000 |\n| Fair value of plan assets, 31 March 2027 | 18,00,000 |",
+          "answer": "**Obligation**\n\n| Particulars | ₹ |\n| --- | --- |\n| Opening PV of obligation | 20,00,000 |\n| Add: Current service cost | 3,00,000 |\n| Add: Interest cost | 1,60,000 |\n| Less: Benefits paid | (2,00,000) |\n| Expected closing obligation | 22,60,000 |\n| Actual closing obligation | 24,00,000 |\n| **Actuarial loss on obligation** | **1,40,000** |\n\n**Plan assets**\n\n| Particulars | ₹ |\n| --- | --- |\n| Opening fair value | 15,00,000 |\n| Add: Contributions | 4,00,000 |\n| Less: Benefits paid | (2,00,000) |\n| Add: Actual return (balancing) | 1,00,000 |\n| Closing fair value | 18,00,000 |\n\nActuarial loss on assets = Expected return 1,35,000 - Actual return 1,00,000 = ₹35,000.\n\n**Expense in Statement of Profit and Loss**\n\n| Particulars | ₹ |\n| --- | --- |\n| Current service cost | 3,00,000 |\n| Interest cost | 1,60,000 |\n| Less: Expected return on plan assets | (1,35,000) |\n| Actuarial loss (1,40,000 + 35,000) | 1,75,000 |\n| **Total expense** | **5,00,000** |\n\n**Net liability** = 24,00,000 - 18,00,000 = **₹6,00,000**.\n\nCheck: opening net liability 5,00,000 + expense 5,00,000 - contributions 4,00,000 = 6,00,000."
+        },
+        {
+          "id": "ca-i-adv-accounting-03-revenue-liabilities-q14",
+          "type": "interview",
+          "prompt": "Distinguish between prior period items and changes in accounting estimates under AS 5, with an example of each.",
+          "answer": "- **Prior period items** are income or expenses that arise in the current period because of errors or omissions in preparing financial statements of one or more earlier periods. Example: depreciation omitted on a machine in the previous year, detected now.\n- They are shown separately in the Statement of Profit and Loss so their effect on current profit is visible.\n- **Changes in accounting estimates** arise from new information or more experience, not from errors. Example: revising the remaining useful life of a machine from 8 to 5 years, or revising a bad debt estimate.\n- The effect of a change in estimate goes into profit or loss of the period of change and future periods if affected, under the same head as the original item; it is not a prior period item.\n- If it is hard to tell a change in policy from a change in estimate, AS 5 treats it as a change in estimate, with disclosure."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Advanced Accounting study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "MCA: Companies (Accounting Standards) Rules",
+          "url": "https://www.mca.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-adv-accounting-04-disclosure-as",
+      "title": "AS on Presentation and Disclosure (AS 1, 3, 17, 18, 19, 20, 24, 25)",
+      "level": "intermediate",
+      "summary": "Apply the presentation and disclosure standards: accounting policies, cash flow statements, EPS, segment reporting, related parties, leases, discontinuing operations and interim reporting.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "AS 1, 3, 17, 18, 19, 20, 24 and 25 as notified in the Companies (Accounting Standards) Rules, 2021",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "AS 1 and AS 3",
+          "body": "**AS 1 Disclosure of accounting policies**: all significant accounting policies are disclosed in one place, usually the first note. Major considerations in selecting policies are **prudence, substance over form and materiality**. If a fundamental assumption (going concern, consistency, accrual) is not followed, that fact is disclosed. A wrong treatment is not cured by disclosure.\n\n**AS 3 Cash flow statements** classify cash flows into:\n\n| Activity | Examples (non-financial enterprise) |\n| --- | --- |\n| Operating | Receipts from customers, payments to suppliers and employees, income tax paid (unless linked to investing or financing) |\n| Investing | Purchase or sale of PPE and investments, interest and dividends received |\n| Financing | Issue or buyback of shares, borrowings and repayments, interest paid, dividends paid |\n\nOperating cash flow can be shown by the **direct** or **indirect** method. Indirect method: profit before tax, add back non-cash items (depreciation), remove investing and financing items (profit on sale of assets, interest expense), adjust working capital changes, then deduct tax paid."
+        },
+        {
+          "heading": "AS 20 Earnings per share",
+          "body": "**Basic EPS** = Net profit attributable to equity shareholders (after preference dividend and its tax) / Weighted average equity shares outstanding.\n\n- **Fresh issue at full price**: weighted by time outstanding.\n- **Bonus issue, share split, consolidation**: no new resources, so treated as if it happened at the start of the earliest period presented; prior EPS restated.\n- **Rights issue below fair value**: has a bonus element. Adjustment factor = Fair value per share before rights (cum-rights) / Theoretical ex-rights fair value (TERP). Shares before the issue are multiplied by this factor; prior-year EPS is divided by it.\n\nTERP = (Fair value of all shares before exercise + Rights proceeds) / Shares outstanding after exercise.\n\n**Diluted EPS**: add back to earnings the after-tax interest on dilutive potential shares (such as convertible debentures) and add the potential shares to the denominator. A potential share is included only if it reduces EPS (is dilutive)."
+        },
+        {
+          "heading": "AS 17, AS 18, AS 24, AS 25",
+          "body": "**AS 17 Segment reporting** (not for SMCs): a business or geographical segment is **reportable** if, for most of its revenue from external customers, it meets any one test:\n\n- segment revenue (external + internal) is 10% or more of total revenue of all segments;\n- segment result (profit or loss) is 10% or more of the greater of total profit of profit-making segments and total loss of loss-making segments (absolute);\n- segment assets are 10% or more of total assets of all segments.\n\nIf reportable segments' external revenue is below 75% of enterprise revenue, more segments are added until 75% is reached.\n\n**AS 18 Related party disclosures**: parties are related if one controls or significantly influences the other. Includes holding, subsidiaries, associates, JVs, key management personnel (KMP) and their relatives. Not related merely because of being a major customer, supplier or financier. Disclose relationship, nature and volume of transactions, outstanding balances.\n\n**AS 24 Discontinuing operations**: disclosures start from the **initial disclosure event** (binding sale agreement or board approval and announcement of a plan).\n\n**AS 25 Interim financial reporting**: each interim period is part of the annual period (integral approach for tax). Income tax expense uses the **estimated weighted average annual effective rate**."
+        },
+        {
+          "heading": "AS 19 Leases and a worked EPS example",
+          "body": "**AS 19**: a **finance lease** transfers substantially all risks and rewards incidental to ownership; otherwise it is an **operating lease**. Lessee under a finance lease records an asset and liability at the **lower of fair value and present value of minimum lease payments**; each payment is split into finance charge and principal. Operating lease payments are expensed on a straight-line basis (unless another systematic basis is more representative).\n\n**Worked example (rights issue)**: profit 2025-26 ₹30,00,000; 2026-27 ₹44,00,000. 10,00,000 shares. Rights issue 1 for 4 at ₹40 on 1 October 2026; fair value before the rights ₹60.\n\n| Step | Working | Result |\n| --- | --- | --- |\n| TERP | (10,00,000 x 60 + 2,50,000 x 40) / 12,50,000 | ₹56 |\n| Adjustment factor | 60 / 56 | 1.0714 |\n| Restated EPS 2025-26 | 3.00 / 1.0714 | ₹2.80 |\n| Weighted shares 2026-27 | 10,00,000 x 1.0714 x 6/12 + 12,50,000 x 6/12 | 11,60,714 |\n| EPS 2026-27 | 44,00,000 / 11,60,714 | ₹3.79 |"
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Weighting bonus shares from the date of issue. Bonus shares are treated as outstanding from the beginning.\n- Adding back pre-tax interest for diluted EPS. Add back interest **net of tax**.\n- Showing interest paid by a manufacturing company under operating activities. Under AS 3 it is financing for a non-financial enterprise.\n- Applying the segment result test to total net profit. Use the greater of total profits and total losses in absolute terms.\n- Treating a major customer as a related party."
+        }
+      ],
+      "keyPoints": [
+        "AS 1: prudence, substance over form, materiality; disclosure does not cure wrong treatment.",
+        "AS 3 (non-financial enterprise): interest and dividends received = investing; interest and dividends paid = financing.",
+        "AS 20: bonus treated as from start of earliest period; rights factor = cum-rights fair value / TERP.",
+        "Diluted EPS: add after-tax interest and potential shares, only if dilutive.",
+        "AS 17: 10% revenue, result or assets tests; reportable segments must cover 75% of external revenue.",
+        "AS 19 finance lease: asset and liability at lower of fair value and PV of minimum lease payments.",
+        "AS 25: interim tax at estimated weighted average annual effective rate."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-case1",
+          "title": "Case: Suryodaya Textiles Ltd",
+          "body": "Suryodaya Textiles Ltd reports net profit after tax of ₹60,00,000 for 2026-27 (no preference shares). Share data:\n\n| Date | Event |\n| --- | --- |\n| 1 April 2026 | 20,00,000 equity shares of ₹10 each outstanding |\n| 1 October 2026 | 4,00,000 equity shares issued for cash at full market price |\n| 1 January 2027 | Bonus issue of 1 share for every 4 shares held |\n\n10% convertible debentures of ₹1,00,00,000 (1,00,000 debentures of ₹100 each) were outstanding throughout the year. Each debenture converts into 5 equity shares (terms already adjusted for the bonus). Tax rate is 25%."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q01",
+          "type": "mcq",
+          "prompt": "Under AS 3, interest paid by a manufacturing company is classified as a cash flow from:",
+          "options": [
+            "Financing activities",
+            "Operating activities",
+            "Investing activities",
+            "Either operating or investing, at the company's choice"
+          ],
+          "answer": 0,
+          "explanation": "For a non-financial enterprise, interest paid is a cost of obtaining finance, so it is a financing cash flow. For a financial enterprise it is operating."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q02",
+          "type": "mcq",
+          "prompt": "Under AS 17, a segment is reportable if its revenue (external and internal) is at least what percentage of the total revenue of all segments?",
+          "options": [
+            "10%",
+            "5%",
+            "20%",
+            "75%"
+          ],
+          "answer": 0,
+          "explanation": "Each of the three tests (revenue, result, assets) uses a 10% threshold. The 75% figure is the coverage test for reportable segments' external revenue."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q03",
+          "type": "mcq",
+          "prompt": "Which of the following is NOT a related party of Alpha Ltd under AS 18?",
+          "options": [
+            "A customer that buys 40% of Alpha Ltd's output, with no ownership or management link",
+            "Alpha Ltd's holding company",
+            "The managing director of Alpha Ltd",
+            "An associate of Alpha Ltd"
+          ],
+          "answer": 0,
+          "explanation": "A single customer with whom an enterprise does a large volume of business is not a related party merely because of economic dependence. Holding companies, KMP and associates are related parties."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q04",
+          "type": "mcq",
+          "prompt": "Under AS 19, at the inception of a finance lease the lessee recognises the asset and liability at:",
+          "options": [
+            "The lower of the fair value of the leased asset and the present value of minimum lease payments",
+            "The total of undiscounted minimum lease payments",
+            "Fair value of the leased asset in all cases",
+            "Nil; lease rentals are expensed"
+          ],
+          "answer": 0,
+          "explanation": "The lessee records the lower of fair value and PV of minimum lease payments. Expensing rentals applies to operating leases."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q05",
+          "type": "truefalse",
+          "prompt": "Under AS 25, income tax expense for an interim period is recognised using the estimated weighted average annual effective income tax rate expected for the full year.",
+          "answer": true,
+          "explanation": "Income tax is assessed on annual income, so AS 25 applies the expected annual effective rate to interim pre-tax income."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q06",
+          "type": "multi",
+          "prompt": "For a trading company, which of these are cash flows from operating activities under AS 3? Select all that apply.",
+          "options": [
+            "Cash receipts from customers",
+            "Cash paid to suppliers",
+            "Income tax paid, not specifically linked to investing or financing",
+            "Purchase of machinery",
+            "Proceeds from issue of shares",
+            "Dividend received on investments"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Customer receipts, supplier payments and general income tax are operating. Machinery and dividends received are investing; share issue is financing."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q07",
+          "type": "fill",
+          "prompt": "Fill the blank: under AS 20, the rights issue adjustment factor = fair value per share immediately before the exercise of rights / theoretical ___ fair value per share.",
+          "accept": [
+            "ex-rights",
+            "ex rights",
+            "exrights"
+          ],
+          "explanation": "The theoretical ex-rights fair value (TERP) combines the market value of existing shares and the rights proceeds over the total shares after exercise."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q08",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-04-disclosure-as-case1",
+          "prompt": "Compute the weighted average number of equity shares for basic EPS for 2026-27.",
+          "answer": 2750000,
+          "tolerance": 0,
+          "unit": "shares",
+          "explanation": "Bonus 1:4 on 24,00,000 shares = 6,00,000 shares, treated as outstanding from the start (factor 1.25 on all shares outstanding before the bonus).\n\n| Shares | Working | Weighted |\n| --- | --- | --- |\n| Original | 20,00,000 x 1.25 x 12/12 | 25,00,000 |\n| Fresh issue | 4,00,000 x 1.25 x 6/12 | 2,50,000 |\n| **Total** | | **27,50,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q09",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-04-disclosure-as-case1",
+          "prompt": "Compute basic EPS for 2026-27. Answer in rupees to 2 decimals.",
+          "answer": 2.18,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "Basic EPS = 60,00,000 / 27,50,000 = **₹2.18**."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q10",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-04-disclosure-as-case1",
+          "prompt": "Compute diluted EPS for 2026-27. Answer in rupees to 2 decimals.",
+          "answer": 2.08,
+          "tolerance": 0.01,
+          "unit": "₹",
+          "explanation": "| Particulars | Earnings (₹) | Shares |\n| --- | --- | --- |\n| Basic | 60,00,000 | 27,50,000 |\n| Add: Interest 10,00,000 less tax 25% | 7,50,000 | |\n| Add: Potential shares 1,00,000 x 5 | | 5,00,000 |\n| **Diluted** | **67,50,000** | **32,50,000** |\n\nIncremental EPS = 7,50,000 / 5,00,000 = ₹1.50, below basic ₹2.18, so dilutive. Diluted EPS = 67,50,000 / 32,50,000 = **₹2.08**."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q11",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-04-disclosure-as-case1",
+          "prompt": "How does the 1 January 2027 bonus issue affect the EPS reported for 2025-26 in the 2026-27 financial statements?",
+          "options": [
+            "2025-26 EPS is restated as if the bonus shares had been outstanding throughout 2025-26",
+            "2025-26 EPS is not changed because the bonus was issued in 2026-27",
+            "2025-26 EPS is restated only for 3 months",
+            "The bonus is ignored for both years because no cash was received"
+          ],
+          "answer": 0,
+          "explanation": "A bonus issue changes shares without changing resources, so AS 20 adjusts all periods presented as if it had occurred at the start of the earliest period."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q12",
+          "type": "numeric",
+          "prompt": "Compute net cash from operating activities using the indirect method. Answer in rupees.",
+          "data": "| Item | ₹ |\n| --- | --- |\n| Net profit before tax | 12,00,000 |\n| Depreciation | 3,00,000 |\n| Profit on sale of machinery | 50,000 |\n| Interest expense on loans | 1,00,000 |\n| Increase in trade receivables | 2,00,000 |\n| Decrease in inventories | 80,000 |\n| Increase in trade payables | 1,20,000 |\n| Income tax paid | 3,00,000 |",
+          "answer": 1250000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Net profit before tax | 12,00,000 |\n| Add: Depreciation | 3,00,000 |\n| Less: Profit on sale of machinery (investing) | (50,000) |\n| Add: Interest expense (financing) | 1,00,000 |\n| Operating profit before working capital changes | 15,50,000 |\n| Increase in receivables | (2,00,000) |\n| Decrease in inventories | 80,000 |\n| Increase in payables | 1,20,000 |\n| Cash generated from operations | 15,50,000 |\n| Less: Income tax paid | (3,00,000) |\n| **Net cash from operating activities** | **12,50,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Identify the reportable segments under AS 17. All revenue is from external customers.",
+          "data": "| Segment | Revenue (₹ lakh) | Result (₹ lakh) | Assets (₹ lakh) |\n| --- | --- | --- | --- |\n| A | 400 | 80 | 500 |\n| B | 60 | 12 | 40 |\n| C | 50 | (30) | 60 |\n| D | 290 | 40 | 300 |\n| E | 200 | 18 | 100 |\n| **Total** | **1,000** | | **1,000** |",
+          "answer": "**Thresholds**\n\n- Revenue: 10% of 1,000 = 100.\n- Result: total profits = 80 + 12 + 40 + 18 = 150; total losses = 30. Greater = 150; 10% = 15.\n- Assets: 10% of 1,000 = 100.\n\n| Segment | Revenue test | Result test | Assets test | Reportable? |\n| --- | --- | --- | --- | --- |\n| A | Yes (400) | Yes (80) | Yes (500) | Yes |\n| B | No (60) | No (12) | No (40) | No |\n| C | No (50) | Yes (30) | No (60) | Yes |\n| D | Yes (290) | Yes (40) | Yes (300) | Yes |\n| E | Yes (200) | Yes (18) | Yes (100) | Yes |\n\n**75% test**: external revenue of A, C, D, E = 400 + 50 + 290 + 200 = 940, which is 94% of 1,000, above 75%. No further segment needs to be added.\n\nReportable segments: **A, C, D and E**. B is reported within the reconciling 'others' item."
+        },
+        {
+          "id": "ca-i-adv-accounting-04-disclosure-as-q14",
+          "type": "interview",
+          "prompt": "What are the major considerations in selecting and applying accounting policies under AS 1, and what must be disclosed?",
+          "answer": "- Accounting policies are the specific principles and methods adopted in preparing and presenting financial statements; the choice should give a true and fair view.\n- Major considerations: **prudence** (no anticipation of profits, provision for known losses on best estimates), **substance over form** (account for the economic reality, not just the legal form) and **materiality** (disclose items whose knowledge might influence users' decisions).\n- All significant accounting policies should be disclosed in one place as part of the financial statements.\n- A change in policy with a material effect is disclosed with its amount (or the fact that it cannot be ascertained).\n- If going concern, consistency or accrual is not followed, the fact is disclosed; if followed, no disclosure is needed.\n- Disclosure of a wrong or inappropriate treatment does not rectify it."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Advanced Accounting study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "MCA: Companies (Accounting Standards) Rules",
+          "url": "https://www.mca.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-adv-accounting-05-company-fs",
+      "title": "Financial Statements of Companies (Schedule III)",
+      "level": "intermediate",
+      "summary": "Prepare a company's Balance Sheet and Statement of Profit and Loss in the Division I format of Schedule III, with correct current and non-current classification.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Companies Act, 2013 (sections 129 and 133) and Schedule III Division I as amended by MCA, including the 2021 amendments",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Legal framework and Division I",
+          "body": "Section 129 of the Companies Act, 2013 requires financial statements to give a **true and fair view**, comply with the notified Accounting Standards, and follow the form in **Schedule III**.\n\n| Division | Applies to |\n| --- | --- |\n| Division I | Companies following Accounting Standards (Companies (AS) Rules, 2021) |\n| Division II | Ind AS companies other than NBFCs |\n| Division III | NBFCs following Ind AS |\n\nThis paper uses **Division I**. Notes to accounts give the detail behind each line. Accounting Standards override Schedule III where they require a different treatment or disclosure.\n\n**Rounding off** (Division I): companies with turnover below ₹100 crore round to the nearest hundreds, thousands, lakhs or millions (or decimals); turnover of ₹100 crore or more, to lakhs, millions or crores (or decimals). The same unit is used throughout."
+        },
+        {
+          "heading": "Balance Sheet format and classification",
+          "body": "| Heading | Main line items |\n| --- | --- |\n| Shareholders' funds | Share capital; Reserves and surplus; Money received against share warrants |\n| Share application money pending allotment | Shown separately |\n| Non-current liabilities | Long-term borrowings; Deferred tax liabilities (net); Other long-term liabilities; Long-term provisions |\n| Current liabilities | Short-term borrowings; Trade payables (MSE and others); Other current liabilities; Short-term provisions |\n| Non-current assets | PPE and intangible assets (including CWIP and intangibles under development); Non-current investments; DTA (net); Long-term loans and advances; Other non-current assets |\n| Current assets | Current investments; Inventories; Trade receivables; Cash and cash equivalents; Short-term loans and advances; Other current assets |\n\nAn asset is **current** if it is expected to be realised in, or held for sale or consumption in, the normal operating cycle; is held mainly for trading; is expected to be realised within 12 months after the reporting date; or is cash or cash equivalent not restricted. A liability is **current** if it is expected to be settled in the operating cycle, held for trading, due within 12 months, or the company has no unconditional right to defer settlement for at least 12 months. If the operating cycle cannot be identified, it is assumed to be **12 months**.\n\nAfter the 2021 amendments, **current maturities of long-term borrowings** are shown under **short-term borrowings**. Notes also include ageing of trade receivables and trade payables and shareholding of promoters."
+        },
+        {
+          "heading": "Statement of Profit and Loss",
+          "body": "| Line | Notes |\n| --- | --- |\n| Revenue from operations | Sale of products, services, other operating revenue |\n| Other income | Interest, dividend, profit on sale of investments |\n| **Total income** | |\n| Cost of materials consumed | Opening RM + purchases (with direct costs) - closing RM |\n| Purchases of stock-in-trade | Goods bought for resale |\n| Changes in inventories of FG, WIP and stock-in-trade | Opening - closing |\n| Employee benefits expense | Salaries, contribution to funds, staff welfare |\n| Finance costs | Interest, other borrowing costs |\n| Depreciation and amortisation expense | |\n| Other expenses | |\n| **Profit before exceptional and extraordinary items and tax** | |\n| Exceptional items, extraordinary items, tax expense (current and deferred) | |\n| **Profit for the period**, then EPS (basic and diluted) | |\n\n**Dividends**: a final dividend proposed after the balance sheet date is not a liability (AS 4); it is disclosed in the notes. Interim dividend paid during the year is an appropriation from surplus."
+        },
+        {
+          "heading": "Worked example: classification",
+          "body": "| Item at 31 March 2027 | Classification |\n| --- | --- |\n| 10% term loan ₹30,00,000, ₹6,00,000 repayable in 2027-28 | Long-term borrowings ₹24,00,000; short-term borrowings (current maturities) ₹6,00,000 |\n| Interest accrued but not due on the loan | Other current liabilities |\n| Unpaid dividend | Other current liabilities |\n| Capital advance for machinery | Long-term loans and advances |\n| Provision for tax (net of advance tax) | Short-term provisions |\n| Cash credit from bank | Short-term borrowings |\n| Security deposit given for factory premises (5-year lease) | Long-term loans and advances |"
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Leaving the current portion of a term loan inside long-term borrowings.\n- Showing a proposed final dividend as a short-term provision.\n- Netting off items that Schedule III shows separately, such as trade receivables and trade payables.\n- Putting capital advances in short-term loans and advances.\n- Showing share application money pending allotment under share capital or current liabilities. It has its own line (amounts due for refund go to other current liabilities).\n- Mixing rounding units across statements."
+        }
+      ],
+      "keyPoints": [
+        "Section 129: true and fair view, comply with AS, form in Schedule III; Division I for AS companies.",
+        "Operating cycle not identifiable: assume 12 months.",
+        "Current maturities of long-term borrowings go under short-term borrowings.",
+        "Interest accrued, unpaid dividends: other current liabilities.",
+        "Capital advances: long-term loans and advances.",
+        "Proposed dividend after the reporting date: disclosed in notes, not a liability.",
+        "Rounding: turnover below ₹100 crore to hundreds/thousands/lakhs/millions; ₹100 crore or more to lakhs/millions/crores."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-case1",
+          "title": "Case: Himgiri Foods Ltd",
+          "body": "Extracts from the books of Himgiri Foods Ltd at 31 March 2027:\n\n| Item | ₹ |\n| --- | --- |\n| 9% Debentures (₹10,00,000 repayable on 30 June 2027, balance in 2030) | 50,00,000 |\n| Interest accrued but not due on debentures | 1,12,500 |\n| Trade payables | 18,00,000 |\n| Bank overdraft | 4,00,000 |\n| Provision for gratuity (₹50,000 payable within 12 months) | 6,00,000 |\n| Unpaid dividend | 30,000 |\n\nThe company's operating cycle is 12 months."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q01",
+          "type": "mcq",
+          "prompt": "Division I of Schedule III to the Companies Act, 2013 applies to:",
+          "options": [
+            "Companies whose financial statements follow the Companies (Accounting Standards) Rules, 2021",
+            "All companies following Ind AS",
+            "Only NBFCs following Ind AS",
+            "Only listed companies"
+          ],
+          "answer": 0,
+          "explanation": "Division I is for companies following AS. Division II is for Ind AS companies other than NBFCs and Division III for Ind AS NBFCs."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q02",
+          "type": "mcq",
+          "prompt": "Under Schedule III, where a company's normal operating cycle cannot be identified, it is assumed to be:",
+          "options": [
+            "12 months",
+            "6 months",
+            "24 months",
+            "The period of the longest contract"
+          ],
+          "answer": 0,
+          "explanation": "Schedule III's general instructions assume a 12-month operating cycle when it cannot be identified."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q03",
+          "type": "mcq",
+          "prompt": "A company with turnover of ₹60 crore wants to round off figures in its Division I financial statements. Which option is permitted?",
+          "options": [
+            "Nearest hundreds, thousands, lakhs or millions, or decimals thereof",
+            "Nearest crores only",
+            "No rounding is allowed below ₹100 crore turnover",
+            "Nearest ten thousands only"
+          ],
+          "answer": 0,
+          "explanation": "Below ₹100 crore turnover, Division I allows hundreds, thousands, lakhs or millions (or decimals). Crores are allowed only from ₹100 crore turnover."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q04",
+          "type": "mcq",
+          "prompt": "An advance of ₹15,00,000 paid to a supplier for a machine to be delivered next year is shown under:",
+          "options": [
+            "Long-term loans and advances (capital advances)",
+            "Short-term loans and advances",
+            "Inventories",
+            "Other current assets"
+          ],
+          "answer": 0,
+          "explanation": "Division I lists capital advances as a sub-head of long-term loans and advances, because they will become PPE, a non-current asset."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q05",
+          "type": "truefalse",
+          "prompt": "A final dividend recommended by the board in May 2027 for the year 2026-27 is shown as a short-term provision in the Balance Sheet at 31 March 2027.",
+          "answer": false,
+          "explanation": "Under AS 4 (as revised) dividends proposed or declared after the balance sheet date are not a liability at that date. The amount is disclosed in the notes."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q06",
+          "type": "multi",
+          "prompt": "Which items are shown under the heading 'Shareholders' funds' in the Division I Balance Sheet? Select all that apply.",
+          "options": [
+            "Share capital",
+            "Reserves and surplus",
+            "Money received against share warrants",
+            "Share application money pending allotment",
+            "Debentures"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Shareholders' funds = share capital, reserves and surplus, money received against share warrants. Share application money pending allotment has its own heading; debentures are borrowings."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q07",
+          "type": "fill",
+          "prompt": "Fill the blank: the Balance Sheet and Statement of Profit and Loss of a company are prepared in the form set out in Schedule ___ to the Companies Act, 2013.",
+          "accept": [
+            "III",
+            "3"
+          ],
+          "explanation": "Schedule III gives the formats and general instructions; section 129 requires companies to follow it."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q08",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-05-company-fs-case1",
+          "prompt": "What amount is shown as short-term borrowings? Answer in rupees.",
+          "answer": 1400000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Item | ₹ |\n| --- | --- |\n| Current maturities of debentures | 10,00,000 |\n| Bank overdraft | 4,00,000 |\n| **Short-term borrowings** | **14,00,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q09",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-05-company-fs-case1",
+          "prompt": "What amount is shown as other current liabilities? Answer in rupees.",
+          "answer": 142500,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Interest accrued but not due ₹1,12,500 + unpaid dividend ₹30,000 = **₹1,42,500**. Current maturities are no longer shown here after the 2021 amendment; they are in short-term borrowings."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q10",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-05-company-fs-case1",
+          "prompt": "At what amount do the debentures appear under long-term borrowings?",
+          "options": [
+            "₹40,00,000",
+            "₹50,00,000",
+            "₹41,12,500",
+            "₹36,00,000"
+          ],
+          "answer": 0,
+          "explanation": "₹10,00,000 is due within 12 months and moves to short-term borrowings; the balance ₹40,00,000 is long-term."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q11",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-05-company-fs-case1",
+          "prompt": "How is the provision for gratuity presented?",
+          "options": [
+            "Long-term provisions ₹5,50,000 and short-term provisions ₹50,000",
+            "Long-term provisions ₹6,00,000",
+            "Short-term provisions ₹6,00,000",
+            "Other current liabilities ₹6,00,000"
+          ],
+          "answer": 0,
+          "explanation": "The part expected to be settled within 12 months is current (short-term provisions); the rest is non-current (long-term provisions)."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q12",
+          "type": "numeric",
+          "prompt": "Compute 'Cost of materials consumed' for the Statement of Profit and Loss. Answer in rupees.",
+          "data": "| Item | ₹ |\n| --- | --- |\n| Opening stock of raw materials | 4,00,000 |\n| Purchases of raw materials | 30,00,000 |\n| Freight inward on raw materials | 1,00,000 |\n| Closing stock of raw materials | 5,00,000 |\n| Carriage outward | 70,000 |",
+          "answer": 3000000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Opening raw materials | 4,00,000 |\n| Add: Purchases | 30,00,000 |\n| Add: Freight inward | 1,00,000 |\n| Less: Closing raw materials | (5,00,000) |\n| **Cost of materials consumed** | **30,00,000** |\n\nCarriage outward is a selling cost and goes to other expenses."
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Prepare the Balance Sheet of Tapti Ltd at 31 March 2027 in the Division I format (main headings and line items; notes may be summarised).",
+          "data": "| Item | ₹ |\n| --- | --- |\n| Equity share capital (10,00,000 shares of ₹10, fully paid) | 1,00,00,000 |\n| General reserve | 20,00,000 |\n| Securities premium | 10,00,000 |\n| Surplus in Statement of Profit and Loss | 15,00,000 |\n| 10% Debentures (repayable 2030) | 30,00,000 |\n| Trade payables | 25,00,000 |\n| Provision for tax (net of advance tax) | 5,00,000 |\n| PPE (net) | 1,10,00,000 |\n| Patents (net) | 5,00,000 |\n| Non-current investments | 20,00,000 |\n| Inventories | 30,00,000 |\n| Trade receivables | 25,00,000 |\n| Cash and cash equivalents | 10,00,000 |\n| Short-term loans and advances | 5,00,000 |",
+          "answer": "**Tapti Ltd: Balance Sheet as at 31 March 2027**\n\n| Particulars | Note | ₹ |\n| --- | --- | --- |\n| **I. Equity and Liabilities** | | |\n| (1) Shareholders' funds | | |\n| (a) Share capital | 1 | 1,00,00,000 |\n| (b) Reserves and surplus | 2 | 45,00,000 |\n| (2) Non-current liabilities | | |\n| (a) Long-term borrowings (10% debentures) | | 30,00,000 |\n| (3) Current liabilities | | |\n| (a) Trade payables | | 25,00,000 |\n| (b) Short-term provisions (tax) | | 5,00,000 |\n| **Total** | | **2,05,00,000** |\n| **II. Assets** | | |\n| (1) Non-current assets | | |\n| (a) PPE and intangible assets: (i) PPE | | 1,10,00,000 |\n| (ii) Intangible assets (patents) | | 5,00,000 |\n| (b) Non-current investments | | 20,00,000 |\n| (2) Current assets | | |\n| (a) Inventories | | 30,00,000 |\n| (b) Trade receivables | | 25,00,000 |\n| (c) Cash and cash equivalents | | 10,00,000 |\n| (d) Short-term loans and advances | | 5,00,000 |\n| **Total** | | **2,05,00,000** |\n\n**Note 1 Share capital**: Issued, subscribed and fully paid 10,00,000 equity shares of ₹10 each = ₹1,00,00,000 (authorised capital to be shown when given).\n\n**Note 2 Reserves and surplus**\n\n| Item | ₹ |\n| --- | --- |\n| Securities premium | 10,00,000 |\n| General reserve | 20,00,000 |\n| Surplus in Statement of Profit and Loss | 15,00,000 |\n| **Total** | **45,00,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-05-company-fs-q14",
+          "type": "interview",
+          "prompt": "State the criteria in Schedule III (Division I) for classifying a liability as current.",
+          "answer": "A liability is classified as current when it satisfies any of these criteria:\n\n- it is expected to be settled in the company's normal operating cycle;\n- it is held primarily for the purpose of being traded;\n- it is due to be settled within twelve months after the reporting date; or\n- the company does not have an unconditional right to defer settlement for at least twelve months after the reporting date (terms that could, at the counterparty's option, lead to settlement by issue of equity do not affect classification).\n\nAll other liabilities are non-current. The operating cycle is the time between acquiring assets for processing and their realisation in cash; if it cannot be identified, it is assumed to be 12 months. Current maturities of long-term borrowings are shown under short-term borrowings."
+        }
+      ],
+      "resources": [
+        {
+          "title": "MCA: Companies Act, 2013 and Schedule III",
+          "url": "https://www.mca.gov.in/"
+        },
+        {
+          "title": "India Code: Companies Act, 2013",
+          "url": "https://www.indiacode.nic.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-adv-accounting-06-buyback",
+      "title": "Buyback of Securities",
+      "level": "intermediate",
+      "summary": "Apply the buyback limits of sections 68 to 70 of the Companies Act, 2013, compute the maximum shares a company can buy back, and pass the journal entries including the Capital Redemption Reserve.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Companies Act, 2013 sections 68, 69 and 70 as in force in 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Sources and conditions (section 68)",
+          "body": "A company may buy back its own shares or other specified securities out of:\n\n- its **free reserves**;\n- the **securities premium** account; or\n- the **proceeds of any issue** of shares or other specified securities, but **not** proceeds of an earlier issue of the **same kind**.\n\nMain conditions:\n\n- authorised by the articles;\n- **special resolution** in general meeting; a buyback of up to **10%** of total paid-up equity capital and free reserves can be approved by a **board resolution**;\n- buyback not more than **25%** of the aggregate of paid-up capital and free reserves; for equity shares, not more than 25% of total paid-up equity capital in that financial year;\n- post-buyback ratio of secured and unsecured **debt to paid-up capital and free reserves not more than 2:1** (or a higher ratio notified for a class of companies);\n- all shares or securities bought back are **fully paid**;\n- completed within **one year** of the resolution; no fresh buyback offer within one year of closure of the previous one;\n- securities bought back are extinguished and physically destroyed within **7 days** of completion;\n- no fresh issue of the same kind of shares for **6 months** (except bonus issue and discharge of existing obligations such as conversion of warrants or ESOPs)."
+        },
+        {
+          "heading": "Capital Redemption Reserve and prohibitions (sections 69, 70)",
+          "body": "**Section 69**: where shares are bought back out of **free reserves or securities premium**, a sum equal to the **nominal value** of the shares bought back is transferred to the **Capital Redemption Reserve (CRR)**. If part of the buyback is financed by a fresh issue, the CRR = nominal value bought back - proceeds of the fresh issue used. CRR can be used only to issue fully paid bonus shares.\n\n**Section 70**: no buyback through a subsidiary or an investment company, and none while the company is in default in repaying deposits, interest, redeeming debentures or preference shares, or repaying term loans (default must be remedied and 3 years must pass), or has failed to file the annual return, pay declared dividend or file financial statements.\n\n**The three ICAI tests** for the maximum buyback:\n\n| Test | Limit |\n| --- | --- |\n| Shares outstanding test | 25% of equity shares outstanding |\n| Resources test | 25% of (paid-up capital + free reserves, including securities premium) / buyback price |\n| Debt-equity test | Post-buyback debt not more than 2 x (paid-up capital + free reserves) |\n\nThe **lowest** of the three is the maximum number of shares."
+        },
+        {
+          "heading": "Journal entries",
+          "body": "Example: 50,000 equity shares of ₹10 bought back at ₹30. Securities premium ₹4,00,000; general reserve ₹20,00,000.\n\n| Entry | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Equity shares buy-back A/c Dr | 15,00,000 | |\n| To Bank A/c | | 15,00,000 |\n| Equity share capital A/c Dr | 5,00,000 | |\n| Securities premium A/c Dr | 4,00,000 | |\n| General reserve A/c Dr | 6,00,000 | |\n| To Equity shares buy-back A/c | | 15,00,000 |\n| General reserve A/c Dr | 5,00,000 | |\n| To Capital redemption reserve A/c | | 5,00,000 |\n\nThe premium of ₹10,00,000 (₹20 x 50,000) is set off first against securities premium and then free reserves. The CRR equals the nominal value of ₹5,00,000 because the buyback is out of reserves."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Excluding securities premium from the resources test. ICAI includes it with free reserves.\n- Including revaluation reserve or capital reserve in free reserves. They are not free.\n- Forgetting the CRR transfer, or transferring the full buyback price instead of the nominal value.\n- Using pre-buyback equity in the debt-equity test. The test is on post-buyback figures.\n- Allowing a buyback out of proceeds of an earlier issue of the same kind of shares."
+        }
+      ],
+      "keyPoints": [
+        "Sources: free reserves, securities premium, proceeds of a different kind of security.",
+        "Board resolution up to 10%; special resolution up to 25% of paid-up capital + free reserves.",
+        "Equity buyback in a year: up to 25% of paid-up equity capital.",
+        "Post-buyback debt-equity not above 2:1.",
+        "Section 69: transfer nominal value of shares bought out of free reserves or securities premium to CRR.",
+        "Complete within 1 year; destroy within 7 days; no same-kind fresh issue for 6 months.",
+        "Maximum buyback = lowest of shares outstanding, resources and debt-equity tests."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-adv-accounting-06-buyback-case1",
+          "title": "Case: Arunachal Tech Ltd",
+          "body": "Extract of the Balance Sheet of Arunachal Tech Ltd at 31 March 2027:\n\n| Item | ₹ |\n| --- | --- |\n| Equity share capital (20,00,000 shares of ₹10 each, fully paid) | 2,00,00,000 |\n| Securities premium | 30,00,000 |\n| General reserve | 1,20,00,000 |\n| Surplus in Statement of Profit and Loss | 50,00,000 |\n| Revaluation reserve | 20,00,000 |\n| Secured loans | 3,00,00,000 |\n| Unsecured loans | 1,50,00,000 |\n\nThe board proposes, with a special resolution, to buy back the maximum permissible number of equity shares at ₹40 per share, paid out of existing reserves. The premium on buyback is to be set off first against securities premium and then against general reserve, and the CRR is to be created out of general reserve."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q01",
+          "type": "mcq",
+          "prompt": "Without a special resolution, a company's board can approve a buyback of up to:",
+          "options": [
+            "10% of total paid-up equity capital and free reserves",
+            "25% of total paid-up equity capital and free reserves",
+            "5% of paid-up equity capital",
+            "No buyback can be approved by the board alone"
+          ],
+          "answer": 0,
+          "explanation": "Section 68 lets the board authorise a buyback up to 10% of paid-up equity capital and free reserves. Above that, up to 25%, a special resolution is needed."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q02",
+          "type": "mcq",
+          "prompt": "When shares are bought back out of free reserves, section 69 requires a transfer to the Capital Redemption Reserve equal to:",
+          "options": [
+            "The nominal value of the shares bought back",
+            "The buyback price paid",
+            "The premium paid on buyback",
+            "25% of the nominal value"
+          ],
+          "answer": 0,
+          "explanation": "The CRR replaces the capital cancelled, so it equals the nominal (face) value of shares bought back out of free reserves or securities premium."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q03",
+          "type": "mcq",
+          "prompt": "Which of these is NOT a permitted source for buying back equity shares?",
+          "options": [
+            "Proceeds of an earlier issue of equity shares",
+            "Free reserves",
+            "Securities premium account",
+            "Proceeds of a fresh issue of preference shares"
+          ],
+          "answer": 0,
+          "explanation": "Section 68(1) prohibits buyback out of the proceeds of an earlier issue of the same kind of shares, so equity cannot be bought back from equity issue proceeds."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q04",
+          "type": "truefalse",
+          "prompt": "A company may buy back partly paid equity shares if the buyback price is reduced by the unpaid amount.",
+          "answer": false,
+          "explanation": "Section 68 requires all shares or other specified securities bought back to be fully paid up."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q05",
+          "type": "multi",
+          "prompt": "Which items are counted in 'paid-up capital and free reserves' for the buyback resources test, as applied by ICAI? Select all that apply.",
+          "options": [
+            "Paid-up equity share capital",
+            "General reserve",
+            "Securities premium",
+            "Surplus in Statement of Profit and Loss (credit balance)",
+            "Revaluation reserve",
+            "Capital reserve arising on amalgamation"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Paid-up capital, general reserve, securities premium and credit balance in P&L are included. Revaluation reserve and capital reserve are not free reserves."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q06",
+          "type": "fill",
+          "prompt": "Fill the blank: after a buyback, the ratio of aggregate secured and unsecured debt to paid-up capital and free reserves must not exceed ___ : 1 (unless a higher ratio is notified).",
+          "accept": [
+            "2",
+            "two",
+            "2:1"
+          ],
+          "explanation": "Section 68(2)(d) caps post-buyback debt at twice paid-up capital plus free reserves."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q07",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-06-buyback-case1",
+          "prompt": "What is the maximum number of shares that can be bought back under the shares outstanding test?",
+          "options": [
+            "5,00,000",
+            "2,50,000",
+            "2,00,000",
+            "4,00,000"
+          ],
+          "answer": 0,
+          "explanation": "25% of 20,00,000 equity shares outstanding = 5,00,000 shares."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q08",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-06-buyback-case1",
+          "prompt": "What is the maximum number of shares that Arunachal Tech Ltd can buy back after applying all three tests?",
+          "answer": 250000,
+          "tolerance": 0,
+          "unit": "shares",
+          "explanation": "| Test | Working | Shares |\n| --- | --- | --- |\n| Shares outstanding | 25% x 20,00,000 | 5,00,000 |\n| Resources | 25% x (2,00,00,000 + 30,00,000 + 1,20,00,000 + 50,00,000) = 1,00,00,000 / ₹40 | 2,50,000 |\n| Debt-equity | Debt 4,50,00,000 needs equity of at least 2,25,00,000; present equity 4,00,00,000; reduction allowed 1,75,00,000 | More than 2,50,000 |\n\nOn the debt-equity test, even counting the CRR transfer as a further fall in free reserves (₹50 per share), the limit is 1,75,00,000 / 50 = 3,50,000 shares. Revaluation reserve is excluded throughout. Lowest = **2,50,000 shares** (resources test)."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q09",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-06-buyback-case1",
+          "prompt": "For the maximum buyback, what amount is transferred to the Capital Redemption Reserve? Answer in rupees.",
+          "answer": 2500000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Nominal value of 2,50,000 shares x ₹10 = **₹25,00,000**, because the buyback is out of reserves (section 69)."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q10",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-06-buyback-case1",
+          "prompt": "What is the balance in general reserve after the maximum buyback and the CRR transfer? Answer in rupees.",
+          "answer": 5000000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Premium on buyback = 2,50,000 x (40 - 10) = ₹75,00,000, set off against securities premium ₹30,00,000 and general reserve ₹45,00,000.\n\n| General reserve | ₹ |\n| --- | --- |\n| Opening | 1,20,00,000 |\n| Less: Premium on buyback | (45,00,000) |\n| Less: Transfer to CRR | (25,00,000) |\n| **Closing** | **50,00,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q11",
+          "type": "numeric",
+          "prompt": "A company bought back 1,00,000 equity shares of ₹10 each at ₹25. To part-fund it, it issued 60,000 12% preference shares of ₹10 each at par; the rest came from general reserve. Compute the amount to be transferred to the Capital Redemption Reserve. Answer in rupees.",
+          "answer": 400000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Nominal value bought back = ₹10,00,000. Proceeds of the fresh issue = ₹6,00,000. CRR = 10,00,000 - 6,00,000 = **₹4,00,000**, the part of nominal value not replaced by fresh capital."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q12",
+          "type": "numeric",
+          "prompt": "A company has paid-up equity capital of ₹50,00,000 and free reserves of ₹30,00,000. What is the maximum amount of buyback the board can approve without a special resolution? Answer in rupees.",
+          "answer": 800000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Board limit = 10% x (50,00,000 + 30,00,000) = **₹8,00,000**. Up to ₹20,00,000 (25%) is possible with a special resolution, subject to the other tests."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Pass journal entries for the buyback and the CRR transfer.",
+          "data": "Godavari Ltd buys back 80,000 equity shares of ₹10 each at ₹35 per share, paid in cash, out of reserves. Balances before buyback: securities premium ₹6,00,000; general reserve ₹40,00,000. Premium on buyback is set off first against securities premium, then general reserve; CRR is created from general reserve.",
+          "answer": "Amount paid = 80,000 x 35 = ₹28,00,000. Nominal value = ₹8,00,000. Premium = ₹20,00,000 (securities premium ₹6,00,000 + general reserve ₹14,00,000).\n\n| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Equity shares buy-back A/c Dr | 28,00,000 | |\n| To Bank A/c | | 28,00,000 |\n| (Payment to shareholders for 80,000 shares at ₹35) | | |\n| Equity share capital A/c Dr | 8,00,000 | |\n| Securities premium A/c Dr | 6,00,000 | |\n| General reserve A/c Dr | 14,00,000 | |\n| To Equity shares buy-back A/c | | 28,00,000 |\n| (Cancellation of shares bought back) | | |\n| General reserve A/c Dr | 8,00,000 | |\n| To Capital redemption reserve A/c | | 8,00,000 |\n| (Nominal value transferred under section 69) | | |\n\nGeneral reserve after buyback = 40,00,000 - 14,00,000 - 8,00,000 = ₹18,00,000."
+        },
+        {
+          "id": "ca-i-adv-accounting-06-buyback-q14",
+          "type": "interview",
+          "prompt": "List the conditions in section 68 of the Companies Act, 2013 that a company must satisfy for a buyback of its shares.",
+          "answer": "- Buyback must be authorised by the articles of association.\n- A special resolution in general meeting is needed; up to 10% of paid-up equity capital and free reserves can be approved by a board resolution.\n- Buyback must not exceed 25% of paid-up capital and free reserves; for equity shares, not more than 25% of paid-up equity capital in a financial year.\n- Post-buyback debt (secured and unsecured) must not exceed twice paid-up capital and free reserves, unless a higher ratio is notified.\n- All shares or specified securities bought back must be fully paid.\n- Listed securities: buyback in line with SEBI regulations; others: as per prescribed rules.\n- Funded from free reserves, securities premium or proceeds of a different kind of security; never proceeds of an earlier issue of the same kind.\n- Completed within one year of the resolution; no new buyback offer within one year of closure of the previous one.\n- Securities bought back are extinguished and physically destroyed within 7 days; no further issue of the same kind for 6 months except bonus and existing conversion obligations."
+        }
+      ],
+      "resources": [
+        {
+          "title": "India Code: Companies Act, 2013",
+          "url": "https://www.indiacode.nic.in/"
+        },
+        {
+          "title": "MCA: Companies Act and Rules",
+          "url": "https://www.mca.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-adv-accounting-07-reconstruction",
+      "title": "Internal Reconstruction",
+      "level": "intermediate",
+      "summary": "Account for alteration and reduction of share capital, sacrifices by shareholders and creditors, and the Capital Reduction Account used to write off losses.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "Companies Act, 2013 sections 48, 61, 66 and 230 as in force in 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "What internal reconstruction is",
+          "body": "**Internal reconstruction** reorganises the capital of a company that has accumulated losses, without liquidating it or forming a new company. The same company continues; shareholders (and sometimes creditors and debenture holders) accept a sacrifice so that losses and overvalued assets can be written off and the balance sheet shows a realistic position.\n\n**External reconstruction** is different: the company is wound up and a new company takes over its business. That is accounted for as an amalgamation in the nature of purchase under AS 14.\n\nModes of internal reconstruction:\n\n- **Alteration of share capital (section 61)**: consolidation, sub-division, conversion into stock, increase or cancellation of unissued shares. Needs authority in the articles and an ordinary resolution; Tribunal approval only if consolidation or division changes the voting percentage of shareholders.\n- **Reduction of share capital (section 66)**: needs a **special resolution** and **confirmation by the Tribunal (NCLT)**. Capital can be reduced by extinguishing or reducing liability on uncalled capital, cancelling paid-up capital that is lost or unrepresented by available assets, or paying off capital in excess of needs.\n- **Variation of shareholders' rights (section 48)** and **compromise or arrangement with creditors (section 230)**."
+        },
+        {
+          "heading": "The Capital Reduction Account",
+          "body": "All sacrifices are credited to **Capital Reduction Account** (also called Reconstruction Account). Losses and write-offs are debited to it. Any balance left is transferred to **Capital Reserve**.\n\n| Credit side (sacrifices) | Debit side (write-offs) |\n| --- | --- |\n| Reduction in face value or paid-up value of shares | Debit balance of Statement of Profit and Loss |\n| Creditors or debenture holders giving up part of their claim | Goodwill, patents and other intangibles without value |\n| Increase in value of assets (appreciation) | Writing down overvalued PPE, inventories, receivables |\n| | Reconstruction expenses |\n| | Balance (if credit) to Capital Reserve |\n\nKey entries:\n\n| Event | Entry |\n| --- | --- |\n| Reduce ₹10 share to ₹4 | Equity share capital (₹10) A/c Dr; To Equity share capital (₹4) A/c; To Capital reduction A/c |\n| Creditor sacrifice | Trade payables A/c Dr; To Capital reduction A/c |\n| Write off losses | Capital reduction A/c Dr; To Profit and loss A/c; To Goodwill A/c; To PPE A/c |\n| Surplus | Capital reduction A/c Dr; To Capital reserve A/c |\n\nArrears of cumulative preference dividend are not a liability, so no entry is passed when they are waived; the waiver is disclosed. If preference holders get new shares in lieu of arrears, the issue is recorded by debiting Capital Reduction Account."
+        },
+        {
+          "heading": "Worked example",
+          "body": "2,00,000 equity shares of ₹10 fully paid are reduced to ₹7 each. Trade creditors forgo ₹1,00,000. Debit balance of P&L ₹5,50,000 and plant overvaluation ₹1,50,000 are written off.\n\n| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Equity share capital (₹10) A/c Dr | 20,00,000 | |\n| To Equity share capital (₹7) A/c | | 14,00,000 |\n| To Capital reduction A/c | | 6,00,000 |\n| Trade creditors A/c Dr | 1,00,000 | |\n| To Capital reduction A/c | | 1,00,000 |\n| Capital reduction A/c Dr | 7,00,000 | |\n| To Profit and loss A/c | | 5,50,000 |\n| To Plant A/c | | 1,50,000 |\n\nCredits ₹7,00,000 exactly match write-offs, so no capital reserve arises."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Crediting the sacrifice to the Statement of Profit and Loss or general reserve instead of Capital Reduction Account.\n- Passing an entry for waived arrears of preference dividend.\n- Confusing consolidation or sub-division (section 61, no change in total capital) with reduction (section 66, capital falls).\n- Leaving a credit balance in Capital Reduction Account. Transfer it to Capital Reserve.\n- Forgetting that NCLT confirmation is needed for a section 66 reduction."
+        }
+      ],
+      "keyPoints": [
+        "Internal reconstruction: same company continues; external reconstruction: new company takes over (AS 14).",
+        "Section 61 alteration (consolidation, sub-division): ordinary resolution if articles allow.",
+        "Section 66 reduction: special resolution + NCLT confirmation.",
+        "Sacrifices credited to Capital Reduction Account; losses and overvalued assets debited.",
+        "Credit balance left in Capital Reduction Account goes to Capital Reserve.",
+        "Waiver of arrears of preference dividend: no entry, disclose."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-case1",
+          "title": "Case: Dhanlaxmi Castings Ltd",
+          "body": "Dhanlaxmi Castings Ltd has incurred heavy losses. Relevant balances at 31 March 2027:\n\n| Item | ₹ |\n| --- | --- |\n| Equity share capital: 5,00,000 shares of ₹10 each, fully paid | 50,00,000 |\n| 8% Cumulative preference shares: 20,000 of ₹100 each, fully paid | 20,00,000 |\n| 10% Debentures | 10,00,000 |\n| Debit balance in Statement of Profit and Loss | 28,00,000 |\n| Goodwill | 6,00,000 |\n| Machinery | 18,00,000 |\n\nApproved scheme (confirmed by NCLT):\n\n- Equity shares are reduced to ₹4 each, fully paid.\n- Preference shares are reduced to ₹80 each, fully paid. Preference dividend arrears of ₹3,20,000 are waived.\n- Debenture holders accept ₹8,00,000 in full settlement of their ₹10,00,000 claim, by way of new debentures.\n- The debit balance of P&L and goodwill are written off fully and machinery is written down by ₹1,00,000. Any balance goes to capital reserve."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q01",
+          "type": "mcq",
+          "prompt": "A reduction of share capital under section 66 of the Companies Act, 2013 requires:",
+          "options": [
+            "A special resolution and confirmation by the National Company Law Tribunal",
+            "An ordinary resolution only",
+            "A board resolution and intimation to the Registrar",
+            "Approval of SEBI for all companies"
+          ],
+          "answer": 0,
+          "explanation": "Section 66 needs a special resolution and the Tribunal's confirmation, because creditors' interests are affected."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q02",
+          "type": "mcq",
+          "prompt": "Sub-division of shares of ₹10 each into shares of ₹1 each under section 61 requires:",
+          "options": [
+            "Authority in the articles and an ordinary resolution in general meeting",
+            "A special resolution and NCLT confirmation",
+            "Consent of all creditors",
+            "Central Government approval"
+          ],
+          "answer": 0,
+          "explanation": "Alteration under section 61 is done in general meeting if the articles authorise it; an ordinary resolution is enough. Tribunal approval is needed only if consolidation or division changes the voting percentage."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q03",
+          "type": "mcq",
+          "prompt": "After writing off losses and overvalued assets, Capital Reduction Account still has a credit balance. It is transferred to:",
+          "options": [
+            "Capital reserve",
+            "General reserve",
+            "Statement of Profit and Loss",
+            "Securities premium"
+          ],
+          "answer": 0,
+          "explanation": "The surplus arises from a capital sacrifice, not trading, so it is a capital profit credited to capital reserve."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q04",
+          "type": "truefalse",
+          "prompt": "In internal reconstruction the existing company is liquidated and a new company is formed to take over its business.",
+          "answer": false,
+          "explanation": "That describes external reconstruction. In internal reconstruction the same company continues, and its capital and liabilities are reorganised."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q05",
+          "type": "multi",
+          "prompt": "Which of the following are normally debited to Capital Reduction Account? Select all that apply.",
+          "options": [
+            "Debit balance of the Statement of Profit and Loss",
+            "Goodwill that has no real value",
+            "Amount by which machinery is overvalued",
+            "Reduction in the face value of equity shares",
+            "Amount given up by creditors"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Losses and the writing down of fictitious or overvalued assets are debits. Reductions in share capital and creditors' sacrifices are the credits that fund them."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q06",
+          "type": "fill",
+          "prompt": "Fill the blank: the amount sacrificed by shareholders on reduction of capital is credited to ___ Account.",
+          "accept": [
+            "Capital Reduction",
+            "Capital Reduction Account",
+            "Reconstruction",
+            "Reconstruction Account"
+          ],
+          "explanation": "Capital Reduction Account (also called Reconstruction Account) collects all sacrifices and is used to write off losses."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q07",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-07-reconstruction-case1",
+          "prompt": "Compute the total amount credited to Capital Reduction Account under the scheme. Answer in rupees.",
+          "answer": 3600000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Sacrifice | ₹ |\n| --- | --- |\n| Equity: 5,00,000 x (10 - 4) | 30,00,000 |\n| Preference: 20,000 x (100 - 80) | 4,00,000 |\n| Debenture holders: 10,00,000 - 8,00,000 | 2,00,000 |\n| **Total credit** | **36,00,000** |\n\nWaived preference arrears are not a liability, so they add nothing."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q08",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-07-reconstruction-case1",
+          "prompt": "Compute the amount transferred to capital reserve. Answer in rupees.",
+          "answer": 100000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Total credits | 36,00,000 |\n| Less: P&L debit balance | (28,00,000) |\n| Less: Goodwill | (6,00,000) |\n| Less: Machinery written down | (1,00,000) |\n| **Capital reserve** | **1,00,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q09",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-07-reconstruction-case1",
+          "prompt": "What is the equity share capital after reconstruction?",
+          "options": [
+            "₹20,00,000",
+            "₹30,00,000",
+            "₹50,00,000",
+            "₹16,00,000"
+          ],
+          "answer": 0,
+          "explanation": "5,00,000 shares x ₹4 = ₹20,00,000."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q10",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-07-reconstruction-case1",
+          "prompt": "How is the waiver of ₹3,20,000 arrears of preference dividend accounted for?",
+          "options": [
+            "No journal entry; arrears were never a liability, and the fact is disclosed",
+            "Debit preference dividend payable, credit Capital Reduction Account ₹3,20,000",
+            "Debit Capital Reduction Account, credit preference share capital ₹3,20,000",
+            "Credit the Statement of Profit and Loss ₹3,20,000"
+          ],
+          "answer": 0,
+          "explanation": "Arrears of cumulative preference dividend are a contingent liability disclosed in notes, not recorded in the books, so their waiver needs no entry."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q11",
+          "type": "numeric",
+          "prompt": "A company consolidates 10,00,000 equity shares of ₹10 each into equity shares of ₹100 each. How many shares will exist after consolidation?",
+          "answer": 100000,
+          "tolerance": 0,
+          "unit": "shares",
+          "explanation": "Total capital stays ₹1,00,00,000. Number of ₹100 shares = 1,00,00,000 / 100 = **1,00,000**."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q12",
+          "type": "numeric",
+          "prompt": "Under a scheme, 10,000 preference shares of ₹100 each are reduced to ₹75 each and 1,00,000 equity shares of ₹10 each are reduced to ₹2.50 each, all fully paid. Compute the total sacrifice by shareholders. Answer in rupees.",
+          "answer": 1000000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Preference: 10,000 x 25 = ₹2,50,000. Equity: 1,00,000 x 7.50 = ₹7,50,000. Total = **₹10,00,000**."
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Pass journal entries for the reconstruction scheme of Sone Ltd.",
+          "data": "Sone Ltd has 3,00,000 equity shares of ₹10 each, fully paid; 12% debentures ₹12,00,000; trade payables ₹8,00,000; debit balance of P&L ₹17,00,000; patents ₹2,00,000; inventory ₹9,00,000.\n\nScheme: (a) equity shares are reduced to ₹5 each, fully paid; (b) debenture holders take over inventory valued in books at ₹4,00,000 in part settlement and accept new 12% debentures for ₹6,00,000 for the balance; the rest of their claim is given up; (c) trade payables forgo 25% of their claim; (d) P&L debit balance and patents are written off; balance, if any, to capital reserve.",
+          "answer": "Sacrifices: equity 3,00,000 x 5 = ₹15,00,000; debenture holders 12,00,000 - 4,00,000 - 6,00,000 = ₹2,00,000; trade payables 25% x 8,00,000 = ₹2,00,000. Total ₹19,00,000. Write-offs ₹17,00,000 + ₹2,00,000 = ₹19,00,000. No capital reserve.\n\n| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Equity share capital (₹10) A/c Dr | 30,00,000 | |\n| To Equity share capital (₹5) A/c | | 15,00,000 |\n| To Capital reduction A/c | | 15,00,000 |\n| 12% Debentures (old) A/c Dr | 12,00,000 | |\n| To Inventory A/c | | 4,00,000 |\n| To 12% Debentures (new) A/c | | 6,00,000 |\n| To Capital reduction A/c | | 2,00,000 |\n| Trade payables A/c Dr | 2,00,000 | |\n| To Capital reduction A/c | | 2,00,000 |\n| Capital reduction A/c Dr | 19,00,000 | |\n| To Profit and loss A/c | | 17,00,000 |\n| To Patents A/c | | 2,00,000 |"
+        },
+        {
+          "id": "ca-i-adv-accounting-07-reconstruction-q14",
+          "type": "interview",
+          "prompt": "Distinguish between internal reconstruction and external reconstruction.",
+          "answer": "- **Entity**: in internal reconstruction the same company continues; in external reconstruction the existing company is liquidated and a new company takes over its business.\n- **Law**: internal reconstruction uses sections 61 (alteration), 66 (reduction with special resolution and NCLT confirmation), 48 and 230; external reconstruction is a transfer of undertaking to a new company.\n- **Accounting**: internal reconstruction uses Capital Reduction Account to write off losses and overvalued assets; external reconstruction is accounted for under AS 14 as an amalgamation in the nature of purchase, with Realisation Account in the old company's books.\n- **Shareholders**: in internal reconstruction they keep shares in the same company at a reduced value; in external reconstruction they receive shares in the new company.\n- **Purpose**: both give a fresh start to a loss-making business, but internal reconstruction avoids the cost of forming a new company."
+        }
+      ],
+      "resources": [
+        {
+          "title": "India Code: Companies Act, 2013",
+          "url": "https://www.indiacode.nic.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-adv-accounting-08-amalgamation",
+      "title": "Amalgamation of Companies (AS 14)",
+      "level": "advanced",
+      "summary": "Classify an amalgamation as merger or purchase, compute purchase consideration, and account for it in the books of the transferor and transferee companies under AS 14.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "AS 14 Accounting for Amalgamations as notified in the Companies (Accounting Standards) Rules, 2021",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Merger or purchase",
+          "body": "AS 14 recognises two types of amalgamation.\n\n**Amalgamation in the nature of merger**: all five conditions are met.\n\n- All assets and liabilities of the transferor become those of the transferee.\n- Shareholders holding at least **90% of the face value of equity shares** of the transferor (other than those already held by the transferee or its subsidiaries) become equity shareholders of the transferee.\n- Consideration to those equity shareholders is discharged **wholly by issue of equity shares** of the transferee, except cash for fractional shares.\n- The business of the transferor is intended to be carried on by the transferee.\n- No adjustment is intended to book values, except to ensure uniform accounting policies.\n\n**Amalgamation in the nature of purchase**: any one condition fails.\n\n| Point | Pooling of interests (merger) | Purchase method |\n| --- | --- | --- |\n| Assets and liabilities | At existing carrying amounts (after uniform policies) | At carrying amounts or fair values |\n| Reserves of transferor | Preserved in same form | Not carried, except statutory reserves |\n| Difference | Adjusted in reserves | Goodwill or capital reserve |\n| Goodwill | None | Amortised over not more than 5 years unless a longer period is justified |\n\nUnder purchase, **statutory reserves** of the transferor are kept by crediting the reserve and debiting **Amalgamation Adjustment Reserve**, reversed when the statutory reserve is no longer needed."
+        },
+        {
+          "heading": "Purchase consideration",
+          "body": "AS 14 defines consideration as the aggregate of shares and other securities issued and payments in cash or other assets by the transferee **to the shareholders** of the transferor. Payments to debenture holders or creditors are not part of it, and neither are the transferor's liquidation expenses borne by the transferee.\n\n| Method | How |\n| --- | --- |\n| Lump sum | Given figure |\n| Net payment | Shares at agreed value + cash + other securities paid to shareholders |\n| Net assets | Agreed value of assets taken over - liabilities taken over |\n| Share exchange / intrinsic value | Shares issued = transferor shares x (transferor value per share / transferee value per share) |\n\nSecurities issued are valued at **fair value** at the date of amalgamation."
+        },
+        {
+          "heading": "Entries in both books",
+          "body": "**Transferor (closing books)**\n\n| Entry | Purpose |\n| --- | --- |\n| Realisation A/c Dr; To individual assets | Transfer assets at book value |\n| Liabilities A/c Dr; To Realisation A/c | Transfer liabilities taken over |\n| Transferee company A/c Dr; To Realisation A/c | Purchase consideration due |\n| Shares in transferee, Bank Dr; To Transferee company A/c | Consideration received |\n| Equity share capital, reserves Dr; To Equity shareholders A/c | Close equity |\n| Realisation A/c (profit) to Equity shareholders A/c | Profit or loss on realisation |\n| Equity shareholders A/c Dr; To Shares in transferee, Bank | Distribution |\n\n**Transferee (purchase method)**\n\n| Entry | Purpose |\n| --- | --- |\n| Business purchase A/c Dr; To Liquidator of transferor | Consideration payable |\n| Assets A/c Dr (fair value); To Liabilities; To Business purchase; To Capital reserve (or Dr Goodwill) | Take over |\n| Liquidator Dr; To Equity share capital; To Securities premium; To Bank | Discharge |\n| Transferor's debentures Dr; To Own new debentures | Settle debenture holders |"
+        },
+        {
+          "heading": "Worked example: net assets and exchange",
+          "body": "Transferor net assets at agreed values ₹60,00,000, with 4,00,000 shares; value per share ₹15. Transferee's intrinsic value per share ₹25.\n\nShares to be issued = 4,00,000 x 15 / 25 = **2,40,000** shares, i.e. 3 transferee shares for every 5 transferor shares. If the transferee's shares have face value ₹10 and are issued at ₹25, share capital ₹24,00,000 and securities premium ₹36,00,000 are credited, and purchase consideration is ₹60,00,000."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Including payment to debenture holders in purchase consideration.\n- Treating an amalgamation as a merger when cash (beyond fractional amounts) is paid to equity shareholders.\n- Carrying the transferor's general reserve into the transferee's books under the purchase method.\n- Valuing shares issued at face value when the fair value (issue price) is higher; the excess is securities premium.\n- Forgetting the Amalgamation Adjustment Reserve for statutory reserves under purchase."
+        }
+      ],
+      "keyPoints": [
+        "Merger needs all 5 conditions: all assets/liabilities, 90% equity holders, only equity shares (cash for fractions), business continued, no book value changes.",
+        "Pooling: carrying amounts and reserves preserved; difference to reserves.",
+        "Purchase: fair or book values; excess of net assets over consideration = capital reserve; shortfall = goodwill.",
+        "Goodwill on amalgamation amortised over not more than 5 years unless longer is justified.",
+        "Purchase consideration = payments to shareholders only.",
+        "Statutory reserves under purchase: credit reserve, debit Amalgamation Adjustment Reserve."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-case1",
+          "title": "Case: Mahanadi Ltd and Sabari Ltd",
+          "body": "On 1 April 2027 Mahanadi Ltd takes over all assets and liabilities of Sabari Ltd. Balance Sheet of Sabari Ltd on that date:\n\n| Liabilities | ₹ | Assets | ₹ |\n| --- | --- | --- | --- |\n| Equity share capital (3,00,000 shares of ₹10) | 30,00,000 | Land and building | 20,00,000 |\n| General reserve | 10,00,000 | Plant | 15,00,000 |\n| 12% Debentures | 8,00,000 | Inventories | 10,00,000 |\n| Trade payables | 7,00,000 | Trade receivables | 8,00,000 |\n| | | Cash | 2,00,000 |\n| **Total** | **55,00,000** | **Total** | **55,00,000** |\n\nTerms:\n\n- Assets are taken over at fair values: land and building ₹28,00,000, plant ₹13,00,000, inventories ₹9,00,000, trade receivables ₹7,60,000, cash ₹2,00,000. Liabilities at book value.\n- 12% debentures are discharged by issuing an equal amount of 13% debentures of Mahanadi Ltd.\n- Sabari's shareholders receive 2 equity shares of ₹10 each in Mahanadi Ltd, issued at ₹16 per share, for every 3 shares held, plus ₹2 in cash per Sabari share."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q01",
+          "type": "mcq",
+          "prompt": "For an amalgamation in the nature of merger, shareholders holding at least what proportion of the face value of the transferor's equity shares must become equity shareholders of the transferee?",
+          "options": [
+            "90%",
+            "75%",
+            "51%",
+            "100%"
+          ],
+          "answer": 0,
+          "explanation": "AS 14 requires holders of not less than 90% of the face value of equity shares (excluding those already held by the transferee or its subsidiaries) to become equity shareholders of the transferee."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q02",
+          "type": "mcq",
+          "prompt": "Under AS 14, goodwill arising on an amalgamation in the nature of purchase should be:",
+          "options": [
+            "Amortised systematically over its useful life, normally not exceeding five years unless a longer period is justified",
+            "Written off immediately against general reserve",
+            "Never amortised but tested for impairment only",
+            "Amortised over 10 years in all cases"
+          ],
+          "answer": 0,
+          "explanation": "AS 14 requires amortisation over useful life, with a five-year norm unless a somewhat longer period can be justified."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q03",
+          "type": "mcq",
+          "prompt": "The transferee issues its own debentures to the transferor's debenture holders. Under AS 14 this amount is:",
+          "options": [
+            "Not part of purchase consideration; it is the settlement of a liability taken over",
+            "Added to purchase consideration",
+            "Deducted from purchase consideration",
+            "Debited to goodwill"
+          ],
+          "answer": 0,
+          "explanation": "Purchase consideration covers only what is paid to the transferor's shareholders. Debentures are liabilities taken over and settled."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q04",
+          "type": "truefalse",
+          "prompt": "Under the pooling of interests method, the reserves of the transferor company are recorded by the transferee in the same form and at the same amounts as in the transferor's books.",
+          "answer": true,
+          "explanation": "Pooling preserves the identity of reserves; only the difference between consideration and the transferor's share capital is adjusted in reserves."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q05",
+          "type": "multi",
+          "prompt": "Which are recognised methods of computing purchase consideration? Select all that apply.",
+          "options": [
+            "Lump sum method",
+            "Net payment method",
+            "Net assets method",
+            "Share exchange (intrinsic value) method",
+            "Weighted average cost method",
+            "Straight line method"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explanation": "Lump sum, net payment, net assets and share exchange are the four methods. Weighted average cost is an inventory formula and straight line a depreciation method."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q06",
+          "type": "fill",
+          "prompt": "Fill the blank: under the purchase method, to preserve a statutory reserve of the transferor, the transferee credits that reserve and debits ___ Reserve.",
+          "accept": [
+            "Amalgamation Adjustment",
+            "Amalgamation Adjustment Reserve"
+          ],
+          "explanation": "The Amalgamation Adjustment Reserve offsets the statutory reserve and is reversed once the statutory requirement ends."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q07",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-08-amalgamation-case1",
+          "prompt": "Compute the purchase consideration. Answer in rupees.",
+          "answer": 3800000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Component | Working | ₹ |\n| --- | --- | --- |\n| Equity shares | 3,00,000 x 2/3 = 2,00,000 shares x ₹16 | 32,00,000 |\n| Cash | 3,00,000 x ₹2 | 6,00,000 |\n| **Purchase consideration** | | **38,00,000** |\n\nThe 13% debentures to debenture holders are excluded."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q08",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-08-amalgamation-case1",
+          "prompt": "Compute the capital reserve (or goodwill) in Mahanadi Ltd's books. Enter capital reserve as a positive figure in rupees.",
+          "answer": 660000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Land and building | 28,00,000 |\n| Plant | 13,00,000 |\n| Inventories | 9,00,000 |\n| Trade receivables | 7,60,000 |\n| Cash | 2,00,000 |\n| Total assets | 59,60,000 |\n| Less: Debentures | (8,00,000) |\n| Less: Trade payables | (7,00,000) |\n| Net assets | 44,60,000 |\n| Less: Purchase consideration | (38,00,000) |\n| **Capital reserve** | **6,60,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q09",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-08-amalgamation-case1",
+          "prompt": "Compute the loss on realisation in the books of Sabari Ltd. Enter the loss as a positive figure in rupees.",
+          "answer": 200000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Realisation A/c | ₹ |\n| --- | --- |\n| Assets at book value (debit) | 55,00,000 |\n| Less: Debentures taken over (credit) | (8,00,000) |\n| Less: Trade payables taken over (credit) | (7,00,000) |\n| Less: Purchase consideration (credit) | (38,00,000) |\n| **Loss on realisation** | **2,00,000** |\n\nThe loss is transferred to equity shareholders' account."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q10",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-08-amalgamation-case1",
+          "prompt": "Why is this amalgamation in the nature of purchase and not merger?",
+          "options": [
+            "Shareholders receive cash of ₹2 per share in addition to shares, beyond any fractional entitlement",
+            "Debenture holders receive debentures of the transferee",
+            "Assets are taken over at book value",
+            "The transferee continues the business of the transferor"
+          ],
+          "answer": 0,
+          "explanation": "Merger requires consideration to equity shareholders wholly in equity shares except cash for fractions. The cash payment, and also the revaluation of assets, break the conditions."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q11",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-08-amalgamation-case1",
+          "prompt": "What amount does Mahanadi Ltd credit to securities premium on issuing shares to Sabari's shareholders?",
+          "options": [
+            "₹12,00,000",
+            "₹20,00,000",
+            "₹6,00,000",
+            "₹18,00,000"
+          ],
+          "answer": 0,
+          "explanation": "2,00,000 shares x (₹16 - ₹10) = ₹12,00,000. Share capital is ₹20,00,000."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q12",
+          "type": "numeric",
+          "prompt": "Under the net payment method, compute purchase consideration. The transferee issues 1,50,000 equity shares at ₹18 each to the transferor's equity shareholders, 20,000 10% preference shares of ₹100 each at par to the transferor's preference shareholders, and pays ₹1,50,000 in cash to equity shareholders. It also issues ₹5,00,000 of its debentures to the transferor's debenture holders. Answer in rupees.",
+          "answer": 4850000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Component | ₹ |\n| --- | --- |\n| Equity shares 1,50,000 x 18 | 27,00,000 |\n| Preference shares 20,000 x 100 | 20,00,000 |\n| Cash | 1,50,000 |\n| **Purchase consideration** | **48,50,000** |\n\nDebentures to debenture holders are excluded."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q13",
+          "type": "numeric",
+          "prompt": "The transferor's net assets are valued at ₹60,00,000 and it has 4,00,000 equity shares. The intrinsic value of a transferee share is ₹25. How many transferee shares are issued under the intrinsic value method?",
+          "answer": 240000,
+          "tolerance": 0,
+          "unit": "shares",
+          "explanation": "Transferor value per share = 60,00,000 / 4,00,000 = ₹15. Shares issued = 4,00,000 x 15 / 25 = **2,40,000**."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q14",
+          "type": "practical",
+          "top": true,
+          "prompt": "Pass journal entries in the books of X Ltd for an amalgamation in the nature of merger (pooling of interests method).",
+          "data": "X Ltd takes over Y Ltd. Y Ltd's balance sheet: equity share capital (1,00,000 shares of ₹10) ₹10,00,000; general reserve ₹4,00,000; Profit and loss (credit) ₹2,00,000; trade payables ₹3,00,000. Assets: PPE ₹12,00,000; inventories ₹4,00,000; trade receivables ₹2,00,000; cash ₹1,00,000. X Ltd issues 1,20,000 equity shares of ₹10 each at par to Y's shareholders. All AS 14 merger conditions are met and accounting policies are uniform.",
+          "answer": "Difference = share capital issued ₹12,00,000 - Y's share capital ₹10,00,000 = ₹2,00,000, adjusted against general reserve.\n\n| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Business purchase A/c Dr | 12,00,000 | |\n| To Liquidator of Y Ltd | | 12,00,000 |\n| PPE A/c Dr | 12,00,000 | |\n| Inventories A/c Dr | 4,00,000 | |\n| Trade receivables A/c Dr | 2,00,000 | |\n| Cash A/c Dr | 1,00,000 | |\n| General reserve A/c Dr (difference) | 2,00,000 | |\n| To Trade payables A/c | | 3,00,000 |\n| To General reserve A/c | | 4,00,000 |\n| To Profit and loss A/c | | 2,00,000 |\n| To Business purchase A/c | | 12,00,000 |\n| Liquidator of Y Ltd Dr | 12,00,000 | |\n| To Equity share capital A/c | | 12,00,000 |\n\nNet effect on general reserve: ₹4,00,000 - ₹2,00,000 = ₹2,00,000. Assets and liabilities are at Y's carrying amounts; no goodwill or capital reserve arises."
+        },
+        {
+          "id": "ca-i-adv-accounting-08-amalgamation-q15",
+          "type": "interview",
+          "top": true,
+          "prompt": "Distinguish between the pooling of interests method and the purchase method under AS 14.",
+          "answer": "- **Applicability**: pooling applies to an amalgamation in the nature of merger (all five conditions met); purchase applies when any condition fails.\n- **Assets and liabilities**: pooling records them at existing carrying amounts (adjusted only for uniform policies); purchase records them at existing carrying amounts or allocates consideration on fair values.\n- **Reserves**: pooling keeps the transferor's reserves in the same form; purchase does not carry them, except statutory reserves kept through the Amalgamation Adjustment Reserve.\n- **Difference**: under pooling, the difference between consideration and transferor share capital goes to reserves; under purchase, the excess of consideration over net assets is goodwill (amortised, normally within five years) and a shortfall is capital reserve.\n- **Consideration**: merger needs equity shares only (cash for fractions); purchase may include cash and other securities.\n- **Nature**: pooling treats the combination as a union of shareholders' interests; purchase treats it as one company acquiring another."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Advanced Accounting study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "MCA: Companies (Accounting Standards) Rules",
+          "url": "https://www.mca.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-adv-accounting-09-branches",
+      "title": "Branch Accounting including Foreign Branches (AS 11)",
+      "level": "advanced",
+      "summary": "Account for dependent branches with goods at cost or invoice price, reconcile independent branches, and translate foreign branch trial balances under AS 11.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "AS 11 The Effects of Changes in Foreign Exchange Rates as notified in the Companies (Accounting Standards) Rules, 2021",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Dependent branches and invoice price",
+          "body": "A **dependent branch** does not keep a full set of books; the head office (HO) records its results. Methods:\n\n- **Debtors method**: a Branch Account in HO books (nominal in nature) collects opening balances, goods sent, expenses and closing balances; the balance is branch profit.\n- **Stock and debtors method**: separate Branch Stock, Branch Debtors, Branch Expenses, Branch Adjustment (gross profit) and Branch P&L accounts. Useful for finding shortages.\n- **Final accounts method**: a branch trading and P&L account.\n\nGoods are often sent at **invoice price** (cost plus a mark-up) to control stock. The mark-up (**loading**) is removed through a **stock reserve** so that profit is not overstated.\n\n| Mark-up on cost | Loading as % of invoice price |\n| --- | --- |\n| 25% | 25/125 = 20% |\n| 33.33% | 33.33/133.33 = 25% |\n| 50% | 50/150 = 33.33% |\n\n**Shortage** = Opening stock + goods received - returns - sales - closing stock (all at invoice price). Normal loss is part of cost; abnormal shortage at cost is charged to Branch P&L."
+        },
+        {
+          "heading": "Independent branches",
+          "body": "An **independent branch** keeps its own books. HO keeps a Branch Account; the branch keeps a Head Office Account. They should mirror each other.\n\nBefore incorporation the two are **reconciled** for items recorded by one side only:\n\n- **Goods in transit** from HO to branch: entry in branch books, debiting Goods-in-transit and crediting HO account.\n- **Cash in transit**: same, in the receiving office's books.\n- **HO expenses charged to branch** (depreciation of branch assets kept in HO books, share of HO overheads): branch debits the expense and credits HO account.\n\nThe branch trial balance is then **incorporated** into HO books: branch revenue and expense items through Branch Trading and P&L, assets and liabilities brought in, and the branch account closed."
+        },
+        {
+          "heading": "Foreign branches under AS 11",
+          "body": "AS 11 classifies a foreign branch as an **integral foreign operation** (its activities are an extension of the reporting enterprise, so exchange changes affect HO cash flows directly) or a **non-integral foreign operation** (largely independent, financed mainly by its own operations or local borrowings, with its own sales and costs in local currency).\n\n| Item | Integral | Non-integral |\n| --- | --- | --- |\n| Monetary items (cash, receivables, payables, loans) | Closing rate | Closing rate |\n| Non-monetary items at historical cost (PPE, inventory at cost) | Rate on date of transaction (historical) | Closing rate |\n| Depreciation | Rate used for the related asset | Rate on transaction date or average |\n| Income and expenses | Rate on transaction date (average as approximation) | Rate on transaction date (average as approximation) |\n| Goods from HO / HO account | Actual rupee figures in HO books | Rupee figures as in HO books |\n| Exchange difference | Profit or loss | Foreign currency translation reserve until disposal |\n\nOpening and closing stock in an integral branch are at the rates when the stock was acquired (often the opening and closing rate respectively, if so stated)."
+        },
+        {
+          "heading": "Worked example: stock reserve",
+          "body": "Goods are sent to a branch at cost + 25%. Closing branch stock at invoice price is ₹1,25,000.\n\n| Particulars | ₹ |\n| --- | --- |\n| Closing stock at invoice price | 1,25,000 |\n| Loading = 1,25,000 x 25/125 | 25,000 |\n| Closing stock at cost | 1,00,000 |\n\nEntry at year end: Branch Stock Reserve is credited with ₹25,000 (debit Branch Adjustment A/c or Branch A/c), so the stock is effectively at cost in the HO balance sheet."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Taking loading as 25% of invoice price when the mark-up is 25% on cost. It is 20%.\n- Translating fixed assets of an integral branch at the closing rate.\n- Recording goods in transit in HO books instead of the branch books.\n- Taking exchange differences of a non-integral branch to profit or loss. They go to the foreign currency translation reserve.\n- Translating HO account and goods from HO at an exchange rate instead of using the HO book figures."
+        }
+      ],
+      "keyPoints": [
+        "Loading on invoice price = mark-up / (100 + mark-up).",
+        "Stock reserve removes unrealised loading on branch stock.",
+        "Goods or cash in transit: adjust in the receiving office's books (usually the branch).",
+        "AS 11 integral: monetary at closing rate, non-monetary at historical rate, revenue at average; difference to P&L.",
+        "AS 11 non-integral: assets and liabilities at closing rate, revenue at average; difference to FCTR.",
+        "HO account and goods from HO use the rupee figures in HO books."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-adv-accounting-09-branches-case1",
+          "title": "Case: Navsari branch of Rewa Textiles",
+          "body": "Rewa Textiles sends goods to its Navsari branch at cost plus 25%. All branch expenses are paid by HO. Data for 2026-27 (stock figures at invoice price):\n\n| Item | ₹ |\n| --- | --- |\n| Opening stock at branch | 1,50,000 |\n| Goods sent to branch | 6,00,000 |\n| Goods returned by branch to HO | 20,000 |\n| Cash sales | 2,00,000 |\n| Credit sales | 4,50,000 |\n| Closing stock at branch (physical count) | 75,000 |\n| Branch expenses paid by HO | 40,000 |\n\nThe shortage is abnormal."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-adv-accounting-09-branches-q01",
+          "type": "mcq",
+          "prompt": "For an integral foreign branch, machinery bought by the branch is translated under AS 11 at:",
+          "options": [
+            "The exchange rate on the date the machinery was acquired",
+            "The closing rate",
+            "The average rate for the year",
+            "The opening rate for the year"
+          ],
+          "answer": 0,
+          "explanation": "Machinery is a non-monetary item carried at historical cost, so for an integral operation it uses the rate on the transaction date."
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q02",
+          "type": "mcq",
+          "prompt": "Exchange differences on translating the financial statements of a non-integral foreign operation are:",
+          "options": [
+            "Accumulated in a foreign currency translation reserve until disposal of the net investment",
+            "Recognised in profit or loss immediately",
+            "Adjusted in the cost of fixed assets",
+            "Ignored"
+          ],
+          "answer": 0,
+          "explanation": "For a non-integral operation, translation differences do not affect HO cash flows directly, so they go to a reserve and are recognised in profit or loss on disposal."
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q03",
+          "type": "mcq",
+          "prompt": "Goods sent by HO on 28 March reach the branch on 5 April. At 31 March the adjustment is normally made in:",
+          "options": [
+            "The branch books, debiting Goods-in-transit A/c and crediting Head Office A/c",
+            "The HO books, by reversing the goods sent",
+            "Both books, by cancelling the dispatch",
+            "No books; it is ignored"
+          ],
+          "answer": 0,
+          "explanation": "HO has already recorded the dispatch. The branch, which has not recorded it, passes the entry so the HO and branch accounts agree."
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q04",
+          "type": "mcq",
+          "prompt": "Which feature indicates that a foreign branch is a non-integral foreign operation?",
+          "options": [
+            "It generates its own sales and costs in local currency and is financed mainly by its own operations or local borrowings",
+            "It only sells goods imported from HO and remits the proceeds to HO",
+            "Its cash flows directly affect HO's cash flows on a day-to-day basis",
+            "It acts as an extension of HO's operations"
+          ],
+          "answer": 0,
+          "explanation": "A high degree of autonomy, local financing and local transactions point to a non-integral operation. The others describe an integral operation."
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q05",
+          "type": "truefalse",
+          "prompt": "AS 11 permits income and expense items of a foreign operation to be translated at an average rate for the period when rates do not fluctuate significantly.",
+          "answer": true,
+          "explanation": "The rate on the transaction date is required, but an average rate is allowed as a practical approximation."
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q06",
+          "type": "multi",
+          "prompt": "For an integral foreign branch, which items are translated at the closing rate? Select all that apply.",
+          "options": [
+            "Cash at bank",
+            "Trade receivables",
+            "Trade payables",
+            "Furniture",
+            "Machinery"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Monetary items use the closing rate. Furniture and machinery are non-monetary items at historical cost and use the rate on the acquisition date."
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q07",
+          "type": "fill",
+          "prompt": "Fill the blank: if goods are invoiced to a branch at cost plus 25%, the loading as a percentage of invoice price is ___ %.",
+          "accept": [
+            "20",
+            "20%"
+          ],
+          "explanation": "Loading = 25 / 125 = 20% of invoice price."
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q08",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-09-branches-case1",
+          "prompt": "Compute the shortage of stock at invoice price. Answer in rupees.",
+          "answer": 5000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Opening stock | 1,50,000 |\n| Add: Goods received | 6,00,000 |\n| Less: Returns to HO | (20,000) |\n| Less: Sales (2,00,000 + 4,50,000) | (6,50,000) |\n| Expected closing stock | 80,000 |\n| Less: Actual closing stock | (75,000) |\n| **Shortage at invoice price** | **5,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q09",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-09-branches-case1",
+          "prompt": "Compute the stock reserve (loading) required on the closing stock. Answer in rupees.",
+          "answer": 15000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Loading = 75,000 x 25/125 = **₹15,000**. Closing stock at cost = ₹60,000."
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q10",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-09-branches-case1",
+          "prompt": "Compute the net profit of the Navsari branch for 2026-27. Answer in rupees.",
+          "answer": 86000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Work at cost (invoice price x 100/125 = x 0.8).\n\n| Particulars | ₹ |\n| --- | --- |\n| Sales | 6,50,000 |\n| Opening stock at cost (1,50,000 x 0.8) | 1,20,000 |\n| Add: Goods sent less returns at cost (5,80,000 x 0.8) | 4,64,000 |\n| Less: Closing stock at cost (75,000 x 0.8) | (60,000) |\n| Cost of goods sold, including shortage | 5,24,000 |\n| Gross profit (6,50,000 - 5,24,000) | 1,26,000 |\n| Less: Branch expenses | (40,000) |\n| **Net profit** | **86,000** |\n\nCheck: loading on sales 6,50,000 x 20% = 1,30,000 less shortage at cost 4,000 = 1,26,000. The abnormal shortage at cost (₹4,000) is a loss within this profit."
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q11",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-09-branches-case1",
+          "prompt": "What is the cost of the abnormal shortage to be charged to Branch P&L?",
+          "options": [
+            "₹4,000",
+            "₹5,000",
+            "₹1,000",
+            "₹6,250"
+          ],
+          "answer": 0,
+          "explanation": "Shortage at invoice price ₹5,000 x 100/125 = ₹4,000 at cost. The loading of ₹1,000 was never earned."
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q12",
+          "type": "numeric",
+          "prompt": "An integral foreign branch holds inventory of USD 10,000 bought when USD 1 = ₹82 and trade receivables of USD 12,000. The closing rate is ₹86 and the average rate is ₹84. Compute the total rupee amount of inventory and trade receivables in the translated trial balance. Answer in rupees.",
+          "answer": 1852000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Item | Rate | ₹ |\n| --- | --- | --- |\n| Inventory (non-monetary, at cost) 10,000 | 82 (historical) | 8,20,000 |\n| Trade receivables (monetary) 12,000 | 86 (closing) | 10,32,000 |\n| **Total** | | **18,52,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "The New York branch of an Indian company is an integral foreign operation. Translate its trial balance into rupees, find the exchange difference and compute branch profit.",
+          "data": "Trial balance at 31 March 2027 (USD):\n\n| Item | Dr (USD) | Cr (USD) |\n| --- | --- | --- |\n| Machinery (bought when USD 1 = ₹80) | 40,000 | |\n| Trade receivables | 15,000 | |\n| Cash | 5,000 | |\n| Expenses | 20,000 | |\n| Goods from HO (HO books: ₹41,50,000) | 50,000 | |\n| HO account (HO books: ₹45,60,000) | | 55,000 |\n| Sales | | 75,000 |\n| **Total** | **1,30,000** | **1,30,000** |\n\nRates: closing ₹85; average for the year ₹83. There is no closing stock.",
+          "answer": "**Translated trial balance**\n\n| Item | USD | Rate | Dr (₹) | Cr (₹) |\n| --- | --- | --- | --- | --- |\n| Machinery | 40,000 | 80 | 32,00,000 | |\n| Trade receivables | 15,000 | 85 | 12,75,000 | |\n| Cash | 5,000 | 85 | 4,25,000 | |\n| Expenses | 20,000 | 83 | 16,60,000 | |\n| Goods from HO | 50,000 | HO books | 41,50,000 | |\n| HO account | 55,000 | HO books | | 45,60,000 |\n| Sales | 75,000 | 83 | | 62,25,000 |\n| Exchange difference (balancing) | | | 75,000 | |\n| **Total** | | | **1,07,85,000** | **1,07,85,000** |\n\nThe debit balancing figure of ₹75,000 is an exchange loss, charged to profit or loss for an integral operation.\n\n**Branch profit**\n\n| Particulars | ₹ |\n| --- | --- |\n| Sales | 62,25,000 |\n| Less: Goods from HO | (41,50,000) |\n| Less: Expenses | (16,60,000) |\n| Less: Exchange loss | (75,000) |\n| **Net profit** | **3,40,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-09-branches-q14",
+          "type": "interview",
+          "prompt": "Explain the difference between integral and non-integral foreign operations under AS 11 and how each is translated.",
+          "answer": "- An **integral foreign operation** carries on business as if it were an extension of the reporting enterprise; a change in exchange rate affects the reporting enterprise's cash flows almost immediately. Example: a branch that sells goods imported from HO and remits proceeds.\n- A **non-integral foreign operation** accumulates cash and other monetary items, incurs expenses, generates income and arranges borrowings mainly in its local currency, with a high degree of autonomy.\n- **Integral translation**: as if the transactions were HO's own; monetary items at closing rate, non-monetary items at historical cost at transaction-date rates, income and expenses at transaction-date (or average) rates; exchange differences to profit or loss.\n- **Non-integral translation**: all assets and liabilities at closing rate; income and expenses at transaction-date (or average) rates; exchange differences to foreign currency translation reserve until disposal of the net investment, when they are recycled to profit or loss.\n- Indicators: control by HO, proportion of transactions with HO, financing source, and whether local or HO currency drives sales prices and costs."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Advanced Accounting study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "MCA: Companies (Accounting Standards) Rules",
+          "url": "https://www.mca.gov.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-adv-accounting-10-consolidation",
+      "title": "Consolidated Financial Statements (AS 21, 23, 27)",
+      "level": "advanced",
+      "summary": "Prepare a consolidated balance sheet for a holding company with one subsidiary under AS 21: cost of control, minority interest, pre- and post-acquisition profits and intra-group eliminations, with an overview of AS 23 and AS 27.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward (ICAI new scheme)",
+      "lawAsOf": "AS 21, AS 23 and AS 27 as notified in the Companies (Accounting Standards) Rules, 2021; section 129(3) of the Companies Act, 2013",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Control and scope of AS 21",
+          "body": "Section 129(3) of the Companies Act, 2013 requires a company with subsidiaries to prepare consolidated financial statements (CFS) in addition to its own. Under **AS 21**, a **subsidiary** is an enterprise **controlled** by the parent. Control means:\n\n- ownership, directly or through subsidiaries, of **more than one-half of the voting power**; or\n- control of the **composition of the board of directors** (or governing body) so as to obtain economic benefits from its activities.\n\nA subsidiary is **excluded** from consolidation only when control is intended to be **temporary** (acquired and held exclusively with a view to subsequent disposal in the near future) or when it operates under **severe long-term restrictions** that significantly impair its ability to transfer funds to the parent. Such an investment is accounted for under AS 13, with reasons disclosed.\n\nThe parent and subsidiary use **uniform accounting policies**. If reporting dates differ, adjustments are made for significant transactions, and the difference cannot exceed **six months**."
+        },
+        {
+          "heading": "Consolidation procedure",
+          "body": "Line-by-line addition of assets, liabilities, income and expenses, then:\n\n| Step | Working |\n| --- | --- |\n| Cost of control | Cost of investment - parent's share of subsidiary's equity (capital + reserves) at the **date of acquisition**. Positive = goodwill; negative = capital reserve |\n| Minority interest | Minority's share of subsidiary's equity at the **reporting date** (capital + all reserves, pre and post) |\n| Group reserves | Parent's own reserves + parent's share of subsidiary's **post-acquisition** profits and reserves |\n| Eliminations | Intra-group balances (receivables/payables, loans), intra-group sales and purchases, and **unrealised profits** on intra-group stock, in full |\n\nPre-acquisition profits are capital profits (go into cost of control). Post-acquisition profits are revenue profits, shared between group and minority. When a subsidiary is acquired during a year, profit for that year is split by time (unless otherwise stated).\n\n**Minority interests** are presented in the consolidated balance sheet separately from liabilities and from the equity of the parent's shareholders.\n\nUnrealised profit on stock sold by parent to subsidiary at cost plus a mark-up: closing stock x mark-up / (100 + mark-up)."
+        },
+        {
+          "heading": "AS 23 and AS 27 overview",
+          "body": "**AS 23 Investments in associates in CFS**: an **associate** is an enterprise in which the investor has **significant influence** (power to participate in financial and operating policy decisions, not control). Holding **20% or more** of voting power presumes significant influence unless shown otherwise. The associate is accounted for by the **equity method**: the investment is recorded at cost (goodwill or capital reserve identified within it) and adjusted for the investor's share of post-acquisition profits or losses; dividends received reduce the carrying amount.\n\n**AS 27 Financial reporting of interests in joint ventures**: in CFS, a venturer reports its interest in a **jointly controlled entity** using **proportionate consolidation**: its share of each asset, liability, income and expense is combined line by line. In its separate statements, the interest is an investment under AS 13.\n\n| Investee | Relationship | Method in CFS |\n| --- | --- | --- |\n| Subsidiary | Control | Full consolidation (AS 21) |\n| Associate | Significant influence | Equity method (AS 23) |\n| Jointly controlled entity | Joint control | Proportionate consolidation (AS 27) |"
+        },
+        {
+          "heading": "Worked example",
+          "body": "H Ltd acquired 60% of S Ltd on 1 April 2026 for ₹9,00,000. S Ltd at acquisition: share capital ₹10,00,000, reserves ₹2,00,000. At 31 March 2027: share capital ₹10,00,000, reserves ₹2,00,000, P&L (post-acquisition) ₹3,00,000. H Ltd's own P&L balance is ₹8,00,000.\n\n| Working | ₹ |\n| --- | --- |\n| Net assets at acquisition | 12,00,000 |\n| H's share 60% | 7,20,000 |\n| **Goodwill** (9,00,000 - 7,20,000) | **1,80,000** |\n| **Minority interest** 40% x 15,00,000 | **6,00,000** |\n| Group share of post-acquisition profit 60% x 3,00,000 | 1,80,000 |\n| **Consolidated P&L** (8,00,000 + 1,80,000) | **9,80,000** |\n\nThe subsidiary's share capital and reserves do not appear separately in the consolidated balance sheet; they are absorbed into cost of control, minority interest and group reserves."
+        },
+        {
+          "heading": "Common mistakes",
+          "body": "- Computing minority interest on equity at acquisition date. Use equity at the reporting date.\n- Treating all of the subsidiary's reserves as post-acquisition.\n- Eliminating only the parent's share of unrealised profit on downstream sales. AS 21 eliminates unrealised profit in full.\n- Showing minority interest within liabilities or within the parent's equity.\n- Excluding a subsidiary just because its business is different from the parent's. That is not a ground for exclusion."
+        }
+      ],
+      "keyPoints": [
+        "Subsidiary: more than half of voting power, or control of board composition.",
+        "Exclude only for temporary control or severe long-term restrictions on fund transfer.",
+        "Goodwill/capital reserve = cost of investment - parent's share of equity at acquisition.",
+        "Minority interest = minority share of equity at the reporting date; shown separately from liabilities and parent's equity.",
+        "Unrealised profit on intra-group stock eliminated in full: stock x mark-up / (100 + mark-up).",
+        "Reporting date gap up to 6 months; uniform accounting policies.",
+        "AS 23 associate (20%+, significant influence): equity method. AS 27 JCE: proportionate consolidation."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-case1",
+          "title": "Case: Ganga Ltd and Yamuna Ltd",
+          "body": "On 1 April 2026 Ganga Ltd acquired 80,000 of the 1,00,000 equity shares of ₹10 each of Yamuna Ltd for ₹16,00,000.\n\n| Yamuna Ltd | 1 April 2026 (₹) | 31 March 2027 (₹) |\n| --- | --- | --- |\n| Share capital | 10,00,000 | 10,00,000 |\n| General reserve | 4,00,000 | 4,00,000 |\n| Profit and loss (credit) | 2,00,000 | 5,00,000 |\n\nDuring 2026-27 Ganga Ltd sold goods to Yamuna Ltd at cost plus 25%. Yamuna Ltd's closing stock includes ₹1,00,000 of these goods (at invoice price). Ganga Ltd's own Profit and loss balance at 31 March 2027 is ₹12,00,000. No dividends were declared."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q01",
+          "type": "mcq",
+          "prompt": "Under AS 21, an enterprise is a subsidiary of another when the other enterprise:",
+          "options": [
+            "Owns more than one-half of its voting power, directly or through subsidiaries, or controls the composition of its board",
+            "Owns 20% or more of its voting power",
+            "Is its largest customer",
+            "Shares joint control with another venturer"
+          ],
+          "answer": 0,
+          "explanation": "Control under AS 21 is more than half of voting power or control of board composition. 20% indicates significant influence (associate, AS 23); joint control is AS 27."
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q02",
+          "type": "mcq",
+          "prompt": "Under AS 23, holding what proportion of voting power presumes significant influence over an investee?",
+          "options": [
+            "20% or more",
+            "More than 50%",
+            "10% or more",
+            "26% or more"
+          ],
+          "answer": 0,
+          "explanation": "AS 23 presumes significant influence at 20% or more of voting power, unless it can be clearly shown otherwise."
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q03",
+          "type": "mcq",
+          "prompt": "In consolidated financial statements, AS 27 requires a venturer's interest in a jointly controlled entity to be reported using:",
+          "options": [
+            "Proportionate consolidation",
+            "The equity method",
+            "Full consolidation with minority interest",
+            "Cost less provision for permanent decline"
+          ],
+          "answer": 0,
+          "explanation": "AS 27 uses proportionate consolidation in CFS: the venturer combines its share of each item line by line."
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q04",
+          "type": "truefalse",
+          "prompt": "Under AS 21, the financial statements of a subsidiary may be drawn up to a different reporting date, provided the difference does not exceed six months and adjustments are made for significant transactions.",
+          "answer": true,
+          "explanation": "AS 21 allows a different reporting date of up to six months, with adjustments for significant intervening transactions or events."
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q05",
+          "type": "multi",
+          "prompt": "Which of the following are eliminated in preparing consolidated financial statements under AS 21? Select all that apply.",
+          "options": [
+            "Intra-group trade receivables and payables",
+            "Intra-group sales and purchases",
+            "Unrealised profit on intra-group stock",
+            "Sales by the subsidiary to outside customers",
+            "Minority's share of the subsidiary's reserves"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Intra-group balances, transactions and unrealised profits are eliminated in full. Sales to outsiders stay; the minority's share of reserves goes into minority interest."
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q06",
+          "type": "fill",
+          "prompt": "Fill the blank: when the parent's share of the subsidiary's equity at acquisition exceeds the cost of investment, the difference is shown in the consolidated balance sheet as ___.",
+          "accept": [
+            "capital reserve",
+            "capital reserve on consolidation"
+          ],
+          "explanation": "A negative cost of control is a capital reserve; a positive one is goodwill."
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q07",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-10-consolidation-case1",
+          "prompt": "Compute goodwill (cost of control) on acquisition of Yamuna Ltd. Answer in rupees.",
+          "answer": 320000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Cost of investment | 16,00,000 |\n| Less: 80% of equity at acquisition (10,00,000 + 4,00,000 + 2,00,000 = 16,00,000) | (12,80,000) |\n| **Goodwill** | **3,20,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q08",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-10-consolidation-case1",
+          "prompt": "Compute minority interest at 31 March 2027. Answer in rupees.",
+          "answer": 380000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Equity at 31 March 2027 = 10,00,000 + 4,00,000 + 5,00,000 = ₹19,00,000. Minority 20% = **₹3,80,000**. The unrealised profit relates to a downstream sale (Ganga to Yamuna), so it does not affect the minority."
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q09",
+          "type": "mcq",
+          "caseId": "ca-i-adv-accounting-10-consolidation-case1",
+          "prompt": "What unrealised profit must be eliminated from the consolidated closing stock?",
+          "options": [
+            "₹1,00,000",
+            "₹25,000",
+            "₹16,000",
+            "₹20,000"
+          ],
+          "answer": 3,
+          "explanation": "Unrealised profit = 1,00,000 x 25/125 = ₹20,000, eliminated in full from consolidated stock and group profit."
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q10",
+          "type": "numeric",
+          "caseId": "ca-i-adv-accounting-10-consolidation-case1",
+          "prompt": "Compute the consolidated Profit and loss balance at 31 March 2027. Answer in rupees.",
+          "answer": 1420000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Post-acquisition profit of Yamuna = 5,00,000 - 2,00,000 = ₹3,00,000; Ganga's 80% share = ₹2,40,000.\n\n| Particulars | ₹ |\n| --- | --- |\n| Ganga Ltd's own P&L | 12,00,000 |\n| Add: Share of Yamuna's post-acquisition profit | 2,40,000 |\n| Less: Unrealised profit on stock | (20,000) |\n| **Consolidated P&L** | **14,20,000** |"
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q11",
+          "type": "numeric",
+          "prompt": "H Ltd acquired 75% of S Ltd on 1 July 2026. S Ltd earned a profit of ₹12,00,000 evenly during 2026-27 (year ending 31 March 2027). Compute H Ltd's share of S Ltd's post-acquisition profit for the year. Answer in rupees.",
+          "answer": 675000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Pre-acquisition (April to June) = 12,00,000 x 3/12 = ₹3,00,000. Post-acquisition = ₹9,00,000. H's share = 75% x 9,00,000 = **₹6,75,000**."
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q12",
+          "type": "mcq",
+          "prompt": "Under AS 21, minority interests in the consolidated balance sheet are presented:",
+          "options": [
+            "Separately from liabilities and from the equity of the parent's shareholders",
+            "As part of current liabilities",
+            "As part of the parent's reserves and surplus",
+            "As a deduction from goodwill"
+          ],
+          "answer": 0,
+          "explanation": "AS 21 requires minority interests to be shown separately from both liabilities and the parent shareholders' equity."
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q13",
+          "type": "practical",
+          "top": true,
+          "prompt": "Compute goodwill or capital reserve, minority interest and consolidated reserves, and show the relevant extract of the consolidated balance sheet of P Ltd at 31 March 2027.",
+          "data": "P Ltd acquired 90,000 of the 1,20,000 equity shares of ₹10 each of Q Ltd on 1 April 2026 for ₹12,00,000.\n\n| Q Ltd | 1 April 2026 (₹) | 31 March 2027 (₹) |\n| --- | --- | --- |\n| Share capital | 12,00,000 | 12,00,000 |\n| General reserve | 3,00,000 | 3,00,000 |\n| Profit and loss | 1,00,000 | 5,00,000 |\n\nP Ltd: share capital ₹50,00,000, general reserve ₹10,00,000, P&L ₹15,00,000. No intra-group transactions.",
+          "answer": "Holding = 90,000 / 1,20,000 = 75%; minority 25%.\n\n**Analysis of Q Ltd's equity**\n\n| Item | Total (₹) | Pre-acquisition (₹) | Post-acquisition (₹) |\n| --- | --- | --- | --- |\n| Share capital | 12,00,000 | 12,00,000 | |\n| General reserve | 3,00,000 | 3,00,000 | |\n| Profit and loss | 5,00,000 | 1,00,000 | 4,00,000 |\n| **Total** | **20,00,000** | **16,00,000** | **4,00,000** |\n| P Ltd 75% | | 12,00,000 | 3,00,000 |\n| Minority 25% | 5,00,000 (on total) | | |\n\n**Cost of control**: Cost 12,00,000 - 75% of 16,00,000 (12,00,000) = **Nil** (no goodwill, no capital reserve).\n\n**Minority interest** = 25% x 20,00,000 = **₹5,00,000**.\n\n**Consolidated P&L** = 15,00,000 + 3,00,000 = **₹18,00,000**. Consolidated general reserve = P Ltd's ₹10,00,000 (Q's general reserve is all pre-acquisition).\n\n**Extract: Consolidated Balance Sheet of P Ltd as at 31 March 2027**\n\n| Particulars | ₹ |\n| --- | --- |\n| Share capital | 50,00,000 |\n| Reserves and surplus: General reserve 10,00,000; P&L 18,00,000 | 28,00,000 |\n| Minority interest | 5,00,000 |"
+        },
+        {
+          "id": "ca-i-adv-accounting-10-consolidation-q14",
+          "type": "interview",
+          "prompt": "When can a subsidiary be excluded from consolidation under AS 21, and how is it then accounted for?",
+          "answer": "- AS 21 allows exclusion only in two cases: (a) control is intended to be temporary because the subsidiary was acquired and is held exclusively with a view to its subsequent disposal in the near future; (b) the subsidiary operates under severe long-term restrictions that significantly impair its ability to transfer funds to the parent.\n- An excluded subsidiary is accounted for as an investment under AS 13.\n- The reasons for not consolidating are disclosed in the CFS.\n- A subsidiary is not excluded merely because its business activities are dissimilar from those of other group members; relevant information is given through segment disclosures.\n- Section 129(3) separately requires CFS for companies with subsidiaries, associates or joint ventures, so the exclusion is narrow."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal: Advanced Accounting study material",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "MCA: Companies (Accounting Standards) Rules",
+          "url": "https://www.mca.gov.in/"
+        }
+      ]
+    }
+  ]
+}

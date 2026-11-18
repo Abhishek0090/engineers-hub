@@ -1,0 +1,2158 @@
+{
+  "id": "ca-i-gst",
+  "title": "GST (Inter P3B)",
+  "area": "ca-inter",
+  "order": 113,
+  "icon": "GST",
+  "color": "#0f766e",
+  "description": "GST for CA Intermediate Paper 3 Section B (ICAI new scheme, attempts from May 2027): supply, levy, place of supply, exemptions, time and value, ITC, registration, invoicing, e-way bill, payment and returns. Based on the CGST and IGST Acts as amended by the Finance Act 2026, with the GST 2.0 rate structure in force from 22 September 2025.",
+  "chapters": [
+    {
+      "id": "ca-i-gst-01-intro",
+      "title": "GST in India: Introduction and Constitutional Framework",
+      "level": "beginner",
+      "summary": "Why GST replaced the old indirect taxes, how the 101st Constitution Amendment gives the Centre and States concurrent power, and how CGST, SGST, UTGST and IGST fit together.",
+      "estMinutes": 35,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Constitution (101st Amendment) Act 2016; CGST, IGST and UTGST Acts 2017 as amended by the Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "From a cascading regime to a dual GST",
+          "body": "Before 1 July 2017 the Centre levied central excise, service tax, CVD and SAD, while States levied VAT, entry tax, entertainment tax, luxury tax and purchase tax. The Centre could not tax sales and the States could not tax services, so each tax was charged on a base that already included the other tax. Credit of one tax could not be set off against the other. This is **cascading** (tax on tax).\n\nGST is a destination-based, multi-stage tax on the **supply** of goods or services or both, with seamless input tax credit (ITC) at each stage. Only the value added at each stage bears tax in effect, and the final burden falls on the consumer.\n\nIndia follows a **dual GST**: the Centre and the State tax the same transaction at the same time.\n\n| Type of supply | Taxes levied | Law |\n| --- | --- | --- |\n| Intra-State (within one State) | CGST + SGST | CGST Act + respective SGST Act |\n| Intra-UT (UT without legislature) | CGST + UTGST | CGST Act + UTGST Act |\n| Inter-State, imports, supplies to or by SEZ | IGST | IGST Act |\n\nUTGST applies in Union Territories without a legislature: Andaman and Nicobar Islands, Lakshadweep, Dadra and Nagar Haveli and Daman and Diu, Ladakh and Chandigarh. Delhi, Puducherry and Jammu and Kashmir have legislatures, so they levy SGST."
+        },
+        {
+          "heading": "Constitutional framework",
+          "body": "The **Constitution (101st Amendment) Act, 2016** made GST possible.\n\n| Article | What it does |\n| --- | --- |\n| 246A(1) | Parliament and State legislatures both have power to make laws on GST (concurrent power) |\n| 246A(2) | Parliament has exclusive power over GST on inter-State supplies |\n| 269A | GST on inter-State supplies (IGST) is levied and collected by the Government of India and apportioned between the Union and States as per GST Council recommendations; imports are deemed inter-State |\n| 279A | Constitutes the GST Council |\n| 366(12A) | Defines GST: any tax on supply of goods or services or both, except tax on supply of alcoholic liquor for human consumption |\n| 366(26A) | Services: anything other than goods |\n\n**GST Council (Article 279A):** chaired by the Union Finance Minister; members are the Union Minister of State for Revenue or Finance and the Finance (or other nominated) Minister of each State. Quorum is one-half of total members. Decisions need at least three-fourths of the weighted votes of members present and voting: the Centre's vote carries one-third weight and all States together carry two-thirds.\n\nPetroleum crude, high speed diesel, motor spirit (petrol), natural gas and aviation turbine fuel are within the GST definition, but GST on them applies only from a date the Council recommends (section 9(2) CGST Act). Until then, central excise and State VAT continue on them. Alcoholic liquor for human consumption is outside GST altogether."
+        },
+        {
+          "heading": "Taxes subsumed and taxes outside GST",
+          "body": "| Subsumed in GST | Not subsumed (continue) |\n| --- | --- |\n| Central excise (except on specified tobacco and petroleum products), service tax, CVD, SAD | Basic customs duty |\n| State VAT / sales tax (except on the five petroleum products and alcoholic liquor) | Stamp duty, property tax |\n| Entry tax, octroi, purchase tax, luxury tax | Electricity duty |\n| Entertainment tax (other than that levied by local bodies) | State excise on alcoholic liquor |\n| Taxes on lottery, betting and gambling | Central excise on petroleum products and tobacco |\n\n**GST 2.0 (from 22 September 2025):** the 56th GST Council meeting replaced the four main slabs (5%, 12%, 18%, 28%) with two main slabs of **5%** and **18%** plus a special **40%** rate for sin and luxury goods. Nil, 0.25% and 3% rates continue for specified goods. Compensation cess has been wound down: from 1 February 2026 tobacco products and pan masala moved to 40% GST, with additional central excise duty on tobacco and a separate Health and National Security Cess on pan masala outside GST.\n\nThe CGST Act caps the CGST rate at 20% and the IGST Act caps the IGST rate at 40%."
+        },
+        {
+          "heading": "Worked example and common mistakes",
+          "body": "A dealer in Pune sells goods worth ₹4,00,000 at 18%: (a) to a buyer in Nagpur, (b) to a buyer in Indore, (c) to a buyer in Chandigarh.\n\n| Supply | Nature | Tax |\n| --- | --- | --- |\n| Pune to Nagpur | Intra-State (Maharashtra) | CGST 36,000 + SGST 36,000 |\n| Pune to Indore | Inter-State | IGST 72,000 |\n| Pune to Chandigarh | Inter-State (State to UT) | IGST 72,000 |\n\n**Common mistakes:**\n- Charging UTGST on a supply from a State to a UT. UTGST applies only to supplies within a UT; State-to-UT is inter-State and attracts IGST.\n- Saying petrol is outside the Constitution's GST definition. It is inside the definition; only the levy date is deferred.\n- Saying alcohol for industrial use is outside GST. Only alcoholic liquor for **human consumption** is excluded.\n- Treating the GST Council as a body that makes law. It recommends; Parliament and State legislatures legislate and governments notify."
+        }
+      ],
+      "keyPoints": [
+        "101st Constitution Amendment Act 2016: Articles 246A (concurrent power), 269A (IGST), 279A (GST Council), 366(12A) (GST definition).",
+        "Intra-State: CGST + SGST/UTGST. Inter-State, imports and SEZ supplies: IGST.",
+        "GST Council decision: 3/4 of weighted votes of members present and voting; Centre 1/3 weight, States 2/3; quorum 50% of members.",
+        "Alcoholic liquor for human consumption is outside GST; five petroleum products are within GST but levy is deferred until the Council recommends a date (section 9(2)).",
+        "GST 2.0 from 22 September 2025: main slabs 5% and 18%, special rate 40%; nil, 0.25% and 3% for specified goods.",
+        "Maximum rates under the Acts: CGST 20%, IGST 40%.",
+        "UTGST only for UTs without legislature; Delhi, Puducherry and J&K levy SGST."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-gst-01-intro-case1",
+          "title": "Case: Konkan Agro Foods",
+          "body": "Konkan Agro Foods is registered in Pune, Maharashtra. During October 2026 it records the following (all values exclusive of GST):\n\n| No. | Transaction | Value (₹) | Rate |\n| --- | --- | --- | --- |\n| 1 | Sale of packaged food to a dealer in Mumbai | 5,00,000 | 5% |\n| 2 | Sale of packaged food to a dealer in Panaji, Goa | 3,00,000 | 5% |\n| 3 | Sale of kitchen equipment to a hotel in Chandigarh | 2,00,000 | 18% |\n| 4 | Purchase of high speed diesel for its generator | 1,00,000 | - |\n\nThe accountant wants to know which taxes apply to each item."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-gst-01-intro-q01",
+          "type": "mcq",
+          "prompt": "Which Article of the Constitution gives both Parliament and State legislatures the power to make laws on GST?",
+          "options": [
+            "Article 246A",
+            "Article 269A",
+            "Article 279A",
+            "Article 366(12A)"
+          ],
+          "answer": 0,
+          "explanation": "Article 246A(1) confers concurrent power to make laws on GST. Article 246A(2) reserves inter-State supplies to Parliament. Article 269A deals with IGST, 279A with the GST Council and 366(12A) defines GST."
+        },
+        {
+          "id": "ca-i-gst-01-intro-q02",
+          "type": "mcq",
+          "prompt": "A decision of the GST Council is taken by:",
+          "options": [
+            "Simple majority of members present",
+            "Not less than three-fourths of the weighted votes of members present and voting",
+            "Two-thirds of all members of the Council",
+            "Unanimous vote of all State Finance Ministers"
+          ],
+          "answer": 1,
+          "explanation": "Article 279A(9): three-fourths of the weighted votes of members present and voting. The Centre's vote has one-third weight and all States together two-thirds, so neither side can pass a proposal alone."
+        },
+        {
+          "id": "ca-i-gst-01-intro-q03",
+          "type": "mcq",
+          "prompt": "A supply from a registered supplier in Mohali (Punjab) to a recipient in Chandigarh attracts:",
+          "options": [
+            "CGST + SGST",
+            "CGST + UTGST",
+            "IGST",
+            "UTGST only"
+          ],
+          "answer": 2,
+          "explanation": "Location of supplier (Punjab) and place of supply (Chandigarh, a UT) are in different States/UTs, so it is inter-State and IGST applies. UTGST is charged only on supplies within a UT."
+        },
+        {
+          "id": "ca-i-gst-01-intro-q04",
+          "type": "mcq",
+          "prompt": "Under the GST 2.0 rate structure effective from 22 September 2025, which set describes the two main slabs and the special rate?",
+          "options": [
+            "5%, 12% and 28%",
+            "5%, 18% and 40%",
+            "12%, 18% and 28%",
+            "5%, 12% and 18%"
+          ],
+          "answer": 1,
+          "explanation": "The 56th GST Council meeting approved a two-slab structure of 5% and 18%, with a special 40% rate for sin and luxury goods. The 12% and 28% slabs were largely removed. Nil, 0.25% and 3% rates continue for specified goods."
+        },
+        {
+          "id": "ca-i-gst-01-intro-q05",
+          "type": "truefalse",
+          "prompt": "High speed diesel and petrol are outside the definition of GST in the Constitution.",
+          "answer": false,
+          "explanation": "They are inside the definition. Only alcoholic liquor for human consumption is excluded by Article 366(12A). GST on the five petroleum products applies from a date to be notified on the GST Council's recommendation (section 9(2) CGST Act); until then central excise and State VAT continue."
+        },
+        {
+          "id": "ca-i-gst-01-intro-q06",
+          "type": "multi",
+          "prompt": "Which of the following taxes were subsumed in GST? Select all that apply.",
+          "options": [
+            "Service tax",
+            "Basic customs duty",
+            "State VAT on consumer goods",
+            "Entry tax",
+            "Stamp duty"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Service tax, VAT on goods other than petroleum products and alcoholic liquor, and entry tax were subsumed. Basic customs duty and stamp duty continue outside GST."
+        },
+        {
+          "id": "ca-i-gst-01-intro-q07",
+          "type": "fill",
+          "prompt": "Fill the blank: GST on supplies in the course of inter-State trade or commerce is levied and collected by the Government of India under Article ___ of the Constitution.",
+          "accept": [
+            "269A",
+            "Article 269A",
+            "art 269A"
+          ],
+          "explanation": "Article 269A provides that IGST is levied and collected by the Union and apportioned between the Union and the States on the GST Council's recommendation. Imports are deemed inter-State supplies for this purpose."
+        },
+        {
+          "id": "ca-i-gst-01-intro-q08",
+          "type": "numeric",
+          "prompt": "A registered supplier in Jaipur sells goods to a buyer in Udaipur for ₹2,40,000 (exclusive of GST). The rate is 18%. Compute the CGST payable on this supply. Round to the nearest rupee.",
+          "answer": 21600,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Jaipur and Udaipur are both in Rajasthan, so the supply is intra-State: CGST 9% + SGST 9%.\n\n| Particulars | ₹ |\n| --- | --- |\n| Value | 2,40,000 |\n| CGST @ 9% | 21,600 |\n| SGST @ 9% | 21,600 |\n| Total GST | 43,200 |"
+        },
+        {
+          "id": "ca-i-gst-01-intro-q09",
+          "type": "numeric",
+          "prompt": "A Kolkata supplier sells goods to a Bhubaneswar buyer for a total of ₹2,36,000, inclusive of GST at 18%. Compute the IGST included in this amount. Round to the nearest rupee.",
+          "answer": 36000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "West Bengal to Odisha is inter-State, so IGST applies.\n\n| Particulars | ₹ |\n| --- | --- |\n| Inclusive price | 2,36,000 |\n| Value = 2,36,000 x 100/118 | 2,00,000 |\n| IGST = 2,36,000 x 18/118 | 36,000 |"
+        },
+        {
+          "id": "ca-i-gst-01-intro-q10",
+          "type": "mcq",
+          "caseId": "ca-i-gst-01-intro-case1",
+          "prompt": "Which tax applies to transaction 3?",
+          "options": [
+            "IGST",
+            "CGST + UTGST",
+            "CGST + SGST of Maharashtra",
+            "UTGST only"
+          ],
+          "answer": 0,
+          "explanation": "The supplier is in Maharashtra and the place of supply is Chandigarh. Different State/UT means inter-State supply, so IGST at 18% (₹36,000) applies."
+        },
+        {
+          "id": "ca-i-gst-01-intro-q11",
+          "type": "numeric",
+          "caseId": "ca-i-gst-01-intro-case1",
+          "prompt": "Compute the total GST (CGST + SGST + IGST) payable by Konkan Agro Foods on its outward supplies (transactions 1 to 3). Round to the nearest rupee.",
+          "answer": 76000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Transaction | Nature | Tax (₹) |\n| --- | --- | --- |\n| 1. Mumbai, 5,00,000 @ 5% | Intra-State | CGST 12,500 + SGST 12,500 = 25,000 |\n| 2. Goa, 3,00,000 @ 5% | Inter-State | IGST 15,000 |\n| 3. Chandigarh, 2,00,000 @ 18% | Inter-State | IGST 36,000 |\n| **Total** | | **76,000** |\n\nTransaction 4 is a purchase, not an outward supply."
+        },
+        {
+          "id": "ca-i-gst-01-intro-q12",
+          "type": "mcq",
+          "caseId": "ca-i-gst-01-intro-case1",
+          "prompt": "What is the correct tax position of transaction 4 (high speed diesel)?",
+          "options": [
+            "GST at 18% with full ITC",
+            "Central excise duty and State VAT apply, as GST on diesel has not yet been notified to apply",
+            "Diesel is permanently outside GST under the Constitution",
+            "Only IGST applies because diesel is a petroleum product"
+          ],
+          "answer": 1,
+          "explanation": "High speed diesel is within the constitutional definition of GST, but section 9(2) CGST Act defers the levy until a date notified on the Council's recommendation. Until then central excise and State VAT apply, and no GST credit arises."
+        },
+        {
+          "id": "ca-i-gst-01-intro-q13",
+          "type": "interview",
+          "prompt": "Explain the features of the dual GST model adopted in India and the constitutional provisions that enable it.",
+          "answer": "- India follows a concurrent dual GST: the Centre and States levy GST on the same supply at the same time.\n- Article 246A gives Parliament and State legislatures concurrent power over GST; Article 246A(2) gives Parliament exclusive power over inter-State supplies.\n- Intra-State supplies attract CGST (CGST Act) and SGST (State GST Acts) or UTGST in UTs without legislature.\n- Inter-State supplies and imports attract IGST, levied and collected by the Centre under Article 269A and apportioned between the Centre and the destination State.\n- Article 279A constitutes the GST Council to recommend rates, exemptions, thresholds and model laws.\n- GST is destination based: tax revenue goes to the State where the supply is consumed.\n- Seamless ITC removes cascading; cross-utilisation of CGST and SGST credit is not allowed, but IGST credit can be used against all three.",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-01-intro-q14",
+          "type": "interview",
+          "prompt": "Describe the composition and voting mechanism of the GST Council and list four matters on which it makes recommendations.",
+          "answer": "- Composition (Article 279A(2)): Union Finance Minister (Chairperson), Union Minister of State in charge of Revenue or Finance, and the Minister in charge of Finance or Taxation (or any other nominated minister) of each State.\n- Quorum: one-half of the total number of members.\n- Voting: every decision needs at least three-fourths of the weighted votes of members present and voting. The Central Government's vote has one-third weight and the votes of all State Governments together have two-thirds weight.\n- Recommendations (Article 279A(4)) include: taxes to be subsumed; goods and services to be taxed or exempted; model GST laws and principles of place of supply; threshold limits; rates including floor rates with bands; special rates for a specified period to raise resources during a disaster; special provisions for special category States.\n- Article 279A(5): the Council recommends the date from which GST is levied on the five petroleum products."
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal",
+          "url": "https://www.cbic-gst.gov.in/"
+        },
+        {
+          "title": "GST Council",
+          "url": "https://gstcouncil.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-gst-02-supply",
+      "title": "Supply under GST",
+      "level": "beginner",
+      "summary": "The taxable event under GST: the scope of supply in section 7, Schedules I, II and III, and the treatment of composite and mixed supplies under section 8.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "CGST Act 2017 (sections 7, 8 and Schedules I to III) as amended by the Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Scope of supply: section 7",
+          "body": "Supply is the taxable event under GST. Section 7(1) says supply includes:\n\n| Clause | Coverage |\n| --- | --- |\n| 7(1)(a) | All forms of supply of goods or services or both, such as sale, transfer, barter, exchange, licence, rental, lease or disposal, made or agreed to be made **for a consideration** by a person **in the course or furtherance of business** |\n| 7(1)(aa) | Activities or transactions by a person, other than an individual, for cash, deferred payment or other valuable consideration, to its members or constituents (and vice versa). The person and its members are deemed two separate persons (inserted by Finance Act 2021, effective from 1 July 2017) |\n| 7(1)(b) | Import of services for a consideration, **whether or not** in the course or furtherance of business |\n| 7(1)(c) | Activities in **Schedule I**, made or agreed to be made **without consideration** |\n\nSection 7(1A): once an activity is a supply, Schedule II decides whether it is a supply of goods or of services. Section 7(2): activities in **Schedule III**, and specified activities of the Government or local authorities as public authorities, are neither supply of goods nor supply of services.\n\nBusiness (section 2(17)) is wide: any trade, commerce, manufacture, profession or vocation, whether or not for profit, and anything incidental or ancillary to it, including supply or acquisition of capital goods and services in connection with commencement or closure of business."
+        },
+        {
+          "heading": "Schedules I, II and III",
+          "body": "**Schedule I: supply even without consideration**\n- Permanent transfer or disposal of business assets on which ITC has been availed.\n- Supply between related persons or distinct persons (section 25) in the course or furtherance of business. Gifts by an employer to an employee up to ₹50,000 in value in a financial year are not treated as supply.\n- Supply of goods by a principal to an agent who undertakes to supply them on behalf of the principal, and by an agent to a principal who receives them on the principal's behalf.\n- Import of services by a person from a related person or from any of its establishments outside India, in the course or furtherance of business.\n\n**Schedule II: goods or services?** Examples: transfer of title in goods is a supply of goods; transfer of right in goods without transfer of title is a supply of services; lease or renting of land or building is a supply of services; works contract is a supply of services; supply of food or drink as part of a service (restaurant) is a supply of services.\n\n**Schedule III: neither goods nor services**\n- Services by an employee to the employer in the course of employment.\n- Services by any court or tribunal; functions of MPs, MLAs and members of local authorities; duties of constitutional office holders.\n- Services of funeral, burial, crematorium or mortuary.\n- Sale of land and, subject to para 5 of Schedule II, sale of a completed building.\n- Actionable claims, other than specified actionable claims (betting, casinos, gambling, horse racing, lottery and online money gaming).\n- Supply of goods from a place outside India to another place outside India without entering India (merchant trade), high-sea sales before clearance for home consumption, and supply of warehoused goods before clearance for home consumption."
+        },
+        {
+          "heading": "Composite and mixed supply: section 8",
+          "body": "| Point | Composite supply (section 2(30)) | Mixed supply (section 2(74)) |\n| --- | --- | --- |\n| Nature | Two or more supplies **naturally bundled** in the ordinary course of business | Two or more individual supplies made together for a **single price**, not naturally bundled |\n| Principal supply | One supply is predominant (principal supply, section 2(90)) | No principal supply |\n| Tax treatment | Rate of the **principal supply** | Rate of the item with the **highest rate** |\n| Example | Goods packed, insured and transported by the supplier; a laptop sold with charger and bag | A Diwali hamper of sweets, dry fruits and an electric lamp for one price |\n\nTest for natural bundling: do customers normally expect the items together, are they advertised as a package, does one element have no use without the other? A works contract and restaurant service are specifically deemed composite supplies of services by Schedule II."
+        },
+        {
+          "heading": "Worked example and common mistakes",
+          "body": "A trader sells 100 gift packs at ₹5,000 each. Each pack holds dry fruits (taxable at 5%) and a decorative lamp (taxable at 18%). The items are not naturally bundled, so this is a mixed supply taxed at the highest rate.\n\n| Particulars | ₹ |\n| --- | --- |\n| Value 100 x 5,000 | 5,00,000 |\n| GST @ 18% (highest rate) | 90,000 |\n\n**Common mistakes:**\n- Treating every free transfer as non-taxable. Branch transfers to a separately registered branch (distinct person) are supplies under Schedule I.\n- Applying the ₹50,000 gift limit to gifts to customers. The limit is only for employer-to-employee gifts.\n- Saying sale of land attracts GST. Sale of land is in Schedule III.\n- Forgetting that import of services for consideration is a supply even when not for business."
+        }
+      ],
+      "keyPoints": [
+        "Section 7(1)(a): supply for consideration in the course or furtherance of business; 7(1)(b): import of services for consideration even if not for business.",
+        "Section 7(1)(aa): club or association to its members is a supply (retrospective from 1 July 2017).",
+        "Schedule I: supply without consideration - business assets with ITC, related or distinct persons, principal-agent, import of services from related person.",
+        "Employer gifts to an employee up to ₹50,000 per financial year are not a supply.",
+        "Schedule III: employee services, court services, funeral services, sale of land and completed building, most actionable claims, merchant trade, high-sea sales, warehoused goods before home clearance.",
+        "Composite supply: rate of principal supply. Mixed supply: highest rate."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-gst-02-supply-case1",
+          "title": "Case: Vardhaman Electricals",
+          "body": "Vardhaman Electricals is a registered dealer in Jaipur. Its transactions in November 2026 are:\n\n| No. | Transaction | Amount (₹) |\n| --- | --- | --- |\n| 1 | Sale of air coolers to retail customers | 2,00,000 |\n| 2 | Stock of coolers sent free of cost to its own branch in Ahmedabad, separately registered in Gujarat (open market value) | 1,00,000 |\n| 3 | Coolers sent to an agent in Kota who will sell them in his own name on behalf of Vardhaman (open market value) | 80,000 |\n| 4 | Sale of old office furniture | 30,000 |\n| 5 | Sale of a plot of land held as a business asset | 40,00,000 |\n\nAll amounts are exclusive of GST."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-gst-02-supply-q01",
+          "type": "mcq",
+          "prompt": "Mr Rohan, a salaried individual, pays a US-based consultant for advice on his personal investments. Is this a supply under GST?",
+          "options": [
+            "No, because it is not in the course or furtherance of business",
+            "Yes, because import of services for consideration is a supply whether or not in the course of business",
+            "Yes, but only if Rohan is registered under GST",
+            "No, because services from outside India are covered by customs law"
+          ],
+          "answer": 1,
+          "explanation": "Section 7(1)(b) covers import of services for a consideration whether or not in the course or furtherance of business. Whether any exemption applies is a separate question; the activity is still a supply."
+        },
+        {
+          "id": "ca-i-gst-02-supply-q02",
+          "type": "mcq",
+          "prompt": "An employer gifts a smartphone worth ₹45,000 to an employee in a financial year; no other gifts are given to that employee. The GST position is:",
+          "options": [
+            "Supply under Schedule I, taxable on open market value",
+            "Not a supply, because gifts up to ₹50,000 per employee per financial year are excluded",
+            "Supply under section 7(1)(a)",
+            "Exempt supply"
+          ],
+          "answer": 1,
+          "explanation": "Employer and employee are related persons, but the proviso to para 2 of Schedule I excludes gifts up to ₹50,000 in value in a financial year by an employer to an employee."
+        },
+        {
+          "id": "ca-i-gst-02-supply-q03",
+          "type": "mcq",
+          "prompt": "A television sold with a wall-mount kit and free installation for one price is best classified as:",
+          "options": [
+            "Mixed supply taxed at the highest rate",
+            "Composite supply taxed at the rate of the television",
+            "Two separate supplies",
+            "Not a supply"
+          ],
+          "answer": 1,
+          "explanation": "The kit and installation are naturally bundled with the TV, and the TV is the principal supply. Under section 8(a) the whole composite supply is taxed at the rate applicable to the TV."
+        },
+        {
+          "id": "ca-i-gst-02-supply-q04",
+          "type": "mcq",
+          "prompt": "Which of these is a supply of services under Schedule II?",
+          "options": [
+            "Transfer of title in goods",
+            "Renting of a commercial building",
+            "Sale of a completed building after issue of completion certificate",
+            "Sale of land"
+          ],
+          "answer": 1,
+          "explanation": "Para 2(b) of Schedule II treats any lease or letting out of a building for business or commerce as a supply of services. Transfer of title in goods is a supply of goods. Sale of land and of a completed building are Schedule III items."
+        },
+        {
+          "id": "ca-i-gst-02-supply-q05",
+          "type": "truefalse",
+          "prompt": "Under section 7(1)(aa), supply of food by a cooperative club to its members for a charge is a supply, because the club and its members are deemed separate persons.",
+          "answer": true,
+          "explanation": "Section 7(1)(aa), inserted by the Finance Act 2021 with effect from 1 July 2017, covers activities of a person other than an individual to its members or constituents for consideration, and deems them two separate persons. This overrides the mutuality argument."
+        },
+        {
+          "id": "ca-i-gst-02-supply-q06",
+          "type": "multi",
+          "prompt": "Which of the following are neither supply of goods nor supply of services under Schedule III? Select all that apply.",
+          "options": [
+            "Services by an employee to the employer in the course of employment",
+            "Sale of a plot of land",
+            "Lottery tickets sold by an authorised distributor",
+            "High-sea sale of imported goods before clearance for home consumption",
+            "Renting of a residential flat"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Employee services, sale of land and high-sea sales are in Schedule III. Lottery is a specified actionable claim and is taxable. Renting of a flat is a supply of services (it may or may not be exempt)."
+        },
+        {
+          "id": "ca-i-gst-02-supply-q07",
+          "type": "fill",
+          "prompt": "Fill the blank: activities specified in Schedule ___ of the CGST Act are treated neither as a supply of goods nor a supply of services.",
+          "accept": [
+            "III",
+            "3",
+            "Schedule III",
+            "three"
+          ],
+          "explanation": "Section 7(2)(a) read with Schedule III lists activities that are neither supply of goods nor services, such as employee services, sale of land and funeral services."
+        },
+        {
+          "id": "ca-i-gst-02-supply-q08",
+          "type": "numeric",
+          "prompt": "A shop sells 200 festive hampers at ₹2,500 each. Each hamper contains sweets (5%), dry fruits (5%) and a steel serving tray (18%). The items are not naturally bundled. Compute the GST payable. Round to the nearest rupee.",
+          "answer": 90000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "The hamper is a mixed supply under section 2(74): items sold together for a single price, not naturally bundled. Section 8(b) applies the highest rate.\n\n| Particulars | ₹ |\n| --- | --- |\n| Value 200 x 2,500 | 5,00,000 |\n| GST @ 18% | 90,000 |"
+        },
+        {
+          "id": "ca-i-gst-02-supply-q09",
+          "type": "numeric",
+          "prompt": "A dealer sells a laptop with a charger, a carry bag and a one-year standard warranty for a single price of ₹63,000 (exclusive of GST). Assume laptops are taxable at 18% and carry bags at 5%. Compute the GST payable. Round to the nearest rupee.",
+          "answer": 11340,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "The accessories and standard warranty are naturally bundled with the laptop, which is the principal supply. This is a composite supply taxed at the rate of the laptop.\n\n| Particulars | ₹ |\n| --- | --- |\n| Value | 63,000 |\n| GST @ 18% | 11,340 |"
+        },
+        {
+          "id": "ca-i-gst-02-supply-q10",
+          "type": "mcq",
+          "caseId": "ca-i-gst-02-supply-case1",
+          "prompt": "What is the GST status of transaction 2 (free stock sent to the Ahmedabad branch)?",
+          "options": [
+            "Not a supply because there is no consideration",
+            "Supply under Schedule I because the branches are distinct persons",
+            "Exempt as a stock transfer",
+            "Supply only if the branch later sells the goods"
+          ],
+          "answer": 1,
+          "explanation": "Establishments of the same person registered in different States are distinct persons (section 25(4)). Para 2 of Schedule I treats supply between distinct persons in the course of business as a supply even without consideration. It is an inter-State supply attracting IGST."
+        },
+        {
+          "id": "ca-i-gst-02-supply-q11",
+          "type": "numeric",
+          "caseId": "ca-i-gst-02-supply-case1",
+          "prompt": "Compute the total value of taxable supplies of Vardhaman Electricals for November 2026. Round to the nearest rupee.",
+          "answer": 410000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| No. | Treatment | Value (₹) |\n| --- | --- | --- |\n| 1 | Supply for consideration, section 7(1)(a) | 2,00,000 |\n| 2 | Distinct persons, Schedule I | 1,00,000 |\n| 3 | Principal to agent, Schedule I | 80,000 |\n| 4 | Sale of business asset for consideration, section 7(1)(a) | 30,000 |\n| 5 | Sale of land, Schedule III | Nil |\n| **Total** | | **4,10,000** |\n\nThe ITC condition in para 1 of Schedule I matters only for disposals without consideration; furniture sold for a price is a supply under section 7(1)(a)."
+        },
+        {
+          "id": "ca-i-gst-02-supply-q12",
+          "type": "mcq",
+          "caseId": "ca-i-gst-02-supply-case1",
+          "prompt": "How is transaction 5 (sale of land) treated?",
+          "options": [
+            "Supply of goods at 18%",
+            "Supply of services at 18%",
+            "Neither a supply of goods nor services",
+            "Exempt supply of goods"
+          ],
+          "answer": 2,
+          "explanation": "Para 5 of Schedule III: sale of land is neither a supply of goods nor a supply of services. No GST is payable."
+        },
+        {
+          "id": "ca-i-gst-02-supply-q13",
+          "type": "practical",
+          "prompt": "Examine whether each of the following is a supply under the CGST Act. Give reasons.",
+          "data": "- (a) A doctor sells his personal car, used only by his family and bought without ITC, to a friend for ₹3,00,000.\n- (b) A company permanently transfers an office printer (ITC availed) free of cost to a charitable trust.\n- (c) A Delhi company receives management services free of cost from its holding company in Singapore.\n- (d) A director of a company receives salary as a whole-time director, with TDS deducted under the salary provisions.\n- (e) A car dealer exchanges a new car for an old car plus cash.",
+          "answer": "| Item | Supply? | Reason |\n| --- | --- | --- |\n| (a) | No | There is consideration, but the car is a personal asset and the sale is not in the course or furtherance of his profession, so section 7(1)(a) is not attracted. |\n| (b) | Yes | Para 1 of Schedule I: permanent disposal of business assets on which ITC was availed, even without consideration. |\n| (c) | Yes | Para 4 of Schedule I: import of services from a related person outside India in the course of business, even without consideration. |\n| (d) | No | Para 1 of Schedule III: services by an employee to employer. A whole-time director whose remuneration is treated as salary is an employee. |\n| (e) | Yes | Barter and exchange are forms of supply under section 7(1)(a); the old car is part of the consideration. |",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-02-supply-q14",
+          "type": "interview",
+          "prompt": "Distinguish between composite supply and mixed supply, with their tax treatment and one example each.",
+          "answer": "- Composite supply (section 2(30)): two or more taxable supplies naturally bundled and supplied together in the ordinary course of business, one of which is the principal supply. Taxed at the rate of the principal supply (section 8(a)). Example: goods sold with packing, transport and insurance arranged by the supplier.\n- Mixed supply (section 2(74)): two or more individual supplies made together for a single price where the supply is not a composite supply. Taxed at the highest rate applicable to any item (section 8(b)). Example: a pack of chocolates, a cake and a toy sold for one price.\n- Test: whether the elements are normally provided together, advertised as a package and whether one element is the main reason for buying.\n- If items are priced separately, each is a separate supply taxed at its own rate.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal: Acts and rules",
+          "url": "https://www.cbic-gst.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-gst-03-charge",
+      "title": "Charge of GST, Reverse Charge, Composition Levy and Rates",
+      "level": "intermediate",
+      "summary": "Who pays GST and at what rate: the levy under section 9 CGST and section 5 IGST, forward and reverse charge, tax on e-commerce operators, the composition scheme and the GST 2.0 rate structure.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "CGST Act sections 9 and 10, IGST Act section 5, as amended by the Finance Act 2026; rate notifications effective 22 September 2025",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "The levy: section 9 CGST and section 5 IGST",
+          "body": "Section 9(1) CGST levies CGST on all **intra-State** supplies of goods or services or both, except alcoholic liquor for human consumption, on the value determined under section 15, at rates notified on the Council's recommendation, not exceeding 20%. Section 5(1) IGST does the same for **inter-State** supplies, with a ceiling of 40%. IGST on imported goods is levied with customs duty under the Customs Tariff Act.\n\n| Sub-section | Who pays |\n| --- | --- |\n| 9(1) | Supplier (forward charge) |\n| 9(2) | Five petroleum products taxed from a date to be notified |\n| 9(3) | Recipient, for notified categories of goods or services (reverse charge) |\n| 9(4) | Notified class of registered recipients, on notified supplies from unregistered suppliers |\n| 9(5) | Electronic commerce operator (ECO), for notified services supplied through it |\n\nUnder 9(5) the ECO is deemed the supplier for: passenger transport by radio taxi, motor cab, maxi cab and motor cycle; accommodation in hotels, inns, guest houses and similar places (unless the supplier is liable to register under section 22(1)); housekeeping services such as plumbing and carpentry (unless the supplier is liable to register); and restaurant services (other than at specified premises)."
+        },
+        {
+          "heading": "Reverse charge: key notified services and goods",
+          "body": "| Service under section 9(3) | Supplier | Recipient who pays |\n| --- | --- | --- |\n| Legal services | Individual advocate or firm of advocates | Business entity in taxable territory |\n| Arbitral tribunal services | Arbitral tribunal | Business entity |\n| Sponsorship services | Any person | Body corporate or partnership firm |\n| Services as director | Director of a company or body corporate (other than as employee) | The company or body corporate |\n| Insurance agent services | Insurance agent | Insurer |\n| Recovery agent services | Recovery agent | Bank, financial institution, NBFC |\n| Transfer of copyright in a literary work by an author | Author (unless opted to pay forward charge) | Publisher, music company, producer |\n| Security services (supply of security personnel) | Any person other than a body corporate | Registered person (with specified exclusions) |\n| Renting of residential dwelling | Any person | Registered person |\n| Services by Government (with exclusions) | Central/State Government, local authority | Business entity |\n\nGoods under RCM include cashew nuts (not shelled or peeled), bidi wrapper leaves, tobacco leaves and raw cotton supplied by an agriculturist, and used vehicles or seized goods sold by the Government.\n\nRecipient's points under RCM:\n- Must register (section 24) irrespective of turnover.\n- Must pay RCM tax through the **electronic cash ledger** (section 49(4) read with the Explanation to section 49); ITC cannot be used.\n- Can take ITC of RCM tax paid if the input or input service is used for business and not blocked.\n- Must issue a self-invoice where the supplier is unregistered, and a payment voucher."
+        },
+        {
+          "heading": "Composition levy: section 10",
+          "body": "| Point | Section 10(1) scheme | Section 10(2A) scheme |\n| --- | --- | --- |\n| Who | Manufacturers, traders, restaurants (not serving alcohol) | Suppliers of services or mixed suppliers not eligible for 10(1) |\n| Turnover limit (aggregate turnover of preceding FY) | ₹1.5 crore (₹75 lakh in specified special category States) | ₹50 lakh |\n| Rate (CGST + SGST) | Manufacturer 1% of turnover in State; trader 1% of turnover of taxable supplies in State; restaurant 5% of turnover in State | 6% of turnover in State |\n| Services allowed | Up to higher of 10% of turnover in State in preceding FY or ₹5 lakh | Main activity is services |\n\n**Not eligible** for section 10(1): suppliers of services (other than restaurant service), suppliers of non-taxable goods, persons making inter-State outward supplies, persons supplying goods through an ECO required to collect TCS, casual and non-resident taxable persons, and manufacturers of notified goods such as ice cream, pan masala and tobacco products.\n\n**Conditions:** no ITC; cannot collect tax from customers; issue a **bill of supply** with the words 'composition taxable person, not eligible to collect tax on supplies'; display 'composition taxable person' at the place of business; pay tax quarterly in CMP-08 and file annual return GSTR-4. RCM liability is paid at normal rates. The option applies to all registrations under the same PAN. Once aggregate turnover in the current year crosses the limit, the option lapses from that day."
+        },
+        {
+          "heading": "Rate structure after GST 2.0",
+          "body": "From 22 September 2025 the rate notifications were rewritten on the 56th GST Council's recommendations:\n\n| Slab | Typical coverage |\n| --- | --- |\n| Nil / exempt | Fresh produce, unbranded staples, specified essentials; individual life and health insurance services exempt from 22 September 2025 |\n| 0.25% / 3% | Rough diamonds / gold, silver, jewellery |\n| 5% | Common-use goods and essentials; restaurant services (other than specified premises) without ITC; hotel accommodation up to ₹7,500 per unit per day without ITC |\n| 18% | Standard rate for most goods and services, including most professional services |\n| 40% | Sin and luxury goods and services: pan masala and tobacco products (from 1 February 2026), aerated sugared beverages, larger motor cars, motorcycles above 350 cc, yachts, and services such as betting and casinos |\n\nThe 12% and 28% slabs were largely removed. In the exam, rates are normally given in the question; learn the slabs and the special conditions (5% without ITC for restaurants and budget hotels)."
+        },
+        {
+          "heading": "Worked example and common mistakes",
+          "body": "A composition trader has turnover in the State of ₹80 lakh of taxable goods and ₹15 lakh of exempt goods for the year. Tax is 1% of **taxable** turnover only:\n\n| Particulars | ₹ |\n| --- | --- |\n| Taxable turnover | 80,00,000 |\n| CGST @ 0.5% | 40,000 |\n| SGST @ 0.5% | 40,000 |\n| **Composition tax** | **80,000** |\n\nA composition **manufacturer** pays 1% on the entire turnover in the State, including exempt supplies.\n\n**Common mistakes:**\n- Paying RCM tax by utilising ITC. RCM tax is always paid in cash.\n- Applying RCM on legal services when the recipient is an individual for personal matters. RCM applies only when the recipient is a business entity (and such service is usually exempt anyway).\n- Allowing a composition dealer to make inter-State sales. Inter-State outward supply makes him ineligible (inter-State purchases are allowed).\n- Charging the 5% composition rate on a restaurant that serves alcohol: such a restaurant is not eligible for composition."
+        }
+      ],
+      "keyPoints": [
+        "Section 9(1) CGST: max 20%; section 5(1) IGST: max 40%; alcoholic liquor for human consumption excluded.",
+        "RCM: section 9(3) notified supplies, 9(4) notified recipients from unregistered persons, 9(5) ECO deemed supplier.",
+        "RCM tax must be paid through the electronic cash ledger; ITC of it is then available if not blocked.",
+        "Composition 10(1): ₹1.5 crore limit (₹75 lakh special category States); manufacturer 1% of turnover in State, trader 1% of taxable turnover, restaurant 5%.",
+        "Composition 10(2A) for services: ₹50 lakh limit, 6%.",
+        "Composition: no ITC, no tax collection, bill of supply, CMP-08 quarterly, GSTR-4 annually.",
+        "GST 2.0 from 22 September 2025: 5% and 18% main slabs, 40% for sin and luxury items."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-gst-03-charge-case1",
+          "title": "Case: Annapurna Bhojnalaya",
+          "body": "Annapurna Bhojnalaya runs a vegetarian restaurant in Indore, Madhya Pradesh. It does not serve alcohol and is not located in specified premises. It has no other business anywhere in India.\n\n| Particulars | ₹ |\n| --- | --- |\n| Aggregate turnover, FY 2025-26 | 1,20,00,000 |\n| Expected turnover from restaurant service, FY 2026-27 | 1,40,00,000 |\n| Expected inward supplies with GST (food items, gas, rent) | 60,00,000 |\n\nThe owner is deciding whether to opt for the composition scheme for FY 2026-27. He also plans to start sending packed food to a corporate client in Ujjain (Madhya Pradesh) and to a client in Kota (Rajasthan)."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-gst-03-charge-q01",
+          "type": "mcq",
+          "prompt": "Which of the following services is taxable under reverse charge under section 9(3)?",
+          "options": [
+            "Legal services by an individual advocate to a registered company",
+            "Chartered accountancy services by a CA firm to a company",
+            "Legal services by an individual advocate to an individual for a family dispute",
+            "Architect services to a builder"
+          ],
+          "answer": 0,
+          "explanation": "Legal services by an advocate or firm of advocates to a business entity are notified under RCM; the business entity pays. CA and architect services are forward charge. Legal services to an individual not for business are exempt."
+        },
+        {
+          "id": "ca-i-gst-03-charge-q02",
+          "type": "mcq",
+          "prompt": "Passenger transport through a ride-hailing app by a driver using his own car is taxed under section 9(5). Who is liable to pay the GST?",
+          "options": [
+            "The driver",
+            "The passenger",
+            "The electronic commerce operator",
+            "No one, as it is exempt"
+          ],
+          "answer": 2,
+          "explanation": "Section 9(5) and the notification under it deem the ECO to be the supplier of passenger transport by radio taxi, motor cab, maxi cab and motor cycle. The ECO pays the tax as if it were the supplier."
+        },
+        {
+          "id": "ca-i-gst-03-charge-q03",
+          "type": "mcq",
+          "prompt": "A trader dealing only in goods made all-India aggregate turnover of ₹1.45 crore in the preceding year and makes some inter-State sales. Is he eligible for the composition scheme under section 10(1)?",
+          "options": [
+            "Yes, as turnover is below ₹1.5 crore",
+            "No, because a person making inter-State outward supplies is not eligible",
+            "Yes, but only for intra-State sales",
+            "No, because the limit for traders is ₹50 lakh"
+          ],
+          "answer": 1,
+          "explanation": "Section 10(2)(c) excludes persons engaged in inter-State outward supply of goods. The turnover test is met, but the condition fails."
+        },
+        {
+          "id": "ca-i-gst-03-charge-q04",
+          "type": "mcq",
+          "prompt": "Which statement about the GST 2.0 rate structure (effective 22 September 2025) is correct?",
+          "options": [
+            "It retained 12% and 28% as the main slabs",
+            "It moved to two main slabs of 5% and 18%, with 40% for sin and luxury goods",
+            "It introduced a single uniform rate of 15%",
+            "It abolished the nil rate"
+          ],
+          "answer": 1,
+          "explanation": "The 56th GST Council approved 5% and 18% as the main slabs and a special 40% rate for sin and luxury goods. Nil, 0.25% and 3% rates continue for specified goods."
+        },
+        {
+          "id": "ca-i-gst-03-charge-q05",
+          "type": "truefalse",
+          "prompt": "A registered company may pay GST payable under reverse charge on sponsorship services by utilising its balance in the electronic credit ledger.",
+          "answer": false,
+          "explanation": "Under section 49(4) read with the Explanation to section 49, the credit ledger can be used only for output tax payable under forward charge. RCM tax must be paid in cash. The company can then claim ITC of that cash payment."
+        },
+        {
+          "id": "ca-i-gst-03-charge-q06",
+          "type": "multi",
+          "prompt": "Which of the following persons are NOT eligible for the composition scheme under section 10(1)? Select all that apply.",
+          "options": [
+            "A manufacturer of ice cream",
+            "A trader of footwear with turnover of ₹90 lakh making only intra-State sales",
+            "A restaurant serving alcoholic liquor",
+            "A casual taxable person",
+            "A manufacturer of steel furniture with turnover of ₹1.2 crore making only intra-State sales"
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "explanation": "Ice cream manufacturers are a notified excluded class, a restaurant serving alcohol cannot opt, and casual taxable persons are excluded by section 10(2)(e). The footwear trader and furniture manufacturer satisfy the conditions."
+        },
+        {
+          "id": "ca-i-gst-03-charge-q07",
+          "type": "fill",
+          "prompt": "Fill the blank: a composition taxpayer issues a ___ of supply instead of a tax invoice.",
+          "accept": [
+            "bill",
+            "bill of supply"
+          ],
+          "explanation": "Section 31(3)(c): a registered person paying tax under section 10 issues a bill of supply, since it cannot collect tax from the recipient."
+        },
+        {
+          "id": "ca-i-gst-03-charge-q08",
+          "type": "numeric",
+          "prompt": "Shakti Ltd, a registered company, receives legal services from an individual advocate in the same State for ₹1,50,000. GST on legal services is 18%. Compute the total GST (CGST + SGST) Shakti Ltd must pay in cash under reverse charge. Round to the nearest rupee.",
+          "answer": 27000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Legal services by an advocate to a business entity are under RCM; the recipient pays.\n\n| Particulars | ₹ |\n| --- | --- |\n| Value | 1,50,000 |\n| CGST @ 9% | 13,500 |\n| SGST @ 9% | 13,500 |\n| Total RCM payable in cash | 27,000 |"
+        },
+        {
+          "id": "ca-i-gst-03-charge-q09",
+          "type": "numeric",
+          "prompt": "A composition manufacturer (not of notified goods) has turnover in the State of ₹1,10,00,000 for the year, including ₹10,00,000 of exempt goods. Compute total composition tax (CGST + SGST). Round to the nearest rupee.",
+          "answer": 110000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "For manufacturers the rate is 0.5% CGST + 0.5% SGST on the **turnover in the State**, which includes exempt supplies (traders, by contrast, pay only on taxable supplies).\n\n| Particulars | ₹ |\n| --- | --- |\n| Turnover in State | 1,10,00,000 |\n| CGST @ 0.5% | 55,000 |\n| SGST @ 0.5% | 55,000 |\n| Total | 1,10,000 |"
+        },
+        {
+          "id": "ca-i-gst-03-charge-q10",
+          "type": "numeric",
+          "prompt": "A composition trader had turnover in the State of ₹80,00,000 in the preceding financial year. Under section 10(1), what is the maximum value of services (other than restaurant service) it may supply in the current year while staying in the scheme? Round to the nearest rupee.",
+          "answer": 800000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Second proviso to section 10(1): services up to the higher of 10% of turnover in the State in the preceding FY or ₹5 lakh.\n\n| Particulars | ₹ |\n| --- | --- |\n| 10% of 80,00,000 | 8,00,000 |\n| Fixed limit | 5,00,000 |\n| Higher of the two | 8,00,000 |"
+        },
+        {
+          "id": "ca-i-gst-03-charge-q11",
+          "type": "mcq",
+          "caseId": "ca-i-gst-03-charge-case1",
+          "prompt": "Is Annapurna Bhojnalaya eligible to opt for composition for FY 2026-27?",
+          "options": [
+            "Yes, because its aggregate turnover in the preceding FY does not exceed ₹1.5 crore",
+            "No, because its expected turnover for FY 2026-27 is above ₹1.2 crore",
+            "No, because restaurants can use only the section 10(2A) scheme",
+            "Yes, but only if expected turnover is below ₹50 lakh"
+          ],
+          "answer": 0,
+          "explanation": "Eligibility is tested on aggregate turnover of the preceding FY (₹1.2 crore, within ₹1.5 crore). Restaurant service not serving alcohol is specifically allowed under section 10(1). If turnover in FY 2026-27 crosses ₹1.5 crore, the option lapses from that day."
+        },
+        {
+          "id": "ca-i-gst-03-charge-q12",
+          "type": "numeric",
+          "caseId": "ca-i-gst-03-charge-case1",
+          "prompt": "If Annapurna opts for composition and achieves the expected turnover, compute its composition tax (CGST + SGST) for FY 2026-27. Round to the nearest rupee.",
+          "answer": 700000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Restaurant service under composition: 2.5% CGST + 2.5% SGST on turnover in the State.\n\n| Particulars | ₹ |\n| --- | --- |\n| Turnover | 1,40,00,000 |\n| CGST @ 2.5% | 3,50,000 |\n| SGST @ 2.5% | 3,50,000 |\n| Total | 7,00,000 |\n\nUnder the regular scheme, restaurant service outside specified premises is also 5% without ITC, but the regular dealer collects the tax from customers; the composition dealer cannot collect it and bears it from his price."
+        },
+        {
+          "id": "ca-i-gst-03-charge-q13",
+          "type": "mcq",
+          "caseId": "ca-i-gst-03-charge-case1",
+          "prompt": "What is the effect of the planned supply of packed food to the client in Kota if Annapurna is under composition?",
+          "options": [
+            "No effect, as only the Ujjain supply is relevant",
+            "It is an inter-State outward supply of goods, which makes Annapurna ineligible to continue in composition",
+            "It is allowed because restaurants may make inter-State supplies up to ₹5 lakh",
+            "It must be billed under reverse charge"
+          ],
+          "answer": 1,
+          "explanation": "A composition taxpayer cannot make inter-State outward supplies of goods (section 10(2)(c)). Supplying to Rajasthan would end eligibility. Supplies within Madhya Pradesh (Ujjain) are fine."
+        },
+        {
+          "id": "ca-i-gst-03-charge-q14",
+          "type": "practical",
+          "prompt": "Rajdhani Ltd, registered in Delhi, provides the following details for October 2026 (all values exclusive of GST). Compute its total GST liability, showing forward charge and reverse charge separately. Ignore ITC.",
+          "data": "| No. | Particulars | ₹ | Rate |\n| --- | --- | --- | --- |\n| 1 | Intra-State sales of goods | 10,00,000 | 18% |\n| 2 | Inter-State sales of goods | 6,00,000 | 5% |\n| 3 | Sponsorship of an event by a sports club in Delhi | 2,00,000 | 18% |\n| 4 | Legal fees to an advocate located in Mumbai | 1,00,000 | 18% |\n| 5 | Sitting fees to an independent director residing in Delhi | 50,000 | 18% |\n| 6 | Salary to a whole-time director (taxed as salary) | 3,00,000 | - |",
+          "answer": "| No. | Treatment | CGST (₹) | SGST (₹) | IGST (₹) |\n| --- | --- | --- | --- | --- |\n| 1 | Forward charge, intra-State | 90,000 | 90,000 | - |\n| 2 | Forward charge, inter-State | - | - | 30,000 |\n| | **Forward charge total** | **90,000** | **90,000** | **30,000** |\n| 3 | RCM: sponsorship to body corporate; Delhi to Delhi | 18,000 | 18,000 | - |\n| 4 | RCM: legal services to business entity; place of supply is Delhi (registered recipient), supplier in Maharashtra, so inter-State | - | - | 18,000 |\n| 5 | RCM: services by director (not as employee) | 4,500 | 4,500 | - |\n| 6 | Services by employee: Schedule III, not a supply | - | - | - |\n| | **Reverse charge total** | **22,500** | **22,500** | **18,000** |\n\nForward charge liability = ₹2,10,000. Reverse charge liability = ₹63,000, payable only through the electronic cash ledger. **Total = ₹2,73,000.**",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-03-charge-q15",
+          "type": "interview",
+          "prompt": "State the conditions and restrictions that apply to a registered person opting for the composition levy under section 10(1).",
+          "answer": "- Aggregate turnover in the preceding FY up to ₹1.5 crore (₹75 lakh in specified special category States).\n- Not a supplier of services other than restaurant service, except services up to the higher of 10% of turnover in the State or ₹5 lakh.\n- No supply of goods not leviable to tax, no inter-State outward supply of goods, no supply through an ECO required to collect TCS, not a manufacturer of notified goods (such as ice cream, pan masala, tobacco).\n- Not a casual taxable person or non-resident taxable person.\n- All registrations under the same PAN must opt for the scheme.\n- Cannot collect tax from recipients and cannot claim ITC; issues bill of supply with the prescribed declaration.\n- Must mention 'composition taxable person' on signboards; pays RCM tax at normal rates.\n- Pays tax quarterly in CMP-08 and files GSTR-4 annually; option lapses from the day turnover exceeds the limit."
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal: rate notifications",
+          "url": "https://www.cbic-gst.gov.in/"
+        },
+        {
+          "title": "GST Council",
+          "url": "https://gstcouncil.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-gst-04-place-of-supply",
+      "title": "Place of Supply: Intra-State vs Inter-State",
+      "level": "intermediate",
+      "summary": "How location of supplier and place of supply decide whether CGST + SGST or IGST is charged, with the basic place of supply rules for goods and services within India.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "IGST Act 2017 (sections 7, 8, 10 and 12) as amended by the Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Why place of supply matters",
+          "body": "GST is a destination-based tax. The **place of supply** (POS) decides which State gets the tax and, read with the **location of the supplier**, whether the supply is intra-State or inter-State.\n\n| Location of supplier vs place of supply | Nature | Tax |\n| --- | --- | --- |\n| Same State or same UT | Intra-State (section 8 IGST Act) | CGST + SGST/UTGST |\n| Different States, or State and UT, or two UTs | Inter-State (section 7 IGST Act) | IGST |\n\nDeemed **inter-State** supplies irrespective of location (section 7):\n- Import of goods, until they cross the customs frontier, and import of services.\n- Supplies when the supplier is in India and the place of supply is outside India (exports).\n- Supplies to or by a **Special Economic Zone** developer or unit, even within the same State.\n- Supplies to a foreign tourist who carries the goods out of India (section 15 refund).\n- Any supply in the taxable territory not otherwise intra-State.\n\nCharging CGST + SGST where IGST was due (or vice versa) does not count as payment: the correct tax must be paid and a refund of the wrong tax claimed (section 77 CGST / section 19 IGST), without interest."
+        },
+        {
+          "heading": "Place of supply of goods within India: section 10",
+          "body": "| Situation | Place of supply |\n| --- | --- |\n| Supply involves movement of goods (by supplier, recipient or any other person) | Location where movement terminates for delivery to the recipient - 10(1)(a) |\n| Goods delivered to a recipient or any other person on the direction of a third person (bill-to-ship-to) | Principal place of business of the third person - 10(1)(b) |\n| No movement of goods | Location of goods at the time of delivery to the recipient - 10(1)(c) |\n| Goods assembled or installed at site | Place of assembly or installation - 10(1)(d) |\n| Goods supplied on board a conveyance (train, aircraft, vessel, motor vehicle) | Location where the goods are taken on board - 10(1)(e) |\n\n**Bill-to-ship-to example:** A of Delhi orders goods from B of Haryana and asks B to deliver them to C, A's customer in Delhi. Two supplies arise:\n\n| Supply | Location of supplier | Place of supply | Tax |\n| --- | --- | --- | --- |\n| B to A | Haryana | Delhi (A's principal place of business, deemed received by A) | IGST |\n| A to C | Delhi | Delhi (movement terminates at C) | CGST + SGST |"
+        },
+        {
+          "heading": "Place of supply of services within India: section 12 (basic rules)",
+          "body": "**General rule, section 12(2):** if the recipient is **registered**, POS is the location of the recipient. If unregistered, POS is the recipient's address on record, failing which the location of the supplier.\n\nKey specific rules (override the general rule):\n\n| Service | Place of supply |\n| --- | --- |\n| Services related to immovable property, including hotel accommodation - 12(3) | Location of the immovable property |\n| Restaurant, catering, personal grooming, fitness, beauty and health services - 12(4) | Where the services are actually performed |\n| Training and performance appraisal - 12(5) | Registered recipient: his location; otherwise where performed |\n| Admission to an event or amusement park - 12(6) | Where the event is held or park is located |\n| Transportation of goods including courier - 12(8) | Registered recipient: his location; otherwise where goods are handed over for transport |\n| Passenger transportation - 12(9) | Registered recipient: his location; otherwise where the passenger embarks for a continuous journey |\n| Banking and financial services - 12(12) | Location of recipient on supplier's records; otherwise location of supplier |\n\nThe Inter syllabus focuses on applying these rules to decide intra-State vs inter-State. Cross-border rules (section 13) are for the Final level."
+        },
+        {
+          "heading": "Worked example and common mistakes",
+          "body": "A Goa hotel lets 2 rooms for 3 nights at ₹6,000 per room per night to a company registered in Mumbai. Under section 12(3) the POS is the location of the hotel (Goa). Supplier and POS are both in Goa, so the supply is intra-State even though the guest is from Maharashtra.\n\n| Particulars | ₹ |\n| --- | --- |\n| Value 2 x 3 x 6,000 | 36,000 |\n| CGST @ 2.5% (tariff up to ₹7,500 per day) | 900 |\n| SGST @ 2.5% | 900 |\n\nThe Mumbai company cannot take credit of Goa's SGST in its Maharashtra registration.\n\n**Common mistakes:**\n- Using the recipient's billing address for goods that move: POS is where movement terminates.\n- Forgetting that supplies to an SEZ unit in the same State are inter-State.\n- Applying the general rule to hotel stays or restaurant meals; specific rules prevail.\n- Treating over-the-counter sales to an out-of-State customer as inter-State: delivery happens at the shop, so the supply is intra-State."
+        }
+      ],
+      "keyPoints": [
+        "Supplier location and place of supply in the same State/UT: intra-State, CGST + SGST/UTGST. Otherwise: inter-State, IGST.",
+        "Supplies to or by SEZ units/developers, imports and exports are always inter-State.",
+        "Goods with movement: where movement terminates (10(1)(a)); bill-to-ship-to: principal place of business of the third person (10(1)(b)).",
+        "No movement: location of goods at delivery; installation at site: place of installation; on board a conveyance: where taken on board.",
+        "Services general rule 12(2): registered recipient's location; unregistered: address on record, else supplier's location.",
+        "Immovable property and hotels: location of property; restaurant and beauty services: where performed; events: where held.",
+        "Wrong tax paid (IGST vs CGST + SGST): pay correct tax, claim refund of the wrong tax, no interest."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-gst-04-place-of-supply-case1",
+          "title": "Case: Deccan Tech Supplies",
+          "body": "Deccan Tech Supplies is registered only in Bengaluru, Karnataka. Its supplies in December 2026 (values exclusive of GST; all taxable at 18%):\n\n| No. | Supply | Value (₹) |\n| --- | --- | --- |\n| 1 | Laptops sold to a registered dealer in Chennai; Deccan ships them from Bengaluru to Chennai | 4,00,000 |\n| 2 | Printers sold to Kapoor & Co, Delhi, who directs Deccan to deliver them to Kapoor's customer in Mysuru, Karnataka | 3,00,000 |\n| 3 | A printer sold over the counter in the Bengaluru store to a visitor from Kochi, Kerala, who carries it home | 50,000 |\n| 4 | A server rack supplied and installed at a client's data centre in Hyderabad, Telangana | 6,00,000 |\n| 5 | Annual maintenance services to a registered client in Pune, Maharashtra | 1,00,000 |\n| 6 | A one-day training session for an unregistered individual, held at Deccan's Bengaluru office | 20,000 |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-gst-04-place-of-supply-q01",
+          "type": "mcq",
+          "prompt": "A supplier in Ahmedabad sells goods to an SEZ unit located in Gandhinagar, Gujarat. The supply is:",
+          "options": [
+            "Intra-State, CGST + SGST",
+            "Inter-State, IGST",
+            "Outside GST",
+            "Intra-State, UTGST"
+          ],
+          "answer": 1,
+          "explanation": "Section 7(5)(b) IGST Act: supply of goods or services to an SEZ developer or unit is inter-State, even when supplier and SEZ are in the same State. Such supplies are zero-rated."
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q02",
+          "type": "mcq",
+          "prompt": "What is the place of supply of goods supplied on board an aircraft flying from Mumbai to Kolkata, where the goods were taken on board at Mumbai?",
+          "options": [
+            "Kolkata",
+            "Mumbai",
+            "Location of the airline's head office",
+            "Location of the passenger's home"
+          ],
+          "answer": 1,
+          "explanation": "Section 10(1)(e): for goods supplied on board a conveyance, the place of supply is the location at which the goods are taken on board."
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q03",
+          "type": "mcq",
+          "prompt": "A beauty salon in Lucknow provides services to a customer registered in Bihar who walks in for a session. The place of supply is:",
+          "options": [
+            "Bihar, being the location of the registered recipient",
+            "Uttar Pradesh, where the service is performed",
+            "Location of the salon's head office",
+            "Either State at the supplier's option"
+          ],
+          "answer": 1,
+          "explanation": "Section 12(4): personal grooming, beauty treatment, fitness and health services have their place of supply where the services are actually performed. The registration status of the recipient does not matter."
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q04",
+          "type": "truefalse",
+          "prompt": "If a supplier charges CGST and SGST on a supply that is actually inter-State, the tax paid can be adjusted against IGST payable without any further payment.",
+          "answer": false,
+          "explanation": "Under section 77 CGST Act and section 19 IGST Act, the supplier must pay the correct tax (IGST) and claim a refund of the CGST and SGST wrongly paid. No interest is payable on the correct tax in such cases, but adjustment is not allowed."
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q05",
+          "type": "multi",
+          "prompt": "Which of these are inter-State supplies? Select all that apply.",
+          "options": [
+            "Supply by a Pune supplier to a recipient in Pune, where goods are delivered in Pune",
+            "Supply of goods by a Pune supplier to an SEZ unit in Pune",
+            "Import of goods into Mumbai until they cross the customs frontier",
+            "Hotel accommodation in Shimla provided by a Shimla hotel to a guest registered in Delhi",
+            "Goods moved by a Surat supplier to a buyer's warehouse in Jaipur"
+          ],
+          "answers": [
+            1,
+            2,
+            4
+          ],
+          "explanation": "SEZ supplies and imports are inter-State by section 7. Surat to Jaipur involves goods moving across States. The Pune-to-Pune sale is intra-State, and the hotel stay has POS at the hotel's location (Himachal Pradesh), the same as the supplier's location, so it is intra-State."
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q06",
+          "type": "fill",
+          "prompt": "Fill the blank: where a supply of goods does not involve movement of goods, the place of supply is the location of such goods at the time of ___ to the recipient.",
+          "accept": [
+            "delivery"
+          ],
+          "explanation": "Section 10(1)(c) IGST Act. For example, a building owner selling a generator installed in the building, where the generator is not moved."
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q07",
+          "type": "numeric",
+          "prompt": "A hotel in Goa lets 2 rooms for 3 nights at ₹6,000 per room per night (exclusive of GST) to a company registered in Mumbai. GST on accommodation with value up to ₹7,500 per unit per day is 5%. Compute the SGST charged by the hotel. Round to the nearest rupee.",
+          "answer": 900,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Section 12(3): POS for accommodation is the location of the hotel (Goa). Supplier is also in Goa, so CGST + SGST apply.\n\n| Particulars | ₹ |\n| --- | --- |\n| Value 2 x 3 x 6,000 | 36,000 |\n| CGST @ 2.5% | 900 |\n| SGST @ 2.5% | 900 |"
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q08",
+          "type": "numeric",
+          "prompt": "A of Delhi orders goods from B of Gurugram (Haryana) for ₹4,00,000 and asks B to deliver them directly to C, A's customer in Delhi. A charges C ₹4,60,000. All values are exclusive of GST; rate 18%. Compute the total GST (CGST + SGST + IGST) charged by A on its supply to C. Round to the nearest rupee.",
+          "answer": 82800,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Supply B to A: POS is A's principal place of business (Delhi) under section 10(1)(b); supplier in Haryana, so IGST 72,000.\n\nSupply A to C: goods move to C in Delhi, supplier in Delhi, so intra-State.\n\n| Particulars | ₹ |\n| --- | --- |\n| Value | 4,60,000 |\n| CGST @ 9% | 41,400 |\n| SGST @ 9% | 41,400 |\n| Total | 82,800 |"
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q09",
+          "type": "mcq",
+          "caseId": "ca-i-gst-04-place-of-supply-case1",
+          "prompt": "What tax does Deccan charge on supply 2 (printers delivered to Mysuru on the direction of Kapoor & Co, Delhi)?",
+          "options": [
+            "CGST + SGST of Karnataka, since goods move within Karnataka",
+            "IGST, since the place of supply is Kapoor's principal place of business in Delhi",
+            "No tax, as Kapoor will pay",
+            "CGST + SGST of Delhi"
+          ],
+          "answer": 1,
+          "explanation": "Section 10(1)(b): goods delivered on the direction of a third person are deemed received by that third person, and POS is his principal place of business (Delhi). Supplier in Karnataka, POS Delhi: IGST."
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q10",
+          "type": "mcq",
+          "caseId": "ca-i-gst-04-place-of-supply-case1",
+          "prompt": "What is the nature of supply 3 (over-the-counter sale to the visitor from Kerala)?",
+          "options": [
+            "Inter-State, because the buyer lives in Kerala",
+            "Intra-State, because delivery takes place in Bengaluru",
+            "Export of goods",
+            "Not a supply"
+          ],
+          "answer": 1,
+          "explanation": "The supplier delivers the goods at its store in Bengaluru. POS is where the goods are delivered to the recipient (Karnataka), the same as the supplier's location, so CGST + SGST apply."
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q11",
+          "type": "numeric",
+          "caseId": "ca-i-gst-04-place-of-supply-case1",
+          "prompt": "Compute the total IGST payable by Deccan Tech Supplies for December 2026. Round to the nearest rupee.",
+          "answer": 252000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| No. | Place of supply | Nature | IGST @ 18% (₹) |\n| --- | --- | --- | --- |\n| 1 | Chennai, where movement ends - 10(1)(a) | Inter-State | 72,000 |\n| 2 | Delhi, third person's principal place - 10(1)(b) | Inter-State | 54,000 |\n| 3 | Bengaluru, delivery at store | Intra-State | - |\n| 4 | Hyderabad, place of installation - 10(1)(d) | Inter-State | 1,08,000 |\n| 5 | Pune, registered recipient - 12(2) | Inter-State | 18,000 |\n| 6 | Bengaluru, where performed (unregistered) - 12(5) | Intra-State | - |\n| **Total** | | | **2,52,000** |"
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q12",
+          "type": "numeric",
+          "caseId": "ca-i-gst-04-place-of-supply-case1",
+          "prompt": "Compute the total CGST payable by Deccan Tech Supplies for December 2026. Round to the nearest rupee.",
+          "answer": 6300,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Only supplies 3 and 6 are intra-State.\n\n| No. | Value (₹) | CGST @ 9% (₹) |\n| --- | --- | --- |\n| 3 | 50,000 | 4,500 |\n| 6 | 20,000 | 1,800 |\n| **Total** | | **6,300** |\n\nAn equal amount of SGST is also payable."
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q13",
+          "type": "practical",
+          "prompt": "Determine the place of supply and state whether CGST + SGST or IGST is payable in each case. The supplier in each case is registered in Maharashtra (Mumbai).",
+          "data": "- (a) Goods sold to a buyer in Surat; the buyer collects them from the Mumbai warehouse in his own truck and takes them to Surat.\n- (b) Architect services for a building located in Indore, to a registered client in Mumbai.\n- (c) Courier services for a parcel handed over in Mumbai by an unregistered individual, for delivery in Patna.\n- (d) Admission tickets to a music concert held in Bengaluru, sold online to a person in Mumbai.\n- (e) Consultancy services to a registered company in Kolkata.",
+          "answer": "| Case | Rule | Place of supply | Tax |\n| --- | --- | --- | --- |\n| (a) | 10(1)(a): movement by the recipient terminates in Surat | Gujarat | IGST |\n| (b) | 12(3): services directly related to immovable property, including architects | Madhya Pradesh (location of property) | IGST |\n| (c) | 12(8): unregistered recipient, place where goods handed over for transport | Maharashtra | CGST + SGST |\n| (d) | 12(6): admission to an event, place where the event is held | Karnataka | IGST |\n| (e) | 12(2): registered recipient's location | West Bengal | IGST |",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-04-place-of-supply-q14",
+          "type": "interview",
+          "prompt": "Explain the place of supply of goods in a bill-to-ship-to transaction under section 10(1)(b) of the IGST Act, with an example of the two supplies involved.",
+          "answer": "- Where goods are delivered by the supplier to a recipient or any other person on the direction of a third person (as agent or otherwise), before or during movement, the third person is deemed to have received the goods.\n- POS of that supply is the principal place of business of the third person.\n- Example: A (Delhi) buys from B (Haryana) and asks B to ship to C in Delhi.\n- Supply 1, B to A: supplier in Haryana, POS Delhi (A's principal place of business): IGST charged by B to A.\n- Supply 2, A to C: supplier in Delhi, goods delivered in Delhi: CGST + SGST charged by A to C.\n- The rule lets A take ITC of B's IGST in its own State and ensures the tax follows the ordering party, even though the goods never reach A."
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal: IGST Act",
+          "url": "https://www.cbic-gst.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-gst-05-exemptions",
+      "title": "Exemptions from GST",
+      "level": "intermediate",
+      "summary": "The power to exempt under section 11, absolute vs conditional exemptions, and the main exempt goods and services tested at Inter: health care, education, agriculture, charity, legal services, renting and insurance.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "CGST Act section 11 and exemption notifications for goods and services as amended up to the GST 2.0 changes effective 22 September 2025, read with the Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Power to grant exemption: section 11",
+          "body": "Section 11(1): the Government may, on the GST Council's recommendation, exempt goods or services generally, **absolutely or subject to conditions**, by notification, in public interest. Section 11(2): it may also exempt by **special order** in exceptional circumstances, for a specific case, stating the reasons.\n\n| Point | Absolute exemption | Conditional exemption |\n| --- | --- | --- |\n| Conditions | None | Must satisfy stated conditions |\n| Can supplier pay tax instead? | No. Where exemption is absolute, the registered person shall not collect tax on such supply | Supplier may choose not to avail it |\n\nAn **exempt supply** (section 2(47)) includes supplies taxable at nil rate, wholly exempt under section 11 (or section 6 IGST), and non-taxable supplies. Exempt supplies are counted in aggregate turnover, and ITC attributable to them must be reversed (section 17(2))."
+        },
+        {
+          "heading": "Key exempt services",
+          "body": "| Category | Exempt services (summary of the services exemption notification) |\n| --- | --- |\n| Charity | Charitable activities by an entity registered under section 12AB of the Income-tax Act, such as public health, advancement of religion, spirituality or yoga, and education programmes for abandoned or orphaned children |\n| Health care | Health care services by a clinical establishment, authorised medical practitioner or para-medics. Not exempt: hair transplant and cosmetic or plastic surgery, unless done to restore anatomy or functions affected by congenital defect, developmental abnormality, injury or trauma |\n| Education | Services by an educational institution to its students, faculty and staff. Services to a school up to higher secondary: transport of students and staff, catering including mid-day meals, security, cleaning and housekeeping in the school, and services relating to admission or conduct of examination |\n| Legal | Services by an advocate or firm of advocates (other than representational services before a court by a senior advocate) to an advocate or firm of advocates, to any person other than a business entity, or to a business entity with aggregate turnover in the preceding FY up to the registration threshold (₹20 lakh / ₹10 lakh) |\n| Renting | Renting of residential dwelling for use as residence, except where let to a registered person (a registered proprietor renting for personal residence, not on business account, remains exempt) |\n| Agriculture | Cultivation, supply of farm labour, harvesting, warehousing of agricultural produce, renting of agro machinery, services of APMCs |\n| Insurance | Individual life insurance and individual health insurance policies (including reinsurance), exempt from 22 September 2025 |\n| Government and RBI | Services by the Reserve Bank of India; pure services to Government in relation to Panchayat or Municipality functions |\n| Others | Transfer of a going concern; admission to museums, national parks, zoos and protected monuments; services by way of training or coaching in recreational activities relating to arts, culture or sports by an individual |"
+        },
+        {
+          "heading": "Key exempt goods",
+          "body": "The nil-rate notification for goods covers essentials, typically when not pre-packaged and labelled:\n- Fresh fruits and vegetables, fresh milk, curd and lassi, eggs, unprocessed cereals and pulses (not pre-packaged and labelled).\n- Natural honey, unpacked salt, jaggery, puffed rice.\n- Books, newspapers, maps; judicial and non-judicial stamp papers.\n- Human blood and its components; contraceptives.\n\nThe GST 2.0 notifications (22 September 2025) moved further items to nil, including ultra-high temperature (UHT) milk, pre-packaged paneer, Indian breads such as roti and paratha, and specified life-saving drugs. Check the current notification for exact entries before relying on any single item."
+        },
+        {
+          "heading": "Worked example and common mistakes",
+          "body": "Dr Mehra, a registered surgeon in Pune, receives during the year:\n\n| Receipt | ₹ | Treatment |\n| --- | --- | --- |\n| Consultation and surgery (illness) | 12,00,000 | Exempt health care |\n| Hair transplant for cosmetic reasons | 3,00,000 | Taxable |\n| Rent from a shop let to a chemist | 6,00,000 | Taxable |\n| Rent from a flat let to a family for residence | 2,40,000 | Exempt |\n| **Taxable value** | **9,00,000** | GST @ 18% = **1,62,000** |\n\n**Common mistakes:**\n- Exempting all services by a hospital: cosmetic procedures are taxable.\n- Treating residential rent as exempt where the tenant is a registered person. The registered tenant pays GST under RCM.\n- Exempting construction services to a private school: only the listed services to schools are exempt.\n- Treating every service by a charitable trust as exempt: only charitable activities are; renting a hall for weddings is taxable."
+        }
+      ],
+      "keyPoints": [
+        "Section 11(1): exemption by notification, absolute or conditional, on Council recommendation; 11(2): special order in exceptional cases.",
+        "No tax may be collected on absolutely exempt supplies.",
+        "Exempt supply (section 2(47)) includes nil-rated, wholly exempt and non-taxable supplies.",
+        "Health care exempt, except cosmetic or plastic surgery and hair transplant (unless reconstructive).",
+        "Services to schools up to higher secondary: transport, catering, security, cleaning, admission and exam services are exempt.",
+        "Advocate services exempt to non-business persons and business entities with turnover up to ₹20 lakh (₹10 lakh special category); otherwise RCM.",
+        "Individual life and health insurance exempt from 22 September 2025."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-gst-05-exemptions-case1",
+          "title": "Case: Shri Ganesh Vidya Mandir",
+          "body": "Shri Ganesh Vidya Mandir is a private school in Nashik offering education up to higher secondary. It charges tuition fees from students. During FY 2026-27 it receives the following services (values exclusive of GST; rates given are those that apply if the service is taxable):\n\n| No. | Service received | Value (₹) | Rate if taxable |\n| --- | --- | --- | --- |\n| 1 | Bus transport of students by a contractor | 18,00,000 | 18% |\n| 2 | Mid-day meal catering | 9,00,000 | 5% |\n| 3 | Security guards at the school | 4,00,000 | 18% |\n| 4 | Construction of a new classroom block (works contract) | 20,00,000 | 18% |\n| 5 | Advertising in newspapers for admissions | 1,00,000 | 18% |\n| 6 | Conduct of the school's annual examinations by an outside agency | 2,00,000 | 18% |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-gst-05-exemptions-q01",
+          "type": "mcq",
+          "prompt": "Under section 11(2) of the CGST Act, the Government may exempt a supply by:",
+          "options": [
+            "General notification without Council recommendation",
+            "Special order in exceptional circumstances, stating the reasons",
+            "A circular issued by CBIC",
+            "An order of the jurisdictional officer"
+          ],
+          "answer": 1,
+          "explanation": "Section 11(2): on the Council's recommendation, the Government may by special order exempt from payment of tax any goods or services in exceptional circumstances, to be stated in the order."
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q02",
+          "type": "mcq",
+          "prompt": "An individual advocate provides legal services to a partnership firm (not of advocates) whose aggregate turnover in the preceding FY was ₹15 lakh, in a State with a ₹20 lakh threshold for services. The GST position is:",
+          "options": [
+            "Taxable under RCM in the hands of the firm",
+            "Exempt",
+            "Taxable under forward charge",
+            "Outside the scope of supply"
+          ],
+          "answer": 1,
+          "explanation": "Legal services by an advocate to a business entity with aggregate turnover up to the threshold for registration in the preceding FY are exempt. Above that threshold, the business entity would pay under RCM."
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q03",
+          "type": "mcq",
+          "prompt": "With effect from 22 September 2025, which insurance service became exempt?",
+          "options": [
+            "Group health insurance for employees",
+            "Individual life and individual health insurance policies",
+            "Motor vehicle insurance",
+            "All general insurance"
+          ],
+          "answer": 1,
+          "explanation": "On the 56th GST Council's recommendation, individual life insurance and individual health insurance (and their reinsurance) were exempted from 22 September 2025. Group policies and general insurance remain taxable."
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q04",
+          "type": "mcq",
+          "prompt": "A trust registered under section 12AB earns ₹5,00,000 from renting its hall for wedding functions. The GST position is:",
+          "options": [
+            "Exempt, because the trust is registered under section 12AB",
+            "Taxable, because renting a hall for weddings is not a charitable activity",
+            "Exempt, because marriage is a religious ceremony",
+            "Outside GST, as the trust is not a business"
+          ],
+          "answer": 1,
+          "explanation": "The exemption covers only 'charitable activities' as defined (public health, religion, yoga, specified education). Renting a hall for weddings is a commercial activity and is taxable."
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q05",
+          "type": "truefalse",
+          "prompt": "Where a service is exempt absolutely under section 11(1), the registered supplier may still choose to charge GST so that the recipient can take ITC.",
+          "answer": false,
+          "explanation": "Section 11 provides that where an exemption from the whole of the tax is granted absolutely, the registered person shall not collect tax on such supply. Only conditional exemptions can be foregone."
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q06",
+          "type": "multi",
+          "prompt": "Which of the following services are exempt? Select all that apply.",
+          "options": [
+            "Treatment of a fracture by a hospital",
+            "Cosmetic surgery to improve appearance",
+            "Services provided by the Reserve Bank of India",
+            "Renting of a shop to a garment trader",
+            "Admission to a national park"
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "explanation": "Health care for treatment of injury, RBI services and admission to national parks are exempt. Cosmetic surgery (not reconstructive) and renting of commercial property are taxable."
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q07",
+          "type": "fill",
+          "prompt": "Fill the blank: the power to grant exemption from GST is contained in section ___ of the CGST Act.",
+          "accept": [
+            "11",
+            "section 11"
+          ],
+          "explanation": "Section 11 CGST Act (section 6 of the IGST Act for IGST) empowers the Government to exempt goods or services on the GST Council's recommendation."
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q08",
+          "type": "numeric",
+          "prompt": "Dr Mehra, a registered surgeon, receives: consultation and surgery for illness ₹12,00,000; hair transplant for cosmetic reasons ₹3,00,000; rent from a shop let to a chemist ₹6,00,000; rent from a flat let to a family for residence ₹2,40,000. GST on taxable items is 18%. Compute GST payable by Dr Mehra. Round to the nearest rupee.",
+          "answer": 162000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Receipt | ₹ | Treatment |\n| --- | --- | --- |\n| Consultation and surgery | 12,00,000 | Exempt health care |\n| Cosmetic hair transplant | 3,00,000 | Taxable (excluded from health care exemption) |\n| Shop rent | 6,00,000 | Taxable |\n| Flat let for residence to a family | 2,40,000 | Exempt |\n| Taxable value | 9,00,000 | |\n| **GST @ 18%** | **1,62,000** | |"
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q09",
+          "type": "numeric",
+          "prompt": "Orbit Pvt Ltd, a registered company, takes a residential flat on rent from an unregistered individual owner for its manager's residence at ₹50,000 per month. Compute the GST payable for 12 months and by whom. Rate 18%. Enter the GST amount, rounded to the nearest rupee.",
+          "answer": 108000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "The residential renting exemption does not apply where the dwelling is rented to a registered person. Such service is under RCM: Orbit Pvt Ltd pays.\n\n| Particulars | ₹ |\n| --- | --- |\n| Rent 50,000 x 12 | 6,00,000 |\n| GST @ 18% under RCM | 1,08,000 |"
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q10",
+          "type": "multi",
+          "caseId": "ca-i-gst-05-exemptions-case1",
+          "prompt": "Which of the services received by the school are exempt? Select all that apply.",
+          "options": [
+            "1. Transport of students",
+            "2. Mid-day meal catering",
+            "3. Security guards",
+            "4. Construction of classroom block",
+            "5. Advertising for admissions",
+            "6. Conduct of examinations"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            5
+          ],
+          "explanation": "Services to an educational institution up to higher secondary are exempt when they are transport of students and staff, catering including mid-day meals, security or cleaning in the school, or services relating to admission or conduct of examination. Construction and advertising are not in the list."
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q11",
+          "type": "numeric",
+          "caseId": "ca-i-gst-05-exemptions-case1",
+          "prompt": "Compute the total GST charged to the school by its suppliers on the services listed. Round to the nearest rupee.",
+          "answer": 378000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| No. | Service | Taxable value (₹) | GST (₹) |\n| --- | --- | --- | --- |\n| 1 | Transport of students | Exempt | - |\n| 2 | Mid-day meal | Exempt | - |\n| 3 | Security | Exempt | - |\n| 4 | Construction @ 18% | 20,00,000 | 3,60,000 |\n| 5 | Advertising @ 18% | 1,00,000 | 18,000 |\n| 6 | Conduct of exams | Exempt | - |\n| **Total** | | | **3,78,000** |"
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q12",
+          "type": "mcq",
+          "caseId": "ca-i-gst-05-exemptions-case1",
+          "prompt": "Can the school claim ITC of the GST charged on construction and advertising?",
+          "options": [
+            "Yes, full ITC",
+            "No, because its output (education to students) is exempt and construction is also blocked under section 17(5)",
+            "Yes, but only on advertising",
+            "Only 50% ITC"
+          ],
+          "answer": 1,
+          "explanation": "Education services by the school to students are exempt, so ITC on inputs used for them is not available (section 17(2)). Works contract for construction of immovable property is also blocked under section 17(5)(c)."
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q13",
+          "type": "practical",
+          "prompt": "Determine whether each supply is taxable or exempt, with brief reasons.",
+          "data": "- (a) A senior advocate's representational services before the High Court to a company with turnover of ₹40 crore.\n- (b) Warehousing of rice (agricultural produce) by a cold storage operator.\n- (c) A yoga camp conducted by a section 12AB-registered trust for a fee.\n- (d) A coaching institute's classes for CA Foundation students.\n- (e) Transfer of a going concern, as a whole, by a proprietor.",
+          "answer": "| Case | Status | Reason |\n| --- | --- | --- |\n| (a) | Taxable | Senior advocate's representational services are excluded from the advocate exemption; the business entity pays under RCM |\n| (b) | Exempt | Warehousing of agricultural produce is exempt |\n| (c) | Exempt | Advancement of yoga is a charitable activity of a 12AB-registered entity |\n| (d) | Taxable | A private coaching institute is not an 'educational institution' (it does not provide education as part of a curriculum leading to a qualification recognised by law) |\n| (e) | Exempt | Services by way of transfer of a going concern are exempt |",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-05-exemptions-q14",
+          "type": "interview",
+          "prompt": "Explain the meaning of 'educational institution' for GST exemption purposes and list the exempt services provided to such institutions.",
+          "answer": "- An educational institution is one providing (i) pre-school education and education up to higher secondary school or equivalent, (ii) education as part of a curriculum for obtaining a qualification recognised by any law in force, or (iii) education as part of an approved vocational education course.\n- Services by an educational institution to its students, faculty and staff are exempt.\n- Services to an educational institution up to higher secondary are exempt when they are: transport of students, faculty and staff; catering including mid-day meal schemes; security, cleaning or housekeeping in the institution; services relating to admission to or conduct of examination.\n- For institutions providing higher education (case ii and iii), only services relating to admission or conduct of examination (and supply of online educational journals) are exempt.\n- Private coaching centres are not educational institutions and their services are taxable."
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal: exemption notifications",
+          "url": "https://www.cbic-gst.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-gst-06-time-value",
+      "title": "Time and Value of Supply",
+      "level": "advanced",
+      "summary": "When the liability to pay GST arises (sections 12 and 13) and on what amount (section 15 and the valuation rules), including inclusions, discounts and pure agent expenses.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "CGST Act sections 12, 13 and 15 and CGST Rules 27 to 35, as amended by the Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Time of supply of goods: section 12",
+          "body": "**Forward charge, section 12(2):** time of supply is the earlier of:\n- date of issue of invoice, or the last date by which the invoice should have been issued under section 31; and\n- date of receipt of payment (earlier of entry in books and credit in bank).\n\nBy Notification 66/2017-CT, GST on **advances received for goods** is not payable by any registered person other than a composition taxpayer. So in practice the time of supply of goods is the invoice date (or due date of invoice). If the supplier receives up to ₹1,000 in excess of the invoice amount, he may treat the invoice date as the time of supply for the excess.\n\n**Reverse charge, section 12(3):** earliest of (a) date of receipt of goods, (b) date of payment (earlier of entry in recipient's books and debit in bank), (c) date immediately after 30 days from the date of the supplier's invoice. If none can be determined, date of entry in the recipient's books.\n\n**Vouchers, section 12(4):** date of issue if the supply is identifiable at that point; otherwise date of redemption."
+        },
+        {
+          "heading": "Time of supply of services: section 13",
+          "body": "Invoice for services must be issued within **30 days** of supply (45 days for banks, insurers and NBFCs) under rule 47.\n\n| Situation, section 13(2) | Time of supply |\n| --- | --- |\n| Invoice issued within the prescribed period | Earlier of invoice date and date of payment |\n| Invoice not issued within the prescribed period | Earlier of date of provision of service and date of payment |\n| Neither (a) nor (b) applies | Date the recipient shows receipt in his books |\n\nAdvances for services **are** taxable: the date of advance is the time of supply for that amount. Excess up to ₹1,000 over invoice value may be taxed at invoice date at the supplier's option.\n\n**Reverse charge, section 13(3):** earlier of (a) date of payment and (b) date immediately after **60 days** from the supplier's invoice. For associated enterprises where the supplier is outside India: earlier of entry in the recipient's books and date of payment.\n\nSection 14 decides the time of supply when the rate changes between supply, invoice and payment."
+        },
+        {
+          "heading": "Value of supply: section 15",
+          "body": "Value is the **transaction value**: the price actually paid or payable, where supplier and recipient are not related and price is the sole consideration (section 15(1)).\n\n| Included in value - section 15(2) | Excluded from value |\n| --- | --- |\n| Taxes, duties, cesses, fees and charges under any law other than GST, if charged separately by the supplier | CGST, SGST, UTGST, IGST and GST compensation cess |\n| Any amount the supplier is liable to pay but which the recipient pays, not included in price | Discount given before or at the time of supply, recorded in the invoice - 15(3)(a) |\n| Incidental expenses such as commission and packing charged by the supplier, and anything done by the supplier at the time of or before delivery | Post-supply discount where the conditions of 15(3)(b) are met |\n| Interest, late fee or penalty for delayed payment of consideration | Subsidies provided by the Central and State Governments |\n| Subsidies directly linked to price, from non-Government sources | Expenses incurred as a pure agent of the recipient (rule 33) |\n\n**Post-supply discount, section 15(3)(b):** traditionally excluded only if established by an agreement entered into before or at the time of supply, specifically linked to the relevant invoices, and the recipient reverses ITC attributable to the discount. The Finance Act 2026 substitutes clause (b) to remove the pre-agreement and invoice-linking requirement, so a discount given through a credit note under section 34 is excluded if the recipient reverses the attributable ITC. Check the commencement notification and ICAI's applicability notice for your attempt.\n\n**Valuation rules** apply where transaction value cannot be used, such as supplies between related or distinct persons (rule 28: open market value; where the recipient is eligible for full ITC, the invoice value is deemed open market value), supplies through an agent (rule 29) and residual cases (rules 30, 31)."
+        },
+        {
+          "heading": "Pure agent and common mistakes",
+          "body": "**Rule 33 - pure agent:** expenditure incurred as a pure agent of the recipient is excluded from value if all conditions hold: (i) the supplier acts as a pure agent of the recipient when making payment to a third party on the recipient's authorisation; (ii) the payment is separately indicated in the invoice; (iii) the supplies procured are in addition to the services the supplier supplies on his own account.\n\nA pure agent: has a contractual agreement with the recipient to act as his agent in incurring expenses; neither intends to hold nor holds title to the goods or services; does not use them for his own interest; and receives only the actual amount incurred.\n\n**Common mistakes:**\n- Charging GST on advances for goods. Not payable after Notification 66/2017-CT.\n- Excluding a State Government subsidy from value but including a Central one, or vice versa: both Government subsidies are excluded.\n- Including GST itself in the value of supply.\n- Treating late payment interest as outside the value: it is included under section 15(2)(d).\n- Excluding packing charged separately: incidental expenses charged by the supplier are included."
+        }
+      ],
+      "keyPoints": [
+        "Goods (forward charge): earlier of invoice (or due date) and payment; no GST on advances for goods (Notification 66/2017-CT).",
+        "Goods (RCM): earliest of receipt of goods, payment, and day after 30 days from invoice.",
+        "Services: invoice within 30 days (45 for banks/insurers/NBFCs); if issued in time, earlier of invoice and payment, else earlier of provision and payment.",
+        "Services (RCM): earlier of payment and day after 60 days from invoice.",
+        "Section 15(2) inclusions: other taxes, supplier's liabilities paid by recipient, incidental expenses, late payment interest, non-Government subsidies linked to price.",
+        "Exclusions: GST itself, discounts in invoice, qualifying post-supply discounts, Government subsidies, pure agent expenses (rule 33).",
+        "Finance Act 2026 substitutes section 15(3)(b): post-supply discount via credit note with ITC reversal by recipient; verify commencement for your attempt."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-gst-06-time-value-case1",
+          "title": "Case: Precision Castings Ltd",
+          "body": "Precision Castings Ltd, Rajkot, supplies machine parts to Shah Engineering, an unrelated buyer in Rajkot. Details of one order:\n\n| Particulars | Detail |\n| --- | --- |\n| List price | ₹8,00,000 |\n| Trade discount shown on invoice | 10% of list price |\n| Packing charged separately | ₹15,000 |\n| Freight and transit insurance to buyer's premises, charged separately (delivery at buyer's premises is part of the contract) | ₹10,000 |\n| Inspection charges, a liability of Precision, paid by the buyer directly to an inspection agency (not included in price) | ₹12,000 |\n| Subsidy received by Precision from the State Government linked to this supply | ₹50,000 |\n| Interest collected from buyer for delayed payment | ₹4,000 |\n| Advance received from buyer | ₹1,00,000 on 1 May 2026 |\n| Invoice issued and goods removed | 12 June 2026 |\n| Balance payment received | 30 July 2026 |\n\nGST rate on the machine parts is 18%."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-gst-06-time-value-q01",
+          "type": "mcq",
+          "prompt": "A consultancy service is completed on 1 August. The invoice is issued on 20 September and payment is received on 25 September. What is the time of supply?",
+          "options": [
+            "1 August",
+            "20 September",
+            "25 September",
+            "31 August"
+          ],
+          "answer": 0,
+          "explanation": "The invoice should have been issued within 30 days (by 31 August). Since it was not, section 13(2)(b) applies: earlier of date of provision (1 August) and date of payment (25 September), which is 1 August."
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q02",
+          "type": "mcq",
+          "prompt": "A registered company receives sponsorship services under reverse charge. The supplier's invoice is dated 1 April and the company pays on 20 April. What is the time of supply?",
+          "options": [
+            "1 April",
+            "20 April",
+            "Date immediately after 60 days from 1 April",
+            "Date of entry in books"
+          ],
+          "answer": 1,
+          "explanation": "Section 13(3): earlier of date of payment (20 April) and the date immediately after 60 days from the invoice date (around end of May). The payment date is earlier."
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q03",
+          "type": "mcq",
+          "prompt": "Which of the following is NOT included in the value of supply under section 15(2)?",
+          "options": [
+            "Packing charges recovered separately by the supplier",
+            "Interest for delayed payment of consideration",
+            "Subsidy received from the Central Government",
+            "Municipal tax charged separately by the supplier"
+          ],
+          "answer": 2,
+          "explanation": "Section 15(2)(e) includes subsidies directly linked to price, excluding subsidies provided by the Central and State Governments. The other items are expressly included."
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q04",
+          "type": "truefalse",
+          "prompt": "A regular registered supplier of goods must pay GST on an advance received before issuing the invoice.",
+          "answer": false,
+          "explanation": "Notification 66/2017-CT exempts all registered persons, other than composition taxpayers, from paying GST on advances received for supply of goods. Tax is paid when the invoice is issued. Advances for services remain taxable."
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q05",
+          "type": "fill",
+          "prompt": "Fill the blank: an invoice for supply of services (other than by banks, insurers and NBFCs) must be issued within ___ days from the date of supply.",
+          "accept": [
+            "30",
+            "thirty"
+          ],
+          "explanation": "Rule 47 CGST Rules: 30 days for services; 45 days for insurers, banking companies, financial institutions and NBFCs."
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q06",
+          "type": "multi",
+          "prompt": "Under rule 33, which conditions must be met for an expense to be excluded from value as a pure agent expense? Select all that apply.",
+          "options": [
+            "The supplier pays the third party on the recipient's authorisation as his pure agent",
+            "The payment is separately indicated in the invoice",
+            "The supplies procured are in addition to the services supplied on the supplier's own account",
+            "The supplier adds a reasonable mark-up on the expense",
+            "The supplier uses the procured service for his own interest"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Rule 33 requires all three: acting as pure agent on authorisation, separate indication in the invoice, and the procured supply being in addition to the supplier's own services. A pure agent recovers only the actual amount and does not use the service for his own interest."
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q07",
+          "type": "numeric",
+          "prompt": "A CA firm bills a client ₹50,000 for company incorporation services and separately shows ₹5,000 of ROC filing fees it paid on the client's behalf as a pure agent, recovering the exact amount. Compute the GST payable at 18%. Round to the nearest rupee.",
+          "answer": 9000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "The ROC fee is a pure agent expense meeting rule 33 conditions, so it is excluded.\n\n| Particulars | ₹ |\n| --- | --- |\n| Professional fees | 50,000 |\n| ROC fees (pure agent) | Excluded |\n| Value | 50,000 |\n| GST @ 18% | 9,000 |"
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q08",
+          "type": "numeric",
+          "prompt": "A supplier issued an invoice of ₹10,00,000 (taxable value) at 18% GST. Under an agreement made before the supply and linked to this invoice, it later gives a 2% discount through a credit note, and the recipient reverses the attributable ITC. Compute the reduction in GST liability. Round to the nearest rupee.",
+          "answer": 3600,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "The discount satisfies section 15(3)(b) both before and after the Finance Act 2026 substitution (pre-agreed, linked to the invoice, ITC reversed by recipient), so it reduces value.\n\n| Particulars | ₹ |\n| --- | --- |\n| Discount 2% of 10,00,000 | 20,000 |\n| GST reduction @ 18% | 3,600 |"
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q09",
+          "type": "numeric",
+          "caseId": "ca-i-gst-06-time-value-case1",
+          "prompt": "Compute the value of taxable supply under section 15. Round to the nearest rupee.",
+          "answer": 761000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ | Reason |\n| --- | --- | --- |\n| List price | 8,00,000 | |\n| Less: trade discount 10% in invoice | (80,000) | 15(3)(a) |\n| Add: packing | 15,000 | Incidental expense, 15(2)(c) |\n| Add: freight and insurance to buyer's premises | 10,000 | Supplier's obligation up to delivery, composite supply |\n| Add: inspection charges paid by buyer | 12,000 | Supplier's liability paid by recipient, 15(2)(b) |\n| Add: interest for delayed payment | 4,000 | 15(2)(d) |\n| State Government subsidy | Nil | Excluded, 15(2)(e) |\n| **Value of supply** | **7,61,000** | |"
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q10",
+          "type": "numeric",
+          "caseId": "ca-i-gst-06-time-value-case1",
+          "prompt": "Compute the total GST payable on this supply. Round to the nearest rupee.",
+          "answer": 136980,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Value of supply | 7,61,000 |\n| CGST @ 9% | 68,490 |\n| SGST @ 9% | 68,490 |\n| Total GST | 1,36,980 |"
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q11",
+          "type": "mcq",
+          "caseId": "ca-i-gst-06-time-value-case1",
+          "prompt": "What is the time of supply for the goods, including the portion covered by the ₹1,00,000 advance?",
+          "options": [
+            "1 May 2026 for ₹1,00,000 and 12 June 2026 for the balance",
+            "12 June 2026 for the entire value",
+            "30 July 2026 for the entire value",
+            "30 July 2026 for the balance"
+          ],
+          "answer": 1,
+          "explanation": "No GST is payable on advances for goods (Notification 66/2017-CT), so the time of supply is the invoice date, 12 June 2026, which is also the date of removal and within the section 31 time limit."
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q12",
+          "type": "mcq",
+          "caseId": "ca-i-gst-06-time-value-case1",
+          "prompt": "Why is the ₹50,000 subsidy excluded from value?",
+          "options": [
+            "All subsidies are excluded from value",
+            "Subsidies from the Central and State Governments are excluded by section 15(2)(e)",
+            "Because the subsidy was received after supply",
+            "Because the buyer did not pay it"
+          ],
+          "answer": 1,
+          "explanation": "Section 15(2)(e) includes subsidies directly linked to price, except subsidies provided by the Central and State Governments. A subsidy from a private party linked to price would be included."
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q13",
+          "type": "practical",
+          "prompt": "Determine the time of supply in each case for a supplier of services (forward charge, not a bank or insurer). Give the rule applied.",
+          "data": "| Case | Service completed | Invoice date | Payment received |\n| --- | --- | --- | --- |\n| (a) | 10 August | 25 August | 15 September |\n| (b) | 1 August | 20 September | 25 September |\n| (c) | 15 September | 15 September | 5 July (advance in full) |\n| (d) | 3 August | 10 August | 2 August: ₹40,000 of ₹1,00,000; balance 30 August |",
+          "answer": "| Case | Time of supply | Reason |\n| --- | --- | --- |\n| (a) | 25 August | Invoice within 30 days; earlier of invoice (25 Aug) and payment (15 Sep) - 13(2)(a) |\n| (b) | 1 August | Invoice not issued within 30 days; earlier of provision (1 Aug) and payment (25 Sep) - 13(2)(b) |\n| (c) | 5 July | Invoice in time; payment (advance) earlier than invoice - 13(2)(a). Advances for services are taxable |\n| (d) | 2 August for ₹40,000; 10 August for ₹60,000 | Supply is treated as made to the extent covered by the payment or invoice; advance part on payment date, balance on invoice date |",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-06-time-value-q14",
+          "type": "interview",
+          "prompt": "Explain the conditions under which a supplier is treated as a pure agent and when expenses incurred as a pure agent are excluded from the value of supply.",
+          "answer": "- Rule 33 CGST Rules excludes expenditure incurred as a pure agent of the recipient from the value of supply.\n- A pure agent (Explanation to rule 33): enters into a contractual agreement with the recipient to act as his pure agent to incur expenditure in the course of supply; neither intends to hold nor holds any title to the goods or services so procured; does not use them for his own interest; receives only the actual amount incurred.\n- Conditions for exclusion: (i) the supplier acts as pure agent when making payment to the third party on authorisation by the recipient; (ii) the payment is separately indicated in the invoice; (iii) the supplies procured from the third party are in addition to the services supplied on his own account.\n- Example: a CA paying ROC filing fees for a client and recovering the exact amount, shown separately in the invoice.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal: CGST Act and Rules",
+          "url": "https://www.cbic-gst.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-gst-07-itc",
+      "title": "Input Tax Credit",
+      "level": "advanced",
+      "summary": "Eligibility and conditions for ITC under section 16, apportionment under section 17(1)-(2) and rule 42, the blocked credits of section 17(5), and the 180-day payment and time-limit rules.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "CGST Act sections 16 to 18 and CGST Rules 36 to 45, as amended by the Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Eligibility and conditions: section 16",
+          "body": "Section 16(1): a registered person may take credit of input tax charged on supply of goods or services used or intended to be used **in the course or furtherance of business**. The amount is credited to the electronic credit ledger.\n\nSection 16(2) conditions, all of which must be met:\n- (a) He holds a tax invoice or debit note (or other prescribed document).\n- (aa) Details of the invoice or debit note are furnished by the supplier in GSTR-1 and communicated to the recipient (GSTR-2B).\n- (b) He has **received** the goods or services. In bill-to-ship-to cases, goods delivered to a third person on his direction are deemed received. Goods received in lots: ITC on receipt of the last lot.\n- (ba) Details of ITC are not restricted in the statement communicated under section 38.\n- (c) Tax charged has actually been paid to the Government by the supplier, in cash or through utilisation of admissible ITC.\n- (d) He has furnished his return under section 39.\n\n**180-day rule (second proviso to 16(2), rule 37):** if the recipient does not pay the supplier the value and tax within **180 days** from the invoice date, ITC proportionate to the unpaid amount is added to his output tax liability with interest. It can be re-availed on payment. This does not apply to RCM supplies or deemed supplies without consideration.\n\n**Section 16(3):** no ITC on the tax component of capital goods if depreciation has been claimed on it under the Income-tax Act.\n\n**Section 16(4) time limit:** ITC on an invoice or debit note cannot be taken after the **30 November** following the end of the FY to which the invoice or debit note relates, or the date of filing the annual return, whichever is earlier."
+        },
+        {
+          "heading": "Apportionment: section 17(1), 17(2) and rule 42",
+          "body": "Where goods or services are used partly for business and partly for other purposes, ITC is restricted to the business portion (17(1)). Where used partly for taxable (including zero-rated) supplies and partly for exempt supplies, ITC is restricted to the taxable portion (17(2)).\n\nRule 42, simplified for common inputs and input services:\n\n| Step | Treatment |\n| --- | --- |\n| T1 | ITC used exclusively for non-business purposes - not allowed |\n| T2 | ITC used exclusively for exempt supplies - not allowed |\n| T3 | ITC blocked under 17(5) - not allowed |\n| T4 | ITC used exclusively for taxable supplies - fully allowed |\n| C2 | Common credit |\n| D1 | Reversal for exempt supplies = C2 x E / F (E = exempt turnover, F = total turnover in the State) |\n| D2 | Reversal for non-business use = 5% of C2 |\n\nFor this purpose, value of exempt supply (section 17(3)) includes supplies on which the recipient pays tax under RCM, transactions in securities, sale of land and, subject to para 5 of Schedule II, sale of building."
+        },
+        {
+          "heading": "Blocked credits: section 17(5)",
+          "body": "| Clause | ITC not available on | Exceptions |\n| --- | --- | --- |\n| (a), (aa), (ab) | Motor vehicles for transport of persons with seating capacity up to 13 (including driver); vessels and aircraft; and their general insurance, servicing, repair and maintenance | Used for further supply of such vehicles, transport of passengers, imparting training on driving; goods transport vehicles are not blocked |\n| (b)(i) | Food and beverages, outdoor catering, beauty treatment, health services, cosmetic and plastic surgery, leasing or renting of blocked vehicles, life and health insurance | Used for making an outward taxable supply of the same category or as an element of a taxable composite or mixed supply; or obligatory for an employer to provide to employees under any law |\n| (b)(ii), (iii) | Membership of a club, health and fitness centre; travel benefits to employees on vacation such as leave travel concession | Obligatory under law for the employer |\n| (c), (d) | Works contract services and goods or services for construction of an immovable property on own account (other than plant and machinery), to the extent capitalised | Works contract used as input for further works contract service |\n| (e) | Goods or services on which tax is paid under composition | - |\n| (fa) | Goods or services used for activities under corporate social responsibility (section 135 Companies Act) | - |\n| (g) | Goods or services for personal consumption | - |\n| (h) | Goods lost, stolen, destroyed, written off, or disposed of by way of gift or free samples | - |\n| (i) | Tax paid in pursuance of orders for fraud or wilful misstatement, and on goods detained or confiscated (sections 129, 130) | - |\n\n'Construction' includes re-construction, renovation, additions, alterations or repairs **to the extent capitalised**. Repairs charged to profit and loss are not blocked."
+        },
+        {
+          "heading": "Worked example and common mistakes",
+          "body": "Common input services carry GST of ₹1,20,000. Exempt turnover is ₹30 lakh and total turnover in the State is ₹1.2 crore.\n\n| Particulars | ₹ |\n| --- | --- |\n| Common credit C2 | 1,20,000 |\n| Reversal D1 = 1,20,000 x 30/120 | 30,000 |\n| Eligible common credit | 90,000 |\n\n**Common mistakes:**\n- Blocking ITC on a goods truck. Only passenger vehicles up to 13 seats are blocked.\n- Allowing ITC on capital goods where depreciation was claimed on the GST component (section 16(3)).\n- Allowing ITC on invoices not reflected in GSTR-2B: section 16(2)(aa) requires this.\n- Blocking ITC on repairs of a factory building charged to revenue: only capitalised construction is blocked.\n- Forgetting that ITC on goods given as free samples or lost in fire is blocked."
+        }
+      ],
+      "keyPoints": [
+        "Section 16(2): invoice, GSTR-2B reflection, receipt, tax paid by supplier, own return filed.",
+        "Unpaid supplier beyond 180 days from invoice: reverse proportionate ITC with interest; re-avail on payment.",
+        "Section 16(3): no ITC on the tax component if depreciation is claimed on it.",
+        "Section 16(4): ITC deadline is the earlier of 30 November after the FY end and annual return filing.",
+        "Rule 42: reversal for exempt supplies = common credit x exempt turnover / total turnover.",
+        "Section 17(5) blocks: passenger vehicles up to 13 seats, food and catering, clubs, LTC, construction (capitalised), composition tax, CSR, personal use, goods lost or gifted.",
+        "Exceptions: same-category outward taxable supply, or employer obligation under law."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-gst-07-itc-case1",
+          "title": "Case: Sunrise Pharma Ltd",
+          "body": "Sunrise Pharma Ltd, Ahmedabad, makes only taxable supplies. GST charged on its inward supplies in January 2027:\n\n| No. | Inward supply | GST (₹) |\n| --- | --- | --- |\n| 1 | Raw materials, all received and used in manufacture | 4,50,000 |\n| 2 | Packing materials | 30,000 |\n| 3 | New machinery; the company has claimed depreciation on the full cost including GST | 1,80,000 |\n| 4 | Five-seater car for the Managing Director's official use | 2,00,000 |\n| 5 | Truck for transporting finished goods | 1,20,000 |\n| 6 | Canteen food for workers (180 workers; no legal obligation to provide a canteen) | 24,000 |\n| 7 | Raw materials destroyed in a fire before use | 16,000 |\n| 8 | Raw materials received; the supplier has not filed GSTR-1, so the invoice is not in GSTR-2B | 40,000 |\n\nAll invoices other than item 8 appear in GSTR-2B and suppliers have paid the tax."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-gst-07-itc-q01",
+          "type": "mcq",
+          "prompt": "An invoice dated 10 March 2026 (FY 2025-26) was missed in the books. The company files its annual return for FY 2025-26 on 15 October 2026. By what date can ITC on this invoice be claimed at the latest?",
+          "options": [
+            "30 November 2026",
+            "15 October 2026",
+            "31 March 2027",
+            "31 December 2026"
+          ],
+          "answer": 1,
+          "explanation": "Section 16(4): earlier of 30 November following the end of the FY (30 November 2026) and the date of furnishing the annual return (15 October 2026). The earlier date, 15 October 2026, applies."
+        },
+        {
+          "id": "ca-i-gst-07-itc-q02",
+          "type": "mcq",
+          "prompt": "ITC on which of the following is blocked under section 17(5)?",
+          "options": [
+            "A 7-seater car bought by a driving school to train learners",
+            "A 5-seater car bought by a company for its directors",
+            "A truck used to deliver goods",
+            "A 20-seater bus used to transport employees"
+          ],
+          "answer": 1,
+          "explanation": "Motor vehicles for transport of persons with seating up to 13 are blocked unless used for further supply of vehicles, passenger transport or driving training. The driving school car falls in an exception; the truck carries goods; the bus has more than 13 seats."
+        },
+        {
+          "id": "ca-i-gst-07-itc-q03",
+          "type": "mcq",
+          "prompt": "A company has 300 workers and the Factories Act requires it to run a canteen. GST on canteen services is ₹50,000. ITC is:",
+          "options": [
+            "Blocked",
+            "Available, because providing the service is obligatory under law",
+            "Available only to the extent recovered from employees",
+            "Available at 50%"
+          ],
+          "answer": 1,
+          "explanation": "The proviso to section 17(5)(b) allows ITC on food and beverages, catering and similar services where it is obligatory for an employer to provide them to employees under any law in force."
+        },
+        {
+          "id": "ca-i-gst-07-itc-q04",
+          "type": "truefalse",
+          "prompt": "GST paid on repairs to a factory building, charged to the profit and loss account and not capitalised, is blocked under section 17(5)(d).",
+          "answer": false,
+          "explanation": "The Explanation to section 17(5) defines construction to include repairs only to the extent of capitalisation. Repairs expensed to revenue are not blocked."
+        },
+        {
+          "id": "ca-i-gst-07-itc-q05",
+          "type": "fill",
+          "prompt": "Fill the blank: if the recipient does not pay the supplier within ___ days from the date of invoice, proportionate ITC must be added to his output tax liability with interest.",
+          "accept": [
+            "180",
+            "one hundred and eighty"
+          ],
+          "explanation": "Second proviso to section 16(2) read with the CGST Rules: ITC on unpaid amounts after 180 days from the invoice is reversed with interest and can be re-availed on payment."
+        },
+        {
+          "id": "ca-i-gst-07-itc-q06",
+          "type": "numeric",
+          "prompt": "GST on common input services is ₹1,20,000. Exempt turnover is ₹30,00,000 and total turnover in the State is ₹1,20,00,000. Compute the ITC to be reversed under rule 42 for exempt supplies. Round to the nearest rupee.",
+          "answer": 30000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Common credit C2 | 1,20,000 |\n| D1 = C2 x E/F = 1,20,000 x 30,00,000 / 1,20,00,000 | 30,000 |\n| Eligible common credit | 90,000 |"
+        },
+        {
+          "id": "ca-i-gst-07-itc-q07",
+          "type": "numeric",
+          "prompt": "A recipient took full ITC of ₹90,000 on an invoice of ₹5,90,000 (value ₹5,00,000 + GST ₹90,000). Within 180 days he paid only ₹2,95,000 to the supplier. Compute the ITC to be reversed. Round to the nearest rupee.",
+          "answer": 45000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "ITC is reversed in proportion to the amount not paid (value plus tax).\n\n| Particulars | ₹ |\n| --- | --- |\n| Unpaid amount 5,90,000 - 2,95,000 | 2,95,000 |\n| Reversal = 90,000 x 2,95,000 / 5,90,000 | 45,000 |\n\nInterest is also payable, and the credit can be re-availed when he pays."
+        },
+        {
+          "id": "ca-i-gst-07-itc-q08",
+          "type": "multi",
+          "prompt": "Which of the following ITCs are blocked under section 17(5)? Select all that apply.",
+          "options": [
+            "GST on goods distributed as free samples",
+            "GST on goods used for CSR activities",
+            "GST on membership of a golf club for directors",
+            "GST on raw materials used to manufacture taxable goods",
+            "GST on rent of a godown used for business"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Free samples (17(5)(h)), CSR (17(5)(fa)) and club membership (17(5)(b)(ii)) are blocked. Raw materials and godown rent used for taxable business supplies are eligible."
+        },
+        {
+          "id": "ca-i-gst-07-itc-q09",
+          "type": "numeric",
+          "caseId": "ca-i-gst-07-itc-case1",
+          "prompt": "Compute the eligible ITC of Sunrise Pharma Ltd for January 2027. Round to the nearest rupee.",
+          "answer": 600000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| No. | Item | Eligible (₹) | Reason |\n| --- | --- | --- | --- |\n| 1 | Raw materials | 4,50,000 | Used in business |\n| 2 | Packing materials | 30,000 | Used in business |\n| 3 | Machinery | Nil | Depreciation claimed on GST, section 16(3) |\n| 4 | Car for MD | Nil | Passenger vehicle up to 13 seats, 17(5)(a) |\n| 5 | Truck | 1,20,000 | Goods vehicle, not blocked |\n| 6 | Canteen food | Nil | 17(5)(b)(i), no legal obligation |\n| 7 | Destroyed raw materials | Nil | 17(5)(h) |\n| 8 | Not in GSTR-2B | Nil | 16(2)(aa) |\n| **Total** | | **6,00,000** | |"
+        },
+        {
+          "id": "ca-i-gst-07-itc-q10",
+          "type": "mcq",
+          "caseId": "ca-i-gst-07-itc-case1",
+          "prompt": "How could Sunrise have preserved ITC of ₹1,80,000 on the machinery (item 3)?",
+          "options": [
+            "By capitalising the machinery under plant and machinery",
+            "By claiming depreciation only on the cost excluding GST",
+            "By paying the supplier within 180 days",
+            "By using the machinery for exempt supplies"
+          ],
+          "answer": 1,
+          "explanation": "Section 16(3) denies ITC only where depreciation is claimed on the tax component. Claiming depreciation on the cost net of GST keeps the ITC available."
+        },
+        {
+          "id": "ca-i-gst-07-itc-q11",
+          "type": "mcq",
+          "caseId": "ca-i-gst-07-itc-case1",
+          "prompt": "What is the correct position on item 8 (invoice not reflected in GSTR-2B)?",
+          "options": [
+            "ITC can be taken now because the goods were received",
+            "ITC cannot be taken until the invoice is reflected in GSTR-2B, subject to the section 16(4) time limit",
+            "ITC is permanently lost",
+            "ITC is available provisionally up to 5% of eligible credit"
+          ],
+          "answer": 1,
+          "explanation": "Section 16(2)(aa) and rule 36(4) allow ITC only on invoices furnished by the supplier and communicated in GSTR-2B. Once the supplier reports it, Sunrise can take the credit, within the section 16(4) time limit. The old provisional credit facility no longer exists."
+        },
+        {
+          "id": "ca-i-gst-07-itc-q12",
+          "type": "practical",
+          "prompt": "From the following, compute the eligible ITC and the net GST payable in cash by Kiran Industries for the month. Assume all conditions of section 16 are met unless stated, and ignore head-wise set-off.",
+          "data": "| Particulars | GST (₹) |\n| --- | --- |\n| Output tax on taxable supplies | 5,00,000 |\n| Inputs used in manufacture | 2,10,000 |\n| Repairs to factory building, charged to profit and loss | 18,000 |\n| Construction of an office annex, capitalised | 90,000 |\n| Health club membership for employees (no legal obligation) | 9,000 |\n| Goods distributed as free samples | 12,000 |\n| Insurance of a goods truck | 6,000 |\n| Goods used for CSR activities | 15,000 |",
+          "answer": "| Particulars | Eligible ITC (₹) | Reason |\n| --- | --- | --- |\n| Inputs | 2,10,000 | Used for taxable supplies |\n| Factory repairs (revenue) | 18,000 | Not capitalised, so not 'construction' |\n| Office annex | Nil | 17(5)(d) construction on own account |\n| Health club membership | Nil | 17(5)(b)(ii) |\n| Free samples | Nil | 17(5)(h) |\n| Insurance of goods truck | 6,000 | Only insurance of blocked passenger vehicles is blocked |\n| CSR goods | Nil | 17(5)(fa) |\n| **Total eligible ITC** | **2,34,000** | |\n\n| Computation | ₹ |\n| --- | --- |\n| Output tax | 5,00,000 |\n| Less: eligible ITC | (2,34,000) |\n| **Net GST payable in cash** | **2,66,000** |",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-07-itc-q13",
+          "type": "interview",
+          "prompt": "State the conditions to be fulfilled for availing input tax credit under section 16 of the CGST Act.",
+          "answer": "- The person must be registered and the goods or services must be used or intended to be used in the course or furtherance of business (16(1)).\n- Possession of a tax invoice or debit note or other prescribed document (16(2)(a)).\n- Details of the invoice or debit note furnished by the supplier in GSTR-1 and communicated in GSTR-2B (16(2)(aa)).\n- Receipt of goods or services; deemed receipt in bill-to-ship-to and services provided to another person on his direction; for lots, credit on the last lot (16(2)(b)).\n- ITC not restricted in the section 38 statement (16(2)(ba)).\n- Tax actually paid by the supplier to the Government (16(2)(c)).\n- Return under section 39 furnished (16(2)(d)).\n- Payment to supplier within 180 days, else reversal with interest.\n- No ITC on tax component if depreciation is claimed on it (16(3)); time limit under 16(4).",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-07-itc-q14",
+          "type": "interview",
+          "prompt": "ITC on motor vehicles is blocked under section 17(5)(a). Explain the scope of this restriction and its exceptions.",
+          "answer": "- Blocked: motor vehicles for transportation of persons with approved seating capacity of not more than 13 persons including the driver.\n- Exceptions: where used for making further taxable supply of such vehicles (a car dealer), transportation of passengers (a taxi operator), or imparting training on driving such vehicles (a driving school).\n- Vehicles for transport of goods and passenger vehicles with seating above 13 are not blocked.\n- Clause (ab) blocks general insurance, servicing, repair and maintenance of blocked vehicles, with the same exceptions, and also allows ITC to manufacturers and insurers in specified cases.\n- Clause (b)(i) blocks leasing, renting or hiring of such vehicles unless used for the same category of outward supply or obligatory for an employer under law."
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal: CGST Act and Rules",
+          "url": "https://www.cbic-gst.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-gst-08-registration",
+      "title": "Registration",
+      "level": "intermediate",
+      "summary": "Who must register under GST: threshold-based registration under section 22, persons not liable under section 23, compulsory registration under section 24, the procedure, special persons, and cancellation and revocation.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "CGST Act sections 22 to 30 and related rules and threshold notifications, as amended by the Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Threshold for registration: section 22 and aggregate turnover",
+          "body": "A supplier must register in the State or UT from where he makes taxable supplies if his **aggregate turnover** in a financial year exceeds the threshold:\n\n| Supplier | Normal States | Special category States |\n| --- | --- | --- |\n| Supplier of services, or of goods and services | ₹20 lakh | ₹10 lakh (Manipur, Mizoram, Nagaland, Tripura) |\n| Exclusive supplier of goods (Notification 10/2019-CT), if the State has adopted it | ₹40 lakh | Not available; ₹20 lakh or ₹10 lakh applies |\n\nThe ₹40 lakh limit is not available to suppliers of ice cream, pan masala and tobacco products, and is not adopted by certain States (mainly North-Eastern and hill States); the ₹20 lakh limit applies there.\n\n**Aggregate turnover (section 2(6))**: the aggregate value of all taxable supplies (excluding inward supplies taxed under RCM), exempt supplies, exports, and inter-State supplies between distinct persons having the **same PAN**, computed on an **all-India basis**, excluding CGST, SGST, UTGST, IGST and cess.\n\n| Included | Excluded |\n| --- | --- |\n| Taxable supplies (forward charge) | Value of inward supplies on which tax is paid under RCM |\n| Exempt supplies, including non-taxable supplies such as alcoholic liquor | GST and cess |\n| Exports (zero-rated) | Activities in Schedule III (not supplies) |\n| Supplies by all branches with the same PAN across India | For an agriculturist: supply of produce from own cultivation |"
+        },
+        {
+          "heading": "Persons not liable and compulsory registration",
+          "body": "**Section 23 - not liable to register:**\n- Persons engaged exclusively in supplying goods or services not liable to tax or wholly exempt.\n- An agriculturist, for supply of produce out of cultivation of land.\n- Persons notified by the Government, such as those making only supplies on which the recipient pays tax under RCM, and persons making inter-State supplies of taxable services with aggregate turnover within the threshold.\n\n**Section 24 - compulsory registration irrespective of turnover:**\n- Persons making inter-State taxable supply of goods (inter-State services up to the threshold are exempted by notification).\n- Casual taxable persons making taxable supply.\n- Persons required to pay tax under reverse charge.\n- Persons required to pay tax under section 9(5) (ECOs).\n- Non-resident taxable persons.\n- Persons required to deduct TDS under section 51.\n- Persons making taxable supply on behalf of other taxable persons as agents.\n- Input Service Distributors.\n- Persons supplying goods or services through an ECO that is required to collect TCS (subject to notified exceptions).\n- Every ECO required to collect TCS under section 52.\n- Persons supplying online information and database access or retrieval (OIDAR) services from outside India to unregistered persons in India."
+        },
+        {
+          "heading": "Procedure, GSTIN and special persons",
+          "body": "- **Time limit (section 25):** apply within **30 days** from the date of becoming liable. A casual or non-resident taxable person applies at least **5 days** before commencing business.\n- **State-wise registration:** a person registers in each State or UT from where he makes taxable supplies. He may take separate registrations for multiple places of business within a State.\n- **Voluntary registration:** allowed even below the threshold; all provisions then apply.\n- **PAN** is mandatory (except for non-resident taxable persons, who may use other documents). Registration is subject to Aadhaar authentication or physical verification.\n- **GSTIN** is 15 characters: 2-digit State code, 10-character PAN, 1 entity number, 'Z' by default, 1 check digit.\n\n| Special person | Validity | Advance deposit |\n| --- | --- | --- |\n| Casual taxable person | Period in application or 90 days, whichever earlier; extendable by up to 90 days | Amount equal to estimated tax liability for the period |\n| Non-resident taxable person | Same as above | Same as above |\n\n**Cancellation (section 29):** by the proper officer (for contravention, non-filing of returns, fraud) or on application by the person (closure, transfer, no longer liable). **Revocation (section 30):** apply within 90 days of the cancellation order where cancelled by the officer; the time can be extended by the prescribed authority. Final return GSTR-10 is due within 3 months of cancellation."
+        },
+        {
+          "heading": "Worked example and common mistakes",
+          "body": "Mr A (Delhi) reports for the year:\n\n| Particulars | ₹ | Included in aggregate turnover? |\n| --- | --- | --- |\n| Intra-State taxable supplies | 12,00,000 | Yes |\n| Exempt supplies (fresh vegetables) | 5,00,000 | Yes |\n| Export of services | 4,00,000 | Yes |\n| Inward supplies taxed under RCM | 2,00,000 | No |\n| GST charged on outward supplies | 2,16,000 | No |\n| Taxable supplies by his Haryana branch (same PAN) | 3,00,000 | Yes |\n| **Aggregate turnover** | **24,00,000** | Exceeds ₹20 lakh: liable |\n\n**Common mistakes:**\n- Excluding exempt supplies or exports from aggregate turnover.\n- Using the ₹40 lakh limit for a person who supplies any service, even a small amount: the ₹20 lakh limit applies.\n- Computing turnover State-wise. It is computed on an all-India basis for the same PAN.\n- Forgetting that a single inter-State sale of taxable goods requires compulsory registration."
+        }
+      ],
+      "keyPoints": [
+        "Threshold: ₹20 lakh (₹10 lakh in Manipur, Mizoram, Nagaland, Tripura); ₹40 lakh for exclusive goods suppliers in States that adopted it.",
+        "Aggregate turnover: taxable + exempt + exports + inter-State supplies of same-PAN branches, all-India, excluding GST and RCM inward supplies.",
+        "Section 24: inter-State goods suppliers, casual and non-resident persons, RCM payers, ECOs, TDS deductors, ISDs, agents, OIDAR suppliers register irrespective of turnover.",
+        "Apply within 30 days of becoming liable; casual and non-resident persons at least 5 days before starting.",
+        "Casual taxable person: validity up to 90 days, extendable by 90 days, advance deposit of estimated tax.",
+        "GSTIN: 15 characters - State code (2), PAN (10), entity number, Z, check digit.",
+        "Revocation of cancellation: apply within 90 days of the cancellation order."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-gst-08-registration-case1",
+          "title": "Case: Bloom Decor LLP",
+          "body": "Bloom Decor LLP, Surat (Gujarat), started business on 1 April 2026 selling machine-made home decor goods. It supplies only goods, all taxable at 18%, and Gujarat has adopted the ₹40 lakh threshold for exclusive goods suppliers.\n\n| Date | Event |\n| --- | --- |\n| 1 April 2026 to 9 January 2027 | Intra-State sales in Gujarat total ₹39,50,000 |\n| 10 January 2027 | Aggregate turnover crosses ₹40,00,000 |\n| February 2027 | Plans a 10-day stall at an exhibition in Jaipur (Rajasthan), with estimated sales of ₹8,00,000; it has no fixed place of business in Rajasthan |\n| March 2027 | Has received an order from a buyer in Mumbai, to be shipped from Surat |"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-gst-08-registration-q01",
+          "type": "mcq",
+          "prompt": "Mr Joseph of Kochi (Kerala, a State that has adopted the ₹40 lakh limit) supplies only taxable goods within Kerala with turnover of ₹36 lakh. He also earns ₹3 lakh from repair services. Is he liable to register?",
+          "options": [
+            "No, because turnover of ₹39 lakh is below ₹40 lakh",
+            "Yes, because he also supplies services, so the ₹20 lakh limit applies and his turnover of ₹39 lakh exceeds it",
+            "No, because services up to ₹5 lakh are ignored",
+            "Yes, but only for the services"
+          ],
+          "answer": 1,
+          "explanation": "The ₹40 lakh limit is only for persons engaged exclusively in supply of goods. Any supply of services brings him under the ₹20 lakh limit. Aggregate turnover of ₹39 lakh exceeds it."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q02",
+          "type": "mcq",
+          "prompt": "Which of the following persons must register under section 24 irrespective of turnover?",
+          "options": [
+            "A trader making only intra-State taxable sales of ₹12 lakh",
+            "A person required to pay tax under reverse charge",
+            "An agriculturist selling his own produce",
+            "A doctor providing only exempt health care services"
+          ],
+          "answer": 1,
+          "explanation": "Section 24(iii): persons required to pay tax under reverse charge must register regardless of turnover. The agriculturist and exempt-only supplier are not liable under section 23; the small trader is below the threshold."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q03",
+          "type": "mcq",
+          "prompt": "In GSTIN 27AAPFU0939F1ZV, which characters represent the PAN?",
+          "options": [
+            "First 10 characters",
+            "Characters 3 to 12",
+            "Characters 1 to 2",
+            "Characters 13 to 15"
+          ],
+          "answer": 1,
+          "explanation": "Characters 1-2 are the State code (27 = Maharashtra), 3-12 are the PAN (AAPFU0939F), 13 is the entity number, 14 is 'Z' by default and 15 is a check digit."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q04",
+          "type": "truefalse",
+          "prompt": "A person with business establishments in three States must obtain registration in each of those States from where he makes taxable supplies.",
+          "answer": true,
+          "explanation": "Section 22 and section 25(1) require registration in every State or UT from where the person makes taxable supplies once he is liable. Registration is State-specific, though PAN-based."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q05",
+          "type": "multi",
+          "prompt": "Which of the following are included in aggregate turnover? Select all that apply.",
+          "options": [
+            "Exempt supplies",
+            "Export of goods",
+            "Value of inward supplies on which tax is paid under reverse charge",
+            "Inter-State supplies between branches having the same PAN",
+            "IGST charged on outward supplies"
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Section 2(6) includes taxable supplies, exempt supplies, exports and inter-State supplies of persons with the same PAN. It excludes inward RCM supplies and all GST and cess."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q06",
+          "type": "fill",
+          "prompt": "Fill the blank: a person liable to register must apply within ___ days from the date on which he becomes liable.",
+          "accept": [
+            "30",
+            "thirty"
+          ],
+          "explanation": "Section 25(1). Casual and non-resident taxable persons apply at least 5 days before commencing business."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q07",
+          "type": "numeric",
+          "prompt": "Mr A of Delhi reports: intra-State taxable supplies ₹12,00,000; exempt supplies of fresh vegetables ₹5,00,000; export of services ₹4,00,000; inward supplies on which he paid tax under RCM ₹2,00,000; GST charged on outward supplies ₹2,16,000; taxable supplies by his Haryana branch (same PAN) ₹3,00,000. Compute his aggregate turnover. Round to the nearest rupee.",
+          "answer": 2400000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Intra-State taxable supplies | 12,00,000 |\n| Exempt supplies | 5,00,000 |\n| Export of services | 4,00,000 |\n| Haryana branch supplies (same PAN, all-India) | 3,00,000 |\n| Inward RCM supplies | Excluded |\n| GST | Excluded |\n| **Aggregate turnover** | **24,00,000** |\n\nIt exceeds ₹20 lakh, so he must register in Delhi (and in Haryana for that branch)."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q08",
+          "type": "numeric",
+          "prompt": "Ms B of Rajkot (Gujarat, which has adopted the ₹40 lakh limit) supplies only goods within Gujarat: taxable goods ₹32,00,000 and exempt goods ₹6,00,000. She does not deal in ice cream, pan masala or tobacco. Compute her aggregate turnover. Round to the nearest rupee.",
+          "answer": 3800000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Taxable goods | 32,00,000 |\n| Exempt goods | 6,00,000 |\n| **Aggregate turnover** | **38,00,000** |\n\nAs an exclusive supplier of goods, her threshold is ₹40 lakh, so she is not yet liable to register."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q09",
+          "type": "mcq",
+          "caseId": "ca-i-gst-08-registration-case1",
+          "prompt": "When must Bloom Decor apply for registration in Gujarat?",
+          "options": [
+            "Within 30 days from 10 January 2027, when its aggregate turnover crossed ₹40 lakh",
+            "Before 1 April 2026",
+            "Only at the end of FY 2026-27",
+            "Within 90 days from 10 January 2027"
+          ],
+          "answer": 0,
+          "explanation": "Bloom becomes liable when aggregate turnover exceeds ₹40 lakh (exclusive goods supplier in an adopting State). Section 25(1) requires an application within 30 days of becoming liable."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q10",
+          "type": "numeric",
+          "caseId": "ca-i-gst-08-registration-case1",
+          "prompt": "For the Jaipur exhibition, compute the advance deposit Bloom Decor must make as a casual taxable person in Rajasthan. Round to the nearest rupee.",
+          "answer": 144000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Section 27(2): a casual taxable person makes an advance deposit equal to the estimated tax liability for the period of registration.\n\n| Particulars | ₹ |\n| --- | --- |\n| Estimated taxable supplies | 8,00,000 |\n| Estimated tax @ 18% (CGST 9% + SGST 9%) | 1,44,000 |"
+        },
+        {
+          "id": "ca-i-gst-08-registration-q11",
+          "type": "mcq",
+          "caseId": "ca-i-gst-08-registration-case1",
+          "prompt": "Suppose Bloom had not crossed the threshold by March 2027. What is the effect of the Mumbai order?",
+          "options": [
+            "No effect, as turnover is below ₹40 lakh",
+            "It must register compulsorily under section 24, because it will make an inter-State taxable supply of goods",
+            "The Mumbai buyer will pay tax under reverse charge",
+            "It must register in Maharashtra only"
+          ],
+          "answer": 1,
+          "explanation": "Section 24(i) requires registration for persons making inter-State taxable supplies of goods, irrespective of turnover. Registration is taken in Gujarat, from where the supply is made."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q12",
+          "type": "practical",
+          "prompt": "Examine whether each person is liable to register under the CGST Act. Assume a normal State with a ₹20 lakh limit for services and ₹40 lakh for exclusive goods suppliers.",
+          "data": "- (a) An individual farmer selling wheat grown on his own land; turnover ₹55 lakh.\n- (b) A freelance designer in Pune providing services only to clients in other States; turnover ₹14 lakh.\n- (c) A trader of garments with intra-State turnover of ₹8 lakh who buys goods from an unregistered person and is not liable under RCM.\n- (d) A company that receives sponsorship services and pays GST under RCM; its own outward supplies are exempt.\n- (e) A Singapore company that sets up a stall at a trade fair in Delhi for 15 days.",
+          "answer": "| Case | Liable? | Reason |\n| --- | --- | --- |\n| (a) | No | Section 23(1)(b): agriculturist supplying produce out of cultivation of land |\n| (b) | No | Inter-State supplies of services are exempted from compulsory registration up to the threshold; turnover ₹14 lakh is below ₹20 lakh |\n| (c) | No | Turnover below threshold; no section 24 category applies |\n| (d) | Yes | Section 24(iii): person required to pay tax under RCM, irrespective of turnover |\n| (e) | Yes | Section 24(v): non-resident taxable person; apply at least 5 days before starting, with advance deposit |",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-08-registration-q13",
+          "type": "interview",
+          "prompt": "Who is a casual taxable person? Explain the special provisions relating to the registration of casual taxable persons.",
+          "answer": "- Section 2(20): a person who occasionally undertakes transactions involving supply of goods or services in the course or furtherance of business, as principal, agent or otherwise, in a State or UT where he has no fixed place of business.\n- Must register under section 24 irrespective of turnover (exemption is available for specified handicraft suppliers).\n- Apply at least 5 days before commencement of business (section 25(1)).\n- Registration is valid for the period in the application or 90 days from the effective date, whichever is earlier; the proper officer may extend it by up to 90 days on request (section 27(1)).\n- Must make an advance deposit equal to the estimated tax liability for the period; additional deposit is required on seeking extension (section 27(2)).\n- Cannot opt for composition."
+        },
+        {
+          "id": "ca-i-gst-08-registration-q14",
+          "type": "interview",
+          "prompt": "Explain the meaning of aggregate turnover under section 2(6) and its relevance under GST.",
+          "answer": "- Aggregate turnover means the aggregate value of all taxable supplies (excluding the value of inward supplies on which tax is payable under reverse charge), exempt supplies, exports of goods or services, and inter-State supplies of persons having the same PAN, computed on an all-India basis.\n- It excludes CGST, SGST, UTGST, IGST and cess.\n- Exempt supply includes nil-rated, wholly exempt and non-taxable supplies (such as alcoholic liquor), so they are included.\n- Schedule III activities are not supplies and are excluded.\n- Relevance: registration threshold (section 22), composition eligibility (section 10), QRMP and e-invoicing thresholds, annual return and reconciliation requirements, and HSN digit requirements on invoices."
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal",
+          "url": "https://www.cbic-gst.gov.in/"
+        },
+        {
+          "title": "GST portal (registration services)",
+          "url": "https://www.gst.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-gst-09-invoice-ewb",
+      "title": "Tax Invoice, Credit and Debit Notes, E-way Bill",
+      "level": "intermediate",
+      "summary": "When and how to issue a tax invoice or bill of supply, e-invoicing, credit and debit notes under section 34, and the e-way bill system under rule 138.",
+      "estMinutes": 50,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "CGST Act sections 31, 34 and 68 and CGST Rules 46 to 55A and 138 to 138E, as amended by the Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Tax invoice: section 31",
+          "body": "| Supply | Time limit for invoice |\n| --- | --- |\n| Goods involving movement | Before or at the time of **removal** for supply |\n| Goods not involving movement | Before or at the time of **delivery** or making available |\n| Continuous supply of goods | Before or at the time of each successive statement of account or payment |\n| Services | Before or after provision, within **30 days** of supply (45 days for banks, insurers, financial institutions and NBFCs) - rule 47 |\n\nOther documents:\n- **Bill of supply** for exempt supplies and by composition taxpayers (section 31(3)(c)). A tax invoice and bill of supply can be combined where both taxable and exempt goods are supplied to an unregistered person.\n- **Receipt voucher** on receipt of an advance; **refund voucher** if no supply is made after an advance.\n- **Self-invoice** by a registered recipient paying tax under RCM on supplies from an unregistered supplier, and a **payment voucher** when paying the supplier.\n- **Consolidated invoice:** where the value of supply is below ₹200 and the recipient is unregistered and does not ask for an invoice, a consolidated invoice may be issued at the end of each day.\n\nRule 46 contents include: supplier's name, address and GSTIN; a consecutive serial number up to 16 characters, unique for a financial year; date; recipient's name, address and GSTIN if registered; for an unregistered recipient, name, address and delivery address where the value is ₹50,000 or more; HSN or SAC code; description, quantity, value, rate and tax amounts; place of supply with State name for inter-State supplies; whether tax is payable on reverse charge; signature.\n\nHSN digits: 4 digits if aggregate turnover in the preceding FY is up to ₹5 crore; 6 digits above ₹5 crore.\n\nCopies (rule 48): goods - triplicate (original for recipient, duplicate for transporter, triplicate for supplier); services - duplicate."
+        },
+        {
+          "heading": "E-invoicing",
+          "body": "A registered person whose aggregate turnover in any financial year from 2017-18 onward exceeds **₹5 crore** must generate e-invoices for B2B supplies and exports by uploading invoice details to the Invoice Registration Portal (IRP). The IRP returns a unique **Invoice Reference Number (IRN)**, digitally signs the invoice and generates a QR code. An invoice without a valid IRN, where e-invoicing applies, is not a valid invoice.\n\nExempt from e-invoicing: SEZ units, insurers, banking companies, financial institutions and NBFCs, GTAs, suppliers of passenger transport services, and suppliers of admission to cinema exhibitions in multiplex screens. Government departments and local authorities are also excluded.\n\nE-invoice data flows automatically to GSTR-1 and, where details are given, to Part A of the e-way bill."
+        },
+        {
+          "heading": "Credit notes and debit notes: section 34",
+          "body": "| Point | Credit note | Debit note |\n| --- | --- | --- |\n| When issued | Taxable value or tax in the invoice exceeds the correct amount; goods returned; goods or services found deficient. Finance Act 2026 adds post-supply discounts under the substituted section 15(3)(b) as an express ground | Taxable value or tax in the invoice is less than the correct amount |\n| Effect | Reduces supplier's output tax; recipient reverses ITC | Increases supplier's output tax |\n| Time limit | Must be declared in the return not later than **30 November** following the end of the FY of supply, or the date of filing the annual return, whichever is earlier | No time limit for issue; recipient's ITC time limit under section 16(4) runs from the FY of the debit note |\n| Condition | Supplier's output tax is reduced only if the incidence of tax has not been passed on to any other person | - |\n\nOne credit or debit note can cover several invoices of a financial year."
+        },
+        {
+          "heading": "E-way bill: rule 138",
+          "body": "Every registered person who causes **movement of goods** of consignment value exceeding **₹50,000** must generate an e-way bill (EWB) before movement, whether the movement is in relation to a supply, for reasons other than supply (such as branch transfer or job work), or due to an inward supply from an unregistered person.\n\n**Consignment value** is the value under section 15 shown in the invoice, bill of supply or delivery challan, **including** GST and cess, but **excluding** the value of exempt supplies where the invoice covers both.\n\n**Mandatory irrespective of value:** inter-State movement of goods by a principal to a job worker, and inter-State transport of handicraft goods by a person exempt from registration.\n\n**Part A** has GSTIN of recipient, place of delivery, document number and date, value, HSN and reason for transport. **Part B** has the vehicle number. Part B is not required where goods move up to **50 km** within the same State from the consignor's place of business to the transporter's place of business, or from the transporter's place to the consignee's place.\n\n**Not required (examples):** goods in the exempt list (such as fresh vegetables and fruits); goods moved by a non-motorised conveyance; goods moved from a port, airport, air cargo complex or land customs station to an inland container depot or container freight station for customs clearance; goods under customs seal or customs supervision; transit cargo to or from Nepal or Bhutan.\n\n**Validity (rule 138(10)):**\n\n| Cargo | Validity |\n| --- | --- |\n| Normal cargo | 1 day for up to 200 km, plus 1 day for every additional 200 km or part |\n| Over dimensional cargo or multimodal shipment with ship | 1 day for up to 20 km, plus 1 day for every additional 20 km or part |\n\nA day ends at midnight of the day following the date of generation. An EWB can be cancelled within **24 hours** of generation (not if verified in transit); the recipient may reject it within 72 hours.\n\n**Worked example:** a normal consignment travels 640 km. Validity = 1 day (first 200 km) + 3 days (440 km, i.e. 2 full blocks of 200 km and 40 km part) = **4 days**.\n\n**Common mistakes:** excluding GST from consignment value; ignoring the job work rule for low-value consignments; counting validity from dispatch rather than generation."
+        }
+      ],
+      "keyPoints": [
+        "Goods invoice: at or before removal; services invoice: within 30 days (45 days for banks, insurers, NBFCs).",
+        "Bill of supply for exempt supplies and composition dealers; self-invoice for RCM purchases from unregistered persons.",
+        "Invoice serial number: up to 16 characters, unique per FY; HSN 4 digits up to ₹5 crore turnover, 6 digits above.",
+        "E-invoicing (IRN from IRP): aggregate turnover above ₹5 crore in any FY from 2017-18.",
+        "Credit note: declare by the earlier of 30 November after FY end and annual return filing; recipient reverses ITC.",
+        "E-way bill: consignment value above ₹50,000 including tax, excluding exempt goods; job work inter-State always.",
+        "Validity: 1 day per 200 km (normal), 1 day per 20 km (ODC); cancel within 24 hours; Part B not needed up to 50 km within a State."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-gst-09-invoice-ewb-case1",
+          "title": "Case: Om Steel Traders",
+          "body": "Om Steel Traders, Nagpur (Maharashtra), a registered dealer, sells steel sections to Malwa Fabricators, a registered buyer in Indore (Madhya Pradesh).\n\n| Date | Event |\n| --- | --- |\n| 15 October 2026 | Invoice for taxable value ₹2,50,000 + IGST @ 18% ₹45,000 = ₹2,95,000. Goods dispatched by a hired truck (normal cargo); road distance 640 km |\n| 25 October 2026 | Malwa returns defective goods of taxable value ₹40,000 |\n\nOm's aggregate turnover in the previous FY was ₹3.2 crore and it has never exceeded ₹5 crore."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q01",
+          "type": "mcq",
+          "prompt": "By when must a tax invoice be issued for a supply of goods that involves movement?",
+          "options": [
+            "Within 30 days of removal",
+            "Before or at the time of removal of goods for supply",
+            "At the time of receipt of payment",
+            "By the 10th of the next month"
+          ],
+          "answer": 1,
+          "explanation": "Section 31(1)(a): for goods involving movement, the invoice is issued before or at the time of removal for supply to the recipient. The 30-day limit applies to services."
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q02",
+          "type": "mcq",
+          "prompt": "Which of the following persons is exempt from issuing e-invoices even if aggregate turnover exceeds ₹5 crore?",
+          "options": [
+            "A steel manufacturer",
+            "A banking company",
+            "A software exporter",
+            "A pharmaceutical distributor"
+          ],
+          "answer": 1,
+          "explanation": "Insurers, banking companies, financial institutions including NBFCs, GTAs, passenger transport suppliers, multiplex admission suppliers and SEZ units are excluded from e-invoicing."
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q03",
+          "type": "mcq",
+          "prompt": "How many copies of a tax invoice are prepared for a supply of goods?",
+          "options": [
+            "Two",
+            "Three",
+            "Four",
+            "One original only"
+          ],
+          "answer": 1,
+          "explanation": "Rule 48(1): goods - triplicate (original for recipient, duplicate for transporter, triplicate for supplier). Rule 48(2): services - duplicate."
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q04",
+          "type": "truefalse",
+          "prompt": "A composition taxpayer must issue a tax invoice showing CGST and SGST separately.",
+          "answer": false,
+          "explanation": "A composition taxpayer cannot collect tax and issues a bill of supply under section 31(3)(c), with the declaration 'composition taxable person, not eligible to collect tax on supplies'."
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q05",
+          "type": "fill",
+          "prompt": "Fill the blank: on uploading an e-invoice, the Invoice Registration Portal generates a unique ___ (abbreviation) for each invoice.",
+          "accept": [
+            "IRN",
+            "Invoice Reference Number"
+          ],
+          "explanation": "The IRP validates the invoice, generates the Invoice Reference Number (IRN), digitally signs it and adds a QR code."
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q06",
+          "type": "numeric",
+          "prompt": "A dealer sends one consignment with a single invoice: taxable goods ₹40,000 + GST @ 18%, and exempt goods (fresh fruits) ₹20,000. Compute the consignment value for e-way bill purposes. Round to the nearest rupee.",
+          "answer": 47200,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Consignment value includes GST but excludes exempt supplies covered in the same invoice.\n\n| Particulars | ₹ |\n| --- | --- |\n| Taxable goods | 40,000 |\n| GST @ 18% | 7,200 |\n| Exempt goods | Excluded |\n| **Consignment value** | **47,200** |\n\nIt does not exceed ₹50,000, so no e-way bill is required."
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q07",
+          "type": "numeric",
+          "prompt": "An over dimensional cargo moves 85 km. Compute the validity of the e-way bill in days.",
+          "answer": 5,
+          "tolerance": 0,
+          "unit": "days",
+          "explanation": "For over dimensional cargo: 1 day for up to 20 km plus 1 day for every additional 20 km or part.\n\n| Distance | Days |\n| --- | --- |\n| First 20 km | 1 |\n| Next 65 km = 3 full blocks of 20 km + 5 km part | 4 |\n| **Total** | **5** |"
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q08",
+          "type": "multi",
+          "prompt": "In which of these cases is an e-way bill NOT required? Select all that apply.",
+          "options": [
+            "Goods moved by a bullock cart, value ₹2,00,000",
+            "Inter-State movement of goods worth ₹30,000 from principal to job worker",
+            "Fresh vegetables worth ₹1,20,000",
+            "Taxable goods of value ₹50,000 plus GST of ₹9,000 moved by truck",
+            "Goods under customs seal moving from port to an inland container depot"
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "explanation": "Non-motorised conveyance, exempt goods such as fresh vegetables, and goods under customs seal are excluded. Inter-State job work movement needs an EWB irrespective of value, and ₹59,000 (including tax) exceeds ₹50,000."
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q09",
+          "type": "mcq",
+          "caseId": "ca-i-gst-09-invoice-ewb-case1",
+          "prompt": "Is an e-way bill required for the 15 October dispatch, and is an e-invoice required?",
+          "options": [
+            "EWB required; e-invoice not required",
+            "EWB not required; e-invoice required",
+            "Both required",
+            "Neither required"
+          ],
+          "answer": 0,
+          "explanation": "Consignment value ₹2,95,000 exceeds ₹50,000, so an EWB is required. Om's aggregate turnover has never exceeded ₹5 crore, so e-invoicing does not apply."
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q10",
+          "type": "numeric",
+          "caseId": "ca-i-gst-09-invoice-ewb-case1",
+          "prompt": "Compute the validity of the e-way bill in days for the Nagpur to Indore journey.",
+          "answer": 4,
+          "tolerance": 0,
+          "unit": "days",
+          "explanation": "Normal cargo: 1 day up to 200 km, plus 1 day for every additional 200 km or part.\n\n| Distance | Days |\n| --- | --- |\n| First 200 km | 1 |\n| Next 440 km = 2 full blocks of 200 km + 40 km part | 3 |\n| **Total** | **4** |"
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q11",
+          "type": "numeric",
+          "caseId": "ca-i-gst-09-invoice-ewb-case1",
+          "prompt": "Om issues a credit note for the goods returned on 25 October 2026. Compute the IGST to be shown in the credit note. Round to the nearest rupee.",
+          "answer": 7200,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Taxable value of goods returned | 40,000 |\n| IGST @ 18% | 7,200 |\n\nOm reduces its output tax by ₹7,200 (the incidence is not passed on, as the buyer reverses its ITC). The credit note must be declared by the earlier of 30 November 2027 and the date of filing the annual return for FY 2026-27."
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q12",
+          "type": "practical",
+          "prompt": "State whether an e-way bill is required in each case and, if so, whether Part B must be filled. All movements are by registered persons.",
+          "data": "- (a) Intra-State supply of taxable goods: value ₹45,000 + GST ₹8,100, by truck.\n- (b) Fresh vegetables worth ₹1,20,000 by truck.\n- (c) Inter-State movement of parts worth ₹30,000 to a job worker.\n- (d) Goods worth ₹2,00,000 delivered by a bullock cart.\n- (e) Taxable goods worth ₹3,00,000 moved from the factory to the transporter's godown 30 km away in the same State, for onward inter-State transport.",
+          "answer": "| Case | EWB required? | Reason |\n| --- | --- | --- |\n| (a) | Yes | Consignment value including tax ₹53,100 exceeds ₹50,000 |\n| (b) | No | Fresh vegetables are in the list of goods exempt from EWB |\n| (c) | Yes | Inter-State movement to a job worker needs EWB irrespective of value |\n| (d) | No | Movement by non-motorised conveyance |\n| (e) | Yes, Part A; Part B not required for this leg | Movement up to 50 km within the State from consignor to transporter's place; Part B is updated when the goods leave the transporter's godown |",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q13",
+          "type": "interview",
+          "prompt": "Explain the circumstances in which a credit note may be issued under section 34 and the time limit for declaring it.",
+          "answer": "- A registered supplier may issue a credit note where: the taxable value or tax charged in the invoice exceeds the correct amount; goods supplied are returned by the recipient; goods or services supplied are found deficient. The Finance Act 2026 also adds post-supply discounts under the substituted section 15(3)(b).\n- One credit note may cover one or more invoices of a financial year.\n- The details must be declared in the return for the month in which it is issued, and not later than 30 November following the end of the FY in which the supply was made, or the date of filing the annual return, whichever is earlier.\n- The supplier's output tax is reduced only if the incidence of tax has not been passed on to any other person.\n- The recipient must reverse ITC to the extent of the credit note.",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-09-invoice-ewb-q14",
+          "type": "interview",
+          "prompt": "Who generates the e-way bill and what are Part A and Part B? Explain with reference to movement by the supplier, the recipient and a transporter.",
+          "answer": "- The registered person causing movement of goods (consignor or consignee) generates the EWB in Form EWB-01 before movement, where consignment value exceeds ₹50,000.\n- Part A: GSTIN of recipient, place of delivery (PIN), document number and date, value of goods, HSN code and reason for transportation.\n- Part B: transport document number and vehicle number.\n- If the registered person moves goods in his own or hired conveyance, he fills Parts A and B.\n- If goods are handed to a transporter, the registered person fills Part A and the transporter can fill Part B; if the registered person does not generate the EWB, the transporter generates it on the basis of the information in Part A.\n- Where an unregistered supplier supplies to a registered recipient, the recipient is treated as the person causing movement and complies.\n- Part B is not needed for movement up to 50 km within the same State to or from the transporter's place of business."
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal",
+          "url": "https://www.cbic-gst.gov.in/"
+        },
+        {
+          "title": "E-way bill system",
+          "url": "https://ewaybillgst.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-i-gst-10-payment-returns",
+      "title": "Accounts and Records, Payment of Tax and Returns",
+      "level": "advanced",
+      "summary": "Accounts and records under sections 35 and 36, the electronic ledgers, order of ITC utilisation, interest under section 50, and the GST return cycle including QRMP and annual returns.",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "CGST Act sections 35, 36, 37 to 48, 49, 49A, 49B and 50, and related rules, as amended by the Finance Act 2026",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Accounts and records: sections 35 and 36",
+          "body": "Every registered person keeps, at his **principal place of business** (and for each additional place, the records relating to it), a true and correct account of production or manufacture, inward and outward supplies, stock, ITC availed, output tax payable and paid, and other prescribed particulars. Records may be kept electronically.\n\n- Owners or operators of warehouses, godowns and transporters keep records of consignor, consignee and goods, whether or not registered.\n- Records must be retained for **72 months** from the **due date of the annual return** for the year to which they relate (section 36).\n- If the person is party to an appeal, revision or proceedings, records are kept for one year after final disposal, or the 72-month period, whichever is later.\n- Unaccounted goods found at the place of business are deemed supplied, and tax is determined on them."
+        },
+        {
+          "heading": "Electronic ledgers and utilisation of ITC: sections 49, 49A, 49B, rule 88A",
+          "body": "| Ledger | What it holds | Used for |\n| --- | --- | --- |\n| Electronic cash ledger | Deposits via PMT-06 by internet banking, NEFT/RTGS, cards, or over the counter (up to ₹10,000 per challan per tax period) | Tax (forward and reverse charge), interest, penalty, fee and other amounts |\n| Electronic credit ledger | ITC self-assessed in returns | **Output tax** under forward charge only; not interest, penalty, fee or RCM tax |\n| Electronic liability register | All liabilities | Record of dues |\n\nDate of deposit is the date the amount is credited to the Government account. Amounts in the cash ledger can be transferred between heads (PMT-09) and, subject to conditions, to the cash ledger of a distinct person with the same PAN.\n\n**Order of utilisation of ITC:**\n\n| Credit of | First against | Then against | Never against |\n| --- | --- | --- | --- |\n| IGST | IGST | CGST and SGST/UTGST, in any order and proportion | - |\n| CGST | CGST | IGST | SGST/UTGST |\n| SGST/UTGST | SGST/UTGST | IGST (only after CGST credit is exhausted for IGST) | CGST |\n\nIGST credit must be **fully** used before CGST or SGST credit is used (section 49A, rule 88A).\n\n**Order of discharge (section 49(8)):** (a) self-assessed tax and other dues for previous periods; (b) self-assessed tax and other dues for the current period; (c) any other amount, including demands under sections 73 and 74.\n\n**Rule 86B:** a registered person whose taxable supplies (other than exempt and zero-rated) exceed ₹50 lakh in a month must pay at least 1% of output tax in cash, subject to exceptions (such as income tax above ₹1 lakh paid in each of the last two years, or refund of more than ₹1 lakh received on account of exports)."
+        },
+        {
+          "heading": "Interest: section 50",
+          "body": "| Situation | Rate | Period and base |\n| --- | --- | --- |\n| Tax not paid or paid late - 50(1) | 18% p.a. | From the day after the due date until payment. For tax paid late with a return filed after the due date, interest is only on the portion paid through the **cash ledger** (not if the return is filed after proceedings under section 73 or 74 have begun) |\n| ITC wrongly availed **and utilised** - 50(3) | 18% p.a. (reduced from 24% retrospectively from 1 July 2017 by the Finance Act 2022) | From the date of utilisation to the date of reversal or payment (rule 88B) |\n\nInterest is calculated on a daily basis: Amount x 18% x days / 365. ITC wrongly availed but not utilised does not attract interest."
+        },
+        {
+          "heading": "Returns and due dates",
+          "body": "| Return | Who | Frequency | Due date |\n| --- | --- | --- | --- |\n| GSTR-1 | Normal taxpayers: outward supplies | Monthly / quarterly (QRMP) | 11th of next month / 13th of month after quarter |\n| IFF | QRMP taxpayers: B2B invoices for first two months (optional) | Monthly | 13th of next month |\n| GSTR-3B | Normal taxpayers: summary return with payment | Monthly / quarterly (QRMP) | 20th of next month / 22nd or 24th of month after quarter, by State |\n| CMP-08 | Composition taxpayers: statement of tax | Quarterly | 18th of month after quarter |\n| GSTR-4 | Composition taxpayers | Annual | 30 April after FY end |\n| GSTR-5 | Non-resident taxable persons | Monthly | 13th of next month |\n| GSTR-6 | Input Service Distributor | Monthly | 13th of next month |\n| GSTR-7 / GSTR-8 | TDS deductors / ECOs collecting TCS | Monthly | 10th of next month |\n| GSTR-9 | Annual return (optional if aggregate turnover up to ₹2 crore) | Annual | 31 December after FY end |\n| GSTR-9C | Self-certified reconciliation statement (aggregate turnover above ₹5 crore) | Annual | With GSTR-9 |\n| GSTR-10 | Final return on cancellation | Once | Within 3 months of cancellation |\n\n**QRMP scheme:** for aggregate turnover up to ₹5 crore. Quarterly GSTR-1 and GSTR-3B, but tax is paid monthly by the 25th of the next month for the first two months in PMT-06, by either the **fixed sum method** (35% of tax paid in cash in the preceding quarter where returns were quarterly, or 100% of cash paid in the last month of the preceding quarter where filed monthly) or the **self-assessment method** (actual liability less ITC).\n\nOther rules: a return cannot be filed if a previous return is not filed (section 39(10)); GSTR-3B cannot be filed if GSTR-1 for the period is not filed (section 39(10)); returns cannot be filed after **3 years** from the due date (sections 37(4), 39(11), 44(2), inserted by the Finance Act 2023). Late fee applies under section 47."
+        }
+      ],
+      "keyPoints": [
+        "Records kept at the principal place of business, retained 72 months from the due date of the annual return.",
+        "Credit ledger pays only forward-charge output tax; RCM tax, interest, penalty and fee are paid in cash.",
+        "Utilisation: IGST credit first and fully (IGST, then CGST/SGST in any proportion); CGST to CGST then IGST; SGST to SGST then IGST; never CGST against SGST.",
+        "Interest 18% under section 50(1) on net cash liability for late returns; 18% under 50(3) on ITC wrongly availed and utilised.",
+        "Due dates: GSTR-1 11th, GSTR-3B 20th, CMP-08 18th, GSTR-4 30 April, GSTR-9 31 December.",
+        "QRMP: turnover up to ₹5 crore; monthly PMT-06 by 25th; fixed sum 35% of last quarter's cash tax.",
+        "No return can be filed after 3 years from its due date."
+      ],
+      "cases": [
+        {
+          "id": "ca-i-gst-10-payment-returns-case1",
+          "title": "Case: Nirmal Exports Pvt Ltd",
+          "body": "Nirmal Exports Pvt Ltd, Pune, files monthly returns. For August 2026, all liabilities are under forward charge.\n\n| Particulars | CGST (₹) | SGST (₹) | IGST (₹) |\n| --- | --- | --- | --- |\n| Output tax liability | 80,000 | 80,000 | 1,50,000 |\n| ITC available (opening balance + eligible credit for the month) | 50,000 | 40,000 | 1,20,000 |\n\nGSTR-3B for August 2026 was due on 20 September 2026. The company filed it, and paid the cash portion, on 5 October 2026."
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-i-gst-10-payment-returns-q01",
+          "type": "mcq",
+          "prompt": "For how long must a registered person retain books of account for FY 2025-26, whose annual return was due on 31 December 2026?",
+          "options": [
+            "Until 31 March 2032",
+            "Until 31 December 2032",
+            "Until 31 December 2031",
+            "Six years from the end of FY 2025-26"
+          ],
+          "answer": 1,
+          "explanation": "Section 36: 72 months (6 years) from the due date of the annual return for the year. 31 December 2026 plus 72 months is 31 December 2032."
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q02",
+          "type": "mcq",
+          "prompt": "Which of the following can be paid by debiting the electronic credit ledger?",
+          "options": [
+            "Interest under section 50",
+            "Late fee under section 47",
+            "Output CGST under forward charge",
+            "GST payable under reverse charge"
+          ],
+          "answer": 2,
+          "explanation": "Section 49(4): the credit ledger may be used only for output tax. The Explanation to section 49 defines tax dues to exclude interest, penalty and fee, and RCM tax must be paid in cash."
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q03",
+          "type": "mcq",
+          "prompt": "Which statement about utilisation of ITC is correct?",
+          "options": [
+            "CGST credit can be used to pay SGST",
+            "IGST credit must be fully utilised before CGST or SGST credit is used",
+            "SGST credit must be used first against IGST",
+            "IGST credit can be used only against IGST"
+          ],
+          "answer": 1,
+          "explanation": "Section 49A and rule 88A: IGST credit is first used against IGST and the balance against CGST and SGST in any order and proportion; it must be exhausted before CGST/SGST credit is used. Cross-utilisation between CGST and SGST is not allowed."
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q04",
+          "type": "mcq",
+          "prompt": "What is the due date of the annual return GSTR-9 for FY 2026-27?",
+          "options": [
+            "30 November 2027",
+            "31 December 2027",
+            "30 April 2027",
+            "30 September 2027"
+          ],
+          "answer": 1,
+          "explanation": "Section 44 read with rule 80: GSTR-9 is due by 31 December following the end of the financial year. GSTR-9 is optional for aggregate turnover up to ₹2 crore."
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q05",
+          "type": "truefalse",
+          "prompt": "A taxpayer can file a GSTR-3B return for a period five years after its due date, on payment of late fee.",
+          "answer": false,
+          "explanation": "Sections 37(4), 39(11) and 44(2), inserted by the Finance Act 2023, bar filing of GSTR-1, GSTR-3B and the annual return after three years from the due date (subject to notified relaxations)."
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q06",
+          "type": "fill",
+          "prompt": "Fill the blank: a composition taxpayer files the quarterly statement for payment of tax in Form GST CMP-08 by the ___ day of the month following the quarter.",
+          "accept": [
+            "18",
+            "18th",
+            "eighteenth"
+          ],
+          "explanation": "CMP-08 is due by the 18th of the month after the quarter; the annual GSTR-4 is due by 30 April after the financial year."
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q07",
+          "type": "multi",
+          "prompt": "Which of the following must be paid only through the electronic cash ledger? Select all that apply.",
+          "options": [
+            "Tax payable under reverse charge",
+            "Interest under section 50",
+            "Late fee under section 47",
+            "Output IGST under forward charge",
+            "Penalty"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "RCM tax, interest, late fee and penalty are paid in cash. Only forward-charge output tax can be paid from the credit ledger."
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q08",
+          "type": "numeric",
+          "prompt": "A registered person wrongly availed ITC of ₹1,00,000, which was utilised for 73 days before he reversed it. Compute interest under section 50(3). Round to the nearest rupee.",
+          "answer": 3600,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Interest at 18% p.a. applies to ITC wrongly availed and utilised, from the date of utilisation to reversal.\n\n| Particulars | ₹ |\n| --- | --- |\n| 1,00,000 x 18% x 73 / 365 | 3,600 |"
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q09",
+          "type": "numeric",
+          "prompt": "A QRMP taxpayer filed quarterly GSTR-3B for April-June and paid ₹1,20,000 of tax in cash for that quarter. Under the fixed sum method, compute the amount to be paid in PMT-06 for July. Round to the nearest rupee.",
+          "answer": 42000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Fixed sum method: 35% of the tax paid in cash in the preceding quarter where the return was furnished quarterly.\n\n| Particulars | ₹ |\n| --- | --- |\n| 35% of 1,20,000 | 42,000 |"
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q10",
+          "type": "numeric",
+          "caseId": "ca-i-gst-10-payment-returns-case1",
+          "prompt": "Compute the minimum amount Nirmal Exports must pay through the electronic cash ledger for August 2026 (tax only, excluding interest). Round to the nearest rupee.",
+          "answer": 100000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Step | CGST | SGST | IGST |\n| --- | --- | --- | --- |\n| Liability | 80,000 | 80,000 | 1,50,000 |\n| Less: IGST credit (used against IGST first) | - | - | (1,20,000) |\n| Balance | 80,000 | 80,000 | 30,000 |\n| Less: CGST credit | (50,000) | - | - |\n| Less: SGST credit | - | (40,000) | - |\n| **Cash payable** | **30,000** | **40,000** | **30,000** |\n\nTotal cash = ₹1,00,000. Using CGST credit against IGST instead would not reduce the total, since total liability ₹3,10,000 less total credit ₹2,10,000 = ₹1,00,000."
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q11",
+          "type": "numeric",
+          "caseId": "ca-i-gst-10-payment-returns-case1",
+          "prompt": "Compute the interest payable under section 50(1) for the delay in filing GSTR-3B and paying tax for August 2026. Round to the nearest rupee.",
+          "answer": 740,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Interest on a delayed return is on the net cash liability only (proviso to section 50(1)).\n\n| Particulars | Detail |\n| --- | --- |\n| Net cash liability | ₹1,00,000 |\n| Delay: 21 September to 5 October 2026 | 10 + 5 = 15 days |\n| Interest = 1,00,000 x 18% x 15 / 365 | ₹739.73, say ₹740 |"
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q12",
+          "type": "mcq",
+          "caseId": "ca-i-gst-10-payment-returns-case1",
+          "prompt": "Could Nirmal use its balance in the electronic credit ledger to pay the interest of ₹740?",
+          "options": [
+            "Yes, from any credit head",
+            "Yes, but only from IGST credit",
+            "No, interest must be paid from the electronic cash ledger",
+            "No, interest is added to next month's output tax"
+          ],
+          "answer": 2,
+          "explanation": "The credit ledger can be used only for output tax. Interest, penalty and fee are payable through the electronic cash ledger."
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q13",
+          "type": "practical",
+          "prompt": "Compute the minimum GST payable in cash by Vega Ltd for the month, showing the head-wise utilisation of ITC as per sections 49, 49A and 49B and rule 88A. All liabilities are under forward charge.",
+          "data": "| Particulars | CGST (₹) | SGST (₹) | IGST (₹) |\n| --- | --- | --- | --- |\n| Output tax | 60,000 | 60,000 | 1,00,000 |\n| ITC available | 20,000 | 25,000 | 1,30,000 |",
+          "answer": "IGST credit is used first against IGST, and the balance must be used (in any proportion) against CGST and SGST before CGST and SGST credit is used.\n\n| Step | CGST (₹) | SGST (₹) | IGST (₹) |\n| --- | --- | --- | --- |\n| Output tax | 60,000 | 60,000 | 1,00,000 |\n| IGST credit 1,30,000: against IGST | - | - | (1,00,000) |\n| Balance IGST credit 30,000: against CGST | (30,000) | - | - |\n| CGST credit | (20,000) | - | - |\n| SGST credit | - | (25,000) | - |\n| **Cash payable** | **10,000** | **35,000** | **Nil** |\n\nTotal cash payable = **₹45,000**. Any other split of the ₹30,000 IGST balance between CGST and SGST gives the same total, as long as no credit is left unused (for example, ₹30,000 against SGST gives CGST cash 40,000 and SGST cash 5,000).",
+          "top": true
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q14",
+          "type": "interview",
+          "prompt": "Explain the three electronic ledgers maintained on the GST portal and their purpose.",
+          "answer": "- Electronic cash ledger (section 49(1)): credited with deposits made through PMT-06 by internet banking, NEFT/RTGS, cards or over the counter (up to ₹10,000 per challan). Used for payment of tax (including RCM), interest, penalty, fee and other amounts. Balance can be refunded or transferred between heads and to distinct persons with the same PAN, subject to conditions.\n- Electronic credit ledger (section 49(2)): credited with self-assessed ITC as per the return. Used only for output tax under forward charge, in the order laid down in sections 49, 49A, 49B and rule 88A.\n- Electronic liability register: records all liabilities - return-based tax, interest, late fee, and demands - and is debited when payments are made from the cash or credit ledger.\n- The date of deposit in the cash ledger is the date the amount is credited to the Government account."
+        },
+        {
+          "id": "ca-i-gst-10-payment-returns-q15",
+          "type": "interview",
+          "prompt": "What is the QRMP scheme? Explain the eligibility and the methods of monthly payment of tax.",
+          "answer": "- Quarterly Return Monthly Payment scheme for registered persons with aggregate turnover up to ₹5 crore in the preceding FY (and in the current FY), who are required to file GSTR-3B.\n- They file GSTR-1 and GSTR-3B quarterly; B2B invoices for the first two months may be uploaded through the optional Invoice Furnishing Facility (IFF) by the 13th of the next month.\n- Tax for the first two months of a quarter is paid by the 25th of the next month in PMT-06.\n- Fixed sum method: 35% of tax paid in cash in the preceding quarter (if returns were quarterly) or 100% of cash tax paid in the last month of the preceding quarter (if returns were monthly). No payment if the amount is nil.\n- Self-assessment method: actual liability for the month less ITC available.\n- Amounts deposited are adjusted against the quarterly GSTR-3B; interest applies if the self-assessed method shows short payment.\n- The option is exercised per GSTIN and can be changed for a future quarter."
+        }
+      ],
+      "resources": [
+        {
+          "title": "CBIC GST portal",
+          "url": "https://www.cbic-gst.gov.in/"
+        },
+        {
+          "title": "GST portal (returns and payments)",
+          "url": "https://www.gst.gov.in/"
+        },
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    }
+  ]
+}

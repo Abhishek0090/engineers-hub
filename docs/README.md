@@ -4,7 +4,8 @@
 | --- | --- |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Understand how the app is built: stack, folders, request flow, data layer, auth, progress, theming, sharing |
 | [CURRICULUM.md](CURRICULUM.md) | See what it covers: every goal, track, chapter and the most asked interview questions per track (generated) |
-| [CONTENT-GUIDE.md](CONTENT-GUIDE.md) | Add or change tracks, chapters, questions, goals and users |
+| [CONTENT-GUIDE.md](CONTENT-GUIDE.md) | Add or change tracks, chapters, questions, goals, users and programs |
+| [CA-REVIEW.md](CA-REVIEW.md) | Points in the CA content a subject expert should verify before students rely on it |
 
 Setup and everyday commands are in the [project README](../README.md).
 

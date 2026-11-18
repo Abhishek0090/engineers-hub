@@ -1,0 +1,1979 @@
+{
+  "id": "ca-f-accounting",
+  "title": "Accounting (Foundation P1)",
+  "area": "ca-foundation",
+  "order": 100,
+  "icon": "ACC",
+  "color": "#2563eb",
+  "description": "ICAI Foundation Paper 1 (new scheme, May 2027 onward): accounting framework, books of account, BRS, rectification, depreciation and inventories, bills, consignment, final accounts, partnership and company accounts, with ledger-format worked problems.",
+  "chapters": [
+    {
+      "id": "ca-f-accounting-01-framework",
+      "title": "Theoretical Framework: Concepts, Conventions, Policies and AS Overview",
+      "level": "beginner",
+      "summary": "Meaning and users of accounting, the fundamental assumptions, concepts and conventions, capital vs revenue items, accounting policies and an overview of Accounting Standards.",
+      "estMinutes": 40,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "AS 1 Disclosure of Accounting Policies and AS 5 as issued by ICAI; Companies (Accounting Standards) Rules, 2021",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Accounting: meaning, process and users",
+          "body": "**Accounting** is the process of identifying, measuring, recording, classifying, summarising, analysing, interpreting and communicating financial information to its users. **Book-keeping** is only the recording part (journal and ledger); accounting goes on to prepare and explain financial statements.\n\n- **Internal users**: owners, management, employees.\n- **External users**: lenders, creditors, investors, tax authorities, government, customers and the public.\n\nAccounting records only transactions and events that can be measured in money. That is its main limitation: the skill of the workforce or a pending strike is not recorded, however important.\n\n**Bases of accounting**: under the **cash basis** income and expense are recorded only when cash moves. Under the **accrual basis** they are recorded in the period in which they are earned or incurred, whether or not cash moves. Companies must follow the accrual basis (section 128 of the Companies Act, 2013), and AS 1 treats accrual as a fundamental assumption."
+        },
+        {
+          "heading": "Fundamental assumptions, concepts and conventions",
+          "body": "AS 1 names three **fundamental accounting assumptions**. If financial statements follow them, no disclosure is needed. If any one is not followed, that fact must be disclosed.\n\n| Assumption | Meaning |\n| --- | --- |\n| Going concern | The enterprise will continue to operate for the foreseeable future; no intention or need to liquidate |\n| Consistency | Accounting policies are applied consistently from one period to the next |\n| Accrual | Revenues and costs are recognised as they are earned or incurred, not as cash is received or paid |\n\nOther **concepts** you must be able to explain and apply:\n\n- **Business entity**: the business is separate from its owner. Capital is a liability of the business towards the owner; personal expenses are drawings.\n- **Money measurement**: only items measurable in money are recorded.\n- **Periodicity (accounting period)**: results are measured for fixed periods, usually a year.\n- **Historical cost**: assets are recorded at acquisition cost, not current market value.\n- **Matching**: expenses are matched with the revenue of the same period.\n- **Realisation (revenue recognition)**: revenue is recognised when it is earned, normally when goods are delivered or services rendered.\n- **Dual aspect**: every transaction has two aspects; this gives Assets = Liabilities + Capital.\n\n**Conventions**: **conservatism (prudence)** - anticipate no profit, provide for all foreseeable losses (closing stock at lower of cost and net realisable value); **materiality** - items that would not influence users' decisions need not be shown separately; **full disclosure** - all material information is disclosed, often by notes."
+        },
+        {
+          "heading": "Capital and revenue items",
+          "body": "The capital vs revenue distinction decides whether an amount goes to the Balance Sheet or the Profit and Loss Account, so an error here distorts both profit and assets.\n\n| Type | Test | Examples |\n| --- | --- | --- |\n| Capital expenditure | Acquires or improves a fixed asset, or increases earning capacity; benefit lasts beyond the year | Purchase of machinery, wages for installing a new machine, legal fees for buying land, extension of a building |\n| Revenue expenditure | Maintains the business; benefit used up within the year | Repairs, rent, salaries, carriage on purchases, depreciation |\n| Deferred revenue expenditure | Revenue in nature but benefit is believed to extend over a few years | Heavy one-time costs; note that AS 26 now requires most such costs (for example advertising) to be expensed |\n| Capital receipt | Not from normal operations; affects assets or liabilities | Capital introduced, loan taken, sale proceeds of an old machine |\n| Revenue receipt | From normal operations | Sales, commission earned, interest received, rent received |\n\n**Worked example**: a trader buys a second-hand delivery van for ₹3,20,000 and spends ₹28,000 on an engine overhaul before first use and ₹6,000 on its first annual insurance. The van is recorded at ₹3,48,000 (overhaul makes it ready for use: capital). The ₹6,000 insurance is revenue expenditure for the year."
+        },
+        {
+          "heading": "Accounting policies and Accounting Standards",
+          "body": "**Accounting policies** are the specific principles and methods an enterprise adopts to prepare its financial statements, for example the method of depreciation or the cost formula for inventory. AS 1 lists three considerations for selecting them: **prudence**, **substance over form** and **materiality**. All significant policies must be disclosed in one place, normally the first note to the accounts.\n\nA **change in accounting policy** is made only if required by statute, by an accounting standard, or if it results in a more appropriate presentation. The effect of a material change must be disclosed (AS 1 and AS 5).\n\n**Accounting Standards (AS)** are written policy documents issued by ICAI through its Accounting Standards Board covering recognition, measurement, presentation and disclosure. They reduce alternative treatments and improve comparability.\n\n- Companies that are not covered by Ind AS follow the AS notified under the **Companies (Accounting Standards) Rules, 2021**.\n- Non-corporate entities follow the AS issued by ICAI, with relaxations based on their size classification.\n- Larger listed and specified companies follow **Ind AS** (converged with IFRS) under the Companies (Indian Accounting Standards) Rules, 2015.\n\n**Common mistakes**: calling prudence a fundamental assumption (it is a consideration in selecting policies); treating a change in estimate (for example useful life) as a change in policy; recording the owner's household expenses as business expenses."
+        }
+      ],
+      "keyPoints": [
+        "AS 1 fundamental assumptions: going concern, consistency, accrual. Disclose only if NOT followed.",
+        "AS 1 considerations in selecting policies: prudence, substance over form, materiality.",
+        "Assets = Liabilities + Capital (dual aspect). Profit = Closing capital - Opening capital + Drawings - Additional capital.",
+        "Capital expenditure creates or improves an asset; revenue expenditure maintains it.",
+        "Change accounting policy only if required by statute, by an AS, or for more appropriate presentation.",
+        "Accrual-basis income = Cash received - opening accrued/outstanding + closing accrued/outstanding."
+      ],
+      "questions": [
+        {
+          "id": "ca-f-accounting-01-framework-q01",
+          "type": "mcq",
+          "prompt": "Which of the following is NOT a fundamental accounting assumption under AS 1?",
+          "options": [
+            "Going concern",
+            "Consistency",
+            "Accrual",
+            "Prudence"
+          ],
+          "answer": 3,
+          "explanation": "AS 1 lists going concern, consistency and accrual as fundamental assumptions. Prudence is one of the considerations in selecting accounting policies, along with substance over form and materiality."
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q02",
+          "type": "mcq",
+          "prompt": "The proprietor's household electricity bill paid out of the business bank account is debited to Drawings Account. Which concept requires this?",
+          "options": [
+            "Money measurement concept",
+            "Business entity concept",
+            "Matching concept",
+            "Going concern concept"
+          ],
+          "answer": 1,
+          "explanation": "The business is treated as separate from its owner. A personal expense paid by the business reduces the owner's claim, so it is drawings, not a business expense."
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q03",
+          "type": "mcq",
+          "prompt": "Closing inventory is valued at the lower of cost and net realisable value. This follows the convention of:",
+          "options": [
+            "Materiality",
+            "Full disclosure",
+            "Conservatism (prudence)",
+            "Consistency"
+          ],
+          "answer": 2,
+          "explanation": "Prudence says do not anticipate profits but provide for foreseeable losses. Writing stock down to NRV when NRV is below cost recognises the expected loss now; stock is never written up above cost."
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q04",
+          "type": "mcq",
+          "prompt": "Which of the following is capital expenditure?",
+          "options": [
+            "Repairs to an existing machine",
+            "Wages paid for installing a newly purchased machine",
+            "Insurance premium on the factory building",
+            "Carriage paid on goods purchased for resale"
+          ],
+          "answer": 1,
+          "explanation": "Installation wages are needed to bring the new machine to working condition, so they are part of its cost and capitalised. The others maintain the business or relate to trading goods and are revenue expenditure."
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q05",
+          "type": "mcq",
+          "prompt": "Goods were sold on credit and delivered on 25 March 2027; the customer paid on 10 April 2027. The books close on 31 March. When is the revenue recognised and which concept supports it?",
+          "options": [
+            "10 April 2027, cash basis",
+            "25 March 2027, realisation concept",
+            "31 March 2027, periodicity concept",
+            "Over both years equally, matching concept"
+          ],
+          "answer": 1,
+          "explanation": "Revenue is realised when it is earned, which for a sale of goods is normally on delivery. The timing of cash is irrelevant under the accrual basis, so the sale belongs to the year ending 31 March 2027."
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q06",
+          "type": "truefalse",
+          "prompt": "An enterprise may change its method of inventory valuation in any year if the new method shows a higher profit.",
+          "answer": false,
+          "explanation": "A change in accounting policy is allowed only if required by statute, by an accounting standard, or if it gives a more appropriate presentation. Showing higher profit is not a valid reason, and the effect of a material change must be disclosed."
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q07",
+          "type": "multi",
+          "prompt": "Select all items that are revenue expenditure.",
+          "options": [
+            "Salary paid to the accountant",
+            "Legal fees paid on purchase of land",
+            "Depreciation on furniture",
+            "Freight paid on a new machine",
+            "Annual maintenance contract charges for computers"
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "explanation": "Salary, depreciation and maintenance charges are recurring costs of running the business. Legal fees on land and freight on a new machine are part of the cost of acquiring fixed assets, so they are capital expenditure."
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q08",
+          "type": "fill",
+          "prompt": "Fill the blank: the concept under which every transaction affects at least two accounts, giving the equation Assets = Liabilities + Capital, is the ___ concept.",
+          "accept": [
+            "dual aspect",
+            "dual-aspect",
+            "duality",
+            "dual aspect concept"
+          ],
+          "explanation": "The dual aspect concept says every transaction has a giving and a receiving aspect of equal amount. It is the basis of double entry and of the accounting equation."
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q09",
+          "type": "numeric",
+          "prompt": "Compute the profit for the year using the capital comparison method. Answer in ₹.",
+          "data": "| Particulars | Amount (₹) |\n| --- | --- |\n| Capital at the beginning of the year | 5,20,000 |\n| Total assets at the end of the year | 9,60,000 |\n| Total outside liabilities at the end of the year | 3,10,000 |\n| Drawings during the year | 60,000 |\n| Additional capital introduced during the year | 40,000 |",
+          "answer": 150000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Closing capital = Assets - Liabilities.\n\n| Particulars | Amount (₹) |\n| --- | --- |\n| Closing capital (9,60,000 - 3,10,000) | 6,50,000 |\n| Add: Drawings | 60,000 |\n| Less: Additional capital | (40,000) |\n| Less: Opening capital | (5,20,000) |\n| **Profit** | **1,50,000** |"
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q10",
+          "type": "numeric",
+          "prompt": "During 2026-27 a firm paid salaries of ₹4,80,000. This includes ₹40,000 outstanding for 2025-26. Salaries of ₹45,000 for March 2027 are outstanding on 31 March 2027. Find the salary expense for 2026-27 on the accrual basis (in ₹).",
+          "answer": 485000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Amount (₹) |\n| --- | --- |\n| Salaries paid | 4,80,000 |\n| Less: Relating to 2025-26 | (40,000) |\n| Add: Outstanding for 2026-27 | 45,000 |\n| **Expense for 2026-27** | **4,85,000** |\n\nUnder accrual, the expense belongs to the year in which the service was received."
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q11",
+          "type": "numeric",
+          "prompt": "Find the credit sales for the year (in ₹). Assume no bad debts, discounts or returns.",
+          "data": "| Particulars | Amount (₹) |\n| --- | --- |\n| Cash collected from debtors during the year | 18,40,000 |\n| Debtors at the beginning of the year | 2,10,000 |\n| Debtors at the end of the year | 2,65,000 |",
+          "answer": 1895000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Credit sales = Collections - Opening debtors + Closing debtors = 18,40,000 - 2,10,000 + 2,65,000 = ₹18,95,000. Opening debtors relate to last year's sales, closing debtors are this year's sales not yet collected."
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q12",
+          "type": "practical",
+          "prompt": "Classify each item as capital expenditure, revenue expenditure, capital receipt or revenue receipt, giving a one-line reason.",
+          "data": "- (a) ₹45,000 spent on white-washing the office building every year.\n- (b) ₹1,20,000 spent on adding a new floor to the factory.\n- (c) ₹2,00,000 loan received from a bank.\n- (d) ₹35,000 received from sale of an old printer.\n- (e) ₹18,000 commission received from an insurance company.\n- (f) ₹12,000 stamp duty and registration charges on purchase of a shop.",
+          "answer": "| Item | Classification | Reason |\n| --- | --- | --- |\n| (a) Annual white-washing | Revenue expenditure | Recurring maintenance; does not increase capacity |\n| (b) New floor | Capital expenditure | Extends the asset and increases earning capacity |\n| (c) Bank loan | Capital receipt | Creates a liability; not from operations |\n| (d) Sale of old printer | Capital receipt | Sale of a fixed asset; only profit or loss on sale goes to P&L |\n| (e) Commission received | Revenue receipt | Earned in the normal course of business |\n| (f) Stamp duty on shop | Capital expenditure | Cost incurred to acquire a fixed asset; added to its cost |",
+          "top": true
+        },
+        {
+          "id": "ca-f-accounting-01-framework-q13",
+          "type": "interview",
+          "prompt": "Explain the fundamental accounting assumptions under AS 1. What disclosure is required in respect of them?",
+          "answer": "- AS 1 recognises three fundamental assumptions: **going concern**, **consistency** and **accrual**.\n- Going concern: the enterprise is assumed to continue in operation for the foreseeable future, so assets are carried at cost less depreciation, not at break-up value.\n- Consistency: the same accounting policies are followed from period to period, which makes the statements comparable.\n- Accrual: revenues and costs are recognised when earned or incurred and recorded in the period to which they relate, not when cash moves.\n- If these assumptions are followed, no specific disclosure is required. If any of them is not followed, the fact must be disclosed.\n- Contrast with AS 1's three considerations in selecting policies (prudence, substance over form, materiality) and the requirement to disclose all significant accounting policies in one place.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: Accounting Standards",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-accounting-02-journal-ledger-tb",
+      "title": "Journal, Ledger and Trial Balance",
+      "level": "beginner",
+      "summary": "Double-entry rules, journalising, posting and balancing ledger accounts, and preparing a trial balance with its limits.",
+      "estMinutes": 45,
+      "lesson": [
+        {
+          "heading": "Double entry and the rules of debit and credit",
+          "body": "Every transaction is recorded with equal debits and credits. Two approaches give the same result.\n\n**Accounting equation (modern) approach**:\n\n| Account type | Increase | Decrease |\n| --- | --- | --- |\n| Assets | Debit | Credit |\n| Expenses and losses | Debit | Credit |\n| Liabilities | Credit | Debit |\n| Capital | Credit | Debit |\n| Revenue and gains | Credit | Debit |\n\n**Traditional (golden rules) approach**:\n\n- **Personal account** (Ram, Bank, Capital, Outstanding wages): debit the receiver, credit the giver.\n- **Real account** (cash, furniture, goods, goodwill): debit what comes in, credit what goes out.\n- **Nominal account** (expenses, losses, incomes, gains): debit all expenses and losses, credit all incomes and gains.\n\nDrawings reduce capital, so Drawings Account is debited. Goods withdrawn by the owner are credited to **Purchases Account** (at cost), not to Sales."
+        },
+        {
+          "heading": "Journal: format and special entries",
+          "body": "The journal is the **book of original entry**. Format: Date | Particulars | L.F. | Debit (₹) | Credit (₹), with a narration under every entry. A **compound entry** has more than one debit or credit.\n\n| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Rakesh A/c Dr | 50,000 |  |\n| To Bank A/c |  | 48,500 |\n| To Discount received A/c |  | 1,500 |\n| (Being payment to Rakesh in full settlement) |  |  |\n| Advertisement (free samples) A/c Dr | 6,000 |  |\n| To Purchases A/c |  | 6,000 |\n| (Being goods distributed as free samples) |  |  |\n| Bad debts A/c Dr | 4,000 |  |\n| To Manoj A/c |  | 4,000 |\n| (Being amount due from Manoj written off) |  |  |\n| Machinery A/c Dr | 1,20,000 |  |\n| To Modern Tools (creditor) A/c |  | 1,20,000 |\n| (Being machinery bought on credit) |  |  |\n\nNotes on common traps:\n\n- Credit purchase of an **asset** credits the supplier's personal account, never Purchases.\n- **Trade discount** is not recorded; **cash discount** is (Discount allowed or Discount received).\n- Goods lost by fire: Loss by fire Dr (uninsured part) and Insurance claim Dr (admitted part) To Purchases."
+        },
+        {
+          "heading": "Ledger: posting and balancing",
+          "body": "The **ledger** is the principal book. Each account has a debit side and a credit side. Posting from the journal: the debit account gets \"To [credit account]\" on its debit side; the credit account gets \"By [debit account]\" on its credit side.\n\nBalancing: total both sides, put the difference on the shorter side as \"By/To Balance c/d\", and bring it down on the opposite side as \"Balance b/d\". A debit balance on an asset is normal; capital, creditors and incomes normally have credit balances.\n\nExample: Kavita's account in Mehta Stationers' ledger:\n\n| Dr Particulars | ₹ | Cr Particulars | ₹ |\n| --- | --- | --- | --- |\n| To Sales | 64,000 | By Cash | 40,000 |\n|  |  | By Balance c/d | 24,000 |\n|  | 64,000 |  | 64,000 |\n| To Balance b/d | 24,000 |  |  |\n\nNominal accounts are not balanced and carried forward; they are closed by transfer to the Trading or Profit and Loss Account at year end."
+        },
+        {
+          "heading": "Trial balance: purpose and limits",
+          "body": "A **trial balance** lists all ledger balances (balance method) or totals (total method) at a date. Debit total must equal credit total; if it does, the arithmetical accuracy of posting is broadly proved. It is the starting point for final accounts.\n\nDebit side: assets, expenses, losses, drawings, purchases, sales returns. Credit side: capital, liabilities, incomes, gains, sales, purchase returns, provisions.\n\nErrors **not** disclosed by a trial balance:\n\n- Error of **omission** (complete).\n- Error of **principle** (machinery debited to Purchases).\n- **Compensating** errors.\n- Error of **commission** posted to the wrong account on the correct side.\n- Wrong amount entered in the book of original entry.\n\n**Common mistakes**: putting opening stock on the credit side (it is debit), putting closing stock in the trial balance when it is given as an adjustment, and treating a balanced trial balance as proof that the accounts are error-free."
+        }
+      ],
+      "keyPoints": [
+        "Personal: debit receiver, credit giver. Real: debit what comes in, credit what goes out. Nominal: debit expenses/losses, credit incomes/gains.",
+        "Goods withdrawn, given as charity or free samples: credit Purchases at cost.",
+        "Trade discount is never recorded; cash discount is recorded.",
+        "Trial balance checks arithmetical accuracy only; errors of omission, principle, compensating errors and wrong-account commission errors are not revealed.",
+        "Nominal accounts close to Trading/P&L; real and personal accounts carry balances forward."
+      ],
+      "cases": [
+        {
+          "title": "Case: Mehta Stationers",
+          "body": "Rohit Mehta started **Mehta Stationers** on 1 April 2026. Transactions for April 2026:\n\n| Date | Transaction |\n| --- | --- |\n| 1 Apr | Started business with cash ₹3,00,000 |\n| 3 Apr | Deposited ₹1,80,000 into the bank |\n| 5 Apr | Purchased goods from Sunil on credit ₹90,000 |\n| 8 Apr | Sold goods to Kavita on credit ₹64,000 |\n| 12 Apr | Purchased furniture, paid by cheque ₹40,000 |\n| 15 Apr | Paid Sunil by cheque ₹88,500 in full settlement |\n| 18 Apr | Cash sales ₹36,000 |\n| 22 Apr | Received cash from Kavita ₹40,000 |\n| 25 Apr | Paid rent in cash ₹12,000 |\n| 28 Apr | Withdrew cash for personal use ₹8,000 |\n| 30 Apr | Paid salaries in cash ₹15,000 |",
+          "id": "ca-f-accounting-02-journal-ledger-tb-case1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q01",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-02-journal-ledger-tb-case1",
+          "prompt": "What is the balance of the Cash Account on 30 April 2026 (in ₹)?",
+          "answer": 161000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Capital (1 Apr) | 3,00,000 |  |\n| Bank (3 Apr) |  | 1,80,000 |\n| Sales (18 Apr) | 36,000 |  |\n| Kavita (22 Apr) | 40,000 |  |\n| Rent (25 Apr) |  | 12,000 |\n| Drawings (28 Apr) |  | 8,000 |\n| Salaries (30 Apr) |  | 15,000 |\n| **Balance c/d** |  | **1,61,000** |\n\nCheque transactions go through Bank Account, not Cash."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q02",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-02-journal-ledger-tb-case1",
+          "prompt": "Which journal entry correctly records the transaction of 15 April?",
+          "options": [
+            "Sunil A/c Dr 88,500; To Bank A/c 88,500",
+            "Sunil A/c Dr 90,000; To Bank A/c 88,500; To Discount Received A/c 1,500",
+            "Sunil A/c Dr 90,000; To Bank A/c 90,000",
+            "Sunil A/c Dr 88,500; Discount Allowed A/c Dr 1,500; To Bank A/c 90,000"
+          ],
+          "answer": 1,
+          "explanation": "Rohit owed Sunil ₹90,000 and settled it fully for ₹88,500. Sunil's account is debited with the full ₹90,000 to close it; Bank is credited with the cash paid and the ₹1,500 saved is a gain credited to Discount Received."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q03",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-02-journal-ledger-tb-case1",
+          "prompt": "The ₹8,000 withdrawn on 28 April will be shown in the trial balance as:",
+          "options": [
+            "A debit balance in Drawings Account",
+            "A credit balance in Capital Account reducing it to ₹2,92,000 directly",
+            "A debit balance in Salaries Account",
+            "A credit balance in Cash Account"
+          ],
+          "answer": 0,
+          "explanation": "Withdrawals are debited to Drawings Account during the year and appear as a separate debit balance. Drawings are transferred to Capital only when final accounts are prepared."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q04",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-02-journal-ledger-tb-case1",
+          "prompt": "Prepare the trial balance of Mehta Stationers on 30 April 2026. What is the total of each side (in ₹)?",
+          "answer": 401500,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Account | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Cash | 1,61,000 |  |\n| Bank | 51,500 |  |\n| Kavita | 24,000 |  |\n| Furniture | 40,000 |  |\n| Purchases | 90,000 |  |\n| Rent | 12,000 |  |\n| Drawings | 8,000 |  |\n| Salaries | 15,000 |  |\n| Capital |  | 3,00,000 |\n| Sales |  | 1,00,000 |\n| Discount received |  | 1,500 |\n| **Total** | **4,01,500** | **4,01,500** |\n\nBank = 1,80,000 - 40,000 - 88,500 = ₹51,500. Sales = 64,000 credit + 36,000 cash = ₹1,00,000."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q05",
+          "type": "mcq",
+          "prompt": "Goods costing ₹15,000 were taken by the proprietor for personal use. The correct entry is:",
+          "options": [
+            "Drawings A/c Dr; To Sales A/c",
+            "Drawings A/c Dr; To Purchases A/c",
+            "Capital A/c Dr; To Stock A/c",
+            "Purchases A/c Dr; To Drawings A/c"
+          ],
+          "answer": 1,
+          "explanation": "The goods were bought for resale and recorded in Purchases. Taking them out reduces purchases at cost, and the owner's withdrawal is debited to Drawings. They were not sold, so Sales is not credited."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q06",
+          "type": "mcq",
+          "prompt": "Purchase of a computer for office use was debited to Purchases Account. This error will:",
+          "options": [
+            "Cause the trial balance to disagree",
+            "Not affect the agreement of the trial balance",
+            "Affect only the credit side of the trial balance",
+            "Be detected by balancing the computer account"
+          ],
+          "answer": 1,
+          "explanation": "This is an error of principle: the debit is on the correct side but in the wrong class of account. Debits still equal credits, so the trial balance agrees."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q07",
+          "type": "mcq",
+          "prompt": "Under the traditional approach, Outstanding Salaries Account is a:",
+          "options": [
+            "Nominal account",
+            "Real account",
+            "Representative personal account",
+            "Natural personal account"
+          ],
+          "answer": 2,
+          "explanation": "Outstanding and prepaid expense accounts and income received in advance represent persons to whom money is owed or by whom it is owed, so they are representative personal accounts."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q08",
+          "type": "truefalse",
+          "prompt": "If the trial balance agrees, the books of account are free from all errors.",
+          "answer": false,
+          "explanation": "Agreement proves only that debits equal credits. Errors of omission, principle, compensating errors and posting to the wrong account on the correct side all leave the trial balance in agreement."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q09",
+          "type": "multi",
+          "prompt": "Select all accounts that normally show a debit balance.",
+          "options": [
+            "Drawings",
+            "Prepaid insurance",
+            "Bills receivable",
+            "Outstanding wages",
+            "Discount received",
+            "Sales returns"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            5
+          ],
+          "explanation": "Drawings, prepaid expenses (an asset), bills receivable (an asset) and sales returns (reduce income) are debit balances. Outstanding wages is a liability and discount received is an income, both credit balances."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the journal is called the book of ___ entry, and the ledger is called the book of final entry.",
+          "accept": [
+            "original",
+            "prime",
+            "first"
+          ],
+          "explanation": "Transactions are first recorded chronologically in the journal (book of original or prime entry) and then classified by account in the ledger."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q11",
+          "type": "numeric",
+          "prompt": "From the balances below, prepare a trial balance and find the proprietor's capital as the balancing figure (in ₹).",
+          "data": "| Account | ₹ | Account | ₹ |\n| --- | --- | --- | --- |\n| Cash | 25,000 | Creditors | 78,000 |\n| Debtors | 1,15,000 | Sales | 6,30,000 |\n| Opening stock | 60,000 | Loan from bank | 1,00,000 |\n| Purchases | 4,20,000 | Return outwards | 6,000 |\n| Wages | 48,000 | Machinery | 2,50,000 |\n| Rent | 36,000 | Drawings | 30,000 |\n| Return inwards | 9,000 | Capital | ? |",
+          "answer": 179000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Debit balances: cash, debtors, opening stock, purchases, wages, machinery, rent, drawings, return inwards = ₹9,93,000.\n\nCredit balances other than capital: creditors, sales, loan, return outwards = ₹8,14,000.\n\nCapital = 9,93,000 - 8,14,000 = **₹1,79,000**. Note that machinery and drawings are debit items even though they sit in the right-hand column of the data."
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q12",
+          "type": "practical",
+          "prompt": "Pass journal entries in the books of Neha Traders for the following transactions of March 2027.",
+          "data": "- (a) Purchased machinery on credit from Ace Engineering ₹1,50,000.\n- (b) Goods costing ₹7,500 distributed as free samples.\n- (c) Goods costing ₹20,000 destroyed by fire; insurance company admitted a claim of ₹14,000.\n- (d) Paid insurance premium ₹24,000 by cheque, of which ₹6,000 relates to next year.\n- (e) Received ₹19,400 in cash from Varun in full settlement of ₹20,000.\n- (f) Interest on capital at 10% on capital of ₹4,00,000.",
+          "answer": "| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Machinery A/c Dr | 1,50,000 |  |\n| To Ace Engineering A/c |  | 1,50,000 |\n| (Being machinery purchased on credit) |  |  |\n| Advertisement A/c Dr | 7,500 |  |\n| To Purchases A/c |  | 7,500 |\n| (Being goods distributed as free samples) |  |  |\n| Insurance claim A/c Dr | 14,000 |  |\n| Loss by fire A/c Dr | 6,000 |  |\n| To Purchases A/c |  | 20,000 |\n| (Being goods lost by fire and claim admitted) |  |  |\n| Insurance A/c Dr | 18,000 |  |\n| Prepaid insurance A/c Dr | 6,000 |  |\n| To Bank A/c |  | 24,000 |\n| (Being premium paid, ₹6,000 relating to next year) |  |  |\n| Cash A/c Dr | 19,400 |  |\n| Discount allowed A/c Dr | 600 |  |\n| To Varun A/c |  | 20,000 |\n| (Being cash received in full settlement) |  |  |\n| Interest on capital A/c Dr | 40,000 |  |\n| To Capital A/c |  | 40,000 |\n| (Being interest on capital at 10% p.a.) |  |  |\n\nKey points: a credit purchase of an asset credits the supplier, not Purchases; goods lost or given away are credited to Purchases at cost; only the admitted claim is an asset, the rest is a loss.",
+          "top": true
+        },
+        {
+          "id": "ca-f-accounting-02-journal-ledger-tb-q13",
+          "type": "interview",
+          "prompt": "What is a trial balance? State its objectives and the errors that it does not disclose.",
+          "answer": "- A trial balance is a statement of debit and credit balances (or totals) of all ledger accounts at a date, prepared to check the arithmetical accuracy of the books.\n- Objectives: verify that debits equal credits after posting; give a summary of ledger balances in one place; serve as the base for preparing Trading, P&L and Balance Sheet; help locate errors.\n- It is a statement, not an account, and is not part of the double-entry system.\n- Errors not disclosed: complete omission; errors of principle; compensating errors; posting to the wrong account but on the correct side; wrong amount in the book of original entry; recording a transaction twice.\n- So agreement is prima facie, not conclusive, evidence of accuracy."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-accounting-03-subsidiary-books-brs",
+      "title": "Subsidiary Books and Bank Reconciliation Statement",
+      "level": "beginner",
+      "summary": "Special journals, the three types of cash book, the petty cash imprest system, and reconciling the cash book with the pass book.",
+      "estMinutes": 45,
+      "lesson": [
+        {
+          "heading": "Subsidiary books",
+          "body": "Large volumes of similar transactions are recorded in **subsidiary (special) books** instead of the journal. Periodic totals are posted to the ledger.\n\n| Book | Records | Ledger posting of total |\n| --- | --- | --- |\n| Purchases book | Credit purchases of goods only | Purchases A/c Dr; individual suppliers Cr |\n| Sales book | Credit sales of goods only | Individual customers Dr; Sales A/c Cr |\n| Purchase returns (returns outward) book | Goods returned to suppliers | Suppliers Dr; Purchase Returns A/c Cr |\n| Sales returns (returns inward) book | Goods returned by customers | Sales Returns A/c Dr; customers Cr |\n| Bills receivable / payable books | Bills received / accepted | Bills Receivable Dr / Bills Payable Cr |\n| Cash book | All cash and bank receipts and payments | Works as both journal and ledger |\n| Journal proper | Everything else: opening and closing entries, rectification, adjustments, credit purchase of assets | Individual entries |\n\nCredit purchase of furniture is **not** entered in the purchases book (it is not goods); it goes to the journal proper."
+        },
+        {
+          "heading": "Cash book and petty cash book",
+          "body": "**Types of cash book**: simple (cash column only), two-column (cash and bank, or cash and discount) and three-column (discount, cash, bank). The cash book is both a book of original entry and the Cash/Bank Account of the ledger, so cash and bank balances are not opened separately in the ledger.\n\n- Discount columns are **memorandum**: their totals are posted to Discount Allowed (debit side total) and Discount Received (credit side total).\n- A **contra entry** affects both cash and bank columns, for example cash deposited into bank or cash withdrawn from bank. It is marked \"C\" in the L.F. column and not posted to the ledger.\n- Bank column credit balance means **overdraft**; cash column can never have a credit balance.\n\n**Petty cash under the imprest system**: the petty cashier gets a fixed amount (imprest). At the end of the period the main cashier reimburses exactly the amount spent, restoring the imprest. The analytical petty cash book has columns for postage, stationery, conveyance and so on.\n\nWorked example: imprest ₹6,000; spent ₹4,350 in the week; balance ₹1,650. Reimbursement = ₹4,350, restoring ₹6,000."
+        },
+        {
+          "heading": "Why the cash book and pass book differ",
+          "body": "The cash book (firm's record) and the pass book or bank statement (bank's record) are mirror images: a debit balance in the cash book is a credit balance in the pass book. Differences arise from:\n\n- **Timing**: cheques issued but not presented; cheques deposited but not credited (cleared).\n- **Items known to the bank first**: bank charges, interest credited or debited, direct deposits by customers, standing-instruction payments, dividends collected, dishonoured cheques.\n- **Errors** in either book.\n\nA **Bank Reconciliation Statement (BRS)** explains the difference. It is a statement, not an account. Good practice: first update the cash book for items (2) and errors in it, then reconcile the **adjusted** cash book balance with the pass book for timing items only."
+        },
+        {
+          "heading": "BRS format and worked example",
+          "body": "Starting from a favourable cash book balance:\n\n| Particulars | ₹ |\n| --- | --- |\n| Balance as per cash book (Dr) | x |\n| Add: Cheques issued but not presented | x |\n| Add: Interest / direct deposits credited by bank only | x |\n| Less: Cheques deposited but not credited | (x) |\n| Less: Bank charges, dishonours, direct payments debited by bank only | (x) |\n| Balance as per pass book (Cr) | x |\n\nRule of thumb: ask \"does this item make the pass book higher or lower than the cash book?\" When you start from an **overdraft**, reverse the signs (add items that increase the overdraft as per pass book) or treat the overdraft as a negative number and apply the same logic.\n\nExample: cash book overdraft ₹40,000; cheques issued not presented ₹12,000; bank interest debited ₹1,500 not in cash book. Overdraft as per pass book = 40,000 - 12,000 + 1,500 = ₹29,500.\n\n**Common mistakes**: adding uncredited cheques; recording dishonour as an addition; forgetting that a pass book debit balance is an overdraft."
+        }
+      ],
+      "keyPoints": [
+        "Purchases and sales books record credit transactions in goods only; asset purchases on credit go to the journal proper.",
+        "Contra entries (cash to bank, bank to cash) are marked C and not posted to the ledger.",
+        "Imprest system: reimburse exactly the amount spent.",
+        "Starting from cash book (Dr): add cheques issued not presented, deduct cheques deposited not cleared.",
+        "Update the cash book for bank charges, interest, direct deposits, dishonours and standing instructions before reconciling.",
+        "Overdraft as per cash book = credit balance; as per pass book = debit balance."
+      ],
+      "cases": [
+        {
+          "title": "Case: Gupta Traders",
+          "body": "On 31 March 2027 the Cash Book of **Gupta Traders** shows a debit bank balance of **₹1,46,500**. The pass book shows a different balance. On comparison:\n\n| No. | Item |\n| --- | --- |\n| (i) | Cheques of ₹62,000 issued to suppliers were not presented for payment till 31 March |\n| (ii) | Cheques of ₹48,700 deposited on 30 March were not credited by the bank till 31 March |\n| (iii) | Bank charges ₹750 debited in the pass book are not recorded in the Cash Book |\n| (iv) | Interest of ₹1,850 credited by the bank is not recorded in the Cash Book |\n| (v) | A customer deposited ₹15,000 directly into the firm's bank account; not recorded in the Cash Book |\n| (vi) | A cheque of ₹9,200 from a customer, deposited in March, was dishonoured; the dishonour is not recorded in the Cash Book |\n| (vii) | Insurance premium ₹6,300 paid by the bank under standing instructions is not recorded in the Cash Book |",
+          "id": "ca-f-accounting-03-subsidiary-books-brs-case1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q01",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-03-subsidiary-books-brs-case1",
+          "prompt": "Prepare the bank reconciliation statement. What is the balance as per pass book on 31 March 2027 (in ₹)?",
+          "answer": 160400,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Balance as per cash book | 1,46,500 |\n| Add: Cheques issued not presented (i) | 62,000 |\n| Add: Interest credited by bank (iv) | 1,850 |\n| Add: Direct deposit by customer (v) | 15,000 |\n| Less: Cheques deposited not credited (ii) | (48,700) |\n| Less: Bank charges (iii) | (750) |\n| Less: Cheque dishonoured (vi) | (9,200) |\n| Less: Insurance by standing instruction (vii) | (6,300) |\n| **Balance as per pass book** | **1,60,400** |"
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q02",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-03-subsidiary-books-brs-case1",
+          "prompt": "Gupta Traders first corrects its cash book for the items it can record. What is the adjusted cash book balance (in ₹)?",
+          "answer": 147100,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Adjusted cash book = 1,46,500 - 750 + 1,850 + 15,000 - 9,200 - 6,300 = **₹1,47,100**.\n\nCheck: 1,47,100 + 62,000 (not presented) - 48,700 (not credited) = 1,60,400, the pass book balance. Only timing items remain in the BRS after adjustment."
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q03",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-03-subsidiary-books-brs-case1",
+          "prompt": "In a BRS starting from the cash book balance, item (ii) is:",
+          "options": [
+            "Added, because the bank has already credited it",
+            "Deducted, because the cash book includes it but the pass book does not yet",
+            "Ignored, because it is only a timing difference",
+            "Added, because it will be credited later"
+          ],
+          "answer": 1,
+          "explanation": "The cash book was debited when the cheques were deposited, but the bank credits only on clearing. So the pass book balance is lower by ₹48,700 and the amount is deducted from the cash book balance."
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q04",
+          "type": "multi",
+          "caseId": "ca-f-accounting-03-subsidiary-books-brs-case1",
+          "prompt": "Which items require an entry in Gupta Traders' cash book?",
+          "options": [
+            "(i) Cheques issued not presented",
+            "(ii) Cheques deposited not credited",
+            "(iii) Bank charges",
+            "(iv) Interest credited",
+            "(v) Direct deposit by customer",
+            "(vi) Dishonoured cheque"
+          ],
+          "answers": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "explanation": "Items (iii) to (vii) were first recorded by the bank and the firm has not yet recorded them, so the cash book must be updated (vii is also needed but not listed here). Items (i) and (ii) are correctly recorded in the cash book; the bank will record them later."
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q05",
+          "type": "mcq",
+          "prompt": "The imprest amount of a petty cashier is ₹6,000. At the end of the week she has spent ₹4,350. How much will the main cashier give her?",
+          "options": [
+            "₹6,000",
+            "₹1,650",
+            "₹4,350",
+            "₹10,350"
+          ],
+          "answer": 2,
+          "explanation": "Under the imprest system the amount reimbursed equals the amount spent (₹4,350), which restores the fixed float of ₹6,000."
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q06",
+          "type": "mcq",
+          "prompt": "Which of the following is a contra entry in a three-column cash book?",
+          "options": [
+            "Cheque received from a customer and deposited the same day",
+            "Cash withdrawn from bank for office use",
+            "Cash paid to a supplier with discount received",
+            "Bank charges debited by the bank"
+          ],
+          "answer": 1,
+          "explanation": "Withdrawal for office use reduces bank and increases cash: both sides are in the cash book, so it is a contra entry. A cheque received and deposited the same day is recorded only in the bank column."
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q07",
+          "type": "mcq",
+          "prompt": "Furniture purchased on credit from Style Furnishers for ₹45,000 is recorded in:",
+          "options": [
+            "Purchases book",
+            "Cash book",
+            "Journal proper",
+            "Bills payable book"
+          ],
+          "answer": 2,
+          "explanation": "The purchases book is only for credit purchases of goods meant for resale. Credit purchase of an asset is recorded in the journal proper."
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q08",
+          "type": "truefalse",
+          "prompt": "A debit balance in the pass book means the account holder has an overdraft.",
+          "answer": true,
+          "explanation": "In the bank's books the customer's deposit is a liability (credit). A debit balance means the customer owes the bank, which is an overdraft."
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q09",
+          "type": "fill",
+          "prompt": "Fill the blank: under the ___ system, the petty cashier is given a fixed sum and is reimbursed at regular intervals for the exact amount spent.",
+          "accept": [
+            "imprest",
+            "imprest system"
+          ],
+          "explanation": "The imprest system keeps a constant float and gives the main cashier control: the amount spent must be supported by vouchers before reimbursement."
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q10",
+          "type": "numeric",
+          "prompt": "On 31 March 2027 the pass book shows an overdraft of ₹84,000. Cheques issued but not presented ₹21,500; cheques deposited but not cleared ₹33,000; interest on overdraft ₹2,400 debited by the bank, not entered in the cash book. Find the overdraft as per cash book (in ₹).",
+          "answer": 70100,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Overdraft as per pass book | 84,000 |\n| Add: Cheques issued not presented (cash book overdraft is higher) | 21,500 |\n| Less: Cheques deposited not cleared (cash book overdraft is lower) | (33,000) |\n| Less: Interest debited only by bank (cash book overdraft is lower) | (2,400) |\n| **Overdraft as per cash book** | **70,100** |"
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q11",
+          "type": "practical",
+          "prompt": "Prepare a three-column cash book (discount, cash, bank) for June 2027 and balance it.",
+          "data": "- 1 Jun: Cash in hand ₹25,000; bank balance ₹1,10,000.\n- 3 Jun: Received a cheque from Arun for ₹19,600 in full settlement of ₹20,000; deposited the same day.\n- 6 Jun: Paid Bharat by cheque ₹29,400; discount received ₹600.\n- 10 Jun: Cash sales ₹18,000.\n- 14 Jun: Deposited ₹20,000 cash into bank.\n- 20 Jun: Withdrew ₹8,000 from bank for office use.\n- 25 Jun: Paid wages in cash ₹9,500.",
+          "answer": "**Receipts (Dr) side**\n\n| Date | Particulars | L.F. | Discount (₹) | Cash (₹) | Bank (₹) |\n| --- | --- | --- | --- | --- | --- |\n| 1 Jun | To Balance b/d |  |  | 25,000 | 1,10,000 |\n| 3 Jun | To Arun |  | 400 |  | 19,600 |\n| 10 Jun | To Sales |  |  | 18,000 |  |\n| 14 Jun | To Cash | C |  |  | 20,000 |\n| 20 Jun | To Bank | C |  | 8,000 |  |\n|  | **Total** |  | **400** | **51,000** | **1,49,600** |\n| 1 Jul | To Balance b/d |  |  | 21,500 | 1,12,200 |\n\n**Payments (Cr) side**\n\n| Date | Particulars | L.F. | Discount (₹) | Cash (₹) | Bank (₹) |\n| --- | --- | --- | --- | --- | --- |\n| 6 Jun | By Bharat |  | 600 |  | 29,400 |\n| 14 Jun | By Bank | C |  | 20,000 |  |\n| 20 Jun | By Cash | C |  |  | 8,000 |\n| 25 Jun | By Wages |  |  | 9,500 |  |\n| 30 Jun | By Balance c/d |  |  | 21,500 | 1,12,200 |\n|  | **Total** |  | **600** | **51,000** | **1,49,600** |\n\nDiscount columns are not balanced: ₹400 is posted to Discount Allowed (Dr) and ₹600 to Discount Received (Cr). The 14 and 20 June entries are contra entries."
+        },
+        {
+          "id": "ca-f-accounting-03-subsidiary-books-brs-q12",
+          "type": "interview",
+          "prompt": "What is a bank reconciliation statement? State the main reasons for the difference between the cash book balance and the pass book balance.",
+          "answer": "- A BRS is a statement prepared on a date to reconcile the bank balance as per cash book with the balance as per pass book, by listing the items that cause the difference. It is not part of the double-entry system.\n- Timing differences: cheques issued but not yet presented; cheques deposited but not yet cleared.\n- Items recorded by the bank first: bank charges, interest allowed or charged, direct deposits by customers, payments under standing instructions, dividends or interest collected by the bank, dishonour of cheques or bills.\n- Errors: in the cash book (wrong totals, wrong amount, omission) or in the pass book (wrong credit or debit).\n- Uses: detects errors and frauds, confirms the true bank balance, and updates the cash book.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-accounting-04-rectification",
+      "title": "Rectification of Errors",
+      "level": "intermediate",
+      "summary": "Types of errors, the suspense account, rectifying entries before and after final accounts and the effect of errors on profit.",
+      "estMinutes": 45,
+      "lesson": [
+        {
+          "heading": "Types of errors",
+          "body": "| Type | Meaning | Example | Affects trial balance? |\n| --- | --- | --- | --- |\n| Omission - complete | Transaction not recorded at all | Credit sale to Ram not entered in the sales book | No |\n| Omission - partial | Recorded in the subsidiary book but not posted to one account | Discount allowed not posted to Discount A/c | Yes |\n| Commission | Wrong amount, wrong account of the same class, wrong side, wrong casting | ₹5,300 posted as ₹3,500; sales book undercast | Usually yes; no if wrong amount in book of original entry or right side of wrong personal account |\n| Principle | Violates accounting principles: capital vs revenue confusion | Machinery bought debited to Purchases | No |\n| Compensating | One error cancels another | Sales overcast ₹1,000 and wages overcast ₹1,000 | No |\n\n**One-sided errors** affect only one account (casting, carrying forward, posting to one side only). **Two-sided errors** affect two accounts and leave the trial balance in agreement."
+        },
+        {
+          "heading": "Suspense account and the rectification method",
+          "body": "If the trial balance does not agree and accounts must be prepared, the difference is put to a **Suspense Account**: if debits are short, Suspense is debited; if credits are short, Suspense is credited. As one-sided errors are found, they are corrected through Suspense, which then closes.\n\nA simple method for every error:\n\n- Write the **wrong entry** that was actually made.\n- Write the **correct entry** that should have been made.\n- Pass the entry that turns one into the other. Where only one account is wrong, the other side goes to Suspense.\n\nExample: discount allowed ₹600 to a customer was posted to his account but not to Discount Allowed Account. Wrong: Customer Cr 600 only. Correct: Discount Allowed Dr 600, Customer Cr 600. Rectification:\n\n| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Discount allowed A/c Dr | 600 |  |\n| To Suspense A/c |  | 600 |\n| (Being discount allowed omitted to be posted) |  |  |"
+        },
+        {
+          "heading": "Rectification after final accounts",
+          "body": "If the error is found in the **next** accounting year, nominal accounts of the old year are already closed. Every nominal account in the rectifying entry is replaced by **Profit and Loss Adjustment Account** (Prior period items), so the current year's profit is not distorted. Real and personal accounts are corrected as usual. The balance of P&L Adjustment Account is transferred to Capital Account.\n\n| Error found in next year | Rectifying entry |\n| --- | --- |\n| Repairs ₹6,500 debited to Building | P&L Adjustment A/c Dr 6,500; To Building A/c 6,500 |\n| Discount allowed ₹1,200 not posted to Discount A/c (difference in suspense) | P&L Adjustment A/c Dr 1,200; To Suspense A/c 1,200 |"
+        },
+        {
+          "heading": "Effect on profit and common mistakes",
+          "body": "To find the corrected profit, ask whether the wrong entry over- or under-stated a revenue item.\n\n| Error | Effect on profit | Correction to reported profit |\n| --- | --- | --- |\n| Expense capitalised (repairs to machinery) | Overstated | Deduct |\n| Capital item expensed (furniture debited to Purchases) | Understated | Add |\n| Income credited to a personal account | Understated | Add |\n| Closing stock overvalued | Overstated | Deduct |\n| Sales returns posted to purchases returns | Overstated twice | Deduct 2 x amount |\n| Errors only between personal or real accounts | None | No change |\n\n**Common mistakes**: correcting a complete omission through Suspense (it never affected the trial balance); forgetting that an entry made on the wrong side needs double the amount to correct; using nominal accounts when the error is found after accounts are closed."
+        }
+      ],
+      "keyPoints": [
+        "Errors not affecting the trial balance: complete omission, principle, compensating, wrong amount in the book of original entry, right side of wrong account.",
+        "Suspense is used only for one-sided errors.",
+        "Wrong side posting: correct with twice the amount.",
+        "After final accounts: replace nominal accounts with P&L Adjustment Account; transfer its balance to Capital.",
+        "Corrected profit: add understated incomes and capitalised items wrongly expensed; deduct expenses wrongly capitalised."
+      ],
+      "cases": [
+        {
+          "title": "Case: Arora Electricals",
+          "body": "The trial balance of **Arora Electricals** on 31 March 2027 did not agree; the difference was put to a Suspense Account. Net profit before the following errors were found was **₹2,40,000**. Ignore depreciation.\n\n| No. | Error |\n| --- | --- |\n| 1 | The sales book for March was overcast by ₹5,000 |\n| 2 | A computer bought for office use for ₹42,000 was debited to Purchases Account |\n| 3 | A cheque of ₹7,600 received from Sharma was posted to his account as ₹6,700 (cash book entry correct) |\n| 4 | Rent of ₹9,000 paid was correctly entered in the cash book but posted to Rent Account as ₹900 |\n| 5 | Goods of ₹4,000 returned by Nair (a customer) were entered in the purchases returns book and posted from there |",
+          "id": "ca-f-accounting-04-rectification-case1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-accounting-04-rectification-q01",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-04-rectification-case1",
+          "prompt": "What was the original balance of the Suspense Account (in ₹)? Enter the amount; decide the side (debit or credit) before checking the solution.",
+          "answer": 12200,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Only one-sided errors (1, 3, 4) affected the trial balance.\n\n| Error | Effect on trial balance |\n| --- | --- |\n| 1 Sales overcast | Credit side excess ₹5,000 |\n| 3 Sharma posted as 6,700 instead of 7,600 | Credit side short ₹900 |\n| 4 Rent posted as 900 instead of 9,000 | Debit side short ₹8,100 |\n\nCredits exceeded debits by 5,000 - 900 + 8,100 = ₹12,200, so Suspense Account had a **debit** balance of ₹12,200. Errors 2 and 5 are two-sided."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q02",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-04-rectification-case1",
+          "prompt": "Compute the corrected net profit for 2026-27 (in ₹).",
+          "answer": 260900,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Profit as reported | 2,40,000 |\n| Less: Sales overcast (1) | (5,000) |\n| Add: Computer wrongly charged to Purchases (2) | 42,000 |\n| Less: Rent short-debited (4) | (8,100) |\n| Less: Sales returns ₹4,000 omitted and purchase returns ₹4,000 wrongly credited (5) | (8,000) |\n| **Corrected profit** | **2,60,900** |\n\nError 3 is between Sharma and Suspense, so profit is unaffected."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q03",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-04-rectification-case1",
+          "prompt": "The rectifying entry for error 5 is:",
+          "options": [
+            "Sales Returns A/c Dr 4,000; To Nair A/c 4,000",
+            "Sales Returns A/c Dr 4,000; Purchase Returns A/c Dr 4,000; To Nair A/c 8,000",
+            "Purchase Returns A/c Dr 4,000; To Sales Returns A/c 4,000",
+            "Sales Returns A/c Dr 4,000; Purchase Returns A/c Dr 4,000; To Suspense A/c 8,000"
+          ],
+          "answer": 1,
+          "explanation": "Wrong entry made: Nair Dr 4,000, Purchase Returns Cr 4,000. Correct entry: Sales Returns Dr 4,000, Nair Cr 4,000. To rectify, reverse the purchase returns credit, record the sales return, and credit Nair with ₹8,000 (₹4,000 to cancel the wrong debit plus ₹4,000 correct credit). The error is two-sided, so Suspense is not involved."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q04",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-04-rectification-case1",
+          "prompt": "The rectifying entry for error 3 is:",
+          "options": [
+            "Suspense A/c Dr 900; To Sharma A/c 900",
+            "Sharma A/c Dr 900; To Suspense A/c 900",
+            "Cash A/c Dr 900; To Sharma A/c 900",
+            "Sharma A/c Dr 7,600; To Suspense A/c 7,600"
+          ],
+          "answer": 0,
+          "explanation": "Sharma should have been credited ₹7,600 but was credited ₹6,700. He needs a further credit of ₹900. The cash book is correct, so the other side goes to Suspense."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q05",
+          "type": "mcq",
+          "prompt": "Wages of ₹4,000 paid for installing a new machine were debited to Wages Account. The rectifying entry is:",
+          "options": [
+            "Wages A/c Dr; To Machinery A/c",
+            "Machinery A/c Dr; To Wages A/c",
+            "Machinery A/c Dr; To Suspense A/c",
+            "Suspense A/c Dr; To Wages A/c"
+          ],
+          "answer": 1,
+          "explanation": "Installation wages are part of the cost of the machine (capital). This is an error of principle; the amount is moved from Wages to Machinery. The trial balance was unaffected, so no Suspense."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q06",
+          "type": "mcq",
+          "prompt": "The sales book was undercast by ₹1,000. The rectifying entry is:",
+          "options": [
+            "Suspense A/c Dr 1,000; To Sales A/c 1,000",
+            "Sales A/c Dr 1,000; To Suspense A/c 1,000",
+            "Debtors A/c Dr 1,000; To Sales A/c 1,000",
+            "No entry is required"
+          ],
+          "answer": 0,
+          "explanation": "Undercasting means the total posted to Sales Account was ₹1,000 short; individual customers were posted correctly from the book. Sales needs an extra credit; the other side is Suspense."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q07",
+          "type": "mcq",
+          "prompt": "A credit sale of ₹5,000 to Ram was not entered in the sales book at all. This is:",
+          "options": [
+            "An error of partial omission, affecting the trial balance",
+            "An error of complete omission, not affecting the trial balance",
+            "An error of principle",
+            "A compensating error"
+          ],
+          "answer": 1,
+          "explanation": "Nothing was recorded, so neither debit nor credit is missing from the trial balance. Rectification: Ram Dr 5,000; To Sales 5,000 (no Suspense)."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q08",
+          "type": "truefalse",
+          "prompt": "Compensating errors cause the trial balance to disagree.",
+          "answer": false,
+          "explanation": "Compensating errors offset each other in amount, so the debit and credit totals still agree. They are found only through detailed checking."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q09",
+          "type": "multi",
+          "prompt": "Select all errors that will affect the agreement of the trial balance.",
+          "options": [
+            "Purchases book overcast by ₹2,000",
+            "Repairs to building debited to Building Account",
+            "Payment of ₹3,000 to Raj debited to Raj's account as ₹300",
+            "Credit purchase from Sohan omitted from the purchases book",
+            "Discount received not posted to Discount Received Account"
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "explanation": "Overcasting, posting a wrong amount to one account and partial omission are one-sided errors. Debiting repairs to Building is an error of principle and a complete omission affects neither side."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: when an error relating to a nominal account is rectified in the next accounting year, the nominal account is replaced by the Profit and Loss ___ Account.",
+          "accept": [
+            "Adjustment",
+            "Adjustment Account",
+            "Adjustment A/c"
+          ],
+          "explanation": "The old year's nominal accounts are closed, so P&L Adjustment Account (prior period items) is used. Its balance goes to Capital, keeping the current year's profit clean."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q11",
+          "type": "numeric",
+          "prompt": "A firm reported net profit of ₹3,45,000. Find the correct net profit (in ₹), ignoring depreciation.",
+          "data": "- (a) Closing stock was overvalued by ₹12,000.\n- (b) Repairs of ₹8,000 were debited to Machinery Account.\n- (c) Commission of ₹5,000 received was credited to Ramesh, a customer.\n- (d) Furniture of ₹15,000 bought for the office was debited to Purchases Account.\n- (e) Sales returns of ₹3,000 were posted to Purchase Returns Account.",
+          "answer": 339000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Add (₹) | Less (₹) |\n| --- | --- | --- |\n| (a) Stock overvalued |  | 12,000 |\n| (b) Repairs capitalised |  | 8,000 |\n| (c) Commission income omitted | 5,000 |  |\n| (d) Furniture charged to Purchases | 15,000 |  |\n| (e) Sales returns omitted and purchase returns inflated |  | 6,000 |\n| Total | 20,000 | 26,000 |\n\nCorrect profit = 3,45,000 + 20,000 - 26,000 = **₹3,39,000**."
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q12",
+          "type": "practical",
+          "prompt": "Rectify the following errors (i) assuming they are found before final accounts for 2026-27 are prepared, and (ii) assuming they are found in 2027-28 after the 2026-27 accounts were closed. The trial balance difference was put to Suspense.",
+          "data": "- (a) Goods purchased from Rakesh for ₹12,000 were passed through the sales book.\n- (b) Repairs to building ₹6,500 were debited to Building Account.\n- (c) Discount allowed ₹1,200 was not posted to Discount Allowed Account.\n- (d) A bill receivable of ₹8,000 from Mohan was entered in the bills payable book.",
+          "answer": "**(i) Before final accounts**\n\n| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Sales A/c Dr | 12,000 |  |\n| Purchases A/c Dr | 12,000 |  |\n| To Rakesh A/c |  | 24,000 |\n| (Being purchase wrongly entered in sales book, now rectified) |  |  |\n| Repairs A/c Dr | 6,500 |  |\n| To Building A/c |  | 6,500 |\n| (Being repairs wrongly debited to Building) |  |  |\n| Discount allowed A/c Dr | 1,200 |  |\n| To Suspense A/c |  | 1,200 |\n| (Being discount allowed not posted) |  |  |\n| Bills payable A/c Dr | 8,000 |  |\n| Bills receivable A/c Dr | 8,000 |  |\n| To Mohan A/c |  | 16,000 |\n| (Being bill receivable wrongly entered in bills payable book) |  |  |\n\n**(ii) After final accounts (in 2027-28)**\n\n| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| P&L Adjustment A/c Dr | 24,000 |  |\n| To Rakesh A/c |  | 24,000 |\n| (Being rectification of prior year error (sales and purchases)) |  |  |\n| P&L Adjustment A/c Dr | 6,500 |  |\n| To Building A/c |  | 6,500 |\n| (Being repairs of prior year wrongly capitalised) |  |  |\n| P&L Adjustment A/c Dr | 1,200 |  |\n| To Suspense A/c |  | 1,200 |\n| (Being prior year discount allowed not posted) |  |  |\n| Bills payable A/c Dr | 8,000 |  |\n| Bills receivable A/c Dr | 8,000 |  |\n| To Mohan A/c |  | 16,000 |\n| (Being bill receivable wrongly entered in bills payable book) |  |  |\n\nEntry (d) has only real and personal accounts, so it is the same in both cases. Rakesh was wrongly debited ₹12,000 and should have been credited ₹12,000, hence ₹24,000.",
+          "top": true
+        },
+        {
+          "id": "ca-f-accounting-04-rectification-q13",
+          "type": "interview",
+          "prompt": "Classify accounting errors with examples and state which of them are not disclosed by the trial balance.",
+          "answer": "- **Errors of omission**: complete (transaction not recorded, not disclosed) or partial (recorded but one posting missed, disclosed).\n- **Errors of commission**: wrong amount, wrong account of the same class, wrong side, wrong casting or carry-forward. Most are disclosed; a wrong amount in the book of original entry and posting to the right side of a wrong personal account are not.\n- **Errors of principle**: confusing capital and revenue, such as machinery debited to Purchases. Not disclosed.\n- **Compensating errors**: two or more errors cancel each other. Not disclosed.\n- One-sided errors are routed through Suspense Account; two-sided errors are corrected directly.\n- Errors found after final accounts are corrected through Profit and Loss Adjustment Account."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-accounting-05-depreciation-inventory",
+      "title": "Depreciation and Inventory Valuation",
+      "level": "intermediate",
+      "summary": "Depreciation under AS 10 (SLM, WDV, change of method, disposal) and inventory valuation under AS 2 (cost, NRV, cost formulas).",
+      "estMinutes": 55,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "AS 10 (Revised) Property, Plant and Equipment and AS 2 Valuation of Inventories, as issued by ICAI",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Depreciation: meaning and measurement under AS 10",
+          "body": "**Depreciation** is the systematic allocation of the **depreciable amount** of an item of property, plant and equipment (PPE) over its **useful life**. It is a process of cost allocation, not of valuation.\n\n- **Cost of PPE** (AS 10): purchase price including import duties and non-refundable taxes, less trade discounts and rebates, plus directly attributable costs of bringing the asset to the location and condition for its intended use (site preparation, initial delivery and handling, installation and assembly, professional fees). Administration overheads, advertising and costs of opening a new facility are excluded.\n- **Depreciable amount** = Cost - Residual value.\n- Each significant part of an item with a different useful life is depreciated separately (component approach).\n- Depreciation begins when the asset is **available for use**.\n- Causes: wear and tear, efflux of time, obsolescence, depletion."
+        },
+        {
+          "heading": "Methods and change of method",
+          "body": "| Method | Formula | Pattern |\n| --- | --- | --- |\n| Straight line (SLM / fixed instalment) | (Cost - Residual value) / Useful life | Same charge every year |\n| Written down value (WDV / reducing balance) | Rate x Opening WDV; Rate = 1 - (Residual value / Cost)^(1/n) | Higher charge in early years |\n| Units of production | Depreciable amount x Units this year / Total expected units | Varies with use |\n\n**Review**: AS 10 requires residual value, useful life and the depreciation method to be reviewed at least at each financial year end. A **change in the depreciation method** reflects a change in the expected pattern of consuming the asset's benefits and is accounted for as a **change in accounting estimate** under AS 5, that is **prospectively**: the carrying amount at the date of change is depreciated over the remaining life under the new method. No retrospective recalculation is made.\n\nExample: machine cost ₹10,00,000 on 1 April 2023, SLM 10% (nil residual). On 1 April 2026 the method changes to WDV at 15%. Carrying amount = 10,00,000 - 3 x 1,00,000 = ₹7,00,000. Depreciation for 2026-27 = 15% x 7,00,000 = **₹1,05,000**."
+        },
+        {
+          "heading": "Recording depreciation and disposal",
+          "body": "Two methods of recording:\n\n- **Charged to asset account**: Depreciation A/c Dr; To Asset A/c. The asset appears at WDV.\n- **Provision for depreciation (accumulated depreciation) account**: Depreciation A/c Dr; To Provision for Depreciation A/c. The asset stays at original cost; on sale, the accumulated depreciation on the asset sold is transferred to the asset account (or an Asset Disposal Account).\n\nOn sale: charge depreciation up to the date of sale, compare the carrying amount with the sale proceeds and transfer the profit or loss to P&L.\n\n| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Bank A/c Dr | 2,60,000 |  |\n| To Machinery A/c |  | 2,60,000 |\n| (Being sale of Machine A) |  |  |\n| Machinery A/c Dr | 29,600 |  |\n| To Profit on sale of machinery A/c |  | 29,600 |\n| (Being profit on sale transferred) |  |  |"
+        },
+        {
+          "heading": "Inventories under AS 2",
+          "body": "Inventories are measured at the **lower of cost and net realisable value (NRV)**, item by item (or by groups of similar items), never on the total.\n\n- **Cost** = costs of purchase (price, duties, non-refundable taxes, freight inward, less trade discounts) + costs of conversion (direct labour, fixed and variable production overheads allocated on normal capacity) + other costs to bring inventory to its present location and condition.\n- **Excluded**: abnormal waste, storage costs (unless necessary in production), administrative overheads not related to production, selling and distribution costs.\n- **NRV** = estimated selling price - estimated costs of completion - estimated costs to make the sale.\n- **Cost formulas**: specific identification for items not ordinarily interchangeable; otherwise **FIFO** or **weighted average**. **LIFO is not permitted.**\n- Materials held for production are not written down below cost if the finished products are expected to sell at or above cost.\n\n**Stock taken on a date after the balance sheet date**: work backwards. Stock at year end = Stock on count date + cost of goods sold in between - purchases in between - sales returns (at cost) in between + purchase returns in between.\n\n**Common mistakes**: applying LCNRV on total instead of item-wise; valuing goods sent on approval at selling price; including abnormal loss in cost."
+        }
+      ],
+      "keyPoints": [
+        "Depreciable amount = Cost - Residual value; depreciation is allocation, not valuation.",
+        "WDV rate = 1 - (Residual value / Cost)^(1/n).",
+        "AS 10: change in method = change in accounting estimate, applied prospectively from the date of change.",
+        "Charge depreciation up to the date of sale before computing profit or loss on disposal.",
+        "AS 2: lower of cost and NRV, item by item; FIFO or weighted average; LIFO not allowed.",
+        "Exclude from inventory cost: abnormal waste, non-production storage, admin overheads, selling costs."
+      ],
+      "cases": [
+        {
+          "title": "Case: Rao Industries",
+          "body": "**Rao Industries** closes its books on 31 March and charges depreciation at **20% p.a. on the written down value**, for the period of use.\n\n| Date | Event |\n| --- | --- |\n| 1 Apr 2023 | Bought Machine A for ₹4,80,000 and paid ₹20,000 for its installation |\n| 1 Oct 2024 | Bought Machine B for ₹2,40,000 |\n| 30 Sep 2026 | Sold Machine A for ₹2,60,000 |\n\nThe company debits depreciation directly to Machinery Account unless stated otherwise.",
+          "id": "ca-f-accounting-05-depreciation-inventory-case1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q01",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-05-depreciation-inventory-case1",
+          "prompt": "Compute the total depreciation on machinery for the year 2024-25 (in ₹).",
+          "answer": 104000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Year | Machine A (₹) | Machine B (₹) |\n| --- | --- | --- |\n| Cost | 5,00,000 | 2,40,000 |\n| 2023-24 depreciation (20% x 5,00,000) | 1,00,000 | - |\n| WDV 1 Apr 2024 | 4,00,000 |  |\n| 2024-25 depreciation | 80,000 (20% x 4,00,000) | 24,000 (20% x 2,40,000 x 6/12) |\n\nTotal for 2024-25 = 80,000 + 24,000 = **₹1,04,000**."
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q02",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-05-depreciation-inventory-case1",
+          "prompt": "Compute the profit or loss on sale of Machine A on 30 September 2026 (in ₹; enter a loss as a negative number).",
+          "answer": 29600,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Cost (4,80,000 + 20,000 installation) | 5,00,000 |\n| Less: Depreciation 2023-24 | (1,00,000) |\n| Less: Depreciation 2024-25 | (80,000) |\n| Less: Depreciation 2025-26 | (64,000) |\n| Less: Depreciation 1 Apr - 30 Sep 2026 (20% x 2,56,000 x 6/12) | (25,600) |\n| Carrying amount on 30 Sep 2026 | 2,30,400 |\n| Sale proceeds | 2,60,000 |\n| **Profit on sale** | **29,600** |"
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q03",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-05-depreciation-inventory-case1",
+          "prompt": "The ₹20,000 paid for installing Machine A is:",
+          "options": [
+            "Charged to P&L as installation expense in 2023-24",
+            "Added to the cost of Machine A and depreciated",
+            "Treated as deferred revenue expenditure written off over 3 years",
+            "Debited to Wages Account"
+          ],
+          "answer": 1,
+          "explanation": "Under AS 10, installation and assembly costs are directly attributable to bringing the asset to working condition, so they form part of cost. Machine A's cost is ₹5,00,000."
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q04",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-05-depreciation-inventory-case1",
+          "prompt": "If Rao Industries had maintained a Provision for Depreciation Account, how much accumulated depreciation would be transferred on the sale of Machine A?",
+          "options": [
+            "₹2,44,000",
+            "₹2,69,600",
+            "₹2,30,400",
+            "₹2,40,000"
+          ],
+          "answer": 1,
+          "explanation": "Accumulated depreciation up to the date of sale = 1,00,000 + 80,000 + 64,000 + 25,600 = ₹2,69,600. Cost 5,00,000 - 2,69,600 = 2,30,400, the carrying amount. ₹2,44,000 omits the depreciation for the part year of sale."
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q05",
+          "type": "mcq",
+          "prompt": "Under AS 10 (Revised), a change in the method of depreciation from SLM to WDV is:",
+          "options": [
+            "A change in accounting policy applied retrospectively from the date of purchase",
+            "A change in accounting estimate applied prospectively",
+            "A prior period item",
+            "An extraordinary item"
+          ],
+          "answer": 1,
+          "explanation": "AS 10 treats the depreciation method as reflecting the expected pattern of consumption of benefits. A change is a change in accounting estimate under AS 5 and affects only current and future periods."
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q06",
+          "type": "mcq",
+          "prompt": "Which of the following is included in the cost of inventories under AS 2?",
+          "options": [
+            "Abnormal wastage of materials",
+            "Selling and distribution costs",
+            "Freight inward on raw materials",
+            "Storage costs of finished goods awaiting sale"
+          ],
+          "answer": 2,
+          "explanation": "Freight inward is a cost of purchase that brings inventory to its present location. Abnormal waste, selling costs and storage of finished goods (not necessary in the production process) are excluded."
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q07",
+          "type": "mcq",
+          "prompt": "Which cost formula is NOT permitted by AS 2?",
+          "options": [
+            "FIFO",
+            "Weighted average",
+            "Specific identification",
+            "LIFO"
+          ],
+          "answer": 3,
+          "explanation": "AS 2 allows specific identification for non-interchangeable items and FIFO or weighted average otherwise. LIFO is not permitted because it does not reflect a fair approximation of current cost in the balance sheet."
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q08",
+          "type": "truefalse",
+          "prompt": "Depreciation is a process of valuing a fixed asset at its market value at the end of each year.",
+          "answer": false,
+          "explanation": "Depreciation allocates the depreciable amount over the useful life. Market value is irrelevant to the charge; the carrying amount after depreciation need not equal market value."
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q09",
+          "type": "multi",
+          "prompt": "Select all items that form part of the cost of a new plant under AS 10.",
+          "options": [
+            "Purchase price net of trade discount",
+            "Non-refundable customs duty",
+            "Cost of site preparation",
+            "Advertisement announcing the new plant",
+            "General administration overheads",
+            "Installation and assembly costs"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            5
+          ],
+          "explanation": "Purchase price (net of trade discounts), non-refundable duties and directly attributable costs such as site preparation and installation are capitalised. Advertising and general administration overheads are not directly attributable and are expensed."
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the depreciation method under which the annual charge is the same every year is the ___ method.",
+          "accept": [
+            "straight line",
+            "straight-line",
+            "SLM",
+            "fixed instalment",
+            "fixed installment",
+            "original cost"
+          ],
+          "explanation": "Under the straight line (fixed instalment) method, (Cost - Residual value) / Useful life is charged each year."
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q11",
+          "type": "numeric",
+          "prompt": "A machine costing ₹10,00,000 bought on 1 April 2023 was depreciated on SLM at 10% p.a. (nil residual value). From 1 April 2026 the company changes to WDV at 15% p.a. Compute depreciation for 2026-27 as per AS 10 (in ₹).",
+          "answer": 105000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Change in method = change in estimate, applied prospectively.\n\n| Particulars | ₹ |\n| --- | --- |\n| Cost | 10,00,000 |\n| Less: SLM depreciation for 2023-24 to 2025-26 (3 x 1,00,000) | (3,00,000) |\n| Carrying amount on 1 Apr 2026 | 7,00,000 |\n| Depreciation 2026-27 (15% x 7,00,000) | **1,05,000** |\n\nNo adjustment is made for the difference between past SLM and WDV charges."
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q12",
+          "type": "numeric",
+          "prompt": "From the records below, value the closing inventory of 100 units using the periodic weighted average method (round to the nearest rupee).",
+          "data": "| Date | Particulars | Units | Rate (₹) |\n| --- | --- | --- | --- |\n| 1 Jan | Opening stock | 200 | 50 |\n| 10 Jan | Purchase | 300 | 55 |\n| 15 Jan | Issue | 350 |  |\n| 20 Jan | Purchase | 250 | 58 |\n| 28 Jan | Issue | 300 |  |",
+          "answer": 5467,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Total cost of goods available = 10,000 + 16,500 + 14,500 = ₹41,000 for 750 units. Average = ₹54.6667 per unit.\n\nClosing inventory = 100 x 54.6667 = **₹5,467**. (Under FIFO it would be 100 x 58 = ₹5,800.)"
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q13",
+          "type": "practical",
+          "prompt": "Physical stock of Kaveri Traders was taken on 8 April 2027 and valued at cost at ₹3,40,000. Find the value of inventory on 31 March 2027.",
+          "data": "Transactions from 1 to 8 April 2027:\n\n- Sales ₹60,000 (gross profit is 25% on sales).\n- Purchases ₹28,000 (all goods received before 8 April).\n- Sales returns ₹4,000 (at selling price).\n- Purchase returns ₹2,000.",
+          "answer": "| Particulars | ₹ |\n| --- | --- |\n| Stock on 8 April 2027 (at cost) | 3,40,000 |\n| Add: Cost of goods sold 1-8 April (60,000 x 75%) | 45,000 |\n| Add: Purchase returns (goods were in stock on 31 March) | 2,000 |\n| Less: Purchases 1-8 April (not in stock on 31 March) | (28,000) |\n| Less: Sales returns at cost (4,000 x 75%) | (3,000) |\n| **Inventory on 31 March 2027** | **3,56,000** |\n\nLogic: goods sold after 31 March were in stock on that date, so add back their cost; goods purchased after 31 March were not, so deduct them. Returns reverse these. Always convert sales figures to cost.",
+          "top": true
+        },
+        {
+          "id": "ca-f-accounting-05-depreciation-inventory-q14",
+          "type": "interview",
+          "prompt": "Explain how inventories are measured under AS 2. What costs are included and excluded, and which cost formulas are allowed?",
+          "answer": "- Inventories are measured at the lower of cost and net realisable value, normally item by item.\n- Cost includes costs of purchase (price, duties, non-refundable taxes, freight inward, less trade discounts), costs of conversion (direct labour and systematically allocated fixed and variable production overheads, based on normal capacity) and other costs incurred to bring inventories to their present location and condition.\n- Excluded: abnormal waste, storage costs unless necessary in production, administrative overheads not related to production, selling and distribution costs.\n- NRV = estimated selling price less estimated costs of completion and of making the sale.\n- Cost formulas: specific identification for items not ordinarily interchangeable; FIFO or weighted average for others. LIFO is not permitted.\n- Materials for production are not written down if finished goods will sell at or above cost.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "ICAI: Accounting Standards",
+          "url": "https://www.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-accounting-06-bills",
+      "title": "Bills of Exchange and Promissory Notes",
+      "level": "intermediate",
+      "summary": "Bills and notes, due dates, and accounting for retaining, discounting, endorsing, dishonour, renewal and retirement of bills in the books of both parties.",
+      "estMinutes": 45,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Negotiable Instruments Act, 1881",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Bills and promissory notes",
+          "body": "A **bill of exchange** is an instrument in writing containing an unconditional order, signed by the maker, directing a certain person to pay a certain sum of money to, or to the order of, a certain person or the bearer. A **promissory note** is an unconditional written promise by the maker to pay.\n\n| Point | Bill of exchange | Promissory note |\n| --- | --- | --- |\n| Nature | Order to pay | Promise to pay |\n| Parties | Drawer, drawee (acceptor), payee | Maker and payee |\n| Acceptance | Needed (for a time bill) | Not needed |\n| Noting on dishonour | Required for foreign bills; customary otherwise | Not required |\n\nFor the **drawer** the accepted bill is a **bill receivable** (asset); for the **drawee** it is a **bill payable** (liability)."
+        },
+        {
+          "heading": "Due date",
+          "body": "Due date of a time bill = date of drawing (or of acceptance, for \"after sight\" bills) + the term + **3 days of grace**.\n\n- Term in **months**: add calendar months, then 3 days. Bill dated 31 January for 1 month: 28 February (no 31st) + 3 days = 3 March (non-leap year).\n- Term in **days**: exclude the date of drawing, count the days, then add 3.\n- If the due date is a **public holiday**, the bill is due on the **preceding** business day.\n- No days of grace for bills payable **on demand** or at sight.\n\nExample: bill dated 1 January 2027 for 3 months: 1 April + 3 days = **4 April 2027**."
+        },
+        {
+          "heading": "Accounting: four options for the drawer",
+          "body": "| Event | Drawer's books | Drawee's books |\n| --- | --- | --- |\n| Bill accepted | Bills Receivable Dr; To Drawee | Drawer Dr; To Bills Payable |\n| (a) Retained till maturity and honoured | Bank Dr; To Bills Receivable | Bills Payable Dr; To Bank |\n| (b) Discounted with bank | Bank Dr, Discount Dr; To Bills Receivable | No entry |\n| (c) Endorsed to a creditor | Creditor Dr; To Bills Receivable | No entry |\n| (d) Sent for collection | Bills for Collection Dr; To Bills Receivable; on receipt Bank Dr, Bank charges Dr; To Bills for Collection | No entry |\n\n**Dishonour**: the drawer reverses the bill and charges noting to the drawee. The credit goes to whichever account the bill went to: Bills Receivable (retained), Bank (discounted), Creditor (endorsed) or Bills for Collection. The drawee debits Bills Payable and Noting Charges, crediting the drawer.\n\n**Renewal**: cancel the old bill (as in dishonour), charge interest to the drawee, record any cash received, and draw a new bill for the balance plus interest.\n\n**Retirement under rebate**: the drawee pays before maturity and gets a rebate (interest for the unexpired period). Drawee: Bills Payable Dr; To Bank, To Rebate (income). Drawer: Bank Dr, Rebate Dr (expense); To Bills Receivable.\n\n**Common mistakes**: crediting Bills Receivable on dishonour of a discounted bill (it was already credited); forgetting the noting charges; computing interest on the original amount instead of the renewed balance."
+        }
+      ],
+      "keyPoints": [
+        "Due date = date + term + 3 days of grace; holiday -> preceding business day; no grace for demand bills.",
+        "Discount = Bill amount x Rate x Period; proceeds = amount - discount.",
+        "On dishonour credit the account where the bill went: Bills Receivable, Bank, Endorsee or Bills for Collection.",
+        "Noting charges are ultimately borne by the drawee.",
+        "Renewal interest is calculated on the balance carried into the new bill.",
+        "Rebate on retirement: expense for drawer, income for drawee."
+      ],
+      "cases": [
+        {
+          "title": "Case: Kapoor and Bhatia",
+          "body": "On 1 January 2027 **Kapoor** sold goods to **Bhatia** for ₹60,000 and drew a bill on him for that amount payable **3 months after date**. Bhatia accepted it the same day.\n\n- On 4 January 2027 Kapoor discounted the bill with his bank at 12% p.a. (compute discount for 3 months).\n- On maturity the bill was dishonoured; the bank paid noting charges of ₹200.\n- Bhatia then paid ₹20,000 plus the noting charges in cash, and accepted a new bill for the balance plus interest at 15% p.a. for 2 months.",
+          "id": "ca-f-accounting-06-bills-case1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-accounting-06-bills-q01",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-06-bills-case1",
+          "prompt": "What is the due date of the original bill?",
+          "options": [
+            "1 April 2027",
+            "4 April 2027",
+            "3 April 2027",
+            "1 March 2027"
+          ],
+          "answer": 1,
+          "explanation": "1 January + 3 months = 1 April 2027; add 3 days of grace = 4 April 2027 (assuming it is not a public holiday)."
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q02",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-06-bills-case1",
+          "prompt": "How much did Kapoor receive from the bank on discounting the bill (in ₹)?",
+          "answer": 58200,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Discount = 60,000 x 12% x 3/12 = ₹1,800. Proceeds = 60,000 - 1,800 = **₹58,200**. Entry: Bank Dr 58,200, Discount on Bills Dr 1,800; To Bills Receivable 60,000."
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q03",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-06-bills-case1",
+          "prompt": "On dishonour of the discounted bill, Kapoor will pass:",
+          "options": [
+            "Bhatia A/c Dr 60,200; To Bills Receivable A/c 60,200",
+            "Bhatia A/c Dr 60,200; To Bank A/c 60,200",
+            "Bills Receivable A/c Dr 60,000; To Bank A/c 60,000",
+            "Bhatia A/c Dr 60,000; Noting Charges A/c Dr 200; To Bank A/c 60,200"
+          ],
+          "answer": 1,
+          "explanation": "The bank recovers the full amount and the noting charges it paid from Kapoor, so Bank is credited ₹60,200. Bills Receivable was already closed on discounting. Noting charges are recoverable from Bhatia, so his account is debited with ₹60,200."
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q04",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-06-bills-case1",
+          "prompt": "What is the amount of the new bill accepted by Bhatia (in ₹)?",
+          "answer": 41000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Amount due by Bhatia (60,000 + 200) | 60,200 |\n| Less: Cash paid (20,000 + noting 200) | (20,200) |\n| Balance | 40,000 |\n| Add: Interest 15% x 40,000 x 2/12 | 1,000 |\n| **New bill** | **41,000** |"
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q05",
+          "type": "practical",
+          "caseId": "ca-f-accounting-06-bills-case1",
+          "prompt": "Pass journal entries in the books of Bhatia (drawee) for all the transactions.",
+          "answer": "| Date | Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- | --- |\n| 1 Jan | Purchases A/c Dr | 60,000 |  |\n|  | To Kapoor A/c |  | 60,000 |\n|  | (Being goods purchased on credit) |  |  |\n| 1 Jan | Kapoor A/c Dr | 60,000 |  |\n|  | To Bills payable A/c |  | 60,000 |\n|  | (Being acceptance given) |  |  |\n| 4 Apr | Bills payable A/c Dr | 60,000 |  |\n|  | Noting charges A/c Dr | 200 |  |\n|  | To Kapoor A/c |  | 60,200 |\n|  | (Being bill dishonoured, noting charges payable) |  |  |\n| 4 Apr | Kapoor A/c Dr | 20,200 |  |\n|  | To Cash A/c |  | 20,200 |\n|  | (Being cash paid including noting charges) |  |  |\n| 4 Apr | Interest A/c Dr | 1,000 |  |\n|  | To Kapoor A/c |  | 1,000 |\n|  | (Being interest at 15% for 2 months on ₹40,000) |  |  |\n| 4 Apr | Kapoor A/c Dr | 41,000 |  |\n|  | To Bills payable A/c |  | 41,000 |\n|  | (Being new acceptance given) |  |  |\n\nBhatia's books have no entry for the discounting: it does not concern him. Kapoor's account closes: credits 60,000 + 60,200 + 1,000 = debits 60,000 + 20,200 + 41,000.",
+          "top": true
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q06",
+          "type": "mcq",
+          "prompt": "Days of grace are NOT allowed on a bill payable:",
+          "options": [
+            "3 months after date",
+            "60 days after sight",
+            "On demand",
+            "2 months after date"
+          ],
+          "answer": 2,
+          "explanation": "Days of grace apply only to time bills. A bill payable on demand or at sight is due when presented."
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q07",
+          "type": "mcq",
+          "prompt": "A bill falls due on a day declared a public holiday under the Negotiable Instruments Act. The bill is payable on:",
+          "options": [
+            "The next business day",
+            "The preceding business day",
+            "The same day, as the holiday is ignored",
+            "Any day within 3 days"
+          ],
+          "answer": 1,
+          "explanation": "When the maturity date is a public holiday, the instrument is deemed due on the next preceding business day."
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q08",
+          "type": "mcq",
+          "prompt": "When the acceptor retires a bill before maturity under rebate, the rebate in the acceptor's books is:",
+          "options": [
+            "Debited as an expense",
+            "Credited as an income",
+            "Added to the bill amount",
+            "Not recorded"
+          ],
+          "answer": 1,
+          "explanation": "The acceptor pays less than the face value: Bills Payable Dr (full); To Bank (net), To Rebate on Bills (saving). The rebate is a gain for the acceptor and a cost for the drawer."
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q09",
+          "type": "truefalse",
+          "prompt": "A promissory note must be accepted by the payee before it becomes valid.",
+          "answer": false,
+          "explanation": "A promissory note is a promise made and signed by the maker; no acceptance is needed. Acceptance is a feature of a bill of exchange."
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q10",
+          "type": "multi",
+          "prompt": "Select all possible parties to a bill of exchange.",
+          "options": [
+            "Drawer",
+            "Drawee",
+            "Payee",
+            "Maker",
+            "Endorsee"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "A bill has a drawer, a drawee (who accepts) and a payee; when it is endorsed, the person to whom it is transferred is the endorsee. 'Maker' is the party to a promissory note."
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: for a time bill, ___ days of grace are added to the term to find the due date.",
+          "accept": [
+            "3",
+            "three"
+          ],
+          "explanation": "The Negotiable Instruments Act allows three days of grace for bills and notes payable otherwise than on demand."
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q12",
+          "type": "numeric",
+          "prompt": "A bill of ₹50,000 accepted by Mira is retired by her 2 months before maturity, with a rebate at 9% p.a. How much does Mira pay (in ₹)?",
+          "answer": 49250,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Rebate = 50,000 x 9% x 2/12 = ₹750. Amount paid = 50,000 - 750 = **₹49,250**."
+        },
+        {
+          "id": "ca-f-accounting-06-bills-q13",
+          "type": "interview",
+          "prompt": "Distinguish between a bill of exchange and a promissory note, and state the accounting treatment on dishonour of a bill that the drawer had endorsed to his creditor.",
+          "answer": "- A bill is an unconditional **order** by the drawer to the drawee; a note is an unconditional **promise** by the maker.\n- A bill has three parties (drawer, drawee, payee); a note has two (maker, payee).\n- A time bill needs acceptance by the drawee; a note does not.\n- Liability of the drawer of a bill is secondary (arises on dishonour by the acceptor); the maker of a note is primarily liable.\n- Noting/protest is needed for foreign bills; not for notes.\n- Dishonour of an endorsed bill, drawer's books: Drawee A/c Dr (amount + noting); To Creditor (endorsee) A/c. Drawee's books: Bills Payable Dr, Noting Charges Dr; To Drawer."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "India Code (Negotiable Instruments Act, 1881)",
+          "url": "https://www.indiacode.nic.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-accounting-07-consignment-approval",
+      "title": "Consignment and Sale on Approval",
+      "level": "intermediate",
+      "summary": "Consignment accounts in the consignor's books, valuation of unsold stock, losses, invoice-price consignments, and goods sent on sale or return basis.",
+      "estMinutes": 50,
+      "lesson": [
+        {
+          "heading": "Consignment basics",
+          "body": "In a **consignment** the owner (**consignor**) sends goods to an agent (**consignee**) who sells them on the consignor's behalf for a commission. Ownership stays with the consignor until sale, so the transfer is not a sale.\n\n- **Proforma invoice**: sent by the consignor with the goods; gives details and the expected price. It is not a demand for payment.\n- **Account sales**: sent by the consignee; shows sales, expenses, commission and the balance due or remitted.\n- **Ordinary commission**: on all sales. **Del credere commission**: extra commission for which the consignee bears bad debts on credit sales. **Over-riding commission**: extra commission for sales above a set price or for a new market.\n\n| Consignment | Sale |\n| --- | --- |\n| Ownership stays with consignor till sale | Ownership passes to buyer |\n| Relationship is principal and agent | Relationship is seller and buyer |\n| Unsold goods can be returned | Goods cannot be returned except for defects |\n| Risk stays with consignor | Risk passes to buyer |"
+        },
+        {
+          "heading": "Entries in the consignor's books",
+          "body": "| Event | Entry |\n| --- | --- |\n| Goods sent (at cost) | Consignment A/c Dr; To Goods Sent on Consignment A/c |\n| Consignor's expenses | Consignment A/c Dr; To Bank |\n| Advance received from consignee | Bank / Bills Receivable Dr; To Consignee |\n| Sales by consignee (as per account sales) | Consignee Dr; To Consignment A/c |\n| Consignee's expenses | Consignment A/c Dr; To Consignee |\n| Commission | Consignment A/c Dr; To Consignee |\n| Unsold stock | Consignment Stock A/c Dr; To Consignment A/c |\n| Profit | Consignment A/c Dr; To Profit and Loss A/c |\n| Goods Sent on Consignment balance | Goods Sent on Consignment A/c Dr; To Purchases / Trading A/c |\n\n**Bad debts**: if the consignee gets del credere commission, he bears them and nothing is recorded in the consignment account. Without del credere, bad debts are a loss of the consignment: Consignment A/c Dr; To Consignee."
+        },
+        {
+          "heading": "Unsold stock and losses",
+          "body": "**Valuation of unsold stock** = cost + proportionate **non-recurring** expenses incurred up to bringing the goods to the consignee's godown (consignor's freight, insurance in transit, consignee's unloading, octroi, cartage to godown). Recurring and selling expenses (godown rent, salesmen's salary, selling expenses, commission) are **not** added.\n\nCompare with NRV and take the lower (AS 2).\n\n- **Normal loss** (evaporation, unavoidable shrinkage): not separately recorded; the cost of good units is spread over the remaining units. Value per unit = Total cost / Units remaining after normal loss.\n- **Abnormal loss** (accident, theft, fire): valued at cost + proportionate non-recurring expenses up to the point of loss; credited to Consignment Account and debited to Abnormal Loss (then to P&L, after any insurance claim).\n\nExample: 500 units at ₹200 each, consignor's freight ₹10,000; 50 units destroyed in transit. Abnormal loss = 50 x (1,00,000 + 10,000) / 500 = ₹11,000. If the insurer admits ₹7,000, net loss ₹4,000 goes to P&L."
+        },
+        {
+          "heading": "Invoice price consignments and sale on approval",
+          "body": "**Goods at invoice price** (above cost) hide profit from the consignee. Load is removed with reversing entries: Goods Sent on Consignment Dr; To Consignment (load on goods sent) and Consignment Stock Reserve for the load on closing stock. If invoice = cost + 25%, the load is 25/125 = 1/5 of invoice price.\n\n**Sale or return (approval) basis**: goods go to a customer who may keep or return them within a period. No sale arises until approval (or expiry of the period without rejection).\n\n- **Few transactions**: if recorded as sales, at year end reverse unapproved items (Sales Dr; To Customer, at selling price) and include them in closing stock at cost (Stock with Customers / Closing Stock Dr; To Trading A/c).\n- **Many transactions**: keep a **Sale or Return Day Book** (memorandum) and post to the ledger only when approved.\n\n**Common mistakes**: including godown rent in stock valuation; recording del credere bad debts in Consignment Account; leaving unapproved goods at selling price in debtors."
+        }
+      ],
+      "keyPoints": [
+        "Consignment is not a sale; ownership stays with the consignor.",
+        "Unsold stock = cost + proportionate non-recurring expenses up to the consignee's godown; exclude rent, selling expenses and commission.",
+        "Del credere commission: consignee bears bad debts; no entry in Consignment Account.",
+        "Abnormal loss valued at cost + proportionate expenses up to the point of loss; normal loss is absorbed by good units.",
+        "Load on invoice price = Invoice price x Load% / (100 + Load%).",
+        "Unapproved goods on sale or return: reverse the sale at selling price, include in stock at cost."
+      ],
+      "cases": [
+        {
+          "title": "Case: Desai & Co. and Iyer",
+          "body": "**Desai & Co.** of Mumbai consigned 1,000 units costing ₹400 each to **Iyer** of Chennai on 1 January 2027.\n\n| Particulars | ₹ |\n| --- | --- |\n| Freight and insurance paid by Desai | 30,000 |\n| Unloading and cartage paid by Iyer on arrival | 6,000 |\n| Godown rent paid by Iyer | 9,000 |\n| Selling expenses paid by Iyer | 5,000 |\n\nIyer sold 750 units at ₹600 each, all on credit. He is entitled to **5% commission on sales plus 2% del credere commission**. A customer who owed ₹4,500 became insolvent and paid nothing. Iyer sent his account sales on 31 March 2027; he has made no remittance yet.",
+          "id": "ca-f-accounting-07-consignment-approval-case1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q01",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-07-consignment-approval-case1",
+          "prompt": "What is the value of unsold stock with Iyer on 31 March 2027 (in ₹)?",
+          "answer": 109000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Non-recurring costs: goods 4,00,000 + Desai's freight 30,000 + Iyer's unloading 6,000 = ₹4,36,000 for 1,000 units = ₹436 per unit.\n\nUnsold stock = 250 x 436 = **₹1,09,000**. Godown rent, selling expenses and commission are excluded."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q02",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-07-consignment-approval-case1",
+          "prompt": "Compute the profit on consignment in Desai's books (in ₹).",
+          "answer": 77500,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "**Consignment to Chennai Account**\n\n| Dr Particulars | ₹ | Cr Particulars | ₹ |\n| --- | --- | --- | --- |\n| To Goods sent on consignment | 4,00,000 | By Iyer (sales 750 x 600) | 4,50,000 |\n| To Bank (freight and insurance) | 30,000 | By Consignment stock | 1,09,000 |\n| To Iyer (unloading) | 6,000 |  |  |\n| To Iyer (godown rent) | 9,000 |  |  |\n| To Iyer (selling expenses) | 5,000 |  |  |\n| To Iyer (commission 7% of 4,50,000) | 31,500 |  |  |\n| To Profit and Loss A/c | **77,500** |  |  |\n|  | 5,59,000 |  | 5,59,000 |\n\nThe bad debt of ₹4,500 is borne by Iyer because he receives del credere commission."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q03",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-07-consignment-approval-case1",
+          "prompt": "What is the balance due from Iyer to Desai & Co. on 31 March 2027 (in ₹)?",
+          "answer": 398500,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Sales | 4,50,000 |\n| Less: Unloading | (6,000) |\n| Less: Godown rent | (9,000) |\n| Less: Selling expenses | (5,000) |\n| Less: Commission (5% + 2%) | (31,500) |\n| **Balance due from Iyer** | **3,98,500** |\n\nUnder del credere Iyer must pay for all credit sales, including the ₹4,500 he could not collect."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q04",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-07-consignment-approval-case1",
+          "prompt": "How is the ₹4,500 bad debt treated in Desai's books?",
+          "options": [
+            "Debited to Consignment Account and credited to Iyer",
+            "Debited to Bad Debts Account of Desai",
+            "No entry; Iyer bears it as he gets del credere commission",
+            "Deducted from the value of unsold stock"
+          ],
+          "answer": 2,
+          "explanation": "Del credere commission is paid precisely so that the consignee guarantees collection from credit customers. The loss falls on Iyer, so Desai records nothing."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q05",
+          "type": "mcq",
+          "prompt": "The account sales is prepared and sent by:",
+          "options": [
+            "The consignor to the consignee",
+            "The consignee to the consignor",
+            "The customer to the consignee",
+            "The consignor's bank"
+          ],
+          "answer": 1,
+          "explanation": "The consignee reports sales, expenses incurred, commission and the balance due in the account sales. The consignor sends the proforma invoice."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q06",
+          "type": "mcq",
+          "prompt": "Goods were sent on consignment at invoice price, which is cost plus 25%. Unsold stock with the consignee at invoice price is ₹50,000. The stock reserve to be created is:",
+          "options": [
+            "₹12,500",
+            "₹10,000",
+            "₹40,000",
+            "₹2,500"
+          ],
+          "answer": 1,
+          "explanation": "Load = 50,000 x 25/125 = ₹10,000. 25% is on cost, so on invoice price it is one-fifth. ₹12,500 wrongly takes 25% of invoice price."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q07",
+          "type": "mcq",
+          "prompt": "A trader sent goods costing ₹24,000 on approval at a selling price of ₹30,000 and recorded them as credit sales. No approval has been received by the year end and the period for approval has not expired. In the year-end adjustment, closing stock is increased by:",
+          "options": [
+            "₹30,000",
+            "₹24,000",
+            "₹6,000",
+            "Nil, as the goods are with the customer"
+          ],
+          "answer": 1,
+          "explanation": "The sale is reversed at ₹30,000 (Sales Dr; To Customer) and the goods, still owned by the trader, are included in stock at cost, ₹24,000."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q08",
+          "type": "truefalse",
+          "prompt": "In a consignment, ownership of goods passes to the consignee when he receives them.",
+          "answer": false,
+          "explanation": "The consignee is only an agent. Ownership remains with the consignor and passes directly to the final buyer when the consignee sells the goods."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q09",
+          "type": "multi",
+          "prompt": "Select all items added to cost when valuing unsold consignment stock.",
+          "options": [
+            "Freight paid by the consignor",
+            "Unloading charges paid by the consignee",
+            "Godown rent paid by the consignee",
+            "Commission payable to the consignee",
+            "Insurance in transit paid by the consignor",
+            "Salesmen's salary paid by the consignee"
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "explanation": "Only non-recurring expenses incurred to bring the goods to the consignee's godown are added. Rent, commission and salaries are recurring or selling expenses and are charged fully to the period."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: the additional commission paid to a consignee for guaranteeing collection of credit sales is called ___ commission.",
+          "accept": [
+            "del credere",
+            "del-credere",
+            "delcredere"
+          ],
+          "explanation": "Del credere commission compensates the consignee for bearing the risk of bad debts."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q11",
+          "type": "numeric",
+          "prompt": "500 units costing ₹200 each were consigned; the consignor paid freight of ₹10,000. 50 units were destroyed in an accident in transit. Find the value of the abnormal loss (in ₹).",
+          "answer": 11000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Cost per unit including freight = (1,00,000 + 10,000) / 500 = ₹220. Abnormal loss = 50 x 220 = **₹11,000**. It is credited to Consignment Account and debited to Abnormal Loss Account; any insurance claim reduces the loss charged to P&L."
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q12",
+          "type": "practical",
+          "prompt": "Lal Traders sends goods on sale or return basis at cost plus 25%, but records every despatch as a credit sale. Pass the adjustment entries on 31 March 2027.",
+          "data": "- 12 Mar: Goods sent to A for ₹50,000. A approved the full lot on 25 March.\n- 18 Mar: Goods sent to B for ₹40,000. B returned goods of ₹15,000 on 28 March (no entry made for the return); no communication about the rest.\n- 25 Mar: Goods sent to C for ₹30,000. No approval received by 31 March; the approval period has not expired.",
+          "answer": "| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Sales A/c Dr | 15,000 |  |\n| To B A/c |  | 15,000 |\n| (Being goods returned by B, sale cancelled) |  |  |\n| Sales A/c Dr | 55,000 |  |\n| To B A/c |  | 25,000 |\n| To C A/c |  | 30,000 |\n| (Being goods not yet approved, sale reversed) |  |  |\n| Stock with customers A/c Dr | 44,000 |  |\n| To Trading A/c |  | 44,000 |\n| (Being goods with B and C included in stock at cost (55,000 x 100/125)) |  |  |\n\nA's lot is a completed sale; no entry. The goods returned by B are back in the godown and are counted in physical stock, so only the ₹55,000 (₹25,000 with B and ₹30,000 with C) still with customers is added at cost: 55,000 x 100/125 = ₹44,000.",
+          "top": true
+        },
+        {
+          "id": "ca-f-accounting-07-consignment-approval-q13",
+          "type": "interview",
+          "prompt": "How is unsold stock on consignment valued? Explain the treatment of normal and abnormal loss.",
+          "answer": "- Unsold stock is valued at cost plus a proportionate share of non-recurring expenses incurred up to the point of bringing the goods to the consignee's godown (freight, insurance in transit, unloading, octroi). Recurring and selling expenses, and commission, are excluded.\n- Per AS 2, it is shown at the lower of this cost and net realisable value.\n- Normal loss is inherent (evaporation, drying). It is not recorded separately; the total cost is spread over the units remaining after normal loss, which raises the cost per unit of stock.\n- Abnormal loss arises from accidents, theft or negligence. It is valued like stock, at cost plus proportionate non-recurring expenses up to the point of loss, credited to Consignment Account and debited to Abnormal Loss Account; after any insurance claim, the balance goes to P&L."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-accounting-08-final-accounts-npo",
+      "title": "Final Accounts of Sole Proprietors and Not-for-Profit Organisations",
+      "level": "intermediate",
+      "summary": "Trading, Profit and Loss Account and Balance Sheet with adjustments, and the Receipts and Payments, Income and Expenditure Account and Balance Sheet of not-for-profit organisations.",
+      "estMinutes": 60,
+      "lesson": [
+        {
+          "heading": "Format of final accounts",
+          "body": "For a sole proprietor, final accounts are the **Trading Account** (gross profit), **Profit and Loss Account** (net profit) and **Balance Sheet** (financial position).\n\n| Trading A/c debits | Trading A/c credits |\n| --- | --- |\n| Opening stock | Sales less returns inward |\n| Purchases less returns outward and drawings of goods | Closing stock |\n| Direct expenses: wages, carriage inwards, freight, factory power, import duty |  |\n| Gross profit (balancing figure) |  |\n\nP&L Account: gross profit, indirect expenses (salaries, rent, office and selling expenses, depreciation, bad debts, interest on loan) and other incomes. Net profit is added to capital; drawings are deducted.\n\nBalance Sheet: capital and liabilities on one side, assets on the other, usually in order of permanence or liquidity."
+        },
+        {
+          "heading": "Adjustments and their double effect",
+          "body": "Every adjustment is recorded twice: once in Trading/P&L and once in the Balance Sheet.\n\n| Adjustment | Trading / P&L | Balance Sheet |\n| --- | --- | --- |\n| Closing stock | Credit Trading A/c | Current asset |\n| Outstanding expense | Add to expense | Current liability |\n| Prepaid expense | Deduct from expense | Current asset |\n| Accrued income | Add to income | Current asset |\n| Income received in advance | Deduct from income | Current liability |\n| Depreciation | Debit P&L | Deduct from asset |\n| Further bad debts | Debit P&L | Deduct from debtors |\n| Provision for doubtful debts | Debit P&L: bad debts + new provision - old provision | Deduct new provision from debtors |\n| Goods withdrawn by owner | Deduct from purchases | Add to drawings |\n| Interest on capital | Debit P&L | Add to capital |\n| Interest on drawings | Credit P&L | Add to drawings |\n\nRule: an adjustment given **outside** the trial balance has two effects; an item **inside** the trial balance has only one (closing stock inside the trial balance appears only in the Balance Sheet).\n\nProvision is computed on debtors **after** deducting further bad debts."
+        },
+        {
+          "heading": "Not-for-profit organisations",
+          "body": "Clubs, societies, charitable trusts and similar bodies exist to serve members, not to earn profit. They prepare:\n\n- **Receipts and Payments Account**: summary of cash and bank; real account; starts with opening cash/bank, records all receipts and payments (capital or revenue, any year), ends with closing balance. No outstanding or non-cash items.\n- **Income and Expenditure Account**: nominal account like P&L, on accrual basis, only revenue items of the current year. Excess of income over expenditure is a **surplus**; the reverse is a **deficit**.\n- **Balance Sheet**: the **Capital Fund** (General / Accumulated Fund) replaces capital. Opening Capital Fund = opening assets - opening liabilities.\n\nSpecial items:\n\n- **Subscriptions** (income for the year) = Received - for previous year - for next year + outstanding at end + received in advance last year for this year.\n- **Legacies**: capitalised (added to Capital Fund).\n- **Specific donations** (building fund) and **special funds**: liabilities; expenses on them are deducted from the fund, not shown in I&E.\n- **General donations**: usually revenue income unless large and specifically treated as capital.\n- **Entrance and life membership fees**: follow the organisation's policy; life membership is normally capitalised.\n- **Sale of old assets**: only profit or loss goes to I&E."
+        },
+        {
+          "heading": "Worked example and common mistakes",
+          "body": "Subscriptions received in 2026-27 ₹2,40,000 include ₹18,000 for 2025-26 and ₹12,000 for 2027-28. Subscriptions outstanding for 2026-27 at year end ₹22,000; received in 2025-26 in advance for 2026-27 ₹9,000.\n\n| Particulars | ₹ |\n| --- | --- |\n| Subscriptions received | 2,40,000 |\n| Less: For 2025-26 | (18,000) |\n| Less: For 2027-28 (advance) | (12,000) |\n| Add: Outstanding for 2026-27 | 22,000 |\n| Add: Received last year for 2026-27 | 9,000 |\n| **Income for 2026-27** | **2,41,000** |\n\n**Common mistakes**: computing provision before deducting further bad debts; putting closing stock given inside the trial balance in the Trading Account; showing legacies or specific donations as income; including outstanding subscriptions in Receipts and Payments."
+        }
+      ],
+      "keyPoints": [
+        "Items outside the trial balance (adjustments) have two effects; items inside have one.",
+        "P&L charge for bad debts = bad debts (incl. further) + new provision - old provision.",
+        "Goods withdrawn by the owner: deduct from purchases at cost, add to drawings.",
+        "Receipts and Payments = real account of cash; Income and Expenditure = nominal account on accrual basis.",
+        "Legacies and specific donations are capital; general small donations are revenue.",
+        "Opening Capital Fund = Opening assets - Opening liabilities (special funds are liabilities)."
+      ],
+      "cases": [
+        {
+          "title": "Case: Joshi Traders",
+          "body": "Trial balance of **Joshi Traders** (proprietor: Meena Joshi) as on 31 March 2027:\n\n| Debit balances | ₹ | Credit balances | ₹ |\n| --- | --- | --- | --- |\n| Opening stock | 1,20,000 | Sales | 13,50,000 |\n| Purchases | 8,40,000 | Returns outward | 20,000 |\n| Returns inward | 30,000 | Provision for doubtful debts | 10,000 |\n| Wages | 75,000 | Capital | 6,00,000 |\n| Carriage inwards | 15,000 | Creditors | 1,50,000 |\n| Salaries | 1,44,000 |  |  |\n| Rent | 66,000 |  |  |\n| Insurance | 24,000 |  |  |\n| Debtors | 2,40,000 |  |  |\n| Bad debts | 6,000 |  |  |\n| Furniture | 1,20,000 |  |  |\n| Drawings | 60,000 |  |  |\n| Cash | 45,000 |  |  |\n| Bank | 3,45,000 |  |  |\n| **Total** | **21,30,000** | **Total** | **21,30,000** |\n\nAdjustments:\n\n- Closing stock ₹1,65,000.\n- Salaries outstanding ₹12,000; rent for March 2027 ₹5,500 outstanding.\n- Insurance prepaid ₹6,000.\n- Further bad debts ₹4,000; maintain provision for doubtful debts at 5% on debtors.\n- Depreciate furniture at 10% p.a.\n- Goods costing ₹8,000 taken by Meena for personal use were not recorded.",
+          "id": "ca-f-accounting-08-final-accounts-npo-case1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q01",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-08-final-accounts-npo-case1",
+          "prompt": "Compute the gross profit for 2026-27 (in ₹).",
+          "answer": 463000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Sales less returns inward (13,50,000 - 30,000) | 13,20,000 |\n| Opening stock | 1,20,000 |\n| Add: Purchases less returns outward less drawings (8,40,000 - 20,000 - 8,000) | 8,12,000 |\n| Add: Wages and carriage inwards | 90,000 |\n| Less: Closing stock | (1,65,000) |\n| Cost of goods sold | 8,57,000 |\n| **Gross profit** | **4,63,000** |"
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q02",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-08-final-accounts-npo-case1",
+          "prompt": "What amount is charged to the Profit and Loss Account for bad debts and provision for doubtful debts?",
+          "options": [
+            "₹10,000",
+            "₹11,800",
+            "₹21,800",
+            "₹12,000"
+          ],
+          "answer": 1,
+          "explanation": "Bad debts 6,000 + further 4,000 + new provision 5% x (2,40,000 - 4,000) = 11,800, less old provision 10,000 = **₹11,800**. ₹12,000 is the provision wrongly computed on ₹2,40,000."
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q03",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-08-final-accounts-npo-case1",
+          "prompt": "Compute the net profit for 2026-27 (in ₹).",
+          "answer": 193700,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Gross profit | 4,63,000 |\n| Less: Salaries (1,44,000 + 12,000) | (1,56,000) |\n| Less: Rent (66,000 + 5,500) | (71,500) |\n| Less: Insurance (24,000 - 6,000) | (18,000) |\n| Less: Bad debts and provision | (11,800) |\n| Less: Depreciation on furniture (10% x 1,20,000) | (12,000) |\n| **Net profit** | **1,93,700** |"
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q04",
+          "type": "practical",
+          "caseId": "ca-f-accounting-08-final-accounts-npo-case1",
+          "prompt": "Prepare the Trading and Profit and Loss Account of Joshi Traders for the year ended 31 March 2027, and show the capital account section of the Balance Sheet.",
+          "answer": "**Trading and Profit and Loss Account for the year ended 31 March 2027**\n\n| Dr Particulars | ₹ | Cr Particulars | ₹ |\n| --- | --- | --- | --- |\n| To Opening stock | 1,20,000 | By Sales 13,50,000 less returns 30,000 | 13,20,000 |\n| To Purchases 8,40,000 less returns 20,000 less drawings 8,000 | 8,12,000 | By Closing stock | 1,65,000 |\n| To Wages | 75,000 |  |  |\n| To Carriage inwards | 15,000 |  |  |\n| To Gross profit c/d | 4,63,000 |  |  |\n|  | 14,85,000 |  | 14,85,000 |\n| To Salaries 1,44,000 + 12,000 | 1,56,000 | By Gross profit b/d | 4,63,000 |\n| To Rent 66,000 + 5,500 | 71,500 |  |  |\n| To Insurance 24,000 - 6,000 | 18,000 |  |  |\n| To Bad debts 6,000 + 4,000 | 10,000 |  |  |\n| To New provision 11,800 less old 10,000 | 1,800 |  |  |\n| To Depreciation on furniture | 12,000 |  |  |\n| To Net profit transferred to capital | 1,93,700 |  |  |\n|  | 4,63,000 |  | 4,63,000 |\n\n**Capital in the Balance Sheet**\n\n| Particulars | ₹ |\n| --- | --- |\n| Capital | 6,00,000 |\n| Add: Net profit | 1,93,700 |\n| Less: Drawings (60,000 + goods 8,000) | (68,000) |\n| **Closing capital** | **7,25,700** |\n\nOther Balance Sheet items: outstanding salaries 12,000 and rent 5,500 (liabilities); prepaid insurance 6,000; debtors 2,36,000 less provision 11,800 = 2,24,200; furniture 1,08,000; closing stock 1,65,000.",
+          "top": true
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q05",
+          "type": "mcq",
+          "prompt": "A Receipts and Payments Account is:",
+          "options": [
+            "A nominal account prepared on accrual basis",
+            "A real account summarising cash and bank transactions",
+            "A personal account of members",
+            "The same as an Income and Expenditure Account"
+          ],
+          "answer": 1,
+          "explanation": "It is a classified summary of the cash book, starting and ending with cash and bank balances. It includes capital and revenue items of any period but no non-cash items."
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q06",
+          "type": "mcq",
+          "prompt": "A club received a legacy of ₹2,00,000. It is:",
+          "options": [
+            "Credited to Income and Expenditure Account",
+            "Added to the Capital Fund",
+            "Shown as a current liability",
+            "Deducted from the Building Fund"
+          ],
+          "answer": 1,
+          "explanation": "A legacy is a gift by will. It is non-recurring and capital in nature, so it is added to the Capital Fund in the Balance Sheet."
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q07",
+          "type": "mcq",
+          "prompt": "An adjustment states 'Closing stock ₹80,000' and closing stock also appears in the trial balance. It will be shown:",
+          "options": [
+            "In the Trading Account and Balance Sheet",
+            "Only in the Balance Sheet",
+            "Only in the Trading Account",
+            "In the P&L Account"
+          ],
+          "answer": 1,
+          "explanation": "When closing stock is inside the trial balance it has already been adjusted through purchases (or a closing stock entry), so it appears only once, as an asset in the Balance Sheet."
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q08",
+          "type": "truefalse",
+          "prompt": "Subscriptions outstanding at the end of the year are shown in the Receipts and Payments Account.",
+          "answer": false,
+          "explanation": "Receipts and Payments records only actual cash receipts and payments. Outstanding subscriptions are added to income in the Income and Expenditure Account and shown as an asset in the Balance Sheet."
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q09",
+          "type": "multi",
+          "prompt": "For a not-for-profit organisation, select all items that are normally capital receipts.",
+          "options": [
+            "Legacy",
+            "Donation for building fund",
+            "Annual subscriptions",
+            "Life membership fees",
+            "Interest on investments",
+            "Proceeds of sale of old furniture"
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            5
+          ],
+          "explanation": "Legacies, specific donations, life membership fees and sale proceeds of fixed assets are non-recurring and capital. Annual subscriptions and interest are recurring revenue receipts."
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: in a not-for-profit organisation, the excess of assets over liabilities is called the Capital Fund or ___ Fund.",
+          "accept": [
+            "General",
+            "Accumulated",
+            "General Fund",
+            "Accumulated Fund"
+          ],
+          "explanation": "The Capital (General or Accumulated) Fund is the equivalent of the proprietor's capital. Surplus is added to it and deficit deducted."
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q11",
+          "type": "numeric",
+          "prompt": "Subscriptions received during 2026-27 were ₹2,40,000, including ₹18,000 for 2025-26 and ₹12,000 for 2027-28. Subscriptions for 2026-27 outstanding at year end: ₹22,000. Subscriptions received in 2025-26 for 2026-27: ₹9,000. Find the subscription income for 2026-27 (in ₹).",
+          "answer": 241000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "2,40,000 - 18,000 - 12,000 + 22,000 + 9,000 = **₹2,41,000**. Only subscriptions that belong to 2026-27 are income of that year, whenever received."
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q12",
+          "type": "numeric",
+          "prompt": "Compute the Capital Fund of the Green Valley Club on 1 April 2026 (in ₹).",
+          "data": "| Item | ₹ |\n| --- | --- |\n| Building | 8,00,000 |\n| Furniture | 1,20,000 |\n| Cash and bank | 35,000 |\n| Subscriptions outstanding | 15,000 |\n| Investments | 2,00,000 |\n| Salaries outstanding | 18,000 |\n| Subscriptions received in advance | 7,000 |\n| Sports Fund | 50,000 |",
+          "answer": 1095000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Assets = 8,00,000 + 1,20,000 + 35,000 + 15,000 + 2,00,000 = ₹11,70,000. Liabilities = 18,000 + 7,000 + 50,000 (Sports Fund is an earmarked fund, a liability) = ₹75,000. Capital Fund = **₹10,95,000**."
+        },
+        {
+          "id": "ca-f-accounting-08-final-accounts-npo-q13",
+          "type": "interview",
+          "prompt": "Distinguish between a Receipts and Payments Account and an Income and Expenditure Account.",
+          "answer": "- **Nature**: R&P is a real account (summary of cash and bank); I&E is a nominal account like P&L.\n- **Basis**: R&P is on cash basis; I&E is on accrual basis.\n- **Items**: R&P includes capital and revenue receipts and payments of past, current and future years; I&E includes only revenue items relating to the current year.\n- **Non-cash items**: depreciation, outstanding and prepaid items appear in I&E, never in R&P.\n- **Balance**: R&P opens and closes with cash/bank balance (closing balance is always debit or nil); I&E closes with a surplus or deficit transferred to the Capital Fund.\n- **Side**: receipts on the debit side of R&P; incomes on the credit side of I&E.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-accounting-09-partnership",
+      "title": "Partnership Accounts: Goodwill, Admission, Retirement, Death and Dissolution",
+      "level": "advanced",
+      "summary": "Appropriation of profits, valuation and treatment of goodwill, reconstitution of a firm on admission, retirement or death, and dissolution through the Realisation Account.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Indian Partnership Act, 1932 (sections 13, 37 and 48); AS 26 Intangible Assets",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Partnership deed, appropriation and capital accounts",
+          "body": "Partners' rights are governed by the **partnership deed**. Where the deed is silent, section 13 of the Indian Partnership Act, 1932 applies:\n\n| Matter | Rule in absence of agreement |\n| --- | --- |\n| Profit sharing | Equal |\n| Interest on capital | Not allowed |\n| Interest on drawings | Not charged |\n| Salary or commission to partners | Not allowed |\n| Interest on partner's loan or advance | 6% p.a., payable even if there is a loss |\n\nThe **Profit and Loss Appropriation Account** distributes net profit: interest on capital, salaries and commission are debited; interest on drawings is credited; the balance is shared in the profit-sharing ratio.\n\n- **Fixed capital**: capital accounts show only capital; all adjustments go to Current Accounts.\n- **Fluctuating capital**: all adjustments go directly to capital accounts.\n\n**Interest on drawings** (equal monthly drawings, 12 months): beginning of each month - average period 6.5 months; middle - 6 months; end - 5.5 months."
+        },
+        {
+          "heading": "Goodwill",
+          "body": "Goodwill is the value of a firm's reputation and its ability to earn more than normal profits. Methods:\n\n- **Average profit**: Goodwill = Average profit x Number of years' purchase.\n- **Super profit**: Super profit = Average profit - Normal profit (Capital employed x Normal rate). Goodwill = Super profit x Years' purchase.\n- **Capitalisation of super profit**: Super profit x 100 / Normal rate.\n- **Capitalisation of average profit**: (Average profit x 100 / Normal rate) - Capital employed.\n\nUnder **AS 26**, internally generated goodwill is not recognised as an asset. So on reconstitution, goodwill is **not raised in the books**; instead it is adjusted through partners' capital accounts. The incoming partner's share of goodwill (brought in cash as premium or debited to his capital) is credited to the sacrificing partners in the **sacrificing ratio**. Existing goodwill in the books is written off to old partners in the old ratio."
+        },
+        {
+          "heading": "Admission, retirement and death",
+          "body": "| Step | Admission | Retirement / death |\n| --- | --- | --- |\n| Ratio | New ratio; sacrificing ratio = Old - New | Gaining ratio = New - Old |\n| Goodwill | New partner's share credited to sacrificing partners | Outgoing partner's share debited to gaining partners |\n| Revaluation | Gain or loss to old partners in old ratio | Gain or loss to all partners in old ratio |\n| Reserves and accumulated profits | To old partners in old ratio | To all partners in old ratio |\n| Settlement | Capital brought in | Amount due paid or transferred to loan account |\n\n**Death**: the deceased partner's share of profit from the last balance sheet date to the date of death is calculated on the basis of last year's profit, average profit or sales, and debited to P&L Suspense (or gaining partners).\n\n**Section 37**: if the firm continues to use an outgoing or deceased partner's share without final settlement, his estate may claim, at its option, either the share of profits earned with that money or interest at 6% p.a. on it."
+        },
+        {
+          "heading": "Dissolution",
+          "body": "On dissolution all assets (except cash, bank and fictitious assets) and outside liabilities are closed through the **Realisation Account**:\n\n- Debit: assets at book value, payment of liabilities, realisation expenses (if borne by the firm).\n- Credit: outside liabilities at book value, cash from assets, assets taken over by partners.\n- Balance (profit or loss) to partners in the profit-sharing ratio.\n\n**Section 48** order of settlement: losses (including deficiency of capital) are paid first out of profits, then out of capital, and lastly by partners individually in their profit-sharing ratio. Assets are applied: (a) to pay third-party debts, (b) to repay partners' loans and advances rateably, (c) to repay capital rateably, (d) any surplus divided in the profit-sharing ratio.\n\n**Common mistakes**: crediting goodwill premium in the new ratio instead of the sacrificing ratio; raising goodwill in the books contrary to AS 26; passing partners' loans through Realisation Account (they are paid directly after outsiders)."
+        }
+      ],
+      "keyPoints": [
+        "No deed: equal profits, no interest on capital, no salary, 6% interest on partner's loan.",
+        "Sacrificing ratio = Old - New (admission); Gaining ratio = New - Old (retirement/death).",
+        "AS 26: self-generated goodwill is not recorded; adjust through capital accounts.",
+        "Interest on drawings at beginning of each month for 12 months: average 6.5 months.",
+        "Section 37: estate of outgoing partner may claim share of profits or 6% p.a. interest.",
+        "Section 48 order: outside debts, partners' loans, capital, then surplus in profit-sharing ratio."
+      ],
+      "cases": [
+        {
+          "title": "Case: Anand and Bose admit Chopra",
+          "body": "**Anand** and **Bose** are partners sharing profits in the ratio 3:2. On 1 April 2027 they admit **Chopra** for a 1/5th share in future profits, which he acquires from Anand and Bose in their existing ratio.\n\n- Chopra brings ₹2,00,000 as capital and his share of goodwill in cash.\n- Goodwill is valued at 2 years' purchase of the average profits of the last 3 years: ₹1,80,000, ₹2,10,000 and ₹2,40,000.\n- Building is revalued upward by ₹60,000; a provision for doubtful debts of ₹8,000 is created; stock is reduced by ₹12,000.\n- The firm has no goodwill in its books. Capitals are fluctuating.",
+          "id": "ca-f-accounting-09-partnership-case1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-accounting-09-partnership-q01",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-09-partnership-case1",
+          "prompt": "What is the new profit-sharing ratio of Anand, Bose and Chopra?",
+          "options": [
+            "3:2:1",
+            "12:8:5",
+            "2:2:1",
+            "3:2:5"
+          ],
+          "answer": 1,
+          "explanation": "Remaining share 4/5 is shared 3:2. Anand = 3/5 x 4/5 = 12/25; Bose = 2/5 x 4/5 = 8/25; Chopra = 1/5 = 5/25. New ratio 12:8:5."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q02",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-09-partnership-case1",
+          "prompt": "How much of Chopra's goodwill premium is credited to Anand's capital account (in ₹)?",
+          "answer": 50400,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Average profit = (1,80,000 + 2,10,000 + 2,40,000) / 3 = ₹2,10,000. Goodwill = 2 x 2,10,000 = ₹4,20,000. Chopra's share = 1/5 = ₹84,000.\n\nSacrificing ratio = old ratio 3:2 (share taken in the old ratio). Anand gets 84,000 x 3/5 = **₹50,400**; Bose gets ₹33,600."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q03",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-09-partnership-case1",
+          "prompt": "What is the profit on revaluation and how is it shared?",
+          "options": [
+            "₹40,000 to Anand and Bose in 3:2",
+            "₹40,000 to Anand, Bose and Chopra in 12:8:5",
+            "₹60,000 to Anand and Bose in 3:2",
+            "₹20,000 loss to Anand and Bose equally"
+          ],
+          "answer": 0,
+          "explanation": "Gain on building 60,000 less provision 8,000 less stock reduction 12,000 = ₹40,000 profit. Changes in value before admission belong to old partners, so it is shared 3:2 (Anand 24,000, Bose 16,000)."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q04",
+          "type": "practical",
+          "caseId": "ca-f-accounting-09-partnership-case1",
+          "prompt": "Pass the journal entries on Chopra's admission.",
+          "answer": "| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Building A/c Dr | 60,000 |  |\n| To Revaluation A/c |  | 60,000 |\n| (Being increase in value of building) |  |  |\n| Revaluation A/c Dr | 20,000 |  |\n| To Provision for doubtful debts A/c |  | 8,000 |\n| To Stock A/c |  | 12,000 |\n| (Being provision created and stock reduced) |  |  |\n| Revaluation A/c Dr | 40,000 |  |\n| To Anand's capital A/c |  | 24,000 |\n| To Bose's capital A/c |  | 16,000 |\n| (Being revaluation profit shared in old ratio 3:2) |  |  |\n| Bank A/c Dr | 2,84,000 |  |\n| To Chopra's capital A/c |  | 2,00,000 |\n| To Premium for goodwill A/c |  | 84,000 |\n| (Being capital and goodwill premium brought in by Chopra) |  |  |\n| Premium for goodwill A/c Dr | 84,000 |  |\n| To Anand's capital A/c |  | 50,400 |\n| To Bose's capital A/c |  | 33,600 |\n| (Being premium credited to sacrificing partners in 3:2) |  |  |\n\nGoodwill is not raised in the books (AS 26); the premium is passed directly to the sacrificing partners.",
+          "top": true
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q05",
+          "type": "mcq",
+          "prompt": "In the absence of a partnership deed, a partner who has advanced a loan to the firm is entitled to interest at:",
+          "options": [
+            "Nil",
+            "6% p.a.",
+            "9% p.a.",
+            "12% p.a."
+          ],
+          "answer": 1,
+          "explanation": "Section 13(d) of the Indian Partnership Act, 1932 provides interest at 6% p.a. on advances by a partner beyond agreed capital. It is a charge against profit, payable even in a loss year."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q06",
+          "type": "mcq",
+          "prompt": "When a partner retires, the remaining partners compensate him for goodwill in the:",
+          "options": [
+            "Old ratio",
+            "New ratio",
+            "Gaining ratio",
+            "Sacrificing ratio"
+          ],
+          "answer": 2,
+          "explanation": "The continuing partners gain the retiring partner's share, so they bear his share of goodwill in the gaining ratio (New - Old)."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q07",
+          "type": "mcq",
+          "prompt": "On dissolution, a partner's loan to the firm is:",
+          "options": [
+            "Transferred to Realisation Account",
+            "Paid after outside creditors and before partners' capitals",
+            "Paid only after capitals are returned",
+            "Transferred to the partner's capital account"
+          ],
+          "answer": 1,
+          "explanation": "Under section 48, assets are applied first to third-party debts, then to partners' advances (loans), then to capital. The loan is not passed through Realisation Account."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q08",
+          "type": "truefalse",
+          "prompt": "Under AS 26, a firm should raise a Goodwill Account for its self-generated goodwill on admission of a new partner.",
+          "answer": false,
+          "explanation": "AS 26 does not allow recognition of internally generated goodwill. Only purchased goodwill is recorded; on admission the adjustment is made through partners' capital accounts."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q09",
+          "type": "multi",
+          "prompt": "Select all items that are debited to Realisation Account on dissolution.",
+          "options": [
+            "Book value of machinery",
+            "Payment to creditors",
+            "Realisation expenses paid by the firm",
+            "Book value of creditors",
+            "Cash realised from sale of stock",
+            "Partner's loan"
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Assets transferred at book value, payments to outside liabilities and realisation expenses borne by the firm are debits. Creditors at book value and cash realised are credits; partners' loans are settled outside Realisation Account."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q10",
+          "type": "fill",
+          "prompt": "Fill the blank: on retirement of a partner, the ratio in which the continuing partners acquire his share is called the ___ ratio.",
+          "accept": [
+            "gaining",
+            "gain"
+          ],
+          "explanation": "Gaining ratio = New ratio - Old ratio for each continuing partner."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q11",
+          "type": "numeric",
+          "prompt": "A partner withdrew ₹10,000 at the beginning of every month during 2026-27. Interest on drawings is 9% p.a. Compute the interest on drawings (in ₹).",
+          "answer": 5850,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Total drawings = ₹1,20,000. Drawings at the beginning of each month: average period = (12 + 1) / 2 = 6.5 months. Interest = 1,20,000 x 9% x 6.5/12 = **₹5,850**."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q12",
+          "type": "numeric",
+          "prompt": "A firm's capital employed is ₹10,00,000 and the normal rate of return is 12%. Average profit is ₹1,70,000. Compute goodwill at 3 years' purchase of super profit (in ₹).",
+          "answer": 150000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Normal profit = 12% x 10,00,000 = ₹1,20,000. Super profit = 1,70,000 - 1,20,000 = ₹50,000. Goodwill = 50,000 x 3 = **₹1,50,000**."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q13",
+          "type": "numeric",
+          "prompt": "Dev, a partner with a 1/4 share, died on 30 June 2027. The firm closes its books on 31 March. Profit for 2026-27 was ₹3,60,000. His share of profit up to the date of death is based on last year's profit. Compute it (in ₹).",
+          "answer": 22500,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Period from 1 April to 30 June = 3 months. Share = 3,60,000 x 3/12 x 1/4 = **₹22,500**. Entry: Profit and Loss Suspense A/c Dr; To Dev's Capital A/c."
+        },
+        {
+          "id": "ca-f-accounting-09-partnership-q14",
+          "type": "interview",
+          "prompt": "Explain the order of settlement of accounts on dissolution of a firm under section 48 of the Indian Partnership Act, 1932.",
+          "answer": "- **Losses**, including deficiencies of capital, are paid first out of profits, next out of capital, and lastly, if necessary, by partners individually in their profit-sharing ratio.\n- **Assets** of the firm, including sums contributed by partners to make up capital deficiencies, are applied in this order:\n- (a) paying debts of the firm to third parties;\n- (b) paying each partner rateably what is due to him for advances (loans) as distinguished from capital;\n- (c) paying each partner rateably what is due to him on account of capital;\n- (d) the residue, if any, is divided among partners in their profit-sharing ratio.\n- In the books this is reflected through the Realisation Account, then the partners' loan accounts, then the capital accounts, which finally close against cash or bank.",
+          "top": true
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "India Code (Indian Partnership Act, 1932)",
+          "url": "https://www.indiacode.nic.in/"
+        }
+      ]
+    },
+    {
+      "id": "ca-f-accounting-10-company-accounts",
+      "title": "Introduction to Company Accounts: Shares and Debentures",
+      "level": "advanced",
+      "summary": "Share capital, issue of shares at par and premium, over-subscription, calls in arrears and advance, forfeiture and reissue, and issue and redemption of debentures.",
+      "estMinutes": 60,
+      "applicableFor": "May 2027 onward",
+      "lawAsOf": "Companies Act, 2013 (sections 52, 53 and 71), Table F of Schedule I, and Companies (Share Capital and Debentures) Rules, 2014 as amended",
+      "draft": true,
+      "lesson": [
+        {
+          "heading": "Share capital and issue of shares",
+          "body": "A company raises **share capital** from members. Categories shown in the notes to the Balance Sheet: **authorised** (maximum in the memorandum), **issued**, **subscribed**, **called-up** and **paid-up**. **Reserve capital** is the uncalled part that the company resolves to call only on winding up.\n\nShares may be issued at **par** or at a **premium**. Under **section 53**, a company cannot issue shares at a discount except sweat equity shares. Premium is credited to **Securities Premium Account**, which under **section 52(2)** may be used only for: issuing fully paid bonus shares; writing off preliminary expenses; writing off expenses, commission or discount on issue of shares or debentures; providing for premium payable on redemption of preference shares or debentures; and buy-back of own shares (section 68).\n\nEntries for an issue payable in instalments:\n\n| Event | Entry |\n| --- | --- |\n| Application money received | Bank Dr; To Share Application A/c |\n| Transfer on allotment | Share Application Dr; To Share Capital (and Securities Premium if collected on application); To Share Allotment (excess adjusted); To Bank (refund) |\n| Allotment due | Share Allotment Dr; To Share Capital (and Securities Premium if due on allotment) |\n| Call due | Share Call Dr; To Share Capital |\n| Money received | Bank Dr; To Share Allotment / Share Call |\n\n**Over-subscription**: reject some applications (refund), allot pro rata (adjust excess towards allotment and calls), or a combination.\n\n**Calls in arrears / in advance**: Table F allows interest on calls in arrears (up to 10% p.a.) and on calls in advance (up to 12% p.a.), unless the articles say otherwise."
+        },
+        {
+          "heading": "Forfeiture and reissue",
+          "body": "If a shareholder fails to pay an allotment or call, the directors may **forfeit** the shares as per the articles.\n\n- Debit **Share Capital** with the amount called up on the forfeited shares.\n- Debit **Securities Premium** only if the premium was due but **not received**.\n- Credit the unpaid calls (or Calls in Arrears).\n- Credit **Share Forfeiture Account** with the amount already received towards capital.\n\nForfeited shares may be **reissued**, even at a discount, but the discount cannot exceed the amount forfeited on those shares. On reissue: Bank Dr, Share Forfeiture Dr (discount); To Share Capital. The balance of forfeiture on the reissued shares is a capital profit and is transferred to **Capital Reserve**. Forfeiture relating to shares not yet reissued stays in Share Forfeiture Account (shown under share capital).\n\nWorked example: 100 shares of ₹10 (₹8 called up, ₹6 paid) forfeited. Forfeiture: Share Capital Dr 800; To Calls in Arrears 200; To Share Forfeiture 600. All reissued at ₹7 as fully paid: Bank Dr 700, Share Forfeiture Dr 300; To Share Capital 1,000. Capital reserve = 600 - 300 = ₹300."
+        },
+        {
+          "heading": "Debentures: issue and redemption",
+          "body": "A **debenture** is an instrument acknowledging a debt; debentureholders are creditors who get fixed interest, whether or not there are profits.\n\n| Terms | Entry on allotment (₹100 debenture) |\n| --- | --- |\n| Issue at par, redeemable at par | Bank Dr 100; To Debentures 100 |\n| Issue at 5% discount, redeemable at par | Bank Dr 95, Discount on Issue Dr 5; To Debentures 100 |\n| Issue at par, redeemable at 10% premium | Bank Dr 100, Loss on Issue Dr 10; To Debentures 100, To Premium on Redemption 10 |\n| Issue at 5% discount, redeemable at 10% premium | Bank Dr 95, Loss on Issue Dr 15; To Debentures 100, To Premium on Redemption 10 |\n\nDiscount or loss on issue is written off (first against Securities Premium if available, else to P&L) over the life of the debentures. Debentures may also be issued as collateral security or for purchase of assets.\n\n**Redemption**: in a lump sum, by instalments, by purchase in the open market, or by conversion. Section 71 and Rule 18(7) of the Companies (Share Capital and Debentures) Rules, 2014 require certain companies to create a **Debenture Redemption Reserve** out of profits (for example, unlisted companies other than specified financial companies: 10% of outstanding debentures) and to invest or deposit a specified percentage of debentures maturing in the next year. The exact requirement depends on the class of company; check the current rule. DRR entry: Profit and Loss (Surplus) Dr; To DRR. After redemption, DRR is transferred to General Reserve.\n\n**Common mistakes**: debiting Securities Premium on forfeiture when the premium was already received; allowing reissue discount above the forfeited amount; treating debentures as part of share capital."
+        }
+      ],
+      "keyPoints": [
+        "Section 53: no issue of shares at a discount (except sweat equity).",
+        "Section 52(2): five permitted uses of Securities Premium; not for dividend.",
+        "Forfeiture: debit capital called up; debit premium only if not received; credit forfeiture with amount received on capital.",
+        "Max discount on reissue = amount forfeited on those shares; surplus on reissued shares to Capital Reserve.",
+        "Loss on issue of debentures = discount on issue + premium on redemption.",
+        "Table F: interest on calls in arrears up to 10%, on calls in advance up to 12% p.a. (unless articles provide otherwise)."
+      ],
+      "cases": [
+        {
+          "title": "Case: Pinewood Ltd",
+          "body": "**Pinewood Ltd** offered 50,000 equity shares of ₹10 each at a premium of ₹2 per share, payable:\n\n| Instalment | ₹ per share |\n| --- | --- |\n| On application (including premium ₹2) | 5 |\n| On allotment | 3 |\n| On first and final call | 4 |\n\nApplications were received for 70,000 shares. Applications for 10,000 shares were rejected and their money refunded. The remaining applicants were allotted shares **pro rata**, and excess application money was adjusted towards allotment.\n\n**Rohan**, who was allotted 600 shares, failed to pay the allotment and the call. His shares were forfeited after the call. Later, 400 of these shares were reissued to Sana at ₹8 per share as fully paid.",
+          "id": "ca-f-accounting-10-company-accounts-case1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "ca-f-accounting-10-company-accounts-q01",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-10-company-accounts-case1",
+          "prompt": "How much cash did Pinewood Ltd receive on allotment (in ₹)?",
+          "answer": 98800,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | ₹ |\n| --- | --- |\n| Allotment due (50,000 x ₹3) | 1,50,000 |\n| Less: Excess application money adjusted (10,000 shares x ₹5) | (50,000) |\n| Less: Rohan's unpaid allotment (600 x 3 - 600 excess) | (1,200) |\n| **Cash received on allotment** | **98,800** |\n\nPro-rata ratio 60,000 : 50,000 = 6:5. Rohan applied for 720 shares and paid ₹3,600; ₹600 (120 x 5) was adjusted towards his allotment."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q02",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-10-company-accounts-case1",
+          "prompt": "What amount is credited to Share Forfeiture Account on forfeiture of Rohan's shares (in ₹)?",
+          "answer": 2400,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Share Capital A/c (600 x ₹10) | 6,000 |  |\n| To Share Allotment A/c (unpaid) |  | 1,200 |\n| To Share First and Final Call A/c (600 x 4) |  | 2,400 |\n| To Share Forfeiture A/c |  | **2,400** |\n\nForfeited amount = what Rohan paid towards capital: 600 x ₹3 on application + ₹600 excess adjusted to allotment = ₹2,400. His ₹1,200 premium was received with the application and stays in Securities Premium."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q03",
+          "type": "mcq",
+          "caseId": "ca-f-accounting-10-company-accounts-case1",
+          "prompt": "On forfeiture of Rohan's shares, Securities Premium Account is:",
+          "options": [
+            "Debited with ₹1,200",
+            "Not debited, because the premium was received with the application",
+            "Credited with ₹1,200",
+            "Debited with ₹800"
+          ],
+          "answer": 1,
+          "explanation": "Securities Premium is reversed on forfeiture only when the premium was due but not received. Here it was payable and paid with the application, so it remains in the books."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q04",
+          "type": "numeric",
+          "caseId": "ca-f-accounting-10-company-accounts-case1",
+          "prompt": "How much is transferred to Capital Reserve after the reissue of 400 shares (in ₹)?",
+          "answer": 800,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Forfeited amount on 400 shares = 2,400 x 400/600 = ₹1,600. Discount on reissue = 400 x (10 - 8) = ₹800. Capital reserve = 1,600 - 800 = **₹800**. The forfeiture of ₹800 on the 200 shares not reissued stays in Share Forfeiture Account."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q05",
+          "type": "practical",
+          "caseId": "ca-f-accounting-10-company-accounts-case1",
+          "prompt": "Pass the journal entries for forfeiture of Rohan's shares and their partial reissue.",
+          "answer": "| Particulars | Dr (₹) | Cr (₹) |\n| --- | --- | --- |\n| Equity share capital A/c Dr | 6,000 |  |\n| To Equity share allotment A/c |  | 1,200 |\n| To Equity share first and final call A/c |  | 2,400 |\n| To Share forfeiture A/c |  | 2,400 |\n| (Being forfeiture of 600 shares for non-payment of allotment and call) |  |  |\n| Bank A/c Dr | 3,200 |  |\n| Share forfeiture A/c Dr | 800 |  |\n| To Equity share capital A/c |  | 4,000 |\n| (Being reissue of 400 forfeited shares at ₹8 as fully paid) |  |  |\n| Share forfeiture A/c Dr | 800 |  |\n| To Capital reserve A/c |  | 800 |\n| (Being profit on reissue of 400 shares transferred) |  |  |\n\nBalance in Share Forfeiture Account ₹800 (on 200 shares) is added to paid-up capital in the notes until those shares are reissued.",
+          "top": true
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q06",
+          "type": "mcq",
+          "prompt": "Under section 53 of the Companies Act, 2013, a company may issue shares at a discount only in the case of:",
+          "options": [
+            "Bonus shares",
+            "Rights shares",
+            "Sweat equity shares",
+            "Shares issued to promoters"
+          ],
+          "answer": 2,
+          "explanation": "Section 53 prohibits issue of shares at a discount, with an exception for sweat equity shares issued under section 54 (and certain conversions of debt under specified schemes)."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q07",
+          "type": "mcq",
+          "prompt": "Securities Premium Account can NOT be used for:",
+          "options": [
+            "Issuing fully paid bonus shares",
+            "Writing off preliminary expenses",
+            "Paying dividend to shareholders",
+            "Providing for premium payable on redemption of debentures"
+          ],
+          "answer": 2,
+          "explanation": "Section 52(2) lists the permitted uses; payment of dividend is not one of them. Securities premium is treated like paid-up capital."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q08",
+          "type": "mcq",
+          "prompt": "100 shares of ₹10 each, ₹7 called up and ₹4 paid, are forfeited and reissued as fully paid. The maximum discount allowed on reissue is:",
+          "options": [
+            "₹300",
+            "₹400",
+            "₹700",
+            "₹1,000"
+          ],
+          "answer": 1,
+          "explanation": "The forfeited amount is ₹400 (100 x ₹4 received). Discount on reissue cannot exceed it, so the shares must be reissued for at least ₹600 in total."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q09",
+          "type": "truefalse",
+          "prompt": "Debentureholders are owners of the company and are entitled to vote at general meetings.",
+          "answer": false,
+          "explanation": "Debentureholders are creditors. They receive fixed interest and repayment of principal and normally have no voting rights, unlike shareholders."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q10",
+          "type": "multi",
+          "prompt": "Select all purposes for which Securities Premium may be applied under section 52(2).",
+          "options": [
+            "Writing off discount on issue of debentures",
+            "Buy-back of own shares",
+            "Issue of fully paid bonus shares",
+            "Writing off losses on sale of fixed assets",
+            "Writing off preliminary expenses"
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "explanation": "Section 52(2) allows bonus shares, preliminary expenses, expenses/commission/discount on issue of shares or debentures, premium on redemption of preference shares or debentures, and buy-back. Operating or capital losses cannot be written off against it."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q11",
+          "type": "fill",
+          "prompt": "Fill the blank: the portion of uncalled capital that a company resolves to call up only in the event of its winding up is called ___ capital.",
+          "accept": [
+            "reserve",
+            "reserve capital"
+          ],
+          "explanation": "Reserve capital, created by special resolution, is available only to creditors on winding up. It differs from capital reserve, which is a capital profit."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q12",
+          "type": "numeric",
+          "prompt": "A company issued 10,000, 9% debentures of ₹100 each at a discount of 5%, redeemable at a premium of 10%. Compute the loss on issue of debentures (in ₹).",
+          "answer": 150000,
+          "tolerance": 1,
+          "unit": "₹",
+          "explanation": "Per debenture: discount ₹5 + premium on redemption ₹10 = ₹15. Total = 10,000 x 15 = **₹1,50,000**.\n\nEntry: Bank Dr 9,50,000; Loss on Issue of Debentures Dr 1,50,000; To 9% Debentures 10,00,000; To Premium on Redemption of Debentures 1,00,000."
+        },
+        {
+          "id": "ca-f-accounting-10-company-accounts-q13",
+          "type": "interview",
+          "prompt": "Distinguish between shares and debentures.",
+          "answer": "- **Status**: shareholders are owners (members); debentureholders are creditors.\n- **Return**: dividend depends on profits and is declared at the board's or members' discretion; debenture interest is a fixed charge payable even in a loss year.\n- **Voting**: equity shareholders vote; debentureholders normally do not.\n- **Repayment**: share capital is not repaid during the company's life (except redeemable preference shares or buy-back); debentures are redeemed as per terms.\n- **Security**: shares are unsecured; debentures are usually secured by a charge on assets.\n- **Issue at discount**: shares cannot be issued at a discount (section 53, except sweat equity); debentures can.\n- **Winding up**: debentureholders are paid before shareholders."
+        }
+      ],
+      "resources": [
+        {
+          "title": "ICAI BoS Knowledge Portal",
+          "url": "https://boslive.icai.org/"
+        },
+        {
+          "title": "Ministry of Corporate Affairs",
+          "url": "https://www.mca.gov.in/"
+        }
+      ]
+    }
+  ]
+}

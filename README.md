@@ -23,6 +23,7 @@ switches to MongoDB with one environment variable.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): how it is built
 - [docs/CURRICULUM.md](docs/CURRICULUM.md): what it covers (generated from the content)
 - [docs/CONTENT-GUIDE.md](docs/CONTENT-GUIDE.md): how to add or change content
+- [docs/CA-REVIEW.md](docs/CA-REVIEW.md): what a CA reviewer should verify in the CA content
 
 ## Run it
 
